@@ -119,7 +119,7 @@ export let stepTiles: StepDictionary = {
   read_status: Pending,
   write_parameter: Pending,
   read_parameter: Pending,
-  execute: Pending,
+  execute: ExecuteBlock,
   if_statement: function ({dispatch, step, index}: StepParams) {
     return (<div>
       <div className="step-wrapper">
@@ -459,9 +459,9 @@ export let stepTiles: StepDictionary = {
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index })} />
               <Help text={(`The Read Pin step instructs FarmBot to
-                      read the current value of the specified pin. Coming soon:
-                      This data point is given the label you specified and then
-                      stored in your web app account to be later viewed`)} />
+                      read the current value of the specified pin. 
+                      A Pin Mode of 0 is for on/off control, while
+                      a Pin Mode of 1 is for PWM (pulse width modulation).`)} />
             </div>
           </div>
         </div>
@@ -482,6 +482,13 @@ export let stepTiles: StepDictionary = {
                     step={step}
                     index={index}
                     field="data_label" />
+                </div>
+                <div className="col-xs-6 col-md-3">
+                  <label>{t("Pin Mode")}</label>
+                  <StepInputBox dispatch={dispatch}
+                    step={step}
+                    index={index}
+                    field="pin_mode" />
                 </div>
               </div>
             </div>
