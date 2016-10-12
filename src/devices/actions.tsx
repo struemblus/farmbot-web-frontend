@@ -6,15 +6,14 @@ import { put, get } from "axios";
 import {
   DeviceAccountSettingsUpdate,
   DeviceAccountSettings,
-  BotState,
-  HardwareState
+  BotState
 } from "../devices/interfaces";
 import { t } from "i18next";
 import { configKey } from "farmbot/interfaces";
 import { MovementRequest } from "farmbot/bot_commands";
 import { Notification } from "farmbot/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
-import { beep } from "../util";
+import { handleIncomingBotNotification } from "./incoming_bot_notification";
 
 const ON = 1,
   OFF = 0,
@@ -113,7 +112,7 @@ interface GithubRelease {
 }
 
 export function fetchOSUpdateInfo(): Thunk {
-  //TODO: get this from the jwt
+  // TODO: get this from the jwt
   let url = "https://api.github.com/repos/farmbot/farmbot_os/releases/latest";
   return (dispatch: Function, getState: Function) => {
     get<GithubRelease>(url)
@@ -130,7 +129,7 @@ export function fetchOSUpdateInfo(): Thunk {
 }
 
 export function fetchFWUpdateInfo() {
-  //TODO: get this from the jwt
+  // TODO: get this from the jwt
   let url = "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest";
   return (dispatch: Function, getState: Function) => {
     get<GithubRelease>(url)
@@ -146,7 +145,8 @@ export function fetchFWUpdateInfo() {
   };
 }
 
-export function updateDevice(apiUrl: string, optns: DeviceAccountSettingsUpdate, dispatch: Function) {
+export function updateDevice(apiUrl: string,
+  optns: DeviceAccountSettingsUpdate, dispatch: Function) {
   return put<DeviceAccountSettingsUpdate>(apiUrl + "/api/device", optns)
     .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
     .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
@@ -181,7 +181,6 @@ export function settingToggle(name: configKey, bot: BotState) {
 
 export function moveRelative(props: MovementRequest) {
   const noun = "Relative movement";
-
   return devices
     .current
     .moveRelative(props)
@@ -215,7 +214,10 @@ export function readStatus() {
   return devices
     .current
     .readStatus()
-    .then(commandOK(noun), commandErr(noun));
+    .then(() => {
+      commandOK(noun);
+    })
+    .catch(commandErr(noun));
 }
 
 export function connectDevice(token: string): {} | ((dispatch: any) => any) {
@@ -228,36 +230,10 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
         readStatus();
         dispatch(sync());
         bot.on("notification",
-          function (msg: any) {
-            console.warn("You promised you'd fix this!!");
-            switch (msg.method) {
-              case "status_update":
-                dispatch(botNotification(msg));
-                beep();
-                break;
-              case "log_message":
-                dispatch(logNotification(msg));
-                break;
-            };
-          });
+          (msg: Notification<any>) => { handleIncomingBotNotification(msg, dispatch); });
       }, (err) => dispatch(fetchDeviceErr(err)));
   };
 };
-
-function botNotification(statusMessage: Notification<[HardwareState]>) {
-  return {
-    type: "BOT_CHANGE",
-    payload: statusMessage.params[0]
-  };
-}
-
-function logNotification(botLog:
-  Notification<[{ message: string, time: number, status: HardwareState }]>) {
-  return {
-    type: "BOT_LOG",
-    payload: botLog.params[0]
-  };
-}
 
 function fetchDeviceErr(err: Error) {
   return {
@@ -343,5 +319,11 @@ export function changeAxisBuffer(key: string, val: number) {
   return {
     type: "CHANGE_AXIS_BUFFER",
     payload: { key, val }
+  };
+}
+
+export function clearLogs(): Thunk {
+  return function (dispatch, getState) {
+    dispatch({ type: "CLEAR_BOT_LOG", payload: {} });
   };
 }

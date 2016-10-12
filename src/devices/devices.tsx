@@ -18,7 +18,8 @@ import {
   checkControllerUpdates,
   reboot,
   powerOff,
-  checkArduinoUpdates
+  checkArduinoUpdates,
+  clearLogs
 } from "./actions";
 import { t } from "i18next";
 
@@ -466,8 +467,13 @@ class DevicesPage extends React.Component<Everything, any> {
                       <div className="col-sm-12">
                         <div className="row">
                           <div className="col-sm-12">
+                            <button type="submit"
+                              className="button-like green widget-control"
+                              onClick={() => this.props.dispatch(clearLogs())}>
+                              {t("Clear Logs")}
+                            </button>
                             <div className="widget-header">
-                              <h5>Logs</h5>
+                              <h5>{t("Logs")}</h5>
                               <i className="fa fa-question-circle widget-help-icon">
                                 <div className="widget-help-text">{t(`All messages from
                                 your FarmBot are shown in these logs. Note: these

@@ -44,8 +44,11 @@ export let botReducer = generateReducer<BotState>(initialState)
       }, {
         status: status.READY()
       });
-  }
-  )
+  })
+  .add<{}>("CLEAR_BOT_LOG", function (state, action) {
+    state.logQueue = [];
+    return state;
+  })
   .add<any>("COMMIT_SETTINGS_OK", function (state, action) {
     let nextState = _.assign<any, BotState>({}, state, {
       settingsBuffer: {}
@@ -68,7 +71,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.dirty = true;
     return state;
   })
-  .add<{}>("BOT_SYNC_OK", function (state, action) {
+  .add<any>("BOT_SYNC_OK", function (state, action) {
     state.dirty = false;
     return state;
   })

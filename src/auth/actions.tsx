@@ -23,11 +23,11 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchOSUpdateInfo());
   dispatch(fetchFWUpdateInfo());
   dispatch(loginOk(authState));
-  dispatch(connectDevice(authState.token));
   dispatch(downloadDeviceData(authState.iss));
   dispatch(fetchSequences());
   dispatch(fetchRegimens(authState.iss));
   dispatch(fetchPlants(authState.iss));
+  dispatch(connectDevice(authState.token));
 };
 
 export function downloadDeviceData(baseUrl: string): Thunk {

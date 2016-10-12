@@ -23,6 +23,17 @@ export interface DeviceAccountSettings {
   dirty?: boolean;
 };
 
+/**
+ * Rpc Log message from the bot.
+ */
+export interface RpcBotLog {
+  channels: string[];
+  message: string;
+  time: number;
+  status: HardwareState;
+
+}
+
 /** Typescript does not have partial types yet.
  *  When it does, we can pull this out*/
 export interface DeviceAccountSettingsUpdate {
