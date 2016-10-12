@@ -1,4 +1,4 @@
-import { connectDevice } from "../devices/actions";
+import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { fetchSequences } from "../sequences/actions";
@@ -20,6 +20,8 @@ export interface AuthResponse {
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
+  dispatch(fetchOSUpdateInfo());
+  dispatch(fetchFWUpdateInfo());
   dispatch(loginOk(authState));
   dispatch(connectDevice(authState.token));
   dispatch(downloadDeviceData(authState.iss));
@@ -68,7 +70,7 @@ export function login(username: string,
   };
 }
 
-function loginErr(err: AuthResponse ) {
+function loginErr(err: AuthResponse) {
   error(t("Login failed."));
   return {
     type: "LOGIN_ERR",

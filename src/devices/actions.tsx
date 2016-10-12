@@ -2,11 +2,13 @@ import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success } from "../logger";
 import { Thunk, Everything, ReduxAction } from "../interfaces";
-import { put } from "axios";
-import { DeviceAccountSettingsUpdate,
-         DeviceAccountSettings,
-         BotState,
-         HardwareState } from "../devices/interfaces";
+import { put, get } from "axios";
+import {
+  DeviceAccountSettingsUpdate,
+  DeviceAccountSettings,
+  BotState,
+  HardwareState
+} from "../devices/interfaces";
 import { t } from "i18next";
 import { configKey } from "farmbot/interfaces";
 import { MovementRequest } from "farmbot/bot_commands";
@@ -43,7 +45,7 @@ export function reboot() {
 }
 
 export function checkArduinoUpdates() {
-    let noun = "Check Firmware Updates";
+  let noun = "Check Firmware Updates";
   devices
     .current
     .checkArduinoUpdates()
@@ -60,16 +62,16 @@ export function emergencyStop() {
 
 export function sync(): Thunk {
   let noun = "Sync";
-  return function(dispatch, getState){
+  return function (dispatch, getState) {
     devices
-    .current
-    .sync()
-    .then(() => {
-      commandOK(noun);
-      dispatch({type: "BOT_SYNC_OK", payload: {}});
-    }).catch( () => {
-      commandErr(noun);
-    });
+      .current
+      .sync()
+      .then(() => {
+        commandOK(noun);
+        dispatch({ type: "BOT_SYNC_OK", payload: {} });
+      }).catch(() => {
+        commandErr(noun);
+      });
   };
 }
 
@@ -104,6 +106,44 @@ interface UpdateDeviceParams {
   name?: string;
   uuid?: string;
   webcam_url?: string;
+}
+
+interface GithubRelease {
+  tag_name: string;
+}
+
+export function fetchOSUpdateInfo(): Thunk {
+  //TODO: get this from the jwt
+  let url = "https://api.github.com/repos/farmbot/farmbot_os/releases/latest";
+  return (dispatch: Function, getState: Function) => {
+    get<GithubRelease>(url)
+      .then((resp) => {
+        let version = resp.data.tag_name;
+        let versionWithoutV = version.slice(1, version.length);
+        dispatch({ type: "FETCH_OS_UPDATE_INFO_OK", payload: versionWithoutV });
+      })
+      .catch((ferror) => {
+        error(t("Couldn't get os update info"), JSON.stringify(ferror));
+        dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR", payload: ferror });
+      });
+  };
+}
+
+export function fetchFWUpdateInfo() {
+  //TODO: get this from the jwt
+  let url = "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest";
+  return (dispatch: Function, getState: Function) => {
+    get<GithubRelease>(url)
+      .then((resp) => {
+        let version = resp.data.tag_name;
+        let versionWithoutV = version.slice(1, version.length);
+        dispatch({ type: "FETCH_FW_UPDATE_INFO_OK", payload: versionWithoutV });
+      })
+      .catch((ferror) => {
+        error(t("Couldn't get fw update info"), JSON.stringify(ferror));
+        dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR", payload: ferror });
+      });
+  };
 }
 
 export function updateDevice(apiUrl: string, optns: DeviceAccountSettingsUpdate, dispatch: Function) {

@@ -41,7 +41,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                                 kind: "move_absolute",
                                                 args: { x: 0, y: 0, z: 0, speed: 100 }
                                             })}>
-                                        {("MOVE ABSOLUTE")}
+                                        {t("MOVE ABSOLUTE")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -67,7 +67,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "write_pin",
                                             args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
                                         })}>
-                                        {("WRITE PIN")}
+                                        {t("WRITE PIN")}
                                     </button>
                                     <i className="fa fa-arrows block-control" />
                                 </div>
@@ -84,7 +84,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                                 data_label: "---"
                                             }
                                         })}>
-                                        {("READ PIN")}
+                                        {t("READ PIN")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -97,7 +97,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "wait",
                                             args: { milliseconds: 0 }
                                         })}>
-                                        {("WAIT")}
+                                        {t("WAIT")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -109,7 +109,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "send_message",
                                             args: { message: "Bot is at position {{ x }}." }
                                         })}>
-                                        {("SEND MESSAGE")}
+                                        {t("SEND MESSAGE")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -120,9 +120,9 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                         "full-width text-left purple-block block-header block"
                                         onClick={clickToAdd({
                                             kind: "if_statement",
-                                            args: { lhs: 0, op: "is", rhs: 0, sub_sequence_id: 0 }
+                                            args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
                                         })}>
-                                        {("IF STATEMENT")} <Help text="Coming soon" />
+                                        {t("IF STATEMENT")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -135,7 +135,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "execute",
                                             args: { sub_sequence_id: 0 }
                                         })}>
-                                        {("EXECUTE")}
+                                        {t("EXECUTE")}
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
