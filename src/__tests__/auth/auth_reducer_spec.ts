@@ -8,14 +8,18 @@ describe("Auth reducer", () => {
         let state = fakeState().auth;
         let action: ReduxAction<AuthState> = {
             type: "LOGIN_OK",
-            payload: {  token: "xyz",
-                        sub: "email@email.com",
-                        jti: "asdfadfgr456456",
-                        iss: "http://apiserver.com",
-                        mqtt: "mqttbroker.com",
-                        bot: "123345uuid-asdf",
-                        iat: 0,
-                        exp: 0 }
+            payload: {
+                token: "xyz",
+                sub: "email@email.com",
+                jti: "asdfadfgr456456",
+                iss: "http://apiserver.com",
+                mqtt: "mqttbroker.com",
+                bot: "123345uuid-asdf",
+                os_update_server: "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
+                fw_update_server: "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
+                iat: 0,
+                exp: 0
+            }
         };
         let nextState = authReducer(state, action);
         expect(nextState).toBeDefined();
@@ -27,14 +31,18 @@ describe("Auth reducer", () => {
         let state = fakeState().auth
         let action: ReduxAction<AuthState> = {
             type: "LOGIN_ERR",
-            payload: {  token: "xyz",
-                        sub: "email@email.com",
-                        jti: "asdfadfgr456456",
-                        iss: "http://apiserver.com",
-                        mqtt: "mqttbroker.com",
-                        bot: "123345uuid-asdf",
-                        iat: 0,
-                        exp: 0 }
+            payload: {
+                token: "xyz",
+                sub: "email@email.com",
+                jti: "asdfadfgr456456",
+                iss: "http://apiserver.com",
+                mqtt: "mqttbroker.com",
+                bot: "123345uuid-asdf",
+                os_update_server: "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
+                fw_update_server: "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
+                iat: 0,
+                exp: 0
+            }
         };
         let nextState = authReducer(state, action);
         expect(nextState.authenticated).toEqual(false)

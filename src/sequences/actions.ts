@@ -1,13 +1,15 @@
 import * as axios from "axios";
 import { Everything, Thunk } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
-import { SequenceOptions,
-         Step,
-         Sequence } from "./interfaces";
+import {
+  SequenceOptions,
+  Step,
+  Sequence
+} from "./interfaces";
 import { success, error } from "../logger";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 import { Color, ReduxAction } from "../interfaces";
-import  * as i18next  from "i18next";
+import * as i18next from "i18next";
 
 
 export function nullSequence(): Sequence {
@@ -17,7 +19,7 @@ export function nullSequence(): Sequence {
     kind: "sequence",
     args: {},
     body: [],
-    dirty: false
+    dirty: true
   };
 }
 function fetchSequencesNo(err: Error) {
@@ -39,7 +41,7 @@ function fetchSequencesOk(sequences: Array<Sequence>): FetchSequencesOk {
   };
 }
 
-export function fetchSequences() {
+export function fetchSequences(): Thunk {
   return (dispatch: Function, getState: Function) => {
     let state: AuthState = getState().auth;
     let { iss } = state;
@@ -55,9 +57,9 @@ export function fetchSequences() {
 };
 
 export interface EditCurrentSequence {
-    name?: string;
-    color?: Color;
-  };
+  name?: string;
+  color?: Color;
+};
 
 export function editCurrentSequence(updates: SequenceOptions): ReduxAction<EditCurrentSequence> {
   return {
@@ -76,7 +78,7 @@ export interface PushStep {
 export function pushStep(step: Step): PushStep {
   return {
     type: "PUSH_STEP",
-    payload: {step}
+    payload: { step }
   };
 }
 
@@ -92,7 +94,7 @@ export interface ChangeStep {
 export function changeStep(index: number, step: Step): ChangeStep {
   return {
     type: "CHANGE_STEP",
-    payload: {step, index}
+    payload: { step, index }
   };
 }
 
@@ -106,12 +108,12 @@ export interface RemoveStep {
 export function removeStep(index: number): RemoveStep {
   return {
     type: "REMOVE_STEP",
-    payload: {index}
+    payload: { index }
   };
 }
 
 export function saveSequence(sequence: Sequence): Thunk {
-  return function(dispatch, getState) {
+  return function (dispatch, getState) {
     let state: AuthState = getState().auth;
     let { iss} = state;
     let url = `${iss}/api/sequences/`;
@@ -123,18 +125,18 @@ export function saveSequence(sequence: Sequence): Thunk {
       method = axios.post;
     };
     return method(url, sequence)
-    .then(function(resp: {data: Sequence }) {
-      success( i18next.t("Saved '{{SequenceName}}'",
-        { SequenceName: (sequence.name || "sequence") } ));
-      dispatch(saveSequenceOk(resp.data));
-    })
-    .catch(function(err: {response: { data: {[reason: string]: string}; }}) {
-      let template = "Unable to save '{{SequenceName}}'";
-      let context = { SequenceName: (sequence.name || "sequence") };
-      error(prettyPrintApiErrors(err),
-            i18next.t(template , context));
-      dispatch(saveSequenceNo(err));
-    });
+      .then(function (resp: { data: Sequence }) {
+        success(i18next.t("Saved '{{SequenceName}}'",
+          { SequenceName: (sequence.name || "sequence") }));
+        dispatch(saveSequenceOk(resp.data));
+      })
+      .catch(function (err: { response: { data: { [reason: string]: string }; } }) {
+        let template = "Unable to save '{{SequenceName}}'";
+        let context = { SequenceName: (sequence.name || "sequence") };
+        error(prettyPrintApiErrors(err),
+          i18next.t(template, context));
+        dispatch(saveSequenceNo(err));
+      });
   };
 };
 
@@ -189,13 +191,13 @@ export function deleteSequence(index: number) {
   // misc errors 
   // dependency error. 
 
-  return function(dispatch: Function, getState: Function){
+  return function (dispatch: Function, getState: Function) {
     let state: Everything = getState();
     let { iss } = state.auth;
     let sequence: Sequence = state.sequences.all[index];
 
     function deleteSequenceOK() {
-      dispatch( {
+      dispatch({
         type: "DELETE_SEQUENCE_OK",
         payload: sequence
       });
@@ -204,8 +206,8 @@ export function deleteSequence(index: number) {
     interface SequenceApiResponse {
       sequence?: string;
     }
-    function deleteSequenceErr(response: Axios.AxiosXHR<SequenceApiResponse> ) {
-      if (response && response.data ) {
+    function deleteSequenceErr(response: Axios.AxiosXHR<SequenceApiResponse>) {
+      if (response && response.data) {
         error((response.data.sequence) || i18next.t("Unable to delete sequence"));
       }
     }
@@ -215,6 +217,8 @@ export function deleteSequence(index: number) {
       axios.delete(url)
         .then(() => deleteSequenceOK())
         .catch((error) => deleteSequenceErr(error.response));
-      }
+    } else {
+      deleteSequenceOK();
+    }
   };
 }

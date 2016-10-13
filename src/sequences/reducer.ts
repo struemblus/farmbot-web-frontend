@@ -72,8 +72,10 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         // let current_step = steps[index];
         // steps[index] = assign<{}, Step>(current_step, action.payload.step);
         // state.all[state.current].dirty = true;
-        let current = state.all[state.current].body[action.payload.index];
-        _.assign(current, action.payload.step);
+        let currentSequence = state.all[state.current];
+        let currentStep = currentSequence.body[action.payload.index];
+        currentSequence.dirty = true;
+        _.assign(currentStep, action.payload.step);
         return state;
     })
     .add<{ index: number }>("REMOVE_STEP", function (state, action) {

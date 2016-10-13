@@ -17,4 +17,8 @@ export interface AuthState {
   mqtt: string;
   /** UUID of bot as stored on API server. */
   bot: string;
+  /** The github release api for OS images */
+  os_update_server: string;
+  /** The github release api for Fw images */
+  fw_update_server: string;
 }

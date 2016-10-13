@@ -28,7 +28,9 @@ let initialState: BotState = {
   hardware: {},
   axisBuffer: {},
   settingsBuffer: {},
-  dirty: true
+  dirty: true,
+  currentOSVersion: undefined,
+  currentFWVersion: undefined
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
@@ -42,8 +44,11 @@ export let botReducer = generateReducer<BotState>(initialState)
       }, {
         status: status.READY()
       });
-  }
-  )
+  })
+  .add<{}>("CLEAR_BOT_LOG", function (state, action) {
+    state.logQueue = [];
+    return state;
+  })
   .add<any>("COMMIT_SETTINGS_OK", function (state, action) {
     let nextState = _.assign<any, BotState>({}, state, {
       settingsBuffer: {}
@@ -66,7 +71,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.dirty = true;
     return state;
   })
-  .add< {} >("BOT_SYNC_OK", function (state, action) {
+  .add<any>("BOT_SYNC_OK", function (state, action) {
     state.dirty = false;
     return state;
   })
@@ -105,7 +110,7 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<Notification<[HardwareState]>>("BOT_CHANGE",
   function (state: BotState,
-            action: ReduxAction<HardwareState>) {
+    action: ReduxAction<HardwareState>) {
     let hardware = action.payload;
     return _.assign<{}, BotState>({},
       state, {
@@ -191,5 +196,13 @@ export let botReducer = generateReducer<BotState>(initialState)
   .add<string>("CHANGE_WEBCAM_URL", function (s, a) {
     s.account.dirty = true;
     s.account.webcam_url = a.payload;
+    return s;
+  })
+  .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {
+    s.currentOSVersion = a.payload;
+    return s;
+  })
+  .add<string>("FETCH_FW_UPDATE_INFO_OK", function (s, a) {
+    s.currentFWVersion = a.payload;
     return s;
   });

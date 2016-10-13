@@ -4,21 +4,66 @@ import { Navbar } from "../nav/navbar";
 import { convertFormToObject } from "../util";
 import { ToggleButton } from "../controls/toggle_button";
 import { devices } from "../device";
-import { BotLog } from "../devices/interfaces";
+import { BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
 import { Everything } from "../interfaces";
-import { saveAccountChanges,
-         changeDevice,
-         addDevice,
-         settingToggle,
-         changeSettingsBuffer,
-         commitSettingsChanges,
-         changeAxisBuffer,
-         checkControllerUpdates,
-         reboot,
-         powerOff,
-         checkArduinoUpdates } from "./actions";
+import {
+  saveAccountChanges,
+  changeDevice,
+  addDevice,
+  settingToggle,
+  changeSettingsBuffer,
+  commitSettingsChanges,
+  changeAxisBuffer,
+  checkControllerUpdates,
+  reboot,
+  powerOff,
+  checkArduinoUpdates,
+  clearLogs
+} from "./actions";
 import { t } from "i18next";
+
+interface UpdateButtonProps {
+  bot: BotState;
+}
+
+let OsUpdateButton = ({bot}: UpdateButtonProps) => {
+  let buttonStr = "Can't Connect to bot";
+  let buttonColor = "yellow";
+  if (bot.currentOSVersion != undefined) {
+    if (bot.currentOSVersion == bot.hardware.version) {
+      buttonStr = t("Controller Up to date!");
+      buttonColor = "gray";
+    } else {
+      buttonStr = t("Controller Update Available!");
+      buttonColor = "green";
+    }
+  } else {
+    buttonStr = "Can't Connect to release server";
+  }
+  return (<button className={"button-like " + buttonColor}
+    onClick={() => checkControllerUpdates()}>
+    {buttonStr}
+  </button >);
+};
+
+let FwUpdateButton = ({bot}: UpdateButtonProps) => {
+  let buttonStr = "Can't Connect to bot";
+  let buttonColor = "yellow";
+  if (bot.currentFWVersion != undefined) {
+    if (bot.currentFWVersion == (bot.hardware.param_version || "").toString()) {
+      buttonStr = t("Firmware Up to date!");
+      buttonColor = "gray";
+    } else {
+      buttonStr = t("Firmware Update Available!");
+      buttonColor = "green";
+    }
+  }
+  return (<button className={"button-like " + buttonColor}
+    onClick={() => checkArduinoUpdates()}>
+    {buttonStr}
+  </button >);
+};
 
 export class SettingsInputBox extends React.Component<any, any> {
 
@@ -48,19 +93,19 @@ export class SettingsInputBox extends React.Component<any, any> {
   }
 
   change(key: any, dispatch: Function) {
-    return function(event: React.FormEvent) {
+    return function (event: React.FormEvent) {
       let formInput: string = (event.target as HTMLInputElement).value as string;
       dispatch(changeSettingsBuffer(key, formInput));
     };
   }
 
   render() {
-    return(
+    return (
       <td>
         <input type="text"
-               style={ this.style() }
-               onChange={ this.change(this.props.setting, this.props.dispatch) }
-               value={ this.primary() || this.secondary() || "---" } />
+          style={this.style()}
+          onChange={this.change(this.props.setting, this.props.dispatch)}
+          value={this.primary() || this.secondary() || "---"} />
       </td>);
   }
 }
@@ -73,7 +118,7 @@ class DevicesPage extends React.Component<Everything, any> {
   constructor() {
     // DELETE THIS!
     super();
-    this.state = {bot: devices.current};
+    this.state = { bot: devices.current };
   }
 
   updateBot(e: React.MouseEvent) {
@@ -108,19 +153,19 @@ class DevicesPage extends React.Component<Everything, any> {
                   <div className="widget-wrapper">
                     <div className="row">
                       <div className="col-sm-12">
-                      <form onSubmit={ this.saveBot.bind(this) }>
+                        <form onSubmit={this.saveBot.bind(this)}>
                           <div className="row">
                             <div className="col-sm-12">
                               <button type="submit"
-                                      className="button-like green widget-control"
-                                      onClick={ this.updateBot.bind(this) }>
-                                {t("SAVE")} { this.props.bot.account.dirty ? "*" : "" }
+                                className="button-like green widget-control"
+                                onClick={this.updateBot.bind(this)}>
+                                {t("SAVE")} {this.props.bot.account.dirty ? "*" : ""}
                               </button>
                               <div className="widget-header">
                                 <h5>{t("DEVICE")}</h5>
                                 <i className="fa fa-question-circle widget-help-icon">
                                   <div className="widget-help-text">
-                                  {t("This widget shows device information. Note: not all features work.")}
+                                    {t("This widget shows device information. Note: not all features work.")}
                                   </div>
                                 </i>
                               </div>
@@ -137,8 +182,8 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td colSpan={2}>
                                         <input name="name"
-                                               onChange={ this.changeBot.bind(this) }
-                                               value={ this.props.bot.account.name } />
+                                          onChange={this.changeBot.bind(this)}
+                                          value={this.props.bot.account.name} />
                                       </td>
                                     </tr>
                                     <tr>
@@ -147,7 +192,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td colSpan={2}>
                                         <p> {t("MQTT: {{mqtt_server}}",
-                                          {mqtt_server: this.props.auth.mqtt})} </p>
+                                          { mqtt_server: this.props.auth.mqtt })} </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -156,16 +201,12 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <p>
-                                          { String(this.props.bot.hardware.version)
-                                            || t("Not Connected to bot") }
+                                          {String(this.props.bot.hardware.version)
+                                            || t("Not Connected to bot")}
                                         </p>
                                       </td>
                                       <td>
-                                        <button className="button-like disabled gray"
-                                                onClick={ () =>
-                                                  checkControllerUpdates() }>
-                                          Check for Controller Updates
-                                        </button>
+                                        <OsUpdateButton { ...this.props } />
                                       </td>
                                     </tr>
                                     <tr>
@@ -181,10 +222,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                         </p>
                                       </td>
                                       <td>
-                                        <button className="button-like disabled gray"
-                                        onClick={checkArduinoUpdates}>
-                                          Check Firmware Updates
-                                        </button>
+                                        <FwUpdateButton { ...this.props } />
                                       </td>
                                     </tr>
                                     <tr>
@@ -193,14 +231,14 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <p>
-                                        {t(`This will restart FarmBot's Raspberry 
+                                          {t(`This will restart FarmBot's Raspberry 
                                             Pi and controller software`)}
                                         </p>
                                       </td>
                                       <td>
                                         <button type="button"
-                                                className="button-like yellow"
-                                                onClick={ reboot }>
+                                          className="button-like yellow"
+                                          onClick={reboot}>
                                           {t("RESTART")}
                                         </button>
                                       </td>
@@ -218,9 +256,9 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <button type="button"
-                                                className="button-like red"
-                                                onClick={ powerOff } >
-                                            {t("SHUTDOWN")}
+                                          className="button-like red"
+                                          onClick={powerOff} >
+                                          {t("SHUTDOWN")}
                                         </button>
                                       </td>
                                     </tr>
@@ -229,8 +267,8 @@ class DevicesPage extends React.Component<Everything, any> {
                               </div>
                             </div>
                           </div>
-                      </form>
-                        </div>
+                        </form>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -241,15 +279,15 @@ class DevicesPage extends React.Component<Everything, any> {
                     <div className="row">
                       <div className="col-sm-12">
                         <button className="green button-like widget-control"
-                                onClick={ () => this.props.dispatch(commitSettingsChanges()) } >
+                          onClick={() => this.props.dispatch(commitSettingsChanges())} >
                           {t("SAVE")}
-                          { Object.keys(this.props.bot.settingsBuffer).length ? "*" : "" }
+                          {Object.keys(this.props.bot.settingsBuffer).length ? "*" : ""}
                         </button>
                         <div className="widget-header">
                           <h5>Hardware</h5>
                           <i className="fa fa-question-circle widget-help-icon">
                             <div className="widget-help-text">
-                            {t(`Change settings
+                              {t(`Change settings
                             of your FarmBot hardware with the fields below.
                             Caution: Changing these settings to extreme
                             values can cause hardware malfunction. Make
@@ -292,35 +330,35 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("ACCELERATE FOR (steps)")}</label>
                                   </td>
                                   <SettingsInputBox setting="movement_steps_acc_dec_x"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_steps_acc_dec_y"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_steps_acc_dec_z"
-                                                    {...this.props} />
+                                    {...this.props} />
                                 </tr>
                                 <tr>
                                   <td>
                                     <label>{t("TIMEOUT AFTER (seconds)")}</label>
                                   </td>
                                   <SettingsInputBox setting="movement_timeout_x"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_timeout_y"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_timeout_z"
-                                                    {...this.props} />
+                                    {...this.props} />
                                 </tr>
                                 <tr>
                                   <td>
                                     <label>{t("STEPS PER MM")}</label>
                                   </td>
                                   <td>
-                                    <input value="---" readOnly/>
+                                    <input value="---" readOnly />
                                   </td>
                                   <td>
-                                    <input value="---" readOnly/>
+                                    <input value="---" readOnly />
                                   </td>
                                   <td>
-                                    <input value="---" readOnly/>
+                                    <input value="---" readOnly />
                                   </td>
                                 </tr>
                                 <tr>
@@ -328,11 +366,11 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("LENGTH (m)")}</label>
                                   </td>
                                   <SettingsInputBox setting="movement_axis_nr_steps_x"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_axis_nr_steps_y"
-                                                    {...this.props} />
+                                    {...this.props} />
                                   <SettingsInputBox setting="movement_axis_nr_steps_z"
-                                                    {...this.props} />
+                                    {...this.props} />
                                 </tr>
                                 <tr>
                                   <td>
@@ -359,22 +397,22 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT ENDPOINTS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_endpoints_x }
-                                                  toggleAction={ () =>
-                                                    settingToggle("movement_invert_endpoints_x",
-                                                  this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_endpoints_x}
+                                      toggleAction={() =>
+                                        settingToggle("movement_invert_endpoints_x",
+                                          this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_endpoints_y }
-                                                  toggleAction={ () =>
-                                                    settingToggle("movement_invert_endpoints_y",
-                                                  this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_endpoints_y}
+                                      toggleAction={() =>
+                                        settingToggle("movement_invert_endpoints_y",
+                                          this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_endpoints_z }
-                                                  toggleAction={ () =>
-                                                    settingToggle("movement_invert_endpoints_z",
-                                                  this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_endpoints_z}
+                                      toggleAction={() =>
+                                        settingToggle("movement_invert_endpoints_z",
+                                          this.props.bot)} />
                                   </td>
                                 </tr>
                                 <tr>
@@ -382,16 +420,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT MOTORS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_motor_x }
-                                                  toggleAction={ () => settingToggle("movement_invert_motor_x", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_motor_x}
+                                      toggleAction={() => settingToggle("movement_invert_motor_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_motor_y }
-                                                  toggleAction={ () => settingToggle("movement_invert_motor_y", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_motor_y}
+                                      toggleAction={() => settingToggle("movement_invert_motor_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_invert_motor_z }
-                                                  toggleAction={ () => settingToggle("movement_invert_motor_z", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_invert_motor_z}
+                                      toggleAction={() => settingToggle("movement_invert_motor_z", this.props.bot)} />
                                   </td>
                                 </tr>
                                 <tr>
@@ -399,16 +437,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("ALLOW NEGATIVES")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_home_up_x }
-                                                  toggleAction={ () => settingToggle("movement_home_up_x", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_home_up_x}
+                                      toggleAction={() => settingToggle("movement_home_up_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_home_up_y }
-                                                  toggleAction={ () => settingToggle("movement_home_up_y", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_home_up_y}
+                                      toggleAction={() => settingToggle("movement_home_up_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={ this.props.bot.hardware.movement_home_up_z }
-                                                  toggleAction={ () => settingToggle("movement_home_up_z", this.props.bot) } />
+                                    <ToggleButton toggleval={this.props.bot.hardware.movement_home_up_z}
+                                      toggleAction={() => settingToggle("movement_home_up_z", this.props.bot)} />
                                   </td>
                                 </tr>
                               </tbody>
@@ -429,8 +467,13 @@ class DevicesPage extends React.Component<Everything, any> {
                       <div className="col-sm-12">
                         <div className="row">
                           <div className="col-sm-12">
+                            <button type="submit"
+                              className="button-like green widget-control"
+                              onClick={() => this.props.dispatch(clearLogs())}>
+                              {t("Clear Logs")}
+                            </button>
                             <div className="widget-header">
-                              <h5>Logs</h5>
+                              <h5>{t("Logs")}</h5>
                               <i className="fa fa-question-circle widget-help-icon">
                                 <div className="widget-help-text">{t(`All messages from
                                 your FarmBot are shown in these logs. Note: these
@@ -456,7 +499,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                   </th>
                                 </tr>
                               </thead>
-                                <Logs logs={ this.props.bot.logQueue } />
+                              <Logs logs={this.props.bot.logQueue} />
                             </table>
                           </div>
                         </div>
@@ -494,26 +537,26 @@ function Logs({logs}: LogsProps) {
     }
 
     return <tbody>
-             {
-               logs.map((log, i) => <tr key={ i }>
-                 <td> { displayTime(log.time) } </td>
-                 <td> { log.message } </td>
-                 <td> { displayCoordinates(log) } </td>
-               </tr>)
-              }
-           </tbody>;
+      {
+        logs.map((log, i) => <tr key={i}>
+          <td> {displayTime(log.time)} </td>
+          <td> {log.message} </td>
+          <td> {displayCoordinates(log)} </td>
+        </tr>)
+      }
+    </tbody>;
   }
 
   function NoLogs(_: any) {
     return <tbody>
-            <tr>
-              <td colSpan={3}>
-                <p>{t("No logs yet.")}</p>
-              </td>
-            </tr>
-           </tbody>;
+      <tr>
+        <td colSpan={3}>
+          <p>{t("No logs yet.")}</p>
+        </td>
+      </tr>
+    </tbody>;
   }
-  return (logs.length ? <HasLogs logs={ logs }/> : <NoLogs />) ;
+  return (logs.length ? <HasLogs logs={logs} /> : <NoLogs />);
 }
 
 export let Devices = connect(state => state)(DevicesPage);

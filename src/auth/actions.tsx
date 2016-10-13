@@ -1,4 +1,4 @@
-import { connectDevice } from "../devices/actions";
+import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { fetchSequences } from "../sequences/actions";
@@ -20,12 +20,14 @@ export interface AuthResponse {
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
+  dispatch(fetchOSUpdateInfo(authState.os_update_server));
+  dispatch(fetchFWUpdateInfo(authState.fw_update_server));
   dispatch(loginOk(authState));
-  dispatch(connectDevice(authState.token));
   dispatch(downloadDeviceData(authState.iss));
   dispatch(fetchSequences());
   dispatch(fetchRegimens(authState.iss));
   dispatch(fetchPlants(authState.iss));
+  dispatch(connectDevice(authState.token));
 };
 
 export function downloadDeviceData(baseUrl: string): Thunk {
@@ -50,6 +52,8 @@ export function onLogin(dispatch: Function) {
       bot: tokenData.unencoded.bot,
       iat: tokenData.unencoded.iat,
       exp: tokenData.unencoded.exp,
+      os_update_server: tokenData.unencoded.os_update_server,
+      fw_update_server: tokenData.unencoded.fw_update_server,
       authenticated: true
     };
     didLogin(authState, dispatch);
@@ -68,7 +72,7 @@ export function login(username: string,
   };
 }
 
-function loginErr(err: AuthResponse ) {
+function loginErr(err: AuthResponse) {
   error(t("Login failed."));
   return {
     type: "LOGIN_ERR",
@@ -84,6 +88,8 @@ export interface AuthToken {
   exp: number;
   mqtt: string;
   bot: string;
+  os_update_server: string;
+  fw_update_server: string;
   authenticated: boolean;
 }
 
