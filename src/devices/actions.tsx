@@ -111,9 +111,7 @@ interface GithubRelease {
   tag_name: string;
 }
 
-export function fetchOSUpdateInfo(): Thunk {
-  // TODO: get this from the jwt
-  let url = "https://api.github.com/repos/farmbot/farmbot_os/releases/latest";
+export function fetchOSUpdateInfo(url: string): Thunk {
   return (dispatch: Function, getState: Function) => {
     get<GithubRelease>(url)
       .then((resp) => {
@@ -128,9 +126,7 @@ export function fetchOSUpdateInfo(): Thunk {
   };
 }
 
-export function fetchFWUpdateInfo() {
-  // TODO: get this from the jwt
-  let url = "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest";
+export function fetchFWUpdateInfo(url: string) {
   return (dispatch: Function, getState: Function) => {
     get<GithubRelease>(url)
       .then((resp) => {

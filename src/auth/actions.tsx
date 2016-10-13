@@ -20,8 +20,8 @@ export interface AuthResponse {
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
-  dispatch(fetchOSUpdateInfo());
-  dispatch(fetchFWUpdateInfo());
+  dispatch(fetchOSUpdateInfo(authState.os_update_server));
+  dispatch(fetchFWUpdateInfo(authState.fw_update_server));
   dispatch(loginOk(authState));
   dispatch(downloadDeviceData(authState.iss));
   dispatch(fetchSequences());
@@ -52,6 +52,8 @@ export function onLogin(dispatch: Function) {
       bot: tokenData.unencoded.bot,
       iat: tokenData.unencoded.iat,
       exp: tokenData.unencoded.exp,
+      os_update_server: tokenData.unencoded.os_update_server,
+      fw_update_server: tokenData.unencoded.fw_update_server,
       authenticated: true
     };
     didLogin(authState, dispatch);
@@ -86,6 +88,8 @@ export interface AuthToken {
   exp: number;
   mqtt: string;
   bot: string;
+  os_update_server: string;
+  fw_update_server: string;
   authenticated: boolean;
 }
 
