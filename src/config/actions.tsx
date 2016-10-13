@@ -13,7 +13,7 @@ export function changeApiPort(port: string): ReduxAction<ChangeApiPort> {
 
 export function ready(): Thunk {
   return (dispatch, getState) => {
-    let state: AuthState
+    let state: AuthState;
     let token = localStorage["token"];
     if (token) {
       state = JSON.parse(token);
