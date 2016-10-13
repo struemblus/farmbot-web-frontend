@@ -26,6 +26,9 @@ function handleLogMessage(dispatch: Function, message: Notification<[RpcBotLog]>
     let messageBody = message.params[0].message;
     channels.forEach((chan) => {
         switch (chan) {
+            case "error_ticker":
+                dispatch({ type: "BOT_ERROR", payload: messageBody });
+                return;
             case "error_toast":
                 error(messageBody, t("Farmbot encountered an error"));
                 return;

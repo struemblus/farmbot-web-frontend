@@ -22,11 +22,6 @@ export function editRegimen(regimen: Regimen,
 
 export function saveRegimen(regimen: Regimen, baseUrl: string) {
   return function (dispatch: Function) {
-    dispatch({
-      type: "SAVE_REGIMEN_START",
-      payload: regimen
-    });
-
     const action = regimen.id ? Axios.put : Axios.post;
     return action<Regimen>(baseUrl + REGIMEN_URL + (regimen.id || ""),
       regimenSerializer(regimen))

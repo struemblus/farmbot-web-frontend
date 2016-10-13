@@ -19,7 +19,7 @@ export function nullSequence(): Sequence {
     kind: "sequence",
     args: {},
     body: [],
-    dirty: false
+    dirty: true
   };
 }
 function fetchSequencesNo(err: Error) {
@@ -217,6 +217,8 @@ export function deleteSequence(index: number) {
       axios.delete(url)
         .then(() => deleteSequenceOK())
         .catch((error) => deleteSequenceErr(error.response));
+    } else {
+      deleteSequenceOK();
     }
   };
 }

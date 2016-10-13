@@ -29,6 +29,9 @@ export let tickerReducer = generateReducer<TickerState>({
     .add<{}>("FETCH_SEQUENCES_OK", change(GREEN, "Done fetching sequences"))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
     .add<{}>("BOT_SYNC_OK", change(GREEN, "Bot Status OK"))
+    .add<string>("BOT_ERROR", (s, a) => {
+        return { color: RED, message: a.payload, show: true };
+    })
     .add<RpcBotLog>("BOT_LOG", (s, a) => {
         if (a.payload.channels.indexOf("ticker") != -1) {
             return { color: BLUE, message: a.payload.message, show: true };
