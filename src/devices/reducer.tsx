@@ -30,7 +30,7 @@ let initialState: BotState = {
   settingsBuffer: {},
   dirty: true,
   currentOSVersion: undefined,
-  currentFWVersion: undefined
+  currentFWVersion: undefined,
 };
 
 export let botReducer = generateReducer<BotState>(initialState)

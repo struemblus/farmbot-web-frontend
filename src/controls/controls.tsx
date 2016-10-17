@@ -114,7 +114,7 @@ export class Controls extends React.Component<Everything, any> {
                           type="button"
                           onClick={emergencyStop} >
 
-                          E-STOP
+                          {t("E-STOP")}
 
                         </button>
                         <div className="widget-header">

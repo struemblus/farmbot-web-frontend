@@ -19,6 +19,24 @@ const ON = 1,
   OFF = 0,
   DIGITAL = 0;
 
+export function toggleOSAutoUpdate() {
+  let noun = "OS Update Toggle";
+  devices
+    .current
+    .toggleOSAutoUpdate()
+    .then(() => { commandOK(noun); })
+    .catch(() => { commandErr(noun); });
+}
+
+export function toggleFWAutoUpdate() {
+  let noun = "FW Update Toggle";
+  devices
+    .current
+    .toggleFWAutoUpdate()
+    .then(() => { commandOK(noun); })
+    .catch(() => { commandErr(noun); });
+}
+
 export function checkControllerUpdates() {
   let noun = "Check for Updates";
   devices

@@ -83,6 +83,8 @@ export interface BotState {
 
 /** Status registers for the bot's status */
 export interface HardwareState {
+  os_auto_update?: number;
+  fw_auto_update?: number;
   version?: string;
   s?: number;
   x?: number;
