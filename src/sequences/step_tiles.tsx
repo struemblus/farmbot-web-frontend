@@ -44,7 +44,7 @@ let updateStep = function ({ dispatch,
     let val: string = (e.target as HTMLInputElement).value;
 
     if (NUMERIC_FIELDS.indexOf(field) !== -1) {
-      if (val == "-") {
+      if (val == "-") { // Fix negative number issues.
         _.assign(copy.args, { [field]: "-" });
       } else {
         _.assign(copy.args, { [field]: parseInt(val, 10) });
