@@ -8,7 +8,8 @@ import { ready } from "./config/actions";
 import { detectLanguage } from "./i18n";
 import * as i18next from "i18next";
 
-console.log(process.env["REVISION"] || "-----------");
+let r = process.env.REVISION || "unknown";
+console.log(`You are running revision ${r}`);
 
 detectLanguage().then((config) => {
   i18next.init(config, (err, t) => {
