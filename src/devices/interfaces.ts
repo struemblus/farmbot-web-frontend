@@ -23,6 +23,17 @@ export interface DeviceAccountSettings {
   dirty?: boolean;
 };
 
+/**
+ * Rpc Log message from the bot.
+ */
+export interface RpcBotLog {
+  channels: string[];
+  message: string;
+  time: number;
+  status: HardwareState;
+
+}
+
 /** Typescript does not have partial types yet.
  *  When it does, we can pull this out*/
 export interface DeviceAccountSettingsUpdate {
@@ -41,6 +52,10 @@ export interface BotState {
   status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
+  /** The current os version on the github release api */
+  currentOSVersion?: string;
+  /** The current fw version on the github release api */
+  currentFWVersion?: string;
   /** Is the bot in sync with the api */
   dirty: boolean;
   /** Holds coordinates that the user is currently editing, but has not sent */
@@ -48,7 +63,7 @@ export interface BotState {
     // x?: string;
     // y?: string;
     // z?: string;
-  [name: string]: string | undefined;
+    [name: string]: string | undefined;
   };
   /** Holds settings that the user is currently editing, but has not sent */
   settingsBuffer: {

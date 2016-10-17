@@ -62,7 +62,6 @@ export class RootComponent extends React.Component<any, any> {
   */
   routes = (<Route path="app" component={App}>
               <Route path="login" component={ Login }/>
-              <Redirect from="/" to="/login"/>
               <Route path="dashboard"
                   component={ Dashboard }
                   onEnter={ this.requireAuth.bind(this) }>

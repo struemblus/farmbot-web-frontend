@@ -5,7 +5,7 @@ import { BotState } from "../devices/interfaces";
 
 export class Wrapper extends React.Component<any, any> {
   render() {
-    return <div> { this.props.children } </div>;
+    return <div> {this.props.children} </div>;
   }
 }
 
@@ -33,6 +33,8 @@ export function fakeState(dispatcher?: Function): Everything {
     iss: "my.farmbot.io",
     exp: 1549767783,
     mqtt: "mqtt.farmbot.io",
+    os_update_server: "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
+    fw_update_server: "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
     bot: "4cbecefb-2009-4820-b8a2-09ab12c283b9"
   };
   let designer = {

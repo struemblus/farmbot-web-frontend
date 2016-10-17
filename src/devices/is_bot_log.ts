@@ -4,10 +4,11 @@ const schema = {
     message: "string",
     time: "number",
     status: "object",
+    channels: "object"
 };
 
-export function isBotLog(log: BotLog|{}): log is BotLog {
-   let results: { [key: string]: boolean; } = {};
-   _.forIn(log, (v: any, k: string) => results[k] = (typeof v === (schema as any)[k]));
-   return !_(results).values().includes(false);
+export function isBotLog(log: BotLog | {}): log is BotLog {
+    let results: { [key: string]: boolean; } = {};
+    _.forIn(log, (v: any, k: string) => results[k] = (typeof v === (schema as any)[k]));
+    return !_(results).values().includes(false);
 };

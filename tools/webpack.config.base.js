@@ -1,7 +1,13 @@
-var path = require('path');
-var exec = require('child_process').exec;
+var path = require('path')
+  , exec = require('child_process').exec
+  , execSync = require('child_process').execSync
+  , webpack = require('webpack');
 
 exec("rm app-resources/*bundle.js*"); // Clean previous stuff.
+
+var revisionPlugin = new webpack.DefinePlugin({
+  'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h" -1').toString()),
+});
 
 module.exports = function () {
   return {
@@ -23,7 +29,7 @@ module.exports = function () {
     ts: {
       configFileName: "tsconfig.json"
     },
-    plugins: [],
+    plugins: [revisionPlugin],
     resolve: {
       extensions: ['', '.js', '.ts', '.tsx'],
     },
