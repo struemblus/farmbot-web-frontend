@@ -67,11 +67,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "write_pin",
                                             args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
                                         })}>
-<<<<<<< HEAD
                                         {t("WRITE PIN")}
-=======
-                                        {("WRITE PIN")}
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                     </button>
                                     <i className="fa fa-arrows block-control" />
                                 </div>
@@ -88,11 +84,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                                 data_label: "---"
                                             }
                                         })}>
-<<<<<<< HEAD
                                         {t("READ PIN")}
-=======
-                                        {("READ PIN")}
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -105,11 +97,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "wait",
                                             args: { milliseconds: 0 }
                                         })}>
-<<<<<<< HEAD
                                         {t("WAIT")}
-=======
-                                        {("WAIT")}
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -121,11 +109,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "send_message",
                                             args: { message: "Bot is at position {{ x }}." }
                                         })}>
-<<<<<<< HEAD
                                         {t("SEND MESSAGE")}
-=======
-                                        {("SEND MESSAGE")}
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -136,15 +120,9 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                         "full-width text-left purple-block block-header block"
                                         onClick={clickToAdd({
                                             kind: "if_statement",
-<<<<<<< HEAD
                                             args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
                                         })}>
                                         {t("IF STATEMENT")}
-=======
-                                            args: { lhs: 0, op: "is", rhs: 0, sub_sequence_id: 0 }
-                                        })}>
-                                        {("IF STATEMENT")} <Help text="Coming soon" />
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
@@ -157,11 +135,7 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                                             kind: "execute",
                                             args: { sub_sequence_id: 0 }
                                         })}>
-<<<<<<< HEAD
                                         {t("EXECUTE")}
-=======
-                                        {("EXECUTE")}
->>>>>>> eb33b8999fe7825d5f7dfc823916633fd6952d29
                                         <i className="fa fa-arrows block-control" />
                                     </button>
                                 </div>
