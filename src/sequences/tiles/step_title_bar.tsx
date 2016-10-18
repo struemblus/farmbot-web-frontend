@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Step } from "./interfaces";
-import { addComment } from "./actions";
+import { Step } from "../interfaces";
+import { addComment } from "../actions";
 
 interface StepTitleBarProps {
   step: Step;

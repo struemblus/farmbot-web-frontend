@@ -7,7 +7,7 @@ import {
     deleteSequence,
     nullSequence
 } from "./actions";
-import { stepTiles, StepTile } from "./step_tiles";
+import { stepTiles, StepTile } from "./tiles/index";
 import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";

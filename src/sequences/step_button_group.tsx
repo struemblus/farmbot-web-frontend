@@ -1,6 +1,5 @@
 import * as React from "react";
 import { pushStep } from "./actions";
-import { Help } from "../help";
 import { Step } from "./interfaces";
 import { t } from "i18next";
 
