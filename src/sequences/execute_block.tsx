@@ -1,5 +1,5 @@
 import * as React from "react";
-import { copy, remove, StepParams } from "./step_tiles";
+import { copy, remove, StepParams } from "./tiles/index";
 import { Step, Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
@@ -9,7 +9,7 @@ function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
     let isSaved = (s: Sequence) => !!s.id;
     let notRecursive = (me: Sequence, you: Sequence) => me !== you;
     return sequences
-        .filter(function(seq) {
+        .filter(function (seq) {
             // Can't function recurseCant use unsaved sequences.
             return isSaved(seq) && notRecursive(sequence, seq);
         });
@@ -33,28 +33,24 @@ function SequenceSelectBox({dispatch,
 
     function iter(seq: Sequence) {
         if (seq.id) {
-            return <option value={ seq.id.toString() } key={ seq.id } > { seq.name } </option>;
+            return <option value={seq.id.toString()} key={seq.id} > {seq.name} </option>;
         } else {
             throw new Error("Sequence must have ID.")
         }
     };
 
     function change(e: React.FormEvent) {
-        let update = {
-            args: {
-                value: "0",
-                operator: ">",
-                variable: "time",
-                sub_sequence_id: (e.target as HTMLInputElement).value
-            }
-        };
+        let val = (e.target as HTMLInputElement).value;
+        let sub_sequence_id = parseInt(val, 10);
+        let update = { args: { sub_sequence_id } };
         let newStep = _.assign<{}, Step>({}, step, update);
+
         dispatch(changeStep(index, newStep));
     };
 
     let choices = eligibleSequences.map(iter);
 
-    if (step.kind === "execute" || step.kind === "if_statement" ) {
+    if (step.kind === "execute" || step.kind === "if_statement") {
         var ssid = step.args.sub_sequence_id;
     } else {
         console.warn("No sub sequence ID");
@@ -64,10 +60,10 @@ function SequenceSelectBox({dispatch,
         id: ""
     };
 
-    return <select onChange={ change }
-        value={ (subSeq.id || "").toString() }>
+    return <select onChange={change}
+        value={(subSeq.id || "").toString()}>
         <option value="">Pick a sequence (or save a new one) </option>
-        { choices }
+        {choices}
     </select>;
 }
 
@@ -80,12 +76,12 @@ export function ExecuteBlock({dispatch, step, index, sequence, sequences}: StepP
             <div className="row">
                 <div className="col-sm-12">
                     <div className="step-header execute-step">
-                        <input className="step-label" placeholder="Execute"/>
+                        <input className="step-label" placeholder="Execute" />
                         <i className="fa fa-arrows-v step-control" />
                         <i className="fa fa-clone step-control"
-                            onClick={ () => copy({ dispatch, step }) } />
+                            onClick={() => copy({ dispatch, step })} />
                         <i className="fa fa-trash step-control"
-                            onClick={ () => remove({ dispatch, index }) } />
+                            onClick={() => remove({ dispatch, index })} />
                     </div>
                 </div>
             </div>
@@ -99,7 +95,7 @@ export function ExecuteBlock({dispatch, step, index, sequence, sequences}: StepP
                                     step={step}
                                     sequence={sequence}
                                     sequences={sequences}
-                                    index={index}/>
+                                    index={index} />
                             </div>
                         </div>
                     </div>
