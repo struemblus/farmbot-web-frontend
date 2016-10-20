@@ -9,20 +9,25 @@ interface TimeInputProps {
   offset: number;
 }
 
-// F it! I'm making this form control stateful. Stateless forms === brain surgery.
-export class TimeInput extends React.Component<TimeInputProps, any> {
+interface TimeInputState {
+  val: string;
+}
+
+export class TimeInput extends React.Component<TimeInputProps, TimeInputState> {
   public isEditing: boolean;
+  constructor() {
+    super();
+    this.state = { val: "00:01" };
+  }
 
   formatMs(ms: number) {
-    if (_.isNumber(ms)) { // Way to much logic.
+    if (_.isNumber(ms)) {
       let d = duration(ms);
-      let isPM = (d.hours() > 12);
-      let hh = (isPM) ? (d.hours() - 12) : d.hours();
-      let h = _.padLeft(hh.toString(), 2, "0");
+      let h = _.padLeft(d.hours().toString(), 2, "0");
       let m = _.padLeft(d.minutes().toString(), 2, "0");
-      return `${ h }:${ m } ${ isPM ? "PM" : "AM" }`;
+      return `${h}:${m}`;
     } else {
-      return "10:26 AM";
+      return "00:01";
     }
   }
 
@@ -38,9 +43,15 @@ export class TimeInput extends React.Component<TimeInputProps, any> {
     this.isEditing = true;
   }
 
-  blur (dispatch: Function) {
+  blur(dispatch: Function) {
     return (event: React.FormEvent) => {
-      dispatch(setTimeOffset((event.target as HTMLInputElement).value));
+      // Split on ":".
+      let [hours, minutes] = (event.target as HTMLInputElement)
+        .value
+        .split(":")
+        .map((n: string) => parseInt(n, 10));
+
+      dispatch(setTimeOffset({ hours, minutes }));
       this.isEditing = false;
     };
   }
@@ -48,14 +59,15 @@ export class TimeInput extends React.Component<TimeInputProps, any> {
   render() {
     return <div>
       <label>{t("Time")}</label>
-      <input onFocus={ this.focus.bind(this) }
-             value={ this.value }
-             onChange={ (event) => {
-               this.setState({
-                 val: (event.target as HTMLInputElement).value
-               });
-             }}
-             onBlur={ this.blur(this.props.dispatch).bind(this) }/>
+      <input onFocus={this.focus.bind(this)}
+        type="time"
+        value={this.value}
+        onChange={(event) => {
+          this.setState({
+            val: (event.target as HTMLInputElement).value
+          });
+        } }
+        onBlur={this.blur(this.props.dispatch).bind(this)} />
     </div>;
   }
 }
