@@ -9,12 +9,18 @@ interface Lock {
 
 const LOCKS: Lock[] = [
     { // REGIMEN EDITOR
-        lockedWith: ["EDIT_REGIMEN", "NEW_REGIMEN",
-            "EDIT_CURRENT_SEQUENCE"],
-        removedBy: "SAVE_SEQUENCE_OK"
-    }, { // SEQUENCE EDITOR
-        lockedWith: ["PUSH_STEP", "REMOVE_STEP"],
+        lockedWith: [
+            "EDIT_REGIMEN",
+            "NEW_REGIMEN"
+        ],
         removedBy: "SAVE_REGIMEN_OK"
+    }, { // SEQUENCE EDITOR
+        lockedWith: [
+            "PUSH_STEP",
+            "REMOVE_STEP",
+            "EDIT_CURRENT_SEQUENCE"
+        ],
+        removedBy: "SAVE_SEQUENCE_OK"
     }, {
         lockedWith: ["CHANGE_DEVICE", "CHANGE_WEBCAM_URL"],
         removedBy: "REPLACE_DEVICE_ACCOUNT_INFO"
