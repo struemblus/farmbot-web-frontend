@@ -1,5 +1,5 @@
 import * as React from "react";
-import { copy, remove, StepParams } from "./tiles/index";
+import { copy, remove, StepParams } from "./step_tiles/index";
 import { Step, Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";

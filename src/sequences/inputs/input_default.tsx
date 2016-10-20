@@ -1,6 +1,6 @@
 import * as React from "react";
-import { IStepInput } from "../tiles/index";
-import { updateStep } from "../tiles/index";
+import { IStepInput } from "../step_tiles/index";
+import { updateStep } from "../step_tiles/index";
 
 export function InputDefault({step, field, dispatch, index}: IStepInput) {
     let raw = (step.args as any)[field];

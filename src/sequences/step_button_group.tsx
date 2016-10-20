@@ -1,6 +1,7 @@
 import * as React from "react";
 import { pushStep } from "./actions";
 import { Step } from "./interfaces";
+import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 
 let addStep = (dispatch: Function) =>
@@ -9,6 +10,68 @@ let addStep = (dispatch: Function) =>
 
 export function StepButtonGroup({dispatch}: { dispatch: Function }) {
     let clickToAdd = addStep(dispatch);
+    const ALL_THE_BUTTONS = [
+        <StepButton onClick={clickToAdd({
+            kind: "move_absolute",
+            args: { x: 0, y: 0, z: 0, speed: 100 }
+        })}
+            color="blue">
+            {t("MOVE ABSOLUTE")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "move_relative",
+            args: { x: 0, y: 0, z: 0, speed: 100 }
+        })}
+            color="green">
+            {t("MOVE RELATIVE")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "write_pin",
+            args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
+        })}
+            color="orange">
+            {t("WRITE PIN")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "read_pin",
+            args: {
+                pin_number: 0,
+                pin_mode: 0,
+                data_label: "---"
+            }
+        })}
+            color="yellow">
+            {t("READ PIN")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "wait",
+            args: { milliseconds: 0 }
+        })}
+            color="brown">
+            {t("WAIT")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "send_message",
+            args: { message: "Bot is at position {{ x }}." }
+        })}
+            color="red">
+            {t("SEND MESSAGE")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "if_statement",
+            args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
+        })}
+            color="purple">
+            {t("IF STATEMENT")}
+        </StepButton>,
+        <StepButton onClick={clickToAdd({
+            kind: "execute",
+            args: { sub_sequence_id: 0 }
+        })}
+            color="gray">
+            {t("EXECUTE")}
+        </StepButton>
+    ];
     return (<div>
         <div className="widget-wrapper">
             <div className="row">
@@ -31,118 +94,17 @@ export function StepButtonGroup({dispatch}: { dispatch: Function }) {
                 <div className="col-sm-12">
                     <div className="widget-content no-bottom-padding">
                         <div className="row">
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left blue-block block-header block"
-                                        onClick={clickToAdd(
-                                            {
-                                                kind: "move_absolute",
-                                                args: { x: 0, y: 0, z: 0, speed: 100 }
-                                            })}>
-                                        {t("MOVE ABSOLUTE")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left green-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "move_relative",
-                                            args: { x: 0, y: 0, z: 0, speed: 100 }
-                                        })}>
-                                        {t("MOVE RELATIVE")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left orange-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "write_pin",
-                                            args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
-                                        })}>
-                                        {t("WRITE PIN")}
-                                    </button>
-                                    <i className="fa fa-arrows block-control" />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left yellow-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "read_pin",
-                                            args: {
-                                                pin_number: 0,
-                                                pin_mode: 0,
-                                                data_label: "---"
-                                            }
-                                        })}>
-                                        {t("READ PIN")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left brown-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "wait",
-                                            args: { milliseconds: 0 }
-                                        })}>
-                                        {t("WAIT")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className="full-width text-left red-block block-header"
-                                        onClick={clickToAdd({
-                                            kind: "send_message",
-                                            args: { message: "Bot is at position {{ x }}." }
-                                        })}>
-                                        {t("SEND MESSAGE")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left purple-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "if_statement",
-                                            args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
-                                        })}>
-                                        {t("IF STATEMENT")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="block-wrapper">
-                                    <button className=
-                                        "full-width text-left gray-block block-header block"
-                                        onClick={clickToAdd({
-                                            kind: "execute",
-                                            args: { sub_sequence_id: 0 }
-                                        })}>
-                                        {t("EXECUTE")}
-                                        <i className="fa fa-arrows block-control" />
-                                    </button>
-                                </div>
-                            </div>
+                            {
+                                ALL_THE_BUTTONS.map(function (el, inx) {
+                                    return <div key={inx}>
+                                        {el}
+                                    </div>;
+                                })
+                            }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>);
+    </div >);
 }
