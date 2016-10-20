@@ -5,14 +5,19 @@ import { Everything } from "../interfaces";
 interface Lock {
     lockedWith: string[];
     removedBy: string;
-    punctuatedExplanation: string;
 }
 
 const LOCKS: Lock[] = [
-    {
-        lockedWith: ["EDIT_REGIMEN", "NEW_REGIMEN"],
-        removedBy: "SAVE_REGIMEN_OK",
-        punctuatedExplanation: "You are still editing a regimen."
+    { // REGIMEN EDITOR
+        lockedWith: ["EDIT_REGIMEN", "NEW_REGIMEN",
+            "EDIT_CURRENT_SEQUENCE"],
+        removedBy: "SAVE_SEQUENCE_OK"
+    }, { // SEQUENCE EDITOR
+        lockedWith: ["PUSH_STEP", "REMOVE_STEP"],
+        removedBy: "SAVE_REGIMEN_OK"
+    }, {
+        lockedWith: ["CHANGE_DEVICE", "CHANGE_WEBCAM_URL"],
+        removedBy: "REPLACE_DEVICE_ACCOUNT_INFO"
     }
 ];
 
@@ -21,13 +26,12 @@ export type broswerHoldState = { [name: string]: boolean };
 // TODO: Maybe this needs to be middleware?
 export function dontExitIfBrowserIsOnHold(store: Store) {
 
-    function stopThem() { return "Unsaved work."; }
+    function stopThem() { return "You have unsaved work."; }
     function dontStopThem() { }
 
     store.subscribe(function () {
         let state = store.getState() as Everything;
         let locks = Object.keys(state.browserHolds);
-        console.dir(locks);
         if (locks.length) {
             window.onbeforeunload = stopThem;
         } else {
