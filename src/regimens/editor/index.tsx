@@ -2,6 +2,7 @@ import * as React from "react";
 import { RegimensState } from "../interfaces";
 import { SaveButton } from "./save_button";
 import { DeleteButton } from "./delete_button";
+import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { AuthState } from "../../auth/interfaces";
@@ -28,11 +29,7 @@ export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWid
           <SaveButton regimen={regimen}
             dispatch={dispatch}
             url={auth.iss} />
-          <div>
-            <button className="yellow button-like widget-control">
-              Copy
-            </button>
-          </div>
+          <CopyButton regimen={regimen} dispatch={dispatch} />
           <DeleteButton {...saveButtenProps} />
           <div className="widget-header">
             <h5> Regimen Editor </h5>

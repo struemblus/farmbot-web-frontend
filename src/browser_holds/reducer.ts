@@ -11,7 +11,8 @@ const LOCKS: Lock[] = [
     { // REGIMEN EDITOR
         lockedWith: [
             "EDIT_REGIMEN",
-            "NEW_REGIMEN"
+            "NEW_REGIMEN",
+            "COPY_REGIMEN"
         ],
         removedBy: "SAVE_REGIMEN_OK"
     }, { // SEQUENCE EDITOR
