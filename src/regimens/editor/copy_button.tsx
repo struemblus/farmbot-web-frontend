@@ -4,14 +4,18 @@ import { copyRegimen } from "../actions";
 
 interface CopyButtnProps {
     dispatch: Function;
-    regimen: Regimen;
+    regimen?: Regimen;
 }
 
 export function CopyButton({dispatch, regimen}: CopyButtnProps) {
-    return <div>
-        <button className="yellow button-like widget-control"
-            onClick={() => dispatch(copyRegimen(regimen))}>
-            Copy
-        </button>
-    </div>;
+    if (regimen) {
+        return <div>
+            <button className="yellow button-like widget-control"
+                onClick={() => dispatch(copyRegimen(regimen))}>
+                Copy
+          </button>
+        </div>;
+    } else {
+        return <span />;
+    };
 }
