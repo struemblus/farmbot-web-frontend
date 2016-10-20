@@ -7,11 +7,12 @@ import {
     deleteSequence,
     nullSequence
 } from "./actions";
-import { stepTiles, StepTile } from "./tiles/index";
+import { stepTiles, StepTile } from "./step_tiles/index";
 import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import { BlurableInput } from "../blurable_input";
+import { Droppable } from "./draggables/droppable";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 let StepList = ({sequence, sequences, dispatch}:
@@ -99,9 +100,9 @@ export function SequenceEditorWidget({sequences, dispatch}: Everything) {
                             sequences={sequences.all} />}
                         <div className="row">
                             <div className="col-sm-12">
-                                <div className="drag-drop-area padding">
-                                    {t("DRAG ACTIONS HERE")
-                                    }</div>
+                                <Droppable isLocked={true}>
+                                    {t("DRAG STEP HERE")}
+                                </Droppable>
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IStepInput } from "../tiles/index";
+import { IStepInput } from "../step_tiles/index";
 import { InputUnknown } from "./input_unknown";
 import { InputDefault } from "./input_default";
 
