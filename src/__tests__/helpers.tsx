@@ -33,8 +33,10 @@ export function fakeState(dispatcher?: Function): Everything {
     iss: "my.farmbot.io",
     exp: 1549767783,
     mqtt: "mqtt.farmbot.io",
-    os_update_server: "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
-    fw_update_server: "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
+    os_update_server:
+    "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
+    fw_update_server:
+    "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
     bot: "4cbecefb-2009-4820-b8a2-09ab12c283b9"
   };
   let designer = {
@@ -102,6 +104,8 @@ export function fakeState(dispatcher?: Function): Everything {
     port: "5555"
   };
 
+  let browserHolds = {};
+
   return {
     location
     , auth
@@ -113,5 +117,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , regimens
     , bulkScheduler
     , config
+    , browserHolds
   };
 }

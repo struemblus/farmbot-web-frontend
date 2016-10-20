@@ -11,6 +11,7 @@ import { stepTiles, StepTile } from "./tiles/index";
 import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
+import { BlurableInput } from "../blurable_input";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 let StepList = ({sequence, sequences, dispatch}:
@@ -83,10 +84,8 @@ export function SequenceEditorWidget({sequences, dispatch}: Everything) {
                     <div className="widget-content no-bottom-padding">
                         <div className="row">
                             <div className="col-sm-11">
-                                <input placeholder="Sequence Name"
-                                    value={sequence.name}
-                                    onChange={handleNameUpdate(dispatch)}
-                                    type="text" />
+                                <BlurableInput value={sequence.name}
+                                    onCommit={handleNameUpdate(dispatch)} />
                             </div>
                             <div className="col-sm-1">
                                 <ColorPicker current={sequence.color}
