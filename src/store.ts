@@ -12,11 +12,11 @@ import { configReducer as config } from "./config/reducer";
 import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "./regimens/reducer";
 import { tickerReducer as ticker } from "./ticker/reducer";
+import { broswerHoldReducer as browserHolds, dontExitIfBrowserIsOnHold } from "./browser_holds/reducer";
 import { designer } from "./farm_designer/reducer";
 import {
   BulkSchedulerReducer as bulkScheduler
 } from "./regimens/bulk_scheduler/reducer";
-
 let reducers = combineReducers({
   routing,
   auth,
@@ -26,7 +26,8 @@ let reducers = combineReducers({
   bulkScheduler,
   config,
   designer,
-  ticker
+  ticker,
+  browserHolds
 });
 
 function configureStore(options = {}) {
@@ -36,7 +37,7 @@ function configureStore(options = {}) {
     let dt = (window as any)["devToolsExtension"];
     let risi = require("redux-immutable-state-invariant")();
     let srsly = compose(applyMiddleware(thunk, risi),
-              dt ? dt() : (f: any) => f);
+      dt ? dt() : (f: any) => f);
     store = createStore(reducers, lastState, srsly);
     // Make store global in dev env in case I need to probe it.
     (window as any)["store"] = store;
@@ -46,6 +47,7 @@ function configureStore(options = {}) {
   } else {
     store = createStore(reducers, {}, applyMiddleware(thunk));
   };
+  dontExitIfBrowserIsOnHold(store);
   return store;
 }
 

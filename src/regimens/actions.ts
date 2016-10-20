@@ -8,6 +8,13 @@ import { t } from "i18next";
 
 const REGIMEN_URL = "/api/regimens/";
 
+export function copyRegimen(payload: Regimen) {
+  return {
+    type: "COPY_REGIMEN",
+    payload
+  };
+}
+
 export function editRegimen(regimen: Regimen,
   update: Object):
   ReduxAction<{ regimen: Regimen, update: Object }> {

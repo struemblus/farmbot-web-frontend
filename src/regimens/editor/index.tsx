@@ -2,6 +2,7 @@ import * as React from "react";
 import { RegimensState } from "../interfaces";
 import { SaveButton } from "./save_button";
 import { DeleteButton } from "./delete_button";
+import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { AuthState } from "../../auth/interfaces";
@@ -14,7 +15,7 @@ interface RegimenEditorWidgetProps {
 }
 export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWidgetProps) {
   let regimen = regimens.all[regimens.current];
-  let Wow = regimen ? ActiveEditor : EmptyEditor;
+  let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
   let saveButtenProps = {
     dispatch,
     regimen,
@@ -28,6 +29,7 @@ export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWid
           <SaveButton regimen={regimen}
             dispatch={dispatch}
             url={auth.iss} />
+          <CopyButton regimen={regimen} dispatch={dispatch} />
           <DeleteButton {...saveButtenProps} />
           <div className="widget-header">
             <h5> Regimen Editor </h5>
@@ -46,7 +48,7 @@ export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWid
       <div className="row">
         <div className="col-sm-12">
           <div className="widget-content">
-            <Wow regimen={regimen} dispatch={dispatch} />
+            <DynamicComponent regimen={regimen} dispatch={dispatch} />
           </div>
         </div>
       </div>
