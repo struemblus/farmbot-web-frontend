@@ -6,11 +6,7 @@ export interface BotLog {
   /** a Unix timestamp (UTC) */
   time: number;
   /** A subset of interface `HardwareState`. But I only needed x,y,z. */
-  status: {
-    x: number;
-    y: number;
-    z: number;
-  };
+  status: HardwareState;
 };
 
 /** How the device is stored in the API side.
