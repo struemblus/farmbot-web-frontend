@@ -203,5 +203,8 @@ ul {
 }
 
 .hey-rory {
-  border: 1px dashed lightslategrey;
+  max-width: 123px;
+  border: 4px dashed hotpink;
+  transform: rotate(10deg);
+  background: rgba(0, 0, 0, 0.99)
 }
