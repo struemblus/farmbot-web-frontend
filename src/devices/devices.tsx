@@ -68,12 +68,6 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
 
 export class SettingsInputBox extends React.Component<any, any> {
 
-  bot() {
-    // Dumb hacks for impossible bugs.
-    // This is probably what"s causing the bug
-    return this.props.bot;
-  }
-
   primary() {
     return this.props.bot.settingsBuffer[this.props.setting];
   }
@@ -116,11 +110,11 @@ export class SettingsInputBox extends React.Component<any, any> {
 // Farmbot object and Redux .bot property (redundant).
 class DevicesPage extends React.Component<Everything, any> {
 
-  constructor() {
-    // DELETE THIS!
-    super();
-    this.state = { bot: devices.current };
-  }
+  // constructor() {
+  //   // DELETE THIS!
+  //   super();
+  //   this.state = { bot: devices.current };
+  // }
 
   updateBot(e: React.MouseEvent) {
     this.props.dispatch(saveAccountChanges);
