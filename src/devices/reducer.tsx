@@ -25,7 +25,17 @@ let initialState: BotState = {
   logQueue: [],
   status: status.NOT_READY(),
   stepSize: 1000,
-  hardware: {},
+  hardware: {
+    mcu_params: {},
+    location: [-1, -1, -1],
+    pins: [],
+    configuration: {
+
+    },
+    informational_settings: {
+
+    }
+  },
   axisBuffer: {},
   settingsBuffer: {},
   dirty: true,
