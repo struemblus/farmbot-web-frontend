@@ -19,7 +19,9 @@ import {
   reboot,
   powerOff,
   checkArduinoUpdates,
-  clearLogs
+  clearLogs,
+  toggleOSAutoUpdate,
+  toggleFWAutoUpdate
 } from "./actions";
 import { t } from "i18next";
 
@@ -129,7 +131,8 @@ class DevicesPage extends React.Component<Everything, any> {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
     let updates: any =
-      _.object([[(e.target as HTMLInputElement).name, (e.target as HTMLInputElement).value]]); // {name: "value"}
+      _.object([[(e.target as HTMLInputElement).name,
+      (e.target as HTMLInputElement).value]]); // {name: "value"}
     this.props.dispatch(changeDevice(updates));
   }
 
@@ -165,7 +168,8 @@ class DevicesPage extends React.Component<Everything, any> {
                                 <h5>{t("DEVICE")}</h5>
                                 <i className="fa fa-question-circle widget-help-icon">
                                   <div className="widget-help-text">
-                                    {t("This widget shows device information. Note: not all features work.")}
+                                    {t(`This widget shows device information. 
+                                      Note: not all features work.`)}
                                   </div>
                                 </i>
                               </div>
@@ -207,6 +211,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <OsUpdateButton { ...this.props } />
+                                        <p> {t("OS Auto Updates")}
+                                          <ToggleButton toggleval=
+                                            {String(this
+                                              .props
+                                              .bot
+                                              .hardware
+                                              .configuration
+                                              .os_auto_update) || "undefined"}
+                                            toggleAction={() => toggleOSAutoUpdate()} />
+                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -223,6 +237,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <FwUpdateButton { ...this.props } />
+                                        <p> {t("FW Auto Updates")}
+                                          <ToggleButton toggleval=
+                                            {String(this
+                                              .props
+                                              .bot
+                                              .hardware
+                                              .configuration
+                                              .fw_auto_update) || "undefined"}
+                                            toggleAction={() => toggleFWAutoUpdate()} />
+                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
