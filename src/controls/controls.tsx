@@ -98,14 +98,17 @@ export function getPin(pin: number, pins: Pins): Pin {
   if (p) {
     return p;
   } else {
-    throw new Error("bad pin: " + pin);
+    console.warn(`Cant find pin ${pin}, using -1 for now.`);
+    return {
+      mode: 0,
+      value: -1
+    };
   }
 }
 
 @connect<any, any, any>(state => state)
 export class Controls extends React.Component<Everything, any> {
   render() {
-    let bot = this.props.bot;
     let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
       (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
     let dirty = !!this.props.bot.account.dirty;
@@ -152,7 +155,7 @@ export class Controls extends React.Component<Everything, any> {
                               <StepSizeSelector
                                 choices={[1, 10, 100, 1000, 10000]}
                                 selector={(num: number) => this.props.dispatch(changeStepSize(num))}
-                                selected={bot.stepSize} />
+                                selected={this.props.bot.stepSize} />
                             </div>
                           </div>
                           <div className="row">
@@ -165,7 +168,7 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="y"
                                       direction="up"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td />
@@ -173,7 +176,7 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="z"
                                       direction="down"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                 </tr>
@@ -189,26 +192,26 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="x"
                                       direction="left"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td>
                                     <DirectionButton axis="y"
                                       direction="down"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td>
                                     <DirectionButton axis="x"
                                       direction="right"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td />
                                   <td>
                                     <DirectionButton axis="z"
                                       direction="up"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                 </tr>

@@ -4,7 +4,6 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { Notification } from "farmbot/dist/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 import { Sequence } from "../sequences/interfaces";
@@ -81,11 +80,11 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.dirty = true;
     return state;
   })
-  .add<any>("BOT_SYNC_OK", function (state, action) {
+  .add<{}>("BOT_SYNC_OK", function (state, action) {
     state.dirty = false;
     return state;
   })
-  .add<any>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
+  .add<undefined>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
     let hardware = _.assign({}, oldState.hardware, action.payload);
     let state = _.assign<any, BotState>({}, oldState);
 
@@ -120,15 +119,7 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<HardwareState>("BOT_CHANGE",
   function (state, action) {
-    // let hardware = action.payload;
-    // return _.assign<{}, BotState>({},
-    //   state, {
-    //     hardware: hardware
-    //   }, {
-    //     status: status.READY()
-    //   });
     state.hardware = action.payload;
-    // state.status = status.READY();
     return state;
   }
   )

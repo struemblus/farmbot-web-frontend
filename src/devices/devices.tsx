@@ -14,7 +14,6 @@ import {
   settingToggle,
   changeSettingsBuffer,
   commitSettingsChanges,
-  changeAxisBuffer,
   checkControllerUpdates,
   reboot,
   powerOff,
@@ -130,6 +129,7 @@ class DevicesPage extends React.Component<Everything, any> {
   changeBot(e: React.MouseEvent) {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
+    console.warn("If you are reading this method, refactor NOW! -RC");
     let updates: any =
       _.object([[(e.target as HTMLInputElement).name,
       (e.target as HTMLInputElement).value]]); // {name: "value"}
@@ -139,6 +139,7 @@ class DevicesPage extends React.Component<Everything, any> {
   saveBot(e: React.MouseEvent) {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
+    console.warn("If you are reading this method, refactor NOW! -RC");
     let devInfo: any = convertFormToObject(e.target as HTMLInputElement);
     this.props.dispatch(addDevice(devInfo));
   }
@@ -421,19 +422,22 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT ENDPOINTS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_x}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_x",
                                           this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_y}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_y",
                                           this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_z}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_z",
                                           this.props.bot)} />
@@ -444,15 +448,18 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT MOTORS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_x}
                                       toggleAction={() => settingToggle("movement_invert_motor_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_y}
                                       toggleAction={() => settingToggle("movement_invert_motor_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_z}
                                       toggleAction={() => settingToggle("movement_invert_motor_z", this.props.bot)} />
                                   </td>
                                 </tr>
@@ -461,15 +468,18 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("ALLOW NEGATIVES")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_x}
                                       toggleAction={() => settingToggle("movement_home_up_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_y}
                                       toggleAction={() => settingToggle("movement_home_up_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_z}
                                       toggleAction={() => settingToggle("movement_home_up_z", this.props.bot)} />
                                   </td>
                                 </tr>
