@@ -556,7 +556,9 @@ function Logs({logs}: LogsProps) {
 
     function displayCoordinates(log: BotLog) {
       // Stringify coords bcuz 0 is falsy in JS.
-      let [x, y, z] = [log.status.x, log.status.y, log.status.z].map((i) => String(i));
+      let [x, y, z] = [log.status.location[0],
+      log.status.location[1],
+      log.status.location[2]].map((i) => String(i));
       if (x && y && z) {
         return `${x}, ${y}, ${z}`;
       } else {
