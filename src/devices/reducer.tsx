@@ -118,7 +118,7 @@ export let botReducer = generateReducer<BotState>(initialState)
       stepSize: action.payload
     });
   })
-  .add<Notification<[HardwareState]>>("BOT_CHANGE",
+  .add<HardwareState>("BOT_CHANGE",
   function (state, action) {
     // let hardware = action.payload;
     // return _.assign<{}, BotState>({},
@@ -127,7 +127,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     //   }, {
     //     status: status.READY()
     //   });
-    state.hardware = action.payload.params[0];
+    state.hardware = action.payload;
     // state.status = status.READY();
     return state;
   }

@@ -217,6 +217,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                               .props
                                               .bot
                                               .hardware
+                                              .configuration
                                               .os_auto_update) || "undefined"}
                                             toggleAction={() => toggleOSAutoUpdate()} />
                                         </p>
@@ -242,6 +243,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                               .props
                                               .bot
                                               .hardware
+                                              .configuration
                                               .fw_auto_update) || "undefined"}
                                             toggleAction={() => toggleFWAutoUpdate()} />
                                         </p>
