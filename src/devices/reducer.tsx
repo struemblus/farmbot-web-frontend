@@ -4,7 +4,7 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { ErrorResponse, Response, Notification } from "farmbot/jsonrpc";
+import { ErrorResponse, Response, Notification } from "farmbot/dist/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 
