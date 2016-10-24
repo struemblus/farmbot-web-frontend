@@ -4,9 +4,11 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { ErrorResponse, Response, Notification } from "farmbot/dist/jsonrpc";
+import { Notification } from "farmbot/dist/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
+import { Sequence } from "../sequences/interfaces";
+import { Regimen } from "../regimens/interfaces";
 
 let status = {
   NOT_READY: (): string => { return i18next.t("never connected to device"); },
@@ -57,25 +59,25 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.logQueue = [];
     return state;
   })
-  .add<any>("COMMIT_SETTINGS_OK", function (state, action) {
-    let nextState = _.assign<any, BotState>({}, state, {
+  .add<{}>("COMMIT_SETTINGS_OK", function (state, action) {
+    let nextState = _.assign<{}, BotState>({}, state, {
       settingsBuffer: {}
     });
     return nextState;
   })
-  .add<any>("SAVE_SEQUENCE_OK", function (state, action) {
+  .add<Sequence>("SAVE_SEQUENCE_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("DELETE_SEQUENCE_OK", function (state, action) {
+  .add<Sequence>("DELETE_SEQUENCE_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("SAVE_REGIMEN_OK", function (state, action) {
+  .add<Regimen>("SAVE_REGIMEN_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("DELETE_REGIMEN_OK", function (state, action) {
+  .add<Regimen>("DELETE_REGIMEN_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
