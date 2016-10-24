@@ -9,15 +9,34 @@ import {
   BotState
 } from "../devices/interfaces";
 import { t } from "i18next";
-import { configKey } from "farmbot/interfaces";
-import { MovementRequest } from "farmbot/bot_commands";
-import { Notification } from "farmbot/jsonrpc";
+import { configKey } from "farmbot/dist/interfaces";
+import { MovementRequest } from "farmbot/dist/bot_commands";
+import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
+import { getPin } from "../controls/controls";
 
 const ON = 1,
   OFF = 0,
   DIGITAL = 0;
+
+export function toggleOSAutoUpdate() {
+  let noun = "OS Update Toggle";
+  devices
+    .current
+    .toggleOSAutoUpdate()
+    .then(() => { commandOK(noun); })
+    .catch(() => { commandErr(noun); });
+}
+
+export function toggleFWAutoUpdate() {
+  let noun = "FW Update Toggle";
+  devices
+    .current
+    .toggleFWAutoUpdate()
+    .then(() => { commandOK(noun); })
+    .catch(() => { commandErr(noun); });
+}
 
 export function checkControllerUpdates() {
   let noun = "Check for Updates";
@@ -183,17 +202,11 @@ export function moveRelative(props: MovementRequest) {
     .then(commandOK(noun), commandErr(noun));
 }
 
-// TODO: Move this into FarmbotJS,
-type pinNum = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
-export function pinToggle(pin_number: pinNum, bot: BotState) {
-  // TODO : This should be an atomic operation handled at the bot level
-  // as a lower level command.
+export function pinToggle(pin_number: number) {
   const noun = "Setting toggle";
-  let key = `pin${pin_number}`;
-  let pin_value = ((bot.hardware as any)[key] === 0) ? ON : OFF;
   return devices
     .current
-    .writePin({ pin_number, pin_value, pin_mode: DIGITAL })
+    .togglePin({ pin_number })
     .then(commandOK(noun), commandErr(noun));
 }
 

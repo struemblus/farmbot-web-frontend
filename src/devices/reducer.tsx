@@ -4,9 +4,10 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { ErrorResponse, Response, Notification } from "farmbot/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
+import { Sequence } from "../sequences/interfaces";
+import { Regimen } from "../regimens/interfaces";
 
 let status = {
   NOT_READY: (): string => { return i18next.t("never connected to device"); },
@@ -25,12 +26,20 @@ let initialState: BotState = {
   logQueue: [],
   status: status.NOT_READY(),
   stepSize: 1000,
-  hardware: {},
+  hardware: {
+    mcu_params: {},
+    location: [-1, -1, -1],
+    pins: {},
+    configuration: {},
+    informational_settings: {
+
+    }
+  },
   axisBuffer: {},
   settingsBuffer: {},
   dirty: true,
   currentOSVersion: undefined,
-  currentFWVersion: undefined
+  currentFWVersion: undefined,
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
@@ -49,33 +58,33 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.logQueue = [];
     return state;
   })
-  .add<any>("COMMIT_SETTINGS_OK", function (state, action) {
-    let nextState = _.assign<any, BotState>({}, state, {
+  .add<{}>("COMMIT_SETTINGS_OK", function (state, action) {
+    let nextState = _.assign<{}, BotState>({}, state, {
       settingsBuffer: {}
     });
     return nextState;
   })
-  .add<any>("SAVE_SEQUENCE_OK", function (state, action) {
+  .add<Sequence>("SAVE_SEQUENCE_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("DELETE_SEQUENCE_OK", function (state, action) {
+  .add<Sequence>("DELETE_SEQUENCE_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("SAVE_REGIMEN_OK", function (state, action) {
+  .add<Regimen>("SAVE_REGIMEN_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("DELETE_REGIMEN_OK", function (state, action) {
+  .add<Regimen>("DELETE_REGIMEN_OK", function (state, action) {
     state.dirty = true;
     return state;
   })
-  .add<any>("BOT_SYNC_OK", function (state, action) {
+  .add<{}>("BOT_SYNC_OK", function (state, action) {
     state.dirty = false;
     return state;
   })
-  .add<any>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
+  .add<undefined>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
     let hardware = _.assign({}, oldState.hardware, action.payload);
     let state = _.assign<any, BotState>({}, oldState);
 
@@ -108,16 +117,10 @@ export let botReducer = generateReducer<BotState>(initialState)
       stepSize: action.payload
     });
   })
-  .add<Notification<[HardwareState]>>("BOT_CHANGE",
-  function (state: BotState,
-    action: ReduxAction<HardwareState>) {
-    let hardware = action.payload;
-    return _.assign<{}, BotState>({},
-      state, {
-        hardware: hardware
-      }, {
-        status: status.READY()
-      });
+  .add<HardwareState>("BOT_CHANGE",
+  function (state, action) {
+    state.hardware = action.payload;
+    return state;
   }
   )
   .add<any>("CONNECT_OK", function (state, action) {

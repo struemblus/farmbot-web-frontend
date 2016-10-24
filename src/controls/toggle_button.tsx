@@ -3,7 +3,7 @@ import * as i18next from "i18next";
 
 export class ToggleButton extends React.Component<any, any> {
   caption() {
-    let captions = {
+    let captions: { [s: string]: string } = {
       "0": i18next.t("no"),
       "false": i18next.t("no"),
       "off": i18next.t("no"),
@@ -11,13 +11,10 @@ export class ToggleButton extends React.Component<any, any> {
       "true": i18next.t("yes"),
       "on": i18next.t("yes"),
       "undefined": "---",
+      "-1": "---"
     };
     let togval = String(this.props.toggleval);
-    if (togval) {
-      return (captions as any)[togval];
-    } else {
-      return "---";
-    }
+    return captions[togval] || "---";
   }
 
   css() {
@@ -25,7 +22,7 @@ export class ToggleButton extends React.Component<any, any> {
     let greenCSS = "button-like green";
     let yellowCSS = "button-like yellow";
 
-    let cssClasses = {
+    let cssClasses: { [s: string]: string } = {
       "0": redCSS,
       "false": redCSS,
       "off": redCSS,
@@ -35,7 +32,7 @@ export class ToggleButton extends React.Component<any, any> {
       "undefined": yellowCSS
     };
 
-    return (cssClasses as any)[String(this.props.toggleval)] || yellowCSS;
+    return cssClasses[String(this.props.toggleval)] || yellowCSS;
   }
 
   render() {

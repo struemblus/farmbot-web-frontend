@@ -15,39 +15,42 @@ let DEFAULT_STATE = {
 };
 
 export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
-  .add<Plant[]>("FETCH_PLANTS_OK", function(s, a) {
+  .add<Plant[]>("FETCH_PLANTS_OK", function (s, a) {
     let state = cloneDeep(s);
     state.plants = a.payload;
     return state;
   })
-  .add<Plant>("SAVE_PLANT_OK", function(s, a) {
+  .add<Plant>("SAVE_PLANT_OK", function (s, a) {
     let state = cloneDeep(s);
     // Exxxttrraaa runtime safety.
     let plant = newPlant(a.payload);
     state.plants.push(plant);
     return state;
   })
-  .add<Plant>("DESTROY_PLANT_OK", function(s, { payload }) {
+  .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
     let state = cloneDeep(s);
     let a = state.plants;
     a.splice(a.indexOf(payload), 1);
     return state;
   })
-  .add<HardwareState>("BOT_CHANGE", function(s, { payload }) {
+  .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
     let state = cloneDeep(s);
-    let [x, y] = [payload.movement_axis_nr_steps_x, payload.movement_axis_nr_steps_y];
+    let [x, y] = [
+      payload.mcu_params.movement_axis_nr_steps_x,
+      payload.mcu_params.movement_axis_nr_steps_y
+    ];
     if (x && y) {
       state.x_size = x;
       state.y_size = y;
     }
     return state;
   })
-  .add<string>("SEARCH_QUERY_CHANGE", function(s, { payload }) {
+  .add<string>("SEARCH_QUERY_CHANGE", function (s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchQuery = payload;
     return state;
   })
-  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", function(s, { payload }) {
+  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", function (s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;

@@ -77,7 +77,13 @@ export function fakeState(dispatcher?: Function): Everything {
       movement_timeout_y: "",
       movement_timeout_z: "",
     },
-    hardware: {},
+    hardware: {
+      mcu_params: {},
+      informational_settings: {},
+      configuration: {},
+      location: [-1, -1, -1],
+      pins: {}
+    },
   };
 
   let regimens = {

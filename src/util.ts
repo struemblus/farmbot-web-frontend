@@ -2,8 +2,7 @@ import * as _ from "lodash";
 import * as $ from "jquery";
 import * as Joi from "joi-browser";
 import { Color } from "./interfaces";
-import { uuid } from "farmbot/util";
-
+import { uuid } from "farmbot/dist/util";
 
 export function convertFormToObject(formEl: Element) {
   let inputs = $(formEl.querySelectorAll("input"));
