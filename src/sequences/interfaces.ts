@@ -1,4 +1,4 @@
-import { userVariables as FarmBotJsuserVariables } from "farmbot/interfaces";
+import { userVariables as FarmBotJsuserVariables } from "farmbot/dist/interfaces";
 import { BasicNode, IntegerNode, StringNode } from "../ast/interfaces";
 import { Color } from "../interfaces";
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",

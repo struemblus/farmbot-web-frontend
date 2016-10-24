@@ -1,5 +1,5 @@
 import { beep } from "../util";
-import { Notification } from "farmbot/jsonrpc";
+import { Notification } from "farmbot/dist/jsonrpc";
 import {
     HardwareState,
     RpcBotLog

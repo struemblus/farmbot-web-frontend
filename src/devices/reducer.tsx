@@ -4,7 +4,7 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { ErrorResponse, Response, Notification } from "farmbot/jsonrpc";
+import { ErrorResponse, Response, Notification } from "farmbot/dist/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 
@@ -25,7 +25,15 @@ let initialState: BotState = {
   logQueue: [],
   status: status.NOT_READY(),
   stepSize: 1000,
-  hardware: {},
+  hardware: {
+    mcu_params: {},
+    location: [-1, -1, -1],
+    pins: {},
+    configuration: {},
+    informational_settings: {
+
+    }
+  },
   axisBuffer: {},
   settingsBuffer: {},
   dirty: true,
@@ -109,15 +117,17 @@ export let botReducer = generateReducer<BotState>(initialState)
     });
   })
   .add<Notification<[HardwareState]>>("BOT_CHANGE",
-  function (state: BotState,
-    action: ReduxAction<HardwareState>) {
-    let hardware = action.payload;
-    return _.assign<{}, BotState>({},
-      state, {
-        hardware: hardware
-      }, {
-        status: status.READY()
-      });
+  function (state, action) {
+    // let hardware = action.payload;
+    // return _.assign<{}, BotState>({},
+    //   state, {
+    //     hardware: hardware
+    //   }, {
+    //     status: status.READY()
+    //   });
+    state.hardware = action.payload.params[0];
+    // state.status = status.READY();
+    return state;
   }
   )
   .add<any>("CONNECT_OK", function (state, action) {

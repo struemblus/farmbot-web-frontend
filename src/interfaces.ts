@@ -6,7 +6,7 @@ import { BulkSchedulerState } from "./regimens/bulk_scheduler/interfaces";
 import { RegimensState } from "./regimens/interfaces";
 import { SequenceReducerState } from "./sequences/interfaces";
 import { DesignerState } from "./farm_designer/interfaces";
-import { Color as FarmBotJsColor } from "farmbot/interfaces";
+import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";
 import { broswerHoldState } from "./browser_holds/reducer";
 
 /** Regimens and sequences may have a "color" which determines how it looks

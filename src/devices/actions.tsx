@@ -9,9 +9,9 @@ import {
   BotState
 } from "../devices/interfaces";
 import { t } from "i18next";
-import { configKey } from "farmbot/interfaces";
-import { MovementRequest } from "farmbot/bot_commands";
-import { Notification } from "farmbot/jsonrpc";
+import { configKey } from "farmbot/dist/interfaces";
+import { MovementRequest } from "farmbot/dist/bot_commands";
+import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
 

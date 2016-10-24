@@ -170,7 +170,7 @@ export class Controls extends React.Component<Everything, any> {
                                     <button
                                       className="button-like i fa fa-home arrow-button"
                                       onClick={
-                                        () => homeAll((bot.hardware.s || 100))
+                                        () => homeAll(100)
                                       } />
                                   </td>
                                   <td />
@@ -254,7 +254,7 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 9")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pin9}
+                              <ToggleButton toggleval={bot.hardware.pins[9]}
                                 toggleAction={() => pinToggle(9, this.props.bot)} />
                             </div>
                           </div>
@@ -266,7 +266,7 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 10")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pin10}
+                              <ToggleButton toggleval={bot.hardware.pins[10]}
                                 toggleAction={() => pinToggle(10, this.props.bot)} />
                             </div>
                           </div>
@@ -278,7 +278,7 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 13")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pin13}
+                              <ToggleButton toggleval={bot.hardware.pins[13]}
                                 toggleAction={() => pinToggle(13, this.props.bot)} />
                             </div>
                           </div>
@@ -337,11 +337,11 @@ const showUrl = (url: string, dirty: boolean) => {
   } else {
     if (~url.indexOf("/webcam_url_not_set.jpeg")) {
       return <div className="webcam-stream-unavailable">
-                <img src={url}/>
-                <text>Camera stream not available.<br/>Press <b>EDIT</b> to add a stream.</text>
-             </div>;
+        <img src={url} />
+        <text>Camera stream not available.<br />Press <b>EDIT</b> to add a stream.</text>
+      </div>;
     } else {
-      return <img className="webcam-stream" src={url}/>;
+      return <img className="webcam-stream" src={url} />;
     };
   };
 };
