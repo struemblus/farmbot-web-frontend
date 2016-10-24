@@ -28,10 +28,8 @@ let initialState: BotState = {
   hardware: {
     mcu_params: {},
     location: [-1, -1, -1],
-    pins: [],
-    configuration: {
-
-    },
+    pins: {},
+    configuration: {},
     informational_settings: {
 
     }
@@ -119,15 +117,17 @@ export let botReducer = generateReducer<BotState>(initialState)
     });
   })
   .add<Notification<[HardwareState]>>("BOT_CHANGE",
-  function (state: BotState,
-    action: ReduxAction<HardwareState>) {
-    let hardware = action.payload;
-    return _.assign<{}, BotState>({},
-      state, {
-        hardware: hardware
-      }, {
-        status: status.READY()
-      });
+  function (state, action) {
+    // let hardware = action.payload;
+    // return _.assign<{}, BotState>({},
+    //   state, {
+    //     hardware: hardware
+    //   }, {
+    //     status: status.READY()
+    //   });
+    state.hardware = action.payload.params[0];
+    // state.status = status.READY();
+    return state;
   }
   )
   .add<any>("CONNECT_OK", function (state, action) {
