@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
+import { Pin, Pins } from "farmbot/dist/interfaces";
 
 interface AxisInputBoxProps {
   bot: BotState;
@@ -30,7 +31,9 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
   }
 
   secondary(): string {
-    let num = (this.props.bot.hardware as any)[this.props.axis];
+    const axisTranslation: { [axis: string]: number } = { x: 0, y: 1, z: 2 };
+    let axisNumber = axisTranslation[this.props.axis];
+    let num = this.props.bot.hardware.location[axisNumber];
     if (_.isNumber(num)) {
       return String(num); // Prevent 0 from being falsy.
     } else {
@@ -90,10 +93,22 @@ export class StepSizeSelector extends React.Component<any, any> {
   }
 }
 
+export function getPin(pin: number, pins: Pins): Pin {
+  let p = pins[pin];
+  if (p) {
+    return p;
+  } else {
+    console.warn(`Cant find pin ${pin}, using -1 for now.`);
+    return {
+      mode: 0,
+      value: -1
+    };
+  }
+}
+
 @connect<any, any, any>(state => state)
 export class Controls extends React.Component<Everything, any> {
   render() {
-    let bot = this.props.bot;
     let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
       (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
     let dirty = !!this.props.bot.account.dirty;
@@ -114,7 +129,7 @@ export class Controls extends React.Component<Everything, any> {
                           type="button"
                           onClick={emergencyStop} >
 
-                          E-STOP
+                          {t("E-STOP")}
 
                         </button>
                         <div className="widget-header">
@@ -140,7 +155,7 @@ export class Controls extends React.Component<Everything, any> {
                               <StepSizeSelector
                                 choices={[1, 10, 100, 1000, 10000]}
                                 selector={(num: number) => this.props.dispatch(changeStepSize(num))}
-                                selected={bot.stepSize} />
+                                selected={this.props.bot.stepSize} />
                             </div>
                           </div>
                           <div className="row">
@@ -153,7 +168,7 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="y"
                                       direction="up"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td />
@@ -161,7 +176,7 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="z"
                                       direction="down"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                 </tr>
@@ -177,26 +192,26 @@ export class Controls extends React.Component<Everything, any> {
                                   <td>
                                     <DirectionButton axis="x"
                                       direction="left"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td>
                                     <DirectionButton axis="y"
                                       direction="down"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td>
                                     <DirectionButton axis="x"
                                       direction="right"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                   <td />
                                   <td>
                                     <DirectionButton axis="z"
                                       direction="up"
-                                      steps={bot.stepSize || 1000}
+                                      steps={this.props.bot.stepSize || 1000}
                                       {...this.props} />
                                   </td>
                                 </tr>
@@ -254,8 +269,10 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 9")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pins[9]}
-                                toggleAction={() => pinToggle(9, this.props.bot)} />
+                              <ToggleButton toggleval={
+                                getPin(9, this.props.bot.hardware.pins).value
+                              }
+                                toggleAction={() => pinToggle(9)} />
                             </div>
                           </div>
                           <div className="row">
@@ -266,8 +283,9 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 10")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pins[10]}
-                                toggleAction={() => pinToggle(10, this.props.bot)} />
+                              <ToggleButton toggleval={
+                                getPin(10, this.props.bot.hardware.pins).value}
+                                toggleAction={() => pinToggle(10)} />
                             </div>
                           </div>
                           <div className="row">
@@ -278,8 +296,9 @@ export class Controls extends React.Component<Everything, any> {
                               <p>{t("Pin 13")}</p>
                             </div>
                             <div className="col-sm-4">
-                              <ToggleButton toggleval={bot.hardware.pins[13]}
-                                toggleAction={() => pinToggle(13, this.props.bot)} />
+                              <ToggleButton toggleval={
+                                getPin(13, this.props.bot.hardware.pins).value}
+                                toggleAction={() => pinToggle(13)} />
                             </div>
                           </div>
                         </div>

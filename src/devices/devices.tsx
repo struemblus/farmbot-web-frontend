@@ -14,12 +14,13 @@ import {
   settingToggle,
   changeSettingsBuffer,
   commitSettingsChanges,
-  changeAxisBuffer,
   checkControllerUpdates,
   reboot,
   powerOff,
   checkArduinoUpdates,
-  clearLogs
+  clearLogs,
+  toggleOSAutoUpdate,
+  toggleFWAutoUpdate
 } from "./actions";
 import { t } from "i18next";
 
@@ -128,14 +129,17 @@ class DevicesPage extends React.Component<Everything, any> {
   changeBot(e: React.MouseEvent) {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
+    console.warn("If you are reading this method, refactor NOW! -RC");
     let updates: any =
-      _.object([[(e.target as HTMLInputElement).name, (e.target as HTMLInputElement).value]]); // {name: "value"}
+      _.object([[(e.target as HTMLInputElement).name,
+      (e.target as HTMLInputElement).value]]); // {name: "value"}
     this.props.dispatch(changeDevice(updates));
   }
 
   saveBot(e: React.MouseEvent) {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
+    console.warn("If you are reading this method, refactor NOW! -RC");
     let devInfo: any = convertFormToObject(e.target as HTMLInputElement);
     this.props.dispatch(addDevice(devInfo));
   }
@@ -165,7 +169,8 @@ class DevicesPage extends React.Component<Everything, any> {
                                 <h5>{t("DEVICE")}</h5>
                                 <i className="fa fa-question-circle widget-help-icon">
                                   <div className="widget-help-text">
-                                    {t("This widget shows device information. Note: not all features work.")}
+                                    {t(`This widget shows device information. 
+                                      Note: not all features work.`)}
                                   </div>
                                 </i>
                               </div>
@@ -207,6 +212,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <OsUpdateButton { ...this.props } />
+                                        <p> {t("OS Auto Updates")}
+                                          <ToggleButton toggleval=
+                                            {String(this
+                                              .props
+                                              .bot
+                                              .hardware
+                                              .configuration
+                                              .os_auto_update) || "undefined"}
+                                            toggleAction={() => toggleOSAutoUpdate()} />
+                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -223,6 +238,16 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <FwUpdateButton { ...this.props } />
+                                        <p> {t("FW Auto Updates")}
+                                          <ToggleButton toggleval=
+                                            {String(this
+                                              .props
+                                              .bot
+                                              .hardware
+                                              .configuration
+                                              .fw_auto_update) || "undefined"}
+                                            toggleAction={() => toggleFWAutoUpdate()} />
+                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -397,19 +422,22 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT ENDPOINTS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_x}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_x",
                                           this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_y}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_y",
                                           this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_z}
                                       toggleAction={() =>
                                         settingToggle("movement_invert_endpoints_z",
                                           this.props.bot)} />
@@ -420,15 +448,18 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("INVERT MOTORS")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_x}
                                       toggleAction={() => settingToggle("movement_invert_motor_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_y}
                                       toggleAction={() => settingToggle("movement_invert_motor_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_z}
                                       toggleAction={() => settingToggle("movement_invert_motor_z", this.props.bot)} />
                                   </td>
                                 </tr>
@@ -437,15 +468,18 @@ class DevicesPage extends React.Component<Everything, any> {
                                     <label>{t("ALLOW NEGATIVES")}</label>
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_x}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_x}
                                       toggleAction={() => settingToggle("movement_home_up_x", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_y}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_y}
                                       toggleAction={() => settingToggle("movement_home_up_y", this.props.bot)} />
                                   </td>
                                   <td>
-                                    <ToggleButton toggleval={this.props.bot.hardware.mcu_params.movement_home_up_z}
+                                    <ToggleButton
+                                      toggleval={this.props.bot.hardware.mcu_params.movement_home_up_z}
                                       toggleAction={() => settingToggle("movement_home_up_z", this.props.bot)} />
                                   </td>
                                 </tr>

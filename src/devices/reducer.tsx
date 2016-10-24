@@ -4,7 +4,6 @@ import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
-import { Notification } from "farmbot/dist/jsonrpc";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 import { Sequence } from "../sequences/interfaces";
@@ -40,7 +39,7 @@ let initialState: BotState = {
   settingsBuffer: {},
   dirty: true,
   currentOSVersion: undefined,
-  currentFWVersion: undefined
+  currentFWVersion: undefined,
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
@@ -118,9 +117,9 @@ export let botReducer = generateReducer<BotState>(initialState)
       stepSize: action.payload
     });
   })
-  .add<Notification<[HardwareState]>>("BOT_CHANGE",
+  .add<HardwareState>("BOT_CHANGE",
   function (state, action) {
-    state.hardware = action.payload.params[0];
+    state.hardware = action.payload;
     return state;
   }
   )
