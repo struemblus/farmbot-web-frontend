@@ -12,7 +12,7 @@ import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import { BlurableInput } from "../blurable_input";
-import { Droppable } from "./draggables/droppable";
+import { Droppable } from "./draggable/index";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 let StepList = ({sequence, sequences, dispatch}:
