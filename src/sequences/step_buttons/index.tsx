@@ -1,5 +1,7 @@
 import * as React from "react";
-import { nastyStorargeSet } from "../../util"
+import { nastyStorargeSet } from "../../util";
+import { addGhostImage } from "../draggable/index";
+
 interface StepButtonParams {
     onClick: React.EventHandler<React.MouseEvent> | undefined;
     children?: JSX.Element | undefined;
@@ -10,18 +12,9 @@ function badRef() { console.warn("Something went wrong with drag n drop."); }
 export function StepButton({children, onClick, color}: StepButtonParams) {
     let classes = `full-width text-left ${color}-block block-header block`;
 
-    function undrag(ev: React.DragEvent) {
-        document.querySelector("#temp-drag-and-drop").remove();
-    }
-
     function drag(ev: React.DragEvent) {
         let key = nastyStorargeSet(onClick || badRef);
-        var el = (ev.target as HTMLElement).cloneNode(true) as HTMLElement;
-        el.classList.add("hey-rory");
-        el.style.top = "-99999px";
-        el.id = "temp-drag-and-drop";
-        document.body.appendChild(el);
-        (ev.dataTransfer as any).setDragImage(el, 0, 0);
+        addGhostImage(ev, "step-drag-ghost-image");
         ev.dataTransfer.setData("text", key);
     }
 
@@ -30,7 +23,6 @@ export function StepButton({children, onClick, color}: StepButtonParams) {
             <button className={classes}
                 onClick={onClick}
                 onDragStart={drag}
-                onDragEnd={undrag}
                 draggable={true}>
                 {children}
                 <i className="fa fa-arrows block-control" />
