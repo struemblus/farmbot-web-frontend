@@ -14,11 +14,33 @@ import { MovementRequest } from "farmbot/dist/bot_commands";
 import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
-import { getPin } from "../controls/controls";
+import { Regimen } from "../regimens/interfaces";
 
 const ON = 1,
   OFF = 0,
   DIGITAL = 0;
+
+export function startRegimen(regimen: Regimen) {
+  let noun = "Start Regimen";
+  if (regimen.id != undefined) {
+    devices
+      .current
+      .startRegimen(regimen.id)
+      .then(() => { commandOK(noun); })
+      .catch(() => { commandErr(noun); });
+  }
+}
+
+export function stopRegimen(regimen: Regimen) {
+  let noun = "Stop Regimen";
+  if (regimen.id != undefined) {
+    devices
+      .current
+      .stopRegimen(regimen.id)
+      .then(() => { commandOK(noun); })
+      .catch(() => { commandErr(noun); });
+  }
+}
 
 export function toggleOSAutoUpdate() {
   let noun = "OS Update Toggle";
