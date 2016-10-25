@@ -12,6 +12,10 @@ function badRef() { console.warn("Something went wrong with drag n drop."); }
 export function StepButton({children, onClick, color}: StepButtonParams) {
     let classes = `full-width text-left ${color}-block block-header block`;
 
+    function undrag(ev: React.DragEvent) {
+        (ev.target as HTMLElement).classList.remove("hey-rory");
+    }
+
     function drag(ev: React.DragEvent) {
         let key = nastyStorargeSet(onClick || badRef);
         addGhostImage(ev, "step-drag-ghost-image");
@@ -23,6 +27,7 @@ export function StepButton({children, onClick, color}: StepButtonParams) {
             <button className={classes}
                 onClick={onClick}
                 onDragStart={drag}
+                onDragEnd={undrag}
                 draggable={true}>
                 {children}
                 <i className="fa fa-arrows block-control" />
