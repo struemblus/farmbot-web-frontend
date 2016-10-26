@@ -1,11 +1,11 @@
 import { ReduxAction } from "../interfaces";
 import { Sequence } from "../sequences/interfaces";
-import { Color } from "../interfaces.ts";
+import { Color } from "../interfaces";
 
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
-  regimen?: Regimen;
-  dispatch: Function;
+    regimen?: Regimen;
+    dispatch: Function;
 };
 
 /**
