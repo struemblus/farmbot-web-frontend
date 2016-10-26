@@ -203,8 +203,9 @@ ul {
 }
 
 .step-drag-ghost-image {
-  max-width: 123px;
-  border: 4px dashed hotpink;
-  transform: rotate(20deg);
-  background: rgba(0, 0, 0, 0.99)
+  max-width: 150px;
+}
+
+.step-drag-ghost-image-big {
+  max-width: 400px;
 }

@@ -16,6 +16,7 @@ import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
 import { StepDataXfer } from "../draggable/interfaces";
 import { pushStep, spliceStep } from "./actions";
+import { StepDragger } from "../draggable/step_dragger";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 
@@ -33,11 +34,15 @@ let StepList = ({sequence, sequences, dispatch}:
             let Step = stepTiles[step.kind] || Oops;
             return <div key={inx}>
                 <DropArea callback={onDrop(dispatch as fixMe, inx)} />
-                <Step step={step}
-                    index={inx}
-                    dispatch={dispatch}
-                    sequence={sequence}
-                    sequences={sequences} />
+                <StepDragger dispatch={dispatch}
+                    step={step}
+                    ghostCss="step-drag-ghost-image-big">
+                    <Step step={step}
+                        index={inx}
+                        dispatch={dispatch}
+                        sequence={sequence}
+                        sequences={sequences} />
+                </StepDragger>
             </div>;
         })}
     </div>);

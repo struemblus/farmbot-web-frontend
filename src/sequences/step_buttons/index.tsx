@@ -1,5 +1,5 @@
 import * as React from "react";
-import { dragTheStep } from "../../draggable/drag_the_step";
+import { StepDragger } from "../../draggable/step_dragger";
 import { Step } from "../interfaces";
 import { pushStep } from "../actions";
 
@@ -21,15 +21,15 @@ let click = (dispatch: Function, step: Step) =>
 export function StepButton({ children, step, color, dispatch}: StepButtonParams) {
     return <div className="col-xs-6">
         <div className="block-wrapper">
-            <button className={
-                `full-width text-left ${color}-block block-header block`
-            }
-                onClick={click(dispatch, step)}
-                onDragStart={dragTheStep(dispatch, step, "step-drag-ghost-image")}
-                draggable={true}>
-                {children}
-                <i className="fa fa-arrows block-control" />
-            </button>
+            <StepDragger dispatch={dispatch} step={step} ghostCss={"step-drag-ghost-image"}>
+                <button className={
+                    `full-width text-left ${color}-block block-header block`
+                }
+                    onClick={click(dispatch, step)}>
+                    {children}
+                    <i className="fa fa-arrows block-control" />
+                </button>
+            </StepDragger>
         </div>
     </div >;
 }
