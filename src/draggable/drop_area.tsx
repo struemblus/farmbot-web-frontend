@@ -6,7 +6,7 @@ import { t } from "i18next";
 /** Style rules for the drop area when it is not dragged over. */
 const INVISIBLE_STYLE = {
     width: "100%",
-    height: "2px",
+    height: "3px",
     zIndex: 10,
     position: "relative"
 };
