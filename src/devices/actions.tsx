@@ -210,7 +210,7 @@ export function settingToggle(name: configKey, bot: BotState) {
   const noun = "Setting toggle";
   return devices
     .current
-    .updateCalibration({
+    .updateMcu({
       [name]: ((bot.hardware as any)[name] === 0) ? ON : OFF
     })
     .then(commandOK(noun), commandErr(noun));
@@ -330,7 +330,7 @@ export function commitSettingsChanges() {
       .value();
     return devices
       .current
-      .updateCalibration(packet)
+      .updateMcu(packet)
       .then(
       (resp) => dispatch(commitSettingsChangesOk(resp)),
       (err) => dispatch(commitSettingsChangesErr(err)));
