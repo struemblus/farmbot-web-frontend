@@ -35,22 +35,30 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
         this.setState({ isHovered: !this.state.isHovered });
     }
 
+    visible() {
+        return <div className="drag-drop-area padding"
+            onDragOver={this.dragOver.bind(this)}
+            onDrop={this.drop.bind(this)}>
+            {this.props.children}
+        </div>;
+    }
+
+    hidden() {
+        return <div />;
+    }
+
     render() {
         let isVisible = this.props.isLocked || this.state.isHovered;
 
-        if (true/*isVisible*/) {
-            return <div className="drag-drop-area padding"
-                onDragOver={this.dragOver.bind(this)}
-                onDrop={this.drop.bind(this)}>
-                {this.props.children}
-            </div>;
+        if (isVisible) {
+            return this.visible();
         } else {
             //     return <div style={INVISIBLE_STYLE}
             //         onDragLeave={this.toggle.bind(this)}
             //         onDragEnter={this.toggle.bind(this)}
             //         onDragOver={this.dragOver.bind(this)}>
             //         WHatever </div>;
-            return <div />;
+            return this.hidden();
         }
 
     }
