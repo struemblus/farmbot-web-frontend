@@ -6,7 +6,10 @@ import { t } from "i18next";
 /** Style rules for the drop area when it is not dragged over. */
 const INVISIBLE_STYLE = {
     width: "100%",
-    height: "50px"
+    height: "5px",
+    padding: "-2px",
+    margin: "-2px",
+    border: "1px solid black"
 };
 
 export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
@@ -44,22 +47,20 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
     }
 
     hidden() {
-        return <div />;
+        //     return <div style={INVISIBLE_STYLE}
+        //         onDragLeave={this.toggle.bind(this)}
+        //         onDragEnter={this.toggle.bind(this)}
+        //         onDragOver={this.dragOver.bind(this)}>
+        //         WHatever </div>;
+        return <div style={INVISIBLE_STYLE}></div>;
     }
 
     render() {
         let isVisible = this.props.isLocked || this.state.isHovered;
 
-        if (isVisible) {
-            return this.visible();
-        } else {
-            //     return <div style={INVISIBLE_STYLE}
-            //         onDragLeave={this.toggle.bind(this)}
-            //         onDragEnter={this.toggle.bind(this)}
-            //         onDragOver={this.dragOver.bind(this)}>
-            //         WHatever </div>;
-            return this.hidden();
-        }
-
+        return <div onDragLeave={this.toggle.bind(this)}
+            onDragEnter={this.toggle.bind(this)}>
+            {isVisible ? this.visible() : this.hidden()}
+        </div>;
     }
 }
