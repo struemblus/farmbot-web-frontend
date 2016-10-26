@@ -3,7 +3,9 @@ import { ChangeApiHost, ChangeApiPort, ConfigState } from "./interfaces";
 
 let initialState: ConfigState = {
   host: location.hostname,
-  port: (location.port || "80")
+  // It gets annoying to manually change the port # in dev mode.
+  // I automatically point to port 3000 on local.
+  port: (location.hostname === "localhost") ? "3000" : (location.port || "80")
 };
 
 export let configReducer = generateReducer<ConfigState>(initialState)
