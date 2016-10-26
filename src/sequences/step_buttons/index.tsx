@@ -9,11 +9,6 @@ interface StepButtonParams {
     children?: JSX.Element | undefined;
     color: string;
 }
-// let dragStep = (dispatch: Function, step: Step, cssClass: string) =>
-//     (ev: React.DragEvent) => {
-//         addGhostImage(ev, "step-drag-ghost-image");
-//         dispatch(stepPut(step, ev));
-//     };
 
 let click = (dispatch: Function, step: Step) =>
     (event: React.FormEvent) => { dispatch(pushStep(step)); };
@@ -21,7 +16,10 @@ let click = (dispatch: Function, step: Step) =>
 export function StepButton({ children, step, color, dispatch}: StepButtonParams) {
     return <div className="col-xs-6">
         <div className="block-wrapper">
-            <StepDragger dispatch={dispatch} step={step} ghostCss={"step-drag-ghost-image"}>
+            <StepDragger dispatch={dispatch}
+                step={step}
+                ghostCss="step-drag-ghost-image"
+                intent="step_splice">
                 <button className={
                     `full-width text-left ${color}-block block-header block`
                 }
