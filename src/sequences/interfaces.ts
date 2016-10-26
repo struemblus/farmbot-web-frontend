@@ -1,6 +1,16 @@
 import { userVariables as FarmBotJsuserVariables } from "farmbot/dist/interfaces";
-import { BasicNode, IntegerNode, StringNode } from "../ast/interfaces";
+// import { BasicNode } from "../ast/interfaces";
 import { Color } from "../interfaces";
+
+/** TODO: Move this into FarmBotjs or celery
+ *  script NPM pacakge. */
+export interface BasicNode {
+  kind: string;
+  args: {};
+  body?: BasicNode[];
+  comment?: string;
+};
+
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
   "pin_value", "pin_mode", "milliseconds",
   "sub_sequence_id", "rhs", "sub_sequence_id"];
@@ -42,58 +52,58 @@ export interface SequenceReducerState {
 interface MoveAbsoluteNode extends BasicNode {
   kind: "move_absolute";
   args: {
-    x: IntegerNode | number;
-    y: IntegerNode | number;
-    z: IntegerNode | number;
-    speed: IntegerNode | number;
+    x: number;
+    y: number;
+    z: number;
+    speed: number;
   };
 }
 
 interface MoveRelativeNode extends BasicNode {
   kind: "move_relative";
   args: {
-    x: IntegerNode | number;
-    y: IntegerNode | number;
-    z: IntegerNode | number;
-    speed: IntegerNode | number;
+    x: number;
+    y: number;
+    z: number;
+    speed: number;
   };
 }
 
 interface WritePinNode extends BasicNode {
   kind: "write_pin";
   args: {
-    pin_number: IntegerNode | number;
-    pin_value: IntegerNode | number;
-    pin_mode: IntegerNode | number;
+    pin_number: number;
+    pin_value: number;
+    pin_mode: number;
   };
 }
 
 interface ReadPinNode extends BasicNode {
   kind: "read_pin";
   args: {
-    pin_number: IntegerNode | number;
-    data_label: StringNode | string;
+    pin_number: number;
+    data_label: string;
   };
 }
 
 interface WaitNode extends BasicNode {
   kind: "wait";
   args: {
-    milliseconds: IntegerNode | number;
+    milliseconds: number;
   };
 }
 
 interface SendMessageNode extends BasicNode {
   kind: "send_message";
   args: {
-    message: StringNode | string;
+    message: string;
   };
 }
 
 interface ExecuteNode extends BasicNode {
   kind: "execute";
   args: {
-    sub_sequence_id: IntegerNode | number;
+    sub_sequence_id: number;
   };
 }
 
@@ -102,8 +112,8 @@ interface IfStatementNode extends BasicNode {
   args: {
     lhs: userVariables | number
     op: ">" | "<" | "is" | "not";
-    rhs: IntegerNode | number;
-    sub_sequence_id: IntegerNode | number;
+    rhs: number;
+    sub_sequence_id: number;
   };
 }
 

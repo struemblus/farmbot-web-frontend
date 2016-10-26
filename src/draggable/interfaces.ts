@@ -18,6 +18,10 @@ export interface StepDataXfer {
     uuid: string;
 }
 
+export function isStepDataXFer(x: StepDataXfer | any): x is StepDataXfer {
+    return (x && x.kind && x.kind == "step");
+}
+
 /** Interface for store.draggable . */
 export interface DragableState {
     dataTransfer: { [key: string]: DataXfer | undefined };

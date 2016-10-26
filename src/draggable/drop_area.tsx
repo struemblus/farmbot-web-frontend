@@ -1,7 +1,5 @@
 import { DropAreaProps, DropAreaState } from "./interfaces";
-import { stepGet } from "./actions";
 import * as React from "react";
-import { t } from "i18next";
 
 /** Style rules for the drop area when it is not dragged over. */
 const INVISIBLE_STYLE = {
@@ -47,11 +45,6 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
     }
 
     hidden() {
-        //     return <div style={INVISIBLE_STYLE}
-        //         onDragLeave={this.toggle.bind(this)}
-        //         onDragEnter={this.toggle.bind(this)}
-        //         onDragOver={this.dragOver.bind(this)}>
-        //         WHatever </div>;
         return <div style={INVISIBLE_STYLE}></div>;
     }
 

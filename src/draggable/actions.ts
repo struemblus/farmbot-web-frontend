@@ -1,12 +1,12 @@
-import { StepDataXfer } from "./interfaces";
+import { StepDataXfer, isStepDataXFer } from "./interfaces";
 import { uuid as id } from "farmbot/dist/util";
 import { Step } from "../sequences/interfaces";
 import { Everything, ReduxAction } from "../interfaces";
 import * as React from "react";
 
-/** SIDE EFFECT-Y!! Stores a step into store.dataTransfer and attaches its
- * lookup key to the event object. This allows you to retrieve the step when
- * the "drop" event occurs elsewhere */
+/** SIDE EFFECT-Y!! Stores a step into state.draggable.dataTransfer and
+ * attaches its lookup key to the event object. This allows you to retrieve
+ * the step when the "drop" event occurs elsewhere */
 export function stepPut(value: Step, ev: React.DragEvent):
     ReduxAction<StepDataXfer> {
     let uuid = id();
@@ -26,7 +26,7 @@ export function stepGet(uuid: string) {
         StepDataXfer {
         let obj = getState().draggable.dataTransfer[uuid];
 
-        if (obj && obj.kind == "step") {
+        if (isStepDataXFer(obj)) {
             dispatch({ type: "DROP_DATA_XFER", payload: uuid });
             return obj;
         } else {
