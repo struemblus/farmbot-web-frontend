@@ -211,7 +211,7 @@ export function settingToggle(name: configKey, bot: BotState) {
   return devices
     .current
     .updateMcu({
-      [name]: ((bot.hardware as any)[name] === 0) ? ON : OFF
+      [name]: ((bot.hardware.mcu_params as any)[name] === 0) ? ON : OFF
     })
     .then(commandOK(noun), commandErr(noun));
 };
