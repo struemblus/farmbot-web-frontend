@@ -5,7 +5,8 @@ import {
 } from "./interfaces";
 import {
     nullSequence,
-    EditCurrentSequence
+    EditCurrentSequence,
+    SpliceStepPayl
 } from "./actions";
 import { generateReducer } from "../generate_reducer";
 
@@ -107,4 +108,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
             throw new Error("Tried to delete a sequence that doesn't exist. ");
         }
         return state;
+    })
+    .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
+        s.all[s.current].body.splice(a.payload.insertBefore, 0, a.payload.step);
+        return s;
     });

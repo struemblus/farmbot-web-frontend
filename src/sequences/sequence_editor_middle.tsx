@@ -15,15 +15,15 @@ import { BlurableInput } from "../blurable_input";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
 import { StepDataXfer } from "../draggable/interfaces";
-import { pushStep } from "./actions";
+import { pushStep, spliceStep } from "./actions";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 
 type fixMe = (a: any) => StepDataXfer;
 
-let onDrop = (dispatch: fixMe) => (key: string) => {
-    let step = dispatch(stepGet(key));
-    debugger;
+let onDrop = (dispatch: fixMe, insertBefore: number) => (key: string) => {
+    let step = dispatch(stepGet(key)).value;
+    dispatch(spliceStep(step, insertBefore));
 };
 
 let StepList = ({sequence, sequences, dispatch}:
@@ -32,7 +32,7 @@ let StepList = ({sequence, sequences, dispatch}:
         {sequence.body.map((step: IStep, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
             return <div key={inx}>
-                <DropArea callback={onDrop(dispatch as fixMe)} />
+                <DropArea callback={onDrop(dispatch as fixMe, inx)} />
                 <Step step={step}
                     index={inx}
                     dispatch={dispatch}

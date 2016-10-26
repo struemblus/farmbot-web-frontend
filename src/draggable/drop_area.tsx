@@ -6,10 +6,9 @@ import { t } from "i18next";
 /** Style rules for the drop area when it is not dragged over. */
 const INVISIBLE_STYLE = {
     width: "100%",
-    height: "5px",
-    padding: "-2px",
-    margin: "-2px",
-    border: "1px solid black"
+    height: "2px",
+    zIndex: 10,
+    position: "relative"
 };
 
 export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
@@ -20,7 +19,7 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
         };
     }
 
-    dragOver(event: any) {
+    dragOver(event: React.DragEvent) {
         console.log("Dragover");
         event.preventDefault();
     }
@@ -31,6 +30,7 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
         let key = event.dataTransfer.getData("text");
         let fn = this.props.callback;
         if (fn) { fn(key); }
+        this.toggle();
     }
 
     toggle() {

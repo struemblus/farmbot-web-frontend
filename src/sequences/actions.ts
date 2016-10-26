@@ -82,6 +82,18 @@ export function pushStep(step: Step): PushStep {
   };
 }
 
+export interface SpliceStepPayl {
+  insertBefore: number;
+  step: Step;
+}
+
+export function spliceStep(step: Step, insertBefore: number): ReduxAction<SpliceStepPayl> {
+  return {
+    type: "SPLICE_STEP",
+    payload: { step, insertBefore }
+  };
+}
+
 type CHANGE_STEP = "CHANGE_STEP";
 export interface ChangeStep {
   type: CHANGE_STEP;
