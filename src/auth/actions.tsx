@@ -4,19 +4,21 @@ import { push } from "../history";
 import { fetchSequences } from "../sequences/actions";
 import { fetchRegimens } from "../regimens/actions";
 import { error } from "../logger";
-import { AuthState } from "./interfaces";
+import { AuthState, AuthToken } from "./interfaces";
 import { fetchPlants } from "../farm_designer/actions";
 import { ReduxAction, Thunk } from "../interfaces";
 import * as Axios from "axios";
 import { t } from "i18next";
 
+
+/** This is what a response from /api/tokens looks like. */
+export interface AuthResponse {
+  token: AuthResponseToken;
+};
+/** The "token" property of an auth response from the API. */
 export interface AuthResponseToken {
   unencoded: AuthToken;
   encoded: string;
-};
-
-export interface AuthResponse {
-  token: AuthResponseToken;
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
@@ -80,23 +82,9 @@ function loginErr(err: AuthResponse) {
   };
 }
 
-export interface AuthToken {
-  sub: string;
-  iat: number;
-  jti: string;
-  iss: string;
-  exp: number;
-  mqtt: string;
-  bot: string;
-  os_update_server: string;
-  fw_update_server: string;
-  authenticated: boolean;
-}
-
 /** Very important. Once called, all outbound HTTP requests will
  * have a JSON Web Token attached to their "Authorization" header,
- * thereby granting access to the API.
- */
+ * thereby granting access to the API. */
 export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   // TODO: Create a shareable axios instance and set the `baseURL`
   // IDEA: https://medium.com/@srph/axios-configure-the-base-path-daed6ff79eab#.145enq9g6
@@ -115,6 +103,7 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   };
 }
 
+/** Sign up for the FarmBot service over AJAX. */
 export function register(name: string,
   email: string,
   password: string,
@@ -131,6 +120,7 @@ export function register(name: string,
   };
 }
 
+/** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
   return (err: any) => {
     let msg = _.values(err.data)
@@ -144,6 +134,8 @@ export function onRegistrationErr(dispatch: Function) {
   };
 }
 
+/** Build a JSON object in preparation for an HTTP POST
+ *  to registration endpoint */
 function requestRegistration(name: string,
   email: string,
   password: string,
@@ -160,7 +152,7 @@ function requestRegistration(name: string,
   return Axios.post<AuthResponse>(url + "/api/users", form);
 }
 
-
+/** Get a token from /api/token if you're already a registered user. */
 function requestToken(email: string,
   password: string,
   url: string) {

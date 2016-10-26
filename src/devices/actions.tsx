@@ -161,7 +161,7 @@ export function fetchOSUpdateInfo(url: string): Thunk {
         dispatch({ type: "FETCH_OS_UPDATE_INFO_OK", payload: versionWithoutV });
       })
       .catch((ferror) => {
-        error(t("Couldn't get os update info"), JSON.stringify(ferror));
+        error(t("Could not download OS update information."));
         dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR", payload: ferror });
       });
   };
@@ -176,7 +176,7 @@ export function fetchFWUpdateInfo(url: string) {
         dispatch({ type: "FETCH_FW_UPDATE_INFO_OK", payload: versionWithoutV });
       })
       .catch((ferror) => {
-        error(t("Couldn't get fw update info"), JSON.stringify(ferror));
+        error(t("Could not download firmware update information."));
         dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR", payload: ferror });
       });
   };

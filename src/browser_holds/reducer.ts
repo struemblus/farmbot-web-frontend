@@ -2,8 +2,13 @@ import { generateReducer } from "../generate_reducer";
 import { Store } from "redux";
 import { Everything } from "../interfaces";
 
+/** Information used to state "why" we don't want you to close the browser
+ *  window.*/
 interface Lock {
+    /** Redux action(s) that can cause the browser to lock unsaved chagnes. */
     lockedWith: string[];
+    /** Redux actions that, when fired, will remove the
+     *  previously created lock. */
     removedBy: string;
 }
 
@@ -29,11 +34,15 @@ const LOCKS: Lock[] = [
     }
 ];
 
-export type broswerHoldState = { [name: string]: boolean };
+/** The locks are stored as key/value pairs. For instance,
+ * if there is a hold that can be unlocked via "SAVE_SEQUENCE_OK",
+ * the state would be: {SAVE_SEQUENCE_OK: true}  */
+export type broswerHoldState = { [actionThatCanRemoveLock: string]: boolean };
 
-// TODO: Maybe this needs to be middleware?
+/** Subscribe to the store. Before closing the browser window, make sure there
+ * aren't any locks left. */
 export function dontExitIfBrowserIsOnHold(store: Store) {
-
+    // TODO: Maybe this needs to be middleware?
     function stopThem() { return "You have unsaved work."; }
     function dontStopThem() { }
 
@@ -48,6 +57,8 @@ export function dontExitIfBrowserIsOnHold(store: Store) {
     });
 }
 
+/** Returns an new broswerHoldReducer. This exists mostly as a cleanliness 
+ * wrapper around the complex logic inside.*/
 function newBrowserHoldReducer() {
 
     let reducer = generateReducer<broswerHoldState>({});

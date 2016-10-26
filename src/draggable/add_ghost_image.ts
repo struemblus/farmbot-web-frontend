@@ -12,7 +12,7 @@ export function addGhostImage(
     // RELEVANT READING:
     // http://www.kryogenix.org/code/browser/custom-drag-image.html
     el.classList.add(cssClass);
-    el.style.top = "-150px";
+    el.style.top = "-300px";
     el.style.position = "absolute";
     el.ondragend = el.remove;
     document.body.appendChild(el);

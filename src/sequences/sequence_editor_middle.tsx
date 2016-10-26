@@ -14,16 +14,33 @@ import { t } from "i18next";
 import { BlurableInput } from "../blurable_input";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
-import { StepDataXfer } from "../draggable/interfaces";
+import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { pushStep, spliceStep } from "./actions";
+import { StepDragger } from "../draggable/step_dragger";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 
-type fixMe = (a: any) => StepDataXfer;
+type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
+type dispatcher = (a: Function | { type: string }) => DataXferObj;
+function routeIncomingDroppedItems(dispatch: dispatcher,
+    key: string,
+    newIndex: number) {
+    let dataXferObj = dispatch(stepGet(key));
+    let step = dataXferObj.value;
+    switch (dataXferObj.intent) {
+        case "step_splice":
+            return dispatch(spliceStep(step, newIndex));
+        case "step_move":
+            console.warn("STOPPED HERE!");
+            return dispatch(spliceStep(step, newIndex));
+        default:
+            console.dir(dataXferObj);
+            throw new Error("Got unexpected data transfer object.");
+    }
+}
 
-let onDrop = (dispatch: fixMe, insertBefore: number) => (key: string) => {
-    let step = dispatch(stepGet(key)).value;
-    dispatch(spliceStep(step, insertBefore));
+let onDrop = (dispatch: dispatcher, newIndex: number) => (key: string) => {
+    routeIncomingDroppedItems(dispatch, key, newIndex);
 };
 
 let StepList = ({sequence, sequences, dispatch}:
@@ -32,12 +49,17 @@ let StepList = ({sequence, sequences, dispatch}:
         {sequence.body.map((step: IStep, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
             return <div key={inx}>
-                <DropArea callback={onDrop(dispatch as fixMe, inx)} />
-                <Step step={step}
-                    index={inx}
-                    dispatch={dispatch}
-                    sequence={sequence}
-                    sequences={sequences} />
+                <DropArea callback={onDrop(dispatch as dispatcher, inx)} />
+                <StepDragger dispatch={dispatch}
+                    step={step}
+                    ghostCss="step-drag-ghost-image-big"
+                    intent="step_move">
+                    <Step step={step}
+                        index={inx}
+                        dispatch={dispatch}
+                        sequence={sequence}
+                        sequences={sequences} />
+                </StepDragger>
             </div>;
         })}
     </div>);
@@ -65,7 +87,7 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
     let inx = sequences.current;
     let sequence: Sequence = sequences.all[inx] || nullSequence();
     let fixThisToo = function (key: string) {
-        let step = dispatch(stepGet(key)) as StepDataXfer;
+        let step = dispatch(stepGet(key)) as DataXferObj;
         dispatch(pushStep(step.value));
     };
     return (<div>

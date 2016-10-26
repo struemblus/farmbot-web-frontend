@@ -1,7 +1,6 @@
 import { error } from "../logger";
 import * as _ from "lodash";
-import { AuthToken } from "./actions";
-import { AuthState } from "./interfaces";
+import { AuthState, AuthToken } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 
 const initialState: AuthState = {
