@@ -71,9 +71,8 @@ export class SettingsInputBox extends React.Component<any, any> {
   primary() {
     return this.props.bot.settingsBuffer[this.props.setting];
   }
-
   secondary() {
-    let num = this.props.bot.hardware[this.props.setting];
+    let num = this.props.bot.hardware.mcu_params[this.props.setting];
     if (_.isNumber(num)) {
       return String(num); // Prevent 0 from being falsy.
     } else {
@@ -200,7 +199,8 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <p>
-                                          {String(this.props.bot.hardware.informational_settings.controller_version)
+                                          {String(this.props.bot.hardware
+                                            .informational_settings.controller_version)
                                             || t("Not Connected to bot")}
                                         </p>
                                       </td>

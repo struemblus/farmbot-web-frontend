@@ -325,7 +325,7 @@ export function commitSettingsChanges() {
     getState: () => Everything): Thenable<void> {
     let { settingsBuffer, hardware } = getState().bot;
     let packet = _({})
-      .assign(hardware)
+      .assign(hardware.mcu_params)
       .assign(settingsBuffer)
       .value();
     return devices
