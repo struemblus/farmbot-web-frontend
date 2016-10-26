@@ -2,18 +2,21 @@ import * as React from "react";
 import { RegimensState } from "../interfaces";
 import { SaveButton } from "./save_button";
 import { DeleteButton } from "./delete_button";
+import { StartButton, StopButton } from "./regimen_tasks";
 import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { AuthState } from "../../auth/interfaces";
+import { BotState } from "../../devices/interfaces";
 import { t } from "i18next";
 
 interface RegimenEditorWidgetProps {
   regimens: RegimensState;
   dispatch: Function;
   auth: AuthState;
+  bot: BotState;
 }
-export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWidgetProps) {
+export function RegimenEditorWidget({regimens, dispatch, auth, bot}: RegimenEditorWidgetProps) {
   let regimen = regimens.all[regimens.current];
   let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
   let saveButtenProps = {
@@ -21,6 +24,11 @@ export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWid
     regimen,
     token: auth.token,
     baseUrl: auth.iss
+  };
+  let taskProps = {
+    dispatch,
+    regimen,
+    bot
   };
   return (<div>
     <div className="widget-wrapper regimen-editor-widget">
@@ -31,6 +39,8 @@ export function RegimenEditorWidget({regimens, dispatch, auth}: RegimenEditorWid
             url={auth.iss} />
           <CopyButton regimen={regimen} dispatch={dispatch} />
           <DeleteButton {...saveButtenProps} />
+          <StartButton  {...taskProps} />
+          <StopButton  {...taskProps} />
           <div className="widget-header">
             <h5> Regimen Editor </h5>
             <i className="fa fa-question-circle widget-help-icon">
