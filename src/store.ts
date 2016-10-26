@@ -12,7 +12,11 @@ import { configReducer as config } from "./config/reducer";
 import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "./regimens/reducer";
 import { tickerReducer as ticker } from "./ticker/reducer";
-import { broswerHoldReducer as browserHolds, dontExitIfBrowserIsOnHold } from "./browser_holds/reducer";
+import { draggableReducer as draggable } from "./draggable/reducer";
+import {
+  broswerHoldReducer as browserHolds,
+  dontExitIfBrowserIsOnHold
+} from "./browser_holds/reducer";
 import { designer } from "./farm_designer/reducer";
 import {
   BulkSchedulerReducer as bulkScheduler
@@ -27,7 +31,8 @@ let reducers = combineReducers({
   config,
   designer,
   ticker,
-  browserHolds
+  browserHolds,
+  draggable
 });
 
 function configureStore(options = {}) {

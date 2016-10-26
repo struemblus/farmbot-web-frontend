@@ -1,76 +1,77 @@
 import * as React from "react";
-import { pushStep } from "./actions";
-import { Step } from "./interfaces";
 import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 
-let addStep = (dispatch: Function) =>
-    (step: Step) =>
-        (event: React.FormEvent) => { dispatch(pushStep(step)); };
-
-export function StepButtonGroup({dispatch}: { dispatch: Function }) {
-    let clickToAdd = addStep(dispatch);
+export function StepButtonCluster({dispatch}: { dispatch: Function }) {
     const ALL_THE_BUTTONS = [
-        <StepButton onClick={clickToAdd({
-            kind: "move_absolute",
-            args: { x: 0, y: 0, z: 0, speed: 100 }
-        })}
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "move_absolute",
+                args: { x: 0, y: 0, z: 0, speed: 100 }
+            }}
             color="blue">
             {t("MOVE ABSOLUTE")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "move_relative",
-            args: { x: 0, y: 0, z: 0, speed: 100 }
-        })}
-            color="green">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "move_relative",
+                args: { x: 0, y: 0, z: 0, speed: 100 }
+            }}
+            color="green" >
             {t("MOVE RELATIVE")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "write_pin",
-            args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
-        })}
-            color="orange">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "write_pin",
+                args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
+            }}
+            color="orange" >
             {t("WRITE PIN")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "read_pin",
-            args: {
-                pin_number: 0,
-                pin_mode: 0,
-                data_label: "---"
-            }
-        })}
-            color="yellow">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "read_pin",
+                args: {
+                    pin_number: 0,
+                    pin_mode: 0,
+                    data_label: "---"
+                }
+            }}
+            color="yellow" >
             {t("READ PIN")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "wait",
-            args: { milliseconds: 0 }
-        })}
-            color="brown">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "wait",
+                args: { milliseconds: 0 }
+            }}
+            color="brown" >
             {t("WAIT")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "send_message",
-            args: { message: "Bot is at position {{ x }}." }
-        })}
-            color="red">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "send_message",
+                args: { message: "Bot is at position {{ x }}." }
+            }}
+            color="red" >
             {t("SEND MESSAGE")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "if_statement",
-            args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
-        })}
-            color="purple">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "if_statement",
+                args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
+            }}
+            color="purple" >
             {t("IF STATEMENT")}
-        </StepButton>,
-        <StepButton onClick={clickToAdd({
-            kind: "execute",
-            args: { sub_sequence_id: 0 }
-        })}
-            color="gray">
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "execute",
+                args: { sub_sequence_id: 0 }
+            }}
+            color="gray" >
             {t("EXECUTE")}
-        </StepButton>
+        </StepButton >
     ];
     return (<div>
         <div className="widget-wrapper">

@@ -82,17 +82,3 @@ export function beep() {
 }
 
 
-// TODO Proving the concept at the moment. Leaving the name as
-// a reminder that it needs a refactor.
-export function nastyStorargeSet(value: Function): string {
-  let sad_face = (window as any);
-  sad_face.storage_bin = sad_face.storage_bin || {};
-  let key = uuid();
-  sad_face.storage_bin[key] = value;
-  return key;
-}
-
-
-export function nastyStorargeGet(key: string): Function {
-  return (window as any).storage_bin[key];
-}
