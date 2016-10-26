@@ -111,7 +111,7 @@ export function fakeState(dispatcher?: Function): Everything {
   };
 
   let browserHolds = {};
-
+  let draggable = { dataTransfer: {} };
   return {
     location
     , auth
@@ -124,5 +124,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , bulkScheduler
     , config
     , browserHolds
+    , draggable
   };
 }

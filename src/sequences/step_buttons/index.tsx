@@ -1,33 +1,35 @@
 import * as React from "react";
-import { nastyStorargeSet } from "../../util";
-import { addGhostImage } from "../draggable/index";
+import { addGhostImage } from "../../draggable/add_ghost_image";
+import { Step } from "../interfaces";
+import { stepPut } from "../../draggable/actions";
+import { pushStep } from "../actions";
 
 interface StepButtonParams {
-    onClick: React.EventHandler<React.MouseEvent> | undefined;
+    step: Step;
+    dispatch: Function;
     children?: JSX.Element | undefined;
     color: string;
 }
 
-function badRef() { console.warn("Something went wrong with drag n drop."); }
-export function StepButton({children, onClick, color}: StepButtonParams) {
-    let classes = `full-width text-left ${color}-block block-header block`;
-
-    function undrag(ev: React.DragEvent) {
-        (ev.target as HTMLElement).classList.remove("hey-rory");
-    }
-
-    function drag(ev: React.DragEvent) {
-        let key = nastyStorargeSet(onClick || badRef);
+let drag = (dispatch: Function, step: Step) =>
+    (ev: React.DragEvent) => {
         addGhostImage(ev, "step-drag-ghost-image");
-        ev.dataTransfer.setData("text", key);
-    }
+        dispatch(stepPut(step, ev));
+    };
 
+let click = (dispatch: Function, step: Step) =>
+    (event: React.FormEvent) => { dispatch(pushStep(step)); };
+
+function badRef() { console.warn("Something went wrong with drag n drop."); }
+
+export function StepButton({ children, step, color, dispatch}: StepButtonParams) {
     return <div className="col-xs-6">
         <div className="block-wrapper">
-            <button className={classes}
-                onClick={onClick}
-                onDragStart={drag}
-                onDragEnd={undrag}
+            <button className={
+                `full-width text-left ${color}-block block-header block`
+            }
+                onClick={click(dispatch, step)}
+                onDragStart={drag(dispatch, step)}
                 draggable={true}>
                 {children}
                 <i className="fa fa-arrows block-control" />

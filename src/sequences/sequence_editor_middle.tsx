@@ -12,20 +12,33 @@ import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import { BlurableInput } from "../blurable_input";
-import { Droppable } from "./draggable/index";
+import { DropArea } from "../draggable/drop_area";
+import { stepGet } from "../draggable/actions";
+import { StepDataXfer } from "../draggable/interfaces";
+import { pushStep } from "./actions";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
+
+type fixMe = (a: any) => StepDataXfer;
+
+let onDrop = (dispatch: fixMe) => (key: string) => {
+    let step = dispatch(stepGet(key));
+    debugger;
+};
+
 let StepList = ({sequence, sequences, dispatch}:
     { sequence: Sequence, sequences: Sequence[], dispatch: Function }) => {
     return (<div>
         {sequence.body.map((step: IStep, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
-            return <Step step={step}
-                key={inx}
-                index={inx}
-                dispatch={dispatch}
-                sequence={sequence}
-                sequences={sequences} />;
+            return <div key={inx}>
+                <DropArea callback={onDrop(dispatch as fixMe)} />
+                <Step step={step}
+                    index={inx}
+                    dispatch={dispatch}
+                    sequence={sequence}
+                    sequences={sequences} />
+            </div>;
         })}
     </div>);
 };
@@ -48,9 +61,13 @@ let destroy = function (dispatch: Function,
 let performSeq = (dispatch: Function, sequence: Sequence) =>
     (e: React.FormEvent) => execSequence(sequence);
 
-export function SequenceEditorWidget({sequences, dispatch}: Everything) {
+export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
     let inx = sequences.current;
     let sequence: Sequence = sequences.all[inx] || nullSequence();
+    let fixThisToo = function (key: string) {
+        let step = dispatch(stepGet(key)) as StepDataXfer;
+        dispatch(pushStep(step.value));
+    };
     return (<div>
         <div className="widget-wrapper">
             <div className="row">
@@ -100,9 +117,10 @@ export function SequenceEditorWidget({sequences, dispatch}: Everything) {
                             sequences={sequences.all} />}
                         <div className="row">
                             <div className="col-sm-12">
-                                <Droppable isLocked={true}>
+                                <DropArea isLocked={true}
+                                    callback={fixThisToo}>
                                     {t("DRAG STEP HERE")}
-                                </Droppable>
+                                </DropArea>
                             </div>
                         </div>
                     </div>
