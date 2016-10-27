@@ -30,6 +30,7 @@ interface StepDraggerProps {
     intent: DataXferIntent;
     ghostCss: string;
     children?: JSX.Element | undefined;
+    draggerId: number;
 }
 
 export function StepDragger({dispatch,
