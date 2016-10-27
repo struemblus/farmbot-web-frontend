@@ -15,8 +15,8 @@ import { BlurableInput } from "../blurable_input";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { pushStep, spliceStep, moveStep } from "./actions";
-import { StepDragger } from "../draggable/step_dragger";
+import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
+import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 
@@ -88,8 +88,16 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
     let inx = sequences.current;
     let sequence: Sequence = sequences.all[inx] || nullSequence();
     let fixThisToo = function (key: string) {
-        let step = dispatch(stepGet(key)) as DataXferObj;
-        dispatch(pushStep(step.value));
+        let xfer = dispatch(stepGet(key)) as DataXferObj;
+        if (xfer.draggerId === NULL_DRAGGER_ID) {
+            dispatch(pushStep(xfer.value));
+        } else {
+            let from = xfer.draggerId;
+            // Remove it from where it was.
+            dispatch(removeStep(from));
+            // Push it to the end.
+            dispatch(pushStep(xfer.value));
+        };
     };
     return (<div>
         <div className="widget-wrapper">

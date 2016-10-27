@@ -4,6 +4,10 @@ import { stepPut } from "./actions";
 import { Step } from "../sequences/interfaces";
 import { DataXferIntent } from "./interfaces";
 
+/** Magic number to indicate that the draggerId was not provided or can't be
+ *  known. */
+export const NULL_DRAGGER_ID = 0xCAFEF00D;
+
 /** This is an event handler that:
  * 1. Adds an optional CSS class to the dragged "ghost image".
  * 2. Puts the step into the Redux store (and the drag event's dataTransfer)
