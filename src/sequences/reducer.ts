@@ -39,7 +39,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {
         let seq = s.all[s.current];
         let node = seq.body[a.payload.index];
-        seq.dirty = true;
+        markDirty(s);
         node.comment = a.payload.comment;
         // API complains about empty values.
         // TODO: Clean up BE.
@@ -49,11 +49,10 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<{ step: Step }>("PUSH_STEP", function (state, action) {
         let current_sequence = state
             .all[state.current] || populate(state);
+        markDirty(state);
         let { step } = action.payload;
-        // typing not working. Thanks TS.
-        let stepp = step as Step;
+        let stepp = step;
         current_sequence.body.push(stepp);
-        current_sequence.dirty = true;
         return state;
     })
     .add<void>("ADD_SEQUENCE", function (state, action) {
@@ -62,9 +61,9 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", function (state, action) {
         let currentSequence = state.all[state.current] || populate(state);
-        currentSequence.dirty = true;
         currentSequence.name = action.payload.name || currentSequence.name;
         currentSequence.color = action.payload.color || currentSequence.color;
+        markDirty(state);
         return state;
     })
     .add<{ step: Step, index: number }>("CHANGE_STEP", function (state, action) {
@@ -77,7 +76,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         // state.all[state.current].dirty = true;
         let currentSequence = state.all[state.current];
         let currentStep = currentSequence.body[action.payload.index];
-        currentSequence.dirty = true;
+        markDirty(state);
         _.assign(currentStep, action.payload.step);
         return state;
     })
@@ -85,7 +84,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let seq = state.all[state.current];
         let index = action.payload.index;
         seq.body = _.without(seq.body, seq.body[index]);
-        seq.dirty = true;
+        markDirty(state);
         return state;
     })
     .add<Sequence>("SAVE_SEQUENCE_OK", function (state, action) {
@@ -113,11 +112,14 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
         let { from, to } = a.payload;
-        console.warn("You forgot to mark as dirty.");
+        markDirty(s);
         s.all[s.current].body = move<Step>(s.all[s.current].body,
             a.payload.from,
             a.payload.to);
         if (from < to) {
+            // EDGE CASE: If you drag a step upwards, it will end up in the
+            // wrong slot. As a fix, I swap the "to" index with the item below
+            // it an vice versa.
             // I KNOW THERE ARE SHORTER WAYS TO SWAP AN ARRAY.
             // DO NOT OPTOMIZE. INTENTIONALLY LENGTHENED FOR CLARITY.
             let list = s.all[s.current].body;
@@ -131,10 +133,11 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
+        markDirty(s);
         s.all[s.current].body.splice(a.payload.insertBefore, 0, a.payload.step);
         return s;
     });
 
-function markCurrentAsDirty(s: SequenceReducerState) {
-    console.warn("Dry up the mess.");
+function markDirty(s: SequenceReducerState) {
+    s.all[s.current].dirty = true;
 };
