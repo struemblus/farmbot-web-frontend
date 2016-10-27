@@ -94,6 +94,22 @@ export function spliceStep(step: Step, insertBefore: number): ReduxAction<Splice
   };
 }
 
+export interface MoveStepPayl {
+  step: Step;
+  from: number;
+  to: number;
+}
+
+export function moveStep(step: Step,
+  from: number,
+  to: number):
+  ReduxAction<MoveStepPayl> {
+  return {
+    type: "MOVE_STEP",
+    payload: { step, from, to }
+  };
+}
+
 type CHANGE_STEP = "CHANGE_STEP";
 export interface ChangeStep {
   type: CHANGE_STEP;

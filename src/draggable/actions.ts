@@ -7,7 +7,10 @@ import * as React from "react";
 /** SIDE EFFECT-Y!! Stores a step into state.draggable.dataTransfer and
  * attaches its lookup key to the event object. This allows you to retrieve
  * the step when the "drop" event occurs elsewhere */
-export function stepPut(value: Step, ev: React.DragEvent, intent: DataXferIntent):
+export function stepPut(value: Step,
+    ev: React.DragEvent,
+    intent: DataXferIntent,
+    draggerId: number):
     ReduxAction<DataXferBase> {
     let uuid = id();
     ev.dataTransfer.setData("text", uuid);
@@ -16,7 +19,8 @@ export function stepPut(value: Step, ev: React.DragEvent, intent: DataXferIntent
         payload: {
             intent,
             uuid,
-            value
+            value,
+            draggerId
         }
     };
 };

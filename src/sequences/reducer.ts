@@ -6,9 +6,11 @@ import {
 import {
     nullSequence,
     EditCurrentSequence,
-    SpliceStepPayl
+    SpliceStepPayl,
+    MoveStepPayl
 } from "./actions";
 import { generateReducer } from "../generate_reducer";
+import { move } from "../util";
 
 /** Adds an empty sequence to the front of the list. */
 function populate(state: SequenceReducerState): Sequence {
@@ -109,7 +111,30 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return state;
     })
+    .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
+        let { from, to } = a.payload;
+        console.warn("You forgot to mark as dirty.");
+        s.all[s.current].body = move<Step>(s.all[s.current].body,
+            a.payload.from,
+            a.payload.to);
+        if (from < to) {
+            // I KNOW THERE ARE SHORTER WAYS TO SWAP AN ARRAY.
+            // DO NOT OPTOMIZE. INTENTIONALLY LENGTHENED FOR CLARITY.
+            let list = s.all[s.current].body;
+            let topIndex = to;
+            let bottomIndex = to - 1;
+            let top = list[topIndex];
+            let bottom = list[bottomIndex];
+            list[topIndex] = bottom;
+            list[bottomIndex] = top;
+        }
+        return s;
+    })
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
         s.all[s.current].body.splice(a.payload.insertBefore, 0, a.payload.step);
         return s;
     });
+
+function markCurrentAsDirty(s: SequenceReducerState) {
+    console.warn("Dry up the mess.");
+};
