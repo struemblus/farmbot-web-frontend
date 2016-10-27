@@ -21,7 +21,7 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequ
         .map((weekArray, weekNum) => {
             let tweeks = ONE_WEEK * (weekNum);
             return weekArray.map((shouldExecute, dayNum) => {
-                let days = ONE_DAY * (dayNum + 1);
+                let days = ONE_DAY * dayNum;
                 return (shouldExecute) ? (tweeks + days + OFFSET) : -1; // lol, In band signaling.
             });
         })// [[-1, 99999, -1, -1],[.....]]
@@ -33,24 +33,12 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequ
         // Sort the array. Using a comparator function because failing to do so
         // results in funny execution times on day 0.
         .sort(function (a, b) {
-            if (a < b) {
-                return -1;
-            };
-            if (a > b) {
-                return 1;
-            } else {
-                return 0;
-            };
+            if (a < b) { return -1; };
+            return (a > b) ? 1 : 0;
         })
         // Transform the sorted array of values into a regimenItem[] array.
         .map<RegimenItem>((time_offset) => {
-            if (seq) {
-                let sequence = seq && _.cloneDeep<Sequence>(seq);
-                return { time_offset, sequence };
-            } else {
-                // Typescript type check acts funny as of TSC 2.0
-                // Maybe we can delete this some day?
-                throw new Error("You should never see this.");
-            };
+            let sequence = _.cloneDeep<Sequence>(seq);
+            return { time_offset, sequence };
         });
 }

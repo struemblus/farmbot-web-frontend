@@ -11,27 +11,27 @@ interface RegimenItemListProps {
 }
 
 export function RegimenItemList({ items, dispatch }: RegimenItemListProps) {
-  let groups = _.groupBy<RegimenItem>(items, function(item: RegimenItem) {
+  let groups = _.groupBy<RegimenItem>(items, function (item: RegimenItem) {
     return Math.round(duration(item.time_offset).asDays());
   });
 
-  let list = _.map(groups, function(innerItems: RegimenItem[], day: string) {
-    return <RegimenItemDayGroup day={ day }
-                                items={ innerItems }
-                                key={ day }
-                                dispatch={ dispatch }/>;
+  let list = _.map(groups, function (innerItems: RegimenItem[], day: string) {
+    return <RegimenItemDayGroup day={day}
+      items={innerItems}
+      key={day}
+      dispatch={dispatch} />;
   });
-  let display = list.length ? list : <EmptyList/>;
+  let display = list.length ? list : <EmptyList />;
   return <div>
-    <hr/>
-    { display }
+    <hr />
+    {display}
   </div>;
 }
 
 function EmptyList({}) {
   return <div>
     <p> {t("This regimen doesn't have any items!")} </p>
-    <p> <i className="fa fa-arrow-left"/>{t(`You can add items by using the "bulk scheduler"`)} </p>
+    <p> <i className="fa fa-arrow-left" />{t(`You can add items by using the "bulk scheduler"`)} </p>
   </div>;
 }
 
@@ -45,30 +45,30 @@ function RegimenItemStep({ item, dispatch }: RegimenItemStepProps) {
     hour: d.hours(),
     minute: d.minutes()
   }).format("h:mm a");
-  let klass = `${ item.sequence.color || "gray" }-block block-header regimen-event`;
-  return <div className={ klass }>
-  <span className="regimen-event-title"> { item.sequence.name } </span>
-  <span className="regimen-event-time"> { time } </span>
-  <i className="fa fa-trash regimen-control"
-     onClick={ () => dispatch(removeRegimenItem(item)) } />
+  let klass = `${item.sequence.color || "gray"}-block block-header regimen-event`;
+  return <div className={klass}>
+    <span className="regimen-event-title"> {item.sequence.name} </span>
+    <span className="regimen-event-time"> {time} </span>
+    <i className="fa fa-trash regimen-control"
+      onClick={() => dispatch(removeRegimenItem(item))} />
   </div>;
 }
 
 interface RegimenItemDayGroupProps {
-    day: string;
-    items: RegimenItem[];
-    dispatch: Function;
+  day: string;
+  items: RegimenItem[];
+  dispatch: Function;
 }
 
 function RegimenItemDayGroup({ day,
-                               items,
-                               dispatch }: RegimenItemDayGroupProps) {
-    return <div className="regimen-day">
-        <label> { t( "Day {{day}}" , {day: day} ) } </label>
-        { items.map(function(item, inx) {
-            return <RegimenItemStep item={ item }
-                                    key={ inx }
-                                    dispatch={ dispatch } />;
-        }) }
-    </div>;
+  items,
+  dispatch }: RegimenItemDayGroupProps) {
+  return <div className="regimen-day">
+    <label> {t("Day {{day}}", { day: day + 1 })} </label>
+    {items.map(function (item, inx) {
+      return <RegimenItemStep item={item}
+        key={inx}
+        dispatch={dispatch} />;
+    })}
+  </div>;
 }
