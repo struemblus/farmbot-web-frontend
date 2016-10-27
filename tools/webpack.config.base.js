@@ -6,7 +6,7 @@ var path = require('path')
 exec("rm app-resources/*bundle.js*"); // Clean previous stuff.
 
 var revisionPlugin = new webpack.DefinePlugin({
-  'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h" -1').toString()),
+  'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
 });
 
 module.exports = function () {

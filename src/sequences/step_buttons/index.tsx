@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepDragger } from "../../draggable/step_dragger";
+import { StepDragger, NULL_DRAGGER_ID } from "../../draggable/step_dragger";
 import { Step } from "../interfaces";
 import { pushStep } from "../actions";
 
@@ -19,7 +19,8 @@ export function StepButton({ children, step, color, dispatch}: StepButtonParams)
             <StepDragger dispatch={dispatch}
                 step={step}
                 ghostCss="step-drag-ghost-image"
-                intent="step_splice">
+                intent="step_splice"
+                draggerId={NULL_DRAGGER_ID}>
                 <button className={
                     `full-width text-left ${color}-block block-header block`
                 }
