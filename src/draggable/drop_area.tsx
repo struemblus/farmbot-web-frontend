@@ -18,12 +18,10 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
     }
 
     dragOver(event: React.DragEvent) {
-        console.log("Dragover");
         event.preventDefault();
     }
 
     drop(event: React.DragEvent) {
-        console.log("Drop");
         event.preventDefault();
         let key = event.dataTransfer.getData("text");
         let fn = this.props.callback;
@@ -32,7 +30,6 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
     }
 
     toggle() {
-        console.log("Toggle");
         this.setState({ isHovered: !this.state.isHovered });
     }
 

@@ -8,7 +8,6 @@ import { error, success, warning } from "../logger";
 import { t } from "i18next";
 
 export function handleIncomingBotNotification(msg: Notification<any>, dispatch: Function) {
-    console.log(msg.method);
     switch (msg.method) {
         case "status_update":
             dispatch(statusUpdate((msg as Notification<[HardwareState]>)));
