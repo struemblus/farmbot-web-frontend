@@ -18,10 +18,11 @@ import { DataXferIntent } from "./interfaces";
 export let stepDragEventHandler = (dispatch: Function,
     step: Step,
     ghostCss = "",
-    intent: DataXferIntent) =>
+    intent: DataXferIntent,
+    draggerId: number) =>
     (ev: React.DragEvent) => {
         addGhostImage(ev, ghostCss);
-        dispatch(stepPut(step, ev, intent));
+        dispatch(stepPut(step, ev, intent, draggerId));
     };
 
 interface StepDraggerProps {
@@ -30,18 +31,21 @@ interface StepDraggerProps {
     intent: DataXferIntent;
     ghostCss: string;
     children?: JSX.Element | undefined;
+    draggerId: number;
 }
 
 export function StepDragger({dispatch,
     step,
     children,
     ghostCss,
-    intent}: StepDraggerProps) {
+    intent,
+    draggerId}: StepDraggerProps) {
     return <div draggable={true}
         onDragStart={stepDragEventHandler(dispatch,
             step,
             ghostCss,
-            intent)} >
+            intent,
+            draggerId)} >
         {children}
     </div>;
 }

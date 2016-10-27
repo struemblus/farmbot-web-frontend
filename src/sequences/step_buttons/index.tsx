@@ -19,7 +19,8 @@ export function StepButton({ children, step, color, dispatch}: StepButtonParams)
             <StepDragger dispatch={dispatch}
                 step={step}
                 ghostCss="step-drag-ghost-image"
-                intent="step_splice">
+                intent="step_splice"
+                draggerId={0xCAFEF00D}>
                 <button className={
                     `full-width text-left ${color}-block block-header block`
                 }

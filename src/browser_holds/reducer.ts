@@ -25,7 +25,10 @@ const LOCKS: Lock[] = [
         lockedWith: [
             "PUSH_STEP",
             "REMOVE_STEP",
-            "EDIT_CURRENT_SEQUENCE"
+            "EDIT_CURRENT_SEQUENCE",
+            "ADD_COMMENT",
+            "CHANGE_STEP",
+            "SPLICE_STEP"
         ],
         removedBy: "SAVE_SEQUENCE_OK"
     }, {
