@@ -5,17 +5,17 @@ import { RegimenItem } from "../../regimens/interfaces";
 /** Calculates correct time_offset for a group of RegimenItem[]s based on a set of weeks
  *  and a desired offset. */
 export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequence) {
-        const ONE_WEEK = 604800000;
-        const ONE_DAY = 86400000;
+    const ONE_WEEK = 604800000;
+    const ONE_DAY = 86400000;
 
-        let keys = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"];
+    let keys = ["day1", "day2", "day3", "day4", "day5", "day6", "day7"];
 
-        return weeks
+    return weeks
         // Collect all of the true/false values in weekX.days. These indicate
         // wether we should add a sequence on that day or not.
         .map((week) =>
             keys.map((key) =>
-                (week.days as {[day: string]: boolean})[key])) // [[true,false,false,true] . . . ]
+                (week.days as { [day: string]: boolean })[key])) // [[true,false,false,true] . . . ]
         // Convert true values to an offset, in milliseconds from the start point.
         // Convert false values to -1.
         .map((weekArray, weekNum) => {
@@ -30,8 +30,18 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequ
         .reduce((arr, acc) => acc.concat(arr))
         // Remove -1 values (days that don't execute a sequence).
         .filter((i) => i !== -1)
-        // sort (duh)
-        .sort()
+        // Sort the array. Using a comparator function because failing to do so
+        // results in funny execution times on day 0.
+        .sort(function (a, b) {
+            if (a < b) {
+                return -1;
+            };
+            if (a > b) {
+                return 1;
+            } else {
+                return 0;
+            };
+        })
         // Transform the sorted array of values into a regimenItem[] array.
         .map<RegimenItem>((time_offset) => {
             if (seq) {
