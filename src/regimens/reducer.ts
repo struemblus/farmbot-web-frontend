@@ -4,8 +4,6 @@ import {
     RegimenItem
 } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
-import { stubs } from "./temporary_stubs";
-import { randomColor } from "../util";
 import { generateReducer } from "../generate_reducer";
 import { findWhere } from "lodash";
 
@@ -19,7 +17,11 @@ export function emptyRegimen(): Regimen {
 }
 
 const initialState: RegimensState = {
-    all: stubs,
+    all: [{
+        name: "New Regimen",
+        color: "gray",
+        regimen_items: []
+    }],
     current: 0
 };
 
