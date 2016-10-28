@@ -7,6 +7,10 @@ export interface BotLog {
   time: number;
   /** A subset of interface `HardwareState`. But I only needed x,y,z. */
   status: HardwareState;
+  /** Where to display this message. */
+  channel: string;
+  /** A list of tags for sorting. **/
+  tags: Array<string>;
 };
 
 /** How the device is stored in the API side.
@@ -28,6 +32,7 @@ export interface RpcBotLog {
   channels: string[];
   message: string;
   time: number;
+  tags: string;
   status: HardwareState;
 
 }
@@ -87,4 +92,3 @@ export interface MqttMessage {
   id?: string | undefined;
   result: HardwareState;
 }
-
