@@ -7,7 +7,6 @@ import { RegimensState } from "./regimens/interfaces";
 import { SequenceReducerState } from "./sequences/interfaces";
 import { DesignerState } from "./farm_designer/interfaces";
 import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";
-import { broswerHoldState } from "./browser_holds/reducer";
 import { DragableState } from "./draggable/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks
@@ -43,7 +42,6 @@ interface Location {
 };
 
 export interface Everything {
-  browserHolds: broswerHoldState;
   config: ConfigState;
   auth: AuthState;
   designer: DesignerState;

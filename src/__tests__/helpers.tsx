@@ -117,7 +117,6 @@ export function fakeState(dispatcher?: Function): Everything {
     port: "5555"
   };
 
-  let browserHolds = {};
   let draggable = { dataTransfer: {} };
   return {
     location
@@ -130,7 +129,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , regimens
     , bulkScheduler
     , config
-    , browserHolds
     , draggable
   };
 }
