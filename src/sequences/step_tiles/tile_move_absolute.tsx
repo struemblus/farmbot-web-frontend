@@ -30,7 +30,7 @@ export function TileMoveAbsolute({dispatch, step, index}: StepParams) {
                       use multiple Move Absolute steps. Coming soon: Offsets
                       allow you to more easily instruct FarmBot to move to a
                       location, but offset from it by the specified amount. For
-                      example moving to just above where a tool is located. Using
+                      example moving to just above where a peripheral is located. Using
                       offsets lets FarmBot do the math for you.`)} />
                     </div>
                 </div>
