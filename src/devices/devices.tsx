@@ -568,7 +568,7 @@ function Logs({logs}: LogsProps) {
       }
     }
 
-    function display_tags(log: BotLog) {
+    function displayTags(log: BotLog) {
       if (log.tags) {
         return "[" + log.tags.join(",") + "]";
       } else {
@@ -580,7 +580,7 @@ function Logs({logs}: LogsProps) {
       {
         logs.map((log, i) => <tr key={i}>
           <td> {displayTime(log.time)} </td>
-          <td> {display_tags(log)} </td>
+          <td> {displayTags(log)} </td>
           <td> {log.message} </td>
           <td> {displayCoordinates(log)} </td>
         </tr>)
