@@ -15,9 +15,11 @@ import { tickerReducer as ticker } from "./ticker/reducer";
 import { draggableReducer as draggable } from "./draggable/reducer";
 import { dontExitIfBrowserIsOnHold } from "./browser_holds/index";
 import { designer } from "./farm_designer/reducer";
+import { Everything, ReduxAction } from "./interfaces";
 import {
   BulkSchedulerReducer as bulkScheduler
 } from "./regimens/bulk_scheduler/reducer";
+
 let reducers = combineReducers({
   routing,
   auth,
@@ -30,6 +32,12 @@ let reducers = combineReducers({
   ticker,
   draggable
 });
+
+let rootReducer = function (state: Everything | undefined,
+  action: ReduxAction<{}>) {
+  if (action.type === "LOGOUT") { return state = undefined; }
+  return reducers(state, action);
+};
 
 function configureStore(options = {}) {
   let store: Redux.Store;
@@ -46,7 +54,7 @@ function configureStore(options = {}) {
       sessionStorage["lastState"] = JSON.stringify(store.getState());
     });
   } else {
-    store = createStore(reducers, {}, applyMiddleware(thunk));
+    store = createStore(rootReducer, {}, applyMiddleware(thunk));
   };
   dontExitIfBrowserIsOnHold(store);
   return store;

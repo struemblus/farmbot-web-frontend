@@ -162,8 +162,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                 <h5>{t("DEVICE")}</h5>
                                 <i className="fa fa-question-circle widget-help-icon">
                                   <div className="widget-help-text">
-                                    {t(`This widget shows device information. 
-                                      Note: not all features work.`)}
+                                    {t(`This widget shows device information.`)}
                                   </div>
                                 </i>
                               </div>

@@ -160,3 +160,13 @@ function requestToken(email: string,
   let path = url + "/api/tokens";
   return Axios.post<AuthResponse>(path, payload);
 }
+
+export function logout() {
+  localStorage.clear();
+  sessionStorage.clear();
+
+  return {
+    type: "LOGOUT",
+    payload: {}
+  };
+}

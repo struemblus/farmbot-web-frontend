@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Navbar } from "./nav/navbar";
-import { login, register } from "./auth/actions";
+import { login, register, logout } from "./auth/actions";
 import { connect } from "react-redux";
 import { changeApiHost, changeApiPort } from "./config/actions";
 import { Everything } from "./interfaces";
-import  * as i18next  from "i18next";
+import * as i18next from "i18next";
 
 let setHost = (dispatch: Function) => (e: React.FormEvent) => dispatch(
   changeApiHost((e.target as HTMLInputElement).value));
@@ -15,13 +15,17 @@ let setPort = (dispatch: Function) => (e: React.FormEvent) => dispatch(
 
 class LoginPage extends React.Component<Everything, any> {
 
+  componentDidMount() {
+    this.props.dispatch(logout());
+  }
+
   get url(): string {
-    return `//${ this.props.config.host }:${ this.props.config.port }`;
+    return `//${this.props.config.host}:${this.props.config.port}`;
   }
 
   set(name: string) {
-    return function(event: React.FormEvent){
-      let state: {[name: string]: string} = {};
+    return function (event: React.FormEvent) {
+      let state: { [name: string]: string } = {};
       state[name] = (event.target as HTMLInputElement).value;
       this.setState(state);
     };
@@ -63,25 +67,25 @@ class LoginPage extends React.Component<Everything, any> {
                   </div>
                 </div>
                 <div className="row">
-                  <form onSubmit={ this.submitLogin.bind(this) } >
+                  <form onSubmit={this.submitLogin.bind(this)} >
                     <div className="col-sm-12">
                       <div className="widget-content">
                         <div className="input-group">
                           <label> {i18next.t("Email")} </label>
                           <input type="email"
-                                 onChange={ this.set("loginEmail").bind(this) }>
+                            onChange={this.set("loginEmail").bind(this)}>
                           </input>
                           <label>{i18next.t("Password")}</label>
                           <input type="password"
-                                 onChange={ this.set("loginPassword").bind(this) }>
+                            onChange={this.set("loginPassword").bind(this)}>
                           </input>
                         </div>
                         <div className="row">
                           <div className="col-xs-6">
                             <p className="auth-link">
                               <a href={
-                                  this.url + "/users/password/new"
-                                }>
+                                this.url + "/users/password/new"
+                              }>
                                 {i18next.t("Reset password")}
                               </a>
                             </p>
@@ -94,18 +98,18 @@ class LoginPage extends React.Component<Everything, any> {
                         </div>
                         <div className="row">
                           <div className="col-xs-12">
-                          <label> { i18next.t("Server URL") } </label>
-                          <input type="text"
-                                 value={ this.props.config.host }
-                                 onChange={ setHost(this.props.dispatch) } />
+                            <label> {i18next.t("Server URL")} </label>
+                            <input type="text"
+                              value={this.props.config.host}
+                              onChange={setHost(this.props.dispatch)} />
                           </div>
                         </div>
                         <div className="row">
                           <div className="col-xs-12">
-                          <label> { i18next.t("Server Port") } </label>
-                          <input type="number"
-                                 value={ this.props.config.port }
-                                 onChange={ setPort(this.props.dispatch) } />
+                            <label> {i18next.t("Server Port")} </label>
+                            <input type="number"
+                              value={this.props.config.port}
+                              onChange={setPort(this.props.dispatch)} />
                           </div>
                         </div>
                       </div>
@@ -127,21 +131,21 @@ class LoginPage extends React.Component<Everything, any> {
                 </div>
                 <div className="row">
                   <div className="col-sm-12">
-                    <form onSubmit={ this.submitRegistration.bind(this) } >
+                    <form onSubmit={this.submitRegistration.bind(this)} >
                       <div className="widget-content">
                         <div className="input-group">
                           <label>{i18next.t("Email")} </label>
-                          <input type="email" onChange={ this.set("regEmail").bind(this) } ></input>
+                          <input type="email" onChange={this.set("regEmail").bind(this)} ></input>
                           <label>Name</label>
-                          <input type="text" onChange={ this.set("regName").bind(this) }></input>
+                          <input type="text" onChange={this.set("regName").bind(this)}></input>
                           <label>Password</label>
                           <input type="password"
-                                 onChange={ this.set("regPass").bind(this) }>
+                            onChange={this.set("regPass").bind(this)}>
                           </input>
                           <label>{i18next.t("Verfy Password")}</label>
                           <input type="password"
-                                 onChange={
-                                   this.set("regConfirmation").bind(this) }>
+                            onChange={
+                              this.set("regConfirmation").bind(this)}>
                           </input>
                         </div>
                         <div className="row">

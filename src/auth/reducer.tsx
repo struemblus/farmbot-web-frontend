@@ -1,6 +1,5 @@
-import { error } from "../logger";
 import * as _ from "lodash";
-import { AuthState, AuthToken } from "./interfaces";
+import { AuthState } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 
 const initialState: AuthState = {
@@ -18,6 +17,9 @@ const initialState: AuthState = {
 };
 
 export let authReducer = generateReducer<AuthState>(initialState)
+  .add<AuthState>("LOGOUT", function (s, a) {
+    return initialState;
+  })
   .add<AuthState>("LOGIN_OK", function (s, a) {
     _.assign(s, a.payload, { authenticated: true });
     localStorage["token"] = JSON.stringify(s);
