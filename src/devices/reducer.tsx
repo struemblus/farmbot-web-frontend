@@ -42,7 +42,7 @@ let initialState: BotState = {
   },
   axisBuffer: {},
   settingsBuffer: {},
-  dirty: true,
+  dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
 };
@@ -70,19 +70,19 @@ export let botReducer = generateReducer<BotState>(initialState)
     return nextState;
   })
   .add<Sequence>("SAVE_SEQUENCE_OK", function (state, action) {
-    state.dirty = true;
+    state.dirty = false;
     return state;
   })
   .add<Sequence>("DELETE_SEQUENCE_OK", function (state, action) {
-    state.dirty = true;
+    state.dirty = false;
     return state;
   })
   .add<Regimen>("SAVE_REGIMEN_OK", function (state, action) {
-    state.dirty = true;
+    state.dirty = false;
     return state;
   })
   .add<Regimen>("DELETE_REGIMEN_OK", function (state, action) {
-    state.dirty = true;
+    state.dirty = false;
     return state;
   })
   .add<{}>("BOT_SYNC_OK", function (state, action) {

@@ -29,7 +29,7 @@ const initialState: SequenceReducerState = {
             args: {},
             name: "New Sequence",
             body: [],
-            dirty: true
+            dirty: false
         }
     ],
     current: 0
