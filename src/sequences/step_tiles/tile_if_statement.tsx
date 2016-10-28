@@ -11,7 +11,7 @@ export function TileIfStatment({dispatch, step, index}: StepParams) {
         <div className="step-wrapper">
             <div className="row">
                 <div className="col-sm-12">
-                    <div className="step-header move-absolute-step">
+                    <div className="step-header if-step">
                         <StepTitleBar index={index}
                             dispatch={dispatch}
                             step={step} />
@@ -26,7 +26,7 @@ export function TileIfStatment({dispatch, step, index}: StepParams) {
             </div>
             <div className="row">
                 <div className="col-sm-12">
-                    <div className="step-content move-absolute-step">
+                    <div className="step-content if-step">
                         <div className="row">
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("LHS")}</label>
