@@ -29,9 +29,12 @@ export let LogoutButton = ({ auth, onClick }: LogoutProps) => {
     sessionStorage.clear();
     location.reload();
   });
+  let hasName = auth.user && auth.user.name;
+  let greeting = hasName ? `Hi, ${hasName}!` : "";
   return <a className="logout-button"
     onClick={onClick}>
-    {t("Log Out")}
+    {greeting}
+    {t(" Log Out")}
   </a>;
 };
 

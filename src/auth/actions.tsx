@@ -4,7 +4,7 @@ import { push } from "../history";
 import { fetchSequences } from "../sequences/actions";
 import { fetchRegimens } from "../regimens/actions";
 import { error } from "../logger";
-import { AuthState, AuthToken } from "./interfaces";
+import { AuthState, AuthToken, User } from "./interfaces";
 import { fetchPlants } from "../farm_designer/actions";
 import { ReduxAction, Thunk } from "../interfaces";
 import * as Axios from "axios";
@@ -14,6 +14,7 @@ import { t } from "i18next";
 /** This is what a response from /api/tokens looks like. */
 export interface AuthResponse {
   token: AuthResponseToken;
+  user: User;
 };
 /** The "token" property of an auth response from the API. */
 export interface AuthResponseToken {
@@ -56,7 +57,8 @@ export function onLogin(dispatch: Function) {
       exp: tokenData.unencoded.exp,
       os_update_server: tokenData.unencoded.os_update_server,
       fw_update_server: tokenData.unencoded.fw_update_server,
-      authenticated: true
+      authenticated: true,
+      user: data.user
     };
     didLogin(authState, dispatch);
     push("/app/dashboard/controls");

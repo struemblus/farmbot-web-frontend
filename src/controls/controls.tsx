@@ -148,7 +148,7 @@ export class Controls extends React.Component<Everything, any> {
                         </div>
                       </div>
                       <div className="col-sm-12">
-                        <div className="widget-content">bot
+                        <div className="widget-content">
                           <label className="text-center"> {t("MOVE AMOUNT (mm)")} </label>
                           <div className="row">
                             <div className="col-sm-12">

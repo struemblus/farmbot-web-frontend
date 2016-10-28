@@ -24,5 +24,14 @@ export interface AuthState extends AuthToken {
   token: string;
   /** Is the client logged in right now? */
   authenticated?: boolean;
+  user?: User;
 }
 
+export interface User {
+  id: number;
+  device_id: number;
+  name: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+}
