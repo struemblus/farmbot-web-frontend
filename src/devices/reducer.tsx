@@ -1,6 +1,6 @@
 import { error, warning } from "../logger";
 import * as _ from "lodash";
-import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
+import { BotState, DeviceAccountSettings, HardwareState, RpcBotLog } from "./interfaces";
 import { generateReducer } from "../generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../interfaces";
@@ -188,7 +188,7 @@ export let botReducer = generateReducer<BotState>(initialState)
       dirty: false
     });
   })
-  .add<any>("BOT_LOG", function (state, { payload }) {
+  .add<RpcBotLog>("BOT_LOG", function (state, { payload }) {
     if (isBotLog(payload)) {
       state.logQueue.unshift(payload);
       state.logQueue = _.take(state.logQueue, state.logQueueSize);

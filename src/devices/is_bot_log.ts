@@ -4,7 +4,8 @@ const schema = {
     message: "string",
     time: "number",
     status: "object",
-    channels: "object"
+    channels: "object",
+    tags: "object"
 };
 
 export function isBotLog(log: BotLog | {}): log is BotLog {

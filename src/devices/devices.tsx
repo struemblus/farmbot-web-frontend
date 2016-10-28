@@ -249,7 +249,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <p>
-                                          {t(`This will restart FarmBot's Raspberry 
+                                          {t(`This will restart FarmBot's Raspberry
                                             Pi and controller software`)}
                                         </p>
                                       </td>
@@ -267,7 +267,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <p>
-                                          {t(`This will shutdown FarmBot's Raspberry Pi. 
+                                          {t(`This will shutdown FarmBot's Raspberry Pi.
                                               To turn it back on, unplug FarmBot
                                               and plug it back in.`)}
                                         </p>
@@ -518,7 +518,10 @@ class DevicesPage extends React.Component<Everything, any> {
                                   <th width="15%">
                                     <label>{t("TIME")}</label>
                                   </th>
-                                  <th width="75%">
+                                  <th width="20%">
+                                    <label>{t("TAGS")}</label>
+                                  </th>
+                                  <th width="50%">
                                     <label>{t("MESSAGE")}</label>
                                   </th>
                                   <th width="10%">
@@ -565,10 +568,19 @@ function Logs({logs}: LogsProps) {
       }
     }
 
+    function display_tags(log: BotLog) {
+      if (log.tags) {
+        return "[" + log.tags.join(",") + "]";
+      } else {
+        return "NO TAG";
+      }
+    }
+
     return <tbody>
       {
         logs.map((log, i) => <tr key={i}>
           <td> {displayTime(log.time)} </td>
+          <td> {display_tags(log)} </td>
           <td> {log.message} </td>
           <td> {displayCoordinates(log)} </td>
         </tr>)
