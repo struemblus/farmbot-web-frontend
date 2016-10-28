@@ -54,4 +54,4 @@ function logNotification(botLog:
         type: "BOT_LOG",
         payload: botLog.params[0]
     };
-}
+};
