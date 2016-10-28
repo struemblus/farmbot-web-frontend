@@ -19,7 +19,7 @@ export function nullSequence(): Sequence {
     kind: "sequence",
     args: {},
     body: [],
-    dirty: true
+    dirty: false
   };
 }
 function fetchSequencesNo(err: Error) {
@@ -223,6 +223,10 @@ export function deleteSequence(index: number) {
     let state: Everything = getState();
     let { iss } = state.auth;
     let sequence: Sequence = state.sequences.all[index];
+
+    if (!confirm(`Delete sequence '${sequence.name}'?`)) {
+      return;
+    }
 
     function deleteSequenceOK() {
       dispatch({
