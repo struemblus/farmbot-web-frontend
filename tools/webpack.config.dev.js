@@ -4,7 +4,16 @@ var exec = require("child_process").execSync;
 
 c = function () {
   var conf = generateConfig();
+  
+  conf
+    .module
+    .loaders
+    .push({
+      test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader'
+    });
+
   conf.devtool = 'source-map';
+
   conf
     .plugins
     .push(new webpack.DefinePlugin({

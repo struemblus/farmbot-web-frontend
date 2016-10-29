@@ -1,4 +1,4 @@
-require("!style!css!sass!./css/index.scss");
+require("./css/index.scss");
 import * as React from "react";
 
 import {

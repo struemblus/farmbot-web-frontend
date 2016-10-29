@@ -10,4 +10,7 @@ npm-debug.log
 app-resources/*bundle.js*
 app-resources/bundle.js
 app-resources/bundle.js.map
+app-resources/*styles.css*
+app-resources/styles.css
+app-resources/styles.css.map
 app/*bundle.js*

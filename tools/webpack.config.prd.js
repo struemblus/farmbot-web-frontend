@@ -2,9 +2,17 @@ var webpack = require('webpack');
 var generateConfig = require("./webpack.config.base");
 var exec = require("child_process").execSync;
 var path = require("path");
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 c = function () {
   var conf = generateConfig();
+
+  conf
+    .module
+    .loaders
+    .push({
+      test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css-loader!sass-loader')
+    });
 
   conf.devtool = 'source-map';
 
@@ -23,8 +31,10 @@ c = function () {
       compressor: { warnings: false },
     }));
 
+  conf
+    .plugins
+    .push(new ExtractTextPlugin("./styles.css"));
+
   return conf;
 }
 module.exports = c();
-
-
