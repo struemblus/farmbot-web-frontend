@@ -1,5 +1,6 @@
 import { generateReducer } from "../../generate_reducer";
 import { PeripheralState } from "./interfaces";
+import { UpdatePeripheral } from "./actions";
 
 let initialState: PeripheralState = {
     editorMode: "controlling",
@@ -18,4 +19,9 @@ export let peripheralReducer = generateReducer<PeripheralState>(initialState)
     .add<{}>("CONTROL_PERIPHERALS_START", function (state, action) {
         state.editorMode = "controlling";
         return state;
+    })
+    .add<UpdatePeripheral>("UPDATE_PERIPHERAL", function (s, a) {
+        let target = s.all[a.payload.index];
+        _.assign(target, a.payload.peripheral, { dirty: true });
+        return s;
     });

@@ -25,6 +25,8 @@ export class Peripherals extends React.Component<Everything, {}> {
             .all
             .map((p, i) => {
                 return <PeripheralForm key={i}
+                    dispatch={this.props.dispatch}
+                    index={i}
                     pin={this.getPin(p, pins)}
                     peripheral={p}
                     editorMode={this.props.peripherals.editorMode} />;
