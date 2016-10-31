@@ -8,6 +8,7 @@ import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
+import { Configuration } from "farmbot/dist/interfaces";
 
 let status = {
   NOT_READY: (): string => { return i18next.t("never connected to device"); },
@@ -21,7 +22,7 @@ let status = {
 };
 
 let initialState: BotState = {
-  account: { id: 0, uuid: "loading...", name: "loading..." },
+  account: { id: 0, name: "loading..." },
   logQueueSize: 20,
   logQueue: [],
   status: status.NOT_READY(),
@@ -42,6 +43,7 @@ let initialState: BotState = {
   },
   axisBuffer: {},
   settingsBuffer: {},
+  configBuffer: {},
   dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
@@ -89,22 +91,27 @@ export let botReducer = generateReducer<BotState>(initialState)
     state.dirty = false;
     return state;
   })
-  .add<undefined>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
+  .add<{}>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
     let hardware = _.assign({}, oldState.hardware, action.payload);
-    let state = _.assign<any, BotState>({}, oldState);
+    let state = _.assign<{}, BotState>({}, oldState);
 
-    return _.assign<any, BotState>({}, state, {
+    return _.assign<{}, BotState>({}, state, {
       axisBuffer: {},
       hardware
     });
   })
-  .add<any>("CHANGE_AXIS_BUFFER", function (state, action) {
-    // let axisBuffer: any = _.assign({}, state.axisBuffer);
+  .add<{ key: "x" | "y" | "z", val: string }>("CHANGE_AXIS_BUFFER", function (state, action) {
     state.axisBuffer[action.payload.key] = action.payload.val;
-
-    return _.assign<any, BotState>({}, state, {
+    return _.assign<{}, BotState>({}, state, {
       axisBuffer: state.axisBuffer
     });
+  })
+  .add<Configuration>("CHANGE_CONFIG_BUFFER", function (state, action) {
+    let old_buffer = state.configBuffer;
+    let new_buffer = action.payload;
+    _.assign(old_buffer, new_buffer);
+    let new_state = _.assign<{}, BotState>({}, state, { config_buffer: new_buffer });
+    return new_state; // I am doing something wrong.
   })
   .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER", function (state, action) {
     let newVal = action.payload.val;
@@ -113,12 +120,12 @@ export let botReducer = generateReducer<BotState>(initialState)
     } else {
       delete state.settingsBuffer[action.payload.key];
     }
-    return _.assign<any, BotState>({}, state, {
+    return _.assign<{}, BotState>({}, state, {
       settingsBuffer: state.settingsBuffer
     });
   })
-  .add<any>("CHANGE_STEP_SIZE", function (state, action) {
-    return _.assign<any, BotState>({}, state, {
+  .add<number>("CHANGE_STEP_SIZE", function (state, action) {
+    return _.assign<{}, BotState>({}, state, {
       stepSize: action.payload
     });
   })
@@ -126,23 +133,8 @@ export let botReducer = generateReducer<BotState>(initialState)
   function (state, action) {
     state.hardware = action.payload;
     return state;
-  }
-  )
-  .add<any>("CONNECT_OK", function (state, action) {
-    return _.assign<any, BotState>({},
-      state,
-      action.payload, {
-        status: status.CONNECTED,
-        connected: true
-      });
   })
-  .add<any>("CONNECT_ERR", function (state, action) {
-    return _.assign<any, BotState>({},
-      state, {
-        status: status.WEBSOCKET_ERR
-      });
-  })
-  .add<any>("CHANGE_DEVICE", function (s, a) {
+  .add<DeviceAccountSettings>("CHANGE_DEVICE", function (s, a) {
     _.assign(s.account, a.payload, { dirty: true });
     return s;
   })
@@ -150,7 +142,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<any>("FETCH_DEVICE_OK", function (state, { payload }) {
-    return _.assign<any, BotState>({},
+    return _.assign<{}, BotState>({},
       state,
       payload, {
         status: status.AWAITING_WEBSOCKET
@@ -158,14 +150,7 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<any>("FETCH_DEVICE_ERR", function (state, action) {
     // TODO: Toast messages do not belong in a reducer.
-    if (action.payload.status === 404) {
-      warning(i18next.t("You need to add a device to your account."),
-        i18next.t("No device found!"));
-    } else {
-      error(i18next.t("Unable to download device data from server."),
-        i18next.t("Check your internet connection."));
-    };
-    return _.assign<any, BotState>({},
+    return _.assign<{}, BotState>({},
       state, {
         status: status.API_ERROR
       });
@@ -184,7 +169,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<any>("SAVE_DEVICE_OK", function (state, action) {
-    return _.assign<any, BotState>({}, state, action.payload, {
+    return _.assign<{}, BotState>({}, state, action.payload, {
       dirty: false
     });
   })

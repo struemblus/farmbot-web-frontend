@@ -13,14 +13,14 @@ import {
   addDevice,
   settingToggle,
   changeSettingsBuffer,
+  changeConfigBuffer,
   commitSettingsChanges,
   checkControllerUpdates,
   reboot,
   powerOff,
   checkArduinoUpdates,
   clearLogs,
-  toggleOSAutoUpdate,
-  toggleFWAutoUpdate
+  updateConfig
 } from "./actions";
 import { t } from "i18next";
 
@@ -29,6 +29,7 @@ interface UpdateButtonProps {
 }
 
 let OsUpdateButton = ({bot}: UpdateButtonProps) => {
+  let osUpdateBool = bot.hardware.configuration.os_auto_update;
   let buttonStr = "Can't Connect to bot";
   let buttonColor = "yellow";
   if (bot.currentOSVersion != undefined) {
@@ -42,13 +43,23 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
   } else {
     buttonStr = "Can't Connect to release server";
   }
-  return (<button className={"button-like " + buttonColor}
-    onClick={() => checkControllerUpdates()}>
-    {buttonStr}
-  </button >);
+  return (
+    <div>
+      <button className={"button-like " + buttonColor}
+        onClick={() => checkControllerUpdates()}>
+        {buttonStr}
+      </button >
+      <p> {t("OS Auto Updates")}
+        <ToggleButton toggleval=
+          {String(osUpdateBool) || "undefined"}
+          toggleAction={() => { updateConfig({ os_auto_update: !osUpdateBool }); } } />
+      </p>
+    </div>
+  );
 };
 
 let FwUpdateButton = ({bot}: UpdateButtonProps) => {
+  let fwUpdateBool = bot.hardware.configuration.fw_auto_update;
   let buttonStr = "Can't Connect to bot";
   let buttonColor = "yellow";
   if (bot.currentFWVersion != undefined) {
@@ -60,13 +71,56 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
       buttonColor = "green";
     }
   }
-  return (<button className={"button-like " + buttonColor}
-    onClick={() => checkArduinoUpdates()}>
-    {buttonStr}
-  </button >);
+  return (
+    <div>
+      <button className={"button-like " + buttonColor}
+        onClick={() => checkArduinoUpdates()}>
+        {buttonStr}
+      </button >
+      <p> {t("OS Auto Updates")}
+        <ToggleButton toggleval=
+          {String(fwUpdateBool) || "undefined"}
+          toggleAction={() => { updateConfig({ fw_auto_update: !fwUpdateBool }); } } />
+      </p>
+    </div>);
 };
 
-export class SettingsInputBox extends React.Component<any, any> {
+export class ConfigInputBox extends React.Component<any, any> {
+  primary() {
+    return this.props.bot.configBuffer[this.props.setting];
+  }
+  secondary() {
+    let num = this.props.bot.hardware.configuration[this.props.setting];
+    if (_.isNumber(num)) {
+      return String(num); // Prevent 0 from being falsy.
+    } else {
+      return num;
+    }
+  }
+
+  style() {
+    return {
+      border: (this.primary()) ? "1px solid red" : ""
+    };
+  }
+
+  change(key: string, dispatch: Function) {
+    return function (event: React.FormEvent) {
+      let formInput: string = (event.target as HTMLInputElement).value;
+      dispatch(changeConfigBuffer({ [key]: Number(formInput) }));
+    };
+  }
+
+  render() {
+    return (
+      <input type="text"
+        style={this.style()}
+        onChange={this.change(this.props.setting, this.props.dispatch)}
+        value={this.primary() || this.secondary() || "---"} />);
+  }
+}
+
+export class McuInputBox extends React.Component<any, any> {
 
   primary() {
     return this.props.bot.settingsBuffer[this.props.setting];
@@ -205,16 +259,6 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <OsUpdateButton { ...this.props } />
-                                        <p> {t("OS Auto Updates")}
-                                          <ToggleButton toggleval=
-                                            {String(this
-                                              .props
-                                              .bot
-                                              .hardware
-                                              .configuration
-                                              .os_auto_update) || "undefined"}
-                                            toggleAction={() => toggleOSAutoUpdate()} />
-                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -231,16 +275,6 @@ class DevicesPage extends React.Component<Everything, any> {
                                       </td>
                                       <td>
                                         <FwUpdateButton { ...this.props } />
-                                        <p> {t("FW Auto Updates")}
-                                          <ToggleButton toggleval=
-                                            {String(this
-                                              .props
-                                              .bot
-                                              .hardware
-                                              .configuration
-                                              .fw_auto_update) || "undefined"}
-                                            toggleAction={() => toggleFWAutoUpdate()} />
-                                        </p>
                                       </td>
                                     </tr>
                                     <tr>
@@ -319,6 +353,8 @@ class DevicesPage extends React.Component<Everything, any> {
                         </div>
                         <div className="row">
                           <div className="col-sm-12">
+                            {t("STEPS PER MM")}
+                            <ConfigInputBox setting="steps_per_mm" {...this.props} />
                             <table className="plain">
                               <thead>
                                 <tr>
@@ -339,55 +375,41 @@ class DevicesPage extends React.Component<Everything, any> {
                                   <td>
                                     <label>{t("MAX SPEED (mm/s)")}</label>
                                   </td>
-                                  <SettingsInputBox setting="movement_max_spd_x" {...this.props} />
-                                  <SettingsInputBox setting="movement_max_spd_y" {...this.props} />
-                                  <SettingsInputBox setting="movement_max_spd_z" {...this.props} />
+                                  <McuInputBox setting="movement_max_spd_x" {...this.props} />
+                                  <McuInputBox setting="movement_max_spd_y" {...this.props} />
+                                  <McuInputBox setting="movement_max_spd_z" {...this.props} />
                                 </tr>
                                 <tr>
                                   <td>
                                     <label>{t("ACCELERATE FOR (steps)")}</label>
                                   </td>
-                                  <SettingsInputBox setting="movement_steps_acc_dec_x"
+                                  <McuInputBox setting="movement_steps_acc_dec_x"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_steps_acc_dec_y"
+                                  <McuInputBox setting="movement_steps_acc_dec_y"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_steps_acc_dec_z"
+                                  <McuInputBox setting="movement_steps_acc_dec_z"
                                     {...this.props} />
                                 </tr>
                                 <tr>
                                   <td>
                                     <label>{t("TIMEOUT AFTER (seconds)")}</label>
                                   </td>
-                                  <SettingsInputBox setting="movement_timeout_x"
+                                  <McuInputBox setting="movement_timeout_x"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_timeout_y"
+                                  <McuInputBox setting="movement_timeout_y"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_timeout_z"
+                                  <McuInputBox setting="movement_timeout_z"
                                     {...this.props} />
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <label>{t("STEPS PER MM")}</label>
-                                  </td>
-                                  <td>
-                                    <input value="---" readOnly />
-                                  </td>
-                                  <td>
-                                    <input value="---" readOnly />
-                                  </td>
-                                  <td>
-                                    <input value="---" readOnly />
-                                  </td>
                                 </tr>
                                 <tr>
                                   <td>
                                     <label>{t("LENGTH (m)")}</label>
                                   </td>
-                                  <SettingsInputBox setting="movement_axis_nr_steps_x"
+                                  <McuInputBox setting="movement_axis_nr_steps_x"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_axis_nr_steps_y"
+                                  <McuInputBox setting="movement_axis_nr_steps_y"
                                     {...this.props} />
-                                  <SettingsInputBox setting="movement_axis_nr_steps_z"
+                                  <McuInputBox setting="movement_axis_nr_steps_z"
                                     {...this.props} />
                                 </tr>
                                 <tr>
