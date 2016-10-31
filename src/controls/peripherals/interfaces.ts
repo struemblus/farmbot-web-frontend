@@ -1,3 +1,5 @@
+export type EditorMode = "editing" | "controlling";
+
 export interface PeripheralState {
-    foo: string;
+    editorMode: EditorMode;
 };

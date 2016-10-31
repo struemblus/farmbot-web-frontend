@@ -4,6 +4,7 @@ import { ToggleButton } from "../toggle_button";
 import { Pin, Pins } from "farmbot/dist/interfaces";
 import { Everything } from "../../interfaces";
 import { pinToggle } from "../../devices/actions";
+import { TitleBar } from "./title_bar";
 
 export class Peripherals extends React.Component<Everything, {}> {
     getPin(pin: number, pins: Pins): Pin {
@@ -19,26 +20,8 @@ export class Peripherals extends React.Component<Everything, {}> {
     }
     render() {
         return (<div>
-            <div className="col-sm-12">
-                <button
-                    className="gray button-like widget-control"
-                    type="button">
-                    {t("EDIT")}
-                </button>
-                <div className="widget-header">
-                    <h5>Peripherals</h5>
-                    <i className="fa fa-question-circle widget-help-icon">
-                        <div className="widget-help-text">
-                            {t(`Use these toggle
-                              switches to control FarmBot's peripherals and peripherals
-                              in realtime. To edit and create new peripherals, press
-                              the button. Make sure to turn
-                              things off when you're done! Coming soon: a working
-                              edit button.`)}
-                        </div>
-                    </i>
-                </div>
-            </div>
+            <TitleBar {...this.props.peripherals}
+                dispatch={this.props.dispatch} />
             <div className="col-sm-12">
                 <div className="widget-content no-bottom-padding">
                     <div className="row">

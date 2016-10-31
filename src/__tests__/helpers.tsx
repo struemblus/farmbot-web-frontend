@@ -2,6 +2,7 @@ import * as React from "react";
 import { Everything } from "../interfaces";
 import { ConfigState } from "../config/interfaces";
 import { BotState } from "../devices/interfaces";
+import { PeripheralState } from "../controls/peripherals/interfaces";
 
 export class Wrapper extends React.Component<any, any> {
   render() {
@@ -117,6 +118,10 @@ export function fakeState(dispatcher?: Function): Everything {
     port: "5555"
   };
 
+  let peripherals: PeripheralState = {
+    editorMode: "controlling"
+  };
+
   let draggable = { dataTransfer: {} };
   return {
     location
@@ -130,5 +135,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , bulkScheduler
     , config
     , draggable
+    , peripherals
   };
 }
