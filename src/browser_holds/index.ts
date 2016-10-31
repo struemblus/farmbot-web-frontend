@@ -3,8 +3,8 @@ import { Store } from "redux";
 function hasUnsavedChanges(store: Store) {
     // Kind of a funny alternative to tree traversal, but I think it is easier
     // to debug and probably faster than using LoDash, since it is a native API.
-    return (JSON
-        .stringify(store.getState())
+    let state = JSON.stringify(store.getState()) || "";
+    return (state
         .replace(" ", "")
         .indexOf('"dirty":true') !== -1);
 }
