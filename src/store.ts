@@ -33,7 +33,7 @@ let reducers = combineReducers({
   draggable
 });
 
-let rootReducer = function (state: Everything | undefined | {},
+let rootReducer = function (state: Everything | {},
   action: ReduxAction<{}>) {
   if (action.type === "LOGOUT") {
     success("You have been logged out.");
