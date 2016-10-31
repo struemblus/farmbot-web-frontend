@@ -1,5 +1,5 @@
 import * as React from "react";
-import { startEditing, startControlling } from "./actions";
+import { startEditing, startControlling, saveAll } from "./actions";
 import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
 
@@ -18,17 +18,17 @@ function TitleBarEditing(props: TitleBarProps) {
 
     return <div className="col-sm-12">
         <button
-            hidden={!dirty}
-            className="green button-like widget-control"
-            type="button"
-            onClick={() => alert("Not implemented yet.")}>
-            {t("SAVE*")}
-        </button>
-        <button
             className="gray button-like widget-control"
             type="button"
             onClick={() => props.dispatch(startControlling())}>
             {t("CANCEL")}
+        </button>
+        <button
+            hidden={!dirty}
+            className="green button-like widget-control"
+            type="button"
+            onClick={() => props.dispatch(saveAll())}>
+            {t("SAVE*")}
         </button>
         <div className="widget-header">
             <h5>Peripherals</h5>

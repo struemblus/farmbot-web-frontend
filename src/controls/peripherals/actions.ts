@@ -1,4 +1,4 @@
-import { ReduxAction } from "../../interfaces";
+import { ReduxAction, Everything } from "../../interfaces";
 import { Peripheral } from "./interfaces";
 
 export function startEditing(): ReduxAction<{}> {
@@ -29,3 +29,39 @@ export function updatePeripheral({index, peripheral}: UpdatePeripheral):
         }
     };
 };
+
+interface IndexedPeripheral {
+    index: number;
+    peripheral: Peripheral;
+}
+
+export function saveAll() {
+    return function (dispatch: Function, getState: () => Everything) {
+        if (1 + 1 === 2) { return alert("Work in progress"); }
+        let saveThese: IndexedPeripheral[] = [];
+        getState()
+            .peripherals
+            .all
+            .map(function (peripheral, index) {
+                if (peripheral.dirty) {
+                    saveThese.push({ index, peripheral });
+                }
+            });
+
+        let all = saveThese.map(function (ip) {
+            let { index, peripheral } = ip;
+            if (ip.peripheral.dirty) {
+                saveThese.push({ index, peripheral });
+            }
+        });
+
+        Promise
+            .all(all)
+            .then(function () {
+                debugger;
+            })
+            .catch(function () {
+                debugger;
+            });
+    };
+}
