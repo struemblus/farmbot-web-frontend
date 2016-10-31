@@ -19,7 +19,7 @@ import { Everything, ReduxAction } from "./interfaces";
 import {
   BulkSchedulerReducer as bulkScheduler
 } from "./regimens/bulk_scheduler/reducer";
-
+import { success } from "./logger";
 let reducers = combineReducers({
   routing,
   auth,
@@ -33,9 +33,12 @@ let reducers = combineReducers({
   draggable
 });
 
-let rootReducer = function (state: Everything | undefined,
+let rootReducer = function (state: Everything | undefined | {},
   action: ReduxAction<{}>) {
-  if (action.type === "LOGOUT") { return state = undefined; }
+  if (action.type === "LOGOUT") {
+    success("You have been logged out.");
+    return state = {};
+  }
   return reducers(state, action);
 };
 
