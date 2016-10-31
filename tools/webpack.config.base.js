@@ -3,7 +3,7 @@ var path = require('path')
   , execSync = require('child_process').execSync
   , webpack = require('webpack');
 
-exec("rm app-resources/*bundle.js*"); // Clean previous stuff.
+exec("rm app-resources/*bundle.js* app-resources/*styles.css*"); // Clean previous stuff.
 
 var revisionPlugin = new webpack.DefinePlugin({
   'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
