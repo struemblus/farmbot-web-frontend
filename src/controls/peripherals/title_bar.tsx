@@ -7,10 +7,8 @@ interface TitleBarProps extends PeripheralState { dispatch: Function; }
 
 export function TitleBar(props: TitleBarProps) {
     if (props.editorMode === "controlling") {
-        console.log("DING");
         return <TitleBarControlling {...props} />;
     } else {
-        console.log("DONG");
         return <TitleBarEditing {...props} />;
     };
 }

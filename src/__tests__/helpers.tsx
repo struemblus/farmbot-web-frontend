@@ -119,7 +119,8 @@ export function fakeState(dispatcher?: Function): Everything {
   };
 
   let peripherals: PeripheralState = {
-    editorMode: "controlling"
+    editorMode: "controlling",
+    all: []
   };
 
   let draggable = { dataTransfer: {} };
