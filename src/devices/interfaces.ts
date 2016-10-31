@@ -1,4 +1,4 @@
-import { BotStateTree } from "farmbot/dist/interfaces";
+import { BotStateTree, Configuration } from "farmbot/dist/interfaces";
 
 export interface BotLog {
   /** The actual message that was emitted */
@@ -19,7 +19,6 @@ export interface BotLog {
 export interface DeviceAccountSettings {
   id: number;
   name: string;
-  uuid: string;
   webcam_url?: string;
   /** Must the deivce be saved? */
   dirty?: boolean;
@@ -81,6 +80,7 @@ export interface BotState {
     movement_timeout_z?: string;
     [name: string]: string | undefined;
   };
+  configBuffer: Configuration;
   hardware: HardwareState;
 }
 

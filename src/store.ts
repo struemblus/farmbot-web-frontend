@@ -8,6 +8,7 @@ import {
 import { authReducer as auth } from "./auth/reducer";
 import { sequenceReducer as sequences } from "./sequences/reducer";
 import { botReducer as bot } from "./devices/reducer";
+import { peripheralReducer as peripherals } from "./controls/peripherals/reducer";
 import { configReducer as config } from "./config/reducer";
 import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "./regimens/reducer";
@@ -30,7 +31,8 @@ let reducers = combineReducers({
   config,
   designer,
   ticker,
-  draggable
+  draggable,
+  peripherals
 });
 
 let rootReducer = function (state: Everything | {},

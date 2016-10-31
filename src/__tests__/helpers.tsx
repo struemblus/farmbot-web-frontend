@@ -2,6 +2,7 @@ import * as React from "react";
 import { Everything } from "../interfaces";
 import { ConfigState } from "../config/interfaces";
 import { BotState } from "../devices/interfaces";
+import { PeripheralState } from "../controls/peripherals/interfaces";
 
 export class Wrapper extends React.Component<any, any> {
   render() {
@@ -49,8 +50,7 @@ export function fakeState(dispatcher?: Function): Everything {
   let bot: BotState = {
     account: {
       id: 1,
-      name: "wow",
-      uuid: "000-000-000-000"
+      name: "wow"
     },
     /** Maximum number of messages to cache. Excess is truncated. */
     logQueueSize: 0,
@@ -76,6 +76,10 @@ export function fakeState(dispatcher?: Function): Everything {
       movement_timeout_x: "",
       movement_timeout_y: "",
       movement_timeout_z: "",
+    },
+    configBuffer: {
+      os_auto_update: false,
+      fw_auto_update: true
     },
     hardware: {
       mcu_params: {},
@@ -117,6 +121,11 @@ export function fakeState(dispatcher?: Function): Everything {
     port: "5555"
   };
 
+  let peripherals: PeripheralState = {
+    editorMode: "controlling",
+    all: []
+  };
+
   let draggable = { dataTransfer: {} };
   return {
     location
@@ -130,5 +139,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , bulkScheduler
     , config
     , draggable
+    , peripherals
   };
 }

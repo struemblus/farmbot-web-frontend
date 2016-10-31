@@ -1,10 +1,17 @@
 import * as React from "react";
 
-interface BIProps { value: string; onCommit: Function; }
+interface BIProps {
+    value: string;
+    onCommit: Function;
+    type?: "text" | "number";
+}
 
-interface BIState { buffer?: string; isEditing?: boolean; }
+interface BIState {
+    buffer?: string;
+    isEditing?: boolean;
+}
 
-export class BlurableInput extends React.Component<BIProps, BIState> {
+export class BlurableInput<T> extends React.Component<BIProps, BIState> {
     constructor(props: BIProps) {
         super();
         this.state = { buffer: "", isEditing: false };
@@ -30,6 +37,6 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
             onFocus={this.focus.bind(this)}
             onChange={this.updateBuffer.bind(this)}
             onBlur={this.maybeCommit.bind(this)}
-            type="text" />;
+            type={this.props.type || "text"} />;
     }
 }

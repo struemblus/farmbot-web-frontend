@@ -8,6 +8,7 @@ import { SequenceReducerState } from "./sequences/interfaces";
 import { DesignerState } from "./farm_designer/interfaces";
 import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";
 import { DragableState } from "./draggable/interfaces";
+import { PeripheralState } from "./controls/peripherals/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
@@ -53,4 +54,5 @@ export interface Everything {
   bulkScheduler: BulkSchedulerState;
   location: Location;
   draggable: DragableState;
+  peripherals: PeripheralState;
 };
