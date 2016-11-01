@@ -10,6 +10,7 @@ import { ReduxAction, Thunk } from "../interfaces";
 import { fetchPeripherals } from "../controls/peripherals/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
+import { devices } from "../device";
 
 
 /** This is what a response from /api/tokens looks like. */
@@ -33,6 +34,8 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchPlants(authState.iss));
   dispatch(connectDevice(authState.token));
   dispatch(fetchPeripherals(authState.iss));
+  devices.current.sync();
+
 };
 
 export function downloadDeviceData(baseUrl: string): Thunk {

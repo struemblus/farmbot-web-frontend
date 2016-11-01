@@ -3,6 +3,7 @@ import * as axios from "axios";
 import { error } from "../../logger";
 import { t } from "i18next";
 import { IndexedPeripheral, Peripheral } from "./interfaces";
+import { devices } from "../../device";
 
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
@@ -64,6 +65,7 @@ export function destroyPeripheral(payload: IndexedPeripheral) {
 export function saveAll() {
     return function (dispatch: Function, getState: () => Everything) {
         let state = getState();
+        devices.current.sync();
         axios
             .post<Peripheral[]>(peripheralUrl(state.auth.iss),
             { peripherals: state.peripherals.all })
