@@ -15,8 +15,8 @@ function firstPerson(color: string, message: string, show = true) {
         // TODO: HACK: This is such a hack, but I can't think of a
         // faster way to get it done and it's not a very critical part of the
         // system. PRs welcome. Help appreciated. In the meantime, #shipIt
-        let n = _.get<string>(store.getState(), "bot.account.name", "Bot");
-        message = i18next.t(`${n} is ${message}`);
+        let name = _.get<string>(store.getState(), "bot.account.name", "Bot");
+        message = i18next.t(`{{name}} is {{message}}`, { name, message });
         return { color, message, show };
     };
 }
