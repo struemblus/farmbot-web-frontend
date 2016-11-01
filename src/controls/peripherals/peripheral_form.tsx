@@ -27,10 +27,16 @@ export function PeripheralForm(props: PeripheralFormProps) {
     };
 };
 
+/** How the bottom half of the peripheral box looks when you are NOT EDITING */
 function PeripheralFormControl({peripheral, pin}: PeripheralFormProps) {
     return <div className="row">
         <div className="col-sm-4">
-            <label>{peripheral.label}</label>
+            <label>
+                {
+                    (pin.value === -1) ? <i className="fa fa-hourglass widget-help-icon" /> : ""
+                }
+                {" " + peripheral.label}
+            </label>
         </div>
 
         <div className="col-sm-4">
@@ -45,6 +51,7 @@ function PeripheralFormControl({peripheral, pin}: PeripheralFormProps) {
 };
 
 
+/** How the bottom half of the peripheral box looks when you are EDITING */
 class PeripheralFormEdit extends React.Component<PeripheralFormProps, {}> {
     commitLabel(e: React.FormEvent) {
         let label = (e.target as HTMLInputElement).value;
