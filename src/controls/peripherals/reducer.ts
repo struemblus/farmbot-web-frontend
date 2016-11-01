@@ -24,6 +24,11 @@ export let peripheralReducer = generateReducer<PeripheralState>(initialState)
         state.all.splice(action.payload.index, 1);
         return state;
     })
+    .add<Peripheral>("PUSH_PERIPHERAL", function (state, action) {
+        action.payload.dirty = true;
+        state.all.push(action.payload);
+        return state;
+    })
     .add<Peripheral[]>("REPLACE_PERIPHERALS", function (state, action) {
         state.all = action.payload;
         state.editorMode = "controlling";

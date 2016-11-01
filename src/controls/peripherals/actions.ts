@@ -1,9 +1,8 @@
 import { ReduxAction, Everything } from "../../interfaces";
-import { Peripheral } from "./interfaces";
 import * as axios from "axios";
 import { error } from "../../logger";
 import { t } from "i18next";
-import { IndexedPeripheral } from "./interfaces";
+import { IndexedPeripheral, Peripheral } from "./interfaces";
 
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
@@ -96,6 +95,10 @@ export function fetchPeripherals(baseUrl: string) {
                 });
             });
     };
+}
+
+export function pushPeripheral(payload: Peripheral) {
+    return { type: "PUSH_PERIPHERAL", payload };
 }
 
 let peripheralUrl = (base: string) => `${base}/api/peripherals/`;

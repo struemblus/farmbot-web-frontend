@@ -2,8 +2,9 @@ import * as React from "react";
 import { Pin, Pins } from "farmbot/dist/interfaces";
 import { Everything } from "../../interfaces";
 import { TitleBar } from "./title_bar";
-import { PeripheralForm } from "./peripheral_form";
+import { PeripheralItem } from "./peripheral_item";
 import { Peripheral } from "./interfaces";
+import { PeripheralForm } from "./peripheral_form";
 
 export class Peripherals extends React.Component<Everything, {}> {
     getPin(p: Peripheral, pins: Pins): Pin {
@@ -24,7 +25,7 @@ export class Peripherals extends React.Component<Everything, {}> {
             .peripherals
             .all
             .map((p, i) => {
-                return <PeripheralForm key={i}
+                return <PeripheralItem key={i}
                     dispatch={this.props.dispatch}
                     index={i}
                     pin={this.getPin(p, pins)}
@@ -39,6 +40,8 @@ export class Peripherals extends React.Component<Everything, {}> {
             <div className="col-sm-12">
                 <div className="widget-content no-bottom-padding">
                     {this.peripherals.call(this)}
+                    <PeripheralForm dispatch={this.props.dispatch}
+                        editorMode={this.props.peripherals.editorMode} />
                 </div>
             </div></div>);
     };
