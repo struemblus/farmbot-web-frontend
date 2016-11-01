@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Peripheral, EditorMode } from "./interfaces";
-import { updatePeripheral } from "./actions";
+import { updatePeripheral, destroyPeripheral } from "./actions";
 import { t } from "i18next";
 import { ToggleButton } from "../toggle_button";
 import { pinToggle } from "../../devices/actions";
@@ -70,7 +70,7 @@ class PeripheralFormEdit extends React.Component<PeripheralFormProps, {}> {
     }
 
     render() {
-        let { peripheral } = this.props;
+        let { peripheral, index, dispatch } = this.props;
         return <div className="row">
             <div className="col-sm-4">
                 <BlurableInput value={peripheral.label}
@@ -82,7 +82,8 @@ class PeripheralFormEdit extends React.Component<PeripheralFormProps, {}> {
                     onCommit={this.commitPin.bind(this)} />
             </div>
             <div className="col-sm-4">
-                <button className="button-like red">X</button>
+                <button className="button-like red"
+                    onClick={() => dispatch(destroyPeripheral({ index, peripheral }))}>X</button>
             </div>
         </div>;
     }

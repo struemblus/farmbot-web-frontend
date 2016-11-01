@@ -12,3 +12,10 @@ export interface Peripheral {
     mode: number;
     label: string;
 }
+
+/** A combination of a peripheral object,
+ * plus its index within state.peripheral.all */
+export interface IndexedPeripheral {
+    index: number;
+    peripheral: Peripheral;
+}

@@ -2,11 +2,16 @@ import { ReduxAction, Everything } from "../../interfaces";
 import { Peripheral } from "./interfaces";
 import * as axios from "axios";
 import { error } from "../../logger";
+import { t } from "i18next";
+import { IndexedPeripheral } from "./interfaces";
 
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
 export function startEditing(): ReduxAction<{}> {
-    return { type: "EDIT_PERIPHERALS_START", payload: {} };
+    return {
+        type: "EDIT_PERIPHERALS_START",
+        payload: {}
+    };
 }
 
 /** Flips the peripheral form out of the editing state. */
@@ -36,31 +41,61 @@ export function updatePeripheral({index, peripheral}: UpdatePeripheral):
     };
 };
 
-/** A combination of a peripheral object,
- * plus its index within state.peripheral.all */
-interface IndexedPeripheral {
-    index: number;
-    peripheral: Peripheral;
+export function destroyPeripheral(payload: IndexedPeripheral) {
+    return function (dispatch: Function, getState: () => Everything) {
+        let state = getState();
+        let id = payload.peripheral.id;
+        function remove() {
+            dispatch({
+                type: "REMOVE_PERIPHERAL",
+                payload
+            });
+        }
+        if (id) {
+            axios
+                .delete(peripheralUrl(state.auth.iss) + id)
+                .then(remove)
+                .catch(handleError("Peripheral deletion failed."));
+        } else {
+            remove();
+        };
+    };
 }
 
 export function saveAll() {
     return function (dispatch: Function, getState: () => Everything) {
         let state = getState();
-        let url = `${state.auth.iss}/api/peripherals/`;
-        let peripherals = state.peripherals.all;
         axios
-            .post<Peripheral[]>(url, { peripherals })
+            .post<Peripheral[]>(peripheralUrl(state.auth.iss),
+            { peripherals: state.peripherals.all })
             .then(function (x) {
                 dispatch({
                     type: "REPLACE_PERIPHERALS",
                     payload: x.data
                 });
             })
-            .catch(function (x) {
-                let message = _.get(x,
-                    "response.data.error",
-                    "There was a problem saving peripherals")
-                error(message);
+            .catch(handleError("There was a problem saving peripherals"));
+    };
+}
+
+function handleError(defaultMsg: string) {
+    return function (x: any) {
+        let message = _.get(x, "response.data.error", t(defaultMsg));
+        error(message);
+    };
+}
+
+export function fetchPeripherals(baseUrl: string) {
+    return function (dispatch: Function) {
+        axios
+            .get(peripheralUrl(baseUrl))
+            .then(function (x) {
+                dispatch({
+                    type: "REPLACE_PERIPHERALS",
+                    payload: x.data
+                });
             });
     };
 }
+
+let peripheralUrl = (base: string) => `${base}/api/peripherals/`;
