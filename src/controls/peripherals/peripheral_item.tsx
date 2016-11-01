@@ -45,7 +45,7 @@ function PeripheralItemControl({peripheral, pin}: PeripheralItemProps) {
 
         <div className="col-sm-4">
             <ToggleButton toggleval={pin.value}
-                toggleAction={() => pinToggle(pin.value)} />
+                toggleAction={() => pinToggle(peripheral.pin)} />
         </div>
     </div>;
 };
