@@ -18,12 +18,19 @@ export class Peripherals extends React.Component<Everything, {}> {
             };
         }
     }
+
     peripherals() {
         let pins = this.props.bot.hardware.pins;
-        return this
+        let all = this
             .props
             .peripherals
-            .all
+            .all;
+        if (!all.length && this.props.peripherals.editorMode === "controlling") {
+            return [
+                <p key="foo">Click "Edit" to add new peripherals.</p>
+            ];
+        };
+        return all
             .map((p, i) => {
                 return <PeripheralItem key={i}
                     dispatch={this.props.dispatch}

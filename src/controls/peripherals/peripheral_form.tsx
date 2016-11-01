@@ -63,6 +63,7 @@ class PeripheralFormEdit extends React.Component<PeripheralFormProps,
         return <div className="row">
             <div className="col-sm-4">
                 <input type="text"
+                    placeholder="Label"
                     onChange={this.commitLabel.bind(this)}
                     value={this.state.label}
                     />

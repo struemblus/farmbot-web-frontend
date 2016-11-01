@@ -31,12 +31,7 @@ export function PeripheralItem(props: PeripheralItemProps) {
 function PeripheralItemControl({peripheral, pin}: PeripheralItemProps) {
     return <div className="row">
         <div className="col-sm-4">
-            <label>
-                {
-                    (pin.value === -1) ? <i className="fa fa-hourglass widget-help-icon" /> : ""
-                }
-                {" " + peripheral.label}
-            </label>
+            <label> {peripheral.label} </label>
         </div>
 
         <div className="col-sm-4">
