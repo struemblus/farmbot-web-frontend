@@ -36,11 +36,11 @@ export let tickerReducer = generateReducer<TickerState>({
     .add<{}>("LOGIN_OK", firstPerson(YELLOW, "logged in."))
     .add<{}>("LOGIN_ERR", change(RED, "Bad login"))
     .add<{}>("FETCH_PLANTS_START", firstPerson(YELLOW, "fetching plants."))
-    .add<{}>("FETCH_PLANTS_OK", change(GREEN, "Done fetching plants"))
+    .add<{}>("FETCH_PLANTS_OK", firstPerson(GREEN, "done fetching plants"))
     .add<{}>("FETCH_PLANTS_ERR", firstPerson(RED, "unable to fetch plants."))
     .add<{}>("FETCH_SEQUENCES_OK", firstPerson(GREEN, "done fetching sequences."))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
-    .add<{}>("BOT_SYNC_OK", change(GREEN, "Bot Status OK"))
+    .add<{}>("BOT_SYNC_OK", change(GREEN, "synced"))
     .add<string>("BOT_ERROR", (s, a) => {
         return { color: RED, message: a.payload, show: true };
     })
