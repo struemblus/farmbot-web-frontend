@@ -8,7 +8,19 @@ export interface PeripheralState {
 export interface Peripheral {
     id?: number;
     dirty?: boolean;
+    mode?: number;
     pin: number;
-    mode: number;
     label: string;
+}
+
+/** A combination of a peripheral object,
+ * plus its index within state.peripheral.all */
+export interface IndexedPeripheral {
+    index: number;
+    peripheral: Peripheral;
+}
+
+export interface PeripheralFormProps {
+    dispatch: Function;
+    editorMode: EditorMode;
 }

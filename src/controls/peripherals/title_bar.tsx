@@ -21,7 +21,7 @@ function TitleBarEditing(props: TitleBarProps) {
             className="gray button-like widget-control"
             type="button"
             onClick={() => props.dispatch(startControlling())}>
-            {t("CANCEL")}
+            {t("BACK")}
         </button>
         <button
             hidden={!dirty}

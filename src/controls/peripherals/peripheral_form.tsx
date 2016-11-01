@@ -1,81 +1,84 @@
 import * as React from "react";
-import { Peripheral, EditorMode } from "./interfaces";
-import { updatePeripheral } from "./actions";
+import { PeripheralFormProps } from "./interfaces";
+import { pushPeripheral } from "./actions";
+import { error } from "../../logger";
 import { t } from "i18next";
-import { ToggleButton } from "../toggle_button";
-import { pinToggle } from "../../devices/actions";
-import { Pin } from "farmbot/dist/interfaces";
-import { BlurableInput } from "../../blurable_input";
-
-interface PeripheralFormProps {
-    peripheral: Peripheral;
-    /** The physical pin that the peripheral is bound to. */
-    pin: Pin;
-    /** Determines the state of the editor block. */
-    editorMode: EditorMode;
-    /** Where to find the device within state.peripheral.all */
-    index: number;
-    dispatch: Function;
-}
 
 export function PeripheralForm(props: PeripheralFormProps) {
+    let Comp: JSX.Element;
+
     if (props.editorMode === "editing") {
-        return <PeripheralFormEdit {...props} />;
+        Comp = <PeripheralFormEdit {...props} />;
     } else {
-        return <PeripheralFormControl {...props} />;
+        Comp = <div />;
+    }
 
-    };
-};
+    return Comp;
+}
 
-function PeripheralFormControl({peripheral, pin}: PeripheralFormProps) {
-    return <div className="row">
-        <div className="col-sm-4">
-            <label>{peripheral.label}</label>
-        </div>
+interface PeripheralFormEditState {
+    label?: string;
+    pin?: number;
+}
 
-        <div className="col-sm-4">
-            <p>{t("Pin {{num}}", { num: peripheral.pin })}</p>
-        </div>
+class PeripheralFormEdit extends React.Component<PeripheralFormProps,
+    PeripheralFormEditState> {
+    constructor() {
+        super();
+        this.state = { label: "" };
+    }
 
-        <div className="col-sm-4">
-            <ToggleButton toggleval={pin.value}
-                toggleAction={() => pinToggle(pin.value)} />
-        </div>
-    </div>;
-};
+    resetState() {
+        this.setState({ label: "", pin: undefined });
+    }
 
-
-class PeripheralFormEdit extends React.Component<PeripheralFormProps, {}> {
     commitLabel(e: React.FormEvent) {
-        let label = (e.target as HTMLInputElement).value;
-        this.props.dispatch(updatePeripheral({
-            index: this.props.index,
-            peripheral: { label }
-        }));
+        this.setState({ label: (e.target as HTMLInputElement).value });
     }
 
     commitPin(e: React.FormEvent) {
-        let pin = parseInt((e.target as HTMLInputElement).value, 10);
-        this.props.dispatch(updatePeripheral({
-            index: this.props.index,
-            peripheral: { pin }
-        }));
+        this.setState({
+            pin: parseInt((e.target as HTMLInputElement).value, 10)
+        });
+    }
+
+    submit() {
+        let { pin, label } = this.state;
+        if (label &&
+            _.isNumber(pin) &&
+            pin &&
+            pin > 0) {
+            this
+                .props
+                .dispatch(pushPeripheral({ label, pin }));
+            this.resetState();
+
+        } else {
+            error(t("Please enter a valid label and pin number."));
+        }
     }
 
     render() {
-        let { peripheral } = this.props;
+
         return <div className="row">
             <div className="col-sm-4">
-                <BlurableInput value={peripheral.label}
-                    onCommit={this.commitLabel.bind(this)} />
+                <input type="text"
+                    placeholder="Label"
+                    onChange={this.commitLabel.bind(this)}
+                    value={this.state.label}
+                    />
             </div>
+
             <div className="col-sm-4">
-                <BlurableInput type="number"
-                    value={peripheral.pin.toString()}
-                    onCommit={this.commitPin.bind(this)} />
+                <input type="number"
+                    value={(this.state.pin || "").toString()}
+                    placeholder="Pin #"
+                    onChange={this.commitPin.bind(this)} />
             </div>
+
             <div className="col-sm-4">
-                <button className="button-like red">X</button>
+                <button className="button-like green"
+                    onClick={this.submit.bind(this)}>+</button>
             </div>
         </div>;
     }

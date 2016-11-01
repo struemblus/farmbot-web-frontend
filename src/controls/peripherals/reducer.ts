@@ -1,5 +1,5 @@
 import { generateReducer } from "../../generate_reducer";
-import { PeripheralState } from "./interfaces";
+import { PeripheralState, Peripheral, IndexedPeripheral } from "./interfaces";
 import { UpdatePeripheral } from "./actions";
 
 let initialState: PeripheralState = {
@@ -17,6 +17,20 @@ export let peripheralReducer = generateReducer<PeripheralState>(initialState)
         return state;
     })
     .add<{}>("CONTROL_PERIPHERALS_START", function (state, action) {
+        state.editorMode = "controlling";
+        return state;
+    })
+    .add<IndexedPeripheral>("REMOVE_PERIPHERAL", function (state, action) {
+        state.all.splice(action.payload.index, 1);
+        return state;
+    })
+    .add<Peripheral>("PUSH_PERIPHERAL", function (state, action) {
+        action.payload.dirty = true;
+        state.all.push(action.payload);
+        return state;
+    })
+    .add<Peripheral[]>("REPLACE_PERIPHERALS", function (state, action) {
+        state.all = action.payload;
         state.editorMode = "controlling";
         return state;
     })
