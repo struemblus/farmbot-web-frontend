@@ -65,11 +65,11 @@ export function destroyPeripheral(payload: IndexedPeripheral) {
 export function saveAll() {
     return function (dispatch: Function, getState: () => Everything) {
         let state = getState();
-        devices.current.sync();
         axios
             .post<Peripheral[]>(peripheralUrl(state.auth.iss),
             { peripherals: state.peripherals.all })
             .then(function (x) {
+                devices.current.sync();
                 dispatch({
                     type: "REPLACE_PERIPHERALS",
                     payload: x.data
