@@ -540,10 +540,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                   <th width="15%">
                                     <label>{t("TIME")}</label>
                                   </th>
-                                  <th width="20%">
-                                    <label>{t("TAGS")}</label>
-                                  </th>
-                                  <th width="50%">
+                                  <th width="75%">
                                     <label>{t("MESSAGE")}</label>
                                   </th>
                                   <th width="10%">
@@ -590,19 +587,11 @@ function Logs({logs}: LogsProps) {
       }
     }
 
-    function displayTags(log: BotLog) {
-      if (log.tags) {
-        return "[" + log.tags.join(",") + "]";
-      } else {
-        return "NO TAG";
-      }
-    }
 
     return <tbody>
       {
         logs.map((log, i) => <tr key={i}>
           <td> {displayTime(log.time)} </td>
-          <td> {displayTags(log)} </td>
           <td> {log.message} </td>
           <td> {displayCoordinates(log)} </td>
         </tr>)
