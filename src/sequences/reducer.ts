@@ -9,7 +9,7 @@ import {
     SpliceStepPayl,
     MoveStepPayl
 } from "./actions";
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 
 /** Adds an empty sequence to the front of the list. */

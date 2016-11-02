@@ -2,8 +2,10 @@ import * as _ from "lodash";
 import * as $ from "jquery";
 import * as Joi from "joi-browser";
 import { Color } from "./interfaces";
-import { uuid } from "farmbot/dist/util";
 
+// TODO: This is a relic from when we first started using React.
+// A smarter way to serialize a form would be to just use `this.state`. Let's
+// remove this function.
 export function convertFormToObject(formEl: Element) {
   let inputs = $(formEl.querySelectorAll("input"));
   let values = $.map(inputs, function (d) { return [[d.name, d.value]]; });

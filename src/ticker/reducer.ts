@@ -1,9 +1,9 @@
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { TickerState } from "./interfaces";
-import { ReduxAction } from "../interfaces";
+import { ReduxAction } from "../redux/interfaces";
 import { RpcBotLog } from "../devices/interfaces";
 import * as i18next from "i18next";
-import { store } from "../store";
+import { store } from "../redux/store";
 
 let YELLOW = "#fd6",
     RED = "#e66",

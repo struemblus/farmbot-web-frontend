@@ -1,7 +1,7 @@
 import { authReducer } from "../../auth/reducer";
 import { fakeState } from "../helpers";
-import { ReduxAction } from "../../interfaces";
-import { AuthState } from "../../auth/interfaces"
+import { ReduxAction } from "../../redux/interfaces";
+import { AuthState } from "../../auth/interfaces";
 
 describe("Auth reducer", () => {
     it("Handles login", () => {

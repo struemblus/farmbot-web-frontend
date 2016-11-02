@@ -1,9 +1,9 @@
-import { error, warning } from "../logger";
+import { error } from "../logger";
 import * as _ from "lodash";
 import { BotState, DeviceAccountSettings, HardwareState, RpcBotLog } from "./interfaces";
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { isBotLog } from "./is_bot_log";
-import { ReduxAction } from "../interfaces";
+import { ReduxAction } from "../redux/interfaces";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./actions";
 import { Sequence } from "../sequences/interfaces";
@@ -22,7 +22,7 @@ let status = {
 };
 
 let initialState: BotState = {
-  account: { id: 0, name: "loading..." },
+  account: { id: 0, name: "" },
   logQueueSize: 20,
   logQueue: [],
   status: status.NOT_READY(),

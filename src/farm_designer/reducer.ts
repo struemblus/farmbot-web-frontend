@@ -1,6 +1,6 @@
 import { Plant, CropLiveSearchResult } from "./interfaces";
 import { Plant as newPlant } from "./plant";
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { DesignerState } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";

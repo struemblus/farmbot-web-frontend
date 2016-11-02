@@ -14,18 +14,6 @@ import { PeripheralState } from "./controls/peripherals/interfaces";
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
 
-export interface ReduxAction<T> {
-  readonly type: string;
-  readonly payload: T;
-};
-
-/** The "getState()" function, typically passed in by Redux Thunk Middleware. */
-export type GetState = () => Everything;
-/** A Redux Thunk function. */
-export interface Thunk {
-  (dispatch: Function, getState: GetState): any;
-};
-
 interface Location {
   /** EX: /app/dashboard/designer */
   pathname: string;

@@ -1,4 +1,4 @@
-import { generateReducer } from "../../generate_reducer";
+import { generateReducer } from "../../redux/generate_reducer";
 import { PeripheralState, Peripheral, IndexedPeripheral } from "./interfaces";
 import { UpdatePeripheral } from "./actions";
 

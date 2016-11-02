@@ -1,4 +1,4 @@
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { ChangeApiHost, ChangeApiPort, ConfigState } from "./interfaces";
 
 let initialState: ConfigState = {

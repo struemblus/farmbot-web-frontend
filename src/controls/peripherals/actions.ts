@@ -1,4 +1,5 @@
-import { ReduxAction, Everything } from "../../interfaces";
+import { Everything } from "../../interfaces";
+import { ReduxAction } from "../../redux/interfaces";
 import * as axios from "axios";
 import { error } from "../../logger";
 import { t } from "i18next";

@@ -15,16 +15,5 @@ describe("Config reducer", function () {
       CONNECTED: "Socket Connection Established",
       READY: "Bot ready"
     };
-
-    // initialState = { account: { id: 0, uuid: "loading...", name: "loading..." },
-    //                  logQueueSize: 10,
-    //                  logQueue: [],
-    //                  status: status.NOT_READY,
-    //                  stepSize: 1000,
-    //                  hardware: {},
-    //                  dirty: false,
-    //                  axisBuffer: {},
-    //                  settingsBuffer: {}
-    //                 };
   });
 });

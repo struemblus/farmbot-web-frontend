@@ -1,4 +1,4 @@
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { DragableState, DataXfer } from "./interfaces";
 
 const INITIAL_STATE: DragableState = {

@@ -6,7 +6,7 @@ import { fetchRegimens } from "../regimens/actions";
 import { error } from "../logger";
 import { AuthState, AuthToken, User } from "./interfaces";
 import { fetchPlants } from "../farm_designer/actions";
-import { ReduxAction, Thunk } from "../interfaces";
+import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchPeripherals } from "../controls/peripherals/actions";
 import * as Axios from "axios";
 import { t } from "i18next";

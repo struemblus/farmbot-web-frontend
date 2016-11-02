@@ -1,7 +1,7 @@
 import * as Axios from "axios";
 import { error } from "../logger";
 import { Plant } from "./interfaces";
-import { Thunk } from "../interfaces"
+import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
 
@@ -9,7 +9,7 @@ const PLANT_URL = "/api/plants";
 
 export function fetchPlants(baseUrl: string): Thunk {
   let url = baseUrl + PLANT_URL;
-  return function (dispatch , getState) {
+  return function (dispatch, getState) {
     dispatch({ type: "FETCH_PLANTS_START" });
     return Axios.get<Plant[]>(url)
       .then((resp) => {
@@ -66,7 +66,7 @@ let _openFarmSearchQuery = _.throttle((q: string) => Axios.get<CropSearchResult>
 
 /** Search openfarm for crops. This is a throttled function, useful for live search. */
 export function openFarmSearchQuery(query: string) { // TODO make less smelly
-  return function(dispatch: Function) {
+  return function (dispatch: Function) {
     dispatch({
       type: "SEARCH_QUERY_CHANGE",
       payload: query
@@ -78,7 +78,7 @@ export function openFarmSearchQuery(query: string) { // TODO make less smelly
         let images: { [key: string]: string } = {};
 
         _.get<OpenFarm.Included[]>(resp, "data.included", [])
-         .map(function (item) {
+          .map(function (item) {
             return {
               id: item.id,
               url: item.attributes.thumbnail_url

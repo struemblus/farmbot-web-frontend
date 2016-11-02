@@ -1,5 +1,5 @@
 import * as axios from "axios";
-import { Everything, Thunk } from "../interfaces";
+import { Everything } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
 import {
   SequenceOptions,
@@ -8,9 +8,9 @@ import {
 } from "./interfaces";
 import { success, error } from "../logger";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
-import { Color, ReduxAction } from "../interfaces";
+import { Color } from "../interfaces";
+import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as i18next from "i18next";
-
 
 export function nullSequence(): Sequence {
   return {
