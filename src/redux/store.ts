@@ -35,7 +35,7 @@ let reducers = combineReducers({
   draggable,
   peripherals
 });
-
+let ENV = process.env.NODE_ENV as string;
 let rootReducer = function (state: Everything | {},
   action: ReduxAction<{}>) {
   if (action.type === "LOGOUT") {
@@ -47,7 +47,7 @@ let rootReducer = function (state: Everything | {},
 
 function configureStore(options = {}) {
   let store: Store;
-  if (process.env.NODE_ENV !== "production") {
+  if (ENV !== "production") {
     let lastState = JSON.parse(sessionStorage["lastState"] || "{}");
     let dt = (window as any)["devToolsExtension"];
     let risi = require("redux-immutable-state-invariant")();

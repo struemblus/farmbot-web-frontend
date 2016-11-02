@@ -92,7 +92,7 @@ export class StepSizeSelector extends React.Component<any, any> {
     }
 }
 
-@connect<any, any, any>(state => state)
+@connect<any, any, any>((state: Everything) => state)
 export class Controls extends React.Component<Everything, any> {
     render() {
         let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||

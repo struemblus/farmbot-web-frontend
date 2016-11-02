@@ -176,4 +176,4 @@ class LoginPage extends React.Component<Everything, any> {
     }
 };
 
-export let Login = connect(state => state)(LoginPage);
+export let Login = connect((state: Everything) => state)(LoginPage);

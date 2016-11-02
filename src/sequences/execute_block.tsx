@@ -10,7 +10,7 @@ function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
     let isSaved = (s: Sequence) => !!s.id;
     let notRecursive = (me: Sequence, you: Sequence) => me !== you;
     return sequences
-        .filter(function(seq) {
+        .filter(function (seq) {
             // Can't function recurseCant use unsaved sequences.
             return isSaved(seq) && notRecursive(sequence, seq);
         });
@@ -40,7 +40,7 @@ function SequenceSelectBox({dispatch,
         }
     };
 
-    function change(e: React.FormEvent<HTMLInputElement>) {
+    function change(e: React.FormEvent<HTMLSelectElement>) {
         let val = e.currentTarget.value;
         let sub_sequence_id = parseInt(val, 10);
         let update = { args: { sub_sequence_id } };

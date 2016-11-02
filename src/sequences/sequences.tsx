@@ -4,8 +4,9 @@ import { SequencesList } from "./sequences_list";
 import { StepButtonCluster } from "./step_button_cluster";
 import { SequenceEditorMiddle } from "./sequence_editor_middle";
 import { connect } from "react-redux";
+import { Everything } from "../interfaces";
 
-@connect(state => state)
+@connect((state: Everything) => state)
 export class Sequences extends React.Component<any, any> {
     render() {
         return (

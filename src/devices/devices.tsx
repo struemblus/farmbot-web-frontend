@@ -601,4 +601,4 @@ function Logs({logs}: LogsProps) {
     return (logs.length ? <HasLogs logs={logs} /> : <NoLogs />);
 }
 
-export let Devices = connect(state => state)(DevicesPage);
+export let Devices = connect((state: Everything) => state)(DevicesPage);
