@@ -1,9 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Navbar } from "../nav/navbar";
-import { convertFormToObject } from "../util";
 import { ToggleButton } from "../controls/toggle_button";
-import { devices } from "../device";
 import { BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
 import { Everything } from "../interfaces";
@@ -163,18 +161,11 @@ export class McuInputBox extends React.Component<any, any> {
 // Farmbot object and Redux .bot property (redundant).
 class DevicesPage extends React.Component<Everything, any> {
 
-  // constructor() {
-  //   // DELETE THIS!
-  //   super();
-  //   this.state = { bot: devices.current };
-  // }
-
   updateBot(e: React.MouseEvent) {
     this.props.dispatch(saveAccountChanges);
   }
 
   changeBot(e: React.MouseEvent) {
-    // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
     console.warn("If you are reading this method, refactor NOW! -RC");
     let updates: any =
@@ -186,9 +177,8 @@ class DevicesPage extends React.Component<Everything, any> {
   saveBot(e: React.MouseEvent) {
     // THIS IS THE CAUSE OF THE "STALE DATA" BUG: Fix me!
     e.preventDefault();
-    console.warn("If you are reading this method, refactor NOW! -RC");
-    let devInfo: any = convertFormToObject(e.target as HTMLInputElement);
-    this.props.dispatch(addDevice(devInfo));
+    let form = this.props.bot.account;
+    this.props.dispatch(addDevice(form));
   }
 
   render() {
