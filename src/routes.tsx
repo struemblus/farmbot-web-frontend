@@ -23,25 +23,25 @@ import { Sequences } from "./sequences/sequences";
 import { Regimens } from "./regimens/index";
 import { FarmDesigner } from "./farm_designer/farm_designer";
 import { Login } from "./login";
-import { store } from "./store";
+import { store } from "./redux/store";
 import { history } from "./history";
 
 export class RootComponent extends React.Component<any, any> {
 
   requireAuth(nextState: RouterState, replace: RedirectFunction) {
     // Why didn't I just write this.props.auth here...?
-      let isAuthed = this
-                      .props
-                      .store
-                      .getState()
-                      .auth
-                      .authenticated;
-      if (!isAuthed) {
-        let token = localStorage["token"];
-        if (!token) {
-          replace("/app/login");
-        }
+    let isAuthed = this
+      .props
+      .store
+      .getState()
+      .auth
+      .authenticated;
+    if (!isAuthed) {
+      let token = localStorage["token"];
+      if (!token) {
+        replace("/app/login");
       }
+    }
   };
 
   // Thanks @noahMiller and @jpierson (Github) for this wonderful fix!
@@ -61,37 +61,37 @@ export class RootComponent extends React.Component<any, any> {
 
   */
   routes = (<Route path="app" component={App}>
-              <Route path="login" component={ Login }/>
-              <Route path="dashboard"
-                  component={ Dashboard }
-                  onEnter={ this.requireAuth.bind(this) }>
-                <Route path="designer(?:p1&?:id)"
-                  component={ FarmDesigner }
-                  onEnter={ this.requireAuth.bind(this) }/>
-                <Route path="controls"
-                  component={ Controls }
-                  onEnter={ this.requireAuth.bind(this) } />
-                <Route path="devices"
-                  component={ Devices }
-                  onEnter={ this.requireAuth.bind(this) } />
-                <Route path="sequences"
-                  component={ Sequences }
-                  onEnter={ this.requireAuth.bind(this) } />
-                <Route path="regimens"
-                  component={ Regimens }
-                  onEnter={ this.requireAuth.bind(this) } />
-                <IndexRoute
-                  component={ Controls } />
-                  <IndexRedirect to="controls" />
-              </Route>
-              <IndexRedirect to="dashboard/controls" />
-            </Route>);
+    <Route path="login" component={Login} />
+    <Route path="dashboard"
+      component={Dashboard}
+      onEnter={this.requireAuth.bind(this)}>
+      <Route path="designer(?:p1&?:id)"
+        component={FarmDesigner}
+        onEnter={this.requireAuth.bind(this)} />
+      <Route path="controls"
+        component={Controls}
+        onEnter={this.requireAuth.bind(this)} />
+      <Route path="devices"
+        component={Devices}
+        onEnter={this.requireAuth.bind(this)} />
+      <Route path="sequences"
+        component={Sequences}
+        onEnter={this.requireAuth.bind(this)} />
+      <Route path="regimens"
+        component={Regimens}
+        onEnter={this.requireAuth.bind(this)} />
+      <IndexRoute
+        component={Controls} />
+      <IndexRedirect to="controls" />
+    </Route>
+    <IndexRedirect to="dashboard/controls" />
+  </Route>);
 
   render() {
-        return (<Provider store={store}>
-                  <Router history={history}>
-                      { this.routes }
-                  </Router>
-                </Provider>);
+    return (<Provider store={store}>
+      <Router history={history}>
+        {this.routes}
+      </Router>
+    </Provider>);
   }
 }

@@ -36,4 +36,4 @@ class FarmDesignerPage extends React.Component<Everything, any> {
   }
 }
 
-export let FarmDesigner = connect(state => state)(FarmDesignerPage);
+export let FarmDesigner = connect((state: Everything) => state)(FarmDesignerPage);

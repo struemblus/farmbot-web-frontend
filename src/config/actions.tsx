@@ -1,6 +1,6 @@
 import { didLogin } from "../auth/actions";
 import { AuthState } from "../auth/interfaces";
-import { ReduxAction, Thunk } from "../interfaces";
+import { ReduxAction, Thunk } from "../redux/interfaces";
 import { ChangeApiHost, ChangeApiPort } from "./interfaces";
 
 export function changeApiHost(host: string): ReduxAction<ChangeApiHost> {

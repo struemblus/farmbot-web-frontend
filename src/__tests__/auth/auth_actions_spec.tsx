@@ -1,8 +1,8 @@
 import * as $ from "jquery";
 import { didLogin } from "../../auth/actions";
 import { fakeState } from "../helpers";
-import { AuthState } from "../../auth/interfaces"
-
+import { AuthState } from "../../auth/interfaces";
+import { } from "jasmine";
 
 describe("Auth actions", () => {
   let authState: AuthState, dispatch: Function;

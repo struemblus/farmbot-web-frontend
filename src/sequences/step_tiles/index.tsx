@@ -14,6 +14,7 @@ import { TileMoveRelative } from "./tile_move_relative";
 import { TileReadPin } from "./tile_read_pin";
 import { TileSendMessage } from "./tile_send_message";
 import { TileWritePin } from "./tile_write_pin";
+import * as _ from "lodash";
 
 interface CopyParams {
   dispatch: Function;
@@ -45,9 +46,9 @@ export function updateStep({ dispatch,
   step,
   index,
   field }: UpdateStepParams) {
-  return (e: React.FormEvent) => {
+  return (e: React.FormEvent<HTMLInputElement>) => {
     let copy = defensiveClone<Step>(step);
-    let val: string = (e.target as HTMLInputElement).value;
+    let val = e.currentTarget.value;
 
     if (NUMERIC_FIELDS.indexOf(field) !== -1) {
       if (val == "-") { // Fix negative number issues.

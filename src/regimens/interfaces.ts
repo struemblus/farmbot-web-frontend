@@ -1,4 +1,4 @@
-import { ReduxAction } from "../interfaces";
+import { ReduxAction } from "../redux/interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Color } from "../interfaces";
 

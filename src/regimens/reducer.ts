@@ -4,7 +4,7 @@ import {
     RegimenItem
 } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { findWhere } from "lodash";
 
 export function emptyRegimen(): Regimen {

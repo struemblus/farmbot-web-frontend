@@ -1,6 +1,5 @@
 import { devices } from "../../device";
-
-// let createSpy = jasmine.createSpy;
+import { } from "jasmine";
 
 describe("bot actions", () => {
   xit("toggles settings", (done) => {

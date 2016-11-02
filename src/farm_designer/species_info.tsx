@@ -5,13 +5,13 @@ import { Everything } from "../interfaces";
 import { Plant, PlantOptions } from "./plant";
 
 export class SpeciesInfo extends React.Component<Everything, any> {
-  drag(e: React.DragEvent) {
+  drag(e: React.DragEvent<any>) {
     var img = document.createElement("img");
     img.src = "/img/icons/seed.png";
     (e.dataTransfer as any)["setDragImage"](img, 12, 48);
   }
 
-  drop(e: React.MouseEvent) {
+  drop(e: React.MouseEvent<any>) {
     let box = document
       .querySelector("#drop-area > svg > rect")
       .getBoundingClientRect();
@@ -54,15 +54,15 @@ export class SpeciesInfo extends React.Component<Everything, any> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow /> { result.crop.name }
+          <BackArrow /> {result.crop.name}
         </p>
       </div>
       <div className="panel-content">
         <div className="crop-drag-info-tile">
           <img className="crop-drag-info-image"
-            src={ result.image }
-            onDragStart= { this.drag.bind(this) }
-            onDragEnd={ this.drop.bind(this) }/>
+            src={result.image}
+            onDragStart={this.drag.bind(this)}
+            onDragEnd={this.drop.bind(this)} />
           <div className="crop-info-overlay">
             Drag and drop into map
           </div>
@@ -80,9 +80,9 @@ export class SpeciesInfo extends React.Component<Everything, any> {
                 .map(function (pair, i) {
                   let key = pair[0] as string;
                   let value = pair[1];
-                  return <li key={ i }>
-                    <strong>{ _.startCase(key) + ": " }</strong>
-                    { value || "Not set" }
+                  return <li key={i}>
+                    <strong>{_.startCase(key) + ": "}</strong>
+                    {value || "Not set"}
                   </li>;
                 })
                 .value()

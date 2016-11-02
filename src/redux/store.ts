@@ -5,22 +5,23 @@ import {
   combineReducers,
   compose
 } from "redux";
-import { authReducer as auth } from "./auth/reducer";
-import { sequenceReducer as sequences } from "./sequences/reducer";
-import { botReducer as bot } from "./devices/reducer";
-import { peripheralReducer as peripherals } from "./controls/peripherals/reducer";
-import { configReducer as config } from "./config/reducer";
+import { authReducer as auth } from "../auth/reducer";
+import { sequenceReducer as sequences } from "../sequences/reducer";
+import { botReducer as bot } from "../devices/reducer";
+import { peripheralReducer as peripherals } from "../controls/peripherals/reducer";
+import { configReducer as config } from "../config/reducer";
 import { routerReducer as routing } from "react-router-redux";
-import { regimensReducer as regimens } from "./regimens/reducer";
-import { tickerReducer as ticker } from "./ticker/reducer";
-import { draggableReducer as draggable } from "./draggable/reducer";
-import { dontExitIfBrowserIsOnHold } from "./browser_holds/index";
-import { designer } from "./farm_designer/reducer";
-import { Everything, ReduxAction } from "./interfaces";
+import { regimensReducer as regimens } from "../regimens/reducer";
+import { tickerReducer as ticker } from "../ticker/reducer";
+import { draggableReducer as draggable } from "../draggable/reducer";
+import { dontExitIfBrowserIsOnHold } from "../browser_holds/index";
+import { designer } from "../farm_designer/reducer";
+import { Everything } from "../interfaces";
+import { ReduxAction, Store } from "./interfaces";
 import {
   BulkSchedulerReducer as bulkScheduler
-} from "./regimens/bulk_scheduler/reducer";
-import { success } from "./logger";
+} from "../regimens/bulk_scheduler/reducer";
+import { success } from "../logger";
 let reducers = combineReducers({
   routing,
   auth,
@@ -34,7 +35,7 @@ let reducers = combineReducers({
   draggable,
   peripherals
 });
-
+let ENV = process.env.NODE_ENV as string;
 let rootReducer = function (state: Everything | {},
   action: ReduxAction<{}>) {
   if (action.type === "LOGOUT") {
@@ -45,8 +46,8 @@ let rootReducer = function (state: Everything | {},
 };
 
 function configureStore(options = {}) {
-  let store: Redux.Store;
-  if (process.env.NODE_ENV !== "production") {
+  let store: Store;
+  if (ENV !== "production") {
     let lastState = JSON.parse(sessionStorage["lastState"] || "{}");
     let dt = (window as any)["devToolsExtension"];
     let risi = require("redux-immutable-state-invariant")();

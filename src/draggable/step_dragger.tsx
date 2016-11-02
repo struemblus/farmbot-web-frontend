@@ -24,7 +24,7 @@ export let stepDragEventHandler = (dispatch: Function,
     ghostCss = "",
     intent: DataXferIntent,
     draggerId: number) =>
-    (ev: React.DragEvent) => {
+    (ev: React.DragEvent<HTMLElement>) => {
         addGhostImage(ev, ghostCss);
         dispatch(stepPut(step, ev, intent, draggerId));
     };

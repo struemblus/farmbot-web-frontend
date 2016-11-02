@@ -6,11 +6,11 @@ import { fetchRegimens } from "../regimens/actions";
 import { error } from "../logger";
 import { AuthState, AuthToken, User } from "./interfaces";
 import { fetchPlants } from "../farm_designer/actions";
-import { ReduxAction, Thunk } from "../interfaces";
+import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchPeripherals } from "../controls/peripherals/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
-
+import * as _ from "lodash";
 
 /** This is what a response from /api/tokens looks like. */
 export interface AuthResponse {
@@ -33,6 +33,7 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchPlants(authState.iss));
   dispatch(connectDevice(authState.token));
   dispatch(fetchPeripherals(authState.iss));
+
 };
 
 export function downloadDeviceData(baseUrl: string): Thunk {

@@ -2,6 +2,7 @@ import * as React from "react";
 import { startEditing, startControlling, saveAll } from "./actions";
 import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
+import * as _ from "lodash";
 
 interface TitleBarProps extends PeripheralState { dispatch: Function; }
 

@@ -1,8 +1,11 @@
-import { ReduxAction, Everything } from "../../interfaces";
+import { Everything } from "../../interfaces";
+import { ReduxAction } from "../../redux/interfaces";
 import * as axios from "axios";
 import { error } from "../../logger";
 import { t } from "i18next";
 import { IndexedPeripheral, Peripheral } from "./interfaces";
+import { devices } from "../../device";
+import * as _ from "lodash";
 
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
@@ -68,6 +71,7 @@ export function saveAll() {
             .post<Peripheral[]>(peripheralUrl(state.auth.iss),
             { peripherals: state.peripherals.all })
             .then(function (x) {
+                devices.current.sync();
                 dispatch({
                     type: "REPLACE_PERIPHERALS",
                     payload: x.data

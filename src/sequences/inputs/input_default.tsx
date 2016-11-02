@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IStepInput } from "../step_tiles/index";
 import { updateStep } from "../step_tiles/index";
+import * as _ from "lodash";
 
 export function InputDefault({step, field, dispatch, index}: IStepInput) {
     let raw = (step.args as any)[field];

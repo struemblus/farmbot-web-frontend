@@ -1,10 +1,6 @@
 import { warning, error } from "../../logger";
-import {
-    BulkSchedulerOutput,
-    BulkSchedulerState
-} from "./interfaces";
-import { RegimenItem } from "../interfaces";
-import { ReduxAction, Everything, Thunk } from "../../interfaces";
+import { Everything } from "../../interfaces";
+import { ReduxAction, Thunk } from "../../redux/interfaces";
 import { Sequence } from "../../sequences/interfaces";
 import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
 import { t } from "i18next";

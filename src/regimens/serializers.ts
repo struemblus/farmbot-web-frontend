@@ -1,6 +1,6 @@
 import { Regimen } from "./interfaces";
 import { Color } from "../interfaces";
-import { RegimenItem } from "./interfaces";
+import * as _ from "lodash";
 
 /** RegimenItem, as presented by the REST API */
 export interface ApiRegimenItem {

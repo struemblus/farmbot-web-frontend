@@ -1,7 +1,8 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success } from "../logger";
-import { Thunk, Everything, ReduxAction } from "../interfaces";
+import { Everything } from "../interfaces";
+import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
 import {
     DeviceAccountSettingsUpdate,
@@ -15,10 +16,10 @@ import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
 import { Regimen } from "../regimens/interfaces";
+import * as _ from "lodash";
 
 const ON = 1,
-    OFF = 0,
-    DIGITAL = 0;
+    OFF = 0;
 
 export function startRegimen(regimen: Regimen) {
     let noun = "Start Regimen";

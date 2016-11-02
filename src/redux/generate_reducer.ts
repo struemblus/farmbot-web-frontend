@@ -1,13 +1,13 @@
 import { ReduxAction } from "./interfaces";
-import { defensiveClone } from "./util";
+import { defensiveClone } from "../util";
 
 const NOOP = (s: any, a: ReduxAction<{}>) => s;
 
 export function generateReducer<State>(
-  initialState: State,
-  /** Set "catch all" handler for unknown action names. Default is a no-op fn.
-   *  Useful for logging / debugging. */
-  DEFAULT = NOOP) {
+    initialState: State,
+    /** Set "catch all" handler for unknown action names. Default is a no-op fn.
+     *  Useful for logging / debugging. */
+    DEFAULT = NOOP) {
     /** A function that responds to a particular action from within a generated reducer. */
     interface ActionHandler {
         (state: State, action: ReduxAction<any>): State;
@@ -25,13 +25,13 @@ export function generateReducer<State>(
     interface GeneratedReducer extends ActionHandler {
         /** Adds action handler for current reducer. */
         add: <T>(name: string,
-                  fn: GenericActionHandler<T>) => GeneratedReducer; // Calms the type checker.
+            fn: GenericActionHandler<T>) => GeneratedReducer; // Calms the type checker.
     }
 
     let actionHandlers: ActionHandlerDict = { DEFAULT };
 
-    let reducer: GeneratedReducer = function<T>(state = initialState,
-                                                action: ReduxAction<T>): State {
+    let reducer: GeneratedReducer = function <T>(state = initialState,
+        action: ReduxAction<T>): State {
         let handler = (actionHandlers[action.type] || actionHandlers["DEFAULT"]);
 
         let clonedState = defensiveClone<State>(state);

@@ -4,7 +4,7 @@
  * node's require() and webpack's require.
  */
 interface NodeRequireFunction {
-    resolve(id:string): string;
+    resolve(id: string): string;
     (id: string): any;
     <T>(path: string): T;
     (paths: string[], callback: (...modules: any[]) => void): void;

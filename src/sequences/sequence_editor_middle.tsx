@@ -66,13 +66,14 @@ let StepList = ({sequence, sequences, dispatch}:
     </div>);
 };
 
-let handleNameUpdate = (dispatch: Function) => (event: React.SyntheticEvent) => {
-    let name: string = (event.target as HTMLInputElement).value || "";
-    dispatch(editCurrentSequence({ name }));
-};
+let handleNameUpdate = (dispatch: Function) =>
+    (event: React.SyntheticEvent<HTMLInputElement>) => {
+        let name: string = (event.currentTarget).value || "";
+        dispatch(editCurrentSequence({ name }));
+    };
 
 let save = function (dispatch: Function, sequence: Sequence) {
-    return (e: React.SyntheticEvent) => dispatch(saveSequence(sequence));
+    return (e: React.SyntheticEvent<HTMLButtonElement>) => dispatch(saveSequence(sequence));
 };
 
 let destroy = function (dispatch: Function,
@@ -82,7 +83,7 @@ let destroy = function (dispatch: Function,
 };
 
 let performSeq = (dispatch: Function, sequence: Sequence) =>
-    (e: React.FormEvent) => execSequence(sequence);
+    (e: React.FormEvent<HTMLButtonElement>) => execSequence(sequence);
 
 export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
     let inx = sequences.current;
@@ -134,7 +135,8 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                         <div className="row">
                             <div className="col-sm-11">
                                 <BlurableInput value={sequence.name}
-                                    onCommit={handleNameUpdate(dispatch)} />
+                                    onCommit={handleNameUpdate(dispatch)}
+                                    />
                             </div>
                             <div className="col-sm-1">
                                 <ColorPicker current={sequence.color}

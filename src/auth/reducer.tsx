@@ -1,6 +1,6 @@
 import * as _ from "lodash";
 import { AuthState } from "./interfaces";
-import { generateReducer } from "../generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 
 const initialState: AuthState = {
   token: "NOT LOGGED IN",

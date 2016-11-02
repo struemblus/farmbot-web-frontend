@@ -1,8 +1,9 @@
 import { configReducer as reduce } from "../../config/reducer";
 import { changeApiHost, changeApiPort } from "../../config/actions";
 import { ConfigState } from "../../config/interfaces";
+import { } from "jasmine";
 
-describe("Config reducer", function() {
+describe("Config reducer", function () {
   let initialState: ConfigState;
   beforeEach(() => {
     initialState = { host: "localhost", port: "8080" };

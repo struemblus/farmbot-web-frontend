@@ -1,5 +1,5 @@
 import { Regimen, RegimenItem } from "./interfaces";
-import { ReduxAction } from "../interfaces";
+import { ReduxAction } from "../redux/interfaces";
 import { warning, success, error } from "../logger";
 import * as Axios from "axios";
 import { regimenSerializer } from "./serializers";

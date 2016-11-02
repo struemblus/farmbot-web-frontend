@@ -17,11 +17,11 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
         };
     }
 
-    dragOver(event: React.DragEvent) {
+    dragOver(event: React.DragEvent<HTMLElement>) {
         event.preventDefault();
     }
 
-    drop(event: React.DragEvent) {
+    drop(event: React.DragEvent<HTMLElement>) {
         event.preventDefault();
         let key = event.dataTransfer.getData("text");
         let fn = this.props.callback;
