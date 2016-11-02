@@ -45,7 +45,7 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
     }
 
     change(key: string, dispatch: Function): React.EventHandler<React.FormEvent<HTMLInputElement>> {
-        return function(event) {
+        return function (event) {
             let num = Number(event.currentTarget.value);
             dispatch(changeAxisBuffer(key, num));
         };
@@ -92,7 +92,7 @@ export class StepSizeSelector extends React.Component<any, any> {
     }
 }
 
-@connect<any, any, any>((state: Everything) => state)
+@connect((state: Everything) => state)
 export class Controls extends React.Component<Everything, any> {
     render() {
         let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
