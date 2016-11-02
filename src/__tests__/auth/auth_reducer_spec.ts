@@ -2,6 +2,7 @@ import { authReducer } from "../../auth/reducer";
 import { fakeState } from "../helpers";
 import { ReduxAction } from "../../redux/interfaces";
 import { AuthState } from "../../auth/interfaces";
+import { } from "jasmine";
 
 describe("Auth reducer", () => {
     it("Handles login", () => {

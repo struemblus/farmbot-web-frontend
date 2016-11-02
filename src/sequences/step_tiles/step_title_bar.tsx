@@ -10,8 +10,8 @@ interface StepTitleBarProps {
 
 export class StepTitleBar extends React.Component<StepTitleBarProps, {}> {
 
-  onChange(e: React.FormEvent) {
-    let target = e.target as HTMLInputElement;
+  onChange(e: React.FormEvent<HTMLInputElement>) {
+    let target = e.currentTarget;
     let { step, index, dispatch } = this.props;
     dispatch(addComment(step, index, target.value));
   }

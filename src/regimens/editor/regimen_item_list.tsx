@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { duration } from "moment";
 import { removeRegimenItem } from "../actions";
 import { t } from "i18next";
+import * as _ from "lodash";
 
 interface RegimenItemListProps {
   items: RegimenItem[];

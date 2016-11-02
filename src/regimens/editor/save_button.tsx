@@ -1,5 +1,5 @@
 import * as React from "react";
-import { RegimenProps, Regimen } from "../interfaces";
+import { RegimenProps } from "../interfaces";
 import { saveRegimen } from "../actions";
 import { t } from "i18next";
 
@@ -9,9 +9,9 @@ interface SaveButtonProps extends RegimenProps {
 
 function save({regimen, dispatch, url}: SaveButtonProps) {
   if (regimen) {
-    return (event: React.FormEvent) => {
-      regimen = regimen as Regimen; // TS BUG???
-      dispatch(saveRegimen(regimen, url));
+    let x = regimen; // TS BUG???
+    return (event: React.FormEvent<{}>) => {
+      dispatch(saveRegimen(x, url));
     };
   } else {
     throw new Error("Tried to save regimen, but there was no regimen.");
@@ -24,7 +24,7 @@ export function SaveButton({regimen, dispatch, url}: SaveButtonProps) {
     return <button className="green button-like widget-control"
       onClick={save({ dispatch, regimen, url })}>
 
-      { t("Save") + (regimen.dirty ? "*" : "") }
+      {t("Save") + (regimen.dirty ? "*" : "")}
     </button>;
   } else {
     return <span />;

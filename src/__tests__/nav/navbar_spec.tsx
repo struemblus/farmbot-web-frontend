@@ -2,11 +2,12 @@ import * as React from "react";
 import { LogoutButton } from "../../nav/navbar";
 import * as TUtils from "react-addons-test-utils";
 import { Wrapper, fakeState } from "../helpers";
+import { } from "jasmine";
 
 describe("Navbar component", () => {
   it("has a callback", () => {
-    let props = {auth: fakeState().auth, onClick: jasmine.createSpy("LogoutButton onClick()") };
-    let JSXElem  = <Wrapper><LogoutButton { ...props } /></Wrapper>;
+    let props = { auth: fakeState().auth, onClick: jasmine.createSpy("LogoutButton onClick()") };
+    let JSXElem = <Wrapper><LogoutButton { ...props } /></Wrapper>;
     let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
     let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "a");
 
@@ -18,8 +19,8 @@ describe("Navbar component", () => {
   it("renders a span if not logged in", () => {
     let auth = fakeState().auth;
     auth.authenticated = false; // pretend we're logged out.
-    let props = {auth}
-    let JSXElem  = <Wrapper><LogoutButton {...props} /></Wrapper>;
+    let props = { auth }
+    let JSXElem = <Wrapper><LogoutButton {...props} /></Wrapper>;
     let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
     let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "span");
     expect(DOMElem.innerHTML).toBeFalsy();
@@ -28,8 +29,8 @@ describe("Navbar component", () => {
   it("renders a link if logged in", () => {
     let auth = fakeState().auth;
     auth.authenticated = true; // pretend we're logged in.
-    let props = {auth};
-    let JSXElem  = <Wrapper><LogoutButton {...props} /></Wrapper>;
+    let props = { auth };
+    let JSXElem = <Wrapper><LogoutButton {...props} /></Wrapper>;
     let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
     let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "a");
 

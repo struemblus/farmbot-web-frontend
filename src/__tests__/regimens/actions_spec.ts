@@ -2,6 +2,7 @@ import { deleteRegimen, saveRegimen } from "../../regimens/actions";
 import { Regimen } from "../../regimens/interfaces";
 import { RegimensState } from "../../regimens/interfaces";
 import * as toast from "../../logger";
+import { } from "jasmine";
 let moxios = require("moxios");
 describe("Regimen actions", function () {
     let initialState: RegimensState;
@@ -37,8 +38,10 @@ describe("Regimen actions", function () {
                     .then(function () {
                         // Expect the request to have been called with the regimen
                         expect(spy).toHaveBeenCalledWith(
-                            { type: "DELETE_REGIMEN_OK",
-                              payload: regimen });
+                            {
+                                type: "DELETE_REGIMEN_OK",
+                                payload: regimen
+                            });
                         expect(toast.success).toHaveBeenCalledWith("Regimen deleted.");
                         done();
                     });
@@ -96,7 +99,7 @@ describe("Regimen actions", function () {
                     .respondWith({ status: 404, response })
                     .then(function () {
                         expect(toast.error).toHaveBeenCalledWith("Wrong does not work.",
-                                                                 "Unable to save regimen.");
+                            "Unable to save regimen.");
                         done();
                     });
             });

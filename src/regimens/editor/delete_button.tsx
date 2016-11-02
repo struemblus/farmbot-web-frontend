@@ -5,7 +5,7 @@ import { t } from "i18next";
 
 function remove({regimen, dispatch, baseUrl}: DeleteButtonProps) {
   if (regimen) {
-    return (event: React.FormEvent) => regimen && dispatch(deleteRegimen(regimen, baseUrl));
+    return (event: React.FormEvent<{}>) => regimen && dispatch(deleteRegimen(regimen, baseUrl));
   } else {
     // Technically unreachable, but I'll keep TS happy...
     throw new Error("Tried to delete non-existant regimen");
@@ -19,7 +19,7 @@ interface DeleteButtonProps extends RegimenProps {
 export function DeleteButton({regimen, dispatch, baseUrl}: DeleteButtonProps) {
   if (!regimen) { return <span />; };
   return <button className="red button-like widget-control"
-                 onClick={ remove({dispatch, regimen, baseUrl}) }>
-          {t("Delete")}
-        </button>;
+    onClick={remove({ dispatch, regimen, baseUrl })}>
+    {t("Delete")}
+  </button>;
 }

@@ -54,7 +54,7 @@ export let botReducer = generateReducer<BotState>(initialState)
   function (state: BotState, action: ReduxAction<HardwareState>) {
 
     let hardware = action.payload;
-    return _.assign<{}, BotState>({},
+    return Object.assign({},
       state, {
         hardware: hardware
       }, {
@@ -66,7 +66,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<{}>("COMMIT_SETTINGS_OK", function (state, action) {
-    let nextState = _.assign<{}, BotState>({}, state, {
+    let nextState = Object.assign({}, state, {
       settingsBuffer: {}
     });
     return nextState;
@@ -92,25 +92,25 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<{}>("COMMIT_AXIS_CHANGE_OK", function (oldState, action) {
-    let hardware = _.assign({}, oldState.hardware, action.payload);
-    let state = _.assign<{}, BotState>({}, oldState);
+    let hardware = Object.assign({}, oldState.hardware, action.payload);
+    let state = Object.assign<{}, BotState>({}, oldState);
 
-    return _.assign<{}, BotState>({}, state, {
+    return Object.assign({}, state, {
       axisBuffer: {},
       hardware
     });
   })
   .add<{ key: "x" | "y" | "z", val: string }>("CHANGE_AXIS_BUFFER", function (state, action) {
     state.axisBuffer[action.payload.key] = action.payload.val;
-    return _.assign<{}, BotState>({}, state, {
+    return Object.assign({}, state, {
       axisBuffer: state.axisBuffer
     });
   })
   .add<Configuration>("CHANGE_CONFIG_BUFFER", function (state, action) {
     let old_buffer = state.configBuffer;
     let new_buffer = action.payload;
-    _.assign(old_buffer, new_buffer);
-    let new_state = _.assign<{}, BotState>({}, state, { config_buffer: new_buffer });
+    Object.assign(old_buffer, new_buffer);
+    let new_state = Object.assign({}, state, { config_buffer: new_buffer });
     return new_state; // I am doing something wrong.
   })
   .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER", function (state, action) {
@@ -120,12 +120,12 @@ export let botReducer = generateReducer<BotState>(initialState)
     } else {
       delete state.settingsBuffer[action.payload.key];
     }
-    return _.assign<{}, BotState>({}, state, {
+    return Object.assign({}, state, {
       settingsBuffer: state.settingsBuffer
     });
   })
   .add<number>("CHANGE_STEP_SIZE", function (state, action) {
-    return _.assign<{}, BotState>({}, state, {
+    return Object.assign({}, state, {
       stepSize: action.payload
     });
   })
@@ -135,14 +135,14 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<DeviceAccountSettings>("CHANGE_DEVICE", function (s, a) {
-    _.assign(s.account, a.payload, { dirty: true });
+    Object.assign(s.account, a.payload, { dirty: true });
     return s;
   })
   .add<any>("FETCH_DEVICE", function (state, action) {
     return state;
   })
   .add<any>("FETCH_DEVICE_OK", function (state, { payload }) {
-    return _.assign<{}, BotState>({},
+    return Object.assign({},
       state,
       payload, {
         status: status.AWAITING_WEBSOCKET
@@ -150,7 +150,7 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<any>("FETCH_DEVICE_ERR", function (state, action) {
     // TODO: Toast messages do not belong in a reducer.
-    return _.assign<{}, BotState>({},
+    return Object.assign({},
       state, {
         status: status.API_ERROR
       });
@@ -169,7 +169,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     return state;
   })
   .add<any>("SAVE_DEVICE_OK", function (state, action) {
-    return _.assign<{}, BotState>({}, state, action.payload, {
+    return Object.assign({}, state, action.payload, {
       dirty: false
     });
   })

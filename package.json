@@ -17,11 +17,32 @@
   ],
   "author": "farmbot.io",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/core-js": "^0.9.34",
+    "@types/webpack": "^1.12.35"
+  },
   "optionalDependencies": {
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "@types/axios": "^0.9.33",
+    "@types/enzyme": "^2.5.37",
+    "@types/history": "^2.0.39",
+    "@types/i18next": "^2.3.32",
+    "@types/jasmine": "^2.5.37",
+    "@types/jasmine-ajax": "^3.1.31",
+    "@types/node": "^6.0.46",
+    "@types/react": "^0.14.44",
+    "@types/react-addons-test-utils": "^0.14.15",
+    "@types/react-dom": "^0.14.18",
+    "@types/react-redux": "^4.4.32",
+    "@types/react-router": "^2.0.38",
+    "@types/react-router-redux": "^4.0.34",
+    "@types/redux": "^3.6.31",
+    "@types/redux-thunk": "^2.1.31",
+    "@types/sinon": "^1.16.31",
+    "@types/toastr": "^2.1.30",
+    "@types/webpack-env": "^1.12.1",
     "axios": "^0.14.0",
     "css-loader": "^0.25.0",
     "enzyme": "^2.4.1",

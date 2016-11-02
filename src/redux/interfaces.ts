@@ -1,4 +1,7 @@
 import { Everything } from "../interfaces";
+import { Store } from "redux";
+
+export type Store = Store<Everything>;
 
 export interface ReduxAction<T> {
     readonly type: string;

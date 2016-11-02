@@ -5,10 +5,10 @@ import * as React from "react";
  */
 export function addGhostImage(
     /** Drag event created by onDragStart() */
-    ev: React.DragEvent,
+    ev: React.DragEvent<HTMLElement>,
     /** Optional CSS class to add to drag image. */
     cssClass = "") {
-    var el = (ev.target as HTMLElement).cloneNode(true) as HTMLElement;
+    var el = ev.currentTarget.cloneNode(true) as HTMLElement;
     // RELEVANT READING:
     // http://www.kryogenix.org/code/browser/custom-drag-image.html
     el.classList.add(cssClass);

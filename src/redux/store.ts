@@ -17,7 +17,7 @@ import { draggableReducer as draggable } from "../draggable/reducer";
 import { dontExitIfBrowserIsOnHold } from "../browser_holds/index";
 import { designer } from "../farm_designer/reducer";
 import { Everything } from "../interfaces";
-import { ReduxAction } from "./interfaces";
+import { ReduxAction, Store } from "./interfaces";
 import {
   BulkSchedulerReducer as bulkScheduler
 } from "../regimens/bulk_scheduler/reducer";
@@ -46,7 +46,7 @@ let rootReducer = function (state: Everything | {},
 };
 
 function configureStore(options = {}) {
-  let store: Redux.Store;
+  let store: Store;
   if (process.env.NODE_ENV !== "production") {
     let lastState = JSON.parse(sessionStorage["lastState"] || "{}");
     let dt = (window as any)["devToolsExtension"];

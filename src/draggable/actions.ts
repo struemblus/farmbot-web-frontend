@@ -9,7 +9,7 @@ import * as React from "react";
  * attaches its lookup key to the event object. This allows you to retrieve
  * the step when the "drop" event occurs elsewhere */
 export function stepPut(value: Step,
-    ev: React.DragEvent,
+    ev: React.DragEvent<HTMLElement>,
     intent: DataXferIntent,
     draggerId: number):
     ReduxAction<DataXferBase> {

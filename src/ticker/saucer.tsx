@@ -1,5 +1,6 @@
 import * as React from "react";
 import { defensiveClone } from "../util";
+import { assign } from "lodash";
 
 export interface SaucerProps {
   color?: string;
@@ -10,7 +11,7 @@ export interface SaucerProps {
 export /** A colored UI disc/circle. */
   function Saucer({ color, border, style }: SaucerProps) {
   style = defensiveClone<{ [k: string]: string }>(style || {});
-  _.assign(style, { transition: "all 0.2s ease" });
+  assign(style, { transition: "all 0.2s ease" });
   if (border) { (style || {})["border"] = `3px solid ${border}`; }
   let className = `saucer saucer-${color}`;
   return <div className={className} style={style} />;

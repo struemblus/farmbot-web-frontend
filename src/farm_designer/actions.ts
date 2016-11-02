@@ -4,6 +4,7 @@ import { Plant } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
+import * as _ from "lodash";
 
 const PLANT_URL = "/api/plants";
 

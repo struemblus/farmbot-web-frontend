@@ -3,13 +3,14 @@ import { copy, remove, StepParams } from "./step_tiles/index";
 import { Step, Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
+import * as _ from "lodash";
 
 /** Removes un-executable sequences, such as "self" or unsaved ones */
 function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
     let isSaved = (s: Sequence) => !!s.id;
     let notRecursive = (me: Sequence, you: Sequence) => me !== you;
     return sequences
-        .filter(function (seq) {
+        .filter(function(seq) {
             // Can't function recurseCant use unsaved sequences.
             return isSaved(seq) && notRecursive(sequence, seq);
         });
@@ -39,11 +40,11 @@ function SequenceSelectBox({dispatch,
         }
     };
 
-    function change(e: React.FormEvent) {
-        let val = (e.target as HTMLInputElement).value;
+    function change(e: React.FormEvent<HTMLInputElement>) {
+        let val = e.currentTarget.value;
         let sub_sequence_id = parseInt(val, 10);
         let update = { args: { sub_sequence_id } };
-        let newStep = _.assign<{}, Step>({}, step, update);
+        let newStep = Object.assign({}, step, update);
 
         dispatch(changeStep(index, newStep));
     };
@@ -67,10 +68,7 @@ function SequenceSelectBox({dispatch,
     </select>;
 }
 
-// Execute block was too complex to be kept in step_tiles.tsx.
 export function ExecuteBlock({dispatch, step, index, sequence, sequences}: StepParams) {
-    // HACK: if_statement is temporarily being called "execute".
-    // TODO: Make a "real" execute block.
     return (<div>
         <div className="step-wrapper">
             <div className="row">

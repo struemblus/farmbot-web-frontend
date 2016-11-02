@@ -48,16 +48,16 @@ function PeripheralItemControl({peripheral, pin}: PeripheralItemProps) {
 
 /** How the bottom half of the peripheral box looks when you are EDITING */
 class PeripheralItemEdit extends React.Component<PeripheralItemProps, {}> {
-    commitLabel(e: React.FormEvent) {
-        let label = (e.target as HTMLInputElement).value;
+    commitLabel(e: React.FormEvent<HTMLInputElement>) {
+        let label = e.currentTarget.value;
         this.props.dispatch(updatePeripheral({
             index: this.props.index,
             peripheral: { label }
         }));
     }
 
-    commitPin(e: React.FormEvent) {
-        let pin = parseInt((e.target as HTMLInputElement).value, 10);
+    commitPin(e: React.FormEvent<HTMLInputElement>) {
+        let pin = parseInt(e.currentTarget.value, 10);
         this.props.dispatch(updatePeripheral({
             index: this.props.index,
             peripheral: { pin }

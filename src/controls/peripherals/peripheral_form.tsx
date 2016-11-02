@@ -3,6 +3,7 @@ import { PeripheralFormProps } from "./interfaces";
 import { pushPeripheral } from "./actions";
 import { error } from "../../logger";
 import { t } from "i18next";
+import * as _ from "lodash";
 
 export function PeripheralForm(props: PeripheralFormProps) {
     let Comp: JSX.Element;
@@ -32,13 +33,13 @@ class PeripheralFormEdit extends React.Component<PeripheralFormProps,
         this.setState({ label: "", pin: undefined });
     }
 
-    commitLabel(e: React.FormEvent) {
-        this.setState({ label: (e.target as HTMLInputElement).value });
+    commitLabel(e: React.FormEvent<HTMLInputElement>) {
+        this.setState({ label: e.currentTarget.value });
     }
 
-    commitPin(e: React.FormEvent) {
+    commitPin(e: React.FormEvent<HTMLInputElement>) {
         this.setState({
-            pin: parseInt((e.target as HTMLInputElement).value, 10)
+            pin: parseInt(e.currentTarget.value, 10)
         });
     }
 

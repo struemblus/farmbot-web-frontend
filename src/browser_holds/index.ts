@@ -1,4 +1,4 @@
-import { Store } from "redux";
+import { Store } from "../redux/interfaces";
 
 function hasUnsavedChanges(store: Store) {
     // Kind of a funny alternative to tree traversal, but I think it is easier

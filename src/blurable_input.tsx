@@ -17,7 +17,7 @@ export class BlurableInput<T> extends React.Component<BIProps, BIState> {
         this.state = { buffer: "", isEditing: false };
     }
 
-    maybeCommit(e: React.SyntheticEvent) {
+    maybeCommit(e: React.SyntheticEvent<HTMLInputElement>) {
         if (this.state.buffer) { this.props.onCommit(e); }
         this.setState({ isEditing: false, buffer: "" });
     }
@@ -26,8 +26,8 @@ export class BlurableInput<T> extends React.Component<BIProps, BIState> {
         this.setState({ isEditing: true, buffer: this.props.value });
     }
 
-    updateBuffer(e: React.SyntheticEvent) {
-        let buffer = (e.target as HTMLInputElement).value;
+    updateBuffer(e: React.SyntheticEvent<HTMLInputElement>) {
+        let buffer = e.currentTarget.value;
         this.setState({ buffer });
     }
 

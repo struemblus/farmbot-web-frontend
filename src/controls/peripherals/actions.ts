@@ -5,6 +5,7 @@ import { error } from "../../logger";
 import { t } from "i18next";
 import { IndexedPeripheral, Peripheral } from "./interfaces";
 import { devices } from "../../device";
+import * as _ from "lodash";
 
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */

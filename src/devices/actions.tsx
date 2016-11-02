@@ -16,6 +16,7 @@ import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
 import { Regimen } from "../regimens/interfaces";
+import * as _ from "lodash";
 
 const ON = 1,
     OFF = 0;

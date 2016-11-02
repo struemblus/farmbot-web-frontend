@@ -11,7 +11,7 @@ interface StepButtonParams {
 }
 
 let click = (dispatch: Function, step: Step) =>
-    (event: React.FormEvent) => { dispatch(pushStep(step)); };
+    (event: React.FormEvent<HTMLButtonElement>) => { dispatch(pushStep(step)); };
 
 export function StepButton({ children, step, color, dispatch}: StepButtonParams) {
     return <div className="col-xs-6">
