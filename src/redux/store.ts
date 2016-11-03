@@ -8,7 +8,7 @@ let ENV = process.env.NODE_ENV as string;
 
 function dev() {
     store = createStore(rootReducer,
-        JSON.parse(sessionStorage["lastState"] || "{}"),
+        maybeFetchOldState(),
         getMiddleware("development"));
     // Make store global in dev env in case I need to probe it.
     (window as any)["store"] = store;
@@ -16,11 +16,8 @@ function dev() {
 }
 
 function prod() {
-    let x = createStore(rootReducer, ({} as any), getMiddleware("production"));
-    return x;
+    return createStore(rootReducer, ({} as any), getMiddleware("production"));
 }
-
-
 
 function configureStore(options = {}) {
     let store: Store = (ENV === "production" ? prod() : dev());
@@ -29,3 +26,9 @@ function configureStore(options = {}) {
 }
 
 export let store = configureStore();
+
+/** Tries to fetch previous state from `sessionStorage`.
+ * Returns {} if nothing is found. Used mostly for hot reloading. */
+function maybeFetchOldState() {
+    return JSON.parse(sessionStorage["lastState"] || "{}");
+}
