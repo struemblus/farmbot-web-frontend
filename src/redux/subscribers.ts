@@ -1,10 +1,11 @@
 import { Everything } from "../interfaces";
 import { Store } from "./interfaces";
 import { dontExitIfBrowserIsOnHold } from "../browser_holds/index";
+import { EnvName } from "./interfaces";
 
 interface Subscription {
     fn: (state: Everything) => void;
-    env: "production" | "development" | "*";
+    env: EnvName;
 };
 
 /** To make it easier to manage all things watching the state tree,
@@ -24,7 +25,7 @@ export let subscriptions: Subscription[] = [
 
 export function registerSubscribers(store: Store) {
     let ENV_LIST = [process.env.NODE_ENV, "*"];
-    subscriptions.forEach(function (s) {
+    subscriptions.forEach(function(s) {
         if (ENV_LIST.includes(s.env)) {
             store.subscribe(() => s.fn(store.getState()));
         };
