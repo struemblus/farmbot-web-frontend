@@ -2,6 +2,7 @@ import { Store } from "./interfaces";
 import thunk from "redux-thunk";
 import { applyMiddleware, compose, Middleware, GenericStoreEnhancer } from "redux";
 import { EnvName } from "./interfaces";
+import { syncMiddleware } from "../devices/sync_middleware";
 
 interface MiddlewareConfig {
     fn: Middleware;
@@ -18,6 +19,10 @@ export let mwConfig: MiddlewareConfig[] = [
     , {
         env: "development",
         fn: require("redux-immutable-state-invariant")()
+    }
+    , {
+        env: "*",
+        fn: syncMiddleware
     }
 ];
 
