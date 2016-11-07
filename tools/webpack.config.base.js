@@ -10,18 +10,18 @@ var revisionPlugin = new webpack.DefinePlugin({
     'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
 });
 
-module.exports = function() {
+module.exports = function () {
     return {
         module: {
             loaders: [{
-                    test: /\.tsx?$/,
-                    exclude: /(node_modules)/,
-                    loader: 'ts'
-                },
-                {
-                    test: /\.hbs$/,
-                    loader: 'handlebars-loader'
-                }
+                test: /\.tsx?$/,
+                exclude: /(node_modules)/,
+                loader: 'ts'
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader'
+            }
             ],
         },
         entry: {
