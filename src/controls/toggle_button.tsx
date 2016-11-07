@@ -1,9 +1,20 @@
 import * as React from "react";
 import * as i18next from "i18next";
 
-export class ToggleButton extends React.Component<any, any> {
+interface ToggleButtonProps {
+  /** Function that is executed when the toggle button is clicked */
+  toggleAction: () => void;
+  toggleval: number | string | undefined;
+}
+
+interface ToggleButtonState {
+
+}
+
+// <ToggleButton toggleval="false" />
+export class ToggleButton extends React.Component<ToggleButtonProps, ToggleButtonState> {
   caption() {
-    let captions: { [s: string]: string } = {
+    let captions: { [s: string]: string | undefined } = {
       "0": i18next.t("no"),
       "false": i18next.t("no"),
       "off": i18next.t("no"),
@@ -22,7 +33,7 @@ export class ToggleButton extends React.Component<any, any> {
     let greenCSS = "button-like green";
     let yellowCSS = "button-like yellow";
 
-    let cssClasses: { [s: string]: string } = {
+    let cssClasses: { [s: string]: string | undefined } = {
       "0": redCSS,
       "false": redCSS,
       "off": redCSS,
