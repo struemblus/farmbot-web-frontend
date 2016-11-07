@@ -65,7 +65,7 @@ function RegimenItemDayGroup({ day,
   items,
   dispatch }: RegimenItemDayGroupProps) {
   return <div className="regimen-day">
-    <label> {t("Day {{day}}", { day: day + 1 })} </label>
+    <label> {t("Day {{day}}", { day: parseInt(day, 10) })} </label>
     {items.map(function (item, inx) {
       return <RegimenItemStep item={item}
         key={inx}
