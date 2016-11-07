@@ -1,191 +1,243 @@
 // Styles for BUTTONS
-
 button {
-  font-size: 1rem!important;
-  float: right;
-  text-transform: uppercase!important;
-  text-align: center;
-  font-family: $roboto;
-  font-weight: 700!important;
-  padding-top: .2rem;
-  padding-bottom: .2rem;
-  padding-left: .8rem;
-  padding-right: .8rem;
-  border-radius: 3px;
-  border-bottom-width: 2px!important;
-  border: none;
-  margin-bottom: 0px;
-  &.left {
-    float: left;
-  }
-  &.stop {
-    background-color: $red;
-  }
-  &.go {
-    background-color: $green;
-    margin-top: 24px;
-    padding: .4rem .8rem;
-    font-size: 1.2rem!important;
-  }
-  &.restart {
-    background-color: $orange;
-  }
-  &.green {
-    background-color: $green;
-    color: $off_white;
-    border-bottom: solid $dark_green;
-    &:hover {
-      background-color: darken($green, 5%);
-    }
-  }
-  &.red {
-    background-color: $red;
-    color: $off_white;
-    border-bottom: solid $dark_red;
-    &:hover {
-      background-color: darken($red, 5%);
-    }
-  }
-  &.gray {
-    background-color: $medium_gray;
+    font-size: 1rem!important;
     float: right;
-    color: $off_white;
-    border-bottom: solid $dark_gray;
-    &:hover {
-      background-color: darken($medium_gray, 5%);
+    text-transform: uppercase!important;
+    text-align: center;
+    font-family: $roboto;
+    font-weight: 700!important;
+    padding: 0.3rem 0.10rem;
+    border-radius: 3px;
+    border-bottom-width: 2px!important;
+    border: none;
+    margin-bottom: 0px;
+    &.left {
+        float: left;
     }
-  }
-  &.yellow {
-    background-color: $yellow;
-    float: right;
-    color: $dark_gray;
-    border-bottom: solid $gold;
-    &:hover {
-      background-color: darken($yellow, 10%);
+    &.stop {
+        background-color: $red;
     }
-  }
-  &.cyan {
-    background-color: $cyan;
-    float: right;
-    color: $off_white;
-    border-bottom: solid darken($cyan, 10%);
-    &:hover {
-      background-color: darken($cyan, 3%);
+    &.go {
+        background-color: $green;
+        margin-top: 24px;
+        padding: .4rem .8rem;
+        font-size: 1.2rem!important;
     }
-    &:active {
-      background-color: darken($cyan, 5%);
+    &.restart {
+        background-color: $orange;
     }
-  }
-  &.brown {
-    background-color: $dark_brown;
-    float: right;
-    color: $off_white;
-    border-bottom: solid darken($dark_brown, 10%);
-    &:hover {
-      background-color: darken($dark_brown, 3%);
+    &.green {
+        background-color: $green;
+        color: $off_white;
+        border-bottom: solid $dark_green;
+        &:hover {
+            background-color: darken($green, 5%);
+        }
     }
-    &:active {
-      background-color: darken($dark_brown, 5%);
+    &.red {
+        background-color: $red;
+        color: $off_white;
+        border-bottom: solid $dark_red;
+        &:hover {
+            background-color: darken($red, 5%);
+        }
     }
-  }
-  &.magenta {
-    background-color: $magenta;
-    float: right;
-    color: $off_white;
-    border-bottom: solid darken($magenta, 10%);
-    &:hover {
-      background-color: darken($magenta, 3%);
+    &.gray {
+        background-color: $medium_gray;
+        float: right;
+        color: $off_white;
+        border-bottom: solid $dark_gray;
+        &:hover {
+            background-color: darken($medium_gray, 5%);
+        }
     }
-    &:active {
-      background-color: darken($magenta, 5%);
+    &.yellow {
+        background-color: $yellow;
+        float: right;
+        color: $dark_gray;
+        border-bottom: solid $gold;
+        &:hover {
+            background-color: darken($yellow, 10%);
+        }
     }
-  }
-  &.login, &.create-account{
-    margin-top: 1.5rem;
-    padding: .5rem 1.6rem;
-    font-size: 1.2rem!important;
-  }
-  &.nav-sync {
-    float: left;
-    margin-left: 2rem;
-    margin-top: 1.25rem;
-    padding: .3rem 1rem;
-    font-size: 1.2rem!important;
-  }
-  &.nav-e-stop {
-    margin-right: 2rem;
-    margin-top: 1.25rem;
-    padding: .3rem 1rem;
-    font-size: 1.2rem!important;
-  }
-  &.add-week {
-    margin-top: 0.5rem;
-    float: left;
-  }
+    &.cyan {
+        background-color: $cyan;
+        float: right;
+        color: $off_white;
+        border-bottom: solid darken($cyan, 10%);
+        &:hover {
+            background-color: darken($cyan, 3%);
+        }
+        &:active {
+            background-color: darken($cyan, 5%);
+        }
+    }
+    &.brown {
+        background-color: $dark_brown;
+        float: right;
+        color: $off_white;
+        border-bottom: solid darken($dark_brown, 10%);
+        &:hover {
+            background-color: darken($dark_brown, 3%);
+        }
+        &:active {
+            background-color: darken($dark_brown, 5%);
+        }
+    }
+    &.magenta {
+        background-color: $magenta;
+        float: right;
+        color: $off_white;
+        border-bottom: solid darken($magenta, 10%);
+        &:hover {
+            background-color: darken($magenta, 3%);
+        }
+        &:active {
+            background-color: darken($magenta, 5%);
+        }
+    }
+    &.login,
+    &.create-account {
+        margin-top: 1.5rem;
+        padding: .5rem 1.6rem;
+        font-size: 1.2rem!important;
+    }
+    &.nav-sync {
+        float: left;
+        margin-left: 2rem;
+        margin-top: 1.25rem;
+        padding: .3rem 1rem;
+        font-size: 1.2rem!important;
+    }
+    &.nav-e-stop {
+        margin-right: 2rem;
+        margin-top: 1.25rem;
+        padding: .3rem 1rem;
+        font-size: 1.2rem!important;
+    }
+    &.add-week {
+        margin-top: 0.5rem;
+        float: left;
+    }
 }
 
 .button-like {
-  &:active {
-    border-bottom-width: 1px!important;
-    border-top: 1px solid transparent!important;
-    transform: translateY(1px);
-  }
+    &:active {
+        border-bottom-width: 1px!important;
+        border-top: 1px solid transparent!important;
+        transform: translateY(1px);
+    }
+    &.toggle-button {
+        border-radius: 10px;
+        width: 5rem;
+        border-bottom: none;
+        position: relative;
+        transition: all 0.4s ease;
+        &.yellow {
+            &:after {
+                content: '';
+                position: absolute;
+                height: 1.6rem;
+                width: 1.6rem;
+                background: white;
+                border-radius: 50%;
+                top: 0.2rem;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+            }
+        }
+        &.green {
+            text-align: left;
+            padding-left: 0.6rem;
+            &:after {
+                content: '';
+                position: absolute;
+                height: 1.6rem;
+                width: 1.6rem;
+                background: white;
+                border-radius: 50%;
+                top: 0.2rem;
+                right: 0.2rem;
+            }
+            &:hover {
+                background: $green;
+            }
+        }
+        &.red {
+            text-align: right !important;
+            padding-right: 0.8rem;
+            &:after {
+                content: '';
+                position: absolute;
+                height: 1.6rem;
+                width: 1.6rem;
+                background: white;
+                border-radius: 50%;
+                top: 0.2rem;
+                left: 0.2rem;
+            }
+            &:hover {
+                background: $dark_red;
+            }
+        }
+    }
 }
 
 .plus-button {
-  border-radius: 50%;
-  bottom: 7rem;
-  right: 10rem;
-  width: 5rem;
-  height: 5rem;
-  color: $off_white;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  cursor: pointer;
-  border-bottom-width: 3px!important;
-  position: absolute;
-  i {
-    line-height: 5rem;
-  }
-  &.add-plant {
-    background-color: $dark_green;
-    border-bottom: solid darken($dark_green, 10%);
-    &:hover {
-      background-color: darken($dark_green, 3%);
+    border-radius: 50%;
+    bottom: 7rem;
+    right: 10rem;
+    width: 5rem;
+    height: 5rem;
+    color: $off_white;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    cursor: pointer;
+    border-bottom-width: 3px!important;
+    position: absolute;
+    i {
+        line-height: 5rem;
     }
-    &:active {
-      background-color: darken($dark_green, 5%);
+    &.add-plant {
+        background-color: $dark_green;
+        border-bottom: solid darken($dark_green, 10%);
+        &:hover {
+            background-color: darken($dark_green, 3%);
+        }
+        &:active {
+            background-color: darken($dark_green, 5%);
+        }
     }
-  }
-  &.add-group {
-    background-color: $cyan;
-    border-bottom: solid darken($cyan, 10%);
-    &:hover {
-      background-color: darken($cyan, 3%);
+    &.add-group {
+        background-color: $cyan;
+        border-bottom: solid darken($cyan, 10%);
+        &:hover {
+            background-color: darken($cyan, 3%);
+        }
+        &:active {
+            background-color: darken($cyan, 5%);
+        }
     }
-    &:active {
-      background-color: darken($cyan, 5%);
+    &.add-zone {
+        background-color: $dark_brown;
+        border-bottom: solid darken($dark_brown, 10%);
+        &:hover {
+            background-color: darken($dark_brown, 3%);
+        }
+        &:active {
+            background-color: darken($dark_brown, 5%);
+        }
     }
-  }
-  &.add-zone {
-    background-color: $dark_brown;
-    border-bottom: solid darken($dark_brown, 10%);
-    &:hover {
-      background-color: darken($dark_brown, 3%);
+    &.add-event {
+        background-color: $magenta;
+        border-bottom: solid darken($magenta, 10%);
+        &:hover {
+            background-color: darken($magenta, 3%);
+        }
+        &:active {
+            background-color: darken($magenta, 5%);
+        }
     }
-    &:active {
-      background-color: darken($dark_brown, 5%);
-    }
-  }
-  &.add-event {
-    background-color: $magenta;
-    border-bottom: solid darken($magenta, 10%);
-    &:hover {
-      background-color: darken($magenta, 3%);
-    }
-    &:active {
-      background-color: darken($magenta, 5%);
-    }
-  }
 }
