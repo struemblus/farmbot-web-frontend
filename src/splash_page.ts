@@ -9,7 +9,7 @@ export default function ({templateName}: StaticConfigSettings) {
     var template = require("./" + templateName + ".hbs");
 
     var local = {
-        "header": "Rick wuz here",
+        "header": "Welcome to the FarmBot Web App",
         "subHeader": "Setup, customize, and control FarmBot from any device",
         "callToAction": "Login or Create an Account",
     };
