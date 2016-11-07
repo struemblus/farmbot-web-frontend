@@ -5,12 +5,120 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <title>FarmBot</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Roboto:400,400italic,700,700italic,100,100italic);
+        html {
+            height: 100%;
+        }
+        
+        h1,
+        h2 {
+            font-family: "Roboto", Arial, Helvetica, sans-serif;
+            font-weight: 300;
+            color: #f4f4f4;
+        }
+        
+        h1 {
+            font-size: 4rem;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+        }
+        
+        .img {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        a {
+            color: #f4f4f4;
+            display: block;
+            padding: 1.5rem 2rem;
+        }
+        
+        a:hover,
+        a:focus {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        a {
+            font-size: 1.5rem !important;
+            text-transform: uppercase !important;
+            text-align: center;
+            font-family: "Roboto", Arial, Helvetica, sans-serif;
+            font-weight: 700 !important;
+            background: transparent;
+            display: block;
+            border-radius: 5px;
+            border: 2px solid #f4f4f4;
+            margin-bottom: 0px;
+            padding: 0;
+        }
+        
+        .row {
+            max-width: 160rem;
+        }
+        
+        body {
+            min-height: 100%;
+            padding: 2rem;
+            background: linear-gradient(-135deg, #089460, #159ACC);
+            background-size: 400% 400%;
+            -webkit-animation: BackgroundGradient 30s ease infinite;
+            -moz-animation: BackgroundGradient 30s ease infinite;
+            animation: BackgroundGradient 30s ease infinite;
+        }
+        
+        @-webkit-keyframes BackgroundGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @-moz-keyframes BackgroundGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        @keyframes BackgroundGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        
+        * {
+            outline: none;
+        }
+    </style>
 </head>
 
 <body>
     <div class="content">
-        <h1 class="text-center">Rick wuz here</h1>
-        <h2 class="text-center">Setup, customize, and control FarmBot from any device</h2>
+        <h1>Rick wuz here</h1>
+        <h2>Setup, customize, and control FarmBot from any device</h2>
         <img src="http://farmbot.io/wp-content/uploads/2014/03/Web-App-on-Different-Devices-1.png">
         <a href="/app/login">Login or Create an Account</a>
     </div>
