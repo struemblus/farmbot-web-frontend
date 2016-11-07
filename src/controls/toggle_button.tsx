@@ -7,11 +7,8 @@ interface ToggleButtonProps {
   toggleval: number | string | undefined;
 }
 
-interface ToggleButtonState {
+interface ToggleButtonState { }
 
-}
-
-// <ToggleButton toggleval="false" />
 export class ToggleButton extends React.Component<ToggleButtonProps, ToggleButtonState> {
   caption() {
     let captions: { [s: string]: string | undefined } = {
@@ -29,9 +26,9 @@ export class ToggleButton extends React.Component<ToggleButtonProps, ToggleButto
   }
 
   css() {
-    let redCSS = "button-like red";
-    let greenCSS = "button-like green";
-    let yellowCSS = "button-like yellow";
+    let redCSS = "button-like toggle-button red";
+    let greenCSS = "button-like toggle-button green";
+    let yellowCSS = "button-like toggle-button yellow";
 
     let cssClasses: { [s: string]: string | undefined } = {
       "0": redCSS,
