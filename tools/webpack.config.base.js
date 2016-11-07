@@ -10,7 +10,7 @@ var revisionPlugin = new webpack.DefinePlugin({
     'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
 });
 
-module.exports = function () {
+module.exports = function() {
     return {
         module: {
             loaders: [{
@@ -56,7 +56,7 @@ module.exports = function () {
         },
         devServer: {
             historyApiFallback: {
-                index: 'public/app/index.html'
+                index: '/app/index.html'
             }
         }
     };
