@@ -1,3 +1,4 @@
+// If you're touching this, remember to change webpack config
 import * as hbs from "handlebars";
 
 interface StaticConfigSettings {

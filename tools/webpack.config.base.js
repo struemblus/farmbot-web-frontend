@@ -14,19 +14,19 @@ module.exports = function() {
     return {
         module: {
             loaders: [{
-                test: /\.tsx?$/,
-                exclude: /(node_modules)/,
-                loader: 'ts'
-            },
-            {
-                test: /\.hbs$/,
-                loader: 'handlebars-loader'
-            }
+                    test: /\.tsx?$/,
+                    exclude: /(node_modules)/,
+                    loader: 'ts'
+                },
+                {
+                    test: /\.hbs$/,
+                    loader: 'handlebars-loader'
+                }
             ],
         },
         entry: {
             'app-resources/bundle': './src/entry.tsx',
-            'splash-page': './src/splash_page.ts'
+            'splash-page': './src/static/splash_page.ts'
         },
         output: {
             path: "public",
