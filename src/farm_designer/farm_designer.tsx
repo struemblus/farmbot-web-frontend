@@ -10,28 +10,27 @@ import { Everything } from "../interfaces";
 class FarmDesignerPage extends React.Component<Everything, any> {
 
   componentDidMount() {
-    let baseUrl = this.props.auth.iss;
-    this.props.dispatch(fetchPlants(baseUrl));
+    this.props.dispatch(fetchPlants());
   }
 
   render() {
     return (
-        <div className="farm-designer">
+      <div className="farm-designer">
         <Navbar { ...this.props } />
-            <div className="farm-designer-body">
-            <div className="farm-designer-left">
-              <Panel1 { ...this.props } />
-            </div>
+        <div className="farm-designer-body">
+          <div className="farm-designer-left">
+            <Panel1 { ...this.props } />
+          </div>
 
-            <div className="farm-designer-map">
-              <GardenMap {...this.props}/>
-            </div>
+          <div className="farm-designer-map">
+            <GardenMap {...this.props} />
+          </div>
 
-            <div className="farm-designer-right">
-              <Panel2 { ...this.props } />
-            </div>
+          <div className="farm-designer-right">
+            <Panel2 { ...this.props } />
           </div>
         </div>
+      </div>
     );
   }
 }

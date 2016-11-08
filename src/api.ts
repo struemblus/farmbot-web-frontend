@@ -16,7 +16,10 @@ export class API {
         if (current) {
             return current;
         } else {
-            throw new Error("Tried to access API before URL was resolved.");
+            console.warn("???")
+            throw new Error(`
+            Tried to access API before URL was resolved.
+            Call API.setBaseUrl() before using API.current .`);
         }
     };
 
@@ -36,8 +39,9 @@ export class API {
     private readonly host: string;
 
     constructor(url: string) {
-        var parser = document.createElement('a');
+        var parser = document.createElement("a");
         parser.href = url;
+        // Best. Hack. Ever.
         this.protocol = parser.protocol as ProtocolString;
         this.hostname = parser.hostname;
         this.port = parser.port;

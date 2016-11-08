@@ -5,8 +5,7 @@ import * as Axios from "axios";
 import { regimenSerializer } from "./serializers";
 import { prettyPrintApiErrors } from "../util";
 import { t } from "i18next";
-
-const REGIMEN_URL = "/api/regimens/";
+import { API } from "../api";
 
 export function copyRegimen(payload: Regimen) {
   return {
@@ -30,8 +29,8 @@ export function editRegimen(regimen: Regimen,
 export function saveRegimen(regimen: Regimen, baseUrl: string) {
   return function (dispatch: Function) {
     const action = regimen.id ? Axios.put : Axios.post;
-    return action<Regimen>(baseUrl + REGIMEN_URL + (regimen.id || ""),
-      regimenSerializer(regimen))
+    let url = API.current.regimensPath + (regimen.id || "");
+    return action<Regimen>(url, regimenSerializer(regimen))
       .then(function (resp) {
         success(t("Regimen saved."));
         dispatch(saveRegimenOk(resp.data));
@@ -49,10 +48,10 @@ function saveRegimenErr(err: any) {
     t("Unable to save regimen."));
 }
 
-export function deleteRegimen(regimen: Regimen, baseUrl: string) {
+export function deleteRegimen(regimen: Regimen) {
   return function (dispatch: Function) {
     if (regimen && regimen.id) {
-      let url = baseUrl + REGIMEN_URL + regimen.id;
+      let url = API.current.regimensPath + regimen.id;
 
       Axios.delete<Regimen>(url)
         .then(function (resp) {
@@ -100,10 +99,10 @@ export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
   };
 }
 
-export function fetchRegimens(apiUrl: string) {
+export function fetchRegimens() {
   return function (dispatch: Function) {
     return Axios
-      .get<Regimen[]>(apiUrl + REGIMEN_URL)
+      .get<Regimen[]>(API.current.regimensPath)
       .then(r => dispatch({
         type: "FETCH_REGIMENS_OK",
         payload: r.data

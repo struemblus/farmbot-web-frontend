@@ -26,7 +26,7 @@ describe("Regimen actions", function () {
 
     it("deletes a Regimen", (done) => {
         let spy = jasmine.createSpy("delete_success");
-        let thunk = deleteRegimen(regimen, "//altavista.com");
+        let thunk = deleteRegimen(regimen);
         let response = { id: 1, firstName: "Fred", lastName: "Flintstone" };
         spyOn(toast, "success");
         thunk(spy);
@@ -50,7 +50,7 @@ describe("Regimen actions", function () {
 
     it("fails to delete a Regimen", (done) => {
         let spy = jasmine.createSpy("delete_fail");
-        let thunk = deleteRegimen(regimen, "//altavista.com");
+        let thunk = deleteRegimen(regimen);
         spyOn(toast, "error");
         let response = { id: 1, firstName: "Fred", lastName: "Flintstone" };
         thunk(spy);
