@@ -6,7 +6,8 @@ import { t } from "i18next";
 import { IndexedPeripheral, Peripheral } from "./interfaces";
 import { devices } from "../../device";
 import * as _ from "lodash";
-
+import { API } from "../../api";
+import { Thunk } from "../../redux/interfaces";
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
 export function startEditing(): ReduxAction<{}> {
@@ -44,7 +45,7 @@ export function updatePeripheral({index, peripheral}: UpdatePeripheral):
 };
 
 export function destroyPeripheral(payload: IndexedPeripheral) {
-    return function(dispatch: Function, getState: () => Everything) {
+    return function (dispatch: Function, getState: () => Everything) {
         let state = getState();
         let id = payload.peripheral.id;
         function remove() {
@@ -55,7 +56,7 @@ export function destroyPeripheral(payload: IndexedPeripheral) {
         }
         if (id) {
             axios
-                .delete(peripheralUrl(state.auth.iss) + id)
+                .delete(API.current.peripheralsPath + id)
                 .then(remove)
                 .catch(handleError("Peripheral deletion failed."));
         } else {
@@ -65,12 +66,12 @@ export function destroyPeripheral(payload: IndexedPeripheral) {
 }
 
 export function saveAll() {
-    return function(dispatch: Function, getState: () => Everything) {
+    return function (dispatch: Function, getState: () => Everything) {
         let state = getState();
         axios
-            .post<Peripheral[]>(peripheralUrl(state.auth.iss),
+            .post<Peripheral[]>(API.current.peripheralsPath,
             { peripherals: state.peripherals.all })
-            .then(function(x) {
+            .then(function (x) {
                 devices.current.sync();
                 dispatch({
                     type: "REPLACE_PERIPHERALS",
@@ -82,17 +83,17 @@ export function saveAll() {
 }
 
 function handleError(defaultMsg: string) {
-    return function(x: any) {
+    return function (x: any) {
         let message = _.get(x, "response.data.error", t(defaultMsg));
         error(message);
     };
 }
 
-export function fetchPeripherals(baseUrl: string) {
-    return function(dispatch: Function) {
+export function fetchPeripherals(): Thunk {
+    return function (dispatch) {
         axios
-            .get(peripheralUrl(baseUrl))
-            .then(function(x) {
+            .get<Peripheral[]>(API.current.peripheralsPath)
+            .then(function (x) {
                 dispatch({
                     type: "REPLACE_PERIPHERALS",
                     payload: x.data
@@ -104,5 +105,3 @@ export function fetchPeripherals(baseUrl: string) {
 export function pushPeripheral(payload: Peripheral) {
     return { type: "PUSH_PERIPHERAL", payload };
 }
-
-let peripheralUrl = (base: string) => `${base}/api/peripherals/`;

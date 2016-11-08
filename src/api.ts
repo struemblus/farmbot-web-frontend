@@ -36,8 +36,9 @@ export class API {
     private readonly host: string;
 
     constructor(url: string) {
-        var parser = document.createElement('a');
+        var parser = document.createElement("a");
         parser.href = url;
+        // Best. Hack. Ever.
         this.protocol = parser.protocol as ProtocolString;
         this.hostname = parser.hostname;
         this.port = parser.port;

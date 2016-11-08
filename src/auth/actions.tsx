@@ -29,18 +29,18 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchOSUpdateInfo(authState.os_update_server));
   dispatch(fetchFWUpdateInfo(authState.fw_update_server));
   dispatch(loginOk(authState));
-  dispatch(downloadDeviceData(authState.iss));
+  dispatch(downloadDeviceData());
   dispatch(fetchSequences());
-  dispatch(fetchRegimens(authState.iss));
-  dispatch(fetchPlants(authState.iss));
+  dispatch(fetchRegimens());
+  dispatch(fetchPlants());
   dispatch(connectDevice(authState.token));
-  dispatch(fetchPeripherals(authState.iss));
-
+  dispatch(fetchPeripherals());
 };
 
-export function downloadDeviceData(baseUrl: string): Thunk {
+export function downloadDeviceData(): Thunk {
   return function (dispatch, getState) {
-    Axios.get<DeviceAccountSettings>(baseUrl + "/api/device")
+    Axios
+      .get<DeviceAccountSettings>(API.current.baseUrl)
       .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
       .catch(payload => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
   };
@@ -101,9 +101,11 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   // outbound HTTP request (after user logs in).
   Axios.interceptors.request.use(function (config) {
     config.headers = config.headers || {};
-    (config.headers as any).Authorization = auth.token;
+    let headers = (config.headers as { Authorization: string | undefined });
+    headers.Authorization = auth.token || "CANT_FIND_TOKEN";
     return config;
   });
+
   return {
     type: "LOGIN_OK",
     payload: auth
@@ -156,7 +158,7 @@ function requestRegistration(name: string,
       name: name
     }
   };
-  return Axios.post<AuthResponse>(url + "/api/users", form);
+  return Axios.post<AuthResponse>(API.current.usersPath, form);
 }
 
 /** Fetch API token if already registered. */

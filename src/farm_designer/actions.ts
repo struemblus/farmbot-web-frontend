@@ -5,11 +5,12 @@ import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
 import * as _ from "lodash";
+import { API } from "../api";
 
-const PLANT_URL = "/api/plants";
+const PLANT_URL = API.current.plantsPath;
 
-export function fetchPlants(baseUrl: string): Thunk {
-  let url = baseUrl + PLANT_URL;
+export function fetchPlants(): Thunk {
+  let url = API.current.plantsPath;
   return function (dispatch, getState) {
     dispatch({ type: "FETCH_PLANTS_START" });
     return Axios.get<Plant[]>(url)
