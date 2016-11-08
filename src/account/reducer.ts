@@ -1,4 +1,4 @@
-import { UpdateEmailPayl } from "./interfaces";
+import { UpdateUserPayl } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 
 interface AccountReducerState {
@@ -16,9 +16,14 @@ const initialState: AccountReducerState = {
 };
 
 export let accountReducer = generateReducer<AccountReducerState>(initialState)
-    .add<UpdateEmailPayl>("UPDATE_EMAIL", function(s, a) {
-        // let email = a.payload;
-        let myIndex = a.payload.index;
+    .add<UpdateUserPayl>("UPDATE_USER_SUCCESS", function (s, a) {
+        //
+        //
+        return s;
+    })
+    .add<UpdateUserPayl>("UPDATE_USER_ERR", function (s, a) {
+        //
+        //
         return s;
     });
 

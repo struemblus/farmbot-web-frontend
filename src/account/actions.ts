@@ -1,20 +1,35 @@
 import * as axios from "axios";
 import { Everything } from "../interfaces";
-import * as i18next from "i18next";
-import { ReduxAction } from "../redux/interfaces";
-import { UpdateEmailPayl } from "./interfaces";
+import { t } from "i18next";
+import { Thunk } from "../redux/interfaces";
+import { success, error } from "../logger";
+import { User, UpdateUserSuccess, UpdateUserErr } from "./interfaces";
 
-export function updateEmail(email: string): ReduxAction<UpdateEmailPayl> {
+function updateUserSuccess(message: string): UpdateUserSuccess {
     return {
-        type: "UPDATE_EMAIL",
-        payload: { index: -1, comment: email }
+        type: "UPDATE_USER_SUCCESS",
+        payload: message
     };
 }
 
-interface UpdateName {
-    name: string;
+function updateUserErr(message: string): UpdateUserErr {
+    return {
+        type: "UPDATE_USER_ERROR",
+        payload: message
+    };
 }
 
-export function updateName(payload: UpdateName): ReduxAction<UpdateName> {
-    return { type: "UPDATE_NAME", payload };
+export function updateUser(user: User): Thunk {
+    return (dispatch: Function, getState: Function) => {
+        let url = getState().auth.iss;
+
+        axios.patch<User>(`${url}/api/users`)
+            .then(() => {
+                success(t("User successfully updated."));
+                dispatch(updateUserSuccess("Success"));
+            }, (e: Error) => {
+                error(t("User could not be updated."));
+                dispatch(updateUserErr(`Error: ${e}`));
+            });
+    };
 }
