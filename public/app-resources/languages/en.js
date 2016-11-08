@@ -1,6 +1,8 @@
 module.exports = {
     "Login": "Login",
-    "Day {{day}}" : "Day {{day}}",
+    "Day {{day}}": "Day {{day}}",
     "yes": "yes",
-    "no" : "no"
+    "no": "no",
+    "Save": "Save",
+    "Account Settings": "Account Settings"
 }
