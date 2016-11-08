@@ -11,6 +11,7 @@ import { fetchPeripherals } from "../controls/peripherals/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
+import { API } from "../api";
 
 /** This is what a response from /api/tokens looks like. */
 export interface AuthResponse {
@@ -24,21 +25,22 @@ export interface AuthResponseToken {
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
+  API.setBaseUrl(authState.iss);
   dispatch(fetchOSUpdateInfo(authState.os_update_server));
   dispatch(fetchFWUpdateInfo(authState.fw_update_server));
   dispatch(loginOk(authState));
-  dispatch(downloadDeviceData(authState.iss));
+  dispatch(downloadDeviceData());
   dispatch(fetchSequences());
-  dispatch(fetchRegimens(authState.iss));
-  dispatch(fetchPlants(authState.iss));
+  dispatch(fetchRegimens());
+  dispatch(fetchPlants());
   dispatch(connectDevice(authState.token));
-  dispatch(fetchPeripherals(authState.iss));
-
+  dispatch(fetchPeripherals());
 };
 
-export function downloadDeviceData(baseUrl: string): Thunk {
+export function downloadDeviceData(): Thunk {
   return function (dispatch, getState) {
-    Axios.get<DeviceAccountSettings>(baseUrl + "/api/device")
+    Axios
+      .get<DeviceAccountSettings>(API.current.devicePath)
       .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
       .catch(payload => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
   };
@@ -98,10 +100,16 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   // This is how we attach the auth token to every
   // outbound HTTP request (after user logs in).
   Axios.interceptors.request.use(function (config) {
-    config.headers = config.headers || {};
-    (config.headers as any).Authorization = auth.token;
+    let req = config.url;
+    let isAPIRequest = req.includes(API.current.baseUrl);
+    if (isAPIRequest) {
+      config.headers = config.headers || {};
+      let headers = (config.headers as { Authorization: string | undefined });
+      headers.Authorization = auth.token || "CANT_FIND_TOKEN";
+    }
     return config;
   });
+
   return {
     type: "LOGIN_OK",
     payload: auth
@@ -154,16 +162,18 @@ function requestRegistration(name: string,
       name: name
     }
   };
-  return Axios.post<AuthResponse>(url + "/api/users", form);
+  return Axios.post<AuthResponse>(API.current.usersPath, form);
 }
 
-/** Get a token from /api/token if you're already a registered user. */
+/** Fetch API token if already registered. */
 function requestToken(email: string,
   password: string,
   url: string) {
   let payload = { user: { email: email, password: password } };
-  let path = url + "/api/tokens";
-  return Axios.post<AuthResponse>(path, payload);
+  // Set the base URL once here.
+  // It will get set once more when we get the "iss" claim from the JWT. 
+  API.setBaseUrl(url);
+  return Axios.post<AuthResponse>(API.current.tokensPath, payload);
 }
 
 export function logout() {

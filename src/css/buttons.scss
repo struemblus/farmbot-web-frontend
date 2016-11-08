@@ -6,7 +6,10 @@ button {
     text-align: center;
     font-family: $roboto;
     font-weight: 700!important;
-    padding: 0.3rem 0.10rem;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    padding-left: .8rem;
+    padding-right: .8rem;
     border-radius: 3px;
     border-bottom-width: 2px!important;
     border: none;
@@ -128,6 +131,7 @@ button {
         transform: translateY(1px);
     }
     &.toggle-button {
+        padding: 0.3rem 0.10rem;
         border-radius: 10px;
         width: 5rem;
         border-bottom: none;

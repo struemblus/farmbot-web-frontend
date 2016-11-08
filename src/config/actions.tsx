@@ -16,12 +16,12 @@ export function ready(): Thunk {
   return (dispatch, getState) => {
     let state: AuthState;
     // Old state is sometimes stored in localStorage for hot reloading pruposes.
-    let token = localStorage["token"];
+    let token: string | undefined = localStorage["token"];
     if (token) {
       // Grab cached state from localStorage if it exists.
       state = JSON.parse(token);
     } else {
-      state = getState().auth;
+      state = getState().auth || {};
     }
     // HACK: If state.token is longer than 30 characters, we know it is there
     // and not a stub. This is a leftover from when Typescript had not-so-great
