@@ -20,10 +20,5 @@ export let accountReducer = generateReducer<AccountReducerState>(initialState)
         //
         //
         return s;
-    })
-    .add<UpdateUserPayl>("UPDATE_USER_ERR", function (s, a) {
-        //
-        //
-        return s;
     });
 

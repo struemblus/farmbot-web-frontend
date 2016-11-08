@@ -63,7 +63,8 @@ let links = {
   "Controls": "/app/dashboard/controls",
   "Device": "/app/dashboard/devices",
   "Sequences": "/app/dashboard/sequences",
-  "Regimens": "/app/dashboard/regimens"
+  "Regimens": "/app/dashboard/regimens",
+  "Account": "/app/dashboard/account"
 };
 
 export function Navbar(props: Everything) {

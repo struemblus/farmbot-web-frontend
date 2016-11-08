@@ -1,13 +1,4 @@
-// export interface UpdateEmailPayl {
-//     index: number;
-//     comment: string;
-// }
-
-// export interface User {
-//     name: string;
-//     email: string;
-// };
-
+// TODO: Remove this interface when TS adds subset types - RC
 export interface User {
     id?: number;
     device_id?: number;
@@ -17,17 +8,7 @@ export interface User {
     updated_at?: string;
 };
 
-export interface UpdateUserSuccess {
-    type: "UPDATE_USER_SUCCESS";
-    payload: string;
-};
-
-export interface UpdateUserErr {
-    type: "UPDATE_USER_ERROR";
-    payload: string;
-};
-
 export interface UpdateUserPayl {
     type: string;
-    payload: string;
+    payload: User;
 };

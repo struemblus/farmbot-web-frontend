@@ -1,14 +1,17 @@
 import * as React from "react";
 import { t } from "i18next";
-import { User } from "./interfaces";
+import { BlurableInput } from "../blurable_input";
 
 interface SettingsPropTypes {
-    user: User;
-    set: (event: React.FormEvent<HTMLInputElement>) => void;
+    name: string;
+    email: string;
+    commitName: (event: React.FormEvent<HTMLInputElement>) => void;
+    commitEmail: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class Settings extends React.Component<SettingsPropTypes, {}> {
     render() {
+        let { name, email, commitName, commitEmail } = this.props;
         return (
             <div>
                 <div className="row">
@@ -18,9 +21,9 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                 <div className="col-sm-12">
                                     <button
                                         className="green button-like widget-control"
-                                        type="button">SAVE</button>
+                                        type="button">{t("SAVE")}</button>
                                     <div className="widget-header">
-                                        <h5> {t("Account Settings")} </h5>
+                                        <h5>{t("Account Settings")}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -30,19 +33,26 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                         <div className="widget-content">
                                             <div className="form-group row">
                                                 <label className="col-sm-3">
-                                                    Your Name</label>
+                                                    {t("Your Name")}
+                                                </label>
                                                 <div className="col-sm-9">
-                                                    <input type="email"
-                                                        placeholder={this.props.user.name}
-                                                        onChange={this.props.set}
+                                                    <BlurableInput
+                                                        onCommit={commitName}
+                                                        value={`${name}`}
+                                                        type="text"
                                                         />
                                                 </div>
                                             </div>
                                             <div className="form-group row">
-                                                <label className="col-sm-3">Email</label>
+                                                <label className="col-sm-3">
+                                                    {t("Email")}
+                                                </label>
                                                 <div className="col-sm-9">
-                                                    <input type="email"
-                                                        placeholder={this.props.user.email} />
+                                                    <BlurableInput
+                                                        onCommit={commitEmail}
+                                                        value={`${email}`}
+                                                        type="email"
+                                                        />
                                                 </div>
                                             </div>
                                         </div>
@@ -56,4 +66,3 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
         );
     }
 }
-

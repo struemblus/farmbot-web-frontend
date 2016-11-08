@@ -1,14 +1,14 @@
 import * as React from "react";
 import { t } from "i18next";
-import { User } from "./interfaces";
 
 interface ChangePasswordPropTypes {
-    user: User;
-    set: (event: React.FormEvent<HTMLInputElement>) => void;
+    commitOldPwd: (event: React.FormEvent<HTMLInputElement>) => void;
+    commitNewPwd: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}> {
     render() {
+        let { commitOldPwd, commitNewPwd } = this.props;
         return (
             <div className="row">
                 <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -32,7 +32,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             </label>
                                             <div className="col-sm-9">
                                                 <input type="password"
-                                                    onChange={this.props.set} />
+                                                    onChange={commitOldPwd} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -41,7 +41,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             </label>
                                             <div className="col-sm-9">
                                                 <input type="password"
-                                                    onChange={this.props.set} />
+                                                    onChange={commitNewPwd} />
                                             </div>
                                         </div>
                                         <div className="form-group row">
@@ -50,7 +50,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             </label>
                                             <div className="col-sm-9">
                                                 <input type="password"
-                                                    onChange={this.props.set} />
+                                                    onChange={commitNewPwd} />
                                             </div>
                                         </div>
                                     </div>

@@ -3,33 +3,26 @@ import { Everything } from "../interfaces";
 import { t } from "i18next";
 import { Thunk } from "../redux/interfaces";
 import { success, error } from "../logger";
-import { User, UpdateUserSuccess, UpdateUserErr } from "./interfaces";
+import { User } from "./interfaces";
+import { API } from "../api";
+import { ReduxAction } from "../redux/interfaces";
 
-function updateUserSuccess(message: string): UpdateUserSuccess {
+function updateUserSuccess(payload: User): ReduxAction<User> {
     return {
         type: "UPDATE_USER_SUCCESS",
-        payload: message
-    };
-}
-
-function updateUserErr(message: string): UpdateUserErr {
-    return {
-        type: "UPDATE_USER_ERROR",
-        payload: message
+        payload
     };
 }
 
 export function updateUser(user: User): Thunk {
-    return (dispatch: Function, getState: Function) => {
-        let url = getState().auth.iss;
+    return (dispatch, getState) => {
 
-        axios.patch<User>(`${url}/api/users`)
+        axios.patch<User>(API.current.usersPath)
             .then(() => {
                 success(t("User successfully updated."));
                 dispatch(updateUserSuccess("Success"));
             }, (e: Error) => {
                 error(t("User could not be updated."));
-                dispatch(updateUserErr(`Error: ${e}`));
             });
     };
 }
