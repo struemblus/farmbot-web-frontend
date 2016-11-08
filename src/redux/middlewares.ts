@@ -1,6 +1,5 @@
-import { Store } from "./interfaces";
 import thunk from "redux-thunk";
-import { applyMiddleware, compose, Middleware, GenericStoreEnhancer } from "redux";
+import { applyMiddleware, compose, Middleware } from "redux";
 import { EnvName } from "./interfaces";
 import { syncMiddleware } from "../devices/sync_middleware";
 
@@ -28,7 +27,7 @@ export let mwConfig: MiddlewareConfig[] = [
 
 export function getMiddleware(env: EnvName) {
     let middlewareFns = mwConfig
-        .filter(function (mwc) {
+        .filter(function(mwc) {
             return (mwc.env === env) || (mwc.env === "*");
         })
         .map((mwc) => mwc.fn);
