@@ -1,5 +1,4 @@
 import * as axios from "axios";
-import { Everything } from "../interfaces";
 import { t } from "i18next";
 import { Thunk } from "../redux/interfaces";
 import { success, error } from "../logger";
@@ -22,7 +21,7 @@ export function updateUser(user: User): Thunk {
                 success(t("User successfully updated."));
                 dispatch(updateUserSuccess("Success"));
             }, (e: Error) => {
-                error(t("User could not be updated."));
+                error(t(`User could not be updated: ${e}`));
             });
     };
 }

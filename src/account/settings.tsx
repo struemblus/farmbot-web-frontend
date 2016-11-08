@@ -5,13 +5,13 @@ import { BlurableInput } from "../blurable_input";
 interface SettingsPropTypes {
     name: string;
     email: string;
-    commitName: (event: React.FormEvent<HTMLInputElement>) => void;
-    commitEmail: (event: React.FormEvent<HTMLInputElement>) => void;
+    set: (event: React.FormEvent<HTMLInputElement>) => void;
+    save: () => {};
 }
 
 export class Settings extends React.Component<SettingsPropTypes, {}> {
     render() {
-        let { name, email, commitName, commitEmail } = this.props;
+        let { name, email, set, save } = this.props;
         return (
             <div>
                 <div className="row">
@@ -21,7 +21,10 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                 <div className="col-sm-12">
                                     <button
                                         className="green button-like widget-control"
-                                        type="button">{t("SAVE")}</button>
+                                        type="button"
+                                        onClick={save}>
+                                        {t("SAVE")}
+                                    </button>
                                     <div className="widget-header">
                                         <h5>{t("Account Settings")}</h5>
                                     </div>
@@ -37,7 +40,8 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                                 </label>
                                                 <div className="col-sm-9">
                                                     <BlurableInput
-                                                        onCommit={commitName}
+                                                        onCommit={set}
+                                                        name="name"
                                                         value={`${name}`}
                                                         type="text"
                                                         />
@@ -49,7 +53,8 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                                 </label>
                                                 <div className="col-sm-9">
                                                     <BlurableInput
-                                                        onCommit={commitEmail}
+                                                        onCommit={set}
+                                                        name="email"
                                                         value={`${email}`}
                                                         type="email"
                                                         />

@@ -1,13 +1,14 @@
 import * as React from "react";
 import { t } from "i18next";
+import { BlurableInput } from "../blurable_input";
 
 interface DeleteAccountPropTypes {
-    commitOldPwd: (event: React.FormEvent<HTMLInputElement>) => void;
+    set: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
     render() {
-        let { commitOldPwd } = this.props;
+        let { set } = this.props;
         return (
             <div className="row">
                 <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -49,8 +50,11 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                                 {t("Enter Password")}
                                             </label>
                                             <div className="col-sm-9">
-                                                <input type="password"
-                                                    onChange={commitOldPwd}
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="email"
+                                                    value=""
+                                                    type="password"
                                                     />
                                             </div>
                                             <button className="red button-like widget-control"

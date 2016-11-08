@@ -4,6 +4,7 @@ interface BIProps {
     value: string;
     onCommit: Function;
     type?: "text" | "number" | "email" | "password";
+    name?: string;
 }
 
 interface BIState {
@@ -37,6 +38,7 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
             onFocus={this.focus.bind(this)}
             onChange={this.updateBuffer.bind(this)}
             onBlur={this.maybeCommit.bind(this)}
+            name={this.props.name}
             type={this.props.type || "text"} />;
     }
 }

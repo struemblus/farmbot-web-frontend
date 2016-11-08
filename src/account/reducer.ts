@@ -2,17 +2,19 @@ import { UpdateUserPayl } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 
 interface AccountReducerState {
-    email: string;
     name: string;
-    oldPassword: string;
-    newPassword: string;
+    email: string;
+    oldPwd: string;
+    newPwd: string;
+    checkNewPwd: string;
 }
 
 const initialState: AccountReducerState = {
-    email: "",
     name: "",
-    oldPassword: "",
-    newPassword: "",
+    email: "",
+    oldPwd: "",
+    newPwd: "",
+    checkNewPwd: ""
 };
 
 export let accountReducer = generateReducer<AccountReducerState>(initialState)
