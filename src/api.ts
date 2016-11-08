@@ -16,7 +16,10 @@ export class API {
         if (current) {
             return current;
         } else {
-            throw new Error("Tried to access API before URL was resolved.");
+            console.warn("???")
+            throw new Error(`
+            Tried to access API before URL was resolved.
+            Call API.setBaseUrl() before using API.current .`);
         }
     };
 

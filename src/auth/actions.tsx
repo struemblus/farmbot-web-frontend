@@ -40,7 +40,7 @@ export function didLogin(authState: AuthState, dispatch: Function) {
 export function downloadDeviceData(): Thunk {
   return function (dispatch, getState) {
     Axios
-      .get<DeviceAccountSettings>(API.current.baseUrl)
+      .get<DeviceAccountSettings>(API.current.devicePath)
       .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
       .catch(payload => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
   };
@@ -100,9 +100,13 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   // This is how we attach the auth token to every
   // outbound HTTP request (after user logs in).
   Axios.interceptors.request.use(function (config) {
-    config.headers = config.headers || {};
-    let headers = (config.headers as { Authorization: string | undefined });
-    headers.Authorization = auth.token || "CANT_FIND_TOKEN";
+    let req = config.url;
+    let isAPIRequest = req.includes(API.current.baseUrl);
+    if (isAPIRequest) {
+      config.headers = config.headers || {};
+      let headers = (config.headers as { Authorization: string | undefined });
+      headers.Authorization = auth.token || "CANT_FIND_TOKEN";
+    }
     return config;
   });
 
