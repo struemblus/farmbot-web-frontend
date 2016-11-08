@@ -37,7 +37,7 @@ export class API {
 
     constructor(url: string) {
         var parser = document.createElement('a');
-        parser.href = "http://example.com:3000/pathname/?search=test#hash";
+        parser.href = url;
         this.protocol = parser.protocol as ProtocolString;
         this.hostname = parser.hostname;
         this.port = parser.port;
@@ -48,7 +48,7 @@ export class API {
     }
 
     /** http://localhost:3000 */
-    get baseUrl() { return `${this.protocol}${this.host}`; };
+    get baseUrl() { return `${this.protocol}//${this.host}`; };
     /** /api/tokens/ */
     get tokensPath() { return `${this.baseUrl}/api/tokens/`; };
     /** /api/device/ */

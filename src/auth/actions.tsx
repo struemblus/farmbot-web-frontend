@@ -159,13 +159,15 @@ function requestRegistration(name: string,
   return Axios.post<AuthResponse>(url + "/api/users", form);
 }
 
-/** Get a token from /api/token if you're already a registered user. */
+/** Fetch API token if already registered. */
 function requestToken(email: string,
   password: string,
   url: string) {
   let payload = { user: { email: email, password: password } };
-  let path = url + "/api/tokens";
-  return Axios.post<AuthResponse>(path, payload);
+  // Set the base URL once here.
+  // It will get set once more when we get the "iss" claim from the JWT. 
+  API.setBaseUrl(url);
+  return Axios.post<AuthResponse>(API.current.tokensPath, payload);
 }
 
 export function logout() {
