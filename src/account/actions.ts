@@ -1,27 +1,20 @@
 import * as axios from "axios";
 import { Everything } from "../interfaces";
 import * as i18next from "i18next";
+import { ReduxAction } from "../redux/interfaces";
+import { UpdateEmailPayl } from "./interfaces";
 
-interface UpdateEmail {
-    type: string;
-    payload: {};
-}
-
-export function updateEmail(email: string): UpdateEmail {
+export function updateEmail(email: string): ReduxAction<UpdateEmailPayl> {
     return {
         type: "UPDATE_EMAIL",
-        payload: email
+        payload: { index: -1, comment: email }
     };
 }
 
 interface UpdateName {
-    type: string;
-    payload: {};
+    name: string;
 }
 
-export function updateName(name: string): UpdateName {
-    return {
-        type: "UPDATE_NAME",
-        payload: name
-    };
+export function updateName(payload: UpdateName): ReduxAction<UpdateName> {
+    return { type: "UPDATE_NAME", payload };
 }

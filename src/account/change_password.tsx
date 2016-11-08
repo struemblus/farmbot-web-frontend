@@ -1,8 +1,10 @@
 import * as React from "react";
 import { t } from "i18next";
+import { User } from "./interfaces";
 
 interface ChangePasswordPropTypes {
-    set: Function;
+    user: User;
+    set: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}> {

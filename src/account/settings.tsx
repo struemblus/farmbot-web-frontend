@@ -1,9 +1,10 @@
 import * as React from "react";
 import { t } from "i18next";
+import { User } from "./interfaces";
 
 interface SettingsPropTypes {
-    user: { name: string, email: string };
-    set: Function; // Not sure about this one
+    user: User;
+    set: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class Settings extends React.Component<SettingsPropTypes, {}> {

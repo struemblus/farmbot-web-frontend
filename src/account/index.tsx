@@ -17,16 +17,26 @@ class XAccount extends React.Component<Everything, {}> {
     }
 
     render() {
-        return (
-            <div>
-                <Navbar { ...this.props } />
-                <div className="all-content-wrapper account">
-                    <Settings set={this.set} user={this.props.auth.user} />
-                    <ChangePassword set={this.set} user={this.props.auth.user} />
-                    <DeleteAccount set={this.set} user={this.props.auth.user} />
+        let y = this.props.auth.user;
+        if (this.props.auth.user) {
+            let x = this.props.auth.user;
+            return (
+                <div>
+                    <Navbar { ...this.props } />
+                    <div className="all-content-wrapper account">
+                        <Settings set={this.set("user")}
+                            user={this.props.auth.user} />
+                        <ChangePassword set={this.set("password")}
+                            user={this.props.auth.user} />
+                        <DeleteAccount set={this.set("password")}
+                            user={this.props.auth.user} />
+                    </div>
                 </div>
-            </div>
-        );
+            );
+
+        } else {
+            return <div> Please Log In </div>;
+        };
     }
 }
 

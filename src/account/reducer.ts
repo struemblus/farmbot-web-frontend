@@ -1,7 +1,4 @@
-import {
-    updateName,
-    updateEmail
-} from "./actions";
+import { UpdateEmailPayl } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 
 interface AccountReducerState {
@@ -19,8 +16,9 @@ const initialState: AccountReducerState = {
 };
 
 export let accountReducer = generateReducer<AccountReducerState>(initialState)
-    .add<{ index: number, comment: string }>("UPDATE_EMAIL", function (s, a) {
+    .add<UpdateEmailPayl>("UPDATE_EMAIL", function(s, a) {
         // let email = a.payload;
-        // return s;
+        let myIndex = a.payload.index;
+        return s;
     });
 
