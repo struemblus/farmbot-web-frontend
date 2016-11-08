@@ -15,7 +15,6 @@ export function changeApiPort(port: string): ReduxAction<ChangeApiPort> {
 /** Lets Redux know that the app is ready to bootstrap. */
 export function ready(): Thunk {
   return (dispatch, getState) => {
-    debugger;
     /** Token that may or may not be stored in localStorage from previous
      * user session. */
     let t: string | undefined = localStorage["token"];
