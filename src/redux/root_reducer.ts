@@ -32,12 +32,14 @@ let reducers = combineReducers({
 /** This is the topmost reducer in the application. If you need to preempt a
  * "normal" reducer (eg: globally capture `LOGOUT` action) this is the place to
  *  do it */
-export function rootReducer(state: Everything | {},
+export function rootReducer(state: Everything | undefined,
     action: ReduxAction<{}>) {
     if (action.type === "LOGOUT") {
         // TODO Move this out of Reducer into action creator.
         success("You have been logged out.");
-        return state = {};
-    }
-    return reducers(state, action);
+        return undefined;
+    } else {
+        let s = (state) ? state : {};
+        return reducers(s, action);
+    };
 };
