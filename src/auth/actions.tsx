@@ -11,6 +11,7 @@ import { fetchPeripherals } from "../controls/peripherals/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
+import { API } from "../api";
 
 /** This is what a response from /api/tokens looks like. */
 export interface AuthResponse {
@@ -24,6 +25,7 @@ export interface AuthResponseToken {
 };
 
 export function didLogin(authState: AuthState, dispatch: Function) {
+  API.setBaseUrl(authState.iss);
   dispatch(fetchOSUpdateInfo(authState.os_update_server));
   dispatch(fetchFWUpdateInfo(authState.fw_update_server));
   dispatch(loginOk(authState));
