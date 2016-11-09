@@ -1,8 +1,6 @@
 import * as React from "react";
 import { RegimenProps } from "../interfaces";
 import { BotState } from "../../devices/interfaces";
-import { Regimen } from "../interfaces";
-import { Sequence } from "../../sequences/interfaces";
 import { startRegimen, stopRegimen } from "../../devices/actions";
 import { t } from "i18next";
 
@@ -18,21 +16,22 @@ export function StartButton({regimen, bot}: TaskProps) {
             {t("Start")}
         </button>;
 
-        let noButton = <button className="gray button-like widget-control"
+        let gray = <button className="gray button-like widget-control"
             onClick={() => { } }>
             {t("Start")}
         </button>;
 
-        let runningRegimens = bot.hardware.farm_events.running_regimens;
-        // if the regimen is not running
-        // debugger;
-        let r = runningRegimens.filter(function (sub_regimen: Regimen) {
-            return regimen.id == sub_regimen.id;
+        let current_regimens = bot.hardware.farm_scheduler.process_info;
+        let result = current_regimens.find((item, index, array) => {
+            return item.regimen.id === regimen.id;
         });
-        if (r.length == 0) {
-            return yesButton;
+        if (result != undefined) {
+            // if the status is normal (already running) display the gray button.
+            return result.info.status == "normal" ? gray : yesButton;
         } else {
-            return noButton;
+            // if the regimen is not in the list
+            // display the start button.
+            return yesButton;
         }
     }
 }
@@ -44,22 +43,25 @@ export function StopButton({regimen, bot}: TaskProps) {
             {t("Stop")}
         </button>;
 
-        let noButton = <button className="gray button-like widget-control"
+        let grayButton = <button className="gray button-like widget-control"
             onClick={() => { } }>
             {t("Stop")}
         </button>;
 
         if (!regimen) { return <span />; };
         if (regimen.dirty == true) { return <span />; }
-        let runningRegimens = bot.hardware.farm_events.running_regimens;
-        // if the regimen is running
-        let r = runningRegimens.filter(function (sub_regimen: Regimen) {
-            return regimen.id == sub_regimen.id;
+        let current_regimens = bot.hardware.farm_scheduler.process_info;
+        let result = current_regimens.find((item, index, array) => {
+            return item.regimen.id === regimen.id;
         });
-        if (r.length > 0) {
-            return yesButton;
+        if (result != undefined) {
+            // if the status is normal (already running) display the red button.
+            return result.info.status == "normal" ? yesButton : grayButton;
         } else {
-            return noButton;
+            // if the regimen is not in the list,
+            // we don't want to be able to stop it.
+            // because its not started.
+            return grayButton;
         }
     }
 }

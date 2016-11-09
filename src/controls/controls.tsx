@@ -2,7 +2,7 @@ import * as React from "react";
 import { Navbar } from "../nav/navbar";
 import { DirectionButton } from "./direction_button";
 import {
-    emergencyStop,
+    emergencyLock,
     homeAll,
     changeStepSize,
     commitAxisChanges,
@@ -113,7 +113,7 @@ export class Controls extends React.Component<Everything, any> {
                                                 <button
                                                     className="red button-like widget-control"
                                                     type="button"
-                                                    onClick={emergencyStop} >
+                                                    onClick={emergencyLock} >
 
                                                     {t("E-STOP")}
 

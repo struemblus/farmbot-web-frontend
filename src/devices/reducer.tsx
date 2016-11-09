@@ -33,12 +33,10 @@ let initialState: BotState = {
     pins: {},
     configuration: {},
     informational_settings: {},
-    farm_events: {
-      current_sequence: null,
-      paused_sequences: [],
-      running_regimens: [],
-      paused_regimens: [],
+    farm_scheduler: {
+      process_info: [],
       sequence_log: [],
+      current_sequence: null,
     }
   },
   axisBuffer: {},

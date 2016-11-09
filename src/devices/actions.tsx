@@ -85,11 +85,19 @@ export function checkArduinoUpdates() {
         .then(commandOK(noun), commandErr(noun));
 }
 
-export function emergencyStop() {
+export function emergencyLock() {
     let noun = "Emergency stop";
     devices
         .current
-        .emergencyStop()
+        .emergencyLock()
+        .then(commandOK(noun), commandErr(noun));
+}
+
+export function emergencyUnlock() {
+    let noun = "Emergency unlock";
+    devices
+        .current
+        .emergencyUnlock()
         .then(commandOK(noun), commandErr(noun));
 }
 
