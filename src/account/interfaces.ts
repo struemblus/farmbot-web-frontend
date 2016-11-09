@@ -1,14 +1,9 @@
-// TODO: Remove this interface when TS adds subset types - RC
-export interface User {
-    id?: number;
-    device_id?: number;
+/** JSON form that gets POSTed to the API when user updates their info. */
+export interface UserAccountUpdate {
     name?: string;
     email?: string;
-    created_at?: string;
-    updated_at?: string;
-};
-
-export interface UpdateUserPayl {
-    type: string;
-    payload: User;
-};
+    oldPwd?: string;
+    newPwd?: string;
+    /** Confirm that new password is correct. */
+    checkNewPwd?: string;
+}
