@@ -2,7 +2,6 @@ import * as React from "react";
 import { Navbar } from "../nav/navbar";
 import { DirectionButton } from "./direction_button";
 import {
-    emergencyLock,
     homeAll,
     changeStepSize,
     commitAxisChanges,
@@ -14,6 +13,7 @@ import { Everything } from "../interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
+import { EStopButton } from "../devices/e_stop_btn";
 import * as _ from "lodash";
 
 interface AxisInputBoxProps {
@@ -98,26 +98,18 @@ export class Controls extends React.Component<Everything, any> {
         let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
             (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
         let dirty = !!this.props.bot.account.dirty;
-
         return (
             <div>
                 <Navbar { ...this.props } />
                 <div className="all-content-wrapper">
-                    <div className="ng-scope">
-                        <div className="row ng-scope">
+                    <div>
+                        <div className="row">
                             <div className="col-md-4 col-sm-6 col-xs-12 col-md-offset-1">
                                 <div>
                                     <div className="widget-wrapper">
                                         <div className="row">
                                             <div className="col-sm-12">
-                                                <button
-                                                    className="red button-like widget-control"
-                                                    type="button"
-                                                    onClick={emergencyLock} >
-
-                                                    {t("E-STOP")}
-
-                                                </button>
+                                                <EStopButton {...this.props} />
                                                 <div className="widget-header">
                                                     <h5>Move</h5>
                                                     <i className="fa fa-question-circle widget-help-icon">
