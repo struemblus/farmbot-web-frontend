@@ -13,6 +13,14 @@ function updateUserSuccess(payload: User): ReduxAction<User> {
     };
 }
 
+// function updatePasswordSuccess(payload: User): ReduxAction<User> {
+//     return {
+//         type: "UPDATE_PASSWORD_SUCCESS",
+//         payload
+//     };
+// }
+
+// pass in password, password_confirmation
 export function updateUser(user: User): Thunk {
     return (dispatch, getState) => {
 
@@ -25,3 +33,6 @@ export function updateUser(user: User): Thunk {
             });
     };
 }
+
+// pass in password, password_confirmation
+
