@@ -39,14 +39,11 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
                             name={`${this.state.name}`}
                             email={`${this.state.email}`}
                             set={this.set.bind(this)}
-                            save={this.saveUser.bind(this)}
-                            />
+                            save={this.saveUser.bind(this)} />
                         <ChangePassword
                             set={this.set.bind(this)}
-                            />
-                        <DeleteAccount
-                            set={this.set.bind(this)}
-                            />
+                            save={this.saveUser.bind(this)} />
+                        <DeleteAccount set={this.set.bind(this)} />
                     </div>
                 </div>
             );

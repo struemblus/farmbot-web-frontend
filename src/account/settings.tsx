@@ -5,8 +5,8 @@ import { BlurableInput } from "../blurable_input";
 interface SettingsPropTypes {
     name: string;
     email: string;
-    set: (event: React.FormEvent<HTMLInputElement>) => void;
-    save: () => {};
+    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 }
 
 export class Settings extends React.Component<SettingsPropTypes, {}> {

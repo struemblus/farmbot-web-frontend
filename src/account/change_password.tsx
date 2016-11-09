@@ -3,7 +3,8 @@ import { t } from "i18next";
 import { BlurableInput } from "../blurable_input";
 
 interface ChangePasswordPropTypes {
-    set: (event: React.FormEvent<HTMLInputElement>) => void;
+    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
 }
 
 export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}> {
@@ -33,7 +34,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             <div className="col-sm-9">
                                                 <BlurableInput
                                                     onCommit={set}
-                                                    name="oldPwd"
+                                                    name="old_password"
                                                     value=""
                                                     type="password"
                                                     />
@@ -46,7 +47,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             <div className="col-sm-9">
                                                 <BlurableInput
                                                     onCommit={set}
-                                                    name="newPwd"
+                                                    name="password"
                                                     value=""
                                                     type="password"
                                                     />
@@ -59,7 +60,7 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             <div className="col-sm-9">
                                                 <BlurableInput
                                                     onCommit={set}
-                                                    name="checkNewPwd"
+                                                    name="password_confirmation"
                                                     value=""
                                                     type="password"
                                                     />
