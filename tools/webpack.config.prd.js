@@ -3,6 +3,7 @@ var generateConfig = require("./webpack.config.base");
 var exec = require("child_process").execSync;
 var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+global.WEBPACK_ENV = "production";
 
 c = function() {
     var conf = generateConfig();

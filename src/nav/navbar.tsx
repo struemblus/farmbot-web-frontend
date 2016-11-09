@@ -17,12 +17,12 @@ interface NavButtonProps {
   onClick?: () => void;
 }
 
-interface LogoutProps {
+interface DropDownProps {
   auth: AuthState;
   onClick?: () => void;
 }
 
-export let LogoutButton = ({ auth, onClick }: LogoutProps) => {
+export let DropDown = ({ auth, onClick }: DropDownProps) => {
   if (!auth.authenticated) { return <span></span>; }
   onClick = onClick || (() => {
     localStorage.clear();
@@ -30,12 +30,24 @@ export let LogoutButton = ({ auth, onClick }: LogoutProps) => {
     location.reload();
   });
   let hasName = auth.user && auth.user.name;
-  let greeting = hasName ? `Hi, ${hasName}!` : "";
-  return <a className="logout-button"
-    onClick={onClick}>
-    {greeting}
-    {t(" Log Out")}
-  </a>;
+  let greeting = hasName ? `${hasName} ▾` : "";
+  return (
+    <div className="nav-dropdown">
+      <span>{greeting}</span>
+      <ul className="drop-shadow">
+        <li>
+          <Link to="/app/dashboard/account">
+            Account Settings <i className="fa fa-cog"></i>
+          </Link>
+        </li>
+        <li>
+          <a onClick={onClick}>
+            Logout <i className="fa fa-sign-out"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
 };
 
 let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
@@ -64,7 +76,6 @@ let links = {
   "Device": "/app/dashboard/devices",
   "Sequences": "/app/dashboard/sequences",
   "Regimens": "/app/dashboard/regimens",
-  "Account": "/app/dashboard/account"
 };
 
 export function Navbar(props: Everything) {
@@ -97,7 +108,7 @@ export function Navbar(props: Everything) {
           </ul>
           <SyncButton { ...props } />
           <Ticker { ...props } />
-          <LogoutButton { ...props } />
+          <DropDown { ...props } />
           <EStopButton { ...props } />
         </div>
       </div>
