@@ -1,10 +1,27 @@
 type ProtocolString = "http:" | "https:";
 let current: API | undefined;
+/** Record of all the relevant stuff in a string URL, except without all the
+ *  stringly typed nonsense. */
+interface UrlInfo {
+    protocol: string;
+    hostname: string;
+    port: string;
+    pathname: string;
+    search: string;
+    hash: string;
+    host: string;
+};
 
 /** Store all API endpoints in one place for the sake of DRYness.
- * API.current is probably the instance you want to use.
- */
+ * API.current is probably the instance you want to use. */
 export class API {
+    static parseURL(url: string): UrlInfo {
+        // Such an amazing hack!
+        var info = document.createElement("a");
+        info.href = url;
+        return info;
+    }
+
     static setBaseUrl(base: string) {
         current = new API(base);
     }
@@ -38,17 +55,15 @@ export class API {
     /** "example.com:3000" */
     private readonly host: string;
 
-    constructor(url: string) {
-        var parser = document.createElement("a");
-        parser.href = url;
-        // Best. Hack. Ever.
-        this.protocol = parser.protocol as ProtocolString;
-        this.hostname = parser.hostname;
-        this.port = parser.port;
-        this.pathname = parser.pathname;
-        this.search = parser.search;
-        this.hash = parser.hash;
-        this.host = parser.host;
+    constructor(input: string) {
+        let url = API.parseURL(input);
+        this.protocol = url.protocol as ProtocolString;
+        this.hostname = url.hostname;
+        this.port = url.port;
+        this.pathname = url.pathname;
+        this.search = url.search;
+        this.hash = url.hash;
+        this.host = url.host;
     }
 
     /** http://localhost:3000 */
