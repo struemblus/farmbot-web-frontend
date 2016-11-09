@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { changeApiHost, changeApiPort } from "./config/actions";
 import { Everything } from "./interfaces";
 import * as i18next from "i18next";
+import { API } from "./api";
 
 let setHost = (dispatch: Function) => (e: React.FormEvent<HTMLInputElement>) => dispatch(
     changeApiHost((e.currentTarget).value));
@@ -35,7 +36,6 @@ class LoginPage extends React.Component<Everything, any> {
 
     submitLogin(e: React.FormEvent<{}>) {
         e.preventDefault();
-        // TODO: Srsly? (this.state || {})????!?!?!?
         let password = (this.state || {}).loginPassword;
         let email = (this.state || {}).loginEmail;
         return this.props.dispatch(login(email, password, this.url));
@@ -43,6 +43,8 @@ class LoginPage extends React.Component<Everything, any> {
 
     submitRegistration(e: React.FormEvent<any>) {
         e.preventDefault();
+        API.setBaseUrl(this.url);
+
         // TODO: Srsly? (this.state || {})????!?!?!?
         let state = this.state || {};
 
