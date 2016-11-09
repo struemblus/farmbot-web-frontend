@@ -42,7 +42,7 @@
     "css-loader": "^0.25.0",
     "enzyme": "^2.4.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "farmbot": "ConnorRigby/farmbot-js",
+    "farmbot": "2.2.0",
     "handlebars": "^4.0.5",
     "handlebars-loader": "^1.4.0",
     "i18next": "^3.4.3",
