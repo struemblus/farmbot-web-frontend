@@ -34,5 +34,4 @@ export function updateUser(user: User): Thunk {
     };
 }
 
-// pass in password, password_confirmation
 

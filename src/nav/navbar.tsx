@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Link } from "react-router";
 import {
-  sync,
-  emergencyLock
+  sync
 } from "../devices/actions";
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
 import { Ticker } from "../ticker/ticker";
 import { Everything } from "../interfaces";
+import { EStopButton } from "../devices/e_stop_btn";
 import { t } from "i18next";
 
 interface NavButtonProps {
@@ -58,15 +58,6 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
   return <button className={"nav-sync button-like " + color}
     onClick={() => { dispatch(sync()); } }>
     {dirty ? t("Sync Required") : t("Synced")}
-  </button>;
-};
-
-let EStopButton = ({auth, dispatch}: NavButtonProps) => {
-  if (!auth.authenticated) { return <span></span>; }
-  return <button className="nav-e-stop button-like red"
-    type="button"
-    onClick={emergencyLock} >
-    {t("E STOP")}
   </button>;
 };
 
