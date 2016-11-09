@@ -34,19 +34,6 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             <div className="col-sm-9">
                                                 <BlurableInput
                                                     onCommit={set}
-                                                    name="old_password"
-                                                    value=""
-                                                    type="password"
-                                                    />
-                                            </div>
-                                        </div>
-                                        <div className="form-group row">
-                                            <label className="col-sm-3">
-                                                {t("New Password")}
-                                            </label>
-                                            <div className="col-sm-9">
-                                                <BlurableInput
-                                                    onCommit={set}
                                                     name="password"
                                                     value=""
                                                     type="password"
@@ -60,7 +47,20 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                             <div className="col-sm-9">
                                                 <BlurableInput
                                                     onCommit={set}
-                                                    name="password_confirmation"
+                                                    name="new_password"
+                                                    value=""
+                                                    type="password"
+                                                    />
+                                            </div>
+                                        </div>
+                                        <div className="form-group row">
+                                            <label className="col-sm-3">
+                                                {t("New Password")}
+                                            </label>
+                                            <div className="col-sm-9">
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="new_password_confirmation"
                                                     value=""
                                                     type="password"
                                                     />

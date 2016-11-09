@@ -2,10 +2,7 @@
 export interface UserAccountUpdate {
     name?: string;
     email?: string;
-    /** The user's *current* password. */
-    old_password?: string;
-    /** The user's *next* password. */
     password?: string;
-    /** Confirm that new password is correct. */
-    password_confirmation?: string;
+    new_password?: string;
+    new_password_confirmation?: string;
 }
