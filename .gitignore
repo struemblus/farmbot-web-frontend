@@ -11,4 +11,9 @@ public/app-resources/*bundle.js*
 public/app-resources/bundle.js.map
 public/app-resources/*styles.css*
 public/app-resources/styles.css.map
+public/splash-page.js
+public/splash-page.js.map
+public/app-index.js
+public/app-index.js.map
 app/*bundle.js*
+*.js.map

@@ -26,7 +26,8 @@ module.exports = function() {
         },
         entry: {
             'app-resources/bundle': './src/entry.tsx',
-            'splash-page': './src/static/splash_page.ts'
+            'splash-page': './src/static/splash_page.ts',
+            'app-index': './src/static/app_index.ts',
         },
         output: {
             path: "public",
@@ -40,6 +41,9 @@ module.exports = function() {
             revisionPlugin,
             new StaticSiteGeneratorPlugin("splash-page", "/", {
                 templateName: "splash_page"
+            }),
+            new StaticSiteGeneratorPlugin("app-index", "/app/", {
+                templateName: "app_index"
             })
         ],
         resolve: {
