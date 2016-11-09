@@ -6,25 +6,12 @@ import { updateUser } from "./actions";
 import { Settings } from "./settings";
 import { DeleteAccount } from "./delete_account";
 import { ChangePassword } from "./change_password";
+import { UserAccountUpdate } from "./interfaces";
 
-interface AccountState {
-    name?: string;
-    email?: string;
-    oldPwd?: string;
-    newPwd?: string;
-    checkNewPwd?: string;
-}
-
-class XAccount extends React.Component<Everything, AccountState> {
+class XAccount extends React.Component<Everything, UserAccountUpdate> {
     constructor(props: Everything) {
         super();
-        this.state = {
-            name: "",
-            email: "",
-            oldPwd: "",
-            newPwd: "",
-            checkNewPwd: ""
-        };
+        this.state = {};
     }
 
     componentDidMount() {
@@ -35,16 +22,11 @@ class XAccount extends React.Component<Everything, AccountState> {
     }
 
     set(event: React.FormEvent<HTMLInputElement>) {
-        let state: { [name: string]: string } = {};
-        state[event.currentTarget.name] = (event.currentTarget).value;
-        this.setState(state);
+        this.setState({ [event.currentTarget.name]: event.currentTarget.value });
     }
 
     saveUser() {
-        this.props.dispatch(updateUser({
-            name: this.state.name,
-            email: this.state.email
-        }));
+        this.props.dispatch(updateUser(this.state));
     }
 
     render() {
