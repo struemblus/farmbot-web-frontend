@@ -1,23 +1,22 @@
 import * as React from "react";
 import { t } from "i18next";
-import { User } from "./interfaces";
+import { BlurableInput } from "../blurable_input";
 
 interface DeleteAccountPropTypes {
-    user: User;
     set: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
     render() {
+        let { set } = this.props;
         return (
-
             <div className="row">
                 <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
                     <div className="widget-wrapper">
                         <div className="row">
                             <div className="col-sm-12">
                                 <div className="widget-header">
-                                    <h5> {t("Delete Account")} </h5>
+                                    <h5>{t("Delete Account")}</h5>
                                 </div>
                                 <div className="widget-content">
                                     WARNING! Deleting your account will
@@ -47,12 +46,15 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                 <div className="col-sm-12">
                                     <div className="widget-content">
                                         <div className="form-group row">
-                                            <label
-                                                className="col-sm-3">
-                                                Enter Password</label>
+                                            <label className="col-sm-3">
+                                                {t("Enter Password")}
+                                            </label>
                                             <div className="col-sm-9">
-                                                <input type="password"
-                                                    onChange={this.props.set}
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="email"
+                                                    value=""
+                                                    type="password"
                                                     />
                                             </div>
                                             <button className="red button-like widget-control"

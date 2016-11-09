@@ -2,40 +2,75 @@ import * as React from "react";
 import { Navbar } from "../nav/navbar";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
+import { updateUser } from "./actions";
 import { Settings } from "./settings";
-import { ChangePassword } from "./change_password";
 import { DeleteAccount } from "./delete_account";
+import { ChangePassword } from "./change_password";
 
-class XAccount extends React.Component<Everything, {}> {
+interface AccountState {
+    name?: string;
+    email?: string;
+    oldPwd?: string;
+    newPwd?: string;
+    checkNewPwd?: string;
+}
 
-    set(name: string) {
-        return function (event: React.FormEvent<HTMLInputElement>) {
-            let state: { [name: string]: string } = {};
-            state[name] = (event.currentTarget).value;
-            this.setState(state);
+class XAccount extends React.Component<Everything, AccountState> {
+    constructor(props: Everything) {
+        super();
+        this.state = {
+            name: "",
+            email: "",
+            oldPwd: "",
+            newPwd: "",
+            checkNewPwd: ""
         };
     }
 
-    render() {
-        let y = this.props.auth.user;
+    componentDidMount() {
         if (this.props.auth.user) {
-            let x = this.props.auth.user;
+            let { name, email } = this.props.auth.user;
+            this.setState({ name, email });
+        }
+    }
+
+    set(event: React.FormEvent<HTMLInputElement>) {
+        let state: { [name: string]: string } = {};
+        state[event.currentTarget.name] = (event.currentTarget).value;
+        this.setState(state);
+    }
+
+    saveUser() {
+        this.props.dispatch(updateUser({
+            name: this.state.name,
+            email: this.state.email
+        }));
+    }
+
+    render() {
+        if (this.props.auth.user) {
             return (
                 <div>
                     <Navbar { ...this.props } />
                     <div className="all-content-wrapper account">
-                        <Settings set={this.set("user")}
-                            user={this.props.auth.user} />
-                        <ChangePassword set={this.set("password")}
-                            user={this.props.auth.user} />
-                        <DeleteAccount set={this.set("password")}
-                            user={this.props.auth.user} />
+                        <Settings
+                            name={`${this.state.name}`}
+                            email={`${this.state.email}`}
+                            set={this.set.bind(this)}
+                            save={this.saveUser.bind(this)}
+                            />
+                        <ChangePassword
+                            set={this.set.bind(this)}
+                            />
+                        <DeleteAccount
+                            set={this.set.bind(this)}
+                            />
                     </div>
                 </div>
             );
 
         } else {
-            return <div> Please Log In </div>;
+            return <div>Please Log In</div>;
         };
     }
 }

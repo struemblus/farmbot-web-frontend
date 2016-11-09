@@ -1,9 +1,14 @@
-export interface UpdateEmailPayl {
-    index: number;
-    comment: string;
-}
-
+// TODO: Remove this interface when TS adds subset types - RC
 export interface User {
-    name: string;
-    email: string;
+    id?: number;
+    device_id?: number;
+    name?: string;
+    email?: string;
+    created_at?: string;
+    updated_at?: string;
+};
+
+export interface UpdateUserPayl {
+    type: string;
+    payload: User;
 };

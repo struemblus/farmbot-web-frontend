@@ -1,14 +1,14 @@
 import * as React from "react";
 import { t } from "i18next";
-import { User } from "./interfaces";
+import { BlurableInput } from "../blurable_input";
 
 interface ChangePasswordPropTypes {
-    user: User;
     set: (event: React.FormEvent<HTMLInputElement>) => void;
 }
 
 export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}> {
     render() {
+        let { set } = this.props;
         return (
             <div className="row">
                 <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
@@ -16,9 +16,9 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                         <div className="row">
                             <div className="col-sm-12">
                                 <button className="green button-like widget-control"
-                                    type="button">SAVE</button>
+                                    type="button">{t("SAVE")}</button>
                                 <div className="widget-header">
-                                    <h5> {t("Change Password")} </h5>
+                                    <h5>{t("Change Password")}</h5>
                                 </div>
                             </div>
                         </div>
@@ -28,29 +28,41 @@ export class ChangePassword extends React.Component<ChangePasswordPropTypes, {}>
                                     <div className="widget-content">
                                         <div className="form-group row">
                                             <label className="col-sm-3">
-                                                Old Password
+                                                {t("Old Password")}
                                             </label>
                                             <div className="col-sm-9">
-                                                <input type="password"
-                                                    onChange={this.props.set} />
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="oldPwd"
+                                                    value=""
+                                                    type="password"
+                                                    />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-sm-3">
-                                                New Password
+                                                {t("New Password")}
                                             </label>
                                             <div className="col-sm-9">
-                                                <input type="password"
-                                                    onChange={this.props.set} />
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="newPwd"
+                                                    value=""
+                                                    type="password"
+                                                    />
                                             </div>
                                         </div>
                                         <div className="form-group row">
                                             <label className="col-sm-3">
-                                                New Password
+                                                {t("New Password")}
                                             </label>
                                             <div className="col-sm-9">
-                                                <input type="password"
-                                                    onChange={this.props.set} />
+                                                <BlurableInput
+                                                    onCommit={set}
+                                                    name="checkNewPwd"
+                                                    value=""
+                                                    type="password"
+                                                    />
                                             </div>
                                         </div>
                                     </div>

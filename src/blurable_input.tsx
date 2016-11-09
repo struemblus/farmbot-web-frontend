@@ -3,7 +3,8 @@ import * as React from "react";
 interface BIProps {
     value: string;
     onCommit: Function;
-    type?: "text" | "number";
+    type?: "text" | "number" | "email" | "password";
+    name?: string;
 }
 
 interface BIState {
@@ -11,7 +12,7 @@ interface BIState {
     isEditing?: boolean;
 }
 
-export class BlurableInput<T> extends React.Component<BIProps, BIState> {
+export class BlurableInput extends React.Component<BIProps, BIState> {
     constructor(props: BIProps) {
         super();
         this.state = { buffer: "", isEditing: false };
@@ -37,6 +38,7 @@ export class BlurableInput<T> extends React.Component<BIProps, BIState> {
             onFocus={this.focus.bind(this)}
             onChange={this.updateBuffer.bind(this)}
             onBlur={this.maybeCommit.bind(this)}
+            name={this.props.name}
             type={this.props.type || "text"} />;
     }
 }
