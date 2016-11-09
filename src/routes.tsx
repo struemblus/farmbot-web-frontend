@@ -23,6 +23,7 @@ import { Sequences } from "./sequences/sequences";
 import { Regimens } from "./regimens/index";
 import { FarmDesigner } from "./farm_designer/farm_designer";
 import { Login } from "./login";
+import { Account } from "./account";
 import { store } from "./redux/store";
 import { history } from "./history";
 import { Store } from "./redux/interfaces";
@@ -84,6 +85,9 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         onEnter={this.requireAuth.bind(this)} />
       <Route path="regimens"
         component={Regimens}
+        onEnter={this.requireAuth.bind(this)} />
+      <Route path="account"
+        component={Account}
         onEnter={this.requireAuth.bind(this)} />
       <IndexRoute
         component={Controls} />

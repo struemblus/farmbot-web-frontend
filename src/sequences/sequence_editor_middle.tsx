@@ -135,8 +135,7 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                         <div className="row">
                             <div className="col-sm-11">
                                 <BlurableInput value={sequence.name}
-                                    onCommit={handleNameUpdate(dispatch)}
-                                    />
+                                    onCommit={handleNameUpdate(dispatch)} />
                             </div>
                             <div className="col-sm-1">
                                 <ColorPicker current={sequence.color}

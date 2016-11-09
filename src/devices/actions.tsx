@@ -17,6 +17,7 @@ import { Sequence } from "../sequences/interfaces";
 import { handleIncomingBotNotification } from "./incoming_bot_notification";
 import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
+import { API } from "../api";
 
 const ON = 1,
     OFF = 0;
@@ -176,7 +177,8 @@ export function fetchFWUpdateInfo(url: string) {
 
 export function updateDevice(apiUrl: string,
     optns: DeviceAccountSettingsUpdate, dispatch: Function) {
-    return put<DeviceAccountSettingsUpdate>(apiUrl + "/api/device", optns)
+    let url = API.current.devicePath;
+    return put<DeviceAccountSettingsUpdate>(url, optns)
         .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
         .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
     ;

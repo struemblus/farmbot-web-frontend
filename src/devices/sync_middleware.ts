@@ -6,7 +6,7 @@ import { devices } from "../device";
 export function syncMiddleware(store: Store) {
     return function syncMiddlewareNext(next: Dispatch<Everything>) {
         return function syncMiddlewareAction(action: Action | any) {
-            maybeSyncBot(action);
+            // maybeSyncBot(action);
             next(action);
         };
     };
