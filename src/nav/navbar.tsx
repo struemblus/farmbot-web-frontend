@@ -2,7 +2,7 @@ import * as React from "react";
 import { Link } from "react-router";
 import {
   sync,
-  emergencyStop
+  emergencyLock
 } from "../devices/actions";
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
@@ -53,7 +53,7 @@ let EStopButton = ({auth, dispatch}: NavButtonProps) => {
   if (!auth.authenticated) { return <span></span>; }
   return <button className="nav-e-stop button-like red"
     type="button"
-    onClick={emergencyStop} >
+    onClick={emergencyLock} >
     {t("E STOP")}
   </button>;
 };
