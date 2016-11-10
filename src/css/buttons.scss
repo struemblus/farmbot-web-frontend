@@ -125,7 +125,7 @@ button {
 }
 
 .button-like {
-    &:active {
+    &:active:not(.toggle-button) {
         border-bottom-width: 1px!important;
         border-top: 1px solid transparent!important;
         transform: translateY(1px);
