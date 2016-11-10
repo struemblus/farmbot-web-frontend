@@ -14,20 +14,22 @@ module.exports = function() {
     return {
         module: {
             loaders: [{
-                    test: /\.tsx?$/,
-                    exclude: /(node_modules)/,
-                    loader: 'ts'
-                },
-                {
-                    test: /\.hbs$/,
-                    loader: 'handlebars-loader'
-                }
+                test: /\.tsx?$/,
+                exclude: /(node_modules)/,
+                loader: 'ts'
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader'
+            }
             ],
         },
         entry: {
             'app-resources/bundle': './src/entry.tsx',
-            'splash-page': './src/static/splash_page.ts',
+            // Preprocesses an HTML file to figure out if we need to load
+            // style.css or not.
             'app-index': './src/static/app_index.ts',
+            'front_page': './src/front_page/index.tsx'
         },
         output: {
             path: "public",
@@ -39,9 +41,6 @@ module.exports = function() {
         },
         plugins: [
             revisionPlugin,
-            new StaticSiteGeneratorPlugin("splash-page", "/", {
-                templateName: "splash_page"
-            }),
             new StaticSiteGeneratorPlugin("app-index", "/app/", {
                 templateName: "app_index"
             })
