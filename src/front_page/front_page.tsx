@@ -4,6 +4,7 @@ import * as axios from "axios";
 import { AuthResponse } from "../auth/actions";
 import { determinePort } from "../config/reducer";
 import { error as log } from "../logger";
+import { prettyPrintApiErrors } from "../util";
 
 interface FrontPageState {
     regName: string;
@@ -42,37 +43,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         };
     }
 
-    checkLogin(e: React.FormEvent<{}>) {
+    submitLogin(e: React.FormEvent<{}>) {
         e.preventDefault();
-        let { loginEmail, loginPassword } = this.state;
-        if (loginEmail === "") {
-            log("Please enter your email.");
-        } else if (loginPassword === "") {
-            log("Please enter your password.");
-        } else {
-            this.submitLogin();
-        }
-    }
-
-    checkRegister(e: React.FormEvent<{}>) {
-        e.preventDefault();
-        let { regEmail, regName, regPassword, regConfirmation } = this.state;
-        if (regEmail === "") {
-            log("Please enter your email.");
-        } else if (regName === "") {
-            log("Please enter your name.");
-        } else if (regPassword === "") {
-            log("Please enter your password.");
-        } else if (regConfirmation === "") {
-            log("Please confirm your password.");
-        } else if (regPassword !== regConfirmation) {
-            log("Passwords do not match");
-        } else {
-            this.submitRegistration();
-        }
-    }
-
-    submitLogin() {
         let { loginEmail, loginPassword } = this.state;
         let payload = { user: { email: loginEmail, password: loginPassword } };
         axios.post<AuthResponse>(`${this.url}/api/tokens`, payload)
@@ -81,11 +53,12 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                 localStorage["token"] = JSON.stringify(token);
                 window.location.replace("/app/dashboard/controls");
             }).catch(error => {
-                log(error);
+                log(prettyPrintApiErrors(error));
             });
     }
 
-    submitRegistration() {
+    submitRegistration(e: React.FormEvent<{}>) {
+        e.preventDefault();
         let { regEmail, regName, regPassword, regConfirmation } = this.state;
         let form = {
             user: {
@@ -100,7 +73,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             localStorage["token"] = JSON.stringify(token);
             window.location.replace("/app/dashboard/controls");
         }).catch(error => {
-            log(error);
+            log(prettyPrintApiErrors(error));
         });
     }
 
@@ -118,7 +91,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                 </div>
                             </div>
                             <div className="row">
-                                <form onSubmit={this.checkLogin.bind(this)}>
+                                <form onSubmit={this.submitLogin.bind(this)}>
                                     <div className="col-sm-12">
                                         <div className="widget-content">
                                             <div className="input-group">
@@ -166,7 +139,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                             </div>
                             <div className="row">
                                 <div className="col-sm-12">
-                                    <form onSubmit={this.checkRegister.bind(this)} >
+                                    <form onSubmit={this.submitRegistration.bind(this)} >
                                         <div className="widget-content">
                                             <div className="input-group">
                                                 <label>{i18next.t("Email")} </label>
