@@ -26,8 +26,10 @@ module.exports = function() {
         },
         entry: {
             'app-resources/bundle': './src/entry.tsx',
-            'splash-page': './src/static/splash_page.ts',
+            // Preprocesses an HTML file to figure out if we need to load
+            // style.css or not.
             'app-index': './src/static/app_index.ts',
+            'front_page': './src/front_page/index.tsx'
         },
         output: {
             path: "public",
@@ -39,9 +41,6 @@ module.exports = function() {
         },
         plugins: [
             revisionPlugin,
-            new StaticSiteGeneratorPlugin("splash-page", "/", {
-                templateName: "splash_page"
-            }),
             new StaticSiteGeneratorPlugin("app-index", "/app/", {
                 templateName: "app_index"
             })
@@ -60,8 +59,11 @@ module.exports = function() {
         },
         devServer: {
             historyApiFallback: {
-                index: '/app/index.html'
-            }
+                index: '/index.html',
+                rewrites: [
+                    { from: /\/app/, to: '/app/index.html' }
+                ]
+            },
         }
     };
 };
