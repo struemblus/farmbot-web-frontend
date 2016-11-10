@@ -36,9 +36,9 @@ function TitleBarEditing(props: TitleBarProps) {
             <i className="fa fa-question-circle widget-help-icon">
                 <div className="widget-help-text">
                     {t(`Use these toggle
-                        switches to control FarmBot's peripherals and peripherals
+                        switches to control FarmBot's peripherals
                         in realtime. To edit and create new peripherals, press
-                        the button. Make sure to turn
+                        the EDIT button. Make sure to turn
                         things off when you're done!`)}
                 </div>
             </i>
@@ -59,9 +59,9 @@ function TitleBarControlling(props: TitleBarProps) {
             <i className="fa fa-question-circle widget-help-icon">
                 <div className="widget-help-text">
                     {t(`Use these toggle
-                        switches to control FarmBot's peripherals and peripherals
+                        switches to control FarmBot's peripherals
                         in realtime. To edit and create new peripherals, press
-                        the button. Make sure to turn
+                        the EDIT button. Make sure to turn
                         things off when you're done!`)}
                 </div>
             </i>
