@@ -6,6 +6,7 @@ import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
 import { UserAccountUpdate } from "./interfaces";
+import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 function updateUserSuccess(payload: User): ReduxAction<User> {
     return {
@@ -36,7 +37,7 @@ export function deleteUser(payload: DeletionRequest): Thunk {
         let user = getState().auth.user;
         if (user) {
             // https://github.com/mzabriskie/axios/issues/312
-            axios({
+            axios<{}>({
                 method: "delete",
                 url: API.current.usersPath,
                 data: payload,
@@ -48,10 +49,7 @@ export function deleteUser(payload: DeletionRequest): Thunk {
                     sessionStorage.clear();
                     window.location.href = "/";
                 })
-                .catch((e: any) => {
-                    let msg = _.get(e, "response.data.password", e.message);
-                    error(t(`User could not be deleted: ${msg}`));
-                });
+                .catch((e: AxiosErrorResponse) => { error(prettyPrintApiErrors(e)); });
         } else {
             throw new Error("Impossible");
         }
