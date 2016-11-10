@@ -2,9 +2,9 @@ import * as React from "react";
 import * as i18next from "i18next";
 import * as axios from "axios";
 import { AuthResponse } from "../auth/actions";
-import { determinePort } from "../config/reducer";
 import { error as log } from "../logger";
 import { prettyPrintApiErrors } from "../util";
+import { API } from "../api";
 
 interface FrontPageState {
     regName: string;
@@ -31,8 +31,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         };
     }
 
-    get url(): string {
-        return `//${window.location.hostname}:${determinePort()}`;
+    componentDidMount() {
+        API.setBaseUrl(API.fetchBrowserLocation());
     }
 
     set(name: string) {
@@ -47,7 +47,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         e.preventDefault();
         let { loginEmail, loginPassword } = this.state;
         let payload = { user: { email: loginEmail, password: loginPassword } };
-        axios.post<AuthResponse>(`${this.url}/api/tokens`, payload)
+
+        axios.post<AuthResponse>(API.current.tokensPath, payload)
             .then(resp => {
                 let { token } = resp.data;
                 localStorage["token"] = JSON.stringify(token);
@@ -68,7 +69,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                 password_confirmation: regConfirmation
             }
         };
-        axios.post<AuthResponse>(`${this.url}/api/users`, form).then(resp => {
+        axios.post<AuthResponse>(API.current.usersPath, form).then(resp => {
             let { token } = resp.data;
             localStorage["token"] = JSON.stringify(token);
             window.location.replace("/app/dashboard/controls");
@@ -108,7 +109,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                 <div className="col-xs-6">
                                                     <p className="auth-link">
                                                         <a href={
-                                                            this.url + "/users/password/new"
+                                                            "/users/password/new"
                                                         }>
                                                             {i18next.t("Reset password")}
                                                         </a>
