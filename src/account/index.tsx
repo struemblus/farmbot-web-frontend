@@ -22,11 +22,24 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
     }
 
     set(event: React.FormEvent<HTMLInputElement>) {
-        this.setState({ [event.currentTarget.name]: event.currentTarget.value });
+        let { name, value } = event.currentTarget;
+        this.setState({ [name]: value });
     }
 
     saveUser() {
         this.props.dispatch(updateUser(this.state));
+    }
+
+    savePassword() {
+        this
+            .props
+            .dispatch(updateUser(this.state));
+
+        this.setState({
+            password: "",
+            new_password: "",
+            new_password_confirmation: ""
+        });
     }
 
     render() {
@@ -35,14 +48,16 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
                 <div>
                     <Navbar { ...this.props } />
                     <div className="all-content-wrapper account">
-                        <Settings
-                            name={`${this.state.name}`}
-                            email={`${this.state.email}`}
+                        <Settings name={this.state.name || ""}
+                            email={this.state.email || ""}
                             set={this.set.bind(this)}
                             save={this.saveUser.bind(this)} />
                         <ChangePassword
+                            password={this.state.password || ""}
+                            new_password={this.state.new_password || ""}
+                            new_password_confirmation={this.state.new_password_confirmation || ""}
                             set={this.set.bind(this)}
-                            save={this.saveUser.bind(this)} />
+                            save={this.savePassword.bind(this)} />
                         <DeleteAccount set={this.set.bind(this)} />
                     </div>
                 </div>
