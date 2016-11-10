@@ -11,13 +11,13 @@ let YELLOW = "#fd6",
     GREEN = "#6a4",
     BLUE = "#4286f4";
 
-function firstPerson(color: string, message: string, show = true) {
+function firstPerson(color: string, m: string, show = true) {
     return function (s: TickerState, a: ReduxAction<{}>) {
         // TODO: HACK: This is such a hack, but I can't think of a
         // faster way to get it done and it's not a very critical part of the
         // system. PRs welcome. Help appreciated. In the meantime, #shipIt
         let name = get<string>(store.getState(), "bot.account.name", "Bot");
-        message = i18next.t(`{{name}} is {{message}}`, { name, message });
+        let message = i18next.t(`{{name}} is {{message}}`, { name, message: m });
         return { color, message, show };
     };
 }
