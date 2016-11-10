@@ -2,7 +2,7 @@ import * as React from "react";
 import { Navbar } from "../nav/navbar";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
-import { updateUser } from "./actions";
+import { updateUser, deleteUser } from "./actions";
 import { Settings } from "./settings";
 import { DeleteAccount } from "./delete_account";
 import { ChangePassword } from "./change_password";
@@ -42,6 +42,13 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
         });
     }
 
+    // Hear ye, hear ye!
+    enactDeletion() {
+        let password = this.state.deletion_confirmation || "NEVER SET";
+        this.props.dispatch(deleteUser({ password }));
+        console.log("X");
+    }
+
     render() {
         if (this.props.auth.user) {
             return (
@@ -58,7 +65,10 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
                             new_password_confirmation={this.state.new_password_confirmation || ""}
                             set={this.set.bind(this)}
                             save={this.savePassword.bind(this)} />
-                        <DeleteAccount set={this.set.bind(this)} />
+                        <DeleteAccount
+                            deletion_confirmation={this.state.deletion_confirmation || ""}
+                            set={this.set.bind(this)}
+                            save={this.enactDeletion.bind(this)} />
                     </div>
                 </div>
             );
