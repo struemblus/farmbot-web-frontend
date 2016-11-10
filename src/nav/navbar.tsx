@@ -22,6 +22,10 @@ interface DropDownProps {
   onClick?: () => void;
 }
 
+interface NavMobileMenuToggleProps {
+  onClick?: () => void;
+}
+
 export let DropDown = ({ auth, onClick }: DropDownProps) => {
   if (!auth.authenticated) { return <span></span>; }
   onClick = onClick || (() => {
@@ -61,6 +65,18 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
   </button>;
 };
 
+let NavMobileMenuToggle = ({ onClick }: NavMobileMenuToggleProps) => {
+  return (
+    <button className="navbar-toggle"
+      data-target="#navbar"
+      data-toggle="collapse"
+      type="button"
+      onClick={}>
+      <span className="glyphicon glyphicon-menu-hamburger" />
+    </button>
+  );
+};
+
 let links = {
   "Farm Designer": "/app/dashboard/designer",
   "Controls": "/app/dashboard/controls",
@@ -74,12 +90,7 @@ export function Navbar(props: Everything) {
     <nav className="navbar navbar-default" role="navigation">
       <div className="container-fluid">
         <div className="navbar-header drop-shadow">
-          <button className="navbar-toggle"
-            data-target="#navbar"
-            data-toggle="collapse"
-            type="button">
-            <span className="glyphicon glyphicon-menu-hamburger" />
-          </button>
+          <NavMobileMenuToggle />
         </div>
         <div className="collapse navbar-collapse" id="navbar">
           <ul className="nav navbar-nav">

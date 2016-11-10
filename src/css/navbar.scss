@@ -90,25 +90,6 @@ a.fb-navbar-active-link {
     }
 }
 
-// Mobile Nav Styles
-button.navbar-toggle {
-    float: left;
-    margin: 0;
-    border: none;
-    color: $gray;
-    font-size: 1.6rem!important;
-    padding: .4rem 2rem 0 2rem;
-    line-height: 4.6rem;
-    &:hover {
-        background-color: transparent!important;
-        color: $off_white
-    }
-    &:focus {
-        background-color: transparent!important;
-        color: $off_white
-    }
-}
-
 div#navbar.navbar-collapse {
     z-index: 9999;
     left: 1rem;
@@ -116,8 +97,4 @@ div#navbar.navbar-collapse {
     background: #434343;
     border: 0px;
     width: 100%;
-    @media screen and (max-width: 768px) {
-        padding: 0 2rem;
-        position: absolute;
-    }
 }
