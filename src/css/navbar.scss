@@ -13,6 +13,7 @@ nav.navbar {
     text-transform: uppercase;
     border-radius: 0px;
     border: 0px solid;
+    box-shadow: 0 4px 10px $translucent;
     .e-stop {
         margin-top: 1.25rem;
     }
@@ -115,7 +116,6 @@ div#navbar.navbar-collapse {
     background: #434343;
     border: 0px;
     width: 100%;
-    box-shadow: 0 4px 10px $translucent;
     @media screen and (max-width: 768px) {
         padding: 0 2rem;
         position: absolute;
