@@ -1,120 +1,122 @@
 // Styles for the sequence and regimen BLOCKS
 .block-wrapper {
-  height: 3.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: 0 0px 10px $light_gray;
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 10px $translucent;
-    transition: all 0.2s ease-out;
-  }
+    height: 3.5rem;
+    margin-bottom: 1.5rem;
+    button {
+        box-shadow: 0 0px 10px $light_gray;
+        &:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px $translucent;
+            transition: all 0.2s ease-out;
+        }
+    }
 }
 
 .block-control {
-  color: $dark_gray;
-  display: none!important;
-  float: right;
-  font-size: 1.5rem!important;
-  padding-left: 1rem;
+    color: $dark_gray;
+    display: none!important;
+    float: right;
+    font-size: 1.5rem!important;
+    padding-left: 1rem;
 }
 
 .block-header {
-  height: 3.5rem;
-  font-size: 1.2rem!important;
-  color: $dark_gray;
-  &:hover {
-    .block-control {
-      display: inherit!important;
+    height: 3.5rem;
+    font-size: 1.2rem!important;
+    color: $dark_gray;
+    &:hover {
+        .block-control {
+            display: inherit!important;
+        }
     }
-  }
-  &.blue-block {
-    background-color: $blue;
-  }
-  &.green-block {
-    background-color: $green;
-  }
-  &.yellow-block {
-    background-color: $yellow;
-  }
-  &.orange-block {
-    background-color: $orange;
-  }
-  &.purple-block {
-    background-color: $purple;
-  }
-  &.brown-block {
-    background-color: $brown;
-  }
-  &.gray-block {
-    background-color: $gray;
-  }
-  &.red-block {
-    background-color: $red;
-  }
-  &.pink-block {
-    background-color: $pink;
-  }
+    &.blue-block {
+        background-color: $blue;
+    }
+    &.green-block {
+        background-color: $green;
+    }
+    &.yellow-block {
+        background-color: $yellow;
+    }
+    &.orange-block {
+        background-color: $orange;
+    }
+    &.purple-block {
+        background-color: $purple;
+    }
+    &.brown-block {
+        background-color: $brown;
+    }
+    &.gray-block {
+        background-color: $gray;
+    }
+    &.red-block {
+        background-color: $red;
+    }
+    &.pink-block {
+        background-color: $pink;
+    }
 }
 
 .block-content {
-  .blue-block {
-    background-color: $light_blue;
-  }
-  .green-block {
-    background-color: $light_green;
-  }
-  .yellow-block {
-    background-color: $light_yellow;
-  }
-  .orange-block {
-    background-color: $light_orange;
-  }
-  .purple-block {
-    background-color: $light_purple;
-  }
-  .brown-block {
-    background-color: $light_brown;
-  }
-  .gray-block {
-    background-color: $light_gray;
-  }
-  .red-block {
-    background-color: $light_red;
-  }
+    .blue-block {
+        background-color: $light_blue;
+    }
+    .green-block {
+        background-color: $light_green;
+    }
+    .yellow-block {
+        background-color: $light_yellow;
+    }
+    .orange-block {
+        background-color: $light_orange;
+    }
+    .purple-block {
+        background-color: $light_purple;
+    }
+    .brown-block {
+        background-color: $light_brown;
+    }
+    .gray-block {
+        background-color: $light_gray;
+    }
+    .red-block {
+        background-color: $light_red;
+    }
 }
 
 div.saucer-blue {
-  background: $blue;
+    background: $blue;
 }
 
 div.saucer-green {
-  background: $green;
+    background: $green;
 }
 
 div.saucer-yellow {
-  background: $yellow;
+    background: $yellow;
 }
 
 div.saucer-orange {
-  background: $orange;
+    background: $orange;
 }
 
 div.saucer-purple {
-  background: $purple;
+    background: $purple;
 }
 
 div.saucer-brown {
-  background: $brown;
+    background: $brown;
 }
 
 div.saucer-gray {
-  background: $gray;
+    background: $gray;
 }
 
 div.saucer-red {
-  background: $red;
+    background: $red;
 }
 
 div.saucer-pink {
-  background: $pink;
+    background: $pink;
 }

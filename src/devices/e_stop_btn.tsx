@@ -9,13 +9,18 @@ export class EStopButton extends React.Component<Everything, {}> {
         let toggleEmergencyLock = locked ? emergencyUnlock : emergencyLock;
         let emergencyLockStatusColor = locked ? "green" : "red";
         let emergencyLockStatusText = locked ? "START" : "E-STOP";
-        return (
-            <button className={`e-stop button-like ${emergencyLockStatusColor}`}
-                type="button"
-                onClick={toggleEmergencyLock}>
-                {t(emergencyLockStatusText)}
-            </button>
-        );
+        if (this.props.auth.user) {
+            return (
+                <button className={`e-stop button-like ${emergencyLockStatusColor}`}
+                    type="button"
+                    onClick={toggleEmergencyLock}>
+                    {t(emergencyLockStatusText)}
+                </button>
+            );
+        } else {
+            return <span></span>;
+        }
+
     }
 }
 

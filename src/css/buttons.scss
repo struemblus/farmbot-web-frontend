@@ -125,7 +125,7 @@ button {
 }
 
 .button-like {
-    &:active {
+    &:active:not(.toggle-button) {
         border-bottom-width: 1px!important;
         border-top: 1px solid transparent!important;
         transform: translateY(1px);
@@ -149,6 +149,7 @@ button {
                 margin: 0 auto;
                 left: 0;
                 right: 0;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
             }
         }
         &.green {
@@ -163,6 +164,7 @@ button {
                 border-radius: 50%;
                 top: 0.2rem;
                 right: 0.2rem;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
             }
             &:hover {
                 background: $green;
@@ -180,6 +182,7 @@ button {
                 border-radius: 50%;
                 top: 0.2rem;
                 left: 0.2rem;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
             }
             &:hover {
                 background: $dark_red;
