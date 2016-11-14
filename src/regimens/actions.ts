@@ -99,3 +99,21 @@ export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
   };
 }
 
+export function fetchRegimens() {
+  return function (dispatch: Function) {
+    return Axios
+      .get<Regimen[]>(API.current.regimensPath)
+      .then(r => dispatch({
+        type: "FETCH_REGIMENS_OK",
+        payload: r.data
+      }))
+      .catch(e => {
+        warning(t("Could not download regimens."));
+        dispatch({
+          type: "FETCH_REGIMENS_ERR",
+          payload: e
+        });
+      });
+  };
+};
+

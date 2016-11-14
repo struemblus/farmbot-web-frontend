@@ -5,6 +5,7 @@ import { error } from "../logger";
 import { AuthState, AuthToken, User } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchSyncData } from "../sync/actions";
+import { fetchRegimens } from "../regimens/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
@@ -27,6 +28,8 @@ export function didLogin(authState: AuthState, dispatch: Function) {
     dispatch(fetchFWUpdateInfo(authState.fw_update_server));
     dispatch(loginOk(authState));
     dispatch(fetchSyncData());
+    // TODO: Make regimens work with sync object
+    dispatch(fetchRegimens());
     dispatch(connectDevice(authState.token));
 };
 
