@@ -153,7 +153,7 @@ export class Controls extends React.Component<Everything, any> {
                                                                     <td />
                                                                     <td>
                                                                         <DirectionButton axis="z"
-                                                                            direction="down"
+                                                                            direction="up"
                                                                             steps={this.props.bot.stepSize || 1000}
                                                                             {...this.props} />
                                                                     </td>
@@ -188,7 +188,7 @@ export class Controls extends React.Component<Everything, any> {
                                                                     <td />
                                                                     <td>
                                                                         <DirectionButton axis="z"
-                                                                            direction="up"
+                                                                            direction="down"
                                                                             steps={this.props.bot.stepSize || 1000}
                                                                             {...this.props} />
                                                                     </td>
