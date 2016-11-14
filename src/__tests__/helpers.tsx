@@ -124,6 +124,8 @@ export function fakeState(dispatcher?: Function): Everything {
     all: []
   };
 
+  let sync = {};
+
   let draggable = { dataTransfer: {} };
   return {
     location
@@ -138,5 +140,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , config
     , draggable
     , peripherals
+    , sync
   };
 }

@@ -8,6 +8,7 @@ import { AuthState, AuthToken, User } from "./interfaces";
 import { fetchPlants } from "../farm_designer/actions";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchPeripherals } from "../controls/peripherals/actions";
+import { fetchSyncData } from "../sync/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
@@ -33,13 +34,14 @@ export function didLogin(authState: AuthState, dispatch: Function) {
     dispatch(fetchSequences());
     dispatch(fetchRegimens());
     dispatch(fetchPlants());
-    dispatch(connectDevice(authState.token));
     dispatch(fetchPeripherals());
+    dispatch(fetchSyncData());
+    dispatch(connectDevice(authState.token));
     debugger;
 };
 
 export function downloadDeviceData(): Thunk {
-    return function(dispatch, getState) {
+    return function (dispatch, getState) {
         Axios
             .get<DeviceAccountSettings>(API.current.devicePath)
             .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
@@ -100,7 +102,7 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     // property so we can get rid of all that un-DRY URL concat junk.
     // This is how we attach the auth token to every
     // outbound HTTP request (after user logs in).
-    Axios.interceptors.request.use(function(config) {
+    Axios.interceptors.request.use(function (config) {
         let req = config.url;
         let isAPIRequest = req.includes(API.current.baseUrl);
         if (isAPIRequest) {
