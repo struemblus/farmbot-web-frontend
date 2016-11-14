@@ -112,6 +112,8 @@ export let regimensReducer = generateReducer<RegimensState>(initialState)
         return state;
     })
     .add<any>("FETCH_SYNC_OK", function (state, action) {
-        state.all = action.payload.regimens;
+        // TODO: ApiRegimenState refactor or stitch together response
+        // to work with Sync interface
+        state.all = action.payload.regimens || [];
         return state;
     });
