@@ -61,7 +61,7 @@ module.exports = function() {
             historyApiFallback: {
                 index: '/index.html',
                 rewrites: [
-                    { from: /\/app/, to: '/app/index.html' }
+                    { from: /\/app\//, to: '/app/index.html' }
                 ]
             },
         }
