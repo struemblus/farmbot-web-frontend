@@ -5,14 +5,18 @@ import { AuthResponse } from "../auth/actions";
 import { error as log } from "../logger";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
+import "../css/front_page.scss";
 
 interface FrontPageState {
-    regName: string;
-    regEmail: string;
-    regPassword: string;
-    regConfirmation: string;
-    loginEmail: string;
-    loginPassword: string;
+    regName?: string;
+    regEmail?: string;
+    regPassword?: string;
+    regConfirmation?: string;
+    loginEmail?: string;
+    loginPassword?: string;
+    showServerOpts?: boolean;
+    serverURL?: string;
+    serverPort?: string;
 }
 
 interface FrontPageProps { };
@@ -27,7 +31,10 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             regPassword: "",
             regConfirmation: "",
             loginEmail: "",
-            loginPassword: ""
+            loginPassword: "",
+            showServerOpts: false,
+            serverURL: "my.farmbot.io",
+            serverPort: "80"
         };
     }
 
@@ -47,7 +54,9 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         e.preventDefault();
         let { loginEmail, loginPassword } = this.state;
         let payload = { user: { email: loginEmail, password: loginPassword } };
-
+        if (this.state.showServerOpts) {
+            API.setBaseUrl(`//${this.state.serverURL}:${this.state.serverPort}`);
+        }
         axios.post<AuthResponse>(API.current.tokensPath, payload)
             .then(resp => {
                 let { token } = resp.data;
@@ -78,92 +87,75 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         });
     }
 
+    toggleServerOpts() {
+        this.setState({ showServerOpts: !this.state.showServerOpts });
+    }
+
     render() {
         return (
-            <div className="all-content-wrapper">
-                <div className="row">
-                    <div className="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                        <div className="widget-wrapper">
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="widget-header">
-                                        <h5>{i18next.t("Login")}</h5>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <form onSubmit={this.submitLogin.bind(this)}>
+            <div>
+                <h1>Welcome to the FarmBot Web App</h1>
+                <h2 className="fb-desktop-show">Setup, customize, and control FarmBot from your computer</h2>
+                <h2 className="fb-tablet-show">Setup, customize, and control FarmBot from your tablet</h2>
+                <h2 className="fb-mobile-show">Setup, customize, and control FarmBot from your smartphone</h2>
+                <div className="image-login-wrapper">
+                    <div className="image-wrapper">
+                        <img className="fb-desktop-show" src="/app-resources/img/farmbot-desktop.png" />
+                        <img className="fb-tablet-show" src="/app-resources/img/farmbot-tablet.png" />
+                    </div>
+                    <div className="all-content-wrapper login-wrapper">
+                        <div className="row">
+                            <div className="widget-wrapper">
+                                <div className="row">
                                     <div className="col-sm-12">
-                                        <div className="widget-content">
-                                            <div className="input-group">
-                                                <label> {i18next.t("Email")} </label>
-                                                <input type="email"
-                                                    onChange={this.set("loginEmail").bind(this)}>
-                                                </input>
-                                                <label>{i18next.t("Password")}</label>
-                                                <input type="password"
-                                                    onChange={this.set("loginPassword").bind(this)}>
-                                                </input>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-xs-6">
-                                                    <p className="auth-link">
-                                                        <a href={
-                                                            "/users/password/new"
-                                                        }>
-                                                            {i18next.t("Reset password")}
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <div className="col-xs-6">
-                                                    <button className="button-like button green login">
-                                                        {i18next.t("Login")}
-                                                    </button>
-                                                </div>
-                                            </div>
+                                        <div className="widget-header">
+                                            <h5>{i18next.t("Login")}</h5>
+                                            <i className="fa fa-plus"
+                                                onClick={this.toggleServerOpts.bind(this)}></i>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
-                        <div className="widget-wrapper">
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="widget-header">
-                                        <h5> {i18next.t("Register")} </h5>
-                                    </div>
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <form onSubmit={this.submitRegistration.bind(this)} >
-                                        <div className="widget-content">
-                                            <div className="input-group">
-                                                <label>{i18next.t("Email")} </label>
-                                                <input type="email" onChange={this.set("regEmail").bind(this)} ></input>
-                                                <label>Name</label>
-                                                <input type="text" onChange={this.set("regName").bind(this)}></input>
-                                                <label>Password</label>
-                                                <input type="password"
-                                                    onChange={this.set("regPassword").bind(this)}>
-                                                </input>
-                                                <label>{i18next.t("Verfy Password")}</label>
-                                                <input type="password"
-                                                    onChange={
-                                                        this.set("regConfirmation").bind(this)}>
-                                                </input>
-                                            </div>
-                                            <div className="row">
-                                                <div className="col-xs-6">
+                                <div className="row">
+                                    <form onSubmit={this.submitLogin.bind(this)}>
+                                        <div className="col-sm-12">
+                                            <div className="widget-content">
+                                                <div className="input-group">
+                                                    <label> {i18next.t("Email")} </label>
+                                                    <input type="email"
+                                                        onChange={this.set("loginEmail").bind(this)}>
+                                                    </input>
+                                                    <label>{i18next.t("Password")}</label>
+                                                    <input type="password"
+                                                        onChange={this.set("loginPassword").bind(this)}>
+                                                    </input>
+                                                    {this.state.showServerOpts && (
+                                                        <div>
+                                                            <label>{i18next.t("Server URL")}</label>
+                                                            <input type="text"
+                                                                onChange={this.set("serverURL").bind(this)}
+                                                                value={this.state.serverURL}>
+                                                            </input>
+                                                            <label>{i18next.t("Server Port")}</label>
+                                                            <input type="text"
+                                                                onChange={this.set("serverPort").bind(this)}
+                                                                value={this.state.serverPort}>
+                                                            </input>
+                                                        </div>
+                                                    )}
                                                 </div>
-                                                <div className="col-xs-6">
-                                                    <div className="auth-button">
-                                                        <button className="button-like button green create-account">
-                                                            {i18next.t("Create Account")}
+                                                <div className="row">
+                                                    <div className="col-xs-6">
+                                                        <p className="auth-link">
+                                                            <a href={
+                                                                "/users/password/new"
+                                                            }>
+                                                                {i18next.t("Reset password")}
+                                                            </a>
+                                                        </p>
+                                                    </div>
+                                                    <div className="col-xs-6">
+                                                        <button className="button-like button green login">
+                                                            {i18next.t("Login")}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -173,9 +165,55 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                 </div>
                             </div>
                         </div>
+                        <div className="row">
+                            <div className="widget-wrapper">
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="widget-header">
+                                            <h5> {i18next.t("Create An Account")} </h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <form onSubmit={this.submitRegistration.bind(this)} >
+                                            <div className="widget-content">
+                                                <div className="input-group">
+                                                    <label>{i18next.t("Email")} </label>
+                                                    <input type="email" onChange={this.set("regEmail").bind(this)} ></input>
+                                                    <label>Name</label>
+                                                    <input type="text" onChange={this.set("regName").bind(this)}></input>
+                                                    <label>Password</label>
+                                                    <input type="password"
+                                                        onChange={this.set("regPassword").bind(this)}>
+                                                    </input>
+                                                    <label>{i18next.t("Verfy Password")}</label>
+                                                    <input type="password"
+                                                        onChange={
+                                                            this.set("regConfirmation").bind(this)}>
+                                                    </input>
+                                                </div>
+                                                <div className="row">
+                                                    <div className="col-xs-6">
+                                                    </div>
+                                                    <div className="col-xs-6">
+                                                        <div className="auth-button">
+                                                            <button className="button-like button green create-account">
+                                                                {i18next.t("Create Account")}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         );
     }
 }

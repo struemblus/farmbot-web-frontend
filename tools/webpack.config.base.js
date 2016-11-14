@@ -10,6 +10,10 @@ var revisionPlugin = new webpack.DefinePlugin({
     'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
 });
 
+var shortRevisionPlugin = new webpack.DefinePlugin({
+    'process.env.SHORT_REVISION': JSON.stringify(execSync('git log --pretty=format:"%h" -1').toString()),
+});
+
 module.exports = function() {
     return {
         module: {
@@ -41,6 +45,7 @@ module.exports = function() {
         },
         plugins: [
             revisionPlugin,
+            shortRevisionPlugin,
             new StaticSiteGeneratorPlugin("app-index", "/app/", {
                 templateName: "app_index"
             })
@@ -61,7 +66,7 @@ module.exports = function() {
             historyApiFallback: {
                 index: '/index.html',
                 rewrites: [
-                    { from: /\/app/, to: '/app/index.html' }
+                    { from: /\/app\//, to: '/app/index.html' }
                 ]
             },
         }
