@@ -35,6 +35,11 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchPlants());
   dispatch(connectDevice(authState.token));
   dispatch(fetchPeripherals());
+  axios
+    .get("/api/sync")
+    .then(function (resp) {
+      debugger;
+    });
 };
 
 export function downloadDeviceData(): Thunk {

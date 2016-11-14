@@ -44,3 +44,8 @@ export interface Everything {
   draggable: DragableState;
   peripherals: PeripheralState;
 };
+
+/** A sync object, as returned by a GET request to `/api/sync` */
+export interface Sync {
+
+}
