@@ -124,7 +124,22 @@ export function fakeState(dispatcher?: Function): Everything {
     all: []
   };
 
-  let sync = {};
+  let sync = {
+    api_version: "",
+    compat_num: 0,
+    device: {
+      id: 0,
+      name: "",
+      webcam_url: "",
+      dirty: false
+    },
+    users: [],
+    sequences: [],
+    regimens: [],
+    peripherals: [],
+    regimen_items: [],
+    plants: []
+  };
 
   let draggable = { dataTransfer: {} };
   return {

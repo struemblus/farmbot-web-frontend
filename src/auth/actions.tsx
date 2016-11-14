@@ -1,13 +1,9 @@
 import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
-import { fetchSequences } from "../sequences/actions";
-import { fetchRegimens } from "../regimens/actions";
 import { error } from "../logger";
 import { AuthState, AuthToken, User } from "./interfaces";
-import { fetchPlants } from "../farm_designer/actions";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { fetchPeripherals } from "../controls/peripherals/actions";
 import { fetchSyncData } from "../sync/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
@@ -30,14 +26,8 @@ export function didLogin(authState: AuthState, dispatch: Function) {
     dispatch(fetchOSUpdateInfo(authState.os_update_server));
     dispatch(fetchFWUpdateInfo(authState.fw_update_server));
     dispatch(loginOk(authState));
-    dispatch(downloadDeviceData());
-    dispatch(fetchSequences());
-    dispatch(fetchRegimens());
-    dispatch(fetchPlants());
-    dispatch(fetchPeripherals());
     dispatch(fetchSyncData());
     dispatch(connectDevice(authState.token));
-    debugger;
 };
 
 export function downloadDeviceData(): Thunk {

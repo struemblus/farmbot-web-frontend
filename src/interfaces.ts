@@ -49,15 +49,15 @@ export interface Everything {
 /** A sync object, as returned by a GET request to `/api/sync` */
 export interface Sync {
   /** Git commit hash of the revision that the server is running. */
-  api_version?: string;
+  api_version: string;
   /** A number that, when incremented, alerts the bot that
    * its software is out of date */
-  compat_num?: number;
-  device?: DeviceAccountSettings;
-  users?: User;
-  sequences?: Sequence[];
-  regimens?: RegimenApiResponse[];
-  peripherals?: Peripheral[];
-  regimen_items?: RegimenItem;
-  plants?: Plant;
+  compat_num: number;
+  device: DeviceAccountSettings;
+  users: User[];
+  sequences: Sequence[];
+  regimens: RegimenApiResponse[];
+  peripherals: Peripheral[];
+  regimen_items: RegimenItem[];
+  plants: Plant[];
 }
