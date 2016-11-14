@@ -34,18 +34,26 @@ export let DropDown = ({ auth, onClick }: DropDownProps) => {
   return (
     <div className="nav-dropdown">
       <span>{greeting}</span>
-      <ul className="drop-shadow">
-        <li>
-          <Link to="/app/dashboard/account">
-            Account Settings <i className="fa fa-cog"></i>
-          </Link>
-        </li>
-        <li>
-          <a onClick={onClick}>
-            Logout <i className="fa fa-sign-out"></i>
-          </a>
-        </li>
-      </ul>
+      <div className="dropdown-content drop-shadow">
+        <ul>
+          <li>
+            <Link to="/app/dashboard/account">
+              Account Settings <i className="fa fa-cog"></i>
+            </Link>
+          </li>
+          <li>
+            <a onClick={onClick}>
+              Logout <i className="fa fa-sign-out"></i>
+            </a>
+          </li>
+        </ul>
+        <div className="version-links">
+          <span>API: <a href="https://github.com/FarmBot/Farmbot-Web-API"
+            target="_blank">030AC00</a></span>
+          <span>Frontend: <a href="https://github.com/FarmBot/farmbot-web-frontend"
+            target="_blank">{process.env.SHORT_REVISION}</a></span>
+        </div>
+      </div>
     </div>
   );
 };

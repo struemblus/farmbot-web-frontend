@@ -59,16 +59,18 @@ a.fb-navbar-active-link {
     line-height: 20px;
     position: relative;
     cursor: pointer;
-    ul {
+    .dropdown-content {
+        ul {
+            list-style-type: none;
+            padding: 1rem 1rem;
+            text-align: right;
+        }
         position: absolute;
         background: $dark-gray;
         display: none;
-        padding: 16px;
         z-index: 1;
-        list-style-type: none;
         right: 0;
-        width: 200px;
-        text-align: right;
+        width: 22rem;
         top: 42px;
         li a {
             color: $off_white;
@@ -82,9 +84,27 @@ a.fb-navbar-active-link {
         li i {
             padding-left: 8px;
         }
+        .version-links {
+            display: flex;
+            justify-content: space-around;
+            background: #000;
+            text-transform: none;
+            font-weight: 100;
+            padding: 4px 0;
+            font-size: 1rem;
+            span {
+                &:active {
+                    font-weight: 100;
+                }
+            }
+            a {
+                color: #fff;
+                text-decoration: underline;
+            }
+        }
     }
     &:hover {
-        ul {
+        .dropdown-content {
             display: block;
         }
     }
