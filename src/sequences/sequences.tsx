@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Navbar } from "../nav/navbar";
 import { SequencesList } from "./sequences_list";
 import { StepButtonCluster } from "./step_button_cluster";
 import { SequenceEditorMiddle } from "./sequence_editor_middle";
@@ -11,7 +10,6 @@ export class Sequences extends React.Component<any, any> {
     render() {
         return (
             <div>
-                <Navbar {...this.props} />
                 <div className="all-content-wrapper">
                     <div className="row">
                         <div className="col-md-3 col-sm-12">

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Navbar } from "../nav/navbar";
 import { DirectionButton } from "./direction_button";
 import {
     homeAll,
@@ -100,7 +99,6 @@ export class Controls extends React.Component<Everything, any> {
         let dirty = !!this.props.bot.account.dirty;
         return (
             <div>
-                <Navbar { ...this.props } />
                 <div className="all-content-wrapper">
                     <div>
                         <div className="row">
