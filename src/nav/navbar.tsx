@@ -19,9 +19,9 @@ interface NavButtonProps {
 }
 
 interface DropDownProps {
-  auth: AuthState;
-  onClick?: () => void;
-  sync: Sync;
+    auth: AuthState;
+    onClick?: () => void;
+    sync: Sync;
 }
 
 interface MobileNavToggleProps {
@@ -77,11 +77,11 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
 };
 
 let links = [
-    { name: "Farm Designer", data: ["leaf", "/app/dashboard/designer"] },
-    { name: "Controls", data: ["keyboard-o", "/app/dashboard/controls"] },
-    { name: "Device", data: ["cog", "/app/dashboard/devices"] },
-    { name: "Sequences", data: ["server", "/app/dashboard/sequences"] },
-    { name: "Regimens", data: ["calendar-check-o", "/app/dashboard/regimens"] }
+    { name: "Farm Designer", icon: "leaf", url: "/app/dashboard/designer" },
+    { name: "Controls", icon: "keyboard-o", url: "/app/dashboard/controls" },
+    { name: "Device", icon: "cog", url: "/app/dashboard/devices" },
+    { name: "Sequences", icon: "server", url: "/app/dashboard/sequences" },
+    { name: "Regimens", icon: "calendar-check-o", url: "/app/dashboard/regimens" }
 ];
 
 interface NavBarState {
