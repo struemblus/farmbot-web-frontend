@@ -96,7 +96,6 @@ class XNavBar extends React.Component<Everything, NavBarState> {
         };
     }
     toggleNav() {
-        console.log(this.state);
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
         });
