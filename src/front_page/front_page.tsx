@@ -33,13 +33,17 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             loginEmail: "",
             loginPassword: "",
             showServerOpts: false,
-            serverURL: "my.farmbot.io",
-            serverPort: "80"
+            serverURL: "",
+            serverPort: ""
         };
     }
 
     componentDidMount() {
         API.setBaseUrl(API.fetchBrowserLocation());
+        this.setState({
+            serverURL: API.fetchHostName(),
+            serverPort: API.inferPort()
+        });
     }
 
     set(name: string) {

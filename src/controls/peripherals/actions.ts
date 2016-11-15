@@ -89,19 +89,6 @@ function handleError(defaultMsg: string) {
     };
 }
 
-export function fetchPeripherals(): Thunk {
-    return function (dispatch) {
-        axios
-            .get<Peripheral[]>(API.current.peripheralsPath)
-            .then(function (x) {
-                dispatch({
-                    type: "REPLACE_PERIPHERALS",
-                    payload: x.data
-                });
-            });
-    };
-}
-
 export function pushPeripheral(payload: Peripheral) {
     return { type: "PUSH_PERIPHERAL", payload };
 }

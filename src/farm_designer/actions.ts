@@ -7,23 +7,6 @@ import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
 
-export function fetchPlants(): Thunk {
-  let url = API.current.plantsPath;
-  return function (dispatch, getState) {
-    dispatch({ type: "FETCH_PLANTS_START" });
-    return Axios.get<Plant[]>(url)
-      .then((resp) => {
-        let payload = resp.data;
-        dispatch({ type: "FETCH_PLANTS_OK", payload });
-      })
-      .catch((payload) => {
-        error(t("Tried to download plants, but couldn't."));
-        dispatch({ type: "FETCH_PLANTS_ERR", payload });
-      });
-
-  };
-};
-
 export function savePlant(plant: Plant, baseUrl: string): Thunk {
   let url = API.current.plantsPath;
   return function (dispatch, getState) {

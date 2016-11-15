@@ -23,36 +23,6 @@ export function nullSequence(): Sequence {
         dirty: false
     };
 }
-function fetchSequencesNo(err: Error) {
-    return {
-        type: "FETCH_SEQUENCE_NO",
-        payload: {}
-    };
-}
-
-export interface FetchSequencesOk {
-    type: "FETCH_SEQUENCES_OK";
-    payload: Array<Sequence>;
-};
-
-function fetchSequencesOk(sequences: Array<Sequence>): FetchSequencesOk {
-    return {
-        type: "FETCH_SEQUENCES_OK",
-        payload: sequences
-    };
-}
-
-export function fetchSequences(): Thunk {
-    return (dispatch: Function, getState: Function) => {
-        axios.get<Sequence[]>(API.current.sequencesPath)
-            .then(({data}) => {
-                dispatch(fetchSequencesOk(data));
-            }, (e: Error) => {
-                error(i18next.t("Could not download sequences"));
-                dispatch(fetchSequencesNo(e));
-            });
-    };
-};
 
 export interface EditCurrentSequence {
     name?: string;

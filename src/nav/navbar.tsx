@@ -6,7 +6,7 @@ import {
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
 import { Ticker } from "../ticker/ticker";
-import { Everything } from "../interfaces";
+import { Everything, Sync } from "../interfaces";
 import { EStopButton } from "../devices/e_stop_btn";
 import { t } from "i18next";
 
@@ -20,9 +20,10 @@ interface NavButtonProps {
 interface DropDownProps {
   auth: AuthState;
   onClick?: () => void;
+  sync: Sync;
 }
 
-export let DropDown = ({ auth, onClick }: DropDownProps) => {
+export let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
   if (!auth.authenticated) { return <span></span>; }
   onClick = onClick || (() => {
     localStorage.clear();
@@ -49,7 +50,7 @@ export let DropDown = ({ auth, onClick }: DropDownProps) => {
         </ul>
         <div className="version-links">
           <span>API: <a href="https://github.com/FarmBot/Farmbot-Web-API"
-            target="_blank">030AC00</a></span>
+            target="_blank">{sync.api_version}</a></span>
           <span>Frontend: <a href="https://github.com/FarmBot/farmbot-web-frontend"
             target="_blank">{process.env.SHORT_REVISION}</a></span>
         </div>

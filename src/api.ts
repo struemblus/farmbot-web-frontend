@@ -29,6 +29,11 @@ export class API {
         return `//${window.location.hostname}:${API.inferPort()}`;
     }
 
+    static fetchHostName() {
+        // Figured we could centralize this in case we change the method.
+        return window.location.hostname;
+    }
+
     static parseURL(url: string): UrlInfo {
         // Such an amazing hack!
         var info = document.createElement("a");
@@ -47,7 +52,7 @@ export class API {
         if (current) {
             return current;
         } else {
-            console.warn("???")
+            console.warn("???");
             throw new Error(`
             Tried to access API before URL was resolved.
             Call API.setBaseUrl() before using API.current .`);

@@ -7,6 +7,7 @@ import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "../regimens/reducer";
 import { tickerReducer as ticker } from "../ticker/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
+import { syncReducer as sync } from "../sync/reducer";
 import { designer } from "../farm_designer/reducer";
 import {
     BulkSchedulerReducer as bulkScheduler
@@ -26,7 +27,8 @@ let reducers = combineReducers({
     designer,
     ticker,
     draggable,
-    peripherals
+    peripherals,
+    sync
 });
 
 /** This is the topmost reducer in the application. If you need to preempt a

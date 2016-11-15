@@ -4,6 +4,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import { DesignerState } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
+import { Sync } from "../interfaces";
 
 
 let DEFAULT_STATE = {
@@ -15,9 +16,9 @@ let DEFAULT_STATE = {
 };
 
 export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
-  .add<Plant[]>("FETCH_PLANTS_OK", function (s, a) {
+  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
     let state = cloneDeep(s);
-    state.plants = a.payload;
+    state.plants = a.payload.plants || [];
     return state;
   })
   .add<Plant>("SAVE_PLANT_OK", function (s, a) {

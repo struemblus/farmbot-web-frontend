@@ -9,6 +9,7 @@ import { ChangeSettingsBuffer } from "./actions";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot/dist/interfaces";
+import { Sync } from "../interfaces";
 
 let status = {
   NOT_READY: (): string => { return i18next.t("never connected to device"); },
@@ -182,6 +183,10 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<DeviceAccountSettings>("REPLACE_DEVICE_ACCOUNT_INFO", function (s, a) {
     s.account = a.payload;
+    return s;
+  })
+  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
+    s.account = a.payload.device;
     return s;
   })
   .add<string>("CHANGE_WEBCAM_URL", function (s, a) {

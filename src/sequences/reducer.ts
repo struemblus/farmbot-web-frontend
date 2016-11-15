@@ -12,6 +12,7 @@ import {
 import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 import * as _ from "lodash";
+import { Sync } from "../interfaces";
 
 /** Adds an empty sequence to the front of the list. */
 function populate(state: SequenceReducerState): Sequence {
@@ -92,8 +93,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         state.all[state.current] = action.payload;
         return state;
     })
-    .add<Array<Sequence>>("FETCH_SEQUENCES_OK", function (state, action) {
-        state.all = action.payload;
+    .add<Sync>("FETCH_SYNC_OK", function (state, action) {
+        state.all = action.payload.sequences || [];
         return state;
     })
     .add<number>("SELECT_SEQUENCE", function (state, action) {

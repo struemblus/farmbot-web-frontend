@@ -111,7 +111,7 @@ export let regimensReducer = generateReducer<RegimensState>(initialState)
         state.all[state.current].dirty = true;
         return state;
     })
-    .add<any>("FETCH_REGIMENS_OK", function (state, action) {
+    .add<Regimen[]>("FETCH_REGIMENS_OK", function (state, action) {
         state.all = action.payload;
         return state;
     });

@@ -43,6 +43,7 @@ export interface Everything {
   location: Location;
   draggable: DragableState;
   peripherals: PeripheralState;
+  sync: Sync;
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */
@@ -53,10 +54,10 @@ export interface Sync {
    * its software is out of date */
   compat_num: number;
   device: DeviceAccountSettings;
-  users: User;
+  users: User[];
   sequences: Sequence[];
   regimens: RegimenApiResponse[];
   peripherals: Peripheral[];
-  regimen_items: RegimenItem;
-  plants: Plant;
+  regimen_items: RegimenItem[];
+  plants: Plant[];
 }
