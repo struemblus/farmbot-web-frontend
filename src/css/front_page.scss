@@ -3,43 +3,6 @@ html {
     height: 100%;
 }
 
-h1,
-h2 {
-    font-family: "Roboto", Arial, Helvetica, sans-serif;
-    font-weight: 300;
-    color: #f4f4f4;
-    text-align: center;
-}
-
-h1 {
-    font-size: 2.6rem;
-    line-height: 3.2rem;
-    margin-bottom: 10px;
-}
-
-h2 {
-    margin-top: 0;
-    font-size: 1.8rem;
-    margin-bottom: 3rem;
-    line-height: 2.2rem;
-}
-
-.widget-wrapper {
-    box-shadow: none !important;
-}
-
-img {
-    display: none;
-}
-
-body>div {
-    min-height: 100vh;
-    padding: 2rem;
-    background: linear-gradient(-135deg, #089460, #159ACC);
-    background-size: 400% 400%;
-    animation: BackgroundGradient 30s ease infinite;
-}
-
 @keyframes BackgroundGradient {
     0% {
         background-position: 0% 50%;
@@ -52,85 +15,113 @@ body>div {
     }
 }
 
-* {
-    outline: none;
-}
-
-.image-login-wrapper {
-    display: flex;
-}
-
-.widget-header i {
-    float: right;
-    color: #fff;
-    padding: 0.2rem 0 0;
-    cursor: pointer;
-}
-
-.input-field {
-    display: flex;
-    width: 130%;
-    label {
-        flex: 1;
-        padding: 0.5rem 0 0;
-    }
-    input {
-        flex: 2;
-    }
-}
-
-// Mobile portrait
-@media all and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
-    .all-content-wrapper.login-wrapper {
-        padding: 1.5rem 2rem 0rem 1rem;
-    }
-    .fb-mobile-show {
-        display: block;
-    }
+.front-page {
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(-135deg, #089460, #159ACC);
+    background-size: 400% 400%;
+    animation: BackgroundGradient 30s ease infinite;
     h1,
     h2 {
-        margin: 20px 0 20px;
-    }
-}
-
-// Tablet landscape
-@media all and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
-    .fb-tablet-show {
-        display: block;
-    }
-    .image-wrapper {
-        padding-top: 2.2rem;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        color: #f4f4f4;
+        text-align: center;
     }
     h1 {
-        font-size: 3rem;
-        line-height: 0.2rem;
-        margin: 50px 0 32px;
+        font-size: 2.6rem;
+        line-height: 3.2rem;
+        margin-bottom: 10px;
     }
-}
-
-// Tablet portrait
-@media all and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
-    .fb-tablet-show:not(img) {
-        display: block;
+    h2 {
+        margin-top: 0;
+        font-size: 1.8rem;
+        margin-bottom: 3rem;
+        line-height: 2.2rem;
+        display: none;
     }
-    .all-content-wrapper {
-        padding: 3rem 16rem 0rem !important;
+    .widget-wrapper {
+        box-shadow: none !important;
     }
-}
-
-// Desktop
-@media all and (min-device-width: 1200px) and (max-device-width: 1600px) {
-    .fb-desktop-show {
-        display: block;
+    img {
+        display: none;
     }
-    .image-wrapper {
-        padding: 2.6rem 0 0;
-        flex: 2;
-    }
-    .login-wrapper {
-        flex: 1;
+    * {
+        outline: none;
     }
     .image-login-wrapper {
-        padding: 0 10rem !important;
+        display: flex;
+    }
+    .widget-header i {
+        float: right;
+        color: #fff;
+        padding: 0.2rem 0 0;
+        cursor: pointer;
+    }
+    .input-field {
+        display: flex;
+        width: 130%;
+        label {
+            flex: 1;
+            padding: 0.5rem 0 0;
+        }
+        input {
+            flex: 2;
+        }
+    }
+    // Mobile portrait
+    @media screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+        .all-content-wrapper.login-wrapper {
+            padding: 1.5rem 2rem 0rem 2rem;
+        }
+        .fb-mobile-show {
+            display: block;
+        }
+        h1,
+        h2 {
+            margin: 20px 0 20px;
+        }
+    }
+    // Tablet landscape
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+        .fb-tablet-show {
+            display: block;
+        }
+        .image-wrapper {
+            padding-top: 2.2rem;
+        }
+        h1 {
+            font-size: 3rem;
+            line-height: 0.2rem;
+            margin: 50px 0 32px;
+        }
+    }
+    // Tablet portrait
+    @media screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+        .fb-tablet-show:not(img) {
+            display: block;
+        }
+        .all-content-wrapper {
+            padding: 3rem 16rem 0rem !important;
+        }
+    }
+    // Desktop
+    @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+        .fb-desktop-show {
+            display: block;
+        }
+        .image-wrapper {
+            padding: 2.6rem 0 0;
+            flex: 2;
+        }
+        img {
+            width: 100%;
+        }
+        .login-wrapper {
+            flex: 1;
+        }
+        .image-login-wrapper {
+            padding: 0 10rem !important;
+        }
     }
 }
