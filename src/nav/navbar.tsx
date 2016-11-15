@@ -61,7 +61,6 @@ export let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
                         target="_blank">{process.env.SHORT_REVISION}</a></span>
                 </div>
             </div>
->>>>>>> mobile-nav-drawer
         </div>
     );
 };
