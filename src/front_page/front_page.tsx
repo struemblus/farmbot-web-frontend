@@ -5,7 +5,6 @@ import { AuthResponse } from "../auth/actions";
 import { error as log } from "../logger";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
-import "../css/front_page.scss";
 
 interface FrontPageState {
     regName?: string;
@@ -97,7 +96,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
 
     render() {
         return (
-            <div>
+            <div className="front-page">
                 <h1>Welcome to the FarmBot Web App</h1>
                 <h2 className="fb-desktop-show">Setup, customize, and control FarmBot from your computer</h2>
                 <h2 className="fb-tablet-show">Setup, customize, and control FarmBot from your tablet</h2>
