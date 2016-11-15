@@ -124,11 +124,11 @@ class XNavBar extends React.Component<Everything, NavBarState> {
                             {
                                 links.map(link => {
                                     return (
-                                        <li key={link.data[1]}>
-                                            <Link to={link.data[1]}
+                                        <li key={link.url}>
+                                            <Link to={link.url}
                                                 onClick={this.toggleNav.bind(this)}
                                                 activeClassName="fb-navbar-active-link">
-                                                <i className={`fa fa-${link.data[0]}`} />
+                                                <i className={`fa fa-${link.icon}`} />
                                                 {link.name}
                                             </Link>
                                         </li>
