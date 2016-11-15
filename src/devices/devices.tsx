@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Navbar } from "../nav/navbar";
 import { ToggleButton } from "../controls/toggle_button";
 import { BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
@@ -185,7 +184,6 @@ class DevicesPage extends React.Component<Everything, any> {
 
         return (
             <div>
-                <Navbar { ...this.props } />
                 <div className="all-content-wrapper">
                     <div>
                         <div className="row">

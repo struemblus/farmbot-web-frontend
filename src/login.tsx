@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Navbar } from "./nav/navbar";
 import { login, register, logout } from "./auth/actions";
 import { connect } from "react-redux";
 import { changeApiHost, changeApiPort } from "./config/actions";
@@ -27,7 +26,7 @@ class LoginPage extends React.Component<Everything, any> {
     }
 
     set(name: string) {
-        return function(event: React.FormEvent<HTMLInputElement>) {
+        return function (event: React.FormEvent<HTMLInputElement>) {
             let state: { [name: string]: string } = {};
             state[name] = (event.currentTarget).value;
             this.setState(state);
@@ -60,7 +59,6 @@ class LoginPage extends React.Component<Everything, any> {
     render() {
         return (
             <div>
-                <Navbar { ...this.props } />
                 <div className="all-content-wrapper">
                     <div className="row">
                         <div className="col-xs-12 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
