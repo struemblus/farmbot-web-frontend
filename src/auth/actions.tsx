@@ -10,6 +10,7 @@ import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
+import { prettyPrintApiErrors } from "../util";
 
 /** This is what a response from /api/tokens looks like. */
 export interface AuthResponse {
@@ -132,10 +133,7 @@ export function register(name: string,
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
     return (err: any) => {
-        let msg = _.values(err.data)
-            .join(". ")
-            .replace(/nil/g, "empty") || "Unknown server error.";
-        error(msg);
+        error(prettyPrintApiErrors(err));
         dispatch({
             type: "REGISTRATION_ERROR",
             payload: err

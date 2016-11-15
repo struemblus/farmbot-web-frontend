@@ -1062,9 +1062,9 @@
           "resolved": "https://registry.npmjs.org/end-of-stream/-/end-of-stream-1.0.0.tgz"
         },
         "readable-stream": {
-          "version": "2.1.5",
+          "version": "2.2.2",
           "from": "readable-stream@>=2.0.0 <3.0.0",
-          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.1.5.tgz"
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.2.2.tgz"
         }
       }
     },
@@ -1463,9 +1463,9 @@
       }
     },
     "farmbot": {
-      "version": "2.2.1",
-      "from": "farmbot@2.2.1",
-      "resolved": "https://registry.npmjs.org/farmbot/-/farmbot-2.2.1.tgz",
+      "version": "2.2.2",
+      "from": "farmbot@2.2.2",
+      "resolved": "https://registry.npmjs.org/farmbot/-/farmbot-2.2.2.tgz",
       "dependencies": {
         "typescript": {
           "version": "2.1.1",
@@ -5575,9 +5575,9 @@
       "resolved": "https://registry.npmjs.org/ordered-read-streams/-/ordered-read-streams-0.3.0.tgz",
       "dependencies": {
         "readable-stream": {
-          "version": "2.1.5",
+          "version": "2.2.2",
           "from": "readable-stream@>=2.0.1 <3.0.0",
-          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.1.5.tgz"
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.2.2.tgz"
         }
       }
     },
