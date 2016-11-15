@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Navbar } from "../nav/navbar";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { updateUser, deleteUser } from "./actions";
@@ -53,7 +52,6 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
         if (this.props.auth.user) {
             return (
                 <div>
-                    <Navbar { ...this.props } />
                     <div className="all-content-wrapper account">
                         <Settings name={this.state.name || ""}
                             email={this.state.email || ""}

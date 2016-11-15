@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Navbar } from "../nav/navbar";
 import { BulkSchedulerWidget } from "./bulk_scheduler/index";
 import { RegimensList } from "./list/index";
 import { RegimenEditorWidget } from "./editor/index";
@@ -12,7 +11,6 @@ class XRegimens extends React.Component<Everything, {}> {
     render() {
         return (
             <div>
-                <Navbar { ...this.props } />
                 <div className="all-content-wrapper">
                     <div className="row">
                         <div className="col-md-3 col-sm-12 col-md-offset-1 hidden-xs">
