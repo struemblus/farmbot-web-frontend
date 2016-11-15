@@ -37,6 +37,40 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                     step={step}
                                     index={index}
                                     field="message" />
+                                <div className="channel-fields">
+                                    <fieldset>
+                                        <label
+                                            htmlFor="ticker-error">
+                                            Ticker Error
+                                            </label>
+                                        <input type="checkbox"
+                                            id="ticker-error" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <label
+                                            htmlFor="toast-error">
+                                            Toast Error
+                                            </label>
+                                        <input type="checkbox"
+                                            id="toast-error" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <label
+                                            htmlFor="toast-success">
+                                            Toast Success
+                                            </label>
+                                        <input type="checkbox"
+                                            id="toast-success" />
+                                    </fieldset>
+                                    <fieldset>
+                                        <label
+                                            htmlFor="toast-warning">
+                                            Toast Warning
+                                            </label>
+                                        <input type="checkbox"
+                                            id="toast-warning" />
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
                     </div>
