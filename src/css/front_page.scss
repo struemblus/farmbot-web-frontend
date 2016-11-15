@@ -80,7 +80,7 @@ body>div {
 }
 
 // Mobile portrait
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+@media all and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
     .all-content-wrapper.login-wrapper {
         padding: 1.5rem 2rem 0rem 1rem;
     }
@@ -93,8 +93,8 @@ body>div {
     }
 }
 
-// tablet landscape
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+// Tablet landscape
+@media all and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
     .fb-tablet-show {
         display: block;
     }
@@ -104,11 +104,12 @@ body>div {
     h1 {
         font-size: 3rem;
         line-height: 0.2rem;
-        margin: 50px 0 0;
+        margin: 50px 0 32px;
     }
 }
 
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+// Tablet portrait
+@media all and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
     .fb-tablet-show:not(img) {
         display: block;
     }
@@ -117,7 +118,8 @@ body>div {
     }
 }
 
-@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+// Desktop
+@media all and (min-device-width: 1200px) and (max-device-width: 1600px) {
     .fb-desktop-show {
         display: block;
     }
