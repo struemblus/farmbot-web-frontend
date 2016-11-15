@@ -27,6 +27,10 @@ interface MobileNavToggleProps {
     toggleNav?: () => void;
 }
 
+interface NavMobileMenuToggleProps {
+    onClick?: () => void;
+}
+
 export let DropDown = ({ auth, onClick }: DropDownProps) => {
     if (!auth.authenticated) { return <span></span>; }
 
