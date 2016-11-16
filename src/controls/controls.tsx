@@ -243,7 +243,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                             <button className="full-width green button-like go"
                                                                 onClick={() => this.props.dispatch(commitAxisChanges())} >
                                                                 GO
-                              </button>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -252,7 +252,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                     </div>
                                 </div>
                                 <div>
-                                    <div className="widget-wrapper">
+                                    <div className="widget-wrapper peripherals-widget">
                                         <div className="row">
                                             <Peripherals {...this.props} />
                                         </div>

@@ -17,6 +17,7 @@ import { stepGet } from "../draggable/actions";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
+import { copySequence } from "./actions";
 
 let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
 
@@ -76,6 +77,10 @@ let save = function (dispatch: Function, sequence: Sequence) {
     return (e: React.SyntheticEvent<HTMLButtonElement>) => dispatch(saveSequence(sequence));
 };
 
+let copy = function (dispatch: Function, sequence: Sequence) {
+    return (e: React.SyntheticEvent<HTMLButtonElement>) => dispatch(copySequence(sequence));
+};
+
 let destroy = function (dispatch: Function,
     sequence: Sequence,
     inx: number) {
@@ -114,7 +119,11 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                     </button>
                     <button className="red button-like widget-control"
                         onClick={destroy(dispatch, sequence, inx)}>
-                        Delete
+                        {t("Delete")}
+                    </button>
+                    <button className="yellow button-like widget-control"
+                        onClick={copy(dispatch, sequence)}>
+                        {t("Copy")}
                     </button>
                     <div className="widget-header">
                         <h5>{t("Sequence Editor")}</h5>
