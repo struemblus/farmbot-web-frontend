@@ -1,38 +1,39 @@
 // Styles for HELP TOOLTIPS
-
 .help {
-  display: inline-block;
-  float: right;
-  margin-left: 2rem;
+    display: inline-block;
+    float: right;
+    margin-left: 2rem;
 }
 
 .help-text {
-  position: absolute;
-  z-index: 999;
-  padding: 2px;
-  font-style: normal;
-  background-color: $dark_gray;
-  color: $off_white;
-  border-radius: 3px;
-  padding: .5rem .8rem;
-  width: 250px;
-  margin-left: -125px;
+    position: absolute;
+    z-index: 999;
+    padding: 2px;
+    font-style: normal;
+    background-color: $dark_gray;
+    color: $off_white;
+    border-radius: 3px;
+    padding: .5rem .8rem;
+    width: 250px;
+    margin-left: -125px;
 }
 
 .colorpicker {
-  display: inline-block;
-  margin-left: 2rem;
+    display: inline-block;
+    margin-left: 2rem;
 }
 
 .colorpicker-text {
-  position: absolute;
-  z-index: 999;
-  font-style: normal;
-  background-color: $dark_gray;
-  color: $off_white;
-  border-radius: 3px;
-  padding: 6px;
-  width: 125px;
-  top: 20px;
-  margin-left: -54px;
+    position: absolute;
+    z-index: 999;
+    font-style: normal;
+    background-color: #434343;
+    color: #f4f4f4;
+    border-radius: 3px;
+    padding: 6px;
+    width: auto;
+    top: 20px;
+    margin-left: -184px;
+    margin: 6px 0 0 -168px;
+    display: flex;
 }
