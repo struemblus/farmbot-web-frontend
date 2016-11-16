@@ -64,7 +64,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             .then(resp => {
                 let { token } = resp.data;
                 localStorage["token"] = JSON.stringify(token);
-                window.location.replace("/app/dashboard/controls");
+                window.location.href = "/app/dashboard/controls";
             }).catch(error => {
                 log(prettyPrintApiErrors(error));
             });
