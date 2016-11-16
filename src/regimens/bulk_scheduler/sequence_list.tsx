@@ -17,12 +17,18 @@ export function SequenceList({sequences,
     let selectedValue = current ? sequences.indexOf(_.findWhere(sequences, current)) : -1;
     return <div>
         <label>Sequence</label>
-        <select value={selectedValue.toString()}
-            onChange={change(dispatch, sequences)}>
-            {[NULL_ITEM]
-                .concat(sequences.map((s, i) => { return <SeqListItem s={s} i={i} key={i} />; }))
-            }
-        </select>
+        <div className="select-wrapper">
+            <select value={selectedValue.toString()}
+                onChange={change(dispatch, sequences)}>
+                {[NULL_ITEM]
+                    .concat(sequences.map((s, i) => {
+                        return <SeqListItem
+                            s={s} i={i} key={i} />;
+                    }))
+                }
+            </select>
+        </div>
+
     </div>;
 }
 

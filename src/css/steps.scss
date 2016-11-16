@@ -7,13 +7,16 @@
     .channel-fields {
         display: flex;
         justify-content: space-around;
-        fieldset {
-            display: flex;
-        }
+        margin: 0 0 1rem 0;
         input,
         label {
             width: auto;
             cursor: pointer;
+            display: inline-block;
+        }
+        input {
+            margin: 0 0 0 0.5rem;
+            box-shadow: none;
         }
     }
 }

@@ -95,6 +95,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
     }
 
     render() {
+        let expandIcon = this.state.showServerOpts ? "minus" : "plus";
         return (
             <div className="front-page">
                 <h1>Welcome to the FarmBot Web App</h1>
@@ -113,7 +114,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                     <div className="col-sm-12">
                                         <div className="widget-header">
                                             <h5>{i18next.t("Login")}</h5>
-                                            <i className="fa fa-plus"
+                                            <i className={`fa fa-${expandIcon}`}
                                                 onClick={this.toggleServerOpts.bind(this)}></i>
                                         </div>
                                     </div>

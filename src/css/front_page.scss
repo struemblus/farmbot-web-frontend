@@ -3,24 +3,11 @@ html {
     height: 100%;
 }
 
-@keyframes BackgroundGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-
 .front-page {
     min-height: 100vh;
     padding: 2rem;
     background: linear-gradient(-135deg, #089460, #159ACC);
     background-size: 400% 400%;
-    animation: BackgroundGradient 30s ease infinite;
     h1,
     h2 {
         font-family: "Roboto", Arial, Helvetica, sans-serif;

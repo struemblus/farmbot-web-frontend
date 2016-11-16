@@ -20,9 +20,6 @@ nav.navbar {
     .e-stop {
         margin-top: 1.25rem;
     }
-    i {
-        display: none;
-    }
 }
 
 .navbar-nav>li>a,
@@ -34,6 +31,12 @@ nav.navbar {
         color: $off_white!important;
         font-weight: bold;
         text-decoration: none;
+    }
+}
+
+.navbar-nav {
+    i {
+        display: none;
     }
 }
 
