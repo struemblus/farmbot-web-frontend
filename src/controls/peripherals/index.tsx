@@ -45,7 +45,7 @@ export class Peripherals extends React.Component<Everything, {}> {
             <TitleBar {...this.props.peripherals}
                 dispatch={this.props.dispatch} />
             <div className="col-sm-12">
-                <div className="widget-content no-bottom-padding">
+                <div className="widget-content">
                     {this.peripherals.call(this)}
                     <PeripheralForm dispatch={this.props.dispatch}
                         editorMode={this.props.peripherals.editorMode} />

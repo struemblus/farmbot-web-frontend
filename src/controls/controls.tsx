@@ -222,7 +222,7 @@ export class Controls extends React.Component<Everything, any> {
                             </div>
                             <div className="col-md-6 col-sm-6 col-xs-12">
                                 <div>
-                                    <div className="widget-wrapper">
+                                    <div className="widget-wrapper webcam-widget">
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <WebcamSaveBtn dispatch={this.props.dispatch}

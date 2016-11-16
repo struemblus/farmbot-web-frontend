@@ -11,7 +11,7 @@
             display: none !important;
         }
         border: none;
-        .login-button-mobile {
+        .logout-button-mobile {
             display: block;
         }
     }
@@ -64,10 +64,10 @@
         margin: 0;
         box-shadow: 0 4px 10px $translucent;
         transform: translateX(-51vw);
-        transition: all 0.4s ease-in-out;
+        transition: all 0.2s ease-in-out;
         &.expanded {
             transform: translateX(-1vw);
-            transition: all 0.4s ease-in-out;
+            transition: all 0.2s ease-in-out;
         }
         .fb-navbar-active-link {
             border-bottom: 0;

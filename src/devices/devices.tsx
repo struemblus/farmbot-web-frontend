@@ -315,7 +315,7 @@ class DevicesPage extends React.Component<Everything, any> {
                             </div>
                             <div className="col-md-5 col-sm-6 col-xs-12">
                                 <div>
-                                    <div className="widget-wrapper">
+                                    <div className="widget-wrapper hardware-widget">
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <button className="green button-like widget-control"
@@ -341,7 +341,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-sm-12">
-                                                        {t("STEPS PER MM")}
+                                                        <label>{t("STEPS PER MM")}</label>
                                                         <ConfigInputBox setting="steps_per_mm" {...this.props} />
                                                         <table className="plain">
                                                             <thead>

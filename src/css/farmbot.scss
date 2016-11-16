@@ -1,116 +1,156 @@
 // Styles used throughout the frontend
-
 .all-content-wrapper {
-  padding: 3rem 3rem 0rem 3rem;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
-  max-width: 160rem;
+    padding: 3rem 3rem 0rem 3rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 160rem;
 }
 
 @media (max-width: 767px) {
-  .all-content-wrapper {
-    padding: 1.5rem 0rem 0rem 0rem;
-  }
+    .all-content-wrapper {
+        padding: 1.5rem 0rem 0rem 0rem;
+    }
+}
+
+a {
+    cursor: pointer !important;
+}
+
+.input-group {
+    width: 100% !important;
+}
+
+.fa {
+    cursor: pointer !important;
+}
+
+.select-wrapper {
+    position: relative;
+    select {
+        font-size: 1.2rem;
+        color: #434343;
+        height: auto;
+        width: 100%;
+        border: 0;
+        padding: 6px 8px !important;
+        box-shadow: 0px 0px 10px #ddd;
+        border-radius: 0;
+        -webkit-appearance: none;
+    }
+    &:after {
+        content: "\2195";
+        position: absolute;
+        width: 1rem;
+        height: 1rem;
+        top: 0;
+        right: 0;
+        z-index: 9999;
+        padding: 0.4rem 1.5rem 0 0px;
+    }
 }
 
 .flex {
-  display: flex;
+    display: flex;
 }
 
 .flex1 {
-  flex: 1;
+    flex: 1;
 }
 
 .flex2 {
-  flex: 2;
+    flex: 2;
 }
 
 .flex3 {
-  flex: 3;
+    flex: 3;
 }
 
 .flex4 {
-  flex: 4;
+    flex: 4;
 }
 
 .flex5 {
-  flex: 5;
+    flex: 5;
 }
 
 .flex6 {
-  flex: 6;
+    flex: 6;
 }
 
 .x-small {
-  padding-left: 0.95rem;
-  padding-right: 0.95rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.6rem;
-  font-size: 0.825rem;
-  color: $dark_gray;
-  background-color: $light_gray;
+    padding-left: 0.95rem;
+    padding-right: 0.95rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.6rem;
+    font-size: 0.825rem;
+    color: $dark_gray;
+    background-color: $light_gray;
 }
 
 .xx-small {
-  padding-left: 0.45rem;
-  padding-right: 0.45rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 0.625rem;
-  background-color: $dark_gray;
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 0.625rem;
+    background-color: $dark_gray;
 }
 
 .drag-drop-area {
-  border-style: dashed;
-  border-width: 2px;
-  border-color: $light_gray;
-  color: $gray;
-  font-weight: bold;
-  margin-bottom: 1rem;
-  padding: 1.25rem;
-  background: $off_white;
-  text-align: center;
-  color: $gray;
-  font-weight: bold;
+    border-style: dashed;
+    border-width: 2px;
+    border-color: $light_gray;
+    color: $gray;
+    font-weight: bold;
+    margin: 1rem 0;
+    padding: 1.25rem;
+    background: $off_white;
+    text-align: center;
+    color: $gray;
+    font-weight: bold;
+}
+
+.hardware-widget label {
+    padding: 0.5rem 0 0 0.5rem;
 }
 
 .margin {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .page-title {
-  text-align: center;
-  padding-top: 2rem;
-  padding-bottom: 1rem;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
 }
 
 .padding-bottom-large {
-  padding-bottom: 50px;
+    padding-bottom: 50px;
 }
 
 .row {
-  max-width: 160rem;
+    max-width: 160rem;
 }
 
 body {
-  background: $light_gray!important;
+    background: $light_gray!important;
 }
 
 .drop-shadow {
-  box-shadow: 0 4px 10px $translucent;
+    box-shadow: 0 4px 10px $translucent;
 }
 
 * {
-  outline: none;
+    outline: none;
 }
 
 .padding-bottom {
-  padding-bottom: 20px;
+    padding-bottom: 20px;
 }
 
 .no-right-gutter {
-  padding-right: 0;
+    padding-right: 0;
 }
 
 .no-radius {
@@ -122,60 +162,60 @@ body {
 }
 
 .full-width {
-  width: 100%;
+    width: 100%;
 }
 
 fieldset {
-  border: none;
-  legend {
-    background: transparent;
-  }
+    border: none;
+    legend {
+        background: transparent;
+    }
 }
 
 .light-icon {
-  color: $light_gray;
+    color: $light_gray;
 }
 
 .medium-icon {
-  font-size: 1.3rem;
+    font-size: 1.3rem;
 }
 
 .sized a {
-  width: 100px;
+    width: 100px;
 }
 
 .top-bar .name h5 {
-  font-weight: bold;
-  color: $dark_gray;
-  padding: 12px;
-  padding-left: 15px;
-  margin: 0;
-  line-height: normal;
+    font-weight: bold;
+    color: $dark_gray;
+    padding: 12px;
+    padding-left: 15px;
+    margin: 0;
+    line-height: normal;
 }
 
 i.fa {
-  &.fa-bars.right {
-    line-height: inherit;
-  }
-  &.fa-pencil.right {
-    line-height: inherit;
-  }
+    &.fa-bars.right {
+        line-height: inherit;
+    }
+    &.fa-pencil.right {
+        line-height: inherit;
+    }
 }
 
 span.prefix {
-  color: $light_gray;
-  background-color: $dark_gray;
-  font-weight: bold;
-  height: auto;
-  border: none;
+    color: $light_gray;
+    background-color: $dark_gray;
+    font-weight: bold;
+    height: auto;
+    border: none;
 }
 
 .device-row:hover {
-  background-color: $light_gray;
+    background-color: $light_gray;
 }
 
 .webcam-stream {
-  width: 100%;
+    width: 100%;
 }
 
 .webcam-stream-unavailable {
@@ -183,10 +223,12 @@ span.prefix {
     width: 100%;
     height: 100%;
 }
+
 .webcam-stream-unavailable img {
     width: 100%;
     opacity: 0.20;
 }
+
 .webcam-stream-unavailable text {
     width: 100%;
     position: absolute;
@@ -198,14 +240,18 @@ span.prefix {
     font-size: 1.5rem;
 }
 
+.webcam-widget label {
+    padding: 0.5rem 0 0 0.5rem;
+}
+
 ul {
-  padding-left: 15px;
+    padding-left: 15px;
 }
 
 .step-drag-ghost-image {
-  max-width: 150px;
+    max-width: 150px;
 }
 
 .step-drag-ghost-image-big {
-  max-width: 400px;
+    max-width: 400px;
 }
