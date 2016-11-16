@@ -230,8 +230,7 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                                 <label>{t("NETWORK")}</label>
                                                                             </td>
                                                                             <td colSpan={2}>
-                                                                                <p> {t("MQTT: {{mqtt_server}}",
-                                                                                    { mqtt_server: this.props.auth.mqtt })} </p>
+                                                                                <p> {`mqtt://${this.props.auth.mqtt}`} </p>
                                                                             </td>
                                                                         </tr>
                                                                         <tr>

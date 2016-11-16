@@ -1,7 +1,7 @@
 import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
-import { error } from "../logger";
+import { error, success } from "../logger";
 import { AuthState, AuthToken, User } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchSyncData } from "../sync/actions";
@@ -171,9 +171,14 @@ function requestToken(email: string,
 }
 
 export function logout() {
+    // When logging out, we pop up a toast message to confirm logout.
+    // Sometimes, LOGOUT is dispatched when the user is already logged out.
+    // In those cases, seeing a logout message may confuse the user.
+    // To circumvent this, we must check if the user had a token.
+    // If there was infact a token, we can safely show the message.
+    if (localStorage["token"]) { success("You have been logged out."); }
     localStorage.clear();
     sessionStorage.clear();
-
     return {
         type: "LOGOUT",
         payload: {}

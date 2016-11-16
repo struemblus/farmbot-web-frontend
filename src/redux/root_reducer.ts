@@ -37,8 +37,6 @@ let reducers = combineReducers({
 export function rootReducer(state: Everything | undefined,
     action: ReduxAction<{}>) {
     if (action.type === "LOGOUT") {
-        // TODO Move this out of Reducer into action creator.
-        success("You have been logged out.");
         return undefined;
     } else {
         let s = (state) ? state : {};
