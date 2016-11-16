@@ -114,12 +114,30 @@ const updateWebcamUrl = (dispatch: Function) => (event: React.KeyboardEvent<HTML
     });
 };
 
+interface ControlsState {
+    isEditingCameraURL: boolean;
+}
+
 @connect((state: Everything) => state)
-export class Controls extends React.Component<Everything, any> {
+export class Controls extends React.Component<Everything, ControlsState> {
+    constructor() {
+        super();
+        this.state = {
+            isEditingCameraURL: false
+        };
+    }
+
+    toggleCameraURLEdit() {
+        this.setState({ isEditingCameraURL: !this.state.isEditingCameraURL });
+    }
+
     render() {
         let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
             (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
         let dirty = !!this.props.bot.account.dirty;
+        let { isEditingCameraURL } = this.state;
+        let cameraWidgetButtonText = isEditingCameraURL ? "Save" : "Edit";
+        let cameraWidgetButtonColor = isEditingCameraURL ? "green" : "gray";
         return (
             <div>
                 <div className="all-content-wrapper">
@@ -248,13 +266,19 @@ export class Controls extends React.Component<Everything, any> {
                                     <div className="widget-wrapper webcam-widget">
                                         <div className="row">
                                             <div className="col-sm-12">
-                                                <button className="gray button-like widget-control">
-                                                    Edit
-                                                </button>
-                                                <WebcamSaveBtn dispatch={this.props.dispatch}
-                                                    webcamUrl={url}
-                                                    apiUrl={this.props.auth.iss}
-                                                    dirty={dirty} />
+                                                {isEditingCameraURL ?
+                                                    <WebcamSaveBtn dispatch={this.props.dispatch}
+                                                        webcamUrl={url}
+                                                        apiUrl={this.props.auth.iss}
+                                                        updateState={this.toggleCameraURLEdit.bind(this)}
+                                                        />
+                                                    :
+                                                    <button
+                                                        className="button-like widget-control gray"
+                                                        onClick={this.toggleCameraURLEdit.bind(this)}>
+                                                        {cameraWidgetButtonText}
+                                                    </button>
+                                                }
                                                 <div className="widget-header">
                                                     <h5>{t("Camera")}</h5>
                                                     <i className="fa fa-question-circle widget-help-icon">
@@ -270,10 +294,16 @@ export class Controls extends React.Component<Everything, any> {
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <div>
-                                                    <label>{t("Set Webcam URL: ")}</label>
-                                                    <input type="text"
-                                                        onChange={updateWebcamUrl(this.props.dispatch)}
-                                                        value={url} />
+                                                    {isEditingCameraURL ?
+                                                        <div>
+                                                            <label>{t("Set Webcam URL:")}</label>
+                                                            <input type="text"
+                                                                onChange={updateWebcamUrl(this.props.dispatch)}
+                                                                value={url} />
+                                                        </div>
+                                                        :
+                                                        <div>{url}</div>
+                                                    }
                                                 </div>
                                                 {showUrl(url, dirty)}
                                             </div>
