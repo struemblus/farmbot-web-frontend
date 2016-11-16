@@ -136,8 +136,6 @@ export class Controls extends React.Component<Everything, ControlsState> {
             (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
         let dirty = !!this.props.bot.account.dirty;
         let { isEditingCameraURL } = this.state;
-        let cameraWidgetButtonText = isEditingCameraURL ? "Save" : "Edit";
-        let cameraWidgetButtonColor = isEditingCameraURL ? "green" : "gray";
         return (
             <div>
                 <div className="all-content-wrapper">
@@ -276,7 +274,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                     <button
                                                         className="button-like widget-control gray"
                                                         onClick={this.toggleCameraURLEdit.bind(this)}>
-                                                        {cameraWidgetButtonText}
+                                                        {t("Edit")}
                                                     </button>
                                                 }
                                                 <div className="widget-header">
