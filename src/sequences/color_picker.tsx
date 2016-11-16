@@ -22,7 +22,7 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     isHovered() {
         let actual = this.props.current;
 
-        let cb = this.props.onChange || function(){ };
+        let cb = this.props.onChange || function () { };
 
         function littleCircle(color: Color, key: number) {
 
@@ -30,9 +30,9 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
                 border: string;
                 margin: string;
             } = {
-                margin: "4px",
-                border: ""
-            };
+                    margin: "4px",
+                    border: ""
+                };
 
             if (color === actual) { style.border = "3px solid #666"; }
 

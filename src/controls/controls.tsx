@@ -61,6 +61,7 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
         </div>;
     }
 }
+
 export class StepSizeSelector extends React.Component<any, any> {
     cssForIndex(num: number) {
         let choices = this.props.choices;
@@ -90,6 +91,28 @@ export class StepSizeSelector extends React.Component<any, any> {
         </div>);
     }
 }
+
+const showUrl = (url: string, dirty: boolean) => {
+    if (dirty) {
+        return <p>Press save to view.</p>;
+    } else {
+        if (url.indexOf("/webcam_url_not_set.jpeg") !== -1) {
+            return <div className="webcam-stream-unavailable">
+                <img src={url} />
+                <text>Camera stream not available.<br />Press <b>EDIT</b> to add a stream.</text>
+            </div>;
+        } else {
+            return <img className="webcam-stream" src={url} />;
+        };
+    };
+};
+
+const updateWebcamUrl = (dispatch: Function) => (event: React.KeyboardEvent<HTMLInputElement>) => {
+    dispatch({
+        type: "CHANGE_WEBCAM_URL",
+        payload: event.currentTarget.value
+    });
+};
 
 @connect((state: Everything) => state)
 export class Controls extends React.Component<Everything, any> {
@@ -225,6 +248,9 @@ export class Controls extends React.Component<Everything, any> {
                                     <div className="widget-wrapper webcam-widget">
                                         <div className="row">
                                             <div className="col-sm-12">
+                                                <button className="gray button-like widget-control">
+                                                    Edit
+                                                </button>
                                                 <WebcamSaveBtn dispatch={this.props.dispatch}
                                                     webcamUrl={url}
                                                     apiUrl={this.props.auth.iss}
@@ -263,24 +289,4 @@ export class Controls extends React.Component<Everything, any> {
     }
 };
 
-const showUrl = (url: string, dirty: boolean) => {
-    if (dirty) {
-        return <p> Press save to view.</p>;
-    } else {
-        if (url.indexOf("/webcam_url_not_set.jpeg") !== -1) {
-            return <div className="webcam-stream-unavailable">
-                <img src={url} />
-                <text>Camera stream not available.<br />Press <b>EDIT</b> to add a stream.</text>
-            </div>;
-        } else {
-            return <img className="webcam-stream" src={url} />;
-        };
-    };
-};
 
-const updateWebcamUrl = (dispatch: Function) => (event: React.KeyboardEvent<HTMLInputElement>) => {
-    dispatch({
-        type: "CHANGE_WEBCAM_URL",
-        payload: event.currentTarget.value
-    });
-};
