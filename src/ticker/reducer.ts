@@ -34,7 +34,9 @@ export let tickerReducer = generateReducer<TickerState>({
     color: "gray",
     show: true
 })
-    .add<{}>("LOGIN_OK", firstPerson(YELLOW, "logged in."))
+    .add<{}>("LOGIN_OK", (s, a) => {
+        return { color: RED, message: "Logged in", show: true };
+    })
     .add<{}>("LOGIN_ERR", change(RED, "Bad login"))
     .add<{}>("FETCH_PLANTS_START", firstPerson(YELLOW, "fetching plants."))
     .add<{}>("FETCH_PLANTS_OK", firstPerson(GREEN, "done fetching plants"))
