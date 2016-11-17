@@ -1,5 +1,4 @@
 import { didLogin } from "../auth/actions";
-import { AuthState } from "../auth/interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { ChangeApiHost, ChangeApiPort } from "./interfaces";
 import { Session } from "../session";
