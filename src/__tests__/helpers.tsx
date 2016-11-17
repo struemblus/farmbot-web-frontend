@@ -3,6 +3,7 @@ import { Everything } from "../interfaces";
 import { ConfigState } from "../config/interfaces";
 import { BotState } from "../devices/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
+import { ToolsState } from "../tools/interfaces";
 
 export class Wrapper extends React.Component<any, any> {
   render() {
@@ -130,6 +131,9 @@ export function fakeState(dispatcher?: Function): Everything {
   };
 
   let draggable = { dataTransfer: {} };
+
+  let tools: ToolsState = { editorMode: "controlling", all: [] };
+
   return {
     location
     , auth
@@ -144,5 +148,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , draggable
     , peripherals
     , sync
+    , tools
   };
 }

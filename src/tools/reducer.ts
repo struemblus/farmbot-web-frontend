@@ -7,7 +7,7 @@ let initialState: ToolsState = {
     all: []
 };
 
-export let peripheralReducer = generateReducer<ToolsState>(initialState)
+export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<{}>("EDIT_TOOLS_START", function (state, action) {
         console.log("REDUCER EDIT START");
         // state.editorMode = "editing";
@@ -19,7 +19,7 @@ export let peripheralReducer = generateReducer<ToolsState>(initialState)
         return state;
     });
     // .add<Sync>("FETCH_SYNC_OK", function (state, action) {
-    //     state.all = action.payload.peripherals || [];
+    //     state.all = action.payload.tools || [];
     //     state.editorMode = "controlling";
     //     return state;
     // });

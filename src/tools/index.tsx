@@ -3,8 +3,9 @@ import { t } from "i18next";
 import { Everything } from "../interfaces";
 import { ToolsState } from "./interfaces";
 import { ToolsForm } from "./tool_form";
+import { connect } from "react-redux";
 
-export class Tools extends React.Component<Everything, ToolsState> {
+class XTools extends React.Component<Everything, ToolsState> {
     render() {
         let dirty = !!this.props.bot.account.dirty;
 
@@ -59,3 +60,5 @@ export class Tools extends React.Component<Everything, ToolsState> {
         </div>;
     }
 }
+
+export let Tools = connect((state: Everything) => state)(XTools);
