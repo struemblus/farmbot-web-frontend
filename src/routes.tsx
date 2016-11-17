@@ -37,13 +37,11 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
 
     requireAuth(_: RouterState, replace: RedirectFunction) {
         let { store } = this.props;
-
         if (Session.get()) { // has a previous session in cache
             if (store.getState().auth) { // Has session, logged in.
                 return;
             } else { // Has session but not logged in (returning visitor).
                store.dispatch(ready());
-               return;
             };
         } else { // Not logged in yet.
             replace("/app/login");

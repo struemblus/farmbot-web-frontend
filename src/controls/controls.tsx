@@ -133,9 +133,9 @@ export class Controls extends React.Component<Everything, ControlsState> {
     }
 
     render() {
-
-        let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
-            (`${API.current.baseUrl}/webcam_url_not_set.jpeg`));
+        let fallback = "/webcam_url_not_set.jpeg";
+        let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
+        let url = custom || fallback;
         let dirty = !!this.props.bot.account.dirty;
         let { isEditingCameraURL } = this.state;
         return (
