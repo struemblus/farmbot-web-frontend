@@ -25,21 +25,9 @@ export function fakeState(dispatcher?: Function): Everything {
     key: "jhedoi",
     query
   };
-  let auth = {
-    token: "=================",
-    authenticated: true,
-    sub: "admin@admin.com",
-    iat: 1469114361,
-    jti: "4cbecefb-2009-4820-b8a2-09ab12c283b9",
-    iss: "my.farmbot.io",
-    exp: 1549767783,
-    mqtt: "mqtt.farmbot.io",
-    os_update_server:
-    "https://api.github.com/repos/farmbot/farmbot_os/releases/latest",
-    fw_update_server:
-    "https://api.github.com/repos/FarmBot/farmbot-arduino-firmware/releases/latest",
-    bot: "4cbecefb-2009-4820-b8a2-09ab12c283b9"
-  };
+
+  let auth = undefined;
+
   let designer = {
     x_size: 200,
     y_size: 200,

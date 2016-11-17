@@ -128,7 +128,7 @@ export function execSequence(sequence: Sequence) {
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
     let state = getState();
     let bot = getState().bot.account;
-    let url = state.auth.iss;
+    let url = API.current.baseUrl;
     return updateDevice(url, bot, dispatch);
 };
 
@@ -202,7 +202,7 @@ export function changeDevice(newAttrs: any) {
 
 export function addDevice(deviceAttrs: DeviceAccountSettings): Thunk {
     return (dispatch, getState) => {
-        updateDevice(getState().auth.iss, deviceAttrs, dispatch);
+        updateDevice(API.current.baseUrl, deviceAttrs, dispatch);
     };
 }
 

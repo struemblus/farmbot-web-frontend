@@ -27,6 +27,7 @@ import { store } from "./redux/store";
 import { history } from "./history";
 import { Store } from "./redux/interfaces";
 import { ready } from "./config/actions";
+import { Session } from "./session";
 
 interface RootComponentProps {
     store: Store;
@@ -38,15 +39,13 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         let { store } = this.props;
         let authState = store.getState().auth;
 
-        let hasToken = localStorage["token"];
         // Do they have a cached auth token?
         // "yes": they're a returning visitor => Bootstrap the app.
         // "no":  they're lost. => send to login page.
-        if (hasToken) {
-            if (authState.authenticated) { return undefined; };
+        if (Session.get()) {
+            if (authState) { return undefined; };
             store.dispatch(ready());
         } else {
-            debugger;
             replace("/app/login");
         }
     };

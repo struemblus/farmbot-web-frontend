@@ -8,14 +8,18 @@ import { Everything } from "../interfaces";
 
 export class PlantInfo extends React.Component<Everything, any> {
   removePlant() {
-    let url = this.props.auth.iss;
-    this.props.dispatch(destroyPlant(this.plant, url));
+    if (this.props.auth) {
+      let url = this.props.auth.token.unencoded.iss;
+      this.props.dispatch(destroyPlant(this.plant, url));
+    } else {
+      throw new Error("Log in first.");
+    }
   }
 
   get plant() {
     let plants = this.props.designer.plants;
     let query = { openfarm_slug: getParam("id") };
-    var p = (_(plants).find(query) || NewPlant({name: "Deleted plant"})) as Plant;
+    var p = (_(plants).find(query) || NewPlant({ name: "Deleted plant" })) as Plant;
     return p;
   }
 
@@ -23,8 +27,8 @@ export class PlantInfo extends React.Component<Everything, any> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow/>
-          { this.plant.name || "Plant" }
+          <BackArrow />
+          {this.plant.name || "Plant"}
         </p>
       </div>
       <div className="panel-content">
@@ -44,7 +48,7 @@ export class PlantInfo extends React.Component<Everything, any> {
         </ul>
         <label>Delete This Plant</label>
         <div>
-          <button className="red button-like left" onClick={this.removePlant.bind(this) }>
+          <button className="red button-like left" onClick={this.removePlant.bind(this)}>
             Delete
           </button>
         </div>

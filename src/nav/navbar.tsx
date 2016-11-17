@@ -10,16 +10,17 @@ import { Everything, Sync } from "../interfaces";
 import { EStopButton } from "../devices/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
+import { Session } from "../session";
 
 interface NavButtonProps {
-    auth: AuthState;
+    auth: AuthState | undefined;
     dispatch: Function;
     bot: BotState;
     onClick?: () => void;
 }
 
 interface DropDownProps {
-    auth: AuthState;
+    auth: AuthState | undefined;
     onClick?: () => void;
     sync: Sync;
 }
@@ -33,7 +34,7 @@ interface NavMobileMenuToggleProps {
 }
 
 export let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
-    if (!auth.authenticated) { return <span></span>; }
+    if (!auth) { return <span></span>; }
 
     let hasName = auth.user && auth.user.name;
     let greeting = hasName ? `${hasName} ▾` : "";
@@ -66,7 +67,7 @@ export let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
 };
 
 let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
-    if (!auth.authenticated) { return <span></span>; }
+    if (!auth) { return <span></span>; }
     let dirty = bot.dirty;
     let color = dirty ? "yellow" : "green";
 
@@ -95,16 +96,18 @@ class XNavBar extends React.Component<Everything, NavBarState> {
             mobileNavExpanded: false
         };
     }
+
     toggleNav() {
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
         });
     }
+
     logout() {
-        localStorage.clear();
-        sessionStorage.clear();
+        Session.clear();
         location.reload();
     }
+
     render() {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
         return (

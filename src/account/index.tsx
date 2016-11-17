@@ -14,7 +14,7 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
     }
 
     componentDidMount() {
-        if (this.props.auth.user) {
+        if (this.props.auth) {
             let { name, email } = this.props.auth.user;
             this.setState({ name, email });
         }
@@ -49,7 +49,7 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
     }
 
     render() {
-        if (this.props.auth.user) {
+        if (this.props.auth) {
             return (
                 <div>
                     <div className="all-content-wrapper account">

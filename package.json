@@ -39,6 +39,7 @@
     "@types/sinon": "^1.16.31",
     "@types/toastr": "^2.1.30",
     "axios": "^0.14.0",
+    "boxed_value": "^1.0.0",
     "css-loader": "^0.25.0",
     "enzyme": "^2.4.1",
     "extract-text-webpack-plugin": "^1.0.1",

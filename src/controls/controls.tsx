@@ -14,6 +14,7 @@ import { t } from "i18next";
 import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/e_stop_btn";
 import * as _ from "lodash";
+import { API } from "../api";
 
 interface AxisInputBoxProps {
     bot: BotState;
@@ -117,165 +118,170 @@ const updateWebcamUrl = (dispatch: Function) => (event: React.KeyboardEvent<HTML
 @connect((state: Everything) => state)
 export class Controls extends React.Component<Everything, any> {
     render() {
-        let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
-            (`${this.props.auth.iss}/webcam_url_not_set.jpeg`));
-        let dirty = !!this.props.bot.account.dirty;
-        return (
-            <div>
-                <div className="all-content-wrapper">
-                    <div>
-                        <div className="row">
-                            <div className="col-md-4 col-sm-6 col-xs-12 col-md-offset-1">
-                                <div>
-                                    <div className="widget-wrapper">
-                                        <div className="row">
-                                            <div className="col-sm-12">
-                                                <EStopButton {...this.props} />
-                                                <div className="widget-header">
-                                                    <h5>Move</h5>
-                                                    <i className="fa fa-question-circle widget-help-icon">
-                                                        <div className="widget-help-text">
-                                                            {t(`Use these manual
+        let { auth } = this.props;
+        if (auth) {
+            let url = ((this.props.bot.account && this.props.bot.account.webcam_url) ||
+                (`${auth.token.unencoded.iss}/webcam_url_not_set.jpeg`));
+            let dirty = !!this.props.bot.account.dirty;
+            return (
+                <div>
+                    <div className="all-content-wrapper">
+                        <div>
+                            <div className="row">
+                                <div className="col-md-4 col-sm-6 col-xs-12 col-md-offset-1">
+                                    <div>
+                                        <div className="widget-wrapper">
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <EStopButton {...this.props} />
+                                                    <div className="widget-header">
+                                                        <h5>Move</h5>
+                                                        <i className="fa fa-question-circle widget-help-icon">
+                                                            <div className="widget-help-text">
+                                                                {t(`Use these manual
                               control buttons to move FarmBot in realtime. Press the
                               arrows for relative movements or type in new
                               coordinates and press GO for an
                               absolute movement. Tip: Press the Home button when
                               you are done so FarmBot is ready to get back to work.
                               Note: Currently all buttons except for Home work.`)}
-                                                        </div>
-                                                    </i>
+                                                            </div>
+                                                        </i>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="col-sm-12">
-                                                <div className="widget-content">
-                                                    <label className="text-center"> {t("MOVE AMOUNT (mm)")} </label>
-                                                    <div className="row">
-                                                        <div className="col-sm-12">
-                                                            <StepSizeSelector
-                                                                choices={[1, 10, 100, 1000, 10000]}
-                                                                selector={(num: number) => this.props.dispatch(changeStepSize(num))}
-                                                                selected={this.props.bot.stepSize} />
+                                                <div className="col-sm-12">
+                                                    <div className="widget-content">
+                                                        <label className="text-center"> {t("MOVE AMOUNT (mm)")} </label>
+                                                        <div className="row">
+                                                            <div className="col-sm-12">
+                                                                <StepSizeSelector
+                                                                    choices={[1, 10, 100, 1000, 10000]}
+                                                                    selector={(num: number) => this.props.dispatch(changeStepSize(num))}
+                                                                    selected={this.props.bot.stepSize} />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <table className="jog-table" style={{ border: 0 }}>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td />
-                                                                    <td />
-                                                                    <td />
-                                                                    <td>
-                                                                        <DirectionButton axis="y"
-                                                                            direction="up"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                    <td />
-                                                                    <td />
-                                                                    <td>
-                                                                        <DirectionButton axis="z"
-                                                                            direction="up"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <button
-                                                                            className="button-like i fa fa-home arrow-button"
-                                                                            onClick={
-                                                                                () => homeAll(100)
-                                                                            } />
-                                                                    </td>
-                                                                    <td />
-                                                                    <td>
-                                                                        <DirectionButton axis="x"
-                                                                            direction="left"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                    <td>
-                                                                        <DirectionButton axis="y"
-                                                                            direction="down"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                    <td>
-                                                                        <DirectionButton axis="x"
-                                                                            direction="right"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                    <td />
-                                                                    <td>
-                                                                        <DirectionButton axis="z"
-                                                                            direction="down"
-                                                                            steps={this.props.bot.stepSize || 1000}
-                                                                            {...this.props} />
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td />
-                                                                </tr>
-                                                            </tbody></table>
-                                                    </div>
-                                                    <div className="row">
-                                                        <AxisInputBox axis="x" label="X AXIS" {...this.props} />
-                                                        <AxisInputBox axis="y" label="Y AXIS" {...this.props} />
-                                                        <AxisInputBox axis="z" label="Z AXIS" {...this.props} />
-                                                        <div className="col-xs-3">
-                                                            <button className="full-width green button-like go"
-                                                                onClick={() => this.props.dispatch(commitAxisChanges())} >
-                                                                GO
+                                                        <div className="row">
+                                                            <table className="jog-table" style={{ border: 0 }}>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td />
+                                                                        <td />
+                                                                        <td />
+                                                                        <td>
+                                                                            <DirectionButton axis="y"
+                                                                                direction="up"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                        <td />
+                                                                        <td />
+                                                                        <td>
+                                                                            <DirectionButton axis="z"
+                                                                                direction="up"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <button
+                                                                                className="button-like i fa fa-home arrow-button"
+                                                                                onClick={
+                                                                                    () => homeAll(100)
+                                                                                } />
+                                                                        </td>
+                                                                        <td />
+                                                                        <td>
+                                                                            <DirectionButton axis="x"
+                                                                                direction="left"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                        <td>
+                                                                            <DirectionButton axis="y"
+                                                                                direction="down"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                        <td>
+                                                                            <DirectionButton axis="x"
+                                                                                direction="right"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                        <td />
+                                                                        <td>
+                                                                            <DirectionButton axis="z"
+                                                                                direction="down"
+                                                                                steps={this.props.bot.stepSize || 1000}
+                                                                                {...this.props} />
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td />
+                                                                    </tr>
+                                                                </tbody></table>
+                                                        </div>
+                                                        <div className="row">
+                                                            <AxisInputBox axis="x" label="X AXIS" {...this.props} />
+                                                            <AxisInputBox axis="y" label="Y AXIS" {...this.props} />
+                                                            <AxisInputBox axis="z" label="Z AXIS" {...this.props} />
+                                                            <div className="col-xs-3">
+                                                                <button className="full-width green button-like go"
+                                                                    onClick={() => this.props.dispatch(commitAxisChanges())} >
+                                                                    GO
                               </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div>
-                                    <div className="widget-wrapper">
-                                        <div className="row">
-                                            <Peripherals {...this.props} />
+                                    <div>
+                                        <div className="widget-wrapper">
+                                            <div className="row">
+                                                <Peripherals {...this.props} />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-md-6 col-sm-6 col-xs-12">
-                                <div>
-                                    <div className="widget-wrapper webcam-widget">
-                                        <div className="row">
-                                            <div className="col-sm-12">
-                                                <button className="gray button-like widget-control">
-                                                    Edit
+                                <div className="col-md-6 col-sm-6 col-xs-12">
+                                    <div>
+                                        <div className="widget-wrapper webcam-widget">
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <button className="gray button-like widget-control">
+                                                        Edit
                                                 </button>
-                                                <WebcamSaveBtn dispatch={this.props.dispatch}
-                                                    webcamUrl={url}
-                                                    apiUrl={this.props.auth.iss}
-                                                    dirty={dirty} />
-                                                <div className="widget-header">
-                                                    <h5>{t("Camera")}</h5>
-                                                    <i className="fa fa-question-circle widget-help-icon">
-                                                        <div className="widget-help-text">
-                                                            {t(`Press the button to add the URL of a livestream of
+                                                    <WebcamSaveBtn dispatch={this.props.dispatch}
+                                                        webcamUrl={url}
+                                                        apiUrl={API.current.baseUrl}
+                                                        dirty={dirty} />
+                                                    <div className="widget-header">
+                                                        <h5>{t("Camera")}</h5>
+                                                        <i className="fa fa-question-circle widget-help-icon">
+                                                            <div className="widget-help-text">
+                                                                {t(`Press the button to add the URL of a livestream of
                               your FarmBot. Coming soon: A working edit button and
-                              the ability to save your webcam URL in the backend.`)}
-                                                        </div>
-                                                    </i>
+                              the ability to save your webcam URL in the backend.`)}API
+
+                                                            </div>
+                                                        </i>            API
+
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-sm-12">
-                                                <div>
-                                                    <label>{t("Set Webcam URL: ")}</label>
-                                                    <input type="text"
-                                                        onChange={updateWebcamUrl(this.props.dispatch)}
-                                                        value={url} />
+                                            <div className="row">
+                                                <div className="col-sm-12">
+                                                    <div>
+                                                        <label>{t("Set Webcam URL: ")}</label>
+                                                        <input type="text"
+                                                            onChange={updateWebcamUrl(this.props.dispatch)}
+                                                            value={url} />
+                                                    </div>
+                                                    {showUrl(url, dirty)}
                                                 </div>
-                                                {showUrl(url, dirty)}
                                             </div>
                                         </div>
                                     </div>
@@ -284,8 +290,10 @@ export class Controls extends React.Component<Everything, any> {
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        } else {
+            throw new Error("Not logged in. Need to be.");
+        }
     }
 };
 

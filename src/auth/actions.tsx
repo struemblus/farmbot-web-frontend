@@ -2,7 +2,7 @@ import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { error, success } from "../logger";
-import { AuthState, AuthToken, User } from "./interfaces";
+import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchSyncData } from "../sync/actions";
 import { fetchRegimens } from "../regimens/actions";
@@ -11,31 +11,25 @@ import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
 import { prettyPrintApiErrors } from "../util";
-
-/** This is what a response from /api/tokens looks like. */
-export interface AuthResponse {
-    token: AuthResponseToken;
-    user: User;
-};
-/** The "token" property of an auth response from the API. */
-export interface AuthResponseToken {
-    unencoded: AuthToken;
-    encoded: string;
-};
+import { Session } from "../session";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
-    API.setBaseUrl(authState.iss);
-    dispatch(fetchOSUpdateInfo(authState.os_update_server));
-    dispatch(fetchFWUpdateInfo(authState.fw_update_server));
-    dispatch(loginOk(authState));
-    dispatch(fetchSyncData());
-    // TODO: Make regimens work with sync object
-    dispatch(fetchRegimens());
-    dispatch(connectDevice(authState.token));
+    if (authState.token) {
+        API.setBaseUrl(authState.token.unencoded.iss);
+        dispatch(fetchOSUpdateInfo(authState.token.unencoded.os_update_server));
+        dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
+        dispatch(loginOk(authState));
+        dispatch(fetchSyncData());
+        // TODO: Make regimens work with sync object
+        dispatch(fetchRegimens());
+        dispatch(connectDevice(authState.token.encoded));
+    } else {
+        throw new Error("Tried to set baseURL before it was available");
+    }
 };
 
 export function downloadDeviceData(): Thunk {
-    return function (dispatch, getState) {
+    return function(dispatch, getState) {
         Axios
             .get<DeviceAccountSettings>(API.current.devicePath)
             .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
@@ -45,24 +39,9 @@ export function downloadDeviceData(): Thunk {
 
 // We need to handle OK logins for numerous use cases (Ex: login AND registration)
 export function onLogin(dispatch: Function) {
-    return (response: Axios.AxiosXHR<AuthResponse>) => {
+    return (response: Axios.AxiosXHR<AuthState>) => {
         let { data } = response;
-        let tokenData: AuthResponseToken = _.cloneDeep<any>(data.token);
-        let authState: AuthState = {
-            token: tokenData.encoded,
-            sub: tokenData.unencoded.sub,
-            jti: tokenData.unencoded.jti,
-            iss: tokenData.unencoded.iss,
-            mqtt: tokenData.unencoded.mqtt,
-            bot: tokenData.unencoded.bot,
-            iat: tokenData.unencoded.iat,
-            exp: tokenData.unencoded.exp,
-            os_update_server: tokenData.unencoded.os_update_server,
-            fw_update_server: tokenData.unencoded.fw_update_server,
-            authenticated: true,
-            user: data.user
-        };
-        didLogin(authState, dispatch);
+        didLogin(data, dispatch);
         push("/app/dashboard/controls");
     };
 };
@@ -78,7 +57,7 @@ export function login(username: string,
     };
 }
 
-function loginErr(err: AuthResponse) {
+function loginErr(err: any) {
     error(t("Login failed."));
     return {
         type: "LOGIN_ERR",
@@ -96,13 +75,13 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     // property so we can get rid of all that un-DRY URL concat junk.
     // This is how we attach the auth token to every
     // outbound HTTP request (after user logs in).
-    Axios.interceptors.request.use(function (config) {
+    Axios.interceptors.request.use(function(config) {
         let req = config.url;
         let isAPIRequest = req.includes(API.current.baseUrl);
         if (isAPIRequest) {
             config.headers = config.headers || {};
             let headers = (config.headers as { Authorization: string | undefined });
-            headers.Authorization = auth.token || "CANT_FIND_TOKEN";
+            headers.Authorization = auth.token.encoded || "CANT_FIND_TOKEN";
         }
         return config;
     });
@@ -156,7 +135,7 @@ function requestRegistration(name: string,
             name: name
         }
     };
-    return Axios.post<AuthResponse>(API.current.usersPath, form);
+    return Axios.post<AuthState>(API.current.usersPath, form);
 }
 
 /** Fetch API token if already registered. */
@@ -167,7 +146,7 @@ function requestToken(email: string,
     // Set the base URL once here.
     // It will get set once more when we get the "iss" claim from the JWT. 
     API.setBaseUrl(url);
-    return Axios.post<AuthResponse>(API.current.tokensPath, payload);
+    return Axios.post<AuthState>(API.current.tokensPath, payload);
 }
 
 export function logout() {
@@ -176,9 +155,8 @@ export function logout() {
     // In those cases, seeing a logout message may confuse the user.
     // To circumvent this, we must check if the user had a token.
     // If there was infact a token, we can safely show the message.
-    if (localStorage["token"]) { success("You have been logged out."); }
-    localStorage.clear();
-    sessionStorage.clear();
+    if (Session.get()) { success("You have been logged out."); }
+    Session.clear();
     return {
         type: "LOGOUT",
         payload: {}

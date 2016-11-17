@@ -3,6 +3,7 @@ import { savePlant } from "./actions";
 import { BackArrow } from "./back_arrow";
 import { Everything } from "../interfaces";
 import { Plant, PlantOptions } from "./plant";
+import { API } from "../api";
 
 export class SpeciesInfo extends React.Component<Everything, any> {
   drag(e: React.DragEvent<any>) {
@@ -24,7 +25,7 @@ export class SpeciesInfo extends React.Component<Everything, any> {
     // END TEMPORARY SOLUTION =======
 
     let plant = Plant(p);
-    let baseUrl: string = this.props.auth.iss;
+    let baseUrl: string = API.current.baseUrl;
 
     this.props.dispatch(savePlant(plant, baseUrl));
   }

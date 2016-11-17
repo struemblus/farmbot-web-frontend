@@ -1,37 +1,25 @@
 import * as _ from "lodash";
-import { AuthState, User } from "./interfaces";
+import { User, AuthState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
+import { Session } from "../session";
 
-const initialState: AuthState = {
-  token: "NOT LOGGED IN",
-  sub: "NOT LOGGED IN",
-  jti: "NOT LOGGED IN",
-  iss: "NOT LOGGED IN",
-  mqtt: "NOT LOGGED IN",
-  bot: "NOT LOGGED IN",
-  os_update_server: "NOT LOGGED IN",
-  fw_update_server: "NOT LOGGED IN",
-  authenticated: false,
-  iat: 0,
-  exp: 0
-};
-
-export let authReducer = generateReducer<AuthState>(initialState)
+export let authReducer = generateReducer<AuthState | undefined>(undefined)
   .add<User>("UPDATE_USER_SUCCESS", function (s, a) {
-    s.user = a.payload;
+    if (s) { s.user = a.payload; }
     return s;
   })
   .add<AuthState>("LOGOUT", function (s, a) {
-    return initialState;
+    return undefined;
   })
   .add<AuthState>("LOGIN_OK", function (s, a) {
-    _.assign(s, a.payload, { authenticated: true });
-    // TODO: Side effects don't belong in reducers.
-    // Move this into an action creator.
-    localStorage["token"] = JSON.stringify(s);
+    if (s) {
+      _.assign(s, a.payload, { authenticated: true });
+      // TODO: Side effects don't belong in reducers.
+      // Move this into an action creator.
+      Session.put(s);
+    }
     return s;
   })
   .add<void>("LOGIN_ERR", function (s, a) {
-    s.authenticated = false;
-    return s;
+    return undefined;
   });
