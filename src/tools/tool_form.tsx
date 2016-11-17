@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ToolsFormProps, ToolsFormState } from "./interfaces";
-import { BlurableInput } from "../../blurable_input";
+import { BlurableInput } from "../blurable_input";
 
 export class ToolsForm extends React.Component<ToolsFormProps, ToolsFormState> {
     constructor() {

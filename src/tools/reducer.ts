@@ -1,4 +1,4 @@
-import { generateReducer } from "../../redux/generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { ToolsState } from "./interfaces";
 // import { Sync } from "../../interfaces";
 

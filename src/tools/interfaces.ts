@@ -1,4 +1,4 @@
-import { AxiosErrorResponse } from "../../util";
+import { AxiosErrorResponse } from "../util";
 
 type EditorMode = "editing" | "controlling";
 

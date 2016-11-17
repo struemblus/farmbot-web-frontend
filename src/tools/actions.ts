@@ -1,10 +1,10 @@
 import * as axios from "axios";
 import { t } from "i18next";
-import { Thunk, ReduxAction } from "../../redux/interfaces";
-import { API } from "../../api";
+import { Thunk, ReduxAction } from "../redux/interfaces";
+import { API } from "../api";
 import { Tool, SaveToolOk, SaveToolNo } from "./interfaces";
-import { success, error } from "../../logger";
-import { prettyPrintApiErrors, AxiosErrorResponse } from "../../util";
+import { success, error } from "../logger";
+import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 export function startEditing(): ReduxAction<{}> {
     return {

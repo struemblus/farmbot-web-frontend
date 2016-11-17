@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { Everything } from "../../interfaces";
+import { Everything } from "../interfaces";
 import { ToolsState } from "./interfaces";
 import { ToolsForm } from "./tool_form";
 
