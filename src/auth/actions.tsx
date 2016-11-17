@@ -14,22 +14,18 @@ import { prettyPrintApiErrors } from "../util";
 import { Session } from "../session";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
-    if (authState.token) {
-        API.setBaseUrl(authState.token.unencoded.iss);
-        dispatch(fetchOSUpdateInfo(authState.token.unencoded.os_update_server));
-        dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
-        dispatch(loginOk(authState));
-        dispatch(fetchSyncData());
-        // TODO: Make regimens work with sync object
-        dispatch(fetchRegimens());
-        dispatch(connectDevice(authState.token.encoded));
-    } else {
-        throw new Error("Tried to set baseURL before it was available");
-    }
+    API.setBaseUrl(authState.token.unencoded.iss);
+    dispatch(fetchOSUpdateInfo(authState.token.unencoded.os_update_server));
+    dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
+    dispatch(loginOk(authState));
+    dispatch(fetchSyncData());
+    // TODO: Make regimens work with sync object
+    dispatch(fetchRegimens());
+    dispatch(connectDevice(authState.token.encoded));
 };
 
 export function downloadDeviceData(): Thunk {
-    return function(dispatch, getState) {
+    return function (dispatch, getState) {
         Axios
             .get<DeviceAccountSettings>(API.current.devicePath)
             .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
@@ -41,6 +37,7 @@ export function downloadDeviceData(): Thunk {
 export function onLogin(dispatch: Function) {
     return (response: Axios.AxiosXHR<AuthState>) => {
         let { data } = response;
+        Session.put(data);
         didLogin(data, dispatch);
         push("/app/dashboard/controls");
     };
@@ -75,7 +72,7 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     // property so we can get rid of all that un-DRY URL concat junk.
     // This is how we attach the auth token to every
     // outbound HTTP request (after user logs in).
-    Axios.interceptors.request.use(function(config) {
+    Axios.interceptors.request.use(function (config) {
         let req = config.url;
         let isAPIRequest = req.includes(API.current.baseUrl);
         if (isAPIRequest) {

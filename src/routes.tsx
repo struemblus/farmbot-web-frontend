@@ -46,6 +46,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             if (authState) { return undefined; };
             store.dispatch(ready());
         } else {
+            debugger;
             replace("/app/login");
         }
     };

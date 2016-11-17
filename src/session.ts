@@ -21,6 +21,7 @@ export namespace Session {
             }
         } catch (error) {
             clear();
+            return undefined;
         };
     }
 

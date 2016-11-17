@@ -12,13 +12,7 @@ export let authReducer = generateReducer<AuthState | undefined>(undefined)
     return undefined;
   })
   .add<AuthState>("LOGIN_OK", function (s, a) {
-    if (s) {
-      _.assign(s, a.payload, { authenticated: true });
-      // TODO: Side effects don't belong in reducers.
-      // Move this into an action creator.
-      Session.put(s);
-    }
-    return s;
+    return a.payload;
   })
   .add<void>("LOGIN_ERR", function (s, a) {
     return undefined;
