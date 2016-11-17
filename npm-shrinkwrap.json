@@ -157,6 +157,18 @@
       "from": "bl@>=0.9.1 <0.10.0",
       "resolved": "https://registry.npmjs.org/bl/-/bl-0.9.5.tgz"
     },
+    "boxed_value": {
+      "version": "1.0.0",
+      "from": "boxed_value@latest",
+      "resolved": "https://registry.npmjs.org/boxed_value/-/boxed_value-1.0.0.tgz",
+      "dependencies": {
+        "typescript": {
+          "version": "2.0.10",
+          "from": "typescript@>=2.0.9 <3.0.0",
+          "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.0.10.tgz"
+        }
+      }
+    },
     "brace-expansion": {
       "version": "1.1.6",
       "from": "brace-expansion@>=1.0.0 <2.0.0",

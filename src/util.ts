@@ -29,7 +29,7 @@ export function randomColor(): Color {
 
 export function defensiveClone<T>(target: T): T {
   let jsonString = JSON.stringify(target);
-  return JSON.parse(jsonString);
+  return JSON.parse(jsonString || "null");
 }
 
 export interface AxiosErrorResponse {

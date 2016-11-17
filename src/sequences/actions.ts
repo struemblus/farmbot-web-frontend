@@ -24,6 +24,13 @@ export function nullSequence(): Sequence {
     };
 }
 
+export function copySequence(payload: Sequence) {
+    return {
+        type: "COPY_SEQUENCE",
+        payload
+    };
+}
+
 export interface EditCurrentSequence {
     name?: string;
     color?: Color;

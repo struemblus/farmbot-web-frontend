@@ -8,7 +8,6 @@ import {
 import {
     IndexRedirect,
     IndexRoute,
-    Redirect,
     Route,
     Router,
     RedirectFunction,
@@ -27,6 +26,8 @@ import { Account } from "./account";
 import { store } from "./redux/store";
 import { history } from "./history";
 import { Store } from "./redux/interfaces";
+import { ready } from "./config/actions";
+import { Session } from "./session";
 
 interface RootComponentProps {
     store: Store;
@@ -34,19 +35,16 @@ interface RootComponentProps {
 
 export class RootComponent extends React.Component<RootComponentProps, {}> {
 
-    requireAuth(nextState: RouterState, replace: RedirectFunction) {
-        // Why didn't I just write this.props.auth here...?
-        let isAuthed = this
-            .props
-            .store
-            .getState()
-            .auth
-            .authenticated;
-        if (!isAuthed) {
-            let token = localStorage["token"];
-            if (!token) {
-                replace("/app/login");
-            }
+    requireAuth(_: RouterState, replace: RedirectFunction) {
+        let { store } = this.props;
+        if (Session.get()) { // has a previous session in cache
+            if (store.getState().auth) { // Has session, logged in.
+                return;
+            } else { // Has session but not logged in (returning visitor).
+               store.dispatch(ready());
+            };
+        } else { // Not logged in yet.
+            replace("/app/login");
         }
     };
 

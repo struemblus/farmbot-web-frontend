@@ -7,6 +7,7 @@ import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
 import { UserAccountUpdate } from "./interfaces";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
+import { Session } from "../session";
 
 function updateUserSuccess(payload: User): ReduxAction<User> {
     return {
@@ -33,9 +34,9 @@ interface DeletionRequest {
 
 export function deleteUser(payload: DeletionRequest): Thunk {
     return (dispatch, getState) => {
-
-        let user = getState().auth.user;
-        if (user) {
+        let state = getState().auth;
+        if (state) {
+            let user = state.user;
             // https://github.com/mzabriskie/axios/issues/312
             axios<{}>({
                 method: "delete",
@@ -45,8 +46,7 @@ export function deleteUser(payload: DeletionRequest): Thunk {
             })
                 .then((resp) => {
                     alert("We're sorry to see you go. :(");
-                    localStorage.clear();
-                    sessionStorage.clear();
+                    Session.clear();
                     window.location.href = "/";
                 })
                 .catch((e: AxiosErrorResponse) => { error(prettyPrintApiErrors(e)); });

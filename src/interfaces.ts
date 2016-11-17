@@ -32,7 +32,7 @@ interface Location {
 
 export interface Everything {
   config: ConfigState;
-  auth: AuthState;
+  auth: AuthState | undefined;
   designer: DesignerState;
   dispatch: Function;
   bot: BotState;

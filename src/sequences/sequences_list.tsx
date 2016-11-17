@@ -2,7 +2,7 @@ import * as React from "react";
 import { selectSequence, addSequence } from "./actions";
 import { SequenceReducerState } from "./interfaces";
 import { Sequence } from "./interfaces";
-import { AuthToken } from "../auth/interfaces";
+import { AuthState } from "../auth/interfaces";
 import { t } from "i18next";
 
 let buttonList = (dispatch: Function) => (seq: Sequence, index: number) => {
@@ -24,7 +24,7 @@ let buttonList = (dispatch: Function) => (seq: Sequence, index: number) => {
 interface SequencesListProps {
   sequences: SequenceReducerState;
   dispatch: Function;
-  auth: AuthToken;
+  auth: AuthState;
 }
 
 export function SequencesList({sequences, dispatch}: SequencesListProps) {

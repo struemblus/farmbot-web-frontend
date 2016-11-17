@@ -1,10 +1,11 @@
 import * as React from "react";
 import * as i18next from "i18next";
 import * as axios from "axios";
-import { AuthResponse } from "../auth/actions";
+import { AuthState } from "../auth/interfaces";
 import { error as log } from "../logger";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
+import { Session } from "../session";
 
 interface FrontPageState {
     regName?: string;
@@ -46,7 +47,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
     }
 
     set(name: string) {
-        return function (event: React.FormEvent<HTMLInputElement>) {
+        return function(event: React.FormEvent<HTMLInputElement>) {
             let state: { [name: string]: string } = {};
             state[name] = (event.currentTarget).value;
             this.setState(state);
@@ -58,13 +59,12 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         let { loginEmail, loginPassword } = this.state;
         let payload = { user: { email: loginEmail, password: loginPassword } };
         if (this.state.showServerOpts) {
-            API.setBaseUrl(`//${this.state.serverURL}:${this.state.serverPort}`);
+            API.setBaseUrl(API.fetchBrowserLocation());
         }
-        axios.post<AuthResponse>(API.current.tokensPath, payload)
+        axios.post<AuthState>(API.current.tokensPath, payload)
             .then(resp => {
-                let { token } = resp.data;
-                localStorage["token"] = JSON.stringify(token);
-                window.location.replace("/app/dashboard/controls");
+                Session.put(resp.data);
+                window.location.href = "/app/dashboard/controls";
             }).catch(error => {
                 log(prettyPrintApiErrors(error));
             });
@@ -81,9 +81,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                 password_confirmation: regConfirmation
             }
         };
-        axios.post<AuthResponse>(API.current.usersPath, form).then(resp => {
-            let { token } = resp.data;
-            localStorage["token"] = JSON.stringify(token);
+        axios.post<AuthState>(API.current.usersPath, form).then(resp => {
+            Session.put(resp.data);
             window.location.replace("/app/dashboard/controls");
         }).catch(error => {
             log(prettyPrintApiErrors(error));

@@ -1,4 +1,14 @@
-export interface AuthToken {
+export interface Token {
+  unencoded: UnencodedToken;
+  encoded: string;
+}
+
+export interface AuthState {
+  token: Token;
+  user: User;
+}
+
+export interface UnencodedToken {
   /** SUBJECT - The user's email. */
   sub: string;
   /** ISSUED AT */
@@ -17,14 +27,6 @@ export interface AuthToken {
   os_update_server: string;
   /** Where to download firmware. */
   fw_update_server: string;
-}
-
-export interface AuthState extends AuthToken {
-  /** The JSON Web Token as a raw string, mostly for reference. */
-  token: string;
-  /** Is the client logged in right now? */
-  authenticated?: boolean;
-  user?: User;
 }
 
 export interface User {
