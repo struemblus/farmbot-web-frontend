@@ -103,4 +103,6 @@ export class API {
     get sequencesPath() { return `${this.baseUrl}/api/sequences/`; };
     /** /api/sync/ */
     get syncPath() { return `${this.baseUrl}/api/sync/`; };
+    /** /api/tools/ */
+    get toolsPath() { return `${this.baseUrl}/api/tools/`; };
 }
