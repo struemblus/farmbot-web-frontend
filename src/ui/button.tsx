@@ -5,7 +5,7 @@ interface ButtonProps {
     /** Default styles + whatever user wants */
     className?: string;
     /** Text inside Button */
-    children?: any;
+    text: string;
     /** Boolean passed to determine ui */
     hideIf?: boolean;
     /** Callback */
@@ -23,6 +23,6 @@ export function Button(props: ButtonProps) {
     return <button
         className={finalClasses}
         onClick={callback}>
-        {t(props.children)}
+        {t(props.text)}
     </button>;
 }

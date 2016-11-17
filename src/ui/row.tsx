@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface RowProps {
-    children?: any;
+    children?: JSX.Element | undefined;
 }
 
 export function Row(props: RowProps) {

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface PageProps {
-    children?: any;
+    children?: JSX.Element | undefined;
 }
 
 export function Page(props: PageProps) {

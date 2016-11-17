@@ -1,7 +1,7 @@
 import * as React from "react";
 
 interface WidgetProps {
-    children?: any;
+    children?: JSX.Element | undefined;
 }
 
 export function Widget(props: WidgetProps) {
