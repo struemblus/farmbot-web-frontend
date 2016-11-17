@@ -6,23 +6,16 @@ interface ButtonProps {
     className?: string;
     /** Text inside Button */
     text: string;
-    /** Boolean passed to determine ui */
-    hideIf?: boolean;
-    /** Callback */
-    cb?: () => void;
+    onClick: () => void;
 }
 
 export function Button(props: ButtonProps) {
     let baseClasses = "";
-    let shouldHide = props.hideIf ? "hide" : "";
-    let finalClasses = `${baseClasses} ${props.className} ${shouldHide}`;
-    let callback = props.cb ? props.cb : () => {
-        console.warn("Callback not passed to Button component.");
-    };
+    let classes = `${baseClasses} ${props.className}`;
 
     return <button
-        className={finalClasses}
-        onClick={callback}>
+        className={classes}
+        onClick={props.onClick}>
         {t(props.text)}
     </button>;
 }
