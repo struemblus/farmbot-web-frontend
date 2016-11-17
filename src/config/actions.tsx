@@ -16,6 +16,6 @@ export function changeApiPort(port: string): ReduxAction<ChangeApiPort> {
 export function ready(): Thunk {
   return (dispatch, getState) => {
     let state = Session.get() || getState().auth;
-    if (state) { didLogin(state, dispatch); } else  { console.warn("?!?"); };
+    if (state) { didLogin(state, dispatch); };
   };
 }
