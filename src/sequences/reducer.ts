@@ -112,6 +112,26 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return state;
     })
+    .add<Sequence>("COPY_SEQUENCE", function (state, action) {
+        let seq = action.payload;
+        // Unset the ID to avoid accidentally overwriting parent.
+        seq.id = undefined;
+        seq.dirty = true;
+        // "My sequence (copy 1)" => "My sequence"
+        let baseName = seq.name.replace(/ \(copy \d*\)/, "");
+        // TODO: This function has string typing, regexes and inband signalling.
+        // I like to avoid all of those. Possible refactor target?
+        let copies = _.select(state.all, function (item) {
+            return (item.name.indexOf(baseName) !== -1);
+        }).length;
+        // Give it a name with the (copy X) stripped out
+        seq.name = baseName;
+        // Add the (copy X) back
+        seq.name += ` (copy ${copies})`;
+        state.current = state.all.length;
+        state.all.push(seq);
+        return state;
+    })
     .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
         let { from, to } = a.payload;
         markDirty(s);
