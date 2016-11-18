@@ -8,7 +8,7 @@ import { t } from "i18next";
 export class ToolBayList extends React.Component<ListAndFormProps, {}> {
     render() {
         let onClick = () => { this.props.dispatch(startEditing()); };
-        let { tool_bays, tool_slots, tools } = this.props.all;
+        let { tool_bays, tool_slots } = this.props.all;
         return <div>
             {tool_bays.map(bay => {
                 let { id, name } = bay;

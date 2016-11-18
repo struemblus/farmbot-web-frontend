@@ -10,8 +10,10 @@ import {
     SaveToolBaysNo,
     SaveToolSlotsOk,
     SaveToolSlotsNo,
+    DestroySlot,
     SaveToolsOk,
     SaveToolsNo,
+    DestroyTool,
 } from "./interfaces";
 import { success, error } from "../logger";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
@@ -26,7 +28,7 @@ export function stopEditing(): ReduxAction<{}> {
 }
 
 export function fetchAll(): ReduxAction<{}> {
-    return { type: "DELETE_ME_FETCH_ALL", payload: {} };
+    return { type: "FETCH_ALL", payload: {} };
 }
 
 /** ToolBays */
@@ -64,6 +66,14 @@ export function saveToolSlotsOk(toolSlots: ToolSlot[]): SaveToolSlotsOk {
     return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlots };
 }
 
+export function destroySlot(slot_id: number): DestroySlot {
+    return { type: "DESTROY_SLOT", payload: { slot_id } };
+}
+
+export function addSlot(payload: Object) {
+    return { type: "ADD_SLOT", payload };
+}
+
 export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
     return function (dispatch) {
         let url = API.current.toolSlotsPath;
@@ -88,6 +98,10 @@ export function saveToolsOk(tools: Tool[]): SaveToolsOk {
 
 export function saveToolsNo(error: AxiosErrorResponse): SaveToolsNo {
     return { type: "SAVE_TOOLS_NO", payload: error };
+}
+
+export function destroyTool(tool_id: number): DestroyTool {
+    return { type: "DESTROY_TOOL", payload: { tool_id } };
 }
 
 export function saveTools(tools: Tool[]): Thunk {

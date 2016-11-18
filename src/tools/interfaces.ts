@@ -19,6 +19,13 @@ export interface ToolBay {
     name: string;
 }
 
+export interface ToolBayFormState {
+    x?: number;
+    y?: number;
+    z?: number;
+    name?: string;
+}
+
 export interface ToolSlot {
     id: number;
     tool_bay_id: number;
@@ -54,6 +61,11 @@ export interface SaveToolSlotsNo {
     payload: AxiosErrorResponse;
 }
 
+export interface DestroySlot {
+    type: string;
+    payload: Object;
+}
+
 export interface SaveToolsOk {
     type: string;
     payload: Object;
@@ -62,4 +74,9 @@ export interface SaveToolsOk {
 export interface SaveToolsNo {
     type: string;
     payload: AxiosErrorResponse;
+}
+
+export interface DestroyTool {
+    type: string;
+    payload: Object;
 }

@@ -1,5 +1,6 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { ToolsState } from "./interfaces";
+import { ToolsState, DestroySlot } from "./interfaces";
+import * as _ from "lodash";
 // import { Sync } from "../../interfaces";
 
 let initialState: ToolsState = {
@@ -21,27 +22,27 @@ let initialState: ToolsState = {
         {
             id: 222,
             tool_bay_id: 1234,
-            x: 10,
-            y: 20,
-            z: 30
+            x: 40,
+            y: 50,
+            z: 60
         },
         {
             id: 333,
             tool_bay_id: 1234,
-            x: 10,
-            y: 20,
-            z: 30
+            x: 70,
+            y: 80,
+            z: 90
         },
     ],
     tools: [
         {
             id: 1,
-            name: "tool1",
+            name: "Seed Injector",
             slot_id: 111
         },
         {
             id: 2,
-            name: "tool2",
+            name: "Weed Suppressor",
             slot_id: 333
         }
     ]
@@ -56,14 +57,23 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         state.editorMode = false;
         return state;
     })
-    .add<{}>("DELETE_ME_FETCH_ALL", function (state, action) {
+    .add<{}>("FETCH_ALL", function (state, action) {
         state = initialState;
         return state;
     })
-    .add<{ bay: number, slot: number }>("DESTROY_SLOT", function (state, action) {
-        // TODO: HACK, array indeces
-        // Use _ to find nested instead?
-        // state.all.toolBays[action.payload.bay - 1].slots.splice(action.payload.slot - 1, 1);
+    .add<{ slot_id: number }>("DESTROY_SLOT", function (state, action) {
+        let { tool_slots } = state;
+        let index = _.findIndex(tool_slots, { id: action.payload.slot_id });
+        tool_slots.splice(index, 1);
+        return state;
+    })
+    .add<{}>("ADD_SLOT", function (state, action) {
+        return state;
+    })
+    .add<{ tool_id: number }>("DESTROY_TOOL", function (state, action) {
+        let { tools } = state;
+        let index = _.findIndex(tools, { id: action.payload.tool_id });
+        tools.splice(index, 1);
         return state;
     });
 
