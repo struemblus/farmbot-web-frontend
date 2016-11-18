@@ -16,13 +16,14 @@ let channels = _.pairs<{}, string>({
 });
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
-    let choices = channels.map(function (pair) {
+    let choices = channels.map(function (pair, key) {
         let [name, label] = pair;
-        return <fieldset>
+        return <fieldset key={key}>
             <label htmlFor={name}> {label}</label>
             <input type="checkbox" id={name} />
         </fieldset>;
     });
+
     return (<div>
         <div className="step-wrapper">
             <div className="row">
