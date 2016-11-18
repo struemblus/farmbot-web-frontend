@@ -6,7 +6,23 @@ import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 
+let channels = _.pairs<{}, string>({
+    "toast": "Toast",
+    "toast_error": "Toast (Error)",
+    "toast_success": "Toast (Success)",
+    "ticker": "Ticker",
+    "ticker_error": "Ticker (Error)",
+    "ticker_success": "Ticker (Success)"
+});
+
 export function TileSendMessage({dispatch, step, index}: StepParams) {
+    let choices = channels.map(function (pair) {
+        let [name, label] = pair;
+        return <fieldset>
+            <label htmlFor={name}> {label}</label>
+            <input type="checkbox" id={name} />
+        </fieldset>;
+    });
     return (<div>
         <div className="step-wrapper">
             <div className="row">
@@ -38,38 +54,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                     index={index}
                                     field="message" />
                                 <div className="channel-fields">
-                                    <fieldset>
-                                        <label
-                                            htmlFor="ticker-error">
-                                            Ticker Error
-                                            </label>
-                                        <input type="checkbox"
-                                            id="ticker-error" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <label
-                                            htmlFor="toast-error">
-                                            Toast Error
-                                            </label>
-                                        <input type="checkbox"
-                                            id="toast-error" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <label
-                                            htmlFor="toast-success">
-                                            Toast Success
-                                            </label>
-                                        <input type="checkbox"
-                                            id="toast-success" />
-                                    </fieldset>
-                                    <fieldset>
-                                        <label
-                                            htmlFor="toast-warning">
-                                            Toast Warning
-                                            </label>
-                                        <input type="checkbox"
-                                            id="toast-warning" />
-                                    </fieldset>
+                                    {choices}
                                 </div>
                             </div>
                         </div>
