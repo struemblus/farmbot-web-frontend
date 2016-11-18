@@ -5,6 +5,7 @@ import { Help } from "../../help";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
+import { Step, ChannelNode } from "../interfaces";
 
 let channels = _.pairs<{}, string>({
     "toast": "Toast",
@@ -15,12 +16,29 @@ let channels = _.pairs<{}, string>({
     "ticker_success": "Ticker (Success)"
 });
 
+let handleChange = (channel_name: string, index: number, dispatch: Function) =>
+    (e: React.FormEvent<HTMLInputElement>) => {
+        let THING_IS_CHECKED = true;
+        if (THING_IS_CHECKED) {
+            dispatch({
+                type: "ADD_CHANNEL",
+                payload: { channel_name, index }
+            });
+        } else {
+            // TODO:
+            // 1. Show values as checked or unchecked based on state.
+            // 2. Add a `REMOVE_CHANNEL` action.
+            // 3. Implement THING_IS_CHECKED
+            debugger;
+        }
+    };
+
 export function TileSendMessage({dispatch, step, index}: StepParams) {
-    let choices = channels.map(function (pair, key) {
+    let choices = channels.map(function(pair, key) {
         let [name, label] = pair;
         return <fieldset key={key}>
             <label htmlFor={name}> {label}</label>
-            <input type="checkbox" id={name} />
+            <input type="checkbox" id={name} onChange={handleChange(name, index, dispatch)} />
         </fieldset>;
     });
 
