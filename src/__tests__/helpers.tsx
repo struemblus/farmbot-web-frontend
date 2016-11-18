@@ -132,7 +132,7 @@ export function fakeState(dispatcher?: Function): Everything {
 
   let draggable = { dataTransfer: {} };
 
-  let tools: ToolsState = { editorMode: "controlling", all: [] };
+  let tools: ToolsState = { editorMode: false, all: [] };
 
   return {
     location

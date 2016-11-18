@@ -6,11 +6,11 @@ interface ButtonProps {
     className?: string;
     /** Text inside Button */
     text: string;
-    onClick: () => void;
+    onClick: () => {};
 }
 
-export function Button(props: ButtonProps) {
-    let baseClasses = "";
+export function WidgetButton(props: ButtonProps) {
+    let baseClasses = "button-like widget-control";
     let classes = `${baseClasses} ${props.className}`;
 
     return <button

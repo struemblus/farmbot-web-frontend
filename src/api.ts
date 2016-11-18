@@ -105,4 +105,6 @@ export class API {
     get syncPath() { return `${this.baseUrl}/api/sync/`; };
     /** /api/tools/ */
     get toolsPath() { return `${this.baseUrl}/api/tools/`; };
+    /** /api/toolbays/ */
+    get toolBaysPath() { return `${this.baseUrl}/api/toolbays/`; };
 }
