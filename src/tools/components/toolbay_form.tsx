@@ -1,11 +1,11 @@
 import * as React from "react";
-import { ToolBayProps, ToolBayState } from "../interfaces";
+import { ListAndFormProps } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
-import { saveToolBays, destroySlot } from "../actions";
+import { saveToolBays } from "../actions";
 import { t } from "i18next";
 
-export class ToolBayForm extends React.Component<ToolBayProps, ToolBayState> {
+export class ToolBayForm extends React.Component<ListAndFormProps, {}> {
     constructor() {
         super();
         this.set = this.set.bind(this);
@@ -18,13 +18,14 @@ export class ToolBayForm extends React.Component<ToolBayProps, ToolBayState> {
     render() {
         let { set } = this;
         let { dispatch } = this.props;
+        let { tool_bays, tool_slots } = this.props.all;
         return <div>
-            {this.props.all.map((item, bay = 0) => {
-                let { name, help_text, slots } = item;
-                bay++;
+            {tool_bays.map((bay, i = 0) => {
+                let { name } = bay;
+                i++;
                 return <Widget key={name}>
                     <WidgetHeader
-                        helpText={help_text}
+                        helpText="Bays are for Tools"
                         title={name}>
                         <button
                             className="green button-like widget-control"
@@ -59,8 +60,8 @@ export class ToolBayForm extends React.Component<ToolBayProps, ToolBayState> {
                                 </tr>
                             </thead>
                             <tbody>
-                                {slots.map((item, slot = 0) => {
-                                    let { tool_id, x, y, z } = item;
+                                {tool_slots.map((item, slot = 0) => {
+                                    let { tool_bay_id, x, y, z } = item;
                                     slot++;
                                     return <tr key={slot}>
                                         <td>
@@ -86,19 +87,14 @@ export class ToolBayForm extends React.Component<ToolBayProps, ToolBayState> {
                                         </td>
                                         <td>
                                             <BlurableInput
-                                                value={tool_id.toString()}
+                                                value={tool_bay_id.toString()}
                                                 onCommit={set}
                                                 />
                                         </td>
                                         <td>
                                             <button
                                                 className={`button-like 
-                                                    widget-control red`}
-                                                onClick={() => {
-                                                    dispatch(
-                                                        destroySlot(bay, slot)
-                                                    );
-                                                } }>
+                                                    widget-control red`}>
                                                 X
                                             </button>
                                         </td>

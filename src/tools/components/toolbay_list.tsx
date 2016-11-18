@@ -1,18 +1,22 @@
 import * as React from "react";
-import { ToolBayProps, ToolBayState } from "../interfaces";
+import { ListAndFormProps } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { startEditing } from "../actions";
+import * as _ from "lodash";
 import { t } from "i18next";
 
-export class ToolBayList extends React.Component<ToolBayProps, ToolBayState> {
+export class ToolBayList extends React.Component<ListAndFormProps, {}> {
     render() {
         let onClick = () => { this.props.dispatch(startEditing()); };
+        let { tool_bays, tool_slots, tools } = this.props.all;
         return <div>
-            {this.props.all.map(item => {
-                let { name, help_text, slots } = item;
+            {tool_bays.map(bay => {
+                let { id, name } = bay;
+                let currentSlots = _.where(tool_slots, { tool_bay_id: id });
+
                 return <Widget key={name}>
                     <WidgetHeader
-                        helpText={help_text}
+                        helpText="Toolbays are for tools."
                         title={name}>
                         <button
                             className="gray button-like widget-control"
@@ -32,15 +36,15 @@ export class ToolBayList extends React.Component<ToolBayProps, ToolBayState> {
                                 </tr>
                             </thead>
                             <tbody>
-                                {slots.map((item, i = 1) => {
-                                    let { tool_id, x, y, z } = item;
+                                {currentSlots.map((slot, i = 1) => {
+                                    let { x, y, z } = slot;
                                     i++;
                                     return <tr key={i}>
                                         <td>{i}</td>
                                         <td>{x}</td>
                                         <td>{y}</td>
                                         <td>{z}</td>
-                                        <td>{tool_id}</td>
+                                        <td>NAME</td>
                                     </tr>;
                                 })}
                             </tbody>

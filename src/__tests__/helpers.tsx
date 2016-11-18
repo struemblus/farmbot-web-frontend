@@ -132,7 +132,31 @@ export function fakeState(dispatcher?: Function): Everything {
 
   let draggable = { dataTransfer: {} };
 
-  let tools: ToolsState = { editorMode: false, all: [] };
+  let tools: ToolsState = {
+    editorMode: false,
+    tool_bays: [
+      {
+        name: "toolbay 1",
+        id: 1234,
+      }
+    ],
+    tool_slots: [
+      {
+        id: 333,
+        tool_bay_id: 1234,
+        x: 10,
+        y: 20,
+        z: 30
+      },
+    ],
+    tools: [
+      {
+        id: 1,
+        name: "tool1",
+        slot_id: 111
+      }
+    ]
+  };
 
   return {
     location

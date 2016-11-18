@@ -1,62 +1,42 @@
 import { AxiosErrorResponse } from "../util";
 
-/** Main Tools component */
+/** Main */
 export interface ToolsState {
     editorMode: boolean;
-    all: ToolBay[];
+    tool_bays: ToolBay[];
+    tool_slots: ToolSlot[];
+    tools: Tool[];
 }
 
-/** ToolBay */
-export interface ToolBayProps {
+/** Related */
+export interface ListAndFormProps {
     dispatch: Function;
-    all: ToolBay[];
-}
-
-export interface ToolBayState {
-
+    all: ToolsState;
 }
 
 export interface ToolBay {
+    id: number;
     name: string;
-    slots: ToolSlot[];
-    help_text: string;
 }
 
-export interface ToolBays {
-    all: ToolBay[];
-}
-
-interface ToolSlot {
-    tool_id: number;
+export interface ToolSlot {
+    id: number;
+    tool_bay_id: number;
     x: number;
     y: number;
     z: number;
 }
 
-/** Tools */
 export interface Tool {
+    id: number;
     name: string;
-    bay_id: number;
-}
-
-export interface Tools {
-    all: Tool[];
+    slot_id: number;
 }
 
 /** Actions */
-export interface SaveToolsOk {
-    type: string;
-    payload: Tools;
-}
-
-export interface SaveToolsNo {
-    type: string;
-    payload: AxiosErrorResponse;
-}
-
 export interface SaveToolBaysOk {
     type: string;
-    payload: ToolBays;
+    payload: Object;
 }
 
 export interface SaveToolBaysNo {
@@ -64,7 +44,22 @@ export interface SaveToolBaysNo {
     payload: AxiosErrorResponse;
 }
 
-export interface DestroySlot {
+export interface SaveToolSlotsOk {
     type: string;
     payload: Object;
+}
+
+export interface SaveToolSlotsNo {
+    type: string;
+    payload: AxiosErrorResponse;
+}
+
+export interface SaveToolsOk {
+    type: string;
+    payload: Object;
+}
+
+export interface SaveToolsNo {
+    type: string;
+    payload: AxiosErrorResponse;
 }
