@@ -13,6 +13,10 @@
     }
 }
 
+.hide {
+    display: none !important;
+}
+
 a {
     cursor: pointer !important;
 }
@@ -256,7 +260,8 @@ ul {
     max-width: 400px;
 }
 
-.peripherals-widget {
+.peripherals-widget,
+.tools-widget {
     .widget-content .row {
         margin-bottom: 0.8rem;
     }

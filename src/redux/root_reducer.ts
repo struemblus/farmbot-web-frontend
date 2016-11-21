@@ -7,6 +7,7 @@ import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "../regimens/reducer";
 import { tickerReducer as ticker } from "../ticker/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
+import { toolsReducer as tools } from "../tools/reducer";
 import { syncReducer as sync } from "../sync/reducer";
 import { designer } from "../farm_designer/reducer";
 import {
@@ -28,6 +29,7 @@ let reducers = combineReducers({
     ticker,
     draggable,
     peripherals,
+    tools,
     sync
 });
 

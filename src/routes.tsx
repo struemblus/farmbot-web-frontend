@@ -23,6 +23,7 @@ import { Regimens } from "./regimens/index";
 import { FarmDesigner } from "./farm_designer/farm_designer";
 import { Login } from "./login";
 import { Account } from "./account";
+import { Tools } from "./tools";
 import { store } from "./redux/store";
 import { history } from "./history";
 import { Store } from "./redux/interfaces";
@@ -41,7 +42,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             if (store.getState().auth) { // Has session, logged in.
                 return;
             } else { // Has session but not logged in (returning visitor).
-               store.dispatch(ready());
+                store.dispatch(ready());
             };
         } else { // Not logged in yet.
             replace("/app/login");
@@ -85,6 +86,9 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                 onEnter={this.requireAuth.bind(this)} />
             <Route path="account"
                 component={Account}
+                onEnter={this.requireAuth.bind(this)} />
+            <Route path="tools"
+                component={Tools}
                 onEnter={this.requireAuth.bind(this)} />
             <IndexRoute
                 component={Controls} />
