@@ -12,7 +12,7 @@ import { Everything } from "../interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
-import { EStopButton } from "../devices/e_stop_btn";
+import { EStopButton } from "../devices/components/e_stop_btn";
 import * as _ from "lodash";
 import { API } from "../api";
 

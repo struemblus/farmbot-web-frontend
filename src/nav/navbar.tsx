@@ -7,7 +7,7 @@ import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
 import { Ticker } from "../ticker/ticker";
 import { Everything, Sync } from "../interfaces";
-import { EStopButton } from "../devices/e_stop_btn";
+import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";

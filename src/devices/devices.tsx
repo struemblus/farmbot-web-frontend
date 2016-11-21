@@ -405,17 +405,20 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                             <label>{t("CALIBRATION")}</label>
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button" className="button-like yellow">
+                                                                            <button type="button"
+                                                                                className="button-like yellow">
                                                                                 {t("CALIBRATE X")}
                                                                             </button>
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button" className="button-like yellow">
+                                                                            <button type="button"
+                                                                                className="button-like yellow">
                                                                                 {t("CALIBRATE Y")}
                                                                             </button>
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button" className="button-like yellow">
+                                                                            <button type="button"
+                                                                                className="button-like yellow">
                                                                                 {t("CALIBRATE Z")}
                                                                             </button>
                                                                         </td>

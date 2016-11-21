@@ -1,7 +1,7 @@
 import * as React from "react";
 import { t } from "i18next";
-import { emergencyLock, emergencyUnlock } from "./actions";
-import { Everything } from "../interfaces";
+import { emergencyLock, emergencyUnlock } from "../actions";
+import { Everything } from "../../interfaces";
 
 export class EStopButton extends React.Component<Everything, {}> {
     render() {
@@ -23,4 +23,3 @@ export class EStopButton extends React.Component<Everything, {}> {
 
     }
 }
-
