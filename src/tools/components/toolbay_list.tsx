@@ -46,7 +46,7 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
                                         <td>{z}</td>
                                         {tools.map(tool => {
                                             if (slot.id === tool.slot_id) {
-                                                return <td key={tool.id}>
+                                                return <td key={i}>
                                                     {tool.name}
                                                 </td>;
                                             }

@@ -57,7 +57,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                                     return <option key={
                                                         slot.id
                                                     }>
-                                                        {slot.id || "No slots"}
+                                                        {slot.id}
                                                     </option>;
                                                 })}
                                             </select>

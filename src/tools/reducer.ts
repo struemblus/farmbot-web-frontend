@@ -1,5 +1,5 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { ToolsState, DestroySlot } from "./interfaces";
+import { ToolsState } from "./interfaces";
 import * as _ from "lodash";
 // import { Sync } from "../../interfaces";
 
@@ -52,36 +52,35 @@ let initialState: ToolsState = {
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
-    .add<{}>("EDIT_TOOLS_START", function (state, action) {
-        state.editorMode = true;
-        return state;
-    })
-    .add<{}>("CONTROL_TOOLS_STOP", function (state, action) {
-        state.editorMode = false;
-        return state;
-    })
-    .add<{}>("FETCH_ALL", function (state, action) {
+    .add<{}>("FETCH_ALL", function(state, action) {
         state = initialState;
         return state;
     })
-    .add<{ slot_id: number }>("DESTROY_SLOT", function (state, action) {
+    .add<{}>("EDIT_TOOLS_START", function(state, action) {
+        state.editorMode = true;
+        return state;
+    })
+    .add<{}>("CONTROL_TOOLS_STOP", function(state, action) {
+        state.editorMode = false;
+        return state;
+    })
+    .add<{ slot_id: number }>("DESTROY_SLOT", function(state, action) {
         let { tool_slots } = state;
         let index = _.findIndex(tool_slots, { id: action.payload.slot_id });
         tool_slots.splice(index, 1);
         return state;
     })
-    .add<{}>("ADD_SLOT", function (state, action) {
+    .add<{}>("ADD_SLOT", function(state, action) {
         console.log(action.payload);
         // state.tool_slots.push(action.payload);
         return state;
     })
-    .add<{ tool_id: number }>("DESTROY_TOOL", function (state, action) {
+    .add<{ tool_id: number }>("DESTROY_TOOL", function(state, action) {
         let { tools } = state;
         let index = _.findIndex(tools, { id: action.payload.tool_id });
         tools.splice(index, 1);
         return state;
     });
-
     // .add<Sync>("FETCH_SYNC_OK", function (state, action) {
     //     state.all = action.payload.tools || [];
     //     state.editorMode = "controlling";

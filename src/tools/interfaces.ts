@@ -27,7 +27,7 @@ export interface ToolBayFormState {
 }
 
 export interface ToolSlot {
-    id: number;
+    id?: number;
     tool_bay_id: number;
     name: string;
     x: number;

@@ -66,7 +66,7 @@ export function saveToolSlotsOk(toolSlots: ToolSlot[]): SaveToolSlotsOk {
     return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlots };
 }
 
-export function destroySlot(slot_id: number): DestroySlot {
+export function destroySlot(slot_id?: number): DestroySlot {
     return { type: "DESTROY_SLOT", payload: { slot_id } };
 }
 

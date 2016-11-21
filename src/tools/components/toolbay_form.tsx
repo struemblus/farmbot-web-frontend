@@ -12,16 +12,18 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
-        this.state = { x: 0, y: 0, z: 0, name: "tool" };
+        this.state = { x: 0, y: 0, z: 0, name: "Select Tool" };
     }
 
-    set(e: React.SyntheticEvent<HTMLInputElement>) {
+    set(e: React.SyntheticEvent<HTMLSelectElement> |
+        React.SyntheticEvent<HTMLSelectElement>) {
         let { name, value } = e.currentTarget;
         this.setState({ [name]: value });
-
     }
 
-    update(e: React.SyntheticEvent<HTMLInputElement>) {
+    update(e: React.SyntheticEvent<HTMLSelectElement> |
+        React.SyntheticEvent<HTMLSelectElement>) {
+        console.log("CHANGED");
         // update dirty state
         // console.log(e.currentTarget.name.split("-"));
     }
@@ -38,6 +40,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         return <div>
             {tool_bays.map((bay, i = 0) => {
                 let { name } = bay;
+                let bay_id = bay.id;
                 i++;
                 return <Widget key={name}>
                     <WidgetHeader
@@ -72,12 +75,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <th>X</th>
                                     <th>Y</th>
                                     <th>Z</th>
-                                    <th colSpan={4}>TOOL</th>
+                                    <th>TOOL</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {tool_slots.map(item => {
-                                    let { id, tool_bay_id, x, y, z } = item;
+                                {tool_slots.map(slot => {
+                                    let { x, y, z } = slot;
+                                    let slot_id = slot.id;
                                     slotNum++;
                                     return <tr key={slotNum}>
                                         <td>
@@ -86,27 +90,24 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <td>
                                             <BlurableInput
                                                 value={String(x)}
-                                                name={`${id}-x`}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
                                                 value={String(y)}
-                                                name={`${id}-y`}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
                                                 value={String(z)}
-                                                name={`${id}-z`}
                                                 onCommit={update}
                                                 />
                                         </td>
-                                        <td colSpan={4}>
+                                        <td>
                                             <div className="select-wrapper">
-                                                <select>
+                                                <select onChange={update}>
                                                     {tools.map(tool => {
                                                         return <option key={
                                                             tool.id
@@ -122,7 +123,9 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                 className={`button-like 
                                                     widget-control red`}
                                                 onClick={() => {
-                                                    dispatch(destroySlot(id));
+                                                    dispatch(
+                                                        destroySlot(slot_id)
+                                                    );
                                                 } }>
                                                 X
                                             </button>
@@ -157,16 +160,17 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             onCommit={set}
                                             />
                                     </td>
-                                    <td colSpan={4}>
+                                    <td>
                                         <div className="select-wrapper">
                                             <select>
-                                                {tools.map(tool => {
-                                                    return <option key={
-                                                        tool.id
-                                                    }>
-                                                        {tool.name}
-                                                    </option>;
-                                                })}
+                                                {
+                                                    tools.map(tool => {
+                                                        return <option key={
+                                                            tool.id
+                                                        }>
+                                                        </option>;
+                                                    })
+                                                }
                                             </select>
                                         </div>
                                     </td>
