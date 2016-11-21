@@ -11,6 +11,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         super();
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
+        this.add = this.add.bind(this);
         this.state = { x: 0, y: 0, z: 0, name: "tool" };
     }
 
@@ -32,7 +33,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     render() {
         let { set, update } = this;
         let { dispatch } = this.props;
-        let { tool_bays, tool_slots } = this.props.all;
+        let { tool_bays, tool_slots, tools } = this.props.all;
         let slotNum = 0;
         return <div>
             {tool_bays.map((bay, i = 0) => {
@@ -71,7 +72,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <th>X</th>
                                     <th>Y</th>
                                     <th>Z</th>
-                                    <th>TOOL</th>
+                                    <th colSpan={4}>TOOL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,11 +104,18 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                 onCommit={update}
                                                 />
                                         </td>
-                                        <td>
-                                            <BlurableInput
-                                                value={String(tool_bay_id)}
-                                                onCommit={update}
-                                                />
+                                        <td colSpan={4}>
+                                            <div className="select-wrapper">
+                                                <select>
+                                                    {tools.map(tool => {
+                                                        return <option key={
+                                                            tool.id
+                                                        }>
+                                                            {tool.name}
+                                                        </option>;
+                                                    })}
+                                                </select>
+                                            </div>
                                         </td>
                                         <td>
                                             <button
@@ -149,13 +157,18 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             onCommit={set}
                                             />
                                     </td>
-                                    <td>
-                                        <BlurableInput
-                                            value={String(this.state.name)}
-                                            type="text"
-                                            name="tool"
-                                            onCommit={set}
-                                            />
+                                    <td colSpan={4}>
+                                        <div className="select-wrapper">
+                                            <select>
+                                                {tools.map(tool => {
+                                                    return <option key={
+                                                        tool.id
+                                                    }>
+                                                        {tool.name}
+                                                    </option>;
+                                                })}
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
                                         <button

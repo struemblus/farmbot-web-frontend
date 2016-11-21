@@ -15,6 +15,7 @@ let initialState: ToolsState = {
         {
             id: 111,
             tool_bay_id: 1234,
+            name: "slot1",
             x: 10,
             y: 20,
             z: 30
@@ -22,6 +23,7 @@ let initialState: ToolsState = {
         {
             id: 222,
             tool_bay_id: 1234,
+            name: "slot2",
             x: 40,
             y: 50,
             z: 60
@@ -29,6 +31,7 @@ let initialState: ToolsState = {
         {
             id: 333,
             tool_bay_id: 1234,
+            name: "slot3",
             x: 70,
             y: 80,
             z: 90
@@ -68,6 +71,8 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return state;
     })
     .add<{}>("ADD_SLOT", function (state, action) {
+        console.log(action.payload);
+        // state.tool_slots.push(action.payload);
         return state;
     })
     .add<{ tool_id: number }>("DESTROY_TOOL", function (state, action) {

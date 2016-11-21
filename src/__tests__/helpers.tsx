@@ -143,6 +143,7 @@ export function fakeState(dispatcher?: Function): Everything {
     tool_slots: [
       {
         id: 333,
+        name: "slotster",
         tool_bay_id: 1234,
         x: 10,
         y: 20,

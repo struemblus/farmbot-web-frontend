@@ -36,9 +36,8 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                     <table>
                         <thead>
                             <tr>
-                                <th>TOOL</th>
+                                <th>TOOL NAME</th>
                                 <th>SLOT</th>
-                                <th>STATUS</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,10 +51,17 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                             />
                                     </td>
                                     <td>
-                                        <BlurableInput
-                                            value={name}
-                                            onCommit={set}
-                                            />
+                                        <div className="select-wrapper">
+                                            <select>
+                                                {tool_slots.map(slot => {
+                                                    return <option key={
+                                                        slot.id
+                                                    }>
+                                                        {slot.id || "No slots"}
+                                                    </option>;
+                                                })}
+                                            </select>
+                                        </div>
                                     </td>
                                     <td>
                                         <button

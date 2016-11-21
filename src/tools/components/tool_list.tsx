@@ -24,7 +24,7 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
                     <table>
                         <thead>
                             <tr>
-                                <th>TOOL</th>
+                                <th>TOOL NAME</th>
                                 <th>SLOT</th>
                                 <th>STATUS</th>
                             </tr>
