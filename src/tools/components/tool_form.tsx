@@ -32,11 +32,6 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                         onClick={edit}>
                         {t("SAVE")}
                     </button>
-                    <button
-                        className="gray button-like widget-control"
-                        onClick={stopEdit}>
-                        {t("UNDO")}
-                    </button>
                 </WidgetHeader>
                 <WidgetBody>
                     <table>
@@ -109,7 +104,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                             dispatch(addTool({}));
                                         } }>
                                         +
-                                        </button>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>

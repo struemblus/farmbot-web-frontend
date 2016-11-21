@@ -6,6 +6,16 @@ import * as _ from "lodash";
 import { t } from "i18next";
 
 export class ToolList extends React.Component<ListAndFormProps, {}> {
+    renderTools() {
+        this.props.all.tools.map(tool => {
+            let { name } = tool;
+            return <tr key={name}>
+                <td>NAME</td>
+                <td>SLOT ID</td>
+                <td>INACTIVE</td>
+            </tr>;
+        });
+    }
     render() {
         let onClick = () => { this.props.dispatch(startEditing()); };
         let { tool_slots, tools } = this.props.all;
@@ -30,16 +40,7 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
                             </tr>
                         </thead>
                         <tbody>
-                            {tools.map(tool => {
-                                let { name, slot_id } = tool;
-                                let slot = _.findWhere(tool_slots,
-                                    { id: slot_id });
-                                return <tr key={name}>
-                                    <td>{name}</td>
-                                    <td>{slot.id}</td>
-                                    <td>INACTIVE</td>
-                                </tr>;
-                            })}
+                            {this.renderTools()}
                         </tbody>
                     </table>
                 </WidgetBody>

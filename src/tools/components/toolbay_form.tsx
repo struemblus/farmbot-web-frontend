@@ -52,11 +52,6 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                             onClick={dispatch(saveToolBays)}>
                             {t("SAVE")}
                         </button>
-                        <button
-                            className="gray button-like widget-control"
-                            onClick={stopEdit}>
-                            {t("UNDO")}
-                        </button>
                     </WidgetHeader>
                     <WidgetBody>
                         <table>
@@ -95,19 +90,19 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         </td>
                                         <td>
                                             <BlurableInput
-                                                value={String(x)}
+                                                value={x.toString()}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
-                                                value={String(y)}
+                                                value={y.toString()}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
-                                                value={String(z)}
+                                                value={z.toString()}
                                                 onCommit={update}
                                                 />
                                         </td>
@@ -144,7 +139,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={String(this.state.x)}
+                                            value={this.state.x || ""}
                                             type="number"
                                             name="x"
                                             onCommit={set}
@@ -152,7 +147,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={String(this.state.y)}
+                                            value={this.state.y || ""}
                                             type="number"
                                             name="y"
                                             onCommit={set}
@@ -160,7 +155,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={String(this.state.z)}
+                                            value={this.state.z || ""}
                                             type="number"
                                             name="z"
                                             onCommit={set}

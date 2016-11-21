@@ -20,9 +20,9 @@ export interface ToolBay {
 }
 
 export interface ToolBayFormState {
-    x?: number;
-    y?: number;
-    z?: number;
+    x: string;
+    y: string;
+    z: string;
     name?: string;
 }
 
