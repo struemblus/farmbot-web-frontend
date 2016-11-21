@@ -60,7 +60,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         state.editorMode = true;
         return state;
     })
-    .add<{}>("CONTROL_TOOLS_STOP", function(state, action) {
+    .add<{}>("EDIT_TOOLS_STOP", function(state, action) {
         state.editorMode = false;
         return state;
     })
@@ -79,6 +79,11 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         let { tools } = state;
         let index = _.findIndex(tools, { id: action.payload.tool_id });
         tools.splice(index, 1);
+        return state;
+    })
+    .add<{}>("ADD_TOOL", function(state, action) {
+        console.log(action.payload);
+        // state.tool_slots.push(action.payload);
         return state;
     });
     // .add<Sync>("FETCH_SYNC_OK", function (state, action) {

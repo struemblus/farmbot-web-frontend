@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ListAndFormProps } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { startEditing, destroyTool } from "../actions";
+import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
 import * as _ from "lodash";
 import { BlurableInput } from "../../blurable_input";
 import { t } from "i18next";
@@ -17,7 +17,8 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
     }
 
     render() {
-        let onClick = () => { this.props.dispatch(startEditing()); };
+        let edit = () => { this.props.dispatch(startEditing()); };
+        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         let { set } = this;
         let { dispatch } = this.props;
         let { tool_slots, tools } = this.props.all;
@@ -28,8 +29,13 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                     title="TOOLS">
                     <button
                         className="green button-like widget-control"
-                        onClick={onClick}>
+                        onClick={edit}>
                         {t("SAVE")}
+                    </button>
+                    <button
+                        className="gray button-like widget-control"
+                        onClick={stopEdit}>
+                        {t("UNDO")}
                     </button>
                 </WidgetHeader>
                 <WidgetBody>
@@ -75,6 +81,37 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                     </td>
                                 </tr>;
                             })}
+                            <tr>
+                                <td>
+                                    <BlurableInput
+                                        value={name}
+                                        onCommit={set}
+                                        />
+                                </td>
+                                <td>
+                                    <div className="select-wrapper">
+                                        <select>
+                                            {tool_slots.map(slot => {
+                                                return <option key={
+                                                    slot.id
+                                                }>
+                                                    {slot.id}
+                                                </option>;
+                                            })}
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button
+                                        className={`button-like 
+                                                widget-control green`}
+                                        onClick={() => {
+                                            dispatch(addTool({}));
+                                        } }>
+                                        +
+                                        </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </WidgetBody>

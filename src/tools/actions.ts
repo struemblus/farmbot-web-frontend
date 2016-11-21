@@ -24,7 +24,7 @@ export function startEditing(): ReduxAction<{}> {
 }
 
 export function stopEditing(): ReduxAction<{}> {
-    return { type: "CONTROL_TOOLS_STOP", payload: {} };
+    return { type: "EDIT_TOOLS_STOP", payload: {} };
 }
 
 export function fetchAll(): ReduxAction<{}> {
@@ -102,6 +102,10 @@ export function saveToolsNo(error: AxiosErrorResponse): SaveToolsNo {
 
 export function destroyTool(tool_id: number): DestroyTool {
     return { type: "DESTROY_TOOL", payload: { tool_id } };
+}
+
+export function addTool(payload: Object): DestroyTool {
+    return { type: "ADD_TOOL", payload };
 }
 
 export function saveTools(tools: Tool[]): Thunk {

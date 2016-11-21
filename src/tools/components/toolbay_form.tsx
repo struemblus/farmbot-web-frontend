@@ -2,7 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
-import { saveToolBays, destroySlot, addSlot } from "../actions";
+import { saveToolBays, destroySlot, addSlot, stopEditing } from "../actions";
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<ListAndFormProps,
@@ -12,7 +12,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
-        this.state = { x: 0, y: 0, z: 0, name: "Select Tool" };
+        this.state = { x: 0, y: 0, z: 0, name: "" };
     }
 
     set(e: React.SyntheticEvent<HTMLSelectElement> |
@@ -36,6 +36,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         let { set, update } = this;
         let { dispatch } = this.props;
         let { tool_bays, tool_slots, tools } = this.props.all;
+        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         let slotNum = 0;
         return <div>
             {tool_bays.map((bay, i = 0) => {
@@ -50,6 +51,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                             className="green button-like widget-control"
                             onClick={dispatch(saveToolBays)}>
                             {t("SAVE")}
+                        </button>
+                        <button
+                            className="gray button-like widget-control"
+                            onClick={stopEdit}>
+                            {t("UNDO")}
                         </button>
                     </WidgetHeader>
                     <WidgetBody>
@@ -168,6 +174,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                         return <option key={
                                                             tool.id
                                                         }>
+                                                            {tool.name}
                                                         </option>;
                                                     })
                                                 }
