@@ -12,13 +12,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
-        this.state = { x: 0, y: 0, z: 0, name: "" };
+        this.state = { x: "0", y: "0", z: "0", name: "" };
     }
 
     set(e: React.SyntheticEvent<HTMLSelectElement> |
         React.SyntheticEvent<HTMLSelectElement>) {
         let { name, value } = e.currentTarget;
-        this.setState({ [name]: value });
+        // this.setState({ [name]: value });
     }
 
     update(e: React.SyntheticEvent<HTMLSelectElement> |
