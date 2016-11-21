@@ -51,7 +51,7 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
         <StepButton dispatch={dispatch}
             step={{
                 kind: "send_message",
-                args: { message: "Bot is at position {{ x }}." }
+                args: { message: "Bot is at position {{ x, y, z }}." }
             }}
             color="red" >
             {t("SEND MESSAGE")}

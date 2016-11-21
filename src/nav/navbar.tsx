@@ -82,7 +82,8 @@ let links = [
     { name: "Controls", icon: "keyboard-o", url: "/app/dashboard/controls" },
     { name: "Device", icon: "cog", url: "/app/dashboard/devices" },
     { name: "Sequences", icon: "server", url: "/app/dashboard/sequences" },
-    { name: "Regimens", icon: "calendar-check-o", url: "/app/dashboard/regimens" }
+    { name: "Regimens", icon: "calendar-check-o", url: "/app/dashboard/regimens" },
+    { name: "Tools", icon: "wrench", url: "/app/dashboard/tools" }
 ];
 
 interface NavBarState {

@@ -103,4 +103,10 @@ export class API {
     get sequencesPath() { return `${this.baseUrl}/api/sequences/`; };
     /** /api/sync/ */
     get syncPath() { return `${this.baseUrl}/api/sync/`; };
+    /** /api/tool_bays/ */
+    get toolBaysPath() { return `${this.baseUrl}/api/tool_bays/`; };
+    /** /api/tool_slots/ */
+    get toolSlotsPath() { return `${this.baseUrl}/api/tool_slots/`; };
+    /** /api/tools/ */
+    get toolsPath() { return `${this.baseUrl}/api/tools/`; };
 }
