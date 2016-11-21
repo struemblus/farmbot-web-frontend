@@ -7,7 +7,7 @@ import { Color } from "../interfaces";
 export interface BasicNode {
   kind: string;
   args: {};
-  body?: BasicNode[];
+  body?: BasicNode[] | undefined;
   comment?: string;
 };
 
@@ -93,11 +93,12 @@ interface WaitNode extends BasicNode {
   };
 }
 
-interface SendMessageNode extends BasicNode {
+export interface SendMessageNode extends BasicNode {
   kind: "send_message";
   args: {
     message: string;
   };
+  body?: ChannelNode[] | undefined;
 }
 
 interface ExecuteNode extends BasicNode {
@@ -124,10 +125,18 @@ export type Step = MoveAbsoluteNode
   | WaitNode
   | SendMessageNode
   | ExecuteNode
-  | IfStatementNode;
+  | IfStatementNode
+  | ChannelNode;
+
+export interface ChannelNode extends BasicNode {
+  kind: "channel";
+  args: {
+    channel_name: string;
+  };
+}
 
 export interface SequenceNode extends BasicNode {
   kind: "sequence";
   args: {};
-  body: Step[];
+  body: Step[] | undefined;
 };
