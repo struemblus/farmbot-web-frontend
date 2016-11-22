@@ -128,7 +128,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                         destroySlot(slot_id)
                                                     );
                                                 } }>
-                                                X
+                                                <i className="fa fa-times"></i>
                                             </button>
                                         </td>
                                     </tr>;
@@ -181,8 +181,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             className={`button-like 
                                                     widget-control green`}
                                             onClick={this.add.bind(this)}>
-                                            +
-                                            </button>
+                                            <i className="fa fa-plus"></i>
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>
