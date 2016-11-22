@@ -1,15 +1,20 @@
 import * as React from "react";
-import { ListAndFormProps } from "../interfaces";
+import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
-import * as _ from "lodash";
+import { startEditing, destroyTool, addTool } from "../actions";
 import { BlurableInput } from "../../blurable_input";
 import { t } from "i18next";
 
-export class ToolForm extends React.Component<ListAndFormProps, {}> {
+export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     constructor() {
         super();
         this.set = this.set.bind(this);
+        this.add = this.add.bind(this);
+        this.state = { name: "", slot_id: 0, id: 0 };
+    }
+
+    add() {
+        this.props.dispatch(addTool(this.state));
     }
 
     set(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -18,8 +23,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
 
     render() {
         let edit = () => { this.props.dispatch(startEditing()); };
-        let stopEdit = () => { this.props.dispatch(stopEditing()); };
-        let { set } = this;
+        let { set, add } = this;
         let { dispatch } = this.props;
         let { tool_slots, tools } = this.props.all;
         return <div>
@@ -100,9 +104,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                     <button
                                         className={`button-like 
                                                 widget-control green`}
-                                        onClick={() => {
-                                            dispatch(addTool({}));
-                                        } }>
+                                        onClick={() => { dispatch(add); } }>
                                         <i className="fa fa-plus"></i>
                                     </button>
                                 </td>
