@@ -19,16 +19,22 @@ let channels = _.pairs<{}, string>({
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     (e: React.FormEvent<HTMLInputElement>) => {
         let el = e.target as HTMLInputElement;
-        let action = (el.checked) ? removeChan : addChan;
+        let action = (el.checked) ? addChan : removeChan;
         dispatch(action({ channel_name, index }));
     };
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
     let choices = channels.map(function (pair, key) {
         let [name, label] = pair;
+        let name_list = _.pluck((step.body || []), "args.channel_name");
+        let isChecked = !!name_list.includes(name);
+
         return <fieldset key={key}>
             <label htmlFor={name}> {label}</label>
-            <input type="checkbox" id={name} onChange={handleChange(name, index, dispatch)} />
+            <input type="checkbox"
+                id={name}
+                onChange={handleChange(name, index, dispatch)}
+                checked={isChecked} />
         </fieldset>;
     });
 
