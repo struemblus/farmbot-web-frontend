@@ -40,7 +40,6 @@ const initialState: SequenceReducerState = {
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<ChanParams>("ADD_CHANNEL", function (s, a) {
-        console.log("?");
         let { index, channel_name} = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
@@ -48,7 +47,6 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         if (step.kind === "send_message") {
             step.body = step.body || [];
             step.body.push({ kind: "channel", args: { channel_name } });
-            // I wish ES6 sets checked object equivalence :(
             step.body = _.uniq(step.body, (t) => t.args.channel_name);
         } else {
             throw new Error("ADD_CHANNEL only works on `send_message` nodes.");
@@ -56,7 +54,6 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<ChanParams>("REMOVE_CHANNEL", function (s, a) {
-        console.log("?");
         let { index, channel_name} = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
