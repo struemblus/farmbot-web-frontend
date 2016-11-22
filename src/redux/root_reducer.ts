@@ -33,10 +33,14 @@ let reducers = combineReducers({
     sync
 });
 
+
+
 /** This is the topmost reducer in the application. If you need to preempt a
  * "normal" reducer (eg: globally capture `LOGOUT` action) this is the place to
  *  do it */
-export function rootReducer(state: any,
+export function rootReducer(
+    /** Sorry for the `any` here. */
+    state: any,
     action: ReduxAction<{}>) {
     if (action.type === "LOGOUT") {
         state = { routing: state.routing };
