@@ -3,6 +3,7 @@ import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
 import { saveToolBays, destroySlot, addSlot, stopEditing } from "../actions";
+import { success } from "../../logger";
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<ListAndFormProps,
@@ -12,7 +13,14 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
-        this.state = { x: "0", y: "0", z: "0", name: "" };
+        this.state = { x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 };
+    }
+
+    componentDidMount() {
+        success(
+            "Subscribe to the FarmBot.io mailing list for news and updates.",
+            "Work in Progress"
+        );
     }
 
     set(e: React.SyntheticEvent<HTMLSelectElement> |
@@ -28,15 +36,15 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         // console.log(e.currentTarget.name.split("-"));
     }
 
-    add(e: React.SyntheticEvent<HTMLInputElement>) {
+    add(bay_id: number) {
+        this.setState({ tool_bay_id: bay_id });
         this.props.dispatch(addSlot(this.state));
     }
 
     render() {
-        let { set, update } = this;
+        let { set, update, add } = this;
         let { dispatch } = this.props;
         let { tool_bays, tool_slots, tools } = this.props.all;
-        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         let slotNum = 0;
         return <div>
             {tool_bays.map((bay, i = 0) => {
@@ -180,7 +188,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <button
                                             className={`button-like 
                                                     widget-control green`}
-                                            onClick={this.add.bind(this)}>
+                                            onClick={() => add(bay_id)}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </td>

@@ -20,10 +20,11 @@ export interface ToolBay {
 }
 
 export interface ToolBayFormState {
-    x: string;
-    y: string;
-    z: string;
+    x?: string;
+    y?: string;
+    z?: string;
     name?: string;
+    tool_bay_id?: number;
 }
 
 export interface ToolSlot {
