@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { ToggleButton } from "../controls/toggle_button";
+import { CalibrationButton } from "./components/calibration_button";
 import { BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
 import { Everything } from "../interfaces";
@@ -405,22 +406,13 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                             <label>{t("CALIBRATION")}</label>
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button"
-                                                                                className="button-like yellow">
-                                                                                {t("CALIBRATE X")}
-                                                                            </button>
+                                                                            <CalibrationButton target="x" />
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button"
-                                                                                className="button-like yellow">
-                                                                                {t("CALIBRATE Y")}
-                                                                            </button>
+                                                                            <CalibrationButton target="y" />
                                                                         </td>
                                                                         <td>
-                                                                            <button type="button"
-                                                                                className="button-like yellow">
-                                                                                {t("CALIBRATE Z")}
-                                                                            </button>
+                                                                            <CalibrationButton target="z" />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>

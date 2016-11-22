@@ -7,7 +7,6 @@ import { IndexedPeripheral, Peripheral } from "./interfaces";
 import { devices } from "../../device";
 import * as _ from "lodash";
 import { API } from "../../api";
-import { Thunk } from "../../redux/interfaces";
 /** Transitions the peripherals form from a controlling state
  *  into an editing state */
 export function startEditing(): ReduxAction<{}> {
