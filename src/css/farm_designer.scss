@@ -1,65 +1,68 @@
 // Styles for the Farm Designer
-
 .farm-designer-body {
-  display: flex;
+    display: flex;
 }
 
-.farm-designer, .farm-designer-body {
-  height: 100vh;
-  padding-bottom: 5rem;
-  overflow: hidden;
+.farm-designer,
+.farm-designer-body {
+    height: 100vh;
+    padding-bottom: 5rem;
+    overflow: hidden;
 }
 
 .farm-designer-map {
-  width: 100%;
-  overflow: scroll;
+    width: 100%;
+    overflow: scroll;
 }
 
-.farm-designer-left, .farm-designer-right {
-  width: 25rem;
-  min-width: 25rem;
+.farm-designer-left,
+.farm-designer-right {
+    width: 25rem;
+    min-width: 25rem;
 }
 
 .panel-container {
-  height: 100vh;
-  padding-bottom: 5rem;
-  overflow: hidden;
-  position: relative;
+    height: 100vh;
+    padding-bottom: 5rem;
+    overflow: hidden;
+    position: relative;
 }
 
 .object-list {
-  padding-bottom: 2rem;
-  a {
-    color: $dark_gray;
-    text-decoration: none;
-    &:hover {
-      text-decoration: underline;
+    padding-bottom: 2rem;
+    a {
+        color: $dark_gray;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
     }
-  }
-  ul {
-    padding-left: 2rem;
-  }
-  li {
-    margin-bottom: 0.5rem;
-  }
+    ul {
+        padding-left: 2rem;
+    }
+    li {
+        margin-bottom: 0.5rem;
+    }
 }
 
 .crop-drag-info-image {
-  width: 100%;
-  padding: 0 auto 0 auto;
-  background-color: $translucent;
+    width: 100%;
+    padding: 0 auto 0 auto;
+    background-color: $translucent;
 }
 
 .crop-info-overlay {
-  position: relative;
-  bottom: 3rem;
-  z-index: 3;
-  background-color: $dark_gray;
-  font-style: italic;
-  color: $off_white;
-  display: flex;
-  justify-content: center; /* align horizontal */
-  align-items: center; /* align vertical */
-  height: 3rem;
-  width: 100%;
+    position: relative;
+    bottom: 3rem;
+    z-index: 3;
+    background-color: $dark_gray;
+    font-style: italic;
+    color: $off_white;
+    display: flex;
+    justify-content: center;
+    /* align horizontal */
+    align-items: center;
+    /* align vertical */
+    height: 3rem;
+    width: 100%;
 }
