@@ -36,13 +36,12 @@ export function rootReducer(
     /** Sorry for the `any` here. */
     state: {} | any,
     action: ReduxAction<{}>) {
-    let nextState = reducers(state, action);
 
     if (action.type === "LOGOUT") {
         localStorage.clear();
         sessionStorage.clear();
-        return {};
+        return reducers({}, action);
     };
 
-    return;
+    return reducers(state, action);
 };
