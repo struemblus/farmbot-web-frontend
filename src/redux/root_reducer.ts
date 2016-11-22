@@ -46,7 +46,7 @@ export function rootReducer(
         localStorage.clear();
         sessionStorage.clear();
         // Delightful hack to prevent infinite refreshing.
-        if (state.auth) { location.reload(); }
+        if (state.auth) { location.reload(true); }
     }
 
     return reducers(state, action);

@@ -106,7 +106,7 @@ class XNavBar extends React.Component<Everything, NavBarState> {
 
     logout() {
         Session.clear();
-        location.reload();
+        location.reload(true);
     }
 
     render() {
