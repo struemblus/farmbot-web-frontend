@@ -489,6 +489,27 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                                 toggleAction={() => settingToggle("movement_home_up_z", this.props.bot)} />
                                                                         </td>
                                                                     </tr>
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            <label>{t("ENABLE ENCODERS")}</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <ToggleButton
+                                                                                toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_x}
+                                                                                toggleAction={() => settingToggle("encoder_enabled_x", this.props.bot)} />
+                                                                        </td>
+                                                                        <td>
+                                                                            <ToggleButton
+                                                                                toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_y}
+                                                                                toggleAction={() => settingToggle("encoder_enabled_y", this.props.bot)} />
+                                                                        </td>
+                                                                        <td>
+                                                                            <ToggleButton
+                                                                                toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_z}
+                                                                                toggleAction={() => settingToggle("encoder_enabled_z", this.props.bot)} />
+                                                                        </td>
+                                                                    </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
