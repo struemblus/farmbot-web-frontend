@@ -10,7 +10,7 @@ import { addChan, removeChan } from "../actions";
 
 let channels = _.pairs<{}, string>({
     "ticker": "Ticker",
-    "ticker_error": "Toast (Error)",
+    "ticker_error": "Ticker (Error)",
     "toast_success": "Toast (Success)",
     "toast_error": "Toast (Error)",
     "toast_warning": "Toast (Warning)"

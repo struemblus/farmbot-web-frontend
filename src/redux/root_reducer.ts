@@ -36,6 +36,7 @@ export function rootReducer(
     /** Sorry for the `any` here. */
     state: {} | any,
     action: ReduxAction<{}>) {
+    let nextState = reducers(state, action);
 
     if (action.type === "LOGOUT") {
         localStorage.clear();
@@ -43,5 +44,5 @@ export function rootReducer(
         return {};
     };
 
-    return reducers(state, action);
+    return;
 };
