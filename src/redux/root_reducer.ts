@@ -43,7 +43,11 @@ export function rootReducer(
     state: any,
     action: ReduxAction<{}>) {
     if (action.type === "LOGOUT") {
-        state = { routing: state.routing };
+        localStorage.clear();
+        sessionStorage.clear();
+        // Delightful hack to prevent infinite refreshing.
+        if (state.auth) { location.reload(); }
     }
+
     return reducers(state, action);
 };

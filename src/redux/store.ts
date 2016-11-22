@@ -19,7 +19,7 @@ function prod() {
     return createStore(rootReducer, ({} as any), getMiddleware("production"));
 }
 
-function configureStore(options = {}) {
+export function configureStore(options = {}) {
     let store: Store = (ENV === "production" ? prod() : dev());
     registerSubscribers(store);
     return store;
