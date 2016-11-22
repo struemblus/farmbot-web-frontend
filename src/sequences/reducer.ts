@@ -38,7 +38,7 @@ const initialState: SequenceReducerState = {
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
-    .add<{ index: number, channel_name: string }>("ADD_CHANNEL", function(s, a) {
+    .add<{ index: number, channel_name: string }>("ADD_CHANNEL", function (s, a) {
         let { index, channel_name} = a.payload;
         let step = s.all[s.current].body[index];
         if (step.kind === "send_message") {
@@ -51,7 +51,11 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return s;
     })
-    .add<{ index: number, comment: string }>("ADD_COMMENT", function(s, a) {
+    .add<{ index: number, channel_name: string }>("REMOVE_CHANNEL", function (s, a) {
+        throw new Error("FINISH THIS ACTION. " +
+            "Also, use named interface her e and for ADD_CHANNEL");
+    })
+    .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {
         let seq = s.all[s.current];
         let node = seq.body[a.payload.index];
         markDirty(s);
@@ -61,7 +65,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         if (!node.comment) { delete node.comment; }
         return s;
     })
-    .add<{ step: Step }>("PUSH_STEP", function(state, action) {
+    .add<{ step: Step }>("PUSH_STEP", function (state, action) {
         let current_sequence = state
             .all[state.current] || populate(state);
         markDirty(state);
@@ -70,18 +74,18 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         current_sequence.body.push(stepp);
         return state;
     })
-    .add<void>("ADD_SEQUENCE", function(state, action) {
+    .add<void>("ADD_SEQUENCE", function (state, action) {
         populate(state);
         return state;
     })
-    .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", function(state, action) {
+    .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", function (state, action) {
         let currentSequence = state.all[state.current] || populate(state);
         currentSequence.name = action.payload.name || currentSequence.name;
         currentSequence.color = action.payload.color || currentSequence.color;
         markDirty(state);
         return state;
     })
-    .add<{ step: Step, index: number }>("CHANGE_STEP", function(state, action) {
+    .add<{ step: Step, index: number }>("CHANGE_STEP", function (state, action) {
 
         /// DELETE THIS!?!?!?!?
         // let steps = state.all[state.current].body || populate(state).body;
@@ -95,27 +99,27 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         _.assign(currentStep, action.payload.step);
         return state;
     })
-    .add<{ index: number }>("REMOVE_STEP", function(state, action) {
+    .add<{ index: number }>("REMOVE_STEP", function (state, action) {
         let seq = state.all[state.current];
         let index = action.payload.index;
         seq.body = _.without(seq.body, seq.body[index]);
         markDirty(state);
         return state;
     })
-    .add<Sequence>("SAVE_SEQUENCE_OK", function(state, action) {
+    .add<Sequence>("SAVE_SEQUENCE_OK", function (state, action) {
         state.all[state.current] = action.payload;
         return state;
     })
-    .add<Sync>("FETCH_SYNC_OK", function(state, action) {
+    .add<Sync>("FETCH_SYNC_OK", function (state, action) {
         state.all = action.payload.sequences || [];
         return state;
     })
-    .add<number>("SELECT_SEQUENCE", function(state, action) {
+    .add<number>("SELECT_SEQUENCE", function (state, action) {
         let inx = action.payload;
         if (state.all[inx]) { state.current = inx; }
         return state;
     })
-    .add<Sequence>("DELETE_SEQUENCE_OK", function(state, action) {
+    .add<Sequence>("DELETE_SEQUENCE_OK", function (state, action) {
         let found = _.find(state.all, { name: action.payload.name });
         if (found) {
             _.pull(state.all, found);
@@ -125,7 +129,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return state;
     })
-    .add<Sequence>("COPY_SEQUENCE", function(state, action) {
+    .add<Sequence>("COPY_SEQUENCE", function (state, action) {
         let seq = action.payload;
         // Unset the ID to avoid accidentally overwriting parent.
         seq.id = undefined;
@@ -134,7 +138,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let baseName = seq.name.replace(/ \(copy \d*\)/, "");
         // TODO: This function has string typing, regexes and inband signalling.
         // I like to avoid all of those. Possible refactor target?
-        let copies = _.select(state.all, function(item) {
+        let copies = _.select(state.all, function (item) {
             return (item.name.indexOf(baseName) !== -1);
         }).length;
         // Give it a name with the (copy X) stripped out
@@ -145,7 +149,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         state.all.push(seq);
         return state;
     })
-    .add<MoveStepPayl>("MOVE_STEP", function(s, a) {
+    .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
         let { from, to } = a.payload;
         markDirty(s);
         s.all[s.current].body = move<Step>(s.all[s.current].body,
@@ -167,7 +171,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return s;
     })
-    .add<SpliceStepPayl>("SPLICE_STEP", function(s, a) {
+    .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
         markDirty(s);
         s.all[s.current].body.splice(a.payload.insertBefore, 0, a.payload.step);
         return s;

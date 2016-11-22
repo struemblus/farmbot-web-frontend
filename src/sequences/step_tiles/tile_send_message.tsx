@@ -18,23 +18,24 @@ let channels = _.pairs<{}, string>({
 
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     (e: React.FormEvent<HTMLInputElement>) => {
-        let THING_IS_CHECKED = true;
+        let el = e.target as HTMLInputElement;
+        let THING_IS_CHECKED = el.checked;
+        // TODO: Put these into action creators.
         if (THING_IS_CHECKED) {
             dispatch({
                 type: "ADD_CHANNEL",
                 payload: { channel_name, index }
             });
         } else {
-            // TODO:
-            // 1. Show values as checked or unchecked based on state.
-            // 2. Add a `REMOVE_CHANNEL` action.
-            // 3. Implement THING_IS_CHECKED
-            debugger;
+            dispatch({
+                type: "REMOVE_CHANNEL",
+                payload: { channel_name, index }
+            });
         }
     };
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
-    let choices = channels.map(function(pair, key) {
+    let choices = channels.map(function (pair, key) {
         let [name, label] = pair;
         return <fieldset key={key}>
             <label htmlFor={name}> {label}</label>
