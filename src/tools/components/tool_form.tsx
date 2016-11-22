@@ -71,7 +71,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                             onClick={() => {
                                                 dispatch(destroyTool(id));
                                             } }>
-                                            X
+                                            <i className="fa fa-times"></i>
                                         </button>
                                     </td>
                                 </tr>;
@@ -103,7 +103,7 @@ export class ToolForm extends React.Component<ListAndFormProps, {}> {
                                         onClick={() => {
                                             dispatch(addTool({}));
                                         } }>
-                                        +
+                                        <i className="fa fa-plus"></i>
                                     </button>
                                 </td>
                             </tr>
