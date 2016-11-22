@@ -16,50 +16,50 @@ import { ToolsState } from "./tools/interfaces";
 export type Color = FarmBotJsColor;
 
 interface Location {
-  /** EX: /app/dashboard/designer */
-  pathname: string;
-  /** EX: ?id=twowing-silverbell&p1=SpeciesInfo */
-  search: string;
-  hash: string;
-  // /** ¯\_(ツ)_/¯ */
-  // state: void;
-  /** EX: "PUSH" */
-  action: string;
-  /** EX:  jhedoi */
-  key: string;
-  /** URL ?Query=string, converted to JS object. */
-  query: { [name: string]: string };
+    /** EX: /app/dashboard/designer */
+    pathname: string;
+    /** EX: ?id=twowing-silverbell&p1=SpeciesInfo */
+    search: string;
+    hash: string;
+    // /** ¯\_(ツ)_/¯ */
+    // state: void;
+    /** EX: "PUSH" */
+    action: string;
+    /** EX:  jhedoi */
+    key: string;
+    /** URL ?Query=string, converted to JS object. */
+    query: { [name: string]: string };
 };
 
 export interface Everything {
-  config: ConfigState;
-  auth: AuthState | undefined;
-  designer: DesignerState;
-  dispatch: Function;
-  bot: BotState;
-  ticker: TickerState;
-  sequences: SequenceReducerState;
-  regimens: RegimensState;
-  bulkScheduler: BulkSchedulerState;
-  location: Location;
-  draggable: DragableState;
-  peripherals: PeripheralState;
-  tools: ToolsState;
-  sync: Sync;
+    config: ConfigState;
+    auth: AuthState | undefined;
+    designer: DesignerState;
+    dispatch: Function;
+    bot: BotState;
+    ticker: TickerState;
+    sequences: SequenceReducerState;
+    regimens: RegimensState;
+    bulkScheduler: BulkSchedulerState;
+    location: Location;
+    draggable: DragableState;
+    peripherals: PeripheralState;
+    tools: ToolsState;
+    sync: Sync;
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */
 export interface Sync {
-  /** Git commit hash of the revision that the server is running. */
-  api_version: string;
-  /** A number that, when incremented, alerts the bot that
-   * its software is out of date */
-  compat_num: number;
-  device: DeviceAccountSettings;
-  users: User[];
-  sequences: Sequence[];
-  regimens: RegimenApiResponse[];
-  peripherals: Peripheral[];
-  regimen_items: RegimenItem[];
-  plants: Plant[];
+    /** Git commit hash of the revision that the server is running. */
+    api_version: string;
+    /** A number that, when incremented, alerts the bot that
+     * its software is out of date */
+    compat_num: number;
+    device: DeviceAccountSettings;
+    users: User[];
+    sequences: Sequence[];
+    regimens: RegimenApiResponse[];
+    peripherals: Peripheral[];
+    regimen_items: RegimenItem[];
+    plants: Plant[];
 }

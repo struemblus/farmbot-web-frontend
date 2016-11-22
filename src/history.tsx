@@ -1,5 +1,3 @@
-import { store } from "./redux/store";
 import { browserHistory } from "react-router";
-import { syncHistoryWithStore } from "react-router-redux";
-export let history = syncHistoryWithStore(browserHistory, store);
+export let history = browserHistory;
 export let push = (url: string) => history.push(url);

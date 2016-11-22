@@ -3,7 +3,6 @@ import { sequenceReducer as sequences } from "../sequences/reducer";
 import { botReducer as bot } from "../devices/reducer";
 import { peripheralReducer as peripherals } from "../controls/peripherals/reducer";
 import { configReducer as config } from "../config/reducer";
-import { routerReducer as routing } from "react-router-redux";
 import { regimensReducer as regimens } from "../regimens/reducer";
 import { tickerReducer as ticker } from "../ticker/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
@@ -14,11 +13,8 @@ import {
     BulkSchedulerReducer as bulkScheduler
 } from "../regimens/bulk_scheduler/reducer";
 import { combineReducers } from "redux";
-import { Everything } from "../interfaces";
 import { ReduxAction } from "./interfaces";
-import { success } from "../logger";
 let reducers = combineReducers({
-    routing,
     auth,
     bot,
     sequences,
@@ -33,21 +29,19 @@ let reducers = combineReducers({
     sync
 });
 
-
-
 /** This is the topmost reducer in the application. If you need to preempt a
  * "normal" reducer (eg: globally capture `LOGOUT` action) this is the place to
  *  do it */
 export function rootReducer(
     /** Sorry for the `any` here. */
-    state: any,
+    state: {} | any,
     action: ReduxAction<{}>) {
+
     if (action.type === "LOGOUT") {
         localStorage.clear();
         sessionStorage.clear();
-        // Delightful hack to prevent infinite refreshing.
-        if (state.auth) { location.reload(true); }
-    }
+        console.warn("REPLACE STATE HERE");
+    };
 
     return reducers(state, action);
 };
