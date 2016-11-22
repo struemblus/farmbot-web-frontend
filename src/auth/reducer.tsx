@@ -9,11 +9,11 @@ export let authReducer = generateReducer<AuthState | undefined>(undefined)
     return s;
   })
   .add<AuthState>("LOGOUT", function (s, a) {
-    return undefined;
+    return s;
   })
   .add<AuthState>("LOGIN_OK", function (s, a) {
     return a.payload;
   })
   .add<void>("LOGIN_ERR", function (s, a) {
-    return undefined;
+    return s;
   });
