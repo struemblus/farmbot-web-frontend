@@ -40,8 +40,11 @@ const initialState: SequenceReducerState = {
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<ChanParams>("ADD_CHANNEL", function (s, a) {
+        console.log("?");
         let { index, channel_name} = a.payload;
-        let step = s.all[s.current].body[index];
+        let seq = s.all[s.current];
+        seq.dirty = true;
+        let step = seq.body[index];
         if (step.kind === "send_message") {
             step.body = step.body || [];
             step.body.push({ kind: "channel", args: { channel_name } });
@@ -53,8 +56,11 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<ChanParams>("REMOVE_CHANNEL", function (s, a) {
+        console.log("?");
         let { index, channel_name} = a.payload;
-        let step = s.all[s.current].body[index];
+        let seq = s.all[s.current];
+        seq.dirty = true;
+        let step = seq.body[index];
         if (step.kind === "send_message") {
             step.body = step.body || [];
             step.body.push({ kind: "channel", args: { channel_name } });

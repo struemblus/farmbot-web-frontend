@@ -16,15 +16,15 @@ import { API } from "../api";
 
 export function addChan({channel_name, index}: ChanParams) {
     return {
-        type: "X_CHANNEL",
+        type: "ADD_CHANNEL",
         payload: { channel_name, index }
-    }
+    };
 }
 export function removeChan({channel_name, index}: ChanParams) {
     return {
-        type: "X_CHANNEL",
+        type: "REMOVE_CHANNEL",
         payload: { channel_name, index }
-    }
+    };
 }
 export function nullSequence(): Sequence {
     return {
