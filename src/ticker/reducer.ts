@@ -28,12 +28,13 @@ function change(color: string, message: string, show = true) {
         return { color, message, show };
     };
 }
-
-export let tickerReducer = generateReducer<TickerState>({
+let initialState = {
     message: "Please log in",
     color: "gray",
     show: true
-})
+};
+
+export let tickerReducer = generateReducer<TickerState>(initialState)
     .add<{}>("LOGIN_OK", (s, a) => {
         return { color: RED, message: "Logged in", show: true };
     })
@@ -44,6 +45,7 @@ export let tickerReducer = generateReducer<TickerState>({
     .add<{}>("FETCH_SEQUENCES_OK", firstPerson(GREEN, "done fetching sequences."))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
     .add<{}>("BOT_SYNC_OK", firstPerson(GREEN, "synced"))
+    .add<{}>("LOGOUT", function (s, a) { return initialState; })
     .add<string>("BOT_ERROR", (s, a) => {
         return { color: RED, message: a.payload, show: true };
     })

@@ -40,7 +40,7 @@ export function rootReducer(
     if (action.type === "LOGOUT") {
         localStorage.clear();
         sessionStorage.clear();
-        console.warn("REPLACE STATE HERE");
+        return {};
     };
 
     return reducers(state, action);
