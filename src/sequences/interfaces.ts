@@ -140,3 +140,9 @@ export interface SequenceNode extends BasicNode {
   args: {};
   body: Step[] | undefined;
 };
+
+/** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */
+export interface ChanParams {
+  channel_name: string;
+  index: number;
+};

@@ -5,7 +5,7 @@ import { Help } from "../../help";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
-import { Step, ChannelNode } from "../interfaces";
+import { addChan, removeChan } from "../actions";
 
 let channels = _.pairs<{}, string>({
     "toast": "Toast",
@@ -19,19 +19,8 @@ let channels = _.pairs<{}, string>({
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     (e: React.FormEvent<HTMLInputElement>) => {
         let el = e.target as HTMLInputElement;
-        let THING_IS_CHECKED = el.checked;
-        // TODO: Put these into action creators.
-        if (THING_IS_CHECKED) {
-            dispatch({
-                type: "ADD_CHANNEL",
-                payload: { channel_name, index }
-            });
-        } else {
-            dispatch({
-                type: "REMOVE_CHANNEL",
-                payload: { channel_name, index }
-            });
-        }
+        let action = (el.checked) ? removeChan : addChan;
+        dispatch(action({ channel_name, index }));
     };
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {

@@ -1,7 +1,8 @@
 import {
     Step,
     Sequence,
-    SequenceReducerState
+    SequenceReducerState,
+    ChanParams
 } from "./interfaces";
 import {
     nullSequence,
@@ -38,7 +39,7 @@ const initialState: SequenceReducerState = {
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
-    .add<{ index: number, channel_name: string }>("ADD_CHANNEL", function (s, a) {
+    .add<ChanParams>("ADD_CHANNEL", function (s, a) {
         let { index, channel_name} = a.payload;
         let step = s.all[s.current].body[index];
         if (step.kind === "send_message") {
@@ -51,9 +52,19 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         }
         return s;
     })
-    .add<{ index: number, channel_name: string }>("REMOVE_CHANNEL", function (s, a) {
-        throw new Error("FINISH THIS ACTION. " +
-            "Also, use named interface her e and for ADD_CHANNEL");
+    .add<ChanParams>("REMOVE_CHANNEL", function (s, a) {
+        let { index, channel_name} = a.payload;
+        let step = s.all[s.current].body[index];
+        if (step.kind === "send_message") {
+            step.body = step.body || [];
+            step.body.push({ kind: "channel", args: { channel_name } });
+            step.body = _.select(step.body, function (t) {
+                return t.args.channel_name !== channel_name;
+            });
+        } else {
+            throw new Error("ADD_CHANNEL only works on `send_message` nodes.");
+        }
+        return s;
     })
     .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {
         let seq = s.all[s.current];

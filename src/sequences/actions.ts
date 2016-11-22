@@ -4,7 +4,8 @@ import { AuthState } from "../auth/interfaces";
 import {
     SequenceOptions,
     Step,
-    Sequence
+    Sequence,
+    ChanParams
 } from "./interfaces";
 import { success, error } from "../logger";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
@@ -13,6 +14,18 @@ import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as i18next from "i18next";
 import { API } from "../api";
 
+export function addChan({channel_name, index}: ChanParams) {
+    return {
+        type: "X_CHANNEL",
+        payload: { channel_name, index }
+    }
+}
+export function removeChan({channel_name, index}: ChanParams) {
+    return {
+        type: "X_CHANNEL",
+        payload: { channel_name, index }
+    }
+}
 export function nullSequence(): Sequence {
     return {
         color: "gray",
