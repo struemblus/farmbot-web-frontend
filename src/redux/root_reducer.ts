@@ -30,18 +30,11 @@ let reducers = combineReducers({
 });
 
 /** This is the topmost reducer in the application. If you need to preempt a
- * "normal" reducer (eg: globally capture `LOGOUT` action) this is the place to
- *  do it */
+ * "normal" reducer this is the place to do it */
 export function rootReducer(
     /** Sorry for the `any` here. */
     state: {} | any,
     action: ReduxAction<{}>) {
-
-    if (action.type === "LOGOUT") {
-        localStorage.clear();
-        sessionStorage.clear();
-        return reducers({}, action);
-    };
 
     return reducers(state, action);
 };
