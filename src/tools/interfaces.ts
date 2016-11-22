@@ -27,6 +27,12 @@ export interface ToolBayFormState {
     tool_bay_id?: number;
 }
 
+export interface ToolFormState {
+    id?: number;
+    name: string;
+    slot_id: number;
+}
+
 export interface ToolSlot {
     id?: number;
     tool_bay_id: number;
@@ -34,6 +40,22 @@ export interface ToolSlot {
     x: number;
     y: number;
     z: number;
+}
+
+export interface ToolSlotPayl {
+    slotState: {
+        name: string,
+        x: number,
+        y: number,
+        z: number
+    };
+    bay_id: number;
+}
+
+export interface ToolPayl {
+    id: number;
+    name: string;
+    slot_id: number;
 }
 
 export interface Tool {

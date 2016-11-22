@@ -1,5 +1,5 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { ToolsState } from "./interfaces";
+import { ToolsState, ToolSlotPayl, ToolPayl } from "./interfaces";
 import * as _ from "lodash";
 // import { Sync } from "../../interfaces";
 
@@ -70,9 +70,16 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tool_slots.splice(index, 1);
         return state;
     })
-    .add<{ bay_id: number, state: Object }>("ADD_SLOT", function (state, action) {
-        console.log(action.payload);
-        // state.tool_slots.push();
+    .add<ToolSlotPayl>("ADD_SLOT", function (state, action) {
+        let { payload } = action;
+        let { slotState } = payload;
+        state.tool_slots.push({
+            name: slotState.name,
+            tool_bay_id: payload.bay_id,
+            x: slotState.x,
+            y: slotState.y,
+            z: slotState.z
+        });
         return state;
     })
     .add<{ tool_id: number }>("DESTROY_TOOL", function (state, action) {
@@ -81,9 +88,14 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tools.splice(index, 1);
         return state;
     })
-    .add<{}>("ADD_TOOL", function (state, action) {
-        console.log(action.payload);
-        // state.tool_slots.push(action.payload);
+    .add<ToolPayl>("ADD_TOOL", function (state, action) {
+        console.log(state.tools);
+        let { name, slot_id, id } = action.payload;
+        state.tools.push({
+            id,
+            name,
+            slot_id
+        });
         return state;
     });
     // .add<Sync>("FETCH_SYNC_OK", function (state, action) {

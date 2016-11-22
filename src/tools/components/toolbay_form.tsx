@@ -2,7 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
-import { saveToolBays, destroySlot, addSlot, stopEditing } from "../actions";
+import { saveToolBays, destroySlot, addSlot } from "../actions";
 import { success } from "../../logger";
 import { t } from "i18next";
 
@@ -37,8 +37,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     add(bay_id: number) {
-        this.setState({ tool_bay_id: bay_id });
-        this.props.dispatch(addSlot(this.state));
+        let slotState = this.state;
+        this.props.dispatch(addSlot({ slotState, bay_id }));
     }
 
     render() {
