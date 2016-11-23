@@ -60,6 +60,10 @@ nav {
                     display: flex;
                     flex-direction: column;
                     width: 20rem;
+                    li {
+                        padding: 1rem;
+                        width: 22rem;
+                    }
                 }
                 .version-links {
                     position: absolute;

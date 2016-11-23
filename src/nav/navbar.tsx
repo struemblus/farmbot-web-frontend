@@ -19,13 +19,12 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
             <div className="nav-dropdown-content">
                 <ul>
                     <li>
-                        <Link to="/app/dashboard/account"
-                            className="settings-button">
+                        <Link to="/app/dashboard/account">
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
                     <li>
-                        <a onClick={onClick} className="logout-button">
+                        <a onClick={onClick}>
                             <i className="fa fa-sign-out"></i>{t("Logout")}
                         </a>
                     </li>
