@@ -26,7 +26,7 @@ nav {
     }
     a {
         padding: 1rem;
-        color: $gray;
+        color: dark_gray !important;
         &:hover {
             color: $white;
             font-weight: bold;
@@ -69,7 +69,7 @@ nav {
                     right: 0;
                     bottom: 0;
                     text-align: center;
-                    padding: 0.4rem;
+                    padding: 0.8rem;
                     a {
                         text-decoration: underline !important;
                     }
