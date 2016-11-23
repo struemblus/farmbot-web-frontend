@@ -18,6 +18,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.updateCoordinate = this.updateCoordinate.bind(this);
         this.updateToolBayName = this.updateToolBayName.bind(this);
+        this.updateTool = this.updateTool.bind(this);
         this.add = this.add.bind(this);
         this.resetState = this.resetState.bind(this);
         this.state = { x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 };
@@ -42,6 +43,10 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
         let { value, id } = e.currentTarget;
         this.props.dispatch(updateToolBayName({ value, id }));
+    }
+
+    updateTool(e: React.SyntheticEvent<HTMLSelectElement>) {
+
     }
 
     add(bay_id: number) {

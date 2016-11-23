@@ -58,11 +58,13 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                     <td>
                                         <div className="select-wrapper">
                                             <select>
-                                                {tool_slots.map(slot => {
+                                                {tool_slots.map((slot,
+                                                    slotNum = 0) => {
+                                                    slotNum++;
                                                     return <option key={
-                                                        slot.id
+                                                        slotNum
                                                     }>
-                                                        {slot.id}
+                                                        {slot.name}
                                                     </option>;
                                                 })}
                                             </select>
