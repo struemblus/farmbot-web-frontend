@@ -40,6 +40,10 @@ export function saveToolBaysOk(toolBays: ToolBay[]): SaveToolBaysOk {
     return { type: "SAVE_TOOL_BAYS_OK", payload: toolBays };
 }
 
+export function updateToolBayName(payload: Object): ReduxAction<{}> {
+    return { type: "UPDATE_TOOL_BAY_NAME", payload };
+}
+
 export function saveToolBays(toolBays: Tool[]): Thunk {
     return function (dispatch) {
         let url = API.current.toolBaysPath;

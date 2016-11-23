@@ -2,7 +2,13 @@ import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
-import { saveToolBays, destroySlot, addSlot, updateSlot } from "../actions";
+import {
+    saveToolBays,
+    destroySlot,
+    addSlot,
+    updateSlot,
+    updateToolBayName
+} from "../actions";
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<ListAndFormProps,
@@ -10,7 +16,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     constructor() {
         super();
         this.set = this.set.bind(this);
-        this.update = this.update.bind(this);
+        this.updateCoordinate = this.updateCoordinate.bind(this);
+        this.updateToolBayName = this.updateToolBayName.bind(this);
         this.add = this.add.bind(this);
         this.resetState = this.resetState.bind(this);
         this.state = { x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 };
@@ -26,11 +33,15 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.setState({ [name]: value });
     }
 
-    update(e: React.SyntheticEvent<HTMLInputElement> |
-        React.SyntheticEvent<HTMLSelectElement>) {
+    updateCoordinate(e: React.SyntheticEvent<HTMLInputElement>) {
         let { id, name, value } = e.currentTarget;
         let data = { slot_id: id, property: name, value: value };
         this.props.dispatch(updateSlot(data));
+    }
+
+    updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
+        let { value, id } = e.currentTarget;
+        this.props.dispatch(updateToolBayName({ value, id }));
     }
 
     add(bay_id: number) {
@@ -39,10 +50,23 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.resetState();
     }
 
+    renderTools(slotId: number | undefined) {
+        return <div className="select-wrapper">
+            <select onChange={this.updateTool}>
+                {this.props.all.tools.map((tool, toolNum = 0) => {
+                    return <option key={toolNum}>
+                        {tool.name}
+                    </option>;
+                })}
+                <option>None</option>
+            </select>
+        </div>;
+    }
+
     render() {
-        let { set, update, add } = this;
-        let {dispatch} = this.props;
-        let {tool_bays, tool_slots, tools } = this.props.all;
+        let { set, updateCoordinate, updateToolBayName, add } = this;
+        let { dispatch } = this.props;
+        let { tool_bays, tool_slots, tools } = this.props.all;
         let slotNum = 0;
         return <div>
             {tool_bays.map((bay, i = 0) => {
@@ -69,7 +93,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <td>
                                         <BlurableInput
                                             value={name}
-                                            onCommit={set}
+                                            onCommit={updateToolBayName}
+                                            id={(bayId || "").toString()}
                                             />
                                     </td>
                                 </tr>
@@ -82,7 +107,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <th>X</th>
                                     <th>Y</th>
                                     <th>Z</th>
-                                    <th>TOOL</th>
+                                    <th colSpan={4}>TOOL</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -100,7 +125,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                 id={(slotId || "").toString()}
                                                 name="x"
                                                 value={x.toString()}
-                                                onCommit={update}
+                                                onCommit={updateCoordinate}
                                                 />
                                         </td>
                                         <td>
@@ -109,7 +134,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                 id={(slotId || "").toString()}
                                                 name="y"
                                                 value={y.toString()}
-                                                onCommit={update}
+                                                onCommit={updateCoordinate}
                                                 />
                                         </td>
                                         <td>
@@ -118,21 +143,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                 id={(slotId || "").toString()}
                                                 name="z"
                                                 value={z.toString()}
-                                                onCommit={update}
+                                                onCommit={updateCoordinate}
                                                 />
                                         </td>
-                                        <td>
-                                            <div className="select-wrapper">
-                                                <select onChange={update}>
-                                                    {tools.map(tool => {
-                                                        return <option key={
-                                                            tool.id
-                                                        }>
-                                                            {tool.name}
-                                                        </option>;
-                                                    })}
-                                                </select>
-                                            </div>
+                                        <td colSpan={4}>
+                                            {this.renderTools(slotId)}
                                         </td>
                                         <td>
                                             <button
@@ -179,20 +194,17 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <td>
                                         <div className="select-wrapper">
                                             <select>
-                                                {
-                                                    tools.map(tool => {
-                                                        return <option key={
-                                                            tool.id
-                                                        }>
-                                                            {tool.name}
-                                                        </option>;
-                                                    })
-                                                }
+                                                {tools.map(tool => {
+                                                    return <option key={
+                                                        tool.id
+                                                    }>
+                                                        {tool.name}
+                                                    </option>;
+                                                })}
                                             </select>
                                         </div>
                                     </td>
                                     <td>
-
                                         <button
                                             className={`button-like 
                                                     widget-control green`}
