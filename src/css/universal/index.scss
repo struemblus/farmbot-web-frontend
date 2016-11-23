@@ -5,6 +5,9 @@ a {
     outline: none !important;
     cursor: pointer !important;
     color: $off_white;
+    &:visited {
+        color: $off_white;
+    }
 }
 
 button {
