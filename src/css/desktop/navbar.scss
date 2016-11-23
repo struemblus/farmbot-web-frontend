@@ -1,0 +1,19 @@
+nav {
+    background-color: $dark_gray;
+    color: $light_gray;
+    font-size: 1.2rem;
+    letter-spacing: .15rem;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px $translucent;
+    display: flex;
+    ul:first-of-type {
+        display: flex;
+        justify-content: space-around;
+        .fa {
+            display: none;
+        }
+    }
+    a {
+        color: $off-white;
+    }
+}

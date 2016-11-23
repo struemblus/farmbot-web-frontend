@@ -1,47 +1,22 @@
 import * as React from "react";
 import { Link } from "react-router";
-import {
-    sync
-} from "../devices/actions";
-import { AuthState } from "../auth/interfaces";
-import { BotState } from "../devices/interfaces";
+import { sync } from "../devices/actions";
 import { Ticker } from "../ticker/ticker";
-import { Everything, Sync } from "../interfaces";
+import { Everything } from "../interfaces";
+import { NavButtonProps, DropDownProps, NavBarState } from "./interfaces";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";
 
-interface NavButtonProps {
-    auth: AuthState | undefined;
-    dispatch: Function;
-    bot: BotState;
-    onClick?: () => void;
-}
-
-interface DropDownProps {
-    auth: AuthState | undefined;
-    onClick?: () => void;
-    sync: Sync;
-}
-
-interface MobileNavToggleProps {
-    toggleNav?: () => void;
-}
-
-interface NavMobileMenuToggleProps {
-    onClick?: () => void;
-}
-
 export let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
     if (!auth) { return <span></span>; }
-
     let hasName = auth.user && auth.user.name;
     let greeting = hasName ? `${hasName} ▾` : "";
     return (
         <div className="nav-dropdown">
             <span>{greeting}</span>
-            <div className="dropdown-content drop-shadow">
+            <div className="dropdown-content">
                 <ul>
                     <li>
                         <Link to="/app/dashboard/account"
@@ -70,8 +45,7 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
     if (!auth) { return <span></span>; }
     let dirty = bot.dirty;
     let color = dirty ? "yellow" : "green";
-
-    return <button className={"nav-sync button-like " + color}
+    return <button className={`nav-sync button-like ${color}`}
         onClick={() => { dispatch(sync()); } }>
         {dirty ? t("Sync Required") : t("Synced")}
     </button>;
@@ -85,10 +59,6 @@ let links = [
     { name: "Regimens", icon: "calendar-check-o", url: "/app/dashboard/regimens" },
     { name: "Tools", icon: "wrench", url: "/app/dashboard/tools" }
 ];
-
-interface NavBarState {
-    mobileNavExpanded: boolean;
-}
 
 class XNavBar extends React.Component<Everything, NavBarState> {
     constructor() {
@@ -111,50 +81,37 @@ class XNavBar extends React.Component<Everything, NavBarState> {
 
     render() {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
-        return (
-            <nav className="navbar navbar-default" role="navigation">
-                <div className="container-fluid">
-                    <div className="navbar-header drop-shadow">
-                        <button className="navbar-toggle"
-                            onClick={this.toggleNav.bind(this)}
-                            type="button">
-                            <span className="glyphicon glyphicon-menu-hamburger" />
-                        </button>
-                    </div>
-                    <div className="navbar-collapse"
-                        id="navbar">
-                        <ul className={`nav navbar-nav ${mobileMenuClass}`}>
-                            {
-                                links.map(link => {
-                                    return (
-                                        <li key={link.url}>
-                                            <Link to={link.url}
-                                                onClick={this.toggleNav.bind(this)}
-                                                activeClassName="fb-navbar-active-link">
-                                                <i className={`fa fa-${link.icon}`} />
-                                                {link.name}
-                                            </Link>
-                                        </li>
-                                    );
-                                })
-                            }
-                            <li>
-                                <a onClick={this.logout.bind(this)}
-                                    className="logout-button-mobile">
-                                    <i className="fa fa-sign-out"></i> Logout
-                                </a>
+        return <nav role="navigation">
+            <div>
+                <button className="fa fa-bars d-hide"
+                    onClick={this.toggleNav.bind(this)}>
+                </button>
+            </div>
+            <div>
+                <ul className={mobileMenuClass}>
+                    {links.map(link => {
+                        return (
+                            <li key={link.url}>
+                                <Link to={link.url}
+                                    onClick={this.toggleNav.bind(this)}
+                                    activeClassName="active">
+                                    <i className={`fa fa-${link.icon}`} />
+                                    {link.name}
+                                </Link>
                             </li>
-                        </ul>
-                        <SyncButton { ...this.props } />
-                        <Ticker { ...this.props } />
-                        <DropDown onClick={this.logout.bind(this)} { ...this.props } />
-                        <EStopButton { ...this.props } />
-                        <div className={`mobile-menu-underlay ${mobileMenuClass}`}
-                            onClick={this.toggleNav.bind(this)}></div>
-                    </div>
-                </div>
-            </nav>
-        );
+                        );
+                    })}
+                </ul>
+            </div>
+            <div><SyncButton { ...this.props } /></div>
+            <div><Ticker { ...this.props } /></div>
+            <div>
+                <DropDown onClick={this.logout.bind(this)} { ...this.props } />
+            </div>
+            <div><EStopButton { ...this.props } /></div>
+            <div className={`mobile-menu-underlay ${mobileMenuClass}`}
+                onClick={this.toggleNav.bind(this)}></div>
+        </nav>;
     }
 }
 

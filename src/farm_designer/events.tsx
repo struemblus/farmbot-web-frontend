@@ -36,7 +36,7 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
     return <div className="event { this.hasPassed(event.time) ? 'past' : '' }">
       <div className="event-time">
-        { this.formatTime(evnt.time) }
+        {this.formatTime(evnt.time)}
       </div>
       <div className="event-title">{evnt.desc}</div>
     </div>;
@@ -47,7 +47,7 @@ export class Events extends React.Component<Everything, {}> {
   render() {
     let events = _(FAKE_SCHEDULES)
       .sortBy("time")
-      .map((s, k) => <ScheduleEvent scheduledEvent={s} key={k}/>)
+      .map((s, k) => <ScheduleEvent scheduledEvent={s} key={k} />)
       .value();
 
     return <div className="panel-container magenta-panel">
@@ -56,7 +56,8 @@ export class Events extends React.Component<Everything, {}> {
           Events
         </p>
         <div className="main-nav-button">
-          <button className="navbar-toggle hidden-sm hidden-md hidden-lg" data-target="#navbar" data-toggle="collapse" type="button">
+          <button className="navbar-toggle hidden-sm hidden-md hidden-lg"
+            data-toggle="collapse" type="button">
             <span className="glyphicon glyphicon-menu-hamburger" />
           </button>
         </div>
@@ -75,7 +76,10 @@ export class Events extends React.Component<Everything, {}> {
               <Link to={"/app/dashboard/designer?p1=Zones"}>Zones</Link>
             </li>
             <li>
-              <Link to={"/app/dashboard/designer?p1=Panel2"} className={"active"}>Calendar</Link>
+              <Link to={"/app/dashboard/designer?p1=Panel2"}
+                className="active">
+                Calendar
+                </Link>
             </li>
           </ul>
         </div>
@@ -83,7 +87,7 @@ export class Events extends React.Component<Everything, {}> {
       <div className="panel-content">
         <div className="search-box-wrapper">
           <i className="fa fa-search"></i>
-          <input className="search" placeholder="Search"/>
+          <input className="search" placeholder="Search" />
           <div className="search-underline"></div>
         </div>
         <div className="event-date">May 9</div>
@@ -91,7 +95,8 @@ export class Events extends React.Component<Everything, {}> {
         <div className="event-date">OCT 15</div>
         {events}
         <Link to="/app/dashboard/designer?p2=AddEvent">
-          <div className="plus-button add-event button-like" data-toggle="tooltip" title="Add event">
+          <div className="plus-button add-event button-like"
+            data-toggle="tooltip" title="Add event">
             <i className="fa fa-2x fa-plus" />
           </div>
         </Link>

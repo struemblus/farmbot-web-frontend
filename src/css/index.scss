@@ -1,3 +1,9 @@
+// Device-specific
+@import 'desktop/index';
+@import 'tablet/index';
+@import 'mobile/index';
+// Global
+@import 'universal/index';
 // Partials
 @import 'colors';
 @import 'fonts';
@@ -16,8 +22,6 @@
 @import 'inputs';
 @import 'labels';
 @import 'map';
-@import 'navbar';
-@import 'navbar_mobile';
 @import 'regimen_builder_mobile';
 @import 'regimen_editor_widget';
 @import 'search';
