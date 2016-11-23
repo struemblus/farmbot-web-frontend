@@ -25,14 +25,14 @@ nav {
         padding: 0.5rem 1rem;
     }
     a {
-        padding: 1rem;
-        color: dark_gray !important;
+        padding: 2rem 1rem;
+        color: $gray !important;
         &:hover {
-            color: $white;
+            color: $white !important;
             font-weight: bold;
         }
         &.active {
-            color: $white;
+            color: $white !important;
             border-bottom: 3px solid $white;
             font-weight: bold;
         }
@@ -75,7 +75,7 @@ nav {
                     text-align: center;
                     padding: 0.8rem;
                     a {
-                        text-decoration: underline !important;
+                        text-decoration: underline;
                     }
                 }
             }
