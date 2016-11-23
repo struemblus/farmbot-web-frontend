@@ -12,7 +12,7 @@ let YELLOW = "#fd6",
     BLUE = "#4286f4";
 
 function firstPerson(color: string, m: string, show = true) {
-    return function (s: TickerState, a: ReduxAction<{}>) {
+    return function(s: TickerState, a: ReduxAction<{}>) {
         // TODO: HACK: This is such a hack, but I can't think of a
         // faster way to get it done and it's not a very critical part of the
         // system. PRs welcome. Help appreciated. In the meantime, #shipIt
@@ -23,17 +23,18 @@ function firstPerson(color: string, m: string, show = true) {
 }
 
 function change(color: string, message: string, show = true) {
-    return function (s: TickerState, a: ReduxAction<{}>) {
+    return function(s: TickerState, a: ReduxAction<{}>) {
         message = i18next.t(message);
         return { color, message, show };
     };
 }
-
-export let tickerReducer = generateReducer<TickerState>({
+let initialState = {
     message: "Please log in",
     color: "gray",
     show: true
-})
+};
+
+export let tickerReducer = generateReducer<TickerState>(initialState)
     .add<{}>("LOGIN_OK", (s, a) => {
         return { color: RED, message: "Logged in", show: true };
     })
@@ -44,6 +45,7 @@ export let tickerReducer = generateReducer<TickerState>({
     .add<{}>("FETCH_SEQUENCES_OK", firstPerson(GREEN, "done fetching sequences."))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
     .add<{}>("BOT_SYNC_OK", firstPerson(GREEN, "synced"))
+    // .add<{}>("LOGOUT", function (s, a) { return initialState; })
     .add<string>("BOT_ERROR", (s, a) => {
         return { color: RED, message: a.payload, show: true };
     })

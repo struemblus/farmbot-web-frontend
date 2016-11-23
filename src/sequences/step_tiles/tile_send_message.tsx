@@ -7,13 +7,13 @@ import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan } from "../actions";
 
+
 let channels = _.pairs<{}, string>({
-    "toast": "Toast",
-    "toast_error": "Toast (Error)",
-    "toast_success": "Toast (Success)",
     "ticker": "Ticker",
     "ticker_error": "Ticker (Error)",
-    "ticker_success": "Ticker (Success)"
+    "toast_success": "Toast (Success)",
+    "toast_error": "Toast (Error)",
+    "toast_warning": "Toast (Warning)"
 });
 
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
@@ -24,7 +24,7 @@ let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     };
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
-    let choices = channels.map(function (pair, key) {
+    let choices = channels.map(function(pair, key) {
         let [name, label] = pair;
         let name_list = _.pluck((step.body || []), "args.channel_name");
         let isChecked = !!name_list.includes(name);

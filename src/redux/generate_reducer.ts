@@ -28,7 +28,13 @@ export function generateReducer<State>(
             fn: GenericActionHandler<T>) => GeneratedReducer; // Calms the type checker.
     }
 
-    let actionHandlers: ActionHandlerDict = { DEFAULT };
+    let actionHandlers: ActionHandlerDict = {
+        // Reset to initialState if action is LOGOUT
+        "LOGOUT": function(s, a) {
+            return initialState;
+        },
+        DEFAULT
+    };
 
     let reducer: GeneratedReducer = function <T>(state = initialState,
         action: ReduxAction<T>): State {
