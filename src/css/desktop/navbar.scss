@@ -6,14 +6,75 @@ nav {
     text-transform: uppercase;
     box-shadow: 0 4px 10px $translucent;
     display: flex;
-    ul:first-of-type {
-        display: flex;
-        justify-content: space-around;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    .desktop-links {
         .fa {
             display: none;
         }
     }
+    ul {
+        display: flex;
+        justify-content: space-around;
+    }
+    button {
+        margin: 0 !important;
+        font-size: 1.2rem !important;
+        padding: 0.5rem 1rem;
+    }
     a {
-        color: $off-white;
+        padding: 1rem;
+        color: $gray;
+        &:hover {
+            color: $white;
+            font-weight: bold;
+        }
+        &.active {
+            color: $white;
+            border-bottom: 3px solid $white;
+            font-weight: bold;
+        }
+    }
+    .nav-dropdown {
+        cursor: pointer;
+        position: relative;
+        .nav-dropdown-content {
+            display: none;
+        }
+        &:hover {
+            .nav-dropdown-content {
+                top: 1.6rem;
+                box-shadow: 0 4px 10px $translucent;
+                position: absolute;
+                display: block;
+                background: $dark_gray;
+                z-index: 1;
+                padding: 2.6rem;
+                right: 0;
+                i {
+                    padding-right: 1rem;
+                }
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    width: 20rem;
+                }
+                .version-links {
+                    position: absolute;
+                    font-size: 1rem;
+                    background: #000;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    text-align: center;
+                    padding: 0.4rem;
+                    a {
+                        text-decoration: underline !important;
+                    }
+                }
+            }
+        }
     }
 }
