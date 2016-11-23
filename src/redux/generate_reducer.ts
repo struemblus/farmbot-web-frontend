@@ -8,7 +8,8 @@ export function generateReducer<State>(
     /** Set "catch all" handler for unknown action names. Default is a no-op fn.
      *  Useful for logging / debugging. */
     DEFAULT = NOOP) {
-    /** A function that responds to a particular action from within a generated reducer. */
+    /** A function that responds to a particular action from within a 
+     * generated reducer. */
     interface ActionHandler {
         (state: State, action: ReduxAction<any>): State;
     }
@@ -25,7 +26,8 @@ export function generateReducer<State>(
     interface GeneratedReducer extends ActionHandler {
         /** Adds action handler for current reducer. */
         add: <T>(name: string,
-            fn: GenericActionHandler<T>) => GeneratedReducer; // Calms the type checker.
+            fn: GenericActionHandler<T>) => GeneratedReducer;
+            // Calms the type checker.
     }
 
     let actionHandlers: ActionHandlerDict = {
@@ -38,7 +40,8 @@ export function generateReducer<State>(
 
     let reducer: GeneratedReducer = function <T>(state = initialState,
         action: ReduxAction<T>): State {
-        let handler = (actionHandlers[action.type] || actionHandlers["DEFAULT"]);
+        let handler = (actionHandlers[action.type] ||
+        actionHandlers["DEFAULT"]);
 
         let clonedState = defensiveClone<State>(state);
         let clonedAction = defensiveClone<ReduxAction<T>>(action);
@@ -47,7 +50,8 @@ export function generateReducer<State>(
         return result;
     } as GeneratedReducer;
 
-    reducer.add = function addHandler<T>(name: string, fn: GenericActionHandler<T>) {
+    reducer.add = function addHandler<T>(name: string, 
+    fn: GenericActionHandler<T>) {
         actionHandlers[name] = fn;
         return reducer;
     };

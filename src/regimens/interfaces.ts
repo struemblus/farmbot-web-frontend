@@ -36,7 +36,8 @@ export interface RegimenItem {
     time_offset: number;
 };
 
-/** How Regimen state is stored in the application. Used by Regimen reducer mostly */
+/** How Regimen state is stored in the application. 
+ * Used by Regimen reducer mostly */
 export interface RegimensState {
     current: number;
     all: Regimen[];

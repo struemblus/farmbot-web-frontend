@@ -20,12 +20,13 @@ export class Peripherals extends React.Component<Everything, {}> {
     }
 
     peripherals() {
+        let { peripherals } = this.props;
         let pins = this.props.bot.hardware.pins;
         let all = this
             .props
             .peripherals
             .all;
-        if (!all.length && this.props.peripherals.editorMode === "controlling") {
+        if (!all.length && peripherals.editorMode === "controlling") {
             return [
                 <p key="foo">Click "Edit" to add new peripherals.</p>
             ];

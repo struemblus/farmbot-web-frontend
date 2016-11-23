@@ -26,7 +26,7 @@ export function StartButton({regimen, bot}: TaskProps) {
             return item.regimen.id === regimen.id;
         });
         if (result != undefined) {
-            // if the status is normal (already running) display the gray button.
+            // if the status is normal (already running) display the gray button
             return result.info.status == "normal" ? gray : yesButton;
         } else {
             // if the regimen is not in the list

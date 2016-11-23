@@ -5,7 +5,8 @@ import { t } from "i18next";
 import { ColorPicker } from "../../sequences/color_picker";
 import { Color } from "../../interfaces";
 
-function write({dispatch, regimen}: RegimenProps): React.EventHandler<React.FormEvent<{}>> {
+function write({dispatch, regimen}: RegimenProps):
+    React.EventHandler<React.FormEvent<{}>> {
     if (!regimen) {
         throw new Error("Regimen is required");
     }

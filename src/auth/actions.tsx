@@ -1,4 +1,8 @@
-import { connectDevice, fetchFWUpdateInfo, fetchOSUpdateInfo } from "../devices/actions";
+import {
+    connectDevice,
+    fetchFWUpdateInfo,
+    fetchOSUpdateInfo
+} from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { error, success } from "../logger";
@@ -28,12 +32,18 @@ export function downloadDeviceData(): Thunk {
     return function (dispatch, getState) {
         Axios
             .get<DeviceAccountSettings>(API.current.devicePath)
-            .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
-            .catch(payload => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
+            .then(res => dispatch({
+                type: "REPLACE_DEVICE_ACCOUNT_INFO",
+                payload: res.data
+            }))
+            .catch(payload => dispatch({
+                type: "DEVICE_ACCOUNT_ERR",
+                payload
+            }));
     };
 };
 
-// We need to handle OK logins for numerous use cases (Ex: login AND registration)
+// We need to handle OK logins for numerous use cases (Ex: login & registration)
 export function onLogin(dispatch: Function) {
     return (response: Axios.AxiosXHR<AuthState>) => {
         let { data } = response;
@@ -67,7 +77,8 @@ function loginErr(err: any) {
  * thereby granting access to the API. */
 export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     // TODO: Create a shareable axios instance and set the `baseURL`
-    // IDEA: https://medium.com/@srph/axios-configure-the-base-path-daed6ff79eab#.145enq9g6
+    // IDEA: 
+    // https://medium.com/@srph/axios-configure-the-base-path-daed6ff79eab#.145enq9g6
     // OR THIS: https://github.com/srph/axios-base-url
     // property so we can get rid of all that un-DRY URL concat junk.
     // This is how we attach the auth token to every
@@ -77,7 +88,8 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
         let isAPIRequest = req.includes(API.current.baseUrl);
         if (isAPIRequest) {
             config.headers = config.headers || {};
-            let headers = (config.headers as { Authorization: string | undefined });
+            let headers = (config.headers as
+                { Authorization: string | undefined });
             headers.Authorization = auth.token.encoded || "CANT_FIND_TOKEN";
         }
         return config;

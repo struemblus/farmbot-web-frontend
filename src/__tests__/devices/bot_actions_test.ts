@@ -31,8 +31,10 @@ describe("bot actions", () => {
 
     // thunk(dispatch)
     //   .then(function () {
-    //     expect(devices.current.updateCalibration).toHaveBeenCalledWith(message);
-    //     // expect(dispatch).toHaveBeenCalledWith(settingToggleOk({ result: {} }));
+    //     expect(devices.current.updateCalibration)
+    //      .toHaveBeenCalledWith(message);
+    //      expect(dispatch)
+    //      .toHaveBeenCalledWith(settingToggleOk({ result: {} }));
     //     done();
     //   });
 

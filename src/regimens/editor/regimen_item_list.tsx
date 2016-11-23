@@ -32,7 +32,8 @@ export function RegimenItemList({ items, dispatch }: RegimenItemListProps) {
 function EmptyList({}) {
   return <div>
     <p> {t("This regimen doesn't have any items!")} </p>
-    <p> <i className="fa fa-arrow-left" />{t(`You can add items by using the "bulk scheduler"`)} </p>
+    <p> <i className="fa fa-arrow-left" />
+    {t(`You can add items by using the "bulk scheduler"`)}</p>
   </div>;
 }
 
@@ -46,7 +47,8 @@ function RegimenItemStep({ item, dispatch }: RegimenItemStepProps) {
     hour: d.hours(),
     minute: d.minutes()
   }).format("h:mm a");
-  let klass = `${item.sequence.color || "gray"}-block block-header regimen-event`;
+  let klass = `${item.sequence.color || "gray"}-block block-header 
+    regimen-event`;
   return <div className={klass}>
     <span className="regimen-event-title"> {item.sequence.name} </span>
     <span className="regimen-event-time"> {time} </span>

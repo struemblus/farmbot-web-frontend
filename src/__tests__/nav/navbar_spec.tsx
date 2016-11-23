@@ -6,10 +6,13 @@
 
 describe("Navbar component", () => {
   it("has a callback", () => {
-    // let props = { auth: fakeState().auth, onClick: jasmine.createSpy("DropDown onClick()") };
+    // let props = { auth: fakeState().auth, onClick: jasmine
+    // .createSpy("DropDown onClick()") };
     // let JSXElem = <Wrapper><DropDown { ...props } /></Wrapper>;
-    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
-    // let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "a");
+    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as 
+    // React.Component<any, any>;
+    // let DOMElem = TUtils
+    // .findRenderedDOMComponentWithTag(ReactComponent, "a");
 
     // expect(props.onClick).not.toHaveBeenCalled();
     // TUtils.Simulate.click(DOMElem);
@@ -21,8 +24,10 @@ describe("Navbar component", () => {
     // auth.authenticated = false; // pretend we're logged out.
     // let props = { auth }
     // let JSXElem = <Wrapper><DropDown {...props} /></Wrapper>;
-    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
-    // let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "span");
+    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as 
+    // React.Component<any, any>;
+    // let DOMElem = TUtils
+    // .findRenderedDOMComponentWithTag(ReactComponent, "span");
     // expect(DOMElem.innerHTML).toBeFalsy();
   });
 
@@ -31,10 +36,10 @@ describe("Navbar component", () => {
     // auth.authenticated = true; // pretend we're logged in.
     // let props = { auth };
     // let JSXElem = <Wrapper><DropDown {...props} /></Wrapper>;
-    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as React.Component<any, any>;
-    // let DOMElem = TUtils.findRenderedDOMComponentWithTag(ReactComponent, "a");
-
+    // let ReactComponent = TUtils.renderIntoDocument(JSXElem) as 
+    // React.Component<any, any>;
+    // let DOMElem = TUtils
+    // .findRenderedDOMComponentWithTag(ReactComponent, "a");
     // expect(DOMElem.innerHTML).toContain("Log Out");
   });
-
 });

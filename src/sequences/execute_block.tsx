@@ -34,9 +34,10 @@ function SequenceSelectBox({dispatch,
 
     function iter(seq: Sequence) {
         if (seq.id) {
-            return <option value={seq.id.toString()} key={seq.id} > {seq.name} </option>;
+            return <option value={seq.id.toString()}
+                key={seq.id} > {seq.name} </option>;
         } else {
-            throw new Error("Sequence must have ID.")
+            throw new Error("Sequence must have ID.");
         }
     };
 
@@ -68,7 +69,8 @@ function SequenceSelectBox({dispatch,
     </select>;
 }
 
-export function ExecuteBlock({dispatch, step, index, sequence, sequences}: StepParams) {
+export function ExecuteBlock({dispatch, step, index, sequence, sequences}: 
+    StepParams) {
     return (<div>
         <div className="step-wrapper">
             <div className="row">

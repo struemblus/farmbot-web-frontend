@@ -82,8 +82,8 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
                         <i className="fa fa-question-circle widget-help-icon">
                             <div className="widget-help-text">
                                 {(`These commands are
-                            the most basic things FarmBot can do. Combine them into
-                            sequences to create more complex operations for
+                            the most basic things FarmBot can do. Combine them 
+                            into sequences to create more complex operations for
                             watering, planting seeds, measuring soil properties,
                             and more. Coming soon: drag and drop commands!`)}
                             </div>

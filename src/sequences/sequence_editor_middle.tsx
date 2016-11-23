@@ -19,7 +19,9 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 
-let Oops: StepTile = (_) => { return <div>Whoops! Not a valid message_type</div>; };
+let Oops: StepTile = (_) => {
+    return <div>Whoops! Not a valid message_type</div>;
+};
 
 type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 type dispatcher = (a: Function | { type: string }) => DataXferObj;
@@ -74,11 +76,13 @@ let handleNameUpdate = (dispatch: Function) =>
     };
 
 let save = function (dispatch: Function, sequence: Sequence) {
-    return (e: React.SyntheticEvent<HTMLButtonElement>) => dispatch(saveSequence(sequence));
+    return (e: React.SyntheticEvent<HTMLButtonElement>) =>
+        dispatch(saveSequence(sequence));
 };
 
 let copy = function (dispatch: Function, sequence: Sequence) {
-    return (e: React.SyntheticEvent<HTMLButtonElement>) => dispatch(copySequence(sequence));
+    return (e: React.SyntheticEvent<HTMLButtonElement>) =>
+        dispatch(copySequence(sequence));
 };
 
 let destroy = function (dispatch: Function,
@@ -131,8 +135,8 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                             <div className="widget-help-text">
                                 {t(`Use this widget to edit
                               sequences. Coming soon: drag and drop steps,
-                              custom step names, sequence cloning, and inheritable
-                              step properties!`)}
+                              custom step names, sequence cloning, and 
+                              inheritable step properties!`)}
                             </div>
                         </i>
                     </div>
@@ -149,7 +153,9 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                             <div className="col-sm-1">
                                 <ColorPicker current={sequence.color}
                                     onChange={(color) => {
-                                        dispatch(editCurrentSequence({ color }));
+                                        dispatch(editCurrentSequence(
+                                            { color }
+                                        ));
                                     } } />
                             </div>
                         </div>

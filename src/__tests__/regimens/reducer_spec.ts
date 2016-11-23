@@ -1,5 +1,9 @@
 import { regimensReducer as reduce } from "../../regimens/reducer";
-import { newRegimen, editRegimen, removeRegimenItem } from "../../regimens/actions";
+import {
+  newRegimen,
+  editRegimen,
+  removeRegimenItem
+} from "../../regimens/actions";
 import { Regimen } from "../../regimens/interfaces";
 import { RegimensState } from "../../regimens/interfaces";
 import { findWhere } from "lodash";
@@ -94,25 +98,25 @@ describe("Regimen reducer", function () {
     };
 
     let target: any = {
-        "id": 11,
-        "regimen_id": 1,
-        "time_offset": 263160000,
-        "sequence": {
-            "id": 3,
-            "name": "Turn Off LED.",
-            "color": "pink",
-            "steps": [{
-                "id": 15,
-                "message_type": "write_pin",
-                "command": {},
-                "sequence_id": 3,
-                "position": 0
-            }]
-        }
+      "id": 11,
+      "regimen_id": 1,
+      "time_offset": 263160000,
+      "sequence": {
+        "id": 3,
+        "name": "Turn Off LED.",
+        "color": "pink",
+        "steps": [{
+          "id": 15,
+          "message_type": "write_pin",
+          "command": {},
+          "sequence_id": 3,
+          "position": 0
+        }]
+      }
     };
     let regimensBefore = before.all[before.current].regimen_items;
     let action = removeRegimenItem(target);
-    let after  = reduce(before, action);
+    let after = reduce(before, action);
     let regimensAfter = after.all[after.current].regimen_items;
     expect(regimensBefore.length).toBeGreaterThan(regimensAfter.length);
     expect(findWhere(regimensAfter, action.payload)).toBeFalsy();

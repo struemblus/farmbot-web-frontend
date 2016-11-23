@@ -16,7 +16,8 @@ function getUserLang(langCode = "en_us") {
 export function detectLanguage() {
     return getUserLang(navigator.language).then(function (lang) {
         // TODO: Possiblly requires optimization using Webpack chunking.
-        let langi = require("../public/app-resources/languages/" + lang + ".js");
+        let langi = require("../public/app-resources/languages/" +
+            lang + ".js");
         return {
             nsSeparator: "",
             keySeparator: "",

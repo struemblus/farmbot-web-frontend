@@ -8,7 +8,7 @@ interface DirectionButtonProps extends Everything {
   steps: number;
 }
 
-export class DirectionButton extends React.Component<DirectionButtonProps, any> {
+export class DirectionButton extends React.Component<DirectionButtonProps, {}> {
   sendCommand() {
     let isNegative =  (this.props.direction === "up") ||
                       (this.props.direction === "right");

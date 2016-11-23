@@ -10,10 +10,11 @@ interface DeleteAccountPropTypes {
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
     render() {
-        let { set } = this.props;
+        let { set, deletion_confirmation } = this.props;
         return (
             <div className="row">
-                <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                <div className={`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 
+                    col-md-offset-2`}>
                     <div className="widget-wrapper">
                         <div className="row">
                             <div className="col-sm-12">
@@ -56,12 +57,16 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                                     onCommit={set}
                                                     name="deletion_confirmation"
                                                     allowEmpty={true}
-                                                    value={this.props.deletion_confirmation || ""}
+                                                    value={deletion_confirmation
+                                                        || ""}
                                                     type="password" />
                                             </div>
                                             <button onClick={this.props.save}
-                                                className="red button-like widget-control"
-                                                type="button">DELETE ACCOUNT</button>
+                                                className={`red button-like 
+                                                    widget-control`}
+                                                type="button">
+                                                DELETE ACCOUNT
+                                                </button>
                                         </div>
                                     </div>
                                 </div>

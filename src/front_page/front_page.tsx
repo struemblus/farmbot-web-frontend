@@ -22,7 +22,6 @@ interface FrontPageState {
 interface FrontPageProps { };
 
 export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
-
     constructor() {
         super();
         this.state = {
@@ -36,6 +35,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             serverURL: "",
             serverPort: ""
         };
+        this.toggleServerOpts = this.toggleServerOpts.bind(this);
     }
 
     componentDidMount() {
@@ -47,7 +47,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
     }
 
     set(name: string) {
-        return function(event: React.FormEvent<HTMLInputElement>) {
+        return function (event: React.FormEvent<HTMLInputElement>) {
             let state: { [name: string]: string } = {};
             state[name] = (event.currentTarget).value;
             this.setState(state);
@@ -95,16 +95,22 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
 
     render() {
         let expandIcon = this.state.showServerOpts ? "minus" : "plus";
+        let { toggleServerOpts } = this;
         return (
             <div className="front-page">
                 <h1>Welcome to the FarmBot Web App</h1>
-                <h2 className="fb-desktop-show">Setup, customize, and control FarmBot from your computer</h2>
-                <h2 className="fb-tablet-show">Setup, customize, and control FarmBot from your tablet</h2>
-                <h2 className="fb-mobile-show">Setup, customize, and control FarmBot from your smartphone</h2>
+                <h2 className="fb-desktop-show">Setup, customize, and control
+                FarmBot from your computer</h2>
+                <h2 className="fb-tablet-show">Setup, customize, and control
+                FarmBot from your tablet</h2>
+                <h2 className="fb-mobile-show">Setup, customize, and control
+                FarmBot from your smartphone</h2>
                 <div className="image-login-wrapper">
                     <div className="image-wrapper">
-                        <img className="fb-desktop-show" src="/app-resources/img/farmbot-desktop.png" />
-                        <img className="fb-tablet-show" src="/app-resources/img/farmbot-tablet.png" />
+                        <img className="fb-desktop-show"
+                            src="/app-resources/img/farmbot-desktop.png" />
+                        <img className="fb-tablet-show"
+                            src="/app-resources/img/farmbot-tablet.png" />
                     </div>
                     <div className="all-content-wrapper login-wrapper">
                         <div className="row">
@@ -114,7 +120,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                         <div className="widget-header">
                                             <h5>{i18next.t("Login")}</h5>
                                             <i className={`fa fa-${expandIcon}`}
-                                                onClick={this.toggleServerOpts.bind(this)}></i>
+                                                onClick={toggleServerOpts}>
+                                            </i>
                                         </div>
                                     </div>
                                 </div>

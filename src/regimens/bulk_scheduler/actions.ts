@@ -87,7 +87,9 @@ export function commitBulkEditor(): Thunk {
             });
         } else {
             error(t("Select a sequence from the dropdown first."));
-            (!regimenDoesExist && warning(t("Select a regimen or create one first.")));
+            (!regimenDoesExist && warning(t(
+                "Select a regimen or create one first."
+                )));
         }
     };
 }

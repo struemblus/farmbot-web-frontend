@@ -59,5 +59,4 @@ export function SequencesList({sequences, dispatch}: SequencesListProps) {
       </div>
     </div>
   </div>);
-
 }

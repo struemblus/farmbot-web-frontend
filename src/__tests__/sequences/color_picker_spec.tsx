@@ -34,7 +34,8 @@ describe("Color picker", () => {
     // hover
     el.simulate("mouseEnter");
     expect(saucerCount()).toEqual((colors.length + 1),
-      "Color picker shows all possible colors (plus current choice) when unhovered.");
+      `Color picker shows all possible colors (plus current choice) 
+      when unhovered.`);
 
     // Select a color
     let saucer = el.find(".saucer").last();

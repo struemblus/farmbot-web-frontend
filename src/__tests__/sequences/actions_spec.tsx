@@ -1,4 +1,7 @@
-import { saveSequence, deleteSequence, nullSequence } from "../../sequences/actions";
+import {
+    saveSequence,
+    nullSequence
+} from "../../sequences/actions";
 import { Sequence } from "../../sequences/interfaces";
 import { SequenceReducerState } from "../../sequences/interfaces";
 import { fakeState } from "../helpers";
@@ -39,7 +42,8 @@ describe("Sequence actions", function () {
                     .respondWith({ status: 200, response })
                     .then(function () {
                         expect(toast.success).toHaveBeenCalled();
-                        expect(toast.success).toHaveBeenCalledWith("Saved 'I LOVE SEQUENCES'");
+                        expect(toast.success)
+                            .toHaveBeenCalledWith("Saved 'I LOVE SEQUENCES'");
                         done();
                     });
             });

@@ -1,6 +1,10 @@
 import { error } from "../logger";
 import * as _ from "lodash";
-import { BotState, DeviceAccountSettings, HardwareState, RpcBotLog } from "./interfaces";
+import {
+  BotState,
+  DeviceAccountSettings,
+  HardwareState,
+  RpcBotLog } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../redux/interfaces";
@@ -14,11 +18,21 @@ import { Sync } from "../interfaces";
 let status = {
   NOT_READY: (): string => { return i18next.t("never connected to device"); },
   CONNECTING: (): string => { return i18next.t("initiating connection"); },
-  AWAITING_API: (): string => { return i18next.t("downloading device credentials"); },
-  API_ERROR: (): string => { return i18next.t("Unable to download device credentials"); },
-  AWAITING_WEBSOCKET: (): string => { return i18next.t("calling FarmBot with credentials"); },
-  WEBSOCKET_ERR: (): string => { return i18next.t("Error establishing socket connection"); },
-  CONNECTED: (): string => { return i18next.t("Socket Connection Established"); },
+  AWAITING_API: (): string => {
+    return i18next.t("downloading device credentials");
+  },
+  API_ERROR: (): string => {
+    return i18next.t("Unable to download device credentials");
+  },
+  AWAITING_WEBSOCKET: (): string => {
+    return i18next.t("calling FarmBot with credentials");
+  },
+  WEBSOCKET_ERR: (): string => {
+    return i18next.t("Error establishing socket connection");
+  },
+  CONNECTED: (): string => {
+    return i18next.t("Socket Connection Established");
+  },
   READY: (): string => { return i18next.t("Bot ready"); }
 };
 
@@ -99,7 +113,8 @@ export let botReducer = generateReducer<BotState>(initialState)
       hardware
     });
   })
-  .add<{ key: "x" | "y" | "z", val: string }>("CHANGE_AXIS_BUFFER", function (state, action) {
+  .add<{ key: "x" | "y" | "z", val: string }>("CHANGE_AXIS_BUFFER",
+  function (state, action) {
     state.axisBuffer[action.payload.key] = action.payload.val;
     return Object.assign({}, state, {
       axisBuffer: state.axisBuffer
@@ -112,7 +127,8 @@ export let botReducer = generateReducer<BotState>(initialState)
     let new_state = Object.assign({}, state, { config_buffer: new_buffer });
     return new_state; // I am doing something wrong.
   })
-  .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER", function (state, action) {
+  .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER",
+  function (state, action) {
     let newVal = action.payload.val;
     if (newVal) {
       state.settingsBuffer[action.payload.key] = action.payload.val.toString();

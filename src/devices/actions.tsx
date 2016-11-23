@@ -159,11 +159,13 @@ export function fetchOSUpdateInfo(url: string): Thunk {
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_OK", payload: versionWithoutV });
+                dispatch({ type: "FETCH_OS_UPDATE_INFO_OK",
+                payload: versionWithoutV });
             })
             .catch((ferror) => {
                 error(t("Could not download OS update information."));
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR", payload: ferror });
+                dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR",
+                payload: ferror });
             });
     };
 }
@@ -174,11 +176,13 @@ export function fetchFWUpdateInfo(url: string) {
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_OK", payload: versionWithoutV });
+                dispatch({ type: "FETCH_FW_UPDATE_INFO_OK",
+                payload: versionWithoutV });
             })
             .catch((ferror) => {
                 error(t("Could not download firmware update information."));
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR", payload: ferror });
+                dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR",
+                payload: ferror });
             });
     };
 }
@@ -187,7 +191,8 @@ export function updateDevice(apiUrl: string,
     optns: DeviceAccountSettingsUpdate, dispatch: Function) {
     let url = API.current.devicePath;
     return put<DeviceAccountSettingsUpdate>(url, optns)
-        .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO", payload: res.data }))
+        .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO",
+        payload: res.data }))
         .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
     ;
 }
@@ -263,7 +268,9 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                 readStatus();
                 dispatch(sync());
                 bot.on("notification",
-                    (msg: Notification<any>) => { handleIncomingBotNotification(msg, dispatch); });
+                    (msg: Notification<any>) => {
+                        handleIncomingBotNotification(msg, dispatch);
+                    });
             }, (err) => dispatch(fetchDeviceErr(err)));
     };
 };
@@ -314,7 +321,8 @@ export function commitAxisChanges() {
          *  axisBuffer has higher priortiy, but may not be available. */
         function pick(attr: string,
             fallback?: number) {
-            return Number(axisBuffer[attr] || (hardware as any)[attr] || fallback);
+            return Number(axisBuffer[attr] ||
+            (hardware as any)[attr] || fallback);
         };
         let packet: MovementRequest = {
             speed: pick("speed", speed),

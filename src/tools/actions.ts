@@ -85,7 +85,8 @@ export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
             })
             .catch(function (err:
                 { response: { data: { [reason: string]: string }; } }) {
-                error(prettyPrintApiErrors(err), t("Could not save ToolSlots."));
+                error(prettyPrintApiErrors(err),
+                    t("Could not save ToolSlots."));
                 dispatch(saveToolBaysNo(err));
             });
     };

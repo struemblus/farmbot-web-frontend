@@ -78,7 +78,9 @@ class PeripheralItemEdit extends React.Component<PeripheralItemProps, {}> {
             </div>
             <div className="col-sm-4">
                 <button className="button-like red"
-                    onClick={() => dispatch(destroyPeripheral({ index, peripheral }))}>X</button>
+                    onClick={() => dispatch(destroyPeripheral(
+                        { index, peripheral }
+                ))}>X</button>
             </div>
         </div>;
     }

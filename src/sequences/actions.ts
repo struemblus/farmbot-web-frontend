@@ -49,7 +49,8 @@ export interface EditCurrentSequence {
     color?: Color;
 };
 
-export function editCurrentSequence(updates: SequenceOptions): ReduxAction<EditCurrentSequence> {
+export function editCurrentSequence(updates: SequenceOptions): 
+    ReduxAction<EditCurrentSequence> {
     return {
         type: "EDIT_CURRENT_SEQUENCE",
         payload: updates
@@ -75,7 +76,8 @@ export interface SpliceStepPayl {
     step: Step;
 }
 
-export function spliceStep(step: Step, insertBefore: number): ReduxAction<SpliceStepPayl> {
+export function spliceStep(step: Step, insertBefore: number): 
+    ReduxAction<SpliceStepPayl> {
     return {
         type: "SPLICE_STEP",
         payload: { step, insertBefore }
@@ -144,7 +146,8 @@ export function saveSequence(sequence: Sequence): Thunk {
                     { SequenceName: (sequence.name || "sequence") }));
                 dispatch(saveSequenceOk(resp.data));
             })
-            .catch(function (err: { response: { data: { [reason: string]: string }; } }) {
+            .catch(function (err: { response: {
+                data: { [reason: string]: string }; } }) {
                 let template = "Unable to save '{{SequenceName}}'";
                 let context = { SequenceName: (sequence.name || "sequence") };
                 error(prettyPrintApiErrors(err),
@@ -224,9 +227,11 @@ export function deleteSequence(index: number) {
         interface SequenceApiResponse {
             sequence?: string;
         }
-        function deleteSequenceErr(response: Axios.AxiosXHR<SequenceApiResponse>) {
+        function deleteSequenceErr(response:
+            Axios.AxiosXHR<SequenceApiResponse>) {
             if (response && response.data) {
-                error((response.data.sequence) || i18next.t("Unable to delete sequence"));
+                error((response.data.sequence) ||
+                    i18next.t("Unable to delete sequence"));
             }
         }
 

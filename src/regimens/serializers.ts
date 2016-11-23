@@ -20,7 +20,8 @@ export interface ApiRegimen {
 /**
  * Transforms local Regimen object into format suitable for use with FarmBot
  * API's "/api/regimens" endpoint.
-// export function regimenItemDeserializer(input: ApiRegimenItem): RegimenItem[] {
+// export function regimenItemDeserializer(input: ApiRegimenItem): 
+// RegimenItem[] {
 //   return {};
 // };
  */
@@ -47,7 +48,8 @@ export function regimenSerializer(input: Regimen): ApiRegimen {
     };
 };
 
-// export function regimenItemDeserializer(input: ApiRegimenItem[]): RegimenItem[] {
+// export function regimenItemDeserializer(input: ApiRegimenItem[]): 
+// RegimenItem[] {
 //     let output = input.map<RegimenItem>((i) => {
 //         return {
 //             // sequence: {
