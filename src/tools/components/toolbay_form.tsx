@@ -97,7 +97,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <td>
                                             <BlurableInput
                                                 type="number"
-                                                id={`${slotId}`}
+                                                id={(slotId || "").toString()}
                                                 name="x"
                                                 value={x.toString()}
                                                 onCommit={update}
@@ -106,7 +106,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <td>
                                             <BlurableInput
                                                 type="number"
-                                                id={`${slotId}`}
+                                                id={(slotId || "").toString()}
                                                 name="y"
                                                 value={y.toString()}
                                                 onCommit={update}
@@ -115,7 +115,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <td>
                                             <BlurableInput
                                                 type="number"
-                                                id={`${slotId}`}
+                                                id={(slotId || "").toString()}
                                                 name="z"
                                                 value={z.toString()}
                                                 onCommit={update}
