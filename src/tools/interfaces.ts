@@ -42,7 +42,7 @@ export interface ToolSlot {
     z: number;
 }
 
-export interface ToolSlotPayl {
+export interface AddToolSlotPayl {
     slotState: {
         name: string,
         x: number,
@@ -50,6 +50,12 @@ export interface ToolSlotPayl {
         z: number
     };
     bay_id: number;
+}
+
+export interface UpdateToolSlotPayl {
+    slot_id: string;
+    property: string;
+    value: string;
 }
 
 export interface ToolPayl {

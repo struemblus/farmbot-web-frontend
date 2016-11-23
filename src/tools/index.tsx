@@ -5,10 +5,15 @@ import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
 import { connect } from "react-redux";
 import { Page, Row } from "../ui";
 import { fetchAll } from "./actions";
+import { success } from "../logger";
 
 class XTools extends React.Component<Everything, ToolsState> {
     componentDidMount() {
         this.props.dispatch(fetchAll());
+        success(
+            "Subscribe to the FarmBot.io mailing list for news and updates.",
+            "Work in Progress"
+        );
     }
     render() {
         let editing = this.props.tools.editorMode;

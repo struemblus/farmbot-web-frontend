@@ -1,5 +1,10 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { ToolsState, ToolSlotPayl, ToolPayl } from "./interfaces";
+import {
+    ToolsState,
+    AddToolSlotPayl,
+    ToolPayl,
+    UpdateToolSlotPayl
+} from "./interfaces";
 import * as _ from "lodash";
 // import { Sync } from "../../interfaces";
 
@@ -70,7 +75,14 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tool_slots.splice(index, 1);
         return state;
     })
-    .add<ToolSlotPayl>("ADD_SLOT", function (state, action) {
+    .add<UpdateToolSlotPayl>("UPDATE_SLOT", function (state, action) {
+        let { slot_id, property, value } = action.payload;
+        let slot = _.findWhere(state.tool_slots, { id: parseInt(slot_id) });
+        /** ??? TODO: Tried changing interfaces but can't seem to please TS */
+        (slot as any)[property] = parseInt(value);
+        return state;
+    })
+    .add<AddToolSlotPayl>("ADD_SLOT", function (state, action) {
         let { payload } = action;
         let { slotState } = payload;
         state.tool_slots.push({

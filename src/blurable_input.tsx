@@ -5,6 +5,7 @@ interface BIProps {
     onCommit: Function;
     type?: "text" | "number" | "email" | "password";
     name?: string;
+    id?: string;
     /** Allow the user to empty out the form control. If unset, form control
      * will reset itself to previous value. */
     allowEmpty?: boolean;
@@ -45,6 +46,7 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
             onChange={this.updateBuffer.bind(this)}
             onBlur={this.maybeCommit.bind(this)}
             name={this.props.name}
+            id={this.props.id}
             type={this.props.type || "text"} />;
     }
 }

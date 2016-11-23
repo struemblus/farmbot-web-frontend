@@ -74,6 +74,10 @@ export function addSlot(payload: Object) {
     return { type: "ADD_SLOT", payload };
 }
 
+export function updateSlot(payload: Object) {
+    return { type: "UPDATE_SLOT", payload };
+}
+
 export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
     return function (dispatch) {
         let url = API.current.toolSlotsPath;
