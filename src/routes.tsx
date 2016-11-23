@@ -1,10 +1,8 @@
-require("./css/index.scss");
+import "./css/index.scss";
 import * as React from "react";
-
 import {
     Provider
 } from "react-redux";
-
 import {
     IndexRedirect,
     IndexRoute,
@@ -13,7 +11,6 @@ import {
     RedirectFunction,
     RouterState
 } from "react-router";
-
 import App from "./app";
 import Dashboard from "./dashboard";
 import { Controls } from "./controls/controls";
@@ -21,7 +18,6 @@ import { Devices } from "./devices/devices";
 import { Sequences } from "./sequences/sequences";
 import { Regimens } from "./regimens/index";
 import { FarmDesigner } from "./farm_designer/farm_designer";
-import { Login } from "./login";
 import { Account } from "./account";
 import { Tools } from "./tools";
 import { store } from "./redux/store";
@@ -45,7 +41,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                 store.dispatch(ready());
             };
         } else { // Not logged in yet.
-            replace("/app/login");
+            location.href = "/";
         }
     };
 
@@ -56,7 +52,6 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
     /*
 
       /app                          => App
-      /app/login                    => Login
       /app/dashboard/designer?p1&p2 => FarmDesigner
       /app/dashboard/controls       => Controls
       /app/dashboard/devices        => Devices
@@ -65,7 +60,6 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
 
     */
     routes = (<Route path="app" component={App}>
-        <Route path="login" component={Login} />
         <Route path="dashboard"
             component={Dashboard}
             onEnter={this.requireAuth.bind(this)}>
