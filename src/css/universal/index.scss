@@ -7,6 +7,10 @@ a {
     color: $off_white;
 }
 
+button {
+    outline: none !important;
+}
+
 ul {
     list-style-type: none !important;
     padding: 0 !important;
