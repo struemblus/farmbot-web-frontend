@@ -2,8 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { BlurableInput } from "../../blurable_input";
-import { saveToolBays, destroySlot, addSlot } from "../actions";
-import { success } from "../../logger";
+import { saveToolBays, destroySlot, addSlot, updateSlot } from "../actions";
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<ListAndFormProps,
@@ -13,43 +12,42 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.update = this.update.bind(this);
         this.add = this.add.bind(this);
+        this.resetState = this.resetState.bind(this);
         this.state = { x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 };
     }
 
-    componentDidMount() {
-        success(
-            "Subscribe to the FarmBot.io mailing list for news and updates.",
-            "Work in Progress"
-        );
+    resetState() {
+        this.setState({ x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 });
     }
 
-    set(e: React.SyntheticEvent<HTMLSelectElement> |
+    set(e: React.SyntheticEvent<HTMLInputElement> |
         React.SyntheticEvent<HTMLSelectElement>) {
         let { name, value } = e.currentTarget;
-        // this.setState({ [name]: value });
+        this.setState({ [name]: value });
     }
 
-    update(e: React.SyntheticEvent<HTMLSelectElement> |
+    update(e: React.SyntheticEvent<HTMLInputElement> |
         React.SyntheticEvent<HTMLSelectElement>) {
-        console.log("CHANGED");
-        // update dirty state
-        // console.log(e.currentTarget.name.split("-"));
+        let { id, name, value } = e.currentTarget;
+        let data = { slot_id: id, property: name, value: value };
+        this.props.dispatch(updateSlot(data));
     }
 
     add(bay_id: number) {
         let slotState = this.state;
         this.props.dispatch(addSlot({ slotState, bay_id }));
+        this.resetState();
     }
 
     render() {
         let { set, update, add } = this;
-        let { dispatch } = this.props;
-        let { tool_bays, tool_slots, tools } = this.props.all;
+        let {dispatch} = this.props;
+        let {tool_bays, tool_slots, tools } = this.props.all;
         let slotNum = 0;
         return <div>
             {tool_bays.map((bay, i = 0) => {
                 let { name } = bay;
-                let bay_id = bay.id;
+                let bayId = bay.id;
                 i++;
                 return <Widget key={name}>
                     <WidgetHeader
@@ -90,7 +88,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                             <tbody>
                                 {tool_slots.map(slot => {
                                     let { x, y, z } = slot;
-                                    let slot_id = slot.id;
+                                    let slotId = slot.id;
                                     slotNum++;
                                     return <tr key={slotNum}>
                                         <td>
@@ -98,18 +96,27 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         </td>
                                         <td>
                                             <BlurableInput
+                                                type="number"
+                                                id={`${slotId}`}
+                                                name="x"
                                                 value={x.toString()}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
+                                                type="number"
+                                                id={`${slotId}`}
+                                                name="y"
                                                 value={y.toString()}
                                                 onCommit={update}
                                                 />
                                         </td>
                                         <td>
                                             <BlurableInput
+                                                type="number"
+                                                id={`${slotId}`}
+                                                name="z"
                                                 value={z.toString()}
                                                 onCommit={update}
                                                 />
@@ -133,7 +140,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                                     widget-control red`}
                                                 onClick={() => {
                                                     dispatch(
-                                                        destroySlot(slot_id)
+                                                        destroySlot(slotId)
                                                     );
                                                 } }>
                                                 <i className="fa fa-times"></i>
@@ -185,10 +192,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         </div>
                                     </td>
                                     <td>
+
                                         <button
                                             className={`button-like 
                                                     widget-control green`}
-                                            onClick={() => add(bay_id)}>
+                                            onClick={() => add(bayId)}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </td>
@@ -198,6 +206,6 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                     </WidgetBody>
                 </Widget>;
             })}
-        </div>;
+        </div >;
     }
 };
