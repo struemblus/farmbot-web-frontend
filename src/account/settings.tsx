@@ -15,12 +15,14 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
         return (
             <div>
                 <div className="row">
-                    <div className="col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+                    <div className={`col-xs-12 col-sm-10 col-sm-offset-1 
+                        col-md-8 col-md-offset-2`}>
                         <div className="widget-wrapper">
                             <div className="row">
                                 <div className="col-sm-12">
                                     <button
-                                        className="green button-like widget-control"
+                                        className={`green button-like 
+                                            widget-control`}
                                         type="button"
                                         onClick={save}>
                                         {t("SAVE")}

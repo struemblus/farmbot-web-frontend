@@ -1,0 +1,16 @@
+/* Mobile portrait */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: portrait) {
+    @import '../colors';
+    @import '../fonts';
+    @import 'navbar';
+}
+
+
+/* Mobile landscape */
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) {
+    @import '../colors';
+    @import '../fonts';
+    @import 'navbar';
+}

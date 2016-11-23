@@ -2,9 +2,10 @@ import { Week } from "./interfaces";
 import { Sequence } from "../../sequences/interfaces";
 import { RegimenItem } from "../../regimens/interfaces";
 
-/** Calculates correct time_offset for a group of RegimenItem[]s based on a set of weeks
- *  and a desired offset. */
-export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequence) {
+/** Calculates correct time_offset for a group of RegimenItem[]s based on a 
+ * set of weeks and a desired offset. */
+export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number,
+seq: Sequence) {
     const ONE_WEEK = 604800000;
     const ONE_DAY = 86400000;
 
@@ -15,14 +16,17 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number, seq: Sequ
         // wether we should add a sequence on that day or not.
         .map((week) =>
             keys.map((key) =>
-                (week.days as { [day: string]: boolean })[key])) // [[true,false,false,true] . . . ]
-        // Convert true values to an offset, in milliseconds from the start point.
+                (week.days as { [day: string]: boolean })[key]))
+                // [[true,false,false,true] . . . ]
+        // Convert true values to an offset, in milliseconds from the 
+        // start point.
         // Convert false values to -1.
         .map((weekArray, weekNum) => {
             let tweeks = ONE_WEEK * (weekNum);
             return weekArray.map((shouldExecute, dayNum) => {
                 let days = ONE_DAY * dayNum;
-                return (shouldExecute) ? (tweeks + days + OFFSET) : -1; // lol, In band signaling.
+                return (shouldExecute) ? (tweeks + days + OFFSET) : -1;
+                // lol, In band signaling.
             });
         })// [[-1, 99999, -1, -1],[.....]]
         // "flatten" the array into a 1d structure (its an array of

@@ -54,7 +54,8 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                         <Help text={(`The Send Message step instructs FarmBot to
                       send a custom message to the logs. This can help you with
                       debugging your sequences. Eventually you will be able to
-                      receive push notifications and email alerts of these messages!`)} />
+                      receive push notifications and email alerts of these 
+                      messages!`)} />
                     </div>
                 </div>
             </div>

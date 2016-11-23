@@ -7,7 +7,8 @@ import {
 import { error, success, warning } from "../logger";
 import { t } from "i18next";
 
-export function handleIncomingBotNotification(msg: Notification<any>, dispatch: Function) {
+export function handleIncomingBotNotification(msg: Notification<any>,
+    dispatch: Function) {
     switch (msg.method) {
         case "status_update":
             dispatch(statusUpdate((msg as Notification<[HardwareState]>)));
@@ -19,7 +20,8 @@ export function handleIncomingBotNotification(msg: Notification<any>, dispatch: 
     };
 }
 
-function handleLogMessage(dispatch: Function, message: Notification<[RpcBotLog]>) {
+function handleLogMessage(dispatch: Function,
+    message: Notification<[RpcBotLog]>) {
     dispatch(logNotification(message));
     let channels = message.params[0].channels;
     let messageBody = message.params[0].message;

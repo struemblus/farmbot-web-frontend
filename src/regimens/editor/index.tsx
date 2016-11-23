@@ -16,7 +16,8 @@ interface RegimenEditorWidgetProps {
   auth: AuthState | undefined;
   bot: BotState;
 }
-export function RegimenEditorWidget({regimens, dispatch, auth, bot}: RegimenEditorWidgetProps) {
+export function RegimenEditorWidget({regimens, dispatch, auth, bot}:
+  RegimenEditorWidgetProps) {
   if (auth) {
     let regimen = regimens.all[regimens.current];
     let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
@@ -24,7 +25,8 @@ export function RegimenEditorWidget({regimens, dispatch, auth, bot}: RegimenEdit
       dispatch,
       regimen,
       token: auth.token,
-      baseUrl: (auth.token && auth.token.unencoded.iss) || "CANT_FETCH_TOKEN_ISS"
+      baseUrl: (auth.token && auth.token.unencoded.iss) ||
+        "CANT_FETCH_TOKEN_ISS"
     };
     let taskProps = {
       dispatch,
@@ -51,7 +53,9 @@ export function RegimenEditorWidget({regimens, dispatch, auth, bot}: RegimenEdit
                 based on the age of the plant. Regimens are applied to
                 plants from the farm designer and can be re-used on many
                 plants growing at the same or different times. Multiple
-                regimens can be applied to any one plant. Coming soon: Regimens!`)}</div>
+                regimens can be applied to any one plant. Coming soon: 
+                Regimens!`)}
+                </div>
               </i>
             </div>
           </div>

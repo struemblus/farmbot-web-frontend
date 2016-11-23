@@ -9,7 +9,8 @@ interface SaveWebcamParams {
   updateState: Function;
 };
 
-let saveWebcamUrl = ({dispatch, apiUrl, webcam_url, updateState}: SaveWebcamParams) => () => {
+let saveWebcamUrl = ({dispatch, apiUrl, webcam_url, updateState}:
+SaveWebcamParams) => () => {
   updateState();
   return dispatch(() => updateDevice(apiUrl, { webcam_url }, dispatch));
 };
@@ -21,7 +22,8 @@ interface WebcamSaveBtnProps {
   updateState: Function;
 }
 
-export function WebcamSaveBtn({dispatch, webcamUrl, apiUrl, updateState}: WebcamSaveBtnProps) {
+export function WebcamSaveBtn({dispatch, webcamUrl, apiUrl, updateState}:
+WebcamSaveBtnProps) {
   return <button type="button"
     className="green button-like widget-control"
     onClick={

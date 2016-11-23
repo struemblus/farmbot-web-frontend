@@ -60,11 +60,13 @@ class XAccount extends React.Component<Everything, UserAccountUpdate> {
                         <ChangePassword
                             password={this.state.password || ""}
                             new_password={this.state.new_password || ""}
-                            new_password_confirmation={this.state.new_password_confirmation || ""}
+                            new_password_confirmation=
+                            {this.state.new_password_confirmation || ""}
                             set={this.set.bind(this)}
                             save={this.savePassword.bind(this)} />
                         <DeleteAccount
-                            deletion_confirmation={this.state.deletion_confirmation || ""}
+                            deletion_confirmation=
+                            {this.state.deletion_confirmation || ""}
                             set={this.set.bind(this)}
                             save={this.enactDeletion.bind(this)} />
                     </div>

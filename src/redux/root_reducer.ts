@@ -1,7 +1,8 @@
 import { authReducer as auth } from "../auth/reducer";
 import { sequenceReducer as sequences } from "../sequences/reducer";
 import { botReducer as bot } from "../devices/reducer";
-import { peripheralReducer as peripherals } from "../controls/peripherals/reducer";
+import { peripheralReducer as
+    peripherals } from "../controls/peripherals/reducer";
 import { configReducer as config } from "../config/reducer";
 import { regimensReducer as regimens } from "../regimens/reducer";
 import { tickerReducer as ticker } from "../ticker/reducer";

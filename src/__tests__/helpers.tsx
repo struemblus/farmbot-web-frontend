@@ -48,7 +48,7 @@ export function fakeState(dispatcher?: Function): Everything {
     dirty: false,
     /** How many steps to move when the user presses a manual movement arrow */
     stepSize: 100,
-    /** Holds coordinates that the user is currently editing, but has not sent */
+    /** Holds coordinates that the user is currently editing, but hasn't sent */
     axisBuffer: {
       x: "",
       y: "",

@@ -20,9 +20,10 @@ export function TileWait({dispatch, step, index}: StepParams) {
                             onClick={() => copy({ dispatch, step })} />
                         <i className="fa fa-trash step-control"
                             onClick={() => remove({ dispatch, index })} />
-                        <Help text={(`The Wait step instructs FarmBot to wait for the
-                      specified amount of time. Use it in combination with the
-                      Pin Write step to water for a length of time.`)} />
+                        <Help text={(`The Wait step instructs FarmBot to wait 
+                            for the specified amount of time. Use it in 
+                            combination with the Pin Write step to water for a 
+                            length of time.`)} />
                     </div>
                 </div>
             </div>

@@ -6,11 +6,11 @@ import { Everything } from "./interfaces";
 import * as i18next from "i18next";
 import { API } from "./api";
 
-let setHost = (dispatch: Function) => (e: React.FormEvent<HTMLInputElement>) => dispatch(
-    changeApiHost((e.currentTarget).value));
+let setHost = (dispatch: Function) => (e: React.FormEvent<HTMLInputElement>) =>
+dispatch(changeApiHost((e.currentTarget).value));
 
-let setPort = (dispatch: Function) => (e: React.FormEvent<HTMLInputElement>) => dispatch(
-    changeApiPort((e.currentTarget).value));
+let setPort = (dispatch: Function) => (e: React.FormEvent<HTMLInputElement>) =>
+dispatch(changeApiPort((e.currentTarget).value));
 
 
 // TODO: Change the state interface from 'any' to '{}' and 

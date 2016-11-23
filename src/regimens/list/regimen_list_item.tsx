@@ -10,11 +10,13 @@ export function RegimenListItem({regimen,
                                  dispatch,
                                  index}: RegimenListItemProps) {
     let color = (regimen && regimen.color) || randomColor();
-    let style = `block block-wrapper full-width text-left ${ color }-block block-header`;
+    let style = `block block-wrapper full-width text-left ${ color }-block 
+        block-header`;
     return <div>
         <button className={ style }
                 onClick={ select(dispatch, index) }>
-            {(regimen && regimen.name) || "??" }{ (regimen && regimen.dirty) ? "*" : "" }
+            {(regimen && regimen.name) || "??" }{
+                (regimen && regimen.dirty) ? "*" : "" }
             <i className="fa fa-pencil block-control" />
         </button>
     </div>;

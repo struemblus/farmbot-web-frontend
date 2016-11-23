@@ -7,14 +7,15 @@ import { Everything } from "../interfaces";
 
 // TODO: Why is @connect broke? SEE: compile errors.
 class XRegimens extends React.Component<Everything, {}> {
-
     render() {
+        let { bulkScheduler } = this.props;
         return (
             <div>
                 <div className="all-content-wrapper">
                     <div className="row">
-                        <div className="col-md-3 col-sm-12 col-md-offset-1 hidden-xs">
-                            <BulkSchedulerWidget editor={this.props.bulkScheduler}
+                        <div className={`col-md-3 col-sm-12 col-md-offset-1 
+                            hidden-xs`}>
+                            <BulkSchedulerWidget editor={bulkScheduler}
                                 sequences={this.props.sequences.all}
                                 dispatch={this.props.dispatch} />
                         </div>

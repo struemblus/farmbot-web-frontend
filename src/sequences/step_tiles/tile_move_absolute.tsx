@@ -20,18 +20,19 @@ export function TileMoveAbsolute({dispatch, step, index}: StepParams) {
                             onClick={() => copy({ dispatch, step })} />
                         <i className="fa fa-trash step-control"
                             onClick={() => remove({ dispatch, index })} />
-                        <Help text={(`The Move Absolute step instructs FarmBot to
-                      move to the specified coordinate regardless of the current
-                      position. For example, if FarmBot is currently at X=1000,
-                      Y=1000 and it receives a Move Absolute where X=0 and Y=3000,
-                      then FarmBot will move to X=0, Y=3000. If FarmBot must move in
-                      multiple directions, it will move diagonally. If you
-                      require straight movements along one axis at a time,
-                      use multiple Move Absolute steps. Coming soon: Offsets
-                      allow you to more easily instruct FarmBot to move to a
-                      location, but offset from it by the specified amount. For
-                      example moving to just above where a peripheral is located. Using
-                      offsets lets FarmBot do the math for you.`)} />
+                        <Help text={(`The Move Absolute step instructs FarmBot
+                      to move to the specified coordinate regardless of the 
+                      current position. For example, if FarmBot is currently at 
+                      X=1000, Y=1000 and it receives a Move Absolute where X=0 
+                      and Y=3000, then FarmBot will move to X=0, Y=3000. If 
+                      FarmBot must move in multiple directions, it will move 
+                      diagonally. If you require straight movements along one
+                      axis at a time, use multiple Move Absolute steps. Coming 
+                      soon: Offsets allow you to more easily instruct FarmBot to 
+                      move to a location, but offset from it by the specified 
+                      amount. For example moving to just above where a 
+                      peripheral is located. Using offsets lets FarmBot do the 
+                      math for you.`)} />
                     </div>
                 </div>
             </div>

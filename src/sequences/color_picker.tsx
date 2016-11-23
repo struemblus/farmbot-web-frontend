@@ -10,8 +10,8 @@ interface ColorPickerProps {
 
 interface ColorPickerState { isHovered: boolean; }
 
-export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerState> {
-
+export class ColorPicker extends React.Component<ColorPickerProps, 
+    ColorPickerState> {
     constructor(props: ColorPickerProps) {
         super(props);
         this.state = { isHovered: false };
@@ -52,8 +52,11 @@ export class ColorPicker extends React.Component<ColorPickerProps, ColorPickerSt
     notHovered() { return <div></div>; }
 
     render() {
-        let Comp = (this.state.isHovered ? this.isHovered.bind(this) : this.notHovered);
-        return <div onMouseEnter={() => { this.setState({ isHovered: true }); } }
+        let Comp = (this.state.isHovered ? this.isHovered.bind(this) :
+            this.notHovered);
+        return <div onMouseEnter={() => {
+                this.setState({ isHovered: true }); }
+            }
             onMouseLeave={() => { this.setState({ isHovered: false }); } } >
             <Saucer color={this.props.current} />
             <Comp />

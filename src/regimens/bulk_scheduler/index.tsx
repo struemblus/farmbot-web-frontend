@@ -14,7 +14,8 @@ interface BulkEditorProps {
     dispatch: Function;
 }
 
-export function BulkSchedulerWidget({sequences, dispatch, editor}: BulkEditorProps) {
+export function BulkSchedulerWidget({sequences, dispatch, editor}:
+    BulkEditorProps) {
     let click = function () { dispatch(commitBulkEditor()); };
     let active = !!(sequences && sequences.length);
     return (<div>
@@ -46,7 +47,8 @@ export function BulkSchedulerWidget({sequences, dispatch, editor}: BulkEditorPro
                                     offset={editor.form.dailyOffsetMs} />
                             </div>
                         </div>
-                        <WeekGrid weeks={editor.form.weeks} dispatch={dispatch} />
+                        <WeekGrid weeks={editor.form.weeks}
+                            dispatch={dispatch} />
                     </div>
                 </div>
             </div>

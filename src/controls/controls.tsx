@@ -44,7 +44,8 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
         return { border: (this.primary()) ? "1px solid red" : "" };
     }
 
-    change(key: string, dispatch: Function): React.EventHandler<React.FormEvent<HTMLInputElement>> {
+    change(key: string, dispatch: Function):
+    React.EventHandler<React.FormEvent<HTMLInputElement>> {
         return function (event) {
             let num = Number(event.currentTarget.value);
             dispatch(changeAxisBuffer(key, num));
@@ -100,7 +101,8 @@ const showUrl = (url: string, dirty: boolean) => {
         if (url.indexOf("/webcam_url_not_set.jpeg") !== -1) {
             return <div className="webcam-stream-unavailable">
                 <img src={url} />
-                <text>Camera stream not available.<br />Press <b>EDIT</b> to add a stream.</text>
+                <text>Camera stream not available.
+                <br />Press <b>EDIT</b> to add a stream.</text>
             </div>;
         } else {
             return <img className="webcam-stream" src={url} />;
@@ -108,7 +110,8 @@ const showUrl = (url: string, dirty: boolean) => {
     };
 };
 
-const updateWebcamUrl = (dispatch: Function) => (event: React.KeyboardEvent<HTMLInputElement>) => {
+const updateWebcamUrl = (dispatch: Function) => (
+    event: React.KeyboardEvent<HTMLInputElement>) => {
     dispatch({
         type: "CHANGE_WEBCAM_URL",
         payload: event.currentTarget.value
@@ -143,7 +146,8 @@ export class Controls extends React.Component<Everything, ControlsState> {
                 <div className="all-content-wrapper">
                     <div>
                         <div className="row">
-                            <div className="col-md-4 col-sm-6 col-xs-12 col-md-offset-1">
+                            <div className={`col-md-4 col-sm-6 col-xs-12 
+                                col-md-offset-1`}>
                                 <div>
                                     <div className="widget-wrapper">
                                         <div className="row">
@@ -151,24 +155,34 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                 <EStopButton {...this.props} />
                                                 <div className="widget-header">
                                                     <h5>Move</h5>
-                                                    <i className="fa fa-question-circle widget-help-icon">
-                                                        <div className="widget-help-text">
+                                                    <i className={`fa 
+                                                        fa-question-circle 
+                                                        widget-help-icon`}>
+                                                        <div
+                                                        className={
+                                                            `widget-help-text`
+                                                        }>
                                                             {t(`Use these manual
-                              control buttons to move FarmBot in realtime. Press the
-                              arrows for relative movements or type in new
+                              control buttons to move FarmBot in realtime. Press
+                              the arrows for relative movements or type in new
                               coordinates and press GO for an
                               absolute movement. Tip: Press the Home button when
-                              you are done so FarmBot is ready to get back to work.
-                              Note: Currently all buttons except for Home work.`)}
+                              you are done so FarmBot is ready to get back to 
+                              work. Note: Currently all buttons except for Home 
+                              work.`)}
                                                         </div>
                                                     </i>
                                                 </div>
                                             </div>
                                             <div className="col-sm-12">
                                                 <div className="widget-content">
-                                                    <label className="text-center"> {t("MOVE AMOUNT (mm)")} </label>
+                                                    <label
+                                                    className={`text-center`}>
+                                                    {t("MOVE AMOUNT (mm)")}
+                                                    </label>
                                                     <div className="row">
-                                                        <div className="col-sm-12">
+                                                        <div className={
+                                                            `col-sm-12`}>
                                                             <StepSizeSelector
                                                                 choices={[1, 10, 100, 1000, 10000]}
                                                                 selector={(num: number) => this.props.dispatch(changeStepSize(num))}

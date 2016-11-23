@@ -3,7 +3,11 @@ import { ConfigState } from "./config/interfaces";
 import { BotState, DeviceAccountSettings } from "./devices/interfaces";
 import { TickerState } from "./ticker/interfaces";
 import { BulkSchedulerState } from "./regimens/bulk_scheduler/interfaces";
-import { RegimensState, RegimenApiResponse, RegimenItem } from "./regimens/interfaces";
+import {
+    RegimensState,
+    RegimenApiResponse,
+    RegimenItem
+} from "./regimens/interfaces";
 import { SequenceReducerState, Sequence } from "./sequences/interfaces";
 import { DesignerState, Plant } from "./farm_designer/interfaces";
 import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";

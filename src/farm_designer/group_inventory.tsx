@@ -4,42 +4,41 @@ import { t } from "i18next";
 
 export class Groups extends React.Component<any, any> {
   render() {
-    return(
+    return (
       <div className="panel-container cyan-panel">
         <div className="panel-header cyan-panel">
           <div className="main-nav-button">
             <button className="navbar-toggle hidden-sm hidden-md hidden-lg"
-                    data-target="#navbar"
-                    data-toggle="collapse"
-                    type="button">
+              data-toggle="collapse"
+              type="button">
               <span className="glyphicon glyphicon-menu-hamburger" />
             </button>
           </div>
           <div className="panel-tabs">
             <ul>
               <li className="hidden-sm hidden-md hidden-lg">
-                  <Link to={ "/app/dashboard/designer?p1=NoTab" }>
+                <Link to={"/app/dashboard/designer?p1=NoTab"}>
                   {t("Designer")}
-                  </Link>
+                </Link>
               </li>
               <li>
-                  <Link to={ "/app/dashboard/designer?p1=Plants" }>
+                <Link to={"/app/dashboard/designer?p1=Plants"}>
                   {t("Plants")}
-                  </Link>
+                </Link>
               </li>
               <li>
-                  <Link to={ "/app/dashboard/designer?p1=Groups" }
+                <Link to={"/app/dashboard/designer?p1=Groups"}
                   className={"active"}>{t("Groups")}</Link>
               </li>
               <li>
-                  <Link to={ "/app/dashboard/designer?p1=Zones" }>
+                <Link to={"/app/dashboard/designer?p1=Zones"}>
                   {t("Zones")}
-                  </Link>
+                </Link>
               </li>
               <li className="hidden-sm hidden-md hidden-lg">
-                  <Link to={ "/app/dashboard/designer?p1=Panel2" }>
+                <Link to={"/app/dashboard/designer?p1=Panel2"}>
                   {t("Calendar")}
-                  </Link>
+                </Link>
               </li>
             </ul>
           </div>
@@ -47,7 +46,7 @@ export class Groups extends React.Component<any, any> {
         <div className="panel-content">
           <p>Note: Groups are coming soon!</p>
           <i className="fa fa-search"></i>
-          <input className="search" placeholder="Search"/>
+          <input className="search" placeholder="Search" />
           <div className="search-underline"></div>
           <div>
             <div className="object-list">

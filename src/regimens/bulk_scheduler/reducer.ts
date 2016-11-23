@@ -27,7 +27,8 @@ function newState(): BulkSchedulerState {
 
 let initialState: BulkSchedulerState = newState();
 
-export let BulkSchedulerReducer = generateReducer<BulkSchedulerState>(initialState)
+export let BulkSchedulerReducer = generateReducer<BulkSchedulerState>
+  (initialState)
   .add<number>("SELECT_REGIMEN", function (state, action) {
     return newState();
   })

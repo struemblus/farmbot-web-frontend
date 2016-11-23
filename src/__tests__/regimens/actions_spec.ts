@@ -36,13 +36,14 @@ describe("Regimen actions", function () {
                 request
                     .respondWith({ status: 200, response })
                     .then(function () {
-                        // Expect the request to have been called with the regimen
+                        // Expect the request to have been called with regimen
                         expect(spy).toHaveBeenCalledWith(
                             {
                                 type: "DELETE_REGIMEN_OK",
                                 payload: regimen
                             });
-                        expect(toast.success).toHaveBeenCalledWith("Regimen deleted.");
+                        expect(toast.success)
+                            .toHaveBeenCalledWith("Regimen deleted.");
                         done();
                     });
             });
@@ -60,7 +61,8 @@ describe("Regimen actions", function () {
                 request
                     .respondWith({ status: 404, response })
                     .then(function () {
-                        expect(toast.error).toHaveBeenCalledWith("Unable to delete regimen.");
+                        expect(toast.error)
+                            .toHaveBeenCalledWith("Unable to delete regimen.");
                         done();
                     });
             });
@@ -79,7 +81,8 @@ describe("Regimen actions", function () {
                 request
                     .respondWith({ status: 200, response })
                     .then(function () {
-                        expect(toast.success).toHaveBeenCalledWith("Regimen saved.");
+                        expect(toast.success)
+                            .toHaveBeenCalledWith("Regimen saved.");
                         done();
                     });
             });
@@ -98,7 +101,8 @@ describe("Regimen actions", function () {
                 request
                     .respondWith({ status: 404, response })
                     .then(function () {
-                        expect(toast.error).toHaveBeenCalledWith("Wrong does not work.",
+                        expect(toast.error)
+                            .toHaveBeenCalledWith("Wrong does not work.",
                             "Unable to save regimen.");
                         done();
                     });

@@ -26,7 +26,8 @@ const initialState: RegimensState = {
 };
 
 export let regimensReducer = generateReducer<RegimensState>(initialState)
-    .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN", function (state, action) {
+    .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN",
+    function (state, action) {
         let update = _.assign<{},
             Regimen>({},
             action.payload.regimen,
@@ -99,7 +100,8 @@ export let regimensReducer = generateReducer<RegimensState>(initialState)
         return state;
     })
     .add<Regimen>("SAVE_REGIMEN_OK", function (state, action) {
-        let current = _.find<Regimen>(state.all, r => r.name === action.payload.name);
+        let current = _.find<Regimen>(state.all,
+            r => r.name === action.payload.name);
         _.assign(current, action.payload, { dirty: false }); // Merge props.
         return state;
     })

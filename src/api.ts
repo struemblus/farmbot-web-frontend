@@ -20,7 +20,9 @@ export class API {
     static inferPort(): string {
         // Most devs running a server on localhost run the API on port 3000.
         if (location.hostname === "localhost") { return "3000"; }
-        if (API.parseURL(location.origin).protocol === "https:") { return "443"; }
+        if (API.parseURL(location.origin).protocol === "https:") {
+            return "443";
+        }
         // All others just use port 80.
         return "80";
     }

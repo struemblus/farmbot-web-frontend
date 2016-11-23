@@ -17,7 +17,8 @@ function firstPerson(color: string, m: string, show = true) {
         // faster way to get it done and it's not a very critical part of the
         // system. PRs welcome. Help appreciated. In the meantime, #shipIt
         let name = get<string>(store.getState(), "bot.account.name", "Bot");
-        let message = i18next.t(`{{name}} is {{message}}`, { name, message: m });
+        let message = i18next.t(`{{name}} is {{message}}`,
+            { name, message: m });
         return { color, message, show };
     };
 }
@@ -42,7 +43,8 @@ export let tickerReducer = generateReducer<TickerState>(initialState)
     .add<{}>("FETCH_PLANTS_START", firstPerson(YELLOW, "fetching plants."))
     .add<{}>("FETCH_PLANTS_OK", firstPerson(GREEN, "done fetching plants"))
     .add<{}>("FETCH_PLANTS_ERR", firstPerson(RED, "unable to fetch plants."))
-    .add<{}>("FETCH_SEQUENCES_OK", firstPerson(GREEN, "done fetching sequences."))
+    .add<{}>("FETCH_SEQUENCES_OK",
+        firstPerson(GREEN, "done fetching sequences."))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
     .add<{}>("BOT_SYNC_OK", firstPerson(GREEN, "synced"))
     // .add<{}>("LOGOUT", function (s, a) { return initialState; })

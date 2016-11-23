@@ -14,7 +14,8 @@ export function SequenceList({sequences,
     current,
     dispatch}: SequenceListProps) {
     // Handles issue of [{}].indexOf({}) == -1.
-    let selectedValue = current ? sequences.indexOf(_.findWhere(sequences, current)) : -1;
+    let selectedValue = current ? sequences.indexOf(
+        _.findWhere(sequences, current)) : -1;
     return <div>
         <label>Sequence</label>
         <div className="select-wrapper">

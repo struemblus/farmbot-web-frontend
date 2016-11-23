@@ -1,4 +1,6 @@
-import { userVariables as FarmBotJsuserVariables } from "farmbot/dist/interfaces";
+import {
+  userVariables as FarmBotJsuserVariables
+} from "farmbot/dist/interfaces";
 // import { BasicNode } from "../ast/interfaces";
 import { Color } from "../interfaces";
 
@@ -26,7 +28,8 @@ export interface Sequence extends SequenceNode {
 type Steps = Step[];
 
 // Typescript does not have subset types.
-// If you are reading this in the future and subset types exist, refactor this code.
+// If you are reading this in the future and subset types exist, 
+// refactor this code.
 export interface SequenceOptions {
   color?: Color;
   name?: string;

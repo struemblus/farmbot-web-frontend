@@ -8,11 +8,10 @@ interface TickerParams {
 }
 
 export function Ticker({ ticker }: TickerParams) {
-
   return <div className="status-ticker-wrapper">
-    <Saucer color={ ticker.color } />
+    <Saucer color={ticker.color} />
     <label className="status-ticker-message">
-      { ticker.message || t("Loading") }
+      {ticker.message || t("Loading")}
     </label>
   </div>;
 };

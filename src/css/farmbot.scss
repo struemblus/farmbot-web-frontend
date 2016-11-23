@@ -19,6 +19,7 @@
 
 a {
     cursor: pointer !important;
+    outline: none !important;
 }
 
 .input-group {
@@ -139,14 +140,6 @@ a {
 
 body {
     background: $light_gray!important;
-}
-
-.drop-shadow {
-    box-shadow: 0 4px 10px $translucent;
-}
-
-* {
-    outline: none;
 }
 
 .padding-bottom {

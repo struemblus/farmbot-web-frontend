@@ -92,15 +92,16 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         populate(state);
         return state;
     })
-    .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", function (state, action) {
+    .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", 
+        function (state, action) {
         let currentSequence = state.all[state.current] || populate(state);
         currentSequence.name = action.payload.name || currentSequence.name;
         currentSequence.color = action.payload.color || currentSequence.color;
         markDirty(state);
         return state;
     })
-    .add<{ step: Step, index: number }>("CHANGE_STEP", function (state, action) {
-
+    .add<{ step: Step, index: number }>("CHANGE_STEP",
+        function (state, action) {
         /// DELETE THIS!?!?!?!?
         // let steps = state.all[state.current].body || populate(state).body;
         // let index = action.payload.index;

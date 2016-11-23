@@ -32,7 +32,8 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
     let buttonStr = "Can't Connect to bot";
     let buttonColor = "yellow";
     if (bot.currentOSVersion != undefined) {
-        if (bot.currentOSVersion === bot.hardware.informational_settings.controller_version) {
+        if (bot.currentOSVersion ===
+            bot.hardware.informational_settings.controller_version) {
             buttonStr = t("Controller Up to date!");
             buttonColor = "gray";
         } else {
@@ -51,7 +52,12 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
             <p> {t("OS Auto Updates")}
                 <ToggleButton toggleval=
                     {String(osUpdateBool) || "undefined"}
-                    toggleAction={() => { updateConfig({ os_auto_update: !osUpdateBool }); } } />
+                    toggleAction={() => {
+                        updateConfig({
+                            os_auto_update: !osUpdateBool
+                        });
+                    }
+                    } />
             </p>
         </div>
     );
@@ -62,7 +68,8 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
     let buttonStr = "Can't Connect to bot";
     let buttonColor = "yellow";
     if (bot.currentFWVersion != undefined) {
-        if (bot.currentFWVersion == (bot.hardware.mcu_params.param_version || "").toString()) {
+        if (bot.currentFWVersion == (
+            bot.hardware.mcu_params.param_version || "").toString()) {
             buttonStr = t("Firmware Up to date!");
             buttonColor = "gray";
         } else {
@@ -79,7 +86,11 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
             <p> {t("OS Auto Updates")}
                 <ToggleButton toggleval=
                     {String(fwUpdateBool) || "undefined"}
-                    toggleAction={() => { updateConfig({ fw_auto_update: !fwUpdateBool }); } } />
+                    toggleAction={() => {
+                        updateConfig({
+                            fw_auto_update: !fwUpdateBool
+                        });
+                    } } />
             </p>
         </div>);
 };
@@ -151,7 +162,9 @@ export class McuInputBox extends React.Component<any, any> {
             <td>
                 <input type="text"
                     style={this.style()}
-                    onChange={this.change(this.props.setting, this.props.dispatch)}
+                    onChange={this.change(this.props.setting,
+                        this.props.dispatch)
+                    }
                     value={this.primary() || this.secondary() || "---"} />
             </td>);
     }
@@ -189,7 +202,8 @@ class DevicesPage extends React.Component<Everything, any> {
                     <div className="all-content-wrapper">
                         <div>
                             <div className="row">
-                                <div className="col-md-5 col-sm-6 col-xs-12 col-md-offset-1">
+                                <div className={`col-md-5 col-sm-6 col-xs-12 
+                                    col-md-offset-1`}>
                                     <div>
                                         <div className="widget-wrapper">
                                             <div className="row">

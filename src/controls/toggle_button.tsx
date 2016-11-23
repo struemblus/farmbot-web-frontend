@@ -9,7 +9,8 @@ interface ToggleButtonProps {
 
 interface ToggleButtonState { }
 
-export class ToggleButton extends React.Component<ToggleButtonProps, ToggleButtonState> {
+export class ToggleButton extends React.Component<ToggleButtonProps,
+ToggleButtonState> {
   caption() {
     let captions: { [s: string]: string | undefined } = {
       "0": i18next.t("no"),

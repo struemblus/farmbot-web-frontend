@@ -49,7 +49,9 @@ export function deleteUser(payload: DeletionRequest): Thunk {
                     Session.clear();
                     window.location.href = "/";
                 })
-                .catch((e: AxiosErrorResponse) => { error(prettyPrintApiErrors(e)); });
+                .catch((e: AxiosErrorResponse) => {
+                    error(prettyPrintApiErrors(e));
+                });
         } else {
             throw new Error("Impossible");
         }
