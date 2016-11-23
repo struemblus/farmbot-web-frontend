@@ -50,6 +50,10 @@ function saveRegimenErr(err: any) {
 
 export function deleteRegimen(regimen: Regimen) {
   return function (dispatch: Function) {
+    if (!confirm(`Delete regimen '${regimen.name}'?`)) {
+      return;
+    }
+
     if (regimen && regimen.id) {
       let url = API.current.regimensPath + regimen.id;
 
