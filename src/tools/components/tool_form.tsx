@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
-import { Widget, WidgetBody, WidgetHeader } from "../../ui";
+import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
 import { startEditing, destroyTool, addTool } from "../actions";
 import { BlurableInput } from "../../blurable_input";
 import { t } from "i18next";
@@ -56,19 +56,14 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                             />
                                     </td>
                                     <td>
-                                        <div className="select-wrapper">
-                                            <select>
-                                                {tool_slots.map((slot,
-                                                    slotNum = 0) => {
-                                                    slotNum++;
-                                                    return <option key={
-                                                        slotNum
-                                                    }>
-                                                        {slot.name}
-                                                    </option>;
-                                                })}
-                                            </select>
-                                        </div>
+                                        <Select>
+                                            {tool_slots.map((slot, i) => {
+                                                i++;
+                                                return <option key={i}>
+                                                    {slot.name}
+                                                </option>;
+                                            })}
+                                        </Select>
                                     </td>
                                     <td>
                                         <button

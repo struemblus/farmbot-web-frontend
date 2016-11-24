@@ -52,6 +52,11 @@ let initialState: ToolsState = {
             id: 2,
             name: "Weed Suppressor",
             slot_id: 333
+        },
+        {
+            id: 3,
+            name: "Laser Beam",
+            slot_id: 222
         }
     ]
 };
