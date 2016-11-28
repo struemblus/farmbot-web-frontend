@@ -7,11 +7,12 @@
 **[LATEST STABLE VERSION IS HERE](https://github.com/FarmBot/farmbot-web-frontend/releases)** :star: :star: :star:
 
 0. [Install node](https://nodejs.org/en/download/) if you haven't already.
-1. `git clone https://github.com/FarmBot/farmbot-web-frontend.git`
-2. `cd farmbot-web-frontend`
-3. `npm install`
-4. `npm start`
-5. Visit `http://localhost:8080/app/login`
+1. [Install Google Chrome](https://www.google.com/chrome/) for best app experience.
+2. `git clone https://github.com/FarmBot/farmbot-web-frontend.git`
+3. `cd farmbot-web-frontend`
+4. `npm install`
+5. `npm start`
+6. Visit `http://localhost:8080/app/login`
 
 # Deploy to Production
 
