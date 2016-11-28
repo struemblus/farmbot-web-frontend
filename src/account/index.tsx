@@ -2,9 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { updateUser, deleteUser } from "./actions";
-import { Settings } from "./settings";
-import { DeleteAccount } from "./delete_account";
-import { ChangePassword } from "./change_password";
+import { Settings, DeleteAccount, ChangePassword } from "./components";
 import { UserAccountUpdate } from "./interfaces";
 
 class XAccount extends React.Component<Everything, UserAccountUpdate> {
