@@ -52,63 +52,69 @@ let initialState: ToolsState = {
             id: 2,
             name: "Weed Suppressor",
             slot_id: 333
+        },
+        {
+            id: 3,
+            name: "Laser Beam",
+            slot_id: 222
         }
     ]
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
-    .add<{}>("FETCH_ALL", function (state, action) {
-        state = initialState;
-        return state;
+    .add<{}>("FETCH_ALL", function(s, a) {
+        s = initialState;
+        return s;
     })
-    .add<{}>("EDIT_TOOLS_START", function (state, action) {
-        state.editorMode = true;
-        return state;
+    .add<{}>("EDIT_TOOLS_START", function(s, a) {
+        s.editorMode = true;
+        return s;
     })
-    .add<{}>("EDIT_TOOLS_STOP", function (state, action) {
-        state.editorMode = false;
-        return state;
+    .add<{}>("EDIT_TOOLS_STOP", function(s, a) {
+        s.editorMode = false;
+        return s;
     })
-    .add<{ slot_id: number }>("DESTROY_SLOT", function (state, action) {
-        let { tool_slots } = state;
-        let index = _.findIndex(tool_slots, { id: action.payload.slot_id });
+    .add<{ slot_id: number }>("DESTROY_SLOT", function(s, a) {
+        let { tool_slots } = s;
+        let index = _.findIndex(tool_slots, { id: a.payload.slot_id });
         tool_slots.splice(index, 1);
-        return state;
+        return s;
     })
-    .add<UpdateToolSlotPayl>("UPDATE_SLOT", function (state, action) {
-        let { slot_id, property, value } = action.payload;
-        let slot = _.findWhere(state.tool_slots, { id: parseInt(slot_id) });
+    .add<UpdateToolSlotPayl>("UPDATE_SLOT", function(s, a) {
+        let { slot_id, property, value } = a.payload;
+        let slot = _.findWhere(s.tool_slots, { id: parseInt(slot_id) });
         /** ??? TODO: Tried changing interfaces but can't seem to please TS */
         (slot as any)[property] = parseInt(value);
-        return state;
+        return s;
     })
-    .add<AddToolSlotPayl>("ADD_SLOT", function (state, action) {
-        let { payload } = action;
+    .add<{ id: string, value: string }>("UPDATE_TOOL_BAY_NAME", function(s, a) {
+        let { id, value } = a.payload;
+        let bay = _.findWhere(s.tool_bays, { id: parseInt(id) });
+        bay.name = value;
+        return s;
+    })
+    .add<AddToolSlotPayl>("ADD_SLOT", function(s, a) {
+        let { payload } = a;
         let { slotState } = payload;
-        state.tool_slots.push({
+        s.tool_slots.push({
             name: slotState.name,
             tool_bay_id: payload.bay_id,
             x: slotState.x,
             y: slotState.y,
             z: slotState.z
         });
-        return state;
+        return s;
     })
-    .add<{ tool_id: number }>("DESTROY_TOOL", function (state, action) {
-        let { tools } = state;
-        let index = _.findIndex(tools, { id: action.payload.tool_id });
+    .add<{ tool_id: number }>("DESTROY_TOOL", function(s, a) {
+        let { tools } = s;
+        let index = _.findIndex(tools, { id: a.payload.tool_id });
         tools.splice(index, 1);
-        return state;
+        return s;
     })
-    .add<ToolPayl>("ADD_TOOL", function (state, action) {
-        console.log(state.tools);
-        let { name, slot_id, id } = action.payload;
-        state.tools.push({
-            id,
-            name,
-            slot_id
-        });
-        return state;
+    .add<ToolPayl>("ADD_TOOL", function(s, a) {
+        let { name, slot_id, id } = a.payload;
+        s.tools.push({ id, name, slot_id });
+        return s;
     });
     // .add<Sync>("FETCH_SYNC_OK", function (state, action) {
     //     state.all = action.payload.tools || [];

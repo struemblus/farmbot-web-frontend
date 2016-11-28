@@ -27,12 +27,12 @@ export function generateReducer<State>(
         /** Adds action handler for current reducer. */
         add: <T>(name: string,
             fn: GenericActionHandler<T>) => GeneratedReducer;
-            // Calms the type checker.
+        // Calms the type checker.
     }
 
     let actionHandlers: ActionHandlerDict = {
         // Reset to initialState if action is LOGOUT
-        "LOGOUT": function(s, a) {
+        "LOGOUT": function (s, a) {
             return initialState;
         },
         DEFAULT
@@ -41,7 +41,7 @@ export function generateReducer<State>(
     let reducer: GeneratedReducer = function <T>(state = initialState,
         action: ReduxAction<T>): State {
         let handler = (actionHandlers[action.type] ||
-        actionHandlers["DEFAULT"]);
+            actionHandlers["DEFAULT"]);
 
         let clonedState = defensiveClone<State>(state);
         let clonedAction = defensiveClone<ReduxAction<T>>(action);
@@ -50,8 +50,8 @@ export function generateReducer<State>(
         return result;
     } as GeneratedReducer;
 
-    reducer.add = function addHandler<T>(name: string, 
-    fn: GenericActionHandler<T>) {
+    reducer.add = function addHandler<T>(name: string,
+        fn: GenericActionHandler<T>) {
         actionHandlers[name] = fn;
         return reducer;
     };

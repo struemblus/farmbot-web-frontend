@@ -3,7 +3,7 @@ import { Everything } from "../interfaces";
 import { ToolsState } from "./interfaces";
 import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
 import { connect } from "react-redux";
-import { Page, Row } from "../ui";
+import { Page, Row, Col } from "../ui";
 import { fetchAll } from "./actions";
 import { success } from "../logger";
 
@@ -19,7 +19,7 @@ class XTools extends React.Component<Everything, ToolsState> {
         let editing = this.props.tools.editorMode;
         return <Page>
             <Row>
-                <div className="col-md-6 col-lg-6 col-sm-6">
+                <Col>
                     {!editing && (
                         <ToolBayList
                             all={this.props.tools}
@@ -32,8 +32,8 @@ class XTools extends React.Component<Everything, ToolsState> {
                             dispatch={this.props.dispatch}
                             />
                     )}
-                </div>
-                <div className="col-md-6 col-lg-6 col-sm-6">
+                </Col>
+                <Col>
                     {!editing && (
                         <ToolList
                             all={this.props.tools}
@@ -46,7 +46,7 @@ class XTools extends React.Component<Everything, ToolsState> {
                             dispatch={this.props.dispatch}
                             />
                     )}
-                </div>
+                </Col>
             </Row>
         </Page>;
     }

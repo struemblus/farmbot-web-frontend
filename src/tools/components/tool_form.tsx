@@ -1,9 +1,14 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
-import { Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { startEditing, destroyTool, addTool } from "../actions";
-import { BlurableInput } from "../../blurable_input";
+import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
 import { t } from "i18next";
+import {
+    Widget,
+    WidgetBody,
+    WidgetHeader,
+    Select,
+    BlurableInput
+} from "../../ui";
 
 export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     constructor() {
@@ -22,10 +27,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     }
 
     render() {
-        let edit = () => { this.props.dispatch(startEditing()); };
         let { set, add } = this;
         let { dispatch } = this.props;
         let { tool_slots, tools } = this.props.all;
+        let edit = () => { dispatch(startEditing()); };
+        let stopEdit = () => { dispatch(stopEditing()); };
         return <div>
             <Widget>
                 <WidgetHeader
@@ -35,6 +41,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                         className="green button-like widget-control"
                         onClick={edit}>
                         {t("SAVE")}
+                    </button>
+                    <button
+                        className="gray button-like widget-control"
+                        onClick={stopEdit}>
+                        {t("BACK")}
                     </button>
                 </WidgetHeader>
                 <WidgetBody>
@@ -56,17 +67,14 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                             />
                                     </td>
                                     <td>
-                                        <div className="select-wrapper">
-                                            <select>
-                                                {tool_slots.map(slot => {
-                                                    return <option key={
-                                                        slot.id
-                                                    }>
-                                                        {slot.id}
-                                                    </option>;
-                                                })}
-                                            </select>
-                                        </div>
+                                        <Select>
+                                            {tool_slots.map((slot, i) => {
+                                                i++;
+                                                return <option key={i}>
+                                                    {slot.name}
+                                                </option>;
+                                            })}
+                                        </Select>
                                     </td>
                                     <td>
                                         <button
@@ -88,17 +96,15 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                         />
                                 </td>
                                 <td>
-                                    <div className="select-wrapper">
-                                        <select>
-                                            {tool_slots.map(slot => {
-                                                return <option key={
-                                                    slot.id
-                                                }>
-                                                    {slot.id}
-                                                </option>;
-                                            })}
-                                        </select>
-                                    </div>
+                                    <Select>
+                                        {tool_slots.map(slot => {
+                                            return <option key={
+                                                slot.id
+                                            }>
+                                                {slot.id}
+                                            </option>;
+                                        })}
+                                    </Select>
                                 </td>
                                 <td>
                                     <button

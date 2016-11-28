@@ -40,6 +40,10 @@ export function saveToolBaysOk(toolBays: ToolBay[]): SaveToolBaysOk {
     return { type: "SAVE_TOOL_BAYS_OK", payload: toolBays };
 }
 
+export function updateToolBayName(payload: {}): ReduxAction<{}> {
+    return { type: "UPDATE_TOOL_BAY_NAME", payload };
+}
+
 export function saveToolBays(toolBays: Tool[]): Thunk {
     return function (dispatch) {
         let url = API.current.toolBaysPath;
@@ -70,11 +74,11 @@ export function destroySlot(slot_id?: number): DestroySlot {
     return { type: "DESTROY_SLOT", payload: { slot_id } };
 }
 
-export function addSlot(payload: Object) {
+export function addSlot(payload: {}) {
     return { type: "ADD_SLOT", payload };
 }
 
-export function updateSlot(payload: Object) {
+export function updateSlot(payload: {}) {
     return { type: "UPDATE_SLOT", payload };
 }
 
@@ -109,7 +113,7 @@ export function destroyTool(tool_id: number): DestroyTool {
     return { type: "DESTROY_TOOL", payload: { tool_id } };
 }
 
-export function addTool(payload: Object): DestroyTool {
+export function addTool(payload: {}): DestroyTool {
     return { type: "ADD_TOOL", payload };
 }
 

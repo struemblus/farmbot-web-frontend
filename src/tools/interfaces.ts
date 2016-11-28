@@ -73,7 +73,7 @@ export interface Tool {
 /** Actions */
 export interface SaveToolBaysOk {
     type: string;
-    payload: Object;
+    payload: {};
 }
 
 export interface SaveToolBaysNo {
@@ -83,7 +83,7 @@ export interface SaveToolBaysNo {
 
 export interface SaveToolSlotsOk {
     type: string;
-    payload: Object;
+    payload: {};
 }
 
 export interface SaveToolSlotsNo {
@@ -93,12 +93,12 @@ export interface SaveToolSlotsNo {
 
 export interface DestroySlot {
     type: string;
-    payload: Object;
+    payload: {};
 }
 
 export interface SaveToolsOk {
     type: string;
-    payload: Object;
+    payload: {};
 }
 
 export interface SaveToolsNo {
@@ -108,5 +108,5 @@ export interface SaveToolsNo {
 
 export interface DestroyTool {
     type: string;
-    payload: Object;
+    payload: {};
 }
