@@ -5,7 +5,7 @@ import { success, error } from "../ui";
 import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
-import { UserAccountUpdate } from "./interfaces";
+import { UserAccountUpdate, DeletionRequest } from "./interfaces";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 import { Session } from "../session";
 
@@ -26,10 +26,6 @@ export function updateUser(user: UserAccountUpdate): Thunk {
                 error(t(`User could not be updated: ${e.message}`));
             });
     };
-}
-
-interface DeletionRequest {
-    password: string;
 }
 
 export function deleteUser(payload: DeletionRequest): Thunk {

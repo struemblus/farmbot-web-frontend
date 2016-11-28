@@ -8,3 +8,7 @@ export interface UserAccountUpdate {
     /** User must enter password confirmation to delete their account. */
     deletion_confirmation?: string;
 }
+
+export interface DeletionRequest {
+    password: string;
+}
