@@ -1,9 +1,14 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
-import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
 import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
-import { BlurableInput } from "../../ui";
 import { t } from "i18next";
+import {
+    Widget,
+    WidgetBody,
+    WidgetHeader,
+    Select,
+    BlurableInput
+} from "../../ui";
 
 export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     constructor() {
@@ -91,17 +96,15 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                         />
                                 </td>
                                 <td>
-                                    <div className="select-wrapper">
-                                        <select>
-                                            {tool_slots.map(slot => {
-                                                return <option key={
-                                                    slot.id
-                                                }>
-                                                    {slot.id}
-                                                </option>;
-                                            })}
-                                        </select>
-                                    </div>
+                                    <Select>
+                                        {tool_slots.map(slot => {
+                                            return <option key={
+                                                slot.id
+                                            }>
+                                                {slot.id}
+                                            </option>;
+                                        })}
+                                    </Select>
                                 </td>
                                 <td>
                                     <button
