@@ -24,7 +24,6 @@ c = function() {
             'process.env.NODE_ENV': JSON.stringify('production'),
             'process.env.REVISION': JSON.stringify(
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
-
         }));
 
     conf
@@ -36,8 +35,7 @@ c = function() {
     conf
         .plugins
         .push(new ExtractTextPlugin("app-resources/styles.css"));
-
-
     return conf;
 }
+
 module.exports = c();

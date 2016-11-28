@@ -5,11 +5,13 @@ var path = require('path'),
 var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 var revisionPlugin = new webpack.DefinePlugin({
-    'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
+    'process.env.REVISION': JSON.stringify(execSync(
+        'git log --pretty=format:"%h%n%ad%n%f" -1').toString())
 });
 
 var shortRevisionPlugin = new webpack.DefinePlugin({
-    'process.env.SHORT_REVISION': JSON.stringify(execSync('git log --pretty=format:"%h" -1').toString()),
+    'process.env.SHORT_REVISION': JSON.stringify(execSync(
+        'git log --pretty=format:"%h" -1').toString())
 });
 
 module.exports = function() {

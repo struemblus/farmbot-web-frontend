@@ -2,6 +2,7 @@ import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success } from "../ui";
 import { Everything } from "../interfaces";
+import { GithubRelease, ChangeSettingsBuffer } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
 import {
@@ -19,8 +20,7 @@ import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
 import { API } from "../api";
 
-const ON = 1,
-    OFF = 0;
+const ON = 1, OFF = 0;
 
 export function startRegimen(regimen: Regimen) {
     let noun = "Start Regimen";
@@ -141,17 +141,6 @@ let commandOK = (noun = "Command") => () => {
     let msg = noun + " request sent to device.";
     success(msg, t("Request sent"));
 };
-
-interface UpdateDeviceParams {
-    id?: number;
-    name?: string;
-    uuid?: string;
-    webcam_url?: string;
-}
-
-interface GithubRelease {
-    tag_name: string;
-}
 
 export function fetchOSUpdateInfo(url: string): Thunk {
     return (dispatch: Function, getState: Function) => {
@@ -291,11 +280,6 @@ function fetchDeviceErr(err: Error) {
         payload: err
     };
 }
-
-export interface ChangeSettingsBuffer {
-    key: configKey;
-    val: number;
-};
 
 export function changeSettingsBuffer(key: configKey, val: string):
     ReduxAction<ChangeSettingsBuffer> {

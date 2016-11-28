@@ -12,3 +12,24 @@ export interface UserAccountUpdate {
 export interface DeletionRequest {
     password: string;
 }
+
+export interface DeleteAccountPropTypes {
+    deletion_confirmation: string | undefined;
+    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+}
+
+export interface ChangePwPropTypes {
+    password: string | undefined;
+    new_password: string | undefined;
+    new_password_confirmation: string | undefined;
+    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+}
+
+export interface SettingsPropTypes {
+    name: string;
+    email: string;
+    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
+    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
+}

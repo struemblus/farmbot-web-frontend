@@ -10,7 +10,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../redux/interfaces";
 import * as i18next from "i18next";
-import { ChangeSettingsBuffer } from "./actions";
+import { ChangeSettingsBuffer } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot/dist/interfaces";
