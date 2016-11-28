@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
-import { BlurableInput } from "../../blurable_input";
+import { BlurableInput } from "../../ui";
 import {
     saveToolBays,
     destroySlot,

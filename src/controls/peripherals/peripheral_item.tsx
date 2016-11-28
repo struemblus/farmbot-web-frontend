@@ -5,7 +5,7 @@ import { t } from "i18next";
 import { ToggleButton } from "../toggle_button";
 import { pinToggle } from "../../devices/actions";
 import { Pin } from "farmbot/dist/interfaces";
-import { BlurableInput } from "../../blurable_input";
+import { BlurableInput } from "../../ui";
 
 interface PeripheralItemProps {
     peripheral: Peripheral;
@@ -80,7 +80,7 @@ class PeripheralItemEdit extends React.Component<PeripheralItemProps, {}> {
                 <button className="button-like red"
                     onClick={() => dispatch(destroyPeripheral(
                         { index, peripheral }
-                ))}>X</button>
+                    ))}>X</button>
             </div>
         </div>;
     }

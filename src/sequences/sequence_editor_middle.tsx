@@ -11,7 +11,7 @@ import { stepTiles, StepTile } from "./step_tiles/index";
 import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
-import { BlurableInput } from "../blurable_input";
+import { BlurableInput } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";

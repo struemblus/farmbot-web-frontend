@@ -2,7 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
 import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
-import { BlurableInput } from "../../blurable_input";
+import { BlurableInput } from "../../ui";
 import { t } from "i18next";
 
 export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
