@@ -22,11 +22,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     }
 
     render() {
-        let edit = () => { this.props.dispatch(startEditing()); };
-        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         let { set, add } = this;
         let { dispatch } = this.props;
         let { tool_slots, tools } = this.props.all;
+        let edit = () => { dispatch(startEditing()); };
+        let stopEdit = () => { dispatch(stopEditing()); };
         return <div>
             <Widget>
                 <WidgetHeader

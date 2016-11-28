@@ -130,7 +130,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         let { set, updateCoordinate, updateToolBayName, add } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
-        let stopEdit = () => { this.props.dispatch(stopEditing()); };
+        let stopEdit = () => { dispatch(stopEditing()); };
         return <div className="tool-bay-form">
             {tool_bays.map((bay, i) => {
                 let { name } = bay;
