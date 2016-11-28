@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { BlurableInput } from "../ui";
+import { BlurableInput } from "../../ui";
 
 interface DeleteAccountPropTypes {
     deletion_confirmation: string | undefined;
