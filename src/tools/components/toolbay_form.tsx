@@ -7,7 +7,8 @@ import {
     destroySlot,
     addSlot,
     updateSlot,
-    updateToolBayName
+    updateToolBayName,
+    stopEditing
 } from "../actions";
 import { t } from "i18next";
 
@@ -129,6 +130,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         let { set, updateCoordinate, updateToolBayName, add } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
+        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         return <div className="tool-bay-form">
             {tool_bays.map((bay, i) => {
                 let { name } = bay;
@@ -142,6 +144,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                             className="green button-like widget-control"
                             onClick={dispatch(saveToolBays)}>
                             {t("SAVE")}
+                        </button>
+                        <button
+                            className="gray button-like widget-control"
+                            onClick={stopEdit}>
+                            {t("BACK")}
                         </button>
                     </WidgetHeader>
                     <WidgetBody>

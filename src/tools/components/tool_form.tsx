@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
-import { startEditing, destroyTool, addTool } from "../actions";
+import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
 import { BlurableInput } from "../../blurable_input";
 import { t } from "i18next";
 
@@ -23,6 +23,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
 
     render() {
         let edit = () => { this.props.dispatch(startEditing()); };
+        let stopEdit = () => { this.props.dispatch(stopEditing()); };
         let { set, add } = this;
         let { dispatch } = this.props;
         let { tool_slots, tools } = this.props.all;
@@ -35,6 +36,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                         className="green button-like widget-control"
                         onClick={edit}>
                         {t("SAVE")}
+                    </button>
+                    <button
+                        className="gray button-like widget-control"
+                        onClick={stopEdit}>
+                        {t("BACK")}
                     </button>
                 </WidgetHeader>
                 <WidgetBody>
