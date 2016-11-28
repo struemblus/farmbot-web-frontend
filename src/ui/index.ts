@@ -1,3 +1,4 @@
+export * from "./column";
 export * from "./page";
 export * from "./row";
 export * from "./select";
