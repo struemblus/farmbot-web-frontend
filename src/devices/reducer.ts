@@ -1,10 +1,11 @@
-import { error } from "../logger";
+import { error } from "../ui";
 import * as _ from "lodash";
 import {
   BotState,
   DeviceAccountSettings,
   HardwareState,
-  RpcBotLog } from "./interfaces";
+  RpcBotLog
+} from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../redux/interfaces";

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PeripheralFormProps } from "./interfaces";
 import { pushPeripheral } from "./actions";
-import { error } from "../../logger";
+import { error } from "../../ui";
 import { t } from "i18next";
 import * as _ from "lodash";
 

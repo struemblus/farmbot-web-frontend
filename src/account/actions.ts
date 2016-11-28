@@ -1,7 +1,7 @@
 import * as axios from "axios";
 import { t } from "i18next";
 import { Thunk } from "../redux/interfaces";
-import { success, error } from "../logger";
+import { success, error } from "../ui";
 import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";

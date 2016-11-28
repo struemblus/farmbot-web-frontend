@@ -1,6 +1,6 @@
 import { Thunk } from "../redux/interfaces";
 import { Sync } from "../interfaces";
-import { error } from "../logger";
+import { error } from "../ui";
 import { API } from "../api";
 import { t } from "i18next";
 import * as axios from "axios";

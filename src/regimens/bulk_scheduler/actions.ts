@@ -1,4 +1,4 @@
-import { warning, error } from "../../logger";
+import { warning, error } from "../../ui";
 import { Everything } from "../../interfaces";
 import { ReduxAction, Thunk } from "../../redux/interfaces";
 import { Sequence } from "../../sequences/interfaces";
@@ -89,7 +89,7 @@ export function commitBulkEditor(): Thunk {
             error(t("Select a sequence from the dropdown first."));
             (!regimenDoesExist && warning(t(
                 "Select a regimen or create one first."
-                )));
+            )));
         }
     };
 }

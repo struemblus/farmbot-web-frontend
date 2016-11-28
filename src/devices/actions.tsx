@@ -1,6 +1,6 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
-import { error, success } from "../logger";
+import { error, success } from "../ui";
 import { Everything } from "../interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
@@ -159,13 +159,17 @@ export function fetchOSUpdateInfo(url: string): Thunk {
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_OK",
-                payload: versionWithoutV });
+                dispatch({
+                    type: "FETCH_OS_UPDATE_INFO_OK",
+                    payload: versionWithoutV
+                });
             })
             .catch((ferror) => {
                 error(t("Could not download OS update information."));
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR",
-                payload: ferror });
+                dispatch({
+                    type: "FETCH_OS_UPDATE_INFO_ERROR",
+                    payload: ferror
+                });
             });
     };
 }
@@ -176,13 +180,17 @@ export function fetchFWUpdateInfo(url: string) {
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_OK",
-                payload: versionWithoutV });
+                dispatch({
+                    type: "FETCH_FW_UPDATE_INFO_OK",
+                    payload: versionWithoutV
+                });
             })
             .catch((ferror) => {
                 error(t("Could not download firmware update information."));
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR",
-                payload: ferror });
+                dispatch({
+                    type: "FETCH_FW_UPDATE_INFO_ERROR",
+                    payload: ferror
+                });
             });
     };
 }
@@ -191,8 +199,10 @@ export function updateDevice(apiUrl: string,
     optns: DeviceAccountSettingsUpdate, dispatch: Function) {
     let url = API.current.devicePath;
     return put<DeviceAccountSettingsUpdate>(url, optns)
-        .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO",
-        payload: res.data }))
+        .then(res => dispatch({
+            type: "REPLACE_DEVICE_ACCOUNT_INFO",
+            payload: res.data
+        }))
         .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
     ;
 }
@@ -322,7 +332,7 @@ export function commitAxisChanges() {
         function pick(attr: string,
             fallback?: number) {
             return Number(axisBuffer[attr] ||
-            (hardware as any)[attr] || fallback);
+                (hardware as any)[attr] || fallback);
         };
         let packet: MovementRequest = {
             speed: pick("speed", speed),

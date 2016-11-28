@@ -1,7 +1,7 @@
 import { deleteRegimen, saveRegimen } from "../../regimens/actions";
 import { Regimen } from "../../regimens/interfaces";
 import { RegimensState } from "../../regimens/interfaces";
-import * as toast from "../../logger";
+import * as toast from "../../ui";
 import { } from "jasmine";
 let moxios = require("moxios");
 describe("Regimen actions", function () {

@@ -4,7 +4,7 @@ import {
     HardwareState,
     RpcBotLog
 } from "../devices/interfaces";
-import { error, success, warning } from "../logger";
+import { error, success, warning } from "../ui";
 import { t } from "i18next";
 
 export function handleIncomingBotNotification(msg: Notification<any>,

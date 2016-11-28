@@ -4,7 +4,7 @@ import { GardenMap } from "./garden_map";
 import { Panel2 } from "./panel_2";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
-import { success } from "../logger";
+import { success } from "../ui";
 class FarmDesignerPage extends React.Component<Everything, any> {
   componentDidMount() {
     success("Subscribe to the FarmBot.io mailing list for news and updates.",
