@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StepParams } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help } from "../../help";
+import { Help } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
@@ -24,7 +24,7 @@ let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     };
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
-    let choices = channels.map(function(pair, key) {
+    let choices = channels.map(function (pair, key) {
         let [name, label] = pair;
         let name_list = _.pluck((step.body || []), "args.channel_name");
         let isChecked = !!name_list.includes(name);

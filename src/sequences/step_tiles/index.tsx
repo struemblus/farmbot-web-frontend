@@ -2,7 +2,7 @@ import * as React from "react";
 import { changeStep, removeStep, pushStep } from "../actions";
 import { assign } from "lodash";
 import { Step, NUMERIC_FIELDS } from "../interfaces";
-import { Help } from "../../help";
+import { Help } from "../../ui";
 import { ExecuteBlock } from "../execute_block";
 import { Sequence } from "../interfaces";
 import { defensiveClone } from "../../util";
