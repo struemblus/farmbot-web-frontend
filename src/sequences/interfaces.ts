@@ -154,7 +154,3 @@ export interface ColorPickerProps {
   current: Color;
   onChange?: (color: Color) => any;
 }
-
-export interface ColorPickerState {
-  isHovered: boolean;
-}
