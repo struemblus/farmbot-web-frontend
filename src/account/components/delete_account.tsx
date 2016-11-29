@@ -6,18 +6,17 @@ import { DeleteAccountPropTypes } from "../interfaces";
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
     render() {
         let { set, deletion_confirmation } = this.props;
-        return (
-            <Row>
-                <div className={`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 
+        return <Row>
+            <div className={`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 
                     col-md-offset-2`}>
-                    <div className="widget-wrapper">
-                        <Row>
-                            <div className="col-sm-12">
-                                <div className="widget-header">
-                                    <h5>{t("Delete Account")}</h5>
-                                </div>
-                                <div className="widget-content">
-                                    WARNING! Deleting your account will
+                <div className="widget-wrapper">
+                    <Row>
+                        <div className="col-sm-12">
+                            <div className="widget-header">
+                                <h5>{t("Delete Account")}</h5>
+                            </div>
+                            <div className="widget-content">
+                                WARNING! Deleting your account will
                                         permanently delete all of your Sequences
                                         , Regimens, Events, and Farm Designer
                                         data.Upon deleting your account, FarmBot
@@ -33,43 +32,42 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                         new, then FarmBot will become a blank
                                         slate.
                                         <br /><br />
-                                    If you are sure you want to delete your
+                                If you are sure you want to delete your
                                         account, type in your password below
                                         to continue.
                                     </div>
-                            </div>
-                        </Row>
-                        <Row>
-                            <form>
-                                <div className="col-sm-12">
-                                    <div className="widget-content">
-                                        <div className="form-group row">
-                                            <label className="col-sm-3">
-                                                {t("Enter Password")}
-                                            </label>
-                                            <div className="col-sm-9">
-                                                <BlurableInput
-                                                    onCommit={set}
-                                                    name="deletion_confirmation"
-                                                    allowEmpty={true}
-                                                    value={deletion_confirmation
-                                                        || ""}
-                                                    type="password" />
-                                            </div>
-                                            <button onClick={this.props.save}
-                                                className={`red button-like 
-                                                    widget-control`}
-                                                type="button">
-                                                {t("DELETE ACCOUNT")}
-                                            </button>
+                        </div>
+                    </Row>
+                    <Row>
+                        <form>
+                            <div className="col-sm-12">
+                                <div className="widget-content">
+                                    <div className="form-group row">
+                                        <label className="col-sm-3">
+                                            {t("Enter Password")}
+                                        </label>
+                                        <div className="col-sm-9">
+                                            <BlurableInput
+                                                onCommit={set}
+                                                name="deletion_confirmation"
+                                                allowEmpty={true}
+                                                value={deletion_confirmation
+                                                    || ""}
+                                                type="password" />
                                         </div>
+                                        <button onClick={this.props.save}
+                                            className={`red button-like 
+                                                    widget-control`}
+                                            type="button">
+                                            {t("DELETE ACCOUNT")}
+                                        </button>
                                     </div>
                                 </div>
-                            </form>
-                        </Row>
-                    </div>
+                            </div>
+                        </form>
+                    </Row>
                 </div>
-            </Row>
-        );
+            </div>
+        </Row>;
     }
 }
