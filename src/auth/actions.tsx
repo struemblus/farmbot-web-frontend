@@ -5,7 +5,7 @@ import {
 } from "../devices/actions";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
-import { error, success } from "../logger";
+import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { fetchSyncData } from "../sync/actions";

@@ -149,3 +149,12 @@ export interface ChanParams {
   channel_name: string;
   index: number;
 };
+
+export interface ColorPickerProps {
+  current: Color;
+  onChange?: (color: Color) => any;
+}
+
+export interface ColorPickerState {
+  isHovered: boolean;
+}

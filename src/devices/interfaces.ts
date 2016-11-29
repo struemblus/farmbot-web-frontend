@@ -1,4 +1,8 @@
-import { BotStateTree, Configuration } from "farmbot/dist/interfaces";
+import {
+  BotStateTree,
+  Configuration,
+  configKey
+} from "farmbot/dist/interfaces";
 
 export interface BotLog {
   /** The actual message that was emitted */
@@ -91,4 +95,13 @@ export interface MqttMessage {
   error?: string | undefined;
   id?: string | undefined;
   result: HardwareState;
+}
+
+export interface GithubRelease {
+  tag_name: string;
+}
+
+export interface ChangeSettingsBuffer {
+  key: configKey;
+  val: number;
 }

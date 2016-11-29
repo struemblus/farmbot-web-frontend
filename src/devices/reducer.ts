@@ -1,15 +1,16 @@
-import { error } from "../logger";
+import { error } from "../ui";
 import * as _ from "lodash";
 import {
   BotState,
   DeviceAccountSettings,
   HardwareState,
-  RpcBotLog } from "./interfaces";
+  RpcBotLog
+} from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { isBotLog } from "./is_bot_log";
 import { ReduxAction } from "../redux/interfaces";
 import * as i18next from "i18next";
-import { ChangeSettingsBuffer } from "./actions";
+import { ChangeSettingsBuffer } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot/dist/interfaces";

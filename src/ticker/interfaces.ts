@@ -3,3 +3,7 @@ export interface TickerState {
     color: string;
     show: boolean;
 }
+
+export interface TickerParams {
+    ticker: TickerState;
+}

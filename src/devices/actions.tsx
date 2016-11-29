@@ -1,7 +1,8 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
-import { error, success } from "../logger";
+import { error, success } from "../ui";
 import { Everything } from "../interfaces";
+import { GithubRelease, ChangeSettingsBuffer } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
 import {
@@ -19,8 +20,7 @@ import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
 import { API } from "../api";
 
-const ON = 1,
-    OFF = 0;
+const ON = 1, OFF = 0;
 
 export function startRegimen(regimen: Regimen) {
     let noun = "Start Regimen";
@@ -142,30 +142,23 @@ let commandOK = (noun = "Command") => () => {
     success(msg, t("Request sent"));
 };
 
-interface UpdateDeviceParams {
-    id?: number;
-    name?: string;
-    uuid?: string;
-    webcam_url?: string;
-}
-
-interface GithubRelease {
-    tag_name: string;
-}
-
 export function fetchOSUpdateInfo(url: string): Thunk {
     return (dispatch: Function, getState: Function) => {
         get<GithubRelease>(url)
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_OK",
-                payload: versionWithoutV });
+                dispatch({
+                    type: "FETCH_OS_UPDATE_INFO_OK",
+                    payload: versionWithoutV
+                });
             })
             .catch((ferror) => {
                 error(t("Could not download OS update information."));
-                dispatch({ type: "FETCH_OS_UPDATE_INFO_ERROR",
-                payload: ferror });
+                dispatch({
+                    type: "FETCH_OS_UPDATE_INFO_ERROR",
+                    payload: ferror
+                });
             });
     };
 }
@@ -176,13 +169,17 @@ export function fetchFWUpdateInfo(url: string) {
             .then((resp) => {
                 let version = resp.data.tag_name;
                 let versionWithoutV = version.slice(1, version.length);
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_OK",
-                payload: versionWithoutV });
+                dispatch({
+                    type: "FETCH_FW_UPDATE_INFO_OK",
+                    payload: versionWithoutV
+                });
             })
             .catch((ferror) => {
                 error(t("Could not download firmware update information."));
-                dispatch({ type: "FETCH_FW_UPDATE_INFO_ERROR",
-                payload: ferror });
+                dispatch({
+                    type: "FETCH_FW_UPDATE_INFO_ERROR",
+                    payload: ferror
+                });
             });
     };
 }
@@ -191,8 +188,10 @@ export function updateDevice(apiUrl: string,
     optns: DeviceAccountSettingsUpdate, dispatch: Function) {
     let url = API.current.devicePath;
     return put<DeviceAccountSettingsUpdate>(url, optns)
-        .then(res => dispatch({ type: "REPLACE_DEVICE_ACCOUNT_INFO",
-        payload: res.data }))
+        .then(res => dispatch({
+            type: "REPLACE_DEVICE_ACCOUNT_INFO",
+            payload: res.data
+        }))
         .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
     ;
 }
@@ -282,11 +281,6 @@ function fetchDeviceErr(err: Error) {
     };
 }
 
-export interface ChangeSettingsBuffer {
-    key: configKey;
-    val: number;
-};
-
 export function changeSettingsBuffer(key: configKey, val: string):
     ReduxAction<ChangeSettingsBuffer> {
 
@@ -322,7 +316,7 @@ export function commitAxisChanges() {
         function pick(attr: string,
             fallback?: number) {
             return Number(axisBuffer[attr] ||
-            (hardware as any)[attr] || fallback);
+                (hardware as any)[attr] || fallback);
         };
         let packet: MovementRequest = {
             speed: pick("speed", speed),

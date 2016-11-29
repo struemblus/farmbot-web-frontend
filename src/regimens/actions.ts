@@ -1,6 +1,6 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { warning, success, error } from "../logger";
+import { warning, success, error } from "../ui";
 import * as Axios from "axios";
 import { regimenSerializer } from "./serializers";
 import { prettyPrintApiErrors } from "../util";

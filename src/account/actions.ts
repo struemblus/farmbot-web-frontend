@@ -1,19 +1,16 @@
 import * as axios from "axios";
 import { t } from "i18next";
 import { Thunk } from "../redux/interfaces";
-import { success, error } from "../logger";
+import { success, error } from "../ui";
 import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
-import { UserAccountUpdate } from "./interfaces";
+import { UserAccountUpdate, DeletionRequest } from "./interfaces";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 import { Session } from "../session";
 
 function updateUserSuccess(payload: User): ReduxAction<User> {
-    return {
-        type: "UPDATE_USER_SUCCESS",
-        payload
-    };
+    return { type: "UPDATE_USER_SUCCESS", payload };
 }
 
 export function updateUser(user: UserAccountUpdate): Thunk {
@@ -28,15 +25,10 @@ export function updateUser(user: UserAccountUpdate): Thunk {
     };
 }
 
-interface DeletionRequest {
-    password: string;
-}
-
 export function deleteUser(payload: DeletionRequest): Thunk {
     return (dispatch, getState) => {
         let state = getState().auth;
         if (state) {
-            let user = state.user;
             // https://github.com/mzabriskie/axios/issues/312
             axios<{}>({
                 method: "delete",
@@ -44,7 +36,7 @@ export function deleteUser(payload: DeletionRequest): Thunk {
                 data: payload,
                 params: { force: true }
             })
-                .then((resp) => {
+                .then(resp => {
                     alert("We're sorry to see you go. :(");
                     Session.clear();
                     window.location.href = "/";
@@ -55,6 +47,5 @@ export function deleteUser(payload: DeletionRequest): Thunk {
         } else {
             throw new Error("Impossible");
         }
-
     };
 }

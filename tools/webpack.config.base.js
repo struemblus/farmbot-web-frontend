@@ -4,14 +4,14 @@ var path = require('path'),
     webpack = require('webpack');
 var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
-exec("rm app-resources/*bundle.js* app-resources/*styles.css*"); // Clean previous stuff.
-
 var revisionPlugin = new webpack.DefinePlugin({
-    'process.env.REVISION': JSON.stringify(execSync('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
+    'process.env.REVISION': JSON.stringify(execSync(
+        'git log --pretty=format:"%h%n%ad%n%f" -1').toString())
 });
 
 var shortRevisionPlugin = new webpack.DefinePlugin({
-    'process.env.SHORT_REVISION': JSON.stringify(execSync('git log --pretty=format:"%h" -1').toString()),
+    'process.env.SHORT_REVISION': JSON.stringify(execSync(
+        'git log --pretty=format:"%h" -1').toString())
 });
 
 module.exports = function() {

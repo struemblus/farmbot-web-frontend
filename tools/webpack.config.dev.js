@@ -21,8 +21,7 @@ c = function() {
         .push(new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('development'),
             'process.env.REVISION': JSON.stringify(
-                exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
-
+                exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString())
         }));
     return conf;
 };

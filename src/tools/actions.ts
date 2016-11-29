@@ -15,7 +15,7 @@ import {
     SaveToolsNo,
     DestroyTool,
 } from "./interfaces";
-import { success, error } from "../logger";
+import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */

@@ -1,22 +1,17 @@
 import * as React from "react";
 import { t } from "i18next";
-import { BlurableInput } from "../ui";
-
-interface DeleteAccountPropTypes {
-    deletion_confirmation: string | undefined;
-    set: React.EventHandler<React.FormEvent<HTMLInputElement>>;
-    save: React.EventHandler<React.MouseEvent<HTMLButtonElement>>;
-}
+import { BlurableInput, Row } from "../../ui";
+import { DeleteAccountPropTypes } from "../interfaces";
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
     render() {
         let { set, deletion_confirmation } = this.props;
         return (
-            <div className="row">
+            <Row>
                 <div className={`col-xs-12 col-sm-10 col-sm-offset-1 col-md-8 
                     col-md-offset-2`}>
                     <div className="widget-wrapper">
-                        <div className="row">
+                        <Row>
                             <div className="col-sm-12">
                                 <div className="widget-header">
                                     <h5>{t("Delete Account")}</h5>
@@ -43,8 +38,8 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                         to continue.
                                     </div>
                             </div>
-                        </div>
-                        <div className="row">
+                        </Row>
+                        <Row>
                             <form>
                                 <div className="col-sm-12">
                                     <div className="widget-content">
@@ -65,16 +60,16 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                                                 className={`red button-like 
                                                     widget-control`}
                                                 type="button">
-                                                DELETE ACCOUNT
-                                                </button>
+                                                {t("DELETE ACCOUNT")}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </Row>
                     </div>
                 </div>
-            </div>
+            </Row>
         );
     }
 }

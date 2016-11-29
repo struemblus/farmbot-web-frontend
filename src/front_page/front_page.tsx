@@ -2,24 +2,11 @@ import * as React from "react";
 import * as i18next from "i18next";
 import * as axios from "axios";
 import { AuthState } from "../auth/interfaces";
-import { error as log } from "../logger";
+import { error as log } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
 import { Session } from "../session";
-
-interface FrontPageState {
-    regName?: string;
-    regEmail?: string;
-    regPassword?: string;
-    regConfirmation?: string;
-    loginEmail?: string;
-    loginPassword?: string;
-    showServerOpts?: boolean;
-    serverURL?: string;
-    serverPort?: string;
-}
-
-interface FrontPageProps { };
+import { FrontPageState, FrontPageProps } from "./interfaces";
 
 export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
     constructor() {
@@ -98,11 +85,15 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         let { toggleServerOpts } = this;
         return (
             <div className="front-page">
-                <h1>Welcome to the FarmBot Web App</h1>
-                <h2 className="fb-desktop-show">Setup, customize, and control
-                FarmBot from your computer</h2>
-                <h2 className="fb-tablet-show">Setup, customize, and control
-                FarmBot from your tablet</h2>
+                <h1>
+                    Welcome to the FarmBot Web App
+                </h1>
+                <h2 className="fb-desktop-show">
+                    Setup, customize, and control FarmBot from your computer
+                </h2>
+                <h2 className="fb-tablet-show">
+                    Setup, customize, and control FarmBot from your tablet
+                </h2>
                 <h2 className="fb-mobile-show">Setup, customize, and control
                 FarmBot from your smartphone</h2>
                 <div className="image-login-wrapper">

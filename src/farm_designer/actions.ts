@@ -1,5 +1,5 @@
 import * as Axios from "axios";
-import { error } from "../logger";
+import { error } from "../ui";
 import { Plant } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";

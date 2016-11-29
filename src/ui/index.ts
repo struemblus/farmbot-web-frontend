@@ -1,6 +1,7 @@
 export * from "./blurable_input";
 export * from "./column";
 export * from "./page";
+export * from "./logger";
 export * from "./row";
 export * from "./select";
 export * from "./widget";

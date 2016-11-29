@@ -5,7 +5,7 @@ import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
 import { connect } from "react-redux";
 import { Page, Row, Col } from "../ui";
 import { fetchAll } from "./actions";
-import { success } from "../logger";
+import { success } from "../ui";
 
 class XTools extends React.Component<Everything, ToolsState> {
     componentDidMount() {

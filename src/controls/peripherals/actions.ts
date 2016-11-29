@@ -1,7 +1,7 @@
 import { Everything } from "../../interfaces";
 import { ReduxAction } from "../../redux/interfaces";
 import * as axios from "axios";
-import { error } from "../../logger";
+import { error } from "../../ui";
 import { t } from "i18next";
 import { IndexedPeripheral, Peripheral } from "./interfaces";
 import { devices } from "../../device";

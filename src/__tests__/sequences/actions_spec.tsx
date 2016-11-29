@@ -5,7 +5,7 @@ import {
 import { Sequence } from "../../sequences/interfaces";
 import { SequenceReducerState } from "../../sequences/interfaces";
 import { fakeState } from "../helpers";
-import * as toast from "../../logger";
+import * as toast from "../../ui";
 import { } from "jasmine";
 
 let moxios = require("moxios");

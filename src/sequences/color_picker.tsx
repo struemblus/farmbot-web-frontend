@@ -1,16 +1,11 @@
 import * as React from "react";
 import { Saucer } from "../ticker/saucer";
 import { Color } from "../interfaces";
+import { } from "../interfaces";
+import { ColorPickerState, ColorPickerProps } from "./interfaces";
 import { colors } from "../util";
 
-interface ColorPickerProps {
-    current: Color;
-    onChange?: (color: Color) => any;
-}
-
-interface ColorPickerState { isHovered: boolean; }
-
-export class ColorPicker extends React.Component<ColorPickerProps, 
+export class ColorPicker extends React.Component<ColorPickerProps,
     ColorPickerState> {
     constructor(props: ColorPickerProps) {
         super(props);
@@ -55,8 +50,9 @@ export class ColorPicker extends React.Component<ColorPickerProps,
         let Comp = (this.state.isHovered ? this.isHovered.bind(this) :
             this.notHovered);
         return <div onMouseEnter={() => {
-                this.setState({ isHovered: true }); }
-            }
+            this.setState({ isHovered: true });
+        }
+        }
             onMouseLeave={() => { this.setState({ isHovered: false }); } } >
             <Saucer color={this.props.current} />
             <Comp />

@@ -7,7 +7,7 @@ import {
     Sequence,
     ChanParams
 } from "./interfaces";
-import { success, error } from "../logger";
+import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 import { Color } from "../interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
@@ -49,7 +49,7 @@ export interface EditCurrentSequence {
     color?: Color;
 };
 
-export function editCurrentSequence(updates: SequenceOptions): 
+export function editCurrentSequence(updates: SequenceOptions):
     ReduxAction<EditCurrentSequence> {
     return {
         type: "EDIT_CURRENT_SEQUENCE",
@@ -76,7 +76,7 @@ export interface SpliceStepPayl {
     step: Step;
 }
 
-export function spliceStep(step: Step, insertBefore: number): 
+export function spliceStep(step: Step, insertBefore: number):
     ReduxAction<SpliceStepPayl> {
     return {
         type: "SPLICE_STEP",
@@ -146,8 +146,11 @@ export function saveSequence(sequence: Sequence): Thunk {
                     { SequenceName: (sequence.name || "sequence") }));
                 dispatch(saveSequenceOk(resp.data));
             })
-            .catch(function (err: { response: {
-                data: { [reason: string]: string }; } }) {
+            .catch(function (err: {
+                response: {
+                    data: { [reason: string]: string };
+                }
+            }) {
                 let template = "Unable to save '{{SequenceName}}'";
                 let context = { SequenceName: (sequence.name || "sequence") };
                 error(prettyPrintApiErrors(err),
