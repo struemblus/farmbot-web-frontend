@@ -36,7 +36,7 @@ export function TileIfStatment({dispatch, step, index}: StepParams) {
                                     field="lhs" />
                             </div>
                             <div className="col-xs-6 col-md-3">
-                                <label>{t("OPPERATOR")}</label>
+                                <label>{t("OPERATOR")}</label>
                                 <StepInputBox dispatch={dispatch}
                                     step={step}
                                     index={index}
