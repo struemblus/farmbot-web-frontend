@@ -150,14 +150,12 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                                 <BlurableInput value={sequence.name}
                                     onCommit={handleNameUpdate(dispatch)} />
                             </div>
-                            <div className="col-sm-1">
-                                <ColorPicker current={sequence.color}
-                                    onChange={(color) => {
-                                        dispatch(editCurrentSequence(
-                                            { color }
-                                        ));
-                                    } } />
-                            </div>
+                            <ColorPicker current={sequence.color}
+                                onChange={(color) => {
+                                    dispatch(editCurrentSequence(
+                                        { color }
+                                    ));
+                                } } />
                         </div>
                         {<StepList sequence={sequence}
                             dispatch={dispatch}
