@@ -13,8 +13,7 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                     <Row>
                         <div className="col-sm-12">
                             <button
-                                className={`green button-like 
-                                            widget-control`}
+                                className="green button-like widget-control"
                                 type="button"
                                 onClick={save}>
                                 {t("SAVE")}
@@ -36,7 +35,7 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                             <BlurableInput
                                                 onCommit={set}
                                                 name="name"
-                                                value={`${name}`}
+                                                value={name || ""}
                                                 type="text"
                                                 />
                                         </div>
@@ -49,7 +48,7 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
                                             <BlurableInput
                                                 onCommit={set}
                                                 name="email"
-                                                value={`${email}`}
+                                                value={email || ""}
                                                 type="email"
                                                 />
                                         </div>
