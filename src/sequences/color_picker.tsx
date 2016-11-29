@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Saucer } from "../ticker/saucer";
+import { Saucer } from "../ui";
 import { Color } from "../interfaces";
 import { } from "../interfaces";
 import { ColorPickerState, ColorPickerProps } from "./interfaces";
@@ -47,15 +47,6 @@ export class ColorPicker extends React.Component<ColorPickerProps,
     notHovered() { return <div></div>; }
 
     render() {
-        let Comp = (this.state.isHovered ? this.isHovered.bind(this) :
-            this.notHovered);
-        return <div onMouseEnter={() => {
-            this.setState({ isHovered: true });
-        }
-        }
-            onMouseLeave={() => { this.setState({ isHovered: false }); } } >
-            <Saucer color={this.props.current} />
-            <Comp />
-        </div>;
+        return <Saucer color={this.props.current} />;
     };
 }

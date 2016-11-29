@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Saucer, SaucerProps } from "../../ticker/saucer";
+import { Saucer, SaucerProps } from "../../ui";
 import * as TUtils from "react-addons-test-utils";
 import { Wrapper } from "../helpers";
 import { } from "jasmine";
