@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TickerParams } from "./interfaces";
-import { Saucer } from "./saucer";
+import { Saucer } from "../ui";
 import { t } from "i18next";
 
 export function Ticker({ ticker }: TickerParams) {

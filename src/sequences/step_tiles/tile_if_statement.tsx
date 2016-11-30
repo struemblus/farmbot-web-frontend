@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StepParams } from "./index";
-import { Help } from "../../help";
+import { Help } from "../../ui";
 import { t } from "i18next";
 import { copy, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
@@ -36,7 +36,7 @@ export function TileIfStatment({dispatch, step, index}: StepParams) {
                                     field="lhs" />
                             </div>
                             <div className="col-xs-6 col-md-3">
-                                <label>{t("OPPERATOR")}</label>
+                                <label>{t("OPERATOR")}</label>
                                 <StepInputBox dispatch={dispatch}
                                     step={step}
                                     index={index}
