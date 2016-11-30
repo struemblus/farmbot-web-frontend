@@ -1,5 +1,6 @@
 /* Universally shared styles */
 
+@import "../colors";
 a {
     text-decoration: none !important;
     outline: none !important;
@@ -18,5 +19,9 @@ input {
 
 ul {
     list-style-type: none !important;
-    padding: 0 !important;
+    padding: 0;
+}
+
+.d-hide {
+    display: none !important;
 }

@@ -1,7 +1,8 @@
 /* Desktop */
 
-@import '../colors';
-@import '../fonts';
-@import 'globals';
-@import 'navbar';
-@import 'tools';
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+    @import '../colors';
+    @import '../fonts';
+    @import 'navbar';
+    @import 'tools';
+}
