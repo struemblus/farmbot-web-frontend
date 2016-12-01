@@ -42,8 +42,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
-        let { value, id } = e.currentTarget;
-        this.props.dispatch(updateToolBayName({ value, id }));
+        let { id, value } = e.currentTarget;
+        this.props.dispatch(updateToolBayName(id, value));
     }
 
     updateTool(e: React.SyntheticEvent<HTMLSelectElement>) {
@@ -208,24 +208,31 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             onCommit={set}
                                             />
                                     </td>
-                                    <td>
-                                        <Select>
-                                            {tools.map(tool => {
-                                                let { id } = tool;
-                                                return <option key={id}>
-                                                    {tool.name}
-                                                </option>;
-                                            })}
-                                        </Select>
-                                    </td>
-                                    <td>
-                                        <button
-                                            className={`button-like 
+                                    {tools.length != 0 && (
+                                        <td>
+                                            <Select>
+                                                {tools.map(tool => {
+                                                    let { id } = tool;
+                                                    return <option key={id}>
+                                                        {tool.name}
+                                                    </option>;
+                                                })}
+                                            </Select>
+                                            <td>
+                                                <button
+                                                    className={`button-like 
                                                     widget-control green`}
-                                            onClick={() => add(bayId)}>
-                                            <i className="fa fa-plus"></i>
-                                        </button>
-                                    </td>
+                                                    onClick={() => add(bayId)}>
+                                                    <i className="fa fa-plus"></i>
+                                                </button>
+                                            </td>
+                                        </td>
+                                    )}
+                                    {tools.length == 0 && (
+                                        <td>
+                                            Create a tool to add a slot!
+                                        </td>
+                                    )}
                                 </tr>
                             </tbody>
                         </table>

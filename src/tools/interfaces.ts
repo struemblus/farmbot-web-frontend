@@ -76,6 +76,11 @@ export interface SaveToolBaysOk {
     payload: {};
 }
 
+export interface SaveToolBayNameOk {
+    type: string;
+    payload: {};
+}
+
 export interface SaveToolBaysNo {
     type: string;
     payload: AxiosErrorResponse;
