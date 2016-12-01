@@ -50,12 +50,10 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
     if (!auth) { return <span></span>; }
     let dirty = bot.dirty;
     let color = dirty ? "yellow" : "green";
-    return <div>
-        <button className={`nav-sync button-like ${color}`}
-            onClick={() => { dispatch(sync()); } }>
-            {dirty ? t("Sync Required") : t("Synced")}
-        </button>
-    </div>;
+    return <button className={`nav-sync button-like ${color}`}
+        onClick={() => { dispatch(sync()); } }>
+        {dirty ? t("Sync Required") : t("Synced")}
+    </button>;
 };
 
 let links = [
@@ -91,12 +89,15 @@ class XNavBar extends React.Component<Everything, NavBarState> {
 
     render() {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
+        let pageName = this.props.location.pathname.split("/").pop() || "";
         return <nav role="navigation">
-            <button className="fa fa-bars d-hide"
+            <button
                 onClick={this.toggleNav.bind(this)}>
+                <i className="fa fa-bars"></i>
             </button>
-            <div>
-                <ul className={`links ${mobileMenuClass}`}>
+            <span className="page-name">{pageName}</span>
+            <div className={`links ${mobileMenuClass}`}>
+                <ul>
                     {links.map(link => {
                         return (
                             <li key={link.url}>
@@ -109,6 +110,22 @@ class XNavBar extends React.Component<Everything, NavBarState> {
                             </li>
                         );
                     })}
+                </ul>
+                {/** TODO: Getting the links from the desktop dropdown to the 
+                    mobile slide-out menu involves gnarly (and probably mobile-
+                    incompatible) CSS. I'll look into this one. -CV */}
+                <ul className="mobile-menu-extras">
+                    <li>
+                        <Link to="/app/account"
+                            onClick={this.toggleNav.bind(this)}>
+                            <i className="fa fa-cog"></i>{t("Account Settings")}
+                        </Link>
+                    </li>
+                    <li>
+                        <a onClick={this.logout.bind(this)}>
+                            <i className="fa fa-sign-out"></i>{t("Logout")}
+                        </a>
+                    </li>
                 </ul>
             </div>
             <SyncButton { ...this.props } />
