@@ -127,6 +127,7 @@ export function fakeState(dispatcher?: Function): Everything {
     regimens: [],
     peripherals: [],
     regimen_items: [],
+    tool_bays: [],
     plants: []
   };
 

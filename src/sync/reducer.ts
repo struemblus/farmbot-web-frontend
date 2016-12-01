@@ -15,6 +15,7 @@ const initialState: Sync = {
     regimens: [],
     peripherals: [],
     regimen_items: [],
+    tool_bays: [],
     plants: []
 };
 
@@ -23,5 +24,3 @@ export let syncReducer = generateReducer<Sync>(initialState)
         s = a.payload;
         return s;
     });
-
-
