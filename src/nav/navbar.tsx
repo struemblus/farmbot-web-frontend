@@ -19,7 +19,7 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
             <div className="nav-dropdown-content">
                 <ul>
                     <li>
-                        <Link to="/app/dashboard/account">
+                        <Link to="/app/account">
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
@@ -59,15 +59,15 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
 };
 
 let links = [
-    { name: "Farm Designer", icon: "leaf", url: "/app/dashboard/designer" },
-    { name: "Controls", icon: "keyboard-o", url: "/app/dashboard/controls" },
-    { name: "Devices", icon: "cog", url: "/app/dashboard/devices" },
-    { name: "Sequences", icon: "server", url: "/app/dashboard/sequences" },
+    { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
+    { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
+    { name: "Devices", icon: "cog", url: "/app/devices" },
+    { name: "Sequences", icon: "server", url: "/app/sequences" },
     {
         name: "Regimens", icon: "calendar-check-o",
-        url: "/app/dashboard/regimens"
+        url: "/app/regimens"
     },
-    { name: "Tools", icon: "wrench", url: "/app/dashboard/tools" }
+    { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
 class XNavBar extends React.Component<Everything, NavBarState> {

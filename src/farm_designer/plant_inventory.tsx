@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { Plant } from "./interfaces";
 import { Everything } from "../interfaces";
 
-const pathname = "/app/dashboard/designer";
+const pathname = "/app/designer";
 
 export class Plants extends React.Component<Everything, any> {
   render() {
@@ -78,7 +78,7 @@ export class List extends React.Component<ListProps, any> {
       return (
         <li key={key} >
           <Link to={{
-            pathname: "/app/dashboard/designer",
+            pathname: "/app/designer",
             query: { p1: "PlantInfo", id: (plant.openfarm_slug || "") }
           }}>
             {plant.name}

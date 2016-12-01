@@ -51,7 +51,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         axios.post<AuthState>(API.current.tokensPath, payload)
             .then(resp => {
                 Session.put(resp.data);
-                window.location.href = "/app/dashboard/controls";
+                window.location.href = "/app/controls";
             }).catch(error => {
                 log(prettyPrintApiErrors(error));
             });
@@ -70,7 +70,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         };
         axios.post<AuthState>(API.current.usersPath, form).then(resp => {
             Session.put(resp.data);
-            window.location.replace("/app/dashboard/controls");
+            window.location.replace("/app/controls");
         }).catch(error => {
             log(prettyPrintApiErrors(error));
         });

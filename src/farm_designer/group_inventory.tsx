@@ -17,26 +17,26 @@ export class Groups extends React.Component<any, any> {
           <div className="panel-tabs">
             <ul>
               <li className="hidden-sm hidden-md hidden-lg">
-                <Link to={"/app/dashboard/designer?p1=NoTab"}>
+                <Link to={"/app/designer?p1=NoTab"}>
                   {t("Designer")}
                 </Link>
               </li>
               <li>
-                <Link to={"/app/dashboard/designer?p1=Plants"}>
+                <Link to={"/app/designer?p1=Plants"}>
                   {t("Plants")}
                 </Link>
               </li>
               <li>
-                <Link to={"/app/dashboard/designer?p1=Groups"}
+                <Link to={"/app/designer?p1=Groups"}
                   className={"active"}>{t("Groups")}</Link>
               </li>
               <li>
-                <Link to={"/app/dashboard/designer?p1=Zones"}>
+                <Link to={"/app/designer?p1=Zones"}>
                   {t("Zones")}
                 </Link>
               </li>
               <li className="hidden-sm hidden-md hidden-lg">
-                <Link to={"/app/dashboard/designer?p1=Panel2"}>
+                <Link to={"/app/designer?p1=Panel2"}>
                   {t("Calendar")}
                 </Link>
               </li>
@@ -89,7 +89,7 @@ export class Groups extends React.Component<any, any> {
               </ul>
             </div>
           </div>
-          <Link to="/app/dashboard/designer?p1=AddGroup">
+          <Link to="/app/designer?p1=AddGroup">
             <div className="plus-button add-group button-like" data-toggle="tooltip" title="Add group">
               <i className="fa fa-2x fa-plus" />
             </div>
