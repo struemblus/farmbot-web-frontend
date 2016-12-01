@@ -4,7 +4,7 @@ import {
     Provider
 } from "react-redux";
 import {
-    IndexRedirect,
+    Redirect,
     IndexRoute,
     Route,
     Router,
@@ -82,7 +82,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             onEnter={this.requireAuth.bind(this)} />
         <IndexRoute
             component={Controls} />
-        <IndexRedirect to="controls" />
+        <Redirect path="*" to="controls" />
     </Route>;
 
     render() {
