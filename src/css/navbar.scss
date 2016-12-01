@@ -1,6 +1,6 @@
 /* Desktop */
 
-@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+@media (max-device-width: 1600px) {
     nav {
         background-color: $dark_gray;
         color: $light_gray;
@@ -108,7 +108,7 @@
 
 /* Mobile and Tablet */
 
-@media only screen and (min-width: 320px) and (max-width: 830px) {
+@media (max-width: 830px) {
     nav {
         button:first-of-type {
             display: block;
@@ -179,7 +179,7 @@
 
 /* Mobile */
 
-@media only screen and (min-width: 320px) and (max-width: 568px) {
+@media (max-width: 568px) {
     nav {
         margin: 3.6rem 0 0 0;
         padding: 1rem;
