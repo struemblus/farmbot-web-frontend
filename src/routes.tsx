@@ -12,6 +12,7 @@ import {
     RouterState
 } from "react-router";
 import App from "./app";
+import { FourOhFour } from "./404";
 import { Controls } from "./controls/controls";
 import { Devices } from "./devices/devices";
 import { Sequences } from "./sequences/sequences";
@@ -80,9 +81,11 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         <Route path="tools"
             component={Tools}
             onEnter={this.requireAuth.bind(this)} />
+        <Route path="404"
+            component={FourOhFour} />
         <IndexRoute
             component={Controls} />
-        <Redirect path="*" to="controls" />
+        <Redirect path="*" to="404" />
     </Route>;
 
     render() {

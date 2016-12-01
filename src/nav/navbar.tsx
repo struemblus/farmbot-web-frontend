@@ -89,7 +89,7 @@ class XNavBar extends React.Component<Everything, NavBarState> {
 
     render() {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
-        let pageName = location.href.split("/").pop(); // ¯\_(ツ)_/¯
+        let pageName = this.props.location.pathname.split("/").pop() || "";
         return <nav role="navigation">
             <button
                 onClick={this.toggleNav.bind(this)}>
