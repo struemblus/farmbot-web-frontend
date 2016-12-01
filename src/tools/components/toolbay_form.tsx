@@ -67,7 +67,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
          * React and throws errors.
         */
         let { tools } = this.props.all;
-        let options = tools.map((tool, i) => {
+        let options = tools.map(tool => {
             if (tool.slot_id === slotId) {
                 /** ??? */
             };
