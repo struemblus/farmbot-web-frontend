@@ -1,0 +1,145 @@
+/* Desktop */
+
+@media screen and (min-device-width: 1200px) and (max-device-width: 1600px) {
+    nav {
+        background-color: $dark_gray;
+        color: $light_gray;
+        font-size: 1.2rem;
+        letter-spacing: .15rem;
+        text-transform: uppercase;
+        box-shadow: 0 4px 10px $translucent;
+        display: flex;
+        height: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2rem;
+        .links {
+            .fa {
+                display: none;
+            }
+        }
+        ul {
+            display: flex;
+            justify-content: space-around;
+        }
+        button {
+            margin: 0 !important;
+            font-size: 1.2rem !important;
+            padding: 0.5rem 1rem;
+        }
+        a {
+            padding: 2rem 1rem;
+            color: $gray !important;
+            &:hover {
+                color: $white !important;
+                font-weight: bold;
+            }
+            &.active {
+                color: $white !important;
+                border-bottom: 3px solid $white;
+                font-weight: bold;
+            }
+        }
+        .nav-dropdown {
+            cursor: pointer;
+            position: relative;
+            .nav-dropdown-content {
+                display: none;
+            }
+            &:hover {
+                .nav-dropdown-content {
+                    top: 1.6rem;
+                    box-shadow: 0 4px 10px $translucent;
+                    position: absolute;
+                    display: block;
+                    background: $dark_gray;
+                    z-index: 1;
+                    padding: 2.6rem;
+                    right: 0;
+                    i {
+                        padding-right: 1rem;
+                    }
+                    ul {
+                        display: flex;
+                        flex-direction: column;
+                        width: 20rem;
+                        li {
+                            padding: 1rem;
+                            width: 22rem;
+                        }
+                    }
+                    .version-links {
+                        position: absolute;
+                        font-size: 1rem;
+                        background: #000;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        text-align: center;
+                        padding: 0.8rem;
+                        a {
+                            text-decoration: underline !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* Mobile and Tablet */
+
+@media only screen and (min-width: 320px) and (max-width: 568px) {
+    nav {
+        position: absolute;
+        background: $dark-gray;
+        .status-ticker-wrapper {
+            position: absolute;
+            top: 0;
+            background: #000;
+            right: 0;
+            left: 0;
+            width: 100vw;
+            padding: 0.2rem;
+            margin: 0 !important;
+            text-align: center;
+            z-index: 1;
+            .saucer {
+                width: 15px;
+                height: 15px;
+                margin: 0.2rem 0 0 0;
+            }
+            .status-ticker-message {
+                font-size: 0.8rem;
+            }
+        }
+        .links {
+            box-shadow: 0;
+            z-index: 2;
+            position: absolute;
+            background: $dark-gray;
+            padding: 2rem;
+            width: 50vw;
+            top: 0;
+            bottom: 0;
+            height: 100vh;
+            transform: translateX(-50vw);
+            &.expanded {
+                transform: translateX(0);
+                box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+        }
+        .underlay.expanded {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.5);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            width: 100vw;
+            height: 100vh;
+        }
+    }
+}

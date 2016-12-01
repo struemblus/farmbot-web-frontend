@@ -7,13 +7,6 @@ export class Groups extends React.Component<any, any> {
     return (
       <div className="panel-container cyan-panel">
         <div className="panel-header cyan-panel">
-          <div className="main-nav-button">
-            <button className="navbar-toggle hidden-sm hidden-md hidden-lg"
-              data-toggle="collapse"
-              type="button">
-              <span className="glyphicon glyphicon-menu-hamburger" />
-            </button>
-          </div>
           <div className="panel-tabs">
             <ul>
               <li className="hidden-sm hidden-md hidden-lg">

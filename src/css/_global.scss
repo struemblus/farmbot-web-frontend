@@ -1,4 +1,5 @@
-// Styles used throughout the frontend
+/* Styles used throughout the frontend */
+
 .all-content-wrapper {
     padding: 3rem 3rem 0rem 3rem;
     margin-left: auto;
@@ -259,4 +260,29 @@ ul {
     .widget-content .row {
         margin-bottom: 0.8rem;
     }
+}
+
+a {
+    text-decoration: none !important;
+    outline: none !important;
+    cursor: pointer !important;
+    color: $off_white;
+    &:visited {
+        color: $off_white;
+    }
+}
+
+button,
+select,
+input {
+    outline: none !important;
+}
+
+ul {
+    list-style-type: none !important;
+    padding: 0;
+}
+
+.d-hide {
+    display: none !important;
 }
