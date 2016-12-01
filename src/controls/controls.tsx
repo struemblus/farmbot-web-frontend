@@ -45,7 +45,7 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
     }
 
     change(key: string, dispatch: Function):
-    React.EventHandler<React.FormEvent<HTMLInputElement>> {
+        React.EventHandler<React.FormEvent<HTMLInputElement>> {
         return function (event) {
             let num = Number(event.currentTarget.value);
             dispatch(changeAxisBuffer(key, num));
@@ -159,9 +159,9 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                         fa-question-circle 
                                                         widget-help-icon`}>
                                                         <div
-                                                        className={
-                                                            `widget-help-text`
-                                                        }>
+                                                            className={
+                                                                `widget-help-text`
+                                                            }>
                                                             {t(`Use these manual
                               control buttons to move FarmBot in realtime. Press
                               the arrows for relative movements or type in new
@@ -177,8 +177,8 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                             <div className="col-sm-12">
                                                 <div className="widget-content">
                                                     <label
-                                                    className={`text-center`}>
-                                                    {t("MOVE AMOUNT (mm)")}
+                                                        className={`text-center`}>
+                                                        {t("MOVE AMOUNT (mm)")}
                                                     </label>
                                                     <div className="row">
                                                         <div className={
@@ -297,9 +297,8 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                     <h5>{t("Camera")}</h5>
                                                     <i className="fa fa-question-circle widget-help-icon">
                                                         <div className="widget-help-text">
-                                                            {t(`Press the button to add the URL of a livestream of
-                              your FarmBot. Coming soon: A working edit button and
-                              the ability to save your webcam URL in the backend.`)}
+                                                            {t(`Press the edit button to update 
+                                                                and save your webcam URL.`)}
                                                         </div>
                                                     </i>
                                                 </div>
