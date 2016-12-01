@@ -9,7 +9,6 @@ import { success } from "../ui";
 
 class XTools extends React.Component<Everything, ToolsState> {
     componentDidMount() {
-        this.props.dispatch(fetchAll());
         success(
             "Subscribe to the FarmBot.io mailing list for news and updates.",
             "Work in Progress"

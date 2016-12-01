@@ -28,10 +28,6 @@ export function stopEditing(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_STOP", payload: {} };
 }
 
-export function fetchAll(): ReduxAction<{}> {
-    return { type: "FETCH_ALL", payload: {} };
-}
-
 /** ToolBays */
 export function saveToolBaysNo(toolBays: AxiosErrorResponse): SaveToolBaysNo {
     return { type: "SAVE_TOOL_BAYS_NO", payload: error };
