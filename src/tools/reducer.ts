@@ -66,11 +66,9 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         let state = _.cloneDeep(s);
         state.tool_bays = a.payload.tool_bays || [];
+        state.tool_slots = a.payload.tool_slots || [];
+        state.tools = a.payload.tools || [];
         return state;
-    })
-    .add<{}>("FETCH_ALL", function (s, a) {
-        s = initialState;
-        return s;
     })
     .add<{}>("EDIT_TOOLS_START", function (s, a) {
         s.editorMode = true;

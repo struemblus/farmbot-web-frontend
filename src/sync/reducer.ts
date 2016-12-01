@@ -16,6 +16,8 @@ const initialState: Sync = {
     peripherals: [],
     regimen_items: [],
     tool_bays: [],
+    tool_slots: [],
+    tools: [],
     plants: []
 };
 
