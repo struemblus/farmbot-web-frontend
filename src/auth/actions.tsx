@@ -49,7 +49,7 @@ export function onLogin(dispatch: Function) {
         let { data } = response;
         Session.put(data);
         didLogin(data, dispatch);
-        push("/app/dashboard/controls");
+        push("/app/controls");
     };
 };
 

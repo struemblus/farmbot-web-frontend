@@ -12,7 +12,7 @@ interface SpeciesCatalogTileProps {
 
 export function SpeciesCatalogTile({result}: SpeciesCatalogTileProps) {
   let query = { p1: "SpeciesInfo", id: result.crop.slug };
-  let pathname = "/app/dashboard/designer";
+  let pathname = "/app/designer";
   return (
     <div className="plantCatalogTile">
       <div className="small-header-wrapper">

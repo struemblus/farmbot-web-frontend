@@ -20,7 +20,7 @@ import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 export type Color = FarmBotJsColor;
 
 interface Location {
-    /** EX: /app/dashboard/designer */
+    /** EX: /app/designer */
     pathname: string;
     /** EX: ?id=twowing-silverbell&p1=SpeciesInfo */
     search: string;

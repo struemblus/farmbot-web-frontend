@@ -12,7 +12,6 @@ import {
     RouterState
 } from "react-router";
 import App from "./app";
-import Dashboard from "./dashboard";
 import { Controls } from "./controls/controls";
 import { Devices } from "./devices/devices";
 import { Sequences } from "./sequences/sequences";
@@ -50,52 +49,47 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
     //  https://github.com/reactjs/react-router/issues/2704#issuecomment-174067923.
 
     /*
-
-      /app                          => App
-      /app/dashboard/designer?p1&p2 => FarmDesigner
-      /app/dashboard/controls       => Controls
-      /app/dashboard/devices        => Devices
-      /app/dashboard/sequences      => Sequences
-      /app/dashboard/regimens       => Regimens
-
+      /app                => App
+      /app/designer?p1&p2 => FarmDesigner
+      /app/controls       => Controls
+      /app/devices        => Devices
+      /app/sequences      => Sequences
+      /app/regimens       => Regimens
+      /app/tools          => Tools
     */
-    routes = (<Route path="app" component={App}>
-        <Route path="dashboard"
-            component={Dashboard}
-            onEnter={this.requireAuth.bind(this)}>
-            <Route path="designer(?:p1&?:id)"
-                component={FarmDesigner}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="controls"
-                component={Controls}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="devices"
-                component={Devices}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="sequences"
-                component={Sequences}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="regimens"
-                component={Regimens}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="account"
-                component={Account}
-                onEnter={this.requireAuth.bind(this)} />
-            <Route path="tools"
-                component={Tools}
-                onEnter={this.requireAuth.bind(this)} />
-            <IndexRoute
-                component={Controls} />
-            <IndexRedirect to="controls" />
-        </Route>
-        <IndexRedirect to="dashboard/controls" />
-    </Route>);
+
+    routes = <Route path="app" component={App}>
+        <Route path="designer(?:p1&?:id)"
+            component={FarmDesigner}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="controls"
+            component={Controls}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="devices"
+            component={Devices}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="sequences"
+            component={Sequences}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="regimens"
+            component={Regimens}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="account"
+            component={Account}
+            onEnter={this.requireAuth.bind(this)} />
+        <Route path="tools"
+            component={Tools}
+            onEnter={this.requireAuth.bind(this)} />
+        <IndexRoute
+            component={Controls} />
+        <IndexRedirect to="controls" />
+    </Route>;
 
     render() {
-        return (<Provider store={store}>
+        return <Provider store={store}>
             <Router history={history}>
                 {this.routes}
             </Router>
-        </Provider>);
+        </Provider>;
     }
 }
