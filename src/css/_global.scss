@@ -192,15 +192,6 @@ fieldset {
     line-height: normal;
 }
 
-i.fa {
-    &.fa-bars.right {
-        line-height: inherit;
-    }
-    &.fa-pencil.right {
-        line-height: inherit;
-    }
-}
-
 span.prefix {
     color: $light_gray;
     background-color: $dark_gray;
