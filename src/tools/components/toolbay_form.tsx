@@ -61,21 +61,17 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     renderTools(slotId: number | undefined) {
-        /** TODO: Match these values for the Select element.
-         * "value" attr has to be set on the select, and that value has to match
-         * the value on the option. A "selected" attr on the option elem breaks
-         * React and throws errors.
-        */
         let { tools } = this.props.all;
+        let defaultValue = 0;
         let options = tools.map(tool => {
-            if (tool.slot_id === slotId) {
-                /** ??? */
-            };
             let { id, name } = tool;
+            if (tool.slot_id === slotId) {
+                defaultValue = id;
+            };
             return <option value={id} key={id}>{name}</option>;
         });
-        let defaultValue = "0";
-        return <Select onChange={this.updateTool} value={defaultValue}>
+        return <Select onChange={this.updateTool}
+            value={defaultValue.toString()}>
             {options}
             <option value="0">---</option>
         </Select>;
