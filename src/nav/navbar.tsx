@@ -96,7 +96,7 @@ class XNavBar extends React.Component<Everything, NavBarState> {
                 onClick={this.toggleNav.bind(this)}>
             </button>
             <div>
-                <ul className={`desktop-links ${mobileMenuClass}`}>
+                <ul className={`links ${mobileMenuClass}`}>
                     {links.map(link => {
                         return (
                             <li key={link.url}>
@@ -115,7 +115,7 @@ class XNavBar extends React.Component<Everything, NavBarState> {
             <EStopButton { ...this.props } />
             <Ticker { ...this.props } />
             <DropDown onClick={this.logout.bind(this)} { ...this.props } />
-            <div className={`mobile-menu-underlay ${mobileMenuClass}`}
+            <div className={`underlay ${mobileMenuClass}`}
                 onClick={this.toggleNav.bind(this)}></div>
         </nav>;
     }

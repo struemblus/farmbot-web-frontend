@@ -4,12 +4,10 @@ import { ToolsState } from "./interfaces";
 import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
 import { connect } from "react-redux";
 import { Page, Row, Col } from "../ui";
-import { fetchAll } from "./actions";
 import { success } from "../ui";
 
 class XTools extends React.Component<Everything, ToolsState> {
     componentDidMount() {
-        this.props.dispatch(fetchAll());
         success(
             "Subscribe to the FarmBot.io mailing list for news and updates.",
             "Work in Progress"

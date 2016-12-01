@@ -8,6 +8,7 @@ import {
     Tool,
     SaveToolBaysOk,
     SaveToolBaysNo,
+    SaveToolBayNameOk,
     SaveToolSlotsOk,
     SaveToolSlotsNo,
     DestroySlot,
@@ -27,10 +28,6 @@ export function stopEditing(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_STOP", payload: {} };
 }
 
-export function fetchAll(): ReduxAction<{}> {
-    return { type: "FETCH_ALL", payload: {} };
-}
-
 /** ToolBays */
 export function saveToolBaysNo(toolBays: AxiosErrorResponse): SaveToolBaysNo {
     return { type: "SAVE_TOOL_BAYS_NO", payload: error };
@@ -40,26 +37,36 @@ export function saveToolBaysOk(toolBays: ToolBay[]): SaveToolBaysOk {
     return { type: "SAVE_TOOL_BAYS_OK", payload: toolBays };
 }
 
-export function updateToolBayName(payload: {}): ReduxAction<{}> {
-    return { type: "UPDATE_TOOL_BAY_NAME", payload };
+export function saveToolBayNameOk(toolBay: ToolBay): SaveToolBayNameOk {
+    return { type: "SAVE_TOOL_BAY_NAME_OK", payload: toolBay };
 }
 
-export function saveToolBays(toolBays: Tool[]): Thunk {
-    return function (dispatch) {
-        let url = API.current.toolBaysPath;
-        let method: Function = axios.post;
-        return method(url, toolBays)
-            .then(function (resp: { data: ToolBay[] }) {
-                success(t("Saved ToolBays."));
+export function saveToolBays(toolBays: ToolBay[]): Thunk {
+    return (dispatch, getState) => {
+        axios.patch<ToolBay[]>(API.current.toolBaysPath, toolBays)
+            .then(resp => {
+                success(t("ToolBays successfully updated."));
                 dispatch(saveToolBaysOk(resp.data));
-            })
-            .catch(function (err:
-                { response: { data: { [reason: string]: string }; } }) {
-                error(prettyPrintApiErrors(err), t("Could not save ToolBays."));
-                dispatch(saveToolBaysNo(err));
+            }, (e: Error) => {
+                dispatch(saveToolBaysNo(e));
+                error(t(`ToolBays could not be updated: ${e.message}`));
             });
     };
-};
+}
+
+export function updateToolBayName(id: string, value: string): Thunk {
+    return (dispatch, getState) => {
+        axios
+            .patch<ToolBay>(API.current.toolBaysPath + id, { name: value })
+            .then(resp => {
+                dispatch(saveToolBayNameOk(resp.data));
+                success(t("ToolBays successfully updated."));
+            }, (e: Error) => {
+                dispatch(saveToolBaysNo(e));
+                error(t(`ToolBays could not be updated: ${e.message}`));
+            });
+    };
+}
 
 /** ToolSlots */
 export function saveToolSlotsNo(toolSlots: AxiosErrorResponse): SaveToolSlotsNo {

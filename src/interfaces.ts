@@ -13,7 +13,7 @@ import { DesignerState, Plant } from "./farm_designer/interfaces";
 import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
-import { ToolsState } from "./tools/interfaces";
+import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
@@ -66,4 +66,7 @@ export interface Sync {
     peripherals: Peripheral[];
     regimen_items: RegimenItem[];
     plants: Plant[];
+    tool_bays: ToolBay[];
+    tool_slots: ToolSlot[];
+    tools: Tool[];
 }

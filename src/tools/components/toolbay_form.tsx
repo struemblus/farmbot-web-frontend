@@ -42,12 +42,16 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
-        let { value, id } = e.currentTarget;
-        this.props.dispatch(updateToolBayName({ value, id }));
+        let { id, value } = e.currentTarget;
+        this.props.dispatch(updateToolBayName(id, value));
     }
 
     updateTool(e: React.SyntheticEvent<HTMLSelectElement>) {
         console.log("update tool");
+    }
+
+    updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
+        console.log("update tool select");
     }
 
     add(bay_id: number) {
@@ -57,20 +61,19 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     renderTools(slotId: number | undefined) {
-        /** TODO: Match these values for the Select element.
-         * "value" attr has to be set on the select, and that value has to match
-         * the value on the option. A "selected" attr on the option elem breaks
-         * React and throws errors.
-        */
-        let options = this.props.all.tools.map((tool, i) => {
-            if (tool.slot_id === slotId) {
-                /** ??? */
-            };
+        let { tools } = this.props.all;
+        let defaultValue = 0;
+        let options = tools.map(tool => {
             let { id, name } = tool;
-            return <option value={id} key={i}>{name}</option>;
+            if (tool.slot_id === slotId) {
+                defaultValue = id;
+            };
+            return <option value={id} key={id}>{name}</option>;
         });
-        return <Select onChange={this.updateTool} /** value={} */>
+        return <Select onChange={this.updateTool}
+            value={defaultValue.toString()}>
             {options}
+            <option value="0">---</option>
         </Select>;
     }
 
@@ -127,7 +130,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     render() {
-        let { set, updateCoordinate, updateToolBayName, add } = this;
+        let { set, updateCoordinate, updateToolBayName, add, updateToolSelect } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
         let stopEdit = () => { dispatch(stopEditing()); };
@@ -209,13 +212,17 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             />
                                     </td>
                                     <td>
-                                        <Select>
+                                        <Select value="0"
+                                            onChange={updateToolSelect}>
                                             {tools.map(tool => {
                                                 let { id } = tool;
                                                 return <option key={id}>
                                                     {tool.name}
                                                 </option>;
                                             })}
+                                            <option
+                                                key={tools.length + 1}
+                                                value="0">---</option>
                                         </Select>
                                     </td>
                                     <td>
