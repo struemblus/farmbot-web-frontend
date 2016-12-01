@@ -50,6 +50,10 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         console.log("update tool");
     }
 
+    updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
+        console.log("update tool select");
+    }
+
     add(bay_id: number) {
         let slotState = this.state;
         this.props.dispatch(addSlot({ slotState, bay_id }));
@@ -62,15 +66,18 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
          * the value on the option. A "selected" attr on the option elem breaks
          * React and throws errors.
         */
-        let options = this.props.all.tools.map((tool, i) => {
+        let { tools } = this.props.all;
+        let options = tools.map((tool, i) => {
             if (tool.slot_id === slotId) {
                 /** ??? */
             };
             let { id, name } = tool;
-            return <option value={id} key={i}>{name}</option>;
+            return <option value={id} key={id}>{name}</option>;
         });
-        return <Select onChange={this.updateTool} /** value={} */>
+        let defaultValue = "0";
+        return <Select onChange={this.updateTool} value={defaultValue}>
             {options}
+            <option value="0">---</option>
         </Select>;
     }
 
@@ -127,7 +134,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     render() {
-        let { set, updateCoordinate, updateToolBayName, add } = this;
+        let { set, updateCoordinate, updateToolBayName, add, updateToolSelect } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
         let stopEdit = () => { dispatch(stopEditing()); };
@@ -208,31 +215,28 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             onCommit={set}
                                             />
                                     </td>
-                                    {tools.length != 0 && (
-                                        <td>
-                                            <Select>
-                                                {tools.map(tool => {
-                                                    let { id } = tool;
-                                                    return <option key={id}>
-                                                        {tool.name}
-                                                    </option>;
-                                                })}
-                                            </Select>
-                                            <td>
-                                                <button
-                                                    className={`button-like 
+                                    <td>
+                                        <Select value="0"
+                                            onChange={updateToolSelect}>
+                                            {tools.map(tool => {
+                                                let { id } = tool;
+                                                return <option key={id}>
+                                                    {tool.name}
+                                                </option>;
+                                            })}
+                                            <option
+                                                key={tools.length + 1}
+                                                value="0">---</option>
+                                        </Select>
+                                    </td>
+                                    <td>
+                                        <button
+                                            className={`button-like 
                                                     widget-control green`}
-                                                    onClick={() => add(bayId)}>
-                                                    <i className="fa fa-plus"></i>
-                                                </button>
-                                            </td>
-                                        </td>
-                                    )}
-                                    {tools.length == 0 && (
-                                        <td>
-                                            Create a tool to add a slot!
-                                        </td>
-                                    )}
+                                            onClick={() => add(bayId)}>
+                                            <i className="fa fa-plus"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
