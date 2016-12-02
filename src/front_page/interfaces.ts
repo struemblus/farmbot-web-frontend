@@ -8,6 +8,7 @@ export interface FrontPageState {
     showServerOpts?: boolean;
     serverURL?: string;
     serverPort?: string;
+    forgotPassword?: boolean;
 }
 
 export interface FrontPageProps { };

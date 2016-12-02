@@ -20,7 +20,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             loginPassword: "",
             showServerOpts: false,
             serverURL: "",
-            serverPort: ""
+            serverPort: "",
+            forgotPassword: false
         };
         this.toggleServerOpts = this.toggleServerOpts.bind(this);
     }
@@ -80,6 +81,10 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         this.setState({ showServerOpts: !this.state.showServerOpts });
     }
 
+    toggleForgotPW() {
+        this.setState({ forgotPassword: !this.state.forgotPassword });
+    }
+
     render() {
         let expandIcon = this.state.showServerOpts ? "minus" : "plus";
         let { toggleServerOpts } = this;
@@ -129,6 +134,11 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                     <input type="password"
                                                         onChange={this.set("loginPassword").bind(this)}>
                                                     </input>
+                                                    <a
+                                                        className="forgot-password"
+                                                        onClick={this.toggleForgotPW.bind(this)}>
+                                                        Forgot password?
+                                                    </a>
                                                     {this.state.showServerOpts && (
                                                         <div>
                                                             <label>{i18next.t("Server URL")}</label>

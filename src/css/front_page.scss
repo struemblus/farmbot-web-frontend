@@ -8,6 +8,10 @@ html {
     padding: 2rem;
     background: linear-gradient(-135deg, #089460, #159ACC);
     background-size: 400% 400%;
+    .forgot-password {
+        color: $blue;
+        font-size: 1rem;
+    }
     h1,
     h2 {
         font-family: "Roboto", Arial, Helvetica, sans-serif;
