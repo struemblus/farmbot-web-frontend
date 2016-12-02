@@ -38,10 +38,10 @@ export class PasswordReset extends React.Component<PasswordResetProps,
         e.preventDefault();
         let { password, passwordConfirmation } = this.state;
         let token = window.location.href.split("/").pop();
-        axios.post<{}>(API.current.passwordResetPath, {
+        axios.put<{}>(API.current.passwordResetPath, {
+            id: token,
             password,
             password_confirmation: passwordConfirmation,
-            token
         }).then(resp => {
             window.location.href = "/";
         }).catch(error => {
@@ -54,7 +54,8 @@ export class PasswordReset extends React.Component<PasswordResetProps,
             <h1>{t("Reset your password")}</h1>
             <div className="all-content-wrapper">
                 <div className="row">
-                    <div className="widget-wrapper col-md-8 col-md-offset-2">
+                    <div className={`widget-wrapper col-md-6 col-md-offset-3 
+                        col-sm-6 col-sm-offset-3`}>
                         <div className="row">
                             <div className="col-sm-12">
                                 <div className="widget-header">
@@ -69,16 +70,22 @@ export class PasswordReset extends React.Component<PasswordResetProps,
                                         <div className="input-group">
                                             <label>{t("New Password")}</label>
                                             <input type="password"
-                                                onChange={this.set("password").bind(this)}>
+                                                onChange={this.set("password")
+                                                    .bind(this)}>
                                             </input>
-                                            <label>{t("Confirm Password")}</label>
+                                            <label>
+                                                {t("Confirm Password")}
+                                            </label>
                                             <input type="password"
-                                                onChange={this.set("passwordConfirmation").bind(this)}>
+                                                onChange={this.set(
+                                                    "passwordConfirmation")
+                                                    .bind(this)}>
                                             </input>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <button className="button-like button green login">
+                                                <button className={`button-like 
+                                                    button green login`}>
                                                     {t("Reset")}
                                                 </button>
                                             </div>
