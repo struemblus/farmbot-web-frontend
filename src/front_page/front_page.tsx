@@ -85,6 +85,11 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         this.setState({ forgotPassword: !this.state.forgotPassword });
     }
 
+    submitForgotPW(e: React.SyntheticEvent<HTMLInputElement>) {
+        e.preventDefault();
+        console.log("submit");
+    }
+
     render() {
         let expandIcon = this.state.showServerOpts ? "minus" : "plus";
         let { toggleServerOpts } = this;
@@ -109,64 +114,106 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                             src="/app-resources/img/farmbot-tablet.png" />
                     </div>
                     <div className="all-content-wrapper login-wrapper">
-                        <div className="row">
-                            <div className="widget-wrapper">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <div className="widget-header">
-                                            <h5>{i18next.t("Login")}</h5>
-                                            <i className={`fa fa-${expandIcon}`}
-                                                onClick={toggleServerOpts}>
-                                            </i>
+                        {!this.state.forgotPassword && (
+                            <div className="row">
+                                <div className="widget-wrapper">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="widget-header">
+                                                <h5>{i18next.t("Login")}</h5>
+                                                <i className={`fa fa-${expandIcon}`}
+                                                    onClick={toggleServerOpts}>
+                                                </i>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="row">
-                                    <form onSubmit={this.submitLogin.bind(this)}>
-                                        <div className="col-sm-12">
-                                            <div className="widget-content">
-                                                <div className="input-group">
-                                                    <label> {i18next.t("Email")} </label>
-                                                    <input type="email"
-                                                        onChange={this.set("loginEmail").bind(this)}>
-                                                    </input>
-                                                    <label>{i18next.t("Password")}</label>
-                                                    <input type="password"
-                                                        onChange={this.set("loginPassword").bind(this)}>
-                                                    </input>
-                                                    <a
-                                                        className="forgot-password"
-                                                        onClick={this.toggleForgotPW.bind(this)}>
-                                                        Forgot password?
+                                    <div className="row">
+                                        <form onSubmit={this.submitLogin.bind(this)}>
+                                            <div className="col-sm-12">
+                                                <div className="widget-content">
+                                                    <div className="input-group">
+                                                        <label> {i18next.t("Email")} </label>
+                                                        <input type="email"
+                                                            onChange={this.set("loginEmail").bind(this)}>
+                                                        </input>
+                                                        <label>{i18next.t("Password")}</label>
+                                                        <input type="password"
+                                                            onChange={this.set("loginPassword").bind(this)}>
+                                                        </input>
+                                                        <a
+                                                            className="forgot-password"
+                                                            onClick={this.toggleForgotPW.bind(this)}>
+                                                            Forgot password?
                                                     </a>
-                                                    {this.state.showServerOpts && (
-                                                        <div>
-                                                            <label>{i18next.t("Server URL")}</label>
-                                                            <input type="text"
-                                                                onChange={this.set("serverURL").bind(this)}
-                                                                value={this.state.serverURL}>
-                                                            </input>
-                                                            <label>{i18next.t("Server Port")}</label>
-                                                            <input type="text"
-                                                                onChange={this.set("serverPort").bind(this)}
-                                                                value={this.state.serverPort}>
-                                                            </input>
+                                                        {this.state.showServerOpts && (
+                                                            <div>
+                                                                <label>{i18next.t("Server URL")}</label>
+                                                                <input type="text"
+                                                                    onChange={this.set("serverURL").bind(this)}
+                                                                    value={this.state.serverURL}>
+                                                                </input>
+                                                                <label>{i18next.t("Server Port")}</label>
+                                                                <input type="text"
+                                                                    onChange={this.set("serverPort").bind(this)}
+                                                                    value={this.state.serverPort}>
+                                                                </input>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-xs-12">
+                                                            <button className="button-like button green login">
+                                                                {i18next.t("Login")}
+                                                            </button>
                                                         </div>
-                                                    )}
-                                                </div>
-                                                <div className="row">
-                                                    <div className="col-xs-6">
-                                                        <button className="button-like button green login">
-                                                            {i18next.t("Login")}
-                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
+                        {this.state.forgotPassword && (
+                            <div className="row">
+                                <div className="widget-wrapper">
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="widget-header">
+                                                <h5>{i18next.t("Forgot Password")}</h5>
+                                                <button
+                                                    className="gray button-like widget-control"
+                                                    type="button"
+                                                    onClick={this.toggleForgotPW.bind(this)}>
+                                                    {i18next.t("BACK")}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <form onSubmit={this.submitForgotPW.bind(this)}>
+                                            <div className="col-sm-12">
+                                                <div className="widget-content">
+                                                    <div className="input-group">
+                                                        <label>{i18next.t("Enter Email")}</label>
+                                                        <input type="email"
+                                                            onChange={this.set("loginEmail").bind(this)}>
+                                                        </input>
+                                                    </div>
+                                                    <div className="row">
+                                                        <div className="col-xs-12">
+                                                            <button className="button-like button green login">
+                                                                {i18next.t("Send Password reset")}
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         <div className="row">
                             <div className="widget-wrapper">
                                 <div className="row">
@@ -196,14 +243,10 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                     </input>
                                                 </div>
                                                 <div className="row">
-                                                    <div className="col-xs-6">
-                                                    </div>
-                                                    <div className="col-xs-6">
-                                                        <div className="auth-button">
-                                                            <button className="button-like button green create-account">
-                                                                {i18next.t("Create Account")}
-                                                            </button>
-                                                        </div>
+                                                    <div className="col-xs-12">
+                                                        <button className="button-like button green create-account">
+                                                            {i18next.t("Create Account")}
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
