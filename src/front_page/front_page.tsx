@@ -89,9 +89,10 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         e.preventDefault();
         let { email } = this.state;
         let data = { email };
-        axios.post<{ email: string }>(API.current.passwordResetPath, data)
+        axios.post<{}>(API.current.passwordResetPath, data)
             .then(resp => {
                 success("Email has been sent.", "Forgot Password");
+                this.setState({ forgotPassword: false });
             }).catch(error => {
                 log(prettyPrintApiErrors(error));
             });
@@ -102,7 +103,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         let expandIcon = showServerOpts ? "minus" : "plus";
         let { toggleServerOpts } = this;
         return (
-            <div className="front-page">
+            <div className="static-page">
                 <h1>
                     Welcome to the FarmBot Web App
                 </h1>
