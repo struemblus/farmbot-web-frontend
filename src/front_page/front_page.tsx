@@ -156,15 +156,6 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-xs-6">
-                                                        <p className="auth-link">
-                                                            <a href={
-                                                                "/users/password/new"
-                                                            }>
-                                                                {i18next.t("Reset password")}
-                                                            </a>
-                                                        </p>
-                                                    </div>
-                                                    <div className="col-xs-6">
                                                         <button className="button-like button green login">
                                                             {i18next.t("Login")}
                                                         </button>
