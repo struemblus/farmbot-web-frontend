@@ -12,8 +12,18 @@ export class PasswordReset extends React.Component<PasswordResetProps,
         super();
         this.state = {
             password: "",
-            passwordConfirmation: ""
+            passwordConfirmation: "",
+            serverURL: "",
+            serverPort: ""
         };
+    }
+
+    componentDidMount() {
+        API.setBaseUrl(API.fetchBrowserLocation());
+        this.setState({
+            serverURL: API.fetchHostName(),
+            serverPort: API.inferPort()
+        });
     }
 
     set(name: string) {
