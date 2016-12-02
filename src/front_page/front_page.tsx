@@ -2,7 +2,7 @@ import * as React from "react";
 import * as i18next from "i18next";
 import * as axios from "axios";
 import { AuthState } from "../auth/interfaces";
-import { error as log } from "../ui";
+import { error as log, success } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
 import { Session } from "../session";
@@ -16,7 +16,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             regName: "",
             regPassword: "",
             regConfirmation: "",
-            loginEmail: "",
+            email: "",
             loginPassword: "",
             showServerOpts: false,
             serverURL: "",
@@ -44,9 +44,9 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
 
     submitLogin(e: React.FormEvent<{}>) {
         e.preventDefault();
-        let { loginEmail, loginPassword } = this.state;
-        let payload = { user: { email: loginEmail, password: loginPassword } };
-        if (this.state.showServerOpts) {
+        let { email, loginPassword, showServerOpts } = this.state;
+        let payload = { user: { email, password: loginPassword } };
+        if (showServerOpts) {
             API.setBaseUrl(API.fetchBrowserLocation());
         }
         axios.post<AuthState>(API.current.tokensPath, payload)
@@ -81,17 +81,25 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         this.setState({ showServerOpts: !this.state.showServerOpts });
     }
 
-    toggleForgotPW() {
+    toggleForgotPassword() {
         this.setState({ forgotPassword: !this.state.forgotPassword });
     }
 
-    submitForgotPW(e: React.SyntheticEvent<HTMLInputElement>) {
+    submitForgotPassword(e: React.SyntheticEvent<HTMLInputElement>) {
         e.preventDefault();
-        console.log("submit");
+        let { email } = this.state;
+        let data = { email };
+        axios.post<{ email: string }>(API.current.passwordResetPath, data)
+            .then(resp => {
+                success("Email has been sent.", "Forgot Password");
+            }).catch(error => {
+                log(prettyPrintApiErrors(error));
+            });
     }
 
     render() {
-        let expandIcon = this.state.showServerOpts ? "minus" : "plus";
+        let { showServerOpts, forgotPassword } = this.state;
+        let expandIcon = showServerOpts ? "minus" : "plus";
         let { toggleServerOpts } = this;
         return (
             <div className="front-page">
@@ -114,7 +122,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                             src="/app-resources/img/farmbot-tablet.png" />
                     </div>
                     <div className="all-content-wrapper login-wrapper">
-                        {!this.state.forgotPassword && (
+                        {!forgotPassword && (
                             <div className="row">
                                 <div className="widget-wrapper">
                                     <div className="row">
@@ -134,7 +142,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                     <div className="input-group">
                                                         <label> {i18next.t("Email")} </label>
                                                         <input type="email"
-                                                            onChange={this.set("loginEmail").bind(this)}>
+                                                            onChange={this.set("email").bind(this)}>
                                                         </input>
                                                         <label>{i18next.t("Password")}</label>
                                                         <input type="password"
@@ -142,7 +150,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                         </input>
                                                         <a
                                                             className="forgot-password"
-                                                            onClick={this.toggleForgotPW.bind(this)}>
+                                                            onClick={this.toggleForgotPassword.bind(this)}>
                                                             Forgot password?
                                                     </a>
                                                         {this.state.showServerOpts && (
@@ -174,7 +182,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                 </div>
                             </div>
                         )}
-                        {this.state.forgotPassword && (
+                        {forgotPassword && (
                             <div className="row">
                                 <div className="widget-wrapper">
                                     <div className="row">
@@ -184,20 +192,20 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                 <button
                                                     className="gray button-like"
                                                     type="button"
-                                                    onClick={this.toggleForgotPW.bind(this)}>
+                                                    onClick={this.toggleForgotPassword.bind(this)}>
                                                     {i18next.t("BACK")}
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <form onSubmit={this.submitForgotPW.bind(this)}>
+                                        <form onSubmit={this.submitForgotPassword.bind(this)}>
                                             <div className="col-sm-12">
                                                 <div className="widget-content">
                                                     <div className="input-group">
                                                         <label>{i18next.t("Enter Email")}</label>
                                                         <input type="email"
-                                                            onChange={this.set("loginEmail").bind(this)}>
+                                                            onChange={this.set("email").bind(this)}>
                                                         </input>
                                                     </div>
                                                     <div className="row">
@@ -258,7 +266,6 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                     </div>
                 </div>
             </div>
-
         );
     }
 }
