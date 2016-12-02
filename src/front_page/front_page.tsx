@@ -182,7 +182,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                             <div className="widget-header">
                                                 <h5>{i18next.t("Forgot Password")}</h5>
                                                 <button
-                                                    className="gray button-like widget-control"
+                                                    className="gray button-like"
                                                     type="button"
                                                     onClick={this.toggleForgotPW.bind(this)}>
                                                     {i18next.t("BACK")}
