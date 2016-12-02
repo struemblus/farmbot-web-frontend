@@ -72,7 +72,7 @@ module.exports = function() {
                 index: '/index.html',
                 rewrites: [
                     { from: /\/app\//, to: '/app/index.html' },
-                    { from: /password-reset/, to: 'password-reset.html' }
+                    { from: /password_reset/, to: 'password_reset.html' }
                 ]
             },
         }
