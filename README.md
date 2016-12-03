@@ -1,8 +1,14 @@
-# Farmbot Web Frontend
+# Do I need this?
 
- This is the Javascript / HTML / CSS related to Farmbot's browser control app. It depends on a [backend API](https://github.com/FarmBot/farmbot-web-app) (my.farmbot.io by default).
+This repository is intended for *software developers* who wish to modify the frontend of the FarmBot Web App or host it on their own server. **If you are not a developer**, you are highly encouraged to use the free hosted web app at [my.farmbot.io](http://my.farmbot.io/).
 
-# Up and Running
+If you would like to report a problem with the web app, please [submit an issue](https://github.com/FarmBot/farmbot-web-frontend/issues/new).
+
+# FarmBot Web Frontend
+
+ This is the Javascript / HTML / CSS of the FarmBot web app. It depends on a [backend API](https://github.com/FarmBot/Farmbot-Web-API) (my.farmbot.io by default).
+
+# Developer Setup
 
 **[LATEST STABLE VERSION IS HERE](https://github.com/FarmBot/farmbot-web-frontend/releases)** :star: :star: :star:
 
@@ -12,7 +18,7 @@
 3. `cd farmbot-web-frontend`
 4. `npm install`
 5. `npm start`
-6. Visit `http://localhost:8080/app/login`
+6. Visit [http://localhost:8080/app/login](http://localhost:8080/app/login)
 
 # Deploy to Production
 
