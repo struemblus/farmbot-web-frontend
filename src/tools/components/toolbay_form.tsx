@@ -62,7 +62,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     renderTools(tool_id: number | undefined) {
         let { tools } = this.props.all;
         let defaultValue = 0;
-        let options = tools.map((tool, index) => {
+        let options = tools.all.map((tool, index) => {
             index++;
             let { id, name } = tool;
             if (tool.id === tool_id) {
@@ -224,14 +224,14 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <td>
                                         <Select value="0"
                                             onChange={updateToolSelect}>
-                                            {tools.map((tool, toolIndex) => {
-                                                toolIndex++;
-                                                return <option key={toolIndex}>
+                                            {tools.all.map((tool, iTool) => {
+                                                iTool++;
+                                                return <option key={iTool}>
                                                     {tool.name}
                                                 </option>;
                                             })}
                                             <option
-                                                key={tools.length + 1}
+                                                key={tools.all.length + 1}
                                                 value="0">---</option>
                                         </Select>
                                     </td>

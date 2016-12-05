@@ -12,14 +12,17 @@ let initialState: ToolsState = {
     editorMode: false,
     tool_bays: [],
     tool_slots: [],
-    tools: []
+    tools: {
+        isEditing: false,
+        all: []
+    }
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         s.tool_bays = a.payload.tool_bays || [];
         s.tool_slots = a.payload.tool_slots || [];
-        s.tools = a.payload.tools || [];
+        s.tools.all = a.payload.tools || [];
         return s;
     })
     .add<{}>("EDIT_TOOLS_START", function (s, a) {
@@ -54,13 +57,13 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     })
     .add<{ tool_id: number }>("DESTROY_TOOL_OK", function (s, a) {
         let { tools } = s;
-        let index = _.findIndex(tools, { id: a.payload.tool_id });
-        tools.splice(index, 1);
+        let index = _.findIndex(tools.all, { id: a.payload.tool_id });
+        tools.all.splice(index, 1);
         return s;
     })
     .add<Tool>("SAVE_TOOL_OK", function (s, a) {
         let { name, id } = a.payload;
-        s.tools.push({ name, id });
+        s.tools.all.push({ name, id });
         return s;
     });
 

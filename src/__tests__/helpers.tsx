@@ -154,12 +154,15 @@ export function fakeState(dispatcher?: Function): Everything {
                 z: 30
             },
         ],
-        tools: [
-            {
-                id: 1,
-                name: "tool1",
-            }
-        ]
+        tools: {
+            isEditing: false,
+            all: [
+                {
+                    id: 1,
+                    name: "tool1",
+                }
+            ]
+        }
     };
 
     return {

@@ -61,7 +61,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                             </tr>
                         </thead>
                         <tbody>
-                            {tools.map((tool, index) => {
+                            {tools.all.map((tool, index) => {
                                 index++;
                                 let { name, id } = tool;
                                 return <tr key={index}>

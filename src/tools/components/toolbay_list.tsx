@@ -8,7 +8,7 @@ import { t } from "i18next";
 export class ToolBayList extends React.Component<ListAndFormProps, {}> {
     renderTool(tool_id: number | undefined) {
         let { tools } = this.props.all;
-        return tools.map((tool, index) => {
+        return tools.all.map((tool, index) => {
             index++;
             if (tool_id === tool.id) {
                 return <td key={index}>
@@ -29,8 +29,8 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
                 <td>{x}</td>
                 <td>{y}</td>
                 <td>{z}</td>
-                {tools.length > 0 && (this.renderTool(tool_id))}
-                {tools.length === 0 && (<td>---</td>)}
+                {tools.all.length > 0 && (this.renderTool(tool_id))}
+                {tools.all.length === 0 && (<td>---</td>)}
             </tr>;
         });
     }

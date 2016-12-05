@@ -5,7 +5,10 @@ export interface ToolsState {
     editorMode: boolean;
     tool_bays: ToolBay[];
     tool_slots: ToolSlot[];
-    tools: Tool[];
+    tools: {
+        isEditing: boolean;
+        all: Tool[];
+    };
 }
 
 /** Related */
