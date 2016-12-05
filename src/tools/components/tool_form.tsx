@@ -15,11 +15,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
         this.add = this.add.bind(this);
         this.set = this.set.bind(this);
         this.updateToolName = this.updateToolName.bind(this);
-        this.state = { name: "", id: 0 };
+        this.state = { name: "" };
     }
 
     add() {
-        this.props.dispatch(addTool(this.state));
+        this.props.dispatch(addTool(this.state.name));
         this.setState({ name: "" });
     }
 

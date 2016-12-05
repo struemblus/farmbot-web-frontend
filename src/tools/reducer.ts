@@ -2,7 +2,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import {
     ToolsState,
     AddToolSlotPayl,
-    ToolPayl,
+    Tool,
     ToolBay,
     UpdateToolSlotPayl
 } from "./interfaces";
@@ -105,16 +105,14 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         });
         return s;
     })
-    .add<{ tool_id: number }>("DESTROY_TOOL", function (s, a) {
+    .add<{ tool_id: number }>("DESTROY_TOOL_OK", function (s, a) {
         let { tools } = s;
         let index = _.findIndex(tools, { id: a.payload.tool_id });
         tools.splice(index, 1);
         return s;
     })
-    .add<ToolPayl>("ADD_TOOL", function (s, a) {
-        let { name } = a.payload;
-        /** TODO: Temporary TS pleaser */
-        let id = s.tools.length + 1;
+    .add<Tool>("SAVE_TOOL_OKAY", function (s, a) {
+        let { name, id } = a.payload;
         s.tools.push({ name, id });
         return s;
     });
