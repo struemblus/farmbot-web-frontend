@@ -10,40 +10,9 @@ import * as _ from "lodash";
 
 let initialState: ToolsState = {
     editorMode: false,
-    tool_bays: [{
-        id: 1,
-        name: "Toolbay 1"
-    }],
-    tool_slots: [
-        {
-            id: 1,
-            tool_bay_id: 1,
-            tool_id: 2,
-            created_at: "SOME UTC STRING",
-            x: 123,
-            y: 456,
-            z: 789
-        },
-        {
-            id: 2,
-            tool_bay_id: 1,
-            tool_id: 3,
-            created_at: "SOME UTC STRING",
-            x: 123,
-            y: 456,
-            z: 789
-        }
-    ],
-    tools: [
-        {
-            id: 2,
-            name: "KILL IT WITH FIRE"
-        },
-        {
-            id: 3,
-            name: "SCENTED CANDLE"
-        }
-    ]
+    tool_bays: [],
+    tool_slots: [],
+    tools: []
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
