@@ -69,8 +69,8 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     .add<ToolPayl>("ADD_TOOL", function (s, a) {
-        let { name, slot_id, id } = a.payload;
-        s.tools.push({ id, name, slot_id });
+        let { name, slot_id } = a.payload;
+        s.tools.push({ name, slot_id });
         return s;
     });
 

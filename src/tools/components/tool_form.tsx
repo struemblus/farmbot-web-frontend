@@ -6,30 +6,35 @@ import {
     Widget,
     WidgetBody,
     WidgetHeader,
-    Select,
     BlurableInput
 } from "../../ui";
 
 export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     constructor() {
         super();
-        this.set = this.set.bind(this);
         this.add = this.add.bind(this);
-        this.state = { name: "", slot_id: 0, id: 0 };
+        this.set = this.set.bind(this);
+        this.update = this.update.bind(this);
+        this.state = { name: "", slot_id: 0 };
     }
 
     add() {
         this.props.dispatch(addTool(this.state));
+        this.setState({ name: "" });
     }
 
-    set(e: React.SyntheticEvent<HTMLInputElement>) {
-        // update dirty state
+    update(e: React.FormEvent<HTMLInputElement>) {
+        this.setState({ name: e.currentTarget.value });
+    }
+
+    set(e: React.FormEvent<HTMLInputElement>) {
+        this.setState({ name: e.currentTarget.value });
     }
 
     render() {
-        let { set, add } = this;
+        let { set, add, update } = this;
         let { dispatch } = this.props;
-        let { tool_slots, tools } = this.props.all;
+        let { tools } = this.props.all;
         let edit = () => { dispatch(startEditing()); };
         let stopEdit = () => { dispatch(stopEditing()); };
         return <div>
@@ -52,36 +57,27 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                     <table>
                         <thead>
                             <tr>
-                                <th>TOOL NAME</th>
-                                <th>SLOT</th>
+                                <th>{t("Tool Name")}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {tools.map(tool => {
-                                let { id, name } = tool;
-                                return <tr key={name}>
+                            {tools.map((tool, index) => {
+                                index++;
+                                let { name } = tool;
+                                return <tr key={index}>
                                     <td>
                                         <BlurableInput
-                                            value={name}
-                                            onCommit={set}
+                                            value={name || "No Name"}
+                                            onCommit={update}
+                                            name={index.toString()}
                                             />
-                                    </td>
-                                    <td>
-                                        <Select>
-                                            {tool_slots.map((slot, i) => {
-                                                i++;
-                                                return <option key={i}>
-                                                    {slot.name}
-                                                </option>;
-                                            })}
-                                        </Select>
                                     </td>
                                     <td>
                                         <button
                                             className={`button-like 
                                                 widget-control red`}
                                             onClick={() => {
-                                                dispatch(destroyTool(id));
+                                                dispatch(destroyTool(index));
                                             } }>
                                             <i className="fa fa-times"></i>
                                         </button>
@@ -90,21 +86,11 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                             })}
                             <tr>
                                 <td>
-                                    <BlurableInput
-                                        value={name}
-                                        onCommit={set}
+                                    <input
+                                        value={this.state.name}
+                                        onChange={set}
+                                        name="name"
                                         />
-                                </td>
-                                <td>
-                                    <Select>
-                                        {tool_slots.map(slot => {
-                                            return <option key={
-                                                slot.id
-                                            }>
-                                                {slot.id}
-                                            </option>;
-                                        })}
-                                    </Select>
                                 </td>
                                 <td>
                                     <button
