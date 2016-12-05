@@ -13,10 +13,6 @@ import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
 /** TODO: Remove this action when API is finished */
-export function getFakeData(): ReduxAction<{}> {
-    return { type: "GET_FAKE_DATA", payload: {} };
-}
-
 export function startEditing(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_START", payload: {} };
 }
@@ -130,7 +126,7 @@ export function destroyTool(tool_id: number): Thunk {
                 success(t("Tool deleted."));
             }, (e: Error) => {
                 dispatch(destroyToolNo(e));
-                error(t(`Tool could not be deleted: ${e.message}`));
+                error(prettyPrintApiErrors(e));
             });
     };
 }
@@ -144,7 +140,7 @@ export function addTool(name: string): Thunk {
                 success(t("Tool successfully updated."));
             }, (e: Error) => {
                 dispatch(saveToolNo(e));
-                error(t(`Tool could not be updated: ${e.message}`));
+                error(prettyPrintApiErrors(e));
             });
     };
 }
