@@ -1,9 +1,9 @@
 import { generateReducer } from "../redux/generate_reducer";
 import {
     ToolsState,
-    AddToolSlotPayl,
     Tool,
     ToolBay,
+    ToolSlot,
     UpdateToolSlotPayl
 } from "./interfaces";
 import { Sync } from "../interfaces";
@@ -62,9 +62,9 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         s.editorMode = false;
         return s;
     })
-    .add<{ slot_id: number }>("DESTROY_SLOT", function (s, a) {
+    .add<{ id: number }>("DESTROY_SLOT_OK", function (s, a) {
         let { tool_slots } = s;
-        let index = _.findIndex(tool_slots, { id: a.payload.slot_id });
+        let index = _.findIndex(tool_slots, { id: a.payload.id });
         tool_slots.splice(index, 1);
         return s;
     })
@@ -81,21 +81,8 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         bay.name = name;
         return s;
     })
-    .add<AddToolSlotPayl>("ADD_SLOT", function (s, a) {
-        let { slotState } = a.payload;
-        /** TODO: Temporary TS pleaser */
-        let id = s.tool_slots.length + 1;
-        let created_at = "SOME UTC STRING";
-        let tool_id = 1;
-        s.tool_slots.push({
-            id,
-            tool_id,
-            created_at,
-            tool_bay_id: a.payload.bay_id,
-            x: slotState.x,
-            y: slotState.y,
-            z: slotState.z
-        });
+    .add<ToolSlot>("SAVE_SLOT_OK", function (s, a) {
+        s.tool_slots.push(a.payload);
         return s;
     })
     .add<{ tool_id: number }>("DESTROY_TOOL_OK", function (s, a) {

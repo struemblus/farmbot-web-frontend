@@ -20,19 +20,19 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.updateCoordinate = this.updateCoordinate.bind(this);
         this.updateToolBayName = this.updateToolBayName.bind(this);
         this.updateTool = this.updateTool.bind(this);
-        this.add = this.add.bind(this);
+        this.addToolSlot = this.addToolSlot.bind(this);
         this.resetState = this.resetState.bind(this);
-        this.state = { x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 };
+        this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
     }
 
     resetState() {
-        this.setState({ x: "0", y: "0", z: "0", name: "", tool_bay_id: 0 });
+        this.setState({ x: 0, y: 0, z: 0, tool_id: 0 });
     }
 
     set(e: React.SyntheticEvent<HTMLInputElement> |
         React.SyntheticEvent<HTMLSelectElement>) {
         let { name, value } = e.currentTarget;
-        this.setState({ [name]: value });
+        this.setState({ [name]: parseInt(value) });
     }
 
     updateCoordinate(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -54,9 +54,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         console.log("update tool select");
     }
 
-    add(bay_id: number) {
-        let slotState = this.state;
-        this.props.dispatch(addSlot({ slotState, bay_id }));
+    addToolSlot(tool_bay_id: number) {
+        this.props.dispatch(addSlot(this.state, tool_bay_id));
         this.resetState();
     }
 
@@ -91,7 +90,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(id || "").toString()}
                         name="x"
-                        value={x.toString()}
+                        value={(x || "").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -100,7 +99,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(id || "").toString()}
                         name="y"
-                        value={y.toString()}
+                        value={(y || "").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -109,7 +108,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(id || "").toString()}
                         name="z"
-                        value={z.toString()}
+                        value={(z || "").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -120,7 +119,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                     <button
                         className="button-like widget-control red"
                         onClick={() => {
-                            this.props.dispatch(destroySlot(id));
+                            /** TODO: This isn't right, but if I make the id 
+                             *  required, TS throws errors everywhere. I'll
+                             *  have to come back to this. -CV
+                            */
+                            this.props.dispatch(destroySlot(id || 0));
                         } }>
                         <i className="fa fa-times"></i>
                     </button>
@@ -134,7 +137,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             set,
             updateCoordinate,
             updateToolBayName,
-            add,
+            addToolSlot,
             updateToolSelect
         } = this;
         let { dispatch } = this.props;
@@ -144,6 +147,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             {tool_bays.map((bay, index) => {
                 index++;
                 let { name } = bay;
+                let { x, y, z } = this.state;
                 let tool_bay_id = bay.id;
                 return <Widget key={index}>
                     <WidgetHeader
@@ -195,7 +199,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={this.state.x || ""}
+                                            value={(x || "").toString()}
                                             type="number"
                                             name="x"
                                             onCommit={set}
@@ -203,7 +207,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={this.state.y || ""}
+                                            value={(y || "").toString()}
                                             type="number"
                                             name="y"
                                             onCommit={set}
@@ -211,7 +215,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={this.state.z || ""}
+                                            value={(z || "").toString()}
                                             type="number"
                                             name="z"
                                             onCommit={set}
@@ -235,7 +239,9 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <button
                                             className={`button-like 
                                                     widget-control green`}
-                                            onClick={() => add(tool_bay_id)}>
+                                            onClick={() => addToolSlot(
+                                                tool_bay_id
+                                            )}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </td>

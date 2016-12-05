@@ -20,11 +20,10 @@ export interface ToolBay {
 }
 
 export interface ToolBayFormState {
-    x?: string;
-    y?: string;
-    z?: string;
-    name?: string;
-    tool_bay_id?: number;
+    x?: number;
+    y?: number;
+    z?: number;
+    tool_id?: number;
 }
 
 export interface ToolFormState {
@@ -33,23 +32,13 @@ export interface ToolFormState {
 }
 
 export interface ToolSlot {
-    id: number;
-    tool_bay_id: number;
-    tool_id: number;
-    created_at: string;
-    x: number;
-    y: number;
-    z: number;
-}
-
-export interface AddToolSlotPayl {
-    slotState: {
-        name: string,
-        x: number,
-        y: number,
-        z: number
-    };
-    bay_id: number;
+    id?: number;
+    tool_bay_id?: number;
+    tool_id?: number;
+    created_at?: string;
+    x?: number;
+    y?: number;
+    z?: number;
 }
 
 export interface UpdateToolSlotPayl {
