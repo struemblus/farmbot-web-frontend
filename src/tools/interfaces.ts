@@ -29,7 +29,7 @@ export interface ToolBayFormState {
 
 export interface ToolFormState {
     name: string;
-    slot_id?: number;
+    id?: number;
 }
 
 export interface ToolSlot {
@@ -58,58 +58,13 @@ export interface UpdateToolSlotPayl {
     value: string;
 }
 
-export interface ToolPayl {
-    name: string;
-    slot_id: number;
-}
-
 export interface Tool {
     id: number;
     name: string;
 }
 
 /** Actions */
-export interface SaveToolBaysOk {
-    type: string;
-    payload: {};
-}
-
-export interface SaveToolBayNameOk {
-    type: string;
-    payload: {};
-}
-
-export interface SaveToolBaysNo {
+export interface ErrorPayl {
     type: string;
     payload: AxiosErrorResponse;
-}
-
-export interface SaveToolSlotsOk {
-    type: string;
-    payload: {};
-}
-
-export interface SaveToolSlotsNo {
-    type: string;
-    payload: AxiosErrorResponse;
-}
-
-export interface DestroySlot {
-    type: string;
-    payload: {};
-}
-
-export interface SaveToolsOk {
-    type: string;
-    payload: {};
-}
-
-export interface SaveToolsNo {
-    type: string;
-    payload: AxiosErrorResponse;
-}
-
-export interface DestroyTool {
-    type: string;
-    payload: {};
 }

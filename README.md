@@ -12,15 +12,15 @@
 3. `cd farmbot-web-frontend`
 4. `npm install`
 5. `npm start`
-6. Visit `http://localhost:8080/app/login`
+6. Visit `http://localhost:8080/`
 
 # Deploy to Production
 
 **NOTE:** The [Web API](https://github.com/FarmBot/Farmbot-Web-API) deployment will automatically build the latest version of the frontend and mount it in the web server. The instructions below are intended for reference purposes, or for users who wish to host their frontend code on a different server than their API.
 
 1. run `npm run build`
-2. Copy the contents of `/app` into your webserver so that it will be accessible via `/app`.
-3. Visit `/app/login` on your web server to verify installation.
+2. Copy the contents of `/app` into your webserver and it will be accessible via `/`.
+3. Visit `/` on your web server to verify installation.
 4. [Submit an issue](https://github.com/FarmBot/farmbot-web-frontend/issues/new?title=Installation%20Failure) if you hit problems during the installation.
 
 # Want to Help?

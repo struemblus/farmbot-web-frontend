@@ -28,10 +28,10 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.all.tools.map((tool, i) => {
+                            {this.props.all.tools.map((tool, index) => {
                                 let { name } = tool;
-                                i++;
-                                return <tr key={i}>
+                                index++;
+                                return <tr key={index}>
                                     <td>{name}</td>
                                     <td>INACTIVE</td>
                                 </tr>;

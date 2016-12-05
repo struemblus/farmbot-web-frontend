@@ -63,12 +63,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     renderTools(tool_id: number | undefined) {
         let { tools } = this.props.all;
         let defaultValue = 0;
-        let options = tools.map(tool => {
+        let options = tools.map((tool, index) => {
+            index++;
             let { id, name } = tool;
             if (tool.id === tool_id) {
                 defaultValue = id;
             };
-            return <option value={id} key={id}>{name}</option>;
+            return <option value={id} key={index}>{name}</option>;
         });
         return <Select onChange={this.updateTool}
             value={defaultValue.toString()}>
@@ -77,13 +78,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         </Select>;
     }
 
-    renderSlots() {
-        return this.props.all.tool_slots.map((slot, i) => {
+    renderSlots(tool_bay_id: number | undefined) {
+        return this.props.all.tool_slots.map((slot, index) => {
+            index++;
             let { x, y, z, tool_id, id } = slot;
-            i++;
-            return <tr key={i}>
+            return <tr key={index}>
                 <td>
-                    {i}
+                    {index}
                 </td>
                 <td>
                     <BlurableInput
@@ -129,16 +130,22 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     render() {
-        let { set, updateCoordinate, updateToolBayName, add, updateToolSelect } = this;
+        let {
+            set,
+            updateCoordinate,
+            updateToolBayName,
+            add,
+            updateToolSelect
+        } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
         let stopEdit = () => { dispatch(stopEditing()); };
         return <div className="tool-bay-form">
-            {tool_bays.map((bay, i) => {
+            {tool_bays.map((bay, index) => {
+                index++;
                 let { name } = bay;
-                let bayId = bay.id;
-                i++;
-                return <Widget key={name}>
+                let tool_bay_id = bay.id;
+                return <Widget key={index}>
                     <WidgetHeader
                         helpText="Bays are for Tools"
                         title={name}>
@@ -164,7 +171,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <BlurableInput
                                             value={name}
                                             onCommit={updateToolBayName}
-                                            id={(bayId || "").toString()}
+                                            id={(tool_bay_id || "").toString()}
                                             />
                                     </td>
                                 </tr>
@@ -181,7 +188,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.renderSlots()}
+                                {this.renderSlots(tool_bay_id)}
                                 <tr>
                                     <td>
                                         {tool_slots.length + 1}
@@ -213,9 +220,9 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     <td>
                                         <Select value="0"
                                             onChange={updateToolSelect}>
-                                            {tools.map(tool => {
-                                                let { id } = tool;
-                                                return <option key={id}>
+                                            {tools.map((tool, toolIndex) => {
+                                                toolIndex++;
+                                                return <option key={toolIndex}>
                                                     {tool.name}
                                                 </option>;
                                             })}
@@ -228,7 +235,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                         <button
                                             className={`button-like 
                                                     widget-control green`}
-                                            onClick={() => add(bayId)}>
+                                            onClick={() => add(tool_bay_id)}>
                                             <i className="fa fa-plus"></i>
                                         </button>
                                     </td>
