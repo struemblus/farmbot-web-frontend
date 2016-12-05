@@ -48,16 +48,10 @@ let initialState: ToolsState = {
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
-    /** TODO: Remove stubs when API is working */
-    .add<{}>("GET_FAKE_DATA", function (s, a) {
-        s = initialState;
-        return s;
-    })
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-        /** TODO: Uncomment when API is working */
-        // s.tool_bays = a.payload.tool_bays || [];
-        // s.tool_slots = a.payload.tool_slots || [];
-        // s.tools = a.payload.tools || [];
+        s.tool_bays = a.payload.tool_bays || [];
+        s.tool_slots = a.payload.tool_slots || [];
+        s.tools = a.payload.tools || [];
         return s;
     })
     .add<{}>("EDIT_TOOLS_START", function (s, a) {
@@ -88,8 +82,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     .add<AddToolSlotPayl>("ADD_SLOT", function (s, a) {
-        let { payload } = a;
-        let { slotState } = payload;
+        let { slotState } = a.payload;
         /** TODO: Temporary TS pleaser */
         let id = s.tool_slots.length + 1;
         let created_at = "SOME UTC STRING";
@@ -98,7 +91,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
             id,
             tool_id,
             created_at,
-            tool_bay_id: payload.bay_id,
+            tool_bay_id: a.payload.bay_id,
             x: slotState.x,
             y: slotState.y,
             z: slotState.z
@@ -111,7 +104,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tools.splice(index, 1);
         return s;
     })
-    .add<Tool>("SAVE_TOOL_OKAY", function (s, a) {
+    .add<Tool>("SAVE_TOOL_OK", function (s, a) {
         let { name, id } = a.payload;
         s.tools.push({ name, id });
         return s;
