@@ -11,7 +11,8 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
         return <div>
             <Widget>
                 <WidgetHeader
-                    helpText="Tools are for tooling."
+                    helpText="This is a list of all your FarmBot Tools. Click
+                    the Edit button to add, edit, or delete tools."
                     title="TOOLS">
                     <button
                         className="gray button-like widget-control"
