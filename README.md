@@ -32,3 +32,11 @@ If you would like to report a problem with the web app, please [submit an issue]
 # Want to Help?
 
 [Low Hanging Fruit](https://github.com/FarmBot/farmbot-web-frontend/search?l=typescript&q=TODO&utf8=%E2%9C%93)
+
+# Translating the app into your language
+Thanks for your interest in internationalizing the FarmBot web app! To add translations:
+
+1. Fork this repo
+2. Create a `yy.js` file in ``/public/app-resources/languages/`` where `yy` is your language's [language code](http://www.science.co.il/Language/Locale-codes.php). Eg: `ru` for Russian. If your language already has a file, then you can skip this step.
+3. Search the application for calls to `t()`. Any file that imports `from "i18next"` will have strings that require translation.
+4. When you have updated or added new translations, commit/push your changes and submit a pull request.
