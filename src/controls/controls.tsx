@@ -146,7 +146,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                 <div className="all-content-wrapper">
                     <div>
                         <div className="row">
-                            <div className={`col-md-4 col-sm-6 col-xs-12 
+                            <div className={`col-md-4 col-sm-6 col-xs-12
                                 col-md-offset-1`}>
                                 <div>
                                     <div className="widget-wrapper">
@@ -155,8 +155,8 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                 <EStopButton {...this.props} />
                                                 <div className="widget-header">
                                                     <h5>Move</h5>
-                                                    <i className={`fa 
-                                                        fa-question-circle 
+                                                    <i className={`fa
+                                                        fa-question-circle
                                                         widget-help-icon`}>
                                                         <div
                                                             className={
@@ -167,8 +167,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                               the arrows for relative movements or type in new
                               coordinates and press GO for an
                               absolute movement. Tip: Press the Home button when
-                              you are done so FarmBot is ready to get back to 
-                              work. Note: Currently all buttons except for Home 
+                              you are done so FarmBot is ready to get back to
                               work.`)}
                                                         </div>
                                                     </i>
@@ -297,7 +296,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                     <h5>{t("Camera")}</h5>
                                                     <i className="fa fa-question-circle widget-help-icon">
                                                         <div className="widget-help-text">
-                                                            {t(`Press the edit button to update 
+                                                            {t(`Press the edit button to update
                                                                 and save your webcam URL.`)}
                                                         </div>
                                                     </i>
@@ -331,4 +330,3 @@ export class Controls extends React.Component<Everything, ControlsState> {
         );
     }
 };
-
