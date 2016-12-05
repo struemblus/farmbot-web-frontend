@@ -37,8 +37,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
 
     updateCoordinate(e: React.SyntheticEvent<HTMLInputElement>) {
         let { id, name, value } = e.currentTarget;
-        let data = { slot_id: id, property: name, value: value };
-        this.props.dispatch(updateSlot(data));
+        let { dispatch } = this.props;
+        dispatch(updateSlot(parseInt(id), name, parseInt(value)));
     }
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {

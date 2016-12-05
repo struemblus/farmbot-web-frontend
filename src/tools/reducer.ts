@@ -3,8 +3,7 @@ import {
     ToolsState,
     Tool,
     ToolBay,
-    ToolSlot,
-    UpdateToolSlotPayl
+    ToolSlot
 } from "./interfaces";
 import { Sync } from "../interfaces";
 import * as _ from "lodash";
@@ -62,17 +61,16 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         s.editorMode = false;
         return s;
     })
-    .add<{ id: number }>("DESTROY_SLOT_OK", function (s, a) {
+    .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
         let { tool_slots } = s;
         let index = _.findIndex(tool_slots, { id: a.payload.id });
         tool_slots.splice(index, 1);
         return s;
     })
-    .add<UpdateToolSlotPayl>("UPDATE_SLOT", function (s, a) {
-        let { slot_id, property, value } = a.payload;
-        let slot = _.findWhere(s.tool_slots, { id: parseInt(slot_id) });
-        /** ??? TODO: Tried changing interfaces but can't seem to please TS */
-        (slot as any)[property] = parseInt(value);
+    .add<ToolSlot>("UPDATE_TOOL_SLOT_OK", function (s, a) {
+        let { tool_slots } = s;
+        let index = _.findIndex(s.tool_slots, { id: a.payload.id });
+        tool_slots.splice(index, 1, a.payload);
         return s;
     })
     .add<ToolBay>("SAVE_TOOL_BAY_NAME_OK", function (s, a) {
@@ -81,7 +79,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         bay.name = name;
         return s;
     })
-    .add<ToolSlot>("SAVE_SLOT_OK", function (s, a) {
+    .add<ToolSlot>("ADD_TOOL_SLOT_OK", function (s, a) {
         s.tool_slots.push(a.payload);
         return s;
     })

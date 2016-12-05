@@ -41,12 +41,6 @@ export interface ToolSlot {
     z?: number;
 }
 
-export interface UpdateToolSlotPayl {
-    slot_id: string;
-    property: string;
-    value: string;
-}
-
 export interface Tool {
     id: number;
     name: string;
