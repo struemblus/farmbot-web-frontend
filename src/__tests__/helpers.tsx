@@ -102,7 +102,7 @@ export function fakeState(dispatcher?: Function): Everything {
             weeks: []
         }
     };
-    let dispatch = dispatcher || function(p: any) { };
+    let dispatch = dispatcher || function (p: any) { };
     let config: ConfigState = {
         host: "localhost",
         port: "5555"
@@ -146,8 +146,9 @@ export function fakeState(dispatcher?: Function): Everything {
         tool_slots: [
             {
                 id: 333,
-                name: "slotster",
                 tool_bay_id: 1234,
+                created_at: "SOME UTC STRING",
+                tool_id: 1,
                 x: 10,
                 y: 20,
                 z: 30
@@ -157,7 +158,6 @@ export function fakeState(dispatcher?: Function): Everything {
             {
                 id: 1,
                 name: "tool1",
-                slot_id: 111
             }
         ]
     };

@@ -60,12 +60,12 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.resetState();
     }
 
-    renderTools(slotId: number | undefined) {
+    renderTools(tool_id: number | undefined) {
         let { tools } = this.props.all;
         let defaultValue = 0;
         let options = tools.map(tool => {
             let { id, name } = tool;
-            if (tool.slot_id === slotId) {
+            if (tool.id === tool_id) {
                 defaultValue = id;
             };
             return <option value={id} key={id}>{name}</option>;
@@ -79,8 +79,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
 
     renderSlots() {
         return this.props.all.tool_slots.map((slot, i) => {
-            let { x, y, z } = slot;
-            let slotId = slot.id;
+            let { x, y, z, tool_id, id } = slot;
             i++;
             return <tr key={i}>
                 <td>
@@ -89,7 +88,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(slotId || "").toString()}
+                        id={(id || "").toString()}
                         name="x"
                         value={x.toString()}
                         onCommit={this.updateCoordinate}
@@ -98,7 +97,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(slotId || "").toString()}
+                        id={(id || "").toString()}
                         name="y"
                         value={y.toString()}
                         onCommit={this.updateCoordinate}
@@ -107,20 +106,20 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(slotId || "").toString()}
+                        id={(id || "").toString()}
                         name="z"
                         value={z.toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
                 <td>
-                    {this.renderTools(slotId)}
+                    {this.renderTools(tool_id)}
                 </td>
                 <td>
                     <button
                         className="button-like widget-control red"
                         onClick={() => {
-                            this.props.dispatch(destroySlot(slotId));
+                            this.props.dispatch(destroySlot(id));
                         } }>
                         <i className="fa fa-times"></i>
                     </button>
