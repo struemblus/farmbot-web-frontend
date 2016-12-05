@@ -44,7 +44,10 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
                 let { id, name } = bay;
                 return <Widget key={index}>
                     <WidgetHeader
-                        helpText="Toolbays are for tools."
+                        helpText={t(`Toolbays are where you store your FarmBot
+                          Tools. Each Toolbay has Slots that you can put your
+                          Tools in, which should be reflective of your real
+                          FarmBot hardware configuration.`)}
                         title={name}>
                         <button
                             className="gray button-like widget-control"
