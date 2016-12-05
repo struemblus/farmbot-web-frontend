@@ -6,9 +6,9 @@ import * as _ from "lodash";
 import { t } from "i18next";
 
 export class ToolBayList extends React.Component<ListAndFormProps, {}> {
-    renderTools(slotId: number | undefined) {
+    renderTool(toolId: number | undefined) {
         return this.props.all.tools.map((tool, i) => {
-            if (slotId === tool.slot_id) {
+            if (toolId === tool.id) {
                 return <td key={i}>
                     {tool.name}
                 </td>;
@@ -20,15 +20,14 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
         let { tool_slots } = this.props.all;
         let currentSlots = _.where(tool_slots, { tool_bay_id: bayId });
         return currentSlots.map((slot, i) => {
-            let { x, y, z } = slot;
-            let slotId = slot.id;
+            let { x, y, z, tool_id } = slot;
             i++;
             return <tr key={i}>
                 <td>{i}</td>
                 <td>{x}</td>
                 <td>{y}</td>
                 <td>{z}</td>
-                {this.renderTools(slotId)}
+                {this.renderTool(tool_id)}
             </tr>;
         });
     }

@@ -53,8 +53,14 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<AddToolSlotPayl>("ADD_SLOT", function (s, a) {
         let { payload } = a;
         let { slotState } = payload;
+        /** TODO: Temporary TS pleaser */
+        let id = s.tool_slots.length + 1;
+        let created_at = "SOME UTC STRING";
+        let tool_id = 1;
         s.tool_slots.push({
-            name: slotState.name,
+            id,
+            tool_id,
+            created_at,
             tool_bay_id: payload.bay_id,
             x: slotState.x,
             y: slotState.y,
@@ -69,8 +75,10 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     .add<ToolPayl>("ADD_TOOL", function (s, a) {
-        let { name, slot_id, id } = a.payload;
-        s.tools.push({ id, name, slot_id });
+        let { name } = a.payload;
+        /** TODO: Temporary TS pleaser */
+        let id = s.tools.length + 1;
+        s.tools.push({ name, id });
         return s;
     });
 

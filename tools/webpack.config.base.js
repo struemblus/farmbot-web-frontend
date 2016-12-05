@@ -33,7 +33,9 @@ module.exports = function() {
             // Preprocesses an HTML file to figure out if we need to load
             // style.css or not.
             'app-index': './src/static/app_index.ts',
-            'front_page': './src/front_page/index.tsx'
+            'front_page': './src/front_page/index.tsx',
+            'password-reset': './src/static/password_reset.ts',
+            'password_reset': './src/password_reset/index.tsx'
         },
         output: {
             path: "public",
@@ -48,6 +50,9 @@ module.exports = function() {
             shortRevisionPlugin,
             new StaticSiteGeneratorPlugin("app-index", "/app/", {
                 templateName: "app_index"
+            }),
+            new StaticSiteGeneratorPlugin("password-reset", "/app/", {
+                templateName: "password_reset"
             })
         ],
         resolve: {
@@ -66,7 +71,8 @@ module.exports = function() {
             historyApiFallback: {
                 index: '/index.html',
                 rewrites: [
-                    { from: /\/app\//, to: '/app/index.html' }
+                    { from: /\/app\//, to: '/app/index.html' },
+                    { from: /password_reset/, to: 'password_reset.html' }
                 ]
             },
         }
