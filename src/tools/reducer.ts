@@ -11,16 +11,53 @@ import * as _ from "lodash";
 
 let initialState: ToolsState = {
     editorMode: false,
-    tool_bays: [],
-    tool_slots: [],
-    tools: []
+    tool_bays: [{
+        id: 1,
+        name: "Toolbay 1"
+    }],
+    tool_slots: [
+        {
+            id: 1,
+            tool_bay_id: 1,
+            tool_id: 2,
+            created_at: "SOME UTC STRING",
+            x: 123,
+            y: 456,
+            z: 789
+        },
+        {
+            id: 2,
+            tool_bay_id: 1,
+            tool_id: 3,
+            created_at: "SOME UTC STRING",
+            x: 123,
+            y: 456,
+            z: 789
+        }
+    ],
+    tools: [
+        {
+            id: 2,
+            name: "KILL IT WITH FIRE"
+        },
+        {
+            id: 3,
+            name: "SCENTED CANDLE"
+        }
+    ]
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
+    /** TODO: Remove stubs when API is working */
+    .add<{}>("GET_FAKE_DATA", function (s, a) {
+        s = initialState;
+        return s;
+    })
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-        s.tool_bays = a.payload.tool_bays || [];
-        s.tool_slots = a.payload.tool_slots || [];
-        s.tools = a.payload.tools || [];
+        /** TODO: Uncomment when API is working */
+        // s.tool_bays = a.payload.tool_bays || [];
+        // s.tool_slots = a.payload.tool_slots || [];
+        // s.tools = a.payload.tools || [];
         return s;
     })
     .add<{}>("EDIT_TOOLS_START", function (s, a) {

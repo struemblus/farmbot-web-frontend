@@ -6,28 +6,31 @@ import * as _ from "lodash";
 import { t } from "i18next";
 
 export class ToolBayList extends React.Component<ListAndFormProps, {}> {
-    renderTool(toolId: number | undefined) {
-        return this.props.all.tools.map((tool, i) => {
-            if (toolId === tool.id) {
-                return <td key={i}>
+    renderTool(tool_id: number | undefined) {
+        let { tools } = this.props.all;
+        return tools.map((tool, index) => {
+            index++;
+            if (tool_id === tool.id) {
+                return <td key={index}>
                     {tool.name}
                 </td>;
             }
         });
     }
 
-    renderSlots(bayId: number) {
-        let { tool_slots } = this.props.all;
-        let currentSlots = _.where(tool_slots, { tool_bay_id: bayId });
-        return currentSlots.map((slot, i) => {
+    renderSlots(tool_bay_id: number) {
+        let { tool_slots, tools } = this.props.all;
+        let currentSlots = _.where(tool_slots, { tool_bay_id });
+        return currentSlots.map((slot, index) => {
+            index++;
             let { x, y, z, tool_id } = slot;
-            i++;
-            return <tr key={i}>
-                <td>{i}</td>
+            return <tr key={index}>
+                <td>{index}</td>
                 <td>{x}</td>
                 <td>{y}</td>
                 <td>{z}</td>
-                {this.renderTool(tool_id)}
+                {tools.length > 0 && (this.renderTool(tool_id))}
+                {tools.length === 0 && (<td>---</td>)}
             </tr>;
         });
     }
@@ -36,9 +39,10 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
         let onClick = () => { this.props.dispatch(startEditing()); };
         let { tool_bays } = this.props.all;
         return <div>
-            {tool_bays.map(bay => {
+            {tool_bays.map((bay, index) => {
+                index++;
                 let { id, name } = bay;
-                return <Widget key={name}>
+                return <Widget key={index}>
                     <WidgetHeader
                         helpText="Toolbays are for tools."
                         title={name}>

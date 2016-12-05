@@ -29,7 +29,7 @@ export interface ToolBayFormState {
 
 export interface ToolFormState {
     name: string;
-    slot_id?: number;
+    id?: number;
 }
 
 export interface ToolSlot {

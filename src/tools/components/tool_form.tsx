@@ -14,8 +14,8 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
         super();
         this.add = this.add.bind(this);
         this.set = this.set.bind(this);
-        this.update = this.update.bind(this);
-        this.state = { name: "", slot_id: 0 };
+        this.updateToolName = this.updateToolName.bind(this);
+        this.state = { name: "", id: 0 };
     }
 
     add() {
@@ -23,7 +23,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
         this.setState({ name: "" });
     }
 
-    update(e: React.FormEvent<HTMLInputElement>) {
+    updateToolName(e: React.FormEvent<HTMLInputElement>) {
         this.setState({ name: e.currentTarget.value });
     }
 
@@ -32,7 +32,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     }
 
     render() {
-        let { set, add, update } = this;
+        let { set, add, updateToolName } = this;
         let { dispatch } = this.props;
         let { tools } = this.props.all;
         let edit = () => { dispatch(startEditing()); };
@@ -57,18 +57,18 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                     <table>
                         <thead>
                             <tr>
-                                <th>{t("Tool Name")}</th>
+                                <th>{t("TOOL NAME")}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {tools.map((tool, index) => {
                                 index++;
-                                let { name } = tool;
+                                let { name, id } = tool;
                                 return <tr key={index}>
                                     <td>
                                         <BlurableInput
-                                            value={name || "No Name"}
-                                            onCommit={update}
+                                            value={name || "Error getting Name"}
+                                            onCommit={updateToolName}
                                             name={index.toString()}
                                             />
                                     </td>
@@ -77,7 +77,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                             className={`button-like 
                                                 widget-control red`}
                                             onClick={() => {
-                                                dispatch(destroyTool(index));
+                                                dispatch(destroyTool(id));
                                             } }>
                                             <i className="fa fa-times"></i>
                                         </button>

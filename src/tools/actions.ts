@@ -20,6 +20,11 @@ import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
+/** TODO: Remove this action when API is finished */
+export function getFakeData(): ReduxAction<{}> {
+    return { type: "GET_FAKE_DATA", payload: {} };
+}
+
 export function startEditing(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_START", payload: {} };
 }
