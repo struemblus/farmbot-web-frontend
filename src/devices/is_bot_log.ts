@@ -1,11 +1,10 @@
-import { BotLog } from "./interfaces";
+import { RpcBotLog as BotLog } from "./interfaces";
 
 const schema = {
     message: "string",
-    time: "number",
-    status: "object",
+    created_at: "number",
     channels: "object",
-    tags: "object"
+    meta: "object"
 };
 
 export function isBotLog(log: BotLog | {}): log is BotLog {
