@@ -1,9 +1,10 @@
 import * as toast from "toastr";
+import * as tst from "../toastr";
 
 let lastMsg = "Prevent Annoying Duplicates";
 
 export function success(message: string, title = "Success") {
-    toast.success(message, title);
+  toast.success(message, title);
 }
 
 // Warnings fire once, to avoid bombarding the user with repetitious errors
