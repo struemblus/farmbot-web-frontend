@@ -20,6 +20,7 @@ let initialState: ToolsState = {
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
+    /** Generic */
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         s.tool_bays = a.payload.tool_bays || [];
         s.tool_slots = a.payload.tool_slots || [];
@@ -42,14 +43,27 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         s.tools.isEditing = false;
         return s;
     })
-    .add<{}>("MARK_DIRTY", function (s, a) {
-        let slot = _.findWhere(s.tool_slots, { id: a.payload });
-        let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
-        slot.dirty = true;
+    /** ToolBays */
+    .add<{ id: number, value: string }>("UPDATE_TOOL_BAY", function (s, a) {
+        let { id, value } = a.payload;
+        let bay = _.findWhere(s.tool_bays, { id });
+        bay.name = value;
         bay.dirty = true;
         return s;
     })
-    .add<ToolSlot>("SAVE_TOOL_SLOT_OK", function (s, a) {
+    .add<ToolBay>("SAVE_TOOL_BAY_OK", function (s, a) {
+        let { id, name } = a.payload;
+        let bay = _.findWhere(s.tool_bays, { id });
+        bay.name = name;
+        bay.dirty = false;
+        return s;
+    })
+    /** ToolSlots */
+    .add<ToolSlot>("ADD_TOOL_SLOT_OK", function (s, a) {
+        s.tool_slots.push(a.payload);
+        return s;
+    })
+    .add<ToolSlot>("SAVE_TOOL_SLOTS_OK", function (s, a) {
         let index = _.findIndex(s.tool_slots, { id: a.payload.id });
         s.tool_slots.splice(index, 1, a.payload);
         return s;
@@ -70,16 +84,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         (slot as any)[name] = value;
         return s;
     })
-    .add<ToolBay>("SAVE_TOOL_BAY_NAME_OK", function (s, a) {
-        let { id, name } = a.payload;
-        let bay = _.findWhere(s.tool_bays, { id });
-        bay.name = name;
-        return s;
-    })
-    .add<ToolSlot>("ADD_TOOL_SLOT_OK", function (s, a) {
-        s.tool_slots.push(a.payload);
-        return s;
-    })
+    /** Tools */
     .add<{ tool_id: number }>("DESTROY_TOOL_OK", function (s, a) {
         let { tools } = s;
         let index = _.findIndex(tools.all, { id: a.payload.tool_id });

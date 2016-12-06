@@ -7,8 +7,9 @@ import {
     destroySlot,
     addToolSlot,
     updateToolSlot,
-    updateToolBayName,
-    stopEditingToolBays
+    updateToolBay,
+    stopEditingToolBays,
+    saveToolBay
 } from "../actions";
 import { t } from "i18next";
 
@@ -22,6 +23,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.updateToolSlotTool = this.updateToolSlotTool.bind(this);
         this.addToolSlot = this.addToolSlot.bind(this);
         this.resetState = this.resetState.bind(this);
+        this.saveAll = this.saveAll.bind(this);
         this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
     }
 
@@ -49,7 +51,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
         let { id, value } = e.currentTarget;
-        this.props.dispatch(updateToolBayName(id, value));
+        this.props.dispatch(updateToolBay(parseInt(id), value));
     }
 
     updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
@@ -59,6 +61,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     addToolSlot(tool_bay_id: number) {
         this.props.dispatch(addToolSlot(this.state, tool_bay_id));
         this.resetState();
+    }
+
+    saveAll(tool_bay_id: number) {
+        let { dispatch } = this.props;
+        let { tool_slots, tool_bays } = this.props.all;
+        dispatch(saveToolSlots(tool_slots));
+        dispatch(saveToolBay(tool_bay_id, tool_bays));
     }
 
     renderTools(tool_id: number | undefined, slot_id: number | undefined) {
@@ -143,7 +152,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             updateCoordinate,
             updateToolBayName,
             addToolSlot,
-            updateToolSelect
+            updateToolSelect,
+            saveAll
         } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
@@ -160,9 +170,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         title={name}>
                         <button
                             className="green button-like widget-control"
-                            onClick={() => {
-                                dispatch(saveToolSlots(tool_slots));
-                            } }>
+                            onClick={() => { saveAll(tool_bay_id); } }>
                             {t("SAVE")}
                             {bay.dirty && ("*")}
                         </button>
