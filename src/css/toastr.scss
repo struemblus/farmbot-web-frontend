@@ -1,16 +1,94 @@
-.toast-container {
-    background: #000;
-    position: fixed;
-    top: 10vh;
-    right: 2vw;
-    width: 28vw;
-    height: 100vh;
-    z-index: 9999;
-    .toast {
-        background: lawngreen;
-        height: 10%;
-        position: relative;
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }
 
-// 100, 655
+@keyframes show-hide {
+    0% {
+        opacity: 1;
+    }
+    50%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.toast-container {
+    position: fixed;
+    top: 10vh;
+    right: 2vw;
+    width: 300px;
+    height: 100vh;
+    z-index: 9999;
+    pointer-events: none;
+}
+
+.toast {
+    box-shadow: 0px 0px 10px #555;
+    pointer-events: all;
+    padding: 0.8rem;
+    cursor: pointer;
+    background: lawngreen;
+    height: 6rem;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.toast-title {
+    margin: 0;
+    pointer-events: none;
+}
+
+.toast-message {
+    pointer-events: none;
+}
+
+.toast-loader {
+    width: 20px;
+    height: 20px;
+    overflow: hidden;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    pointer-events: none;
+}
+
+.toast-loader-left,
+.toast-loader-right,
+.toast-loader-spinner {
+    top: 0;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+}
+
+.toast-loader-left {
+    left: 0;
+    background: lawngreen;
+    z-index: 3;
+    opacity: 1;
+    animation: show-hide 5s infinite steps(1, end);
+    border-radius: 100% 0 0 100%/ 50% 0 0 50%;
+}
+
+.toast-loader-right {
+    right: 0;
+    background: #999;
+    z-index: 1;
+    opacity: 0;
+    animation: show-hide 5s infinite steps(1, end) reverse;
+    border-radius: 0 100% 100% 0/ 0 50% 50% 0;
+}
+
+.toast-loader-spinner {
+    left: 0;
+    background: #999;
+    animation: spin 5s linear infinite;
+    transform-origin: center right;
+    z-index: 2;
+    border-radius: 100% 0 0 100%/ 50% 0 0 50%;
+}

@@ -1,45 +1,65 @@
-let lastMsg = "Prevent Annoying Duplicates";
+let createToast = (title: string, message: string) => {
+    /** Get container */
+    let tc = document.querySelector(".toast-container");
 
-let createToast = (message: string, title: string) => { };
+    /** Create necessary elements */
+    let toastEl = document.createElement("div");
+    let titleEl = document.createElement("h4");
+    let messageEl = document.createElement("div");
+    let loaderEl = document.createElement("div");
+    let leftLoaderEl = document.createElement("div");
+    let rightLoaderEl = document.createElement("div");
+    let spinnerLoaderEl = document.createElement("div");
 
-// export function success(message: string, title = "Success") {
-//     console.log(message, title);
-// }
+    /** Fill the contents */
+    titleEl.innerText = title;
+    messageEl.innerText = message;
 
-// // Warnings fire once, to avoid bombarding the user with repetitious errors
-// // Eg: "Can"t connect to server!" might get repetitive.
-// export function warning(message: string, title = "Warning") {
-//     if (lastMsg === message) {
-//         console.warn(message);
-//     } else {
-//         // toast.warning(message, title);
-//     };
-//     lastMsg = message;
-// }
+    /** Add the classes */
+    toastEl.classList.add("toast");
+    titleEl.classList.add("toast-title");
+    messageEl.classList.add("toast-message");
+    loaderEl.classList.add("toast-loader");
+    leftLoaderEl.classList.add("toast-loader-right");
+    rightLoaderEl.classList.add("toast-loader-left");
+    spinnerLoaderEl.classList.add("toast-loader-spinner");
 
-// // Errors can fire multiple times for situations such as password guessing
-// export function error(message: string, title = "Error") {
-//     // toast.error(message, title);
-// }
+    /** Add events */
+    toastEl.addEventListener("click", function (e: any) {
+        tc.removeChild(e.currentTarget);
+    });
+    toastEl.addEventListener("mouseenter", function (e: any) {
+        let children = e.currentTarget.children[2].children;
+        for (let i = 0; i < children.length; i++) {
+            children[i].style.animationPlayState = "paused";
+        }
+    });
+    toastEl.addEventListener("mouseleave", function (e: any) {
+        let children = e.currentTarget.children[2].children;
+        for (let i = 0; i < children.length; i++) {
+            children[i].style.animationPlayState = "running";
+        }
+    });
+
+    /** Append the children */
+    loaderEl.appendChild(leftLoaderEl);
+    loaderEl.appendChild(rightLoaderEl);
+    loaderEl.appendChild(spinnerLoaderEl);
+    toastEl.appendChild(titleEl);
+    toastEl.appendChild(messageEl);
+    toastEl.appendChild(loaderEl);
+    tc.appendChild(toastEl);
+};
 
 export function init() {
-    let toastContainer = document.createElement("DIV");
+    /** Create container and append it */
+    let toastContainer = document.createElement("div");
     toastContainer.classList.add("toast-container");
     document.body.appendChild(toastContainer);
 
-    let toastElement = document.createElement("DIV");
-    let titleElement = document.createElement("H4");
-    let messageElement = document.createElement("DIV");
-    let loaderElement = document.createElement("DIV");
-
-    toastElement.classList.add("toast");
-    titleElement.classList.add("toast-title");
-    messageElement.classList.add("toast-message");
-    loaderElement.classList.add("toast-loader");
-
-    toastElement.appendChild(titleElement);
-    toastElement.appendChild(messageElement);
-    toastElement.appendChild(loaderElement);
-
-    toastContainer.appendChild(toastElement);
+    /** Stubbed events */
+    createToast("Title", "Message");
+    createToast("Title2", "Message");
+    createToast("Title3", "Message");
+    createToast("Title4", "Message");
 }
