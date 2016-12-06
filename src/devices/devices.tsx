@@ -598,7 +598,6 @@ function Logs({logs}: LogsProps) {
 
         function displayCoordinates(log: BotLog) {
             // Stringify coords bcuz 0 is falsy in JS.
-            console.dir(log);
             let x = log.meta.x;
             let y = log.meta.y;
             let z = log.meta.z;
@@ -609,7 +608,6 @@ function Logs({logs}: LogsProps) {
                 return "Unknown";
             }
         }
-
 
         return <tbody>
             {

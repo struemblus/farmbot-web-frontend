@@ -17,6 +17,9 @@ export function handleIncomingBotNotification(msg: Notification<any>,
         case "log_message":
             handleLogMessage(dispatch, (msg as Notification<[RpcBotLog]>));
             break;
+        case "log_dump":
+            dispatch(logDump(msg as Notification<RpcBotLog[]>));
+            break;
     };
 }
 
@@ -39,3 +42,10 @@ function logNotification(botLog:
         payload: botLog.params[0]
     };
 };
+
+function logDump(msgs: Notification<RpcBotLog[]>) {
+    return {
+        type: "BOT_LOG_DUMP",
+        payload: msgs
+    };
+}
