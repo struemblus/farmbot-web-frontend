@@ -12,6 +12,10 @@ import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
+export function markDirty(): ReduxAction<{}> {
+    return { type: "MARK_DIRTY", payload: {} };
+}
+
 export function startEditingToolBays(): ReduxAction<{}> {
     return { type: "EDIT_TOOL_BAYS_START", payload: {} };
 }
