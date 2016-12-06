@@ -41,16 +41,30 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         s.tools.isEditing = false;
         return s;
     })
+    .add<{}>("MARK_DIRTY", function (s, a) {
+        let slot = _.findWhere(s.tool_slots, { id: a.payload });
+        let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
+        slot.dirty = true;
+        bay.dirty = true;
+        return s;
+    })
+    .add<ToolSlot>("SAVE_TOOL_SLOT_OK", function (s, a) {
+        let index = _.findIndex(s.tool_slots, { id: a.payload.id });
+        s.tool_slots.splice(index, 1, a.payload);
+        return s;
+    })
     .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
         let { tool_slots } = s;
         let index = _.findIndex(tool_slots, { id: a.payload.id });
         tool_slots.splice(index, 1);
         return s;
     })
-    .add<ToolSlot>("UPDATE_TOOL_SLOT_OK", function (s, a) {
-        let { tool_slots } = s;
-        let index = _.findIndex(s.tool_slots, { id: a.payload.id });
-        tool_slots.splice(index, 1, a.payload);
+    .add<{ id: number, name: string, value: number }>("UPDATE_TOOL_SLOT",
+    function (s, a) {
+        let { id, name, value } = a.payload;
+        let slot = _.findWhere(s.tool_slots, { id });
+        /** ??? TODO: Tried changing interfaces but can't seem to please TS */
+        (slot as any)[name] = value;
         return s;
     })
     .add<ToolBay>("SAVE_TOOL_BAY_NAME_OK", function (s, a) {

@@ -3,12 +3,13 @@ import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, Select } from "../../ui";
 import { BlurableInput } from "../../ui";
 import {
-    saveToolBays,
+    saveToolSlots,
     destroySlot,
-    addSlot,
-    updateSlot,
+    addToolSlot,
+    updateToolSlot,
     updateToolBayName,
-    stopEditingToolBays
+    stopEditingToolBays,
+    markDirty
 } from "../actions";
 import { t } from "i18next";
 
@@ -22,6 +23,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.updateTool = this.updateTool.bind(this);
         this.addToolSlot = this.addToolSlot.bind(this);
         this.resetState = this.resetState.bind(this);
+        this.handleDirty = this.handleDirty.bind(this);
         this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
     }
 
@@ -38,7 +40,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     updateCoordinate(e: React.SyntheticEvent<HTMLInputElement>) {
         let { id, name, value } = e.currentTarget;
         let { dispatch } = this.props;
-        dispatch(updateSlot(parseInt(id), name, parseInt(value)));
+        dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
+        this.handleDirty(e);
     }
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -55,8 +58,13 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     addToolSlot(tool_bay_id: number) {
-        this.props.dispatch(addSlot(this.state, tool_bay_id));
+        this.props.dispatch(addToolSlot(this.state, tool_bay_id));
         this.resetState();
+    }
+
+    handleDirty(e: React.SyntheticEvent<HTMLInputElement>) {
+        let slot_id = parseInt(e.currentTarget.id);
+        this.props.dispatch(markDirty(slot_id));
     }
 
     renderTools(tool_id: number | undefined) {
@@ -154,8 +162,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         title={name}>
                         <button
                             className="green button-like widget-control"
-                            onClick={dispatch(saveToolBays)}>
+                            onClick={() => {
+                                dispatch(saveToolSlots(tool_slots));
+                            } }>
                             {t("SAVE")}
+                            {bay.dirty && ("*")}
                         </button>
                         <button
                             className="gray button-like widget-control"
