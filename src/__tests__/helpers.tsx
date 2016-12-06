@@ -129,10 +129,7 @@ export function fakeState(dispatcher?: Function): Everything {
         regimen_items: [],
         tool_bays: [],
         tool_slots: [],
-        tools: {
-            isEditing: false,
-            all: []
-        },
+        tools: [],
         plants: []
     };
 
@@ -159,12 +156,10 @@ export function fakeState(dispatcher?: Function): Everything {
         ],
         tools: {
             isEditing: false,
-            all: [
-                {
-                    id: 1,
-                    name: "tool1",
-                }
-            ]
+            all: [{
+                id: 1,
+                name: "tool1"
+            }]
         }
     };
 

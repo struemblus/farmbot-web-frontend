@@ -22,7 +22,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         s.tool_bays = a.payload.tool_bays || [];
         s.tool_slots = a.payload.tool_slots || [];
-        s.tools.all = a.payload.tools.all || [];
+        s.tools.all = a.payload.tools || [];
         return s;
     })
     .add<{}>("EDIT_TOOL_BAYS_START", function (s, a) {

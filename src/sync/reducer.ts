@@ -17,7 +17,7 @@ const initialState: Sync = {
     regimen_items: [],
     tool_bays: [],
     tool_slots: [],
-    tools: { isEditing: false, all: [] },
+    tools: [],
     plants: []
 };
 

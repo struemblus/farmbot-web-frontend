@@ -68,8 +68,5 @@ export interface Sync {
     plants: Plant[];
     tool_bays: ToolBay[];
     tool_slots: ToolSlot[];
-    tools: {
-        isEditing: boolean;
-        all: Tool[];
-    };
+    tools: Tool[];
 }
