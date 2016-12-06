@@ -3,7 +3,8 @@ import {
     ToolsState,
     Tool,
     ToolBay,
-    ToolSlot
+    ToolSlot,
+    UpdateToolSlotPayl
 } from "./interfaces";
 import { Sync } from "../interfaces";
 import * as _ from "lodash";
@@ -59,10 +60,12 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tool_slots.splice(index, 1);
         return s;
     })
-    .add<{ id: number, name: string, value: number }>("UPDATE_TOOL_SLOT",
-    function (s, a) {
+    .add<UpdateToolSlotPayl>("UPDATE_TOOL_SLOT", function (s, a) {
         let { id, name, value } = a.payload;
         let slot = _.findWhere(s.tool_slots, { id });
+        let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
+        slot.dirty = true;
+        bay.dirty = true;
         /** ??? TODO: Tried changing interfaces but can't seem to please TS */
         (slot as any)[name] = value;
         return s;

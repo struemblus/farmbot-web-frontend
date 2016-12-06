@@ -8,8 +8,7 @@ import {
     addToolSlot,
     updateToolSlot,
     updateToolBayName,
-    stopEditingToolBays,
-    markDirty
+    stopEditingToolBays
 } from "../actions";
 import { t } from "i18next";
 
@@ -20,10 +19,9 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.set = this.set.bind(this);
         this.updateCoordinate = this.updateCoordinate.bind(this);
         this.updateToolBayName = this.updateToolBayName.bind(this);
-        this.updateTool = this.updateTool.bind(this);
+        this.updateToolSlotTool = this.updateToolSlotTool.bind(this);
         this.addToolSlot = this.addToolSlot.bind(this);
         this.resetState = this.resetState.bind(this);
-        this.handleDirty = this.handleDirty.bind(this);
         this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
     }
 
@@ -31,8 +29,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.setState({ x: 0, y: 0, z: 0, tool_id: 0 });
     }
 
-    set(e: React.SyntheticEvent<HTMLInputElement> |
-        React.SyntheticEvent<HTMLSelectElement>) {
+    set(e: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = e.currentTarget;
         this.setState({ [name]: parseInt(value) });
     }
@@ -41,16 +38,18 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         let { id, name, value } = e.currentTarget;
         let { dispatch } = this.props;
         dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
-        this.handleDirty(e);
+    }
+
+    updateToolSlotTool(e: React.SyntheticEvent<HTMLSelectElement>) {
+        let { id, value } = e.currentTarget;
+        let name = "tool_id";
+        let { dispatch } = this.props;
+        dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
     }
 
     updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
         let { id, value } = e.currentTarget;
         this.props.dispatch(updateToolBayName(id, value));
-    }
-
-    updateTool(e: React.SyntheticEvent<HTMLSelectElement>) {
-        console.log("update tool");
     }
 
     updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
@@ -62,12 +61,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.resetState();
     }
 
-    handleDirty(e: React.SyntheticEvent<HTMLInputElement>) {
-        let slot_id = parseInt(e.currentTarget.id);
-        this.props.dispatch(markDirty(slot_id));
-    }
-
-    renderTools(tool_id: number | undefined) {
+    renderTools(tool_id: number | undefined, slot_id: number | undefined) {
         let defaultValue = 0;
         let options = this.props.all.tools.all.map((tool, index) => {
             index++;
@@ -75,9 +69,12 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             if (tool.id === tool_id) {
                 defaultValue = id;
             };
-            return <option value={id} key={index}>{name}</option>;
+            return <option value={id}
+                id={(slot_id || "").toString()}
+                key={index}>{name}</option>;
         });
-        return <Select onChange={this.updateTool}
+        return <Select id={(slot_id || "").toString()}
+            onChange={this.updateToolSlotTool}
             value={defaultValue.toString()}>
             {options}
             <option value="0">---</option>
@@ -87,7 +84,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     renderSlots(tool_bay_id: number | undefined) {
         return this.props.all.tool_slots.map((slot, index) => {
             index++;
-            let { x, y, z, tool_id, id } = slot;
+            let { x, y, z, tool_id } = slot;
+            let slot_id = slot.id;
             return <tr key={index}>
                 <td>
                     {index}
@@ -95,7 +93,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(id || "").toString()}
+                        id={(slot_id || "").toString()}
                         name="x"
                         value={(x || "").toString()}
                         onCommit={this.updateCoordinate}
@@ -104,7 +102,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(id || "").toString()}
+                        id={(slot_id || "").toString()}
                         name="y"
                         value={(y || "").toString()}
                         onCommit={this.updateCoordinate}
@@ -113,14 +111,14 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 <td>
                     <BlurableInput
                         type="number"
-                        id={(id || "").toString()}
+                        id={(slot_id || "").toString()}
                         name="z"
                         value={(z || "").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
                 <td>
-                    {this.renderTools(tool_id)}
+                    {this.renderTools(tool_id, slot_id)}
                 </td>
                 <td>
                     <button
@@ -130,7 +128,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                              *  required, TS throws errors everywhere. I'll
                              *  have to come back to this. -CV
                             */
-                            this.props.dispatch(destroySlot(id || 0));
+                            this.props.dispatch(destroySlot(slot_id || 0));
                         } }>
                         <i className="fa fa-times"></i>
                     </button>

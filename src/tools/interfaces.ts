@@ -47,6 +47,12 @@ export interface ToolSlot {
     dirty?: boolean;
 }
 
+export interface UpdateToolSlotPayl {
+    value: number;
+    name: string;
+    id: number;
+}
+
 export interface Tool {
     id: number;
     name: string;

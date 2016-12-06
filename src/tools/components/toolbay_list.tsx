@@ -14,8 +14,6 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
                 return <td key={index}>
                     {tool.name}
                 </td>;
-            } else {
-                return <td key={index}>---</td>;
             }
         });
     }
