@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { ToggleButton } from "../controls/toggle_button";
 import { CalibrationButton } from "./components/calibration_button";
-import { BotLog, BotState } from "../devices/interfaces";
+import { RpcBotLog as BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
 import { Everything } from "../interfaces";
 import {
@@ -598,9 +598,11 @@ function Logs({logs}: LogsProps) {
 
         function displayCoordinates(log: BotLog) {
             // Stringify coords bcuz 0 is falsy in JS.
-            let [x, y, z] = [log.status.location[0],
-            log.status.location[1],
-            log.status.location[2]].map((i) => String(i));
+            console.dir(log);
+            let x = log.meta.x;
+            let y = log.meta.y;
+            let z = log.meta.z;
+
             if (x && y && z) {
                 return `${x}, ${y}, ${z}`;
             } else {
@@ -612,7 +614,7 @@ function Logs({logs}: LogsProps) {
         return <tbody>
             {
                 logs.map((log, i) => <tr key={i}>
-                    <td> {displayTime(log.time)} </td>
+                    <td> {displayTime(log.created_at)} </td>
                     <td> {log.message} </td>
                     <td> {displayCoordinates(log)} </td>
                 </tr>)
