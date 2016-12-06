@@ -16,6 +16,7 @@ export class Tools extends React.Component<Everything, ToolsState> {
     }
     render() {
         let editing = this.props.tools.editorMode;
+        let isEditingTools = this.props.tools.tools.isEditing;
         return <Page>
             <Row>
                 <Col>
@@ -33,13 +34,13 @@ export class Tools extends React.Component<Everything, ToolsState> {
                     )}
                 </Col>
                 <Col>
-                    {!editing && (
+                    {!isEditingTools && (
                         <ToolList
                             all={this.props.tools}
                             dispatch={this.props.dispatch}
                             />
                     )}
-                    {editing && (
+                    {isEditingTools && (
                         <ToolForm
                             all={this.props.tools}
                             dispatch={this.props.dispatch}

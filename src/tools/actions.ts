@@ -12,11 +12,19 @@ import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
-export function startEditing(): ReduxAction<{}> {
+export function startEditingToolBays(): ReduxAction<{}> {
+    return { type: "EDIT_TOOL_BAYS_START", payload: {} };
+}
+
+export function stopEditingToolBays(): ReduxAction<{}> {
+    return { type: "EDIT_TOOL_BAYS_STOP", payload: {} };
+}
+
+export function startEditingTools(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_START", payload: {} };
 }
 
-export function stopEditing(): ReduxAction<{}> {
+export function stopEditingTools(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_STOP", payload: {} };
 }
 

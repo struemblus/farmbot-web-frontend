@@ -8,7 +8,7 @@ import {
     addSlot,
     updateSlot,
     updateToolBayName,
-    stopEditing
+    stopEditingToolBays
 } from "../actions";
 import { t } from "i18next";
 
@@ -60,9 +60,8 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     renderTools(tool_id: number | undefined) {
-        let { tools } = this.props.all;
         let defaultValue = 0;
-        let options = tools.all.map((tool, index) => {
+        let options = this.props.all.tools.all.map((tool, index) => {
             index++;
             let { id, name } = tool;
             if (tool.id === tool_id) {
@@ -142,7 +141,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         } = this;
         let { dispatch } = this.props;
         let { tool_bays, tools, tool_slots } = this.props.all;
-        let stopEdit = () => { dispatch(stopEditing()); };
+        let stopEdit = () => { dispatch(stopEditingToolBays()); };
         return <div className="tool-bay-form">
             {tool_bays.map((bay, index) => {
                 index++;

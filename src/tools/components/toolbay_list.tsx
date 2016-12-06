@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ListAndFormProps } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { startEditing } from "../actions";
+import { startEditingToolBays } from "../actions";
 import * as _ from "lodash";
 import { t } from "i18next";
 
@@ -36,7 +36,7 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
     }
 
     render() {
-        let onClick = () => { this.props.dispatch(startEditing()); };
+        let onClick = () => { this.props.dispatch(startEditingToolBays()); };
         let { tool_bays } = this.props.all;
         return <div>
             {tool_bays.map((bay, index) => {

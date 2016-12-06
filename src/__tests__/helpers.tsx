@@ -129,7 +129,10 @@ export function fakeState(dispatcher?: Function): Everything {
         regimen_items: [],
         tool_bays: [],
         tool_slots: [],
-        tools: [],
+        tools: {
+            isEditing: false,
+            all: []
+        },
         plants: []
     };
 

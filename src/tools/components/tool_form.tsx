@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
-import { startEditing, destroyTool, addTool, stopEditing } from "../actions";
+import { destroyTool, addTool, stopEditingTools } from "../actions";
 import { t } from "i18next";
 import {
     Widget,
@@ -35,8 +35,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
         let { set, add, updateToolName } = this;
         let { dispatch } = this.props;
         let { tools } = this.props.all;
-        let edit = () => { dispatch(startEditing()); };
-        let stopEdit = () => { dispatch(stopEditing()); };
+        let stopEdit = () => { dispatch(stopEditingTools()); };
         return <div>
             <Widget>
                 <WidgetHeader
@@ -44,7 +43,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                     title="TOOLS">
                     <button
                         className="green button-like widget-control"
-                        onClick={edit}>
+                        onClick={stopEdit}>
                         {t("SAVE")}
                     </button>
                     <button

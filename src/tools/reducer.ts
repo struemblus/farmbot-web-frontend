@@ -22,15 +22,23 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         s.tool_bays = a.payload.tool_bays || [];
         s.tool_slots = a.payload.tool_slots || [];
-        s.tools.all = a.payload.tools || [];
+        s.tools.all = a.payload.tools.all || [];
         return s;
     })
-    .add<{}>("EDIT_TOOLS_START", function (s, a) {
+    .add<{}>("EDIT_TOOL_BAYS_START", function (s, a) {
         s.editorMode = true;
         return s;
     })
-    .add<{}>("EDIT_TOOLS_STOP", function (s, a) {
+    .add<{}>("EDIT_TOOL_BAYS_STOP", function (s, a) {
         s.editorMode = false;
+        return s;
+    })
+    .add<{}>("EDIT_TOOLS_START", function (s, a) {
+        s.tools.isEditing = true;
+        return s;
+    })
+    .add<{}>("EDIT_TOOLS_STOP", function (s, a) {
+        s.tools.isEditing = false;
         return s;
     })
     .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
