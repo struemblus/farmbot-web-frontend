@@ -24,11 +24,11 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.addToolSlot = this.addToolSlot.bind(this);
         this.resetState = this.resetState.bind(this);
         this.saveAll = this.saveAll.bind(this);
-        this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
+        this.state = { x: 0, y: 0, z: 0, tool_id: null };
     }
 
     resetState() {
-        this.setState({ x: 0, y: 0, z: 0, tool_id: 0 });
+        this.setState({ x: 0, y: 0, z: 0, tool_id: null });
     }
 
     set(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -70,7 +70,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         dispatch(saveToolBay(tool_bay_id, tool_bays));
     }
 
-    renderTools(tool_id: number | undefined, slot_id: number | undefined) {
+    renderTools(tool_id: number | undefined | null, slot_id: number | undefined) {
         let defaultValue = 0;
         let options = this.props.all.tools.all.map((tool, index) => {
             index++;

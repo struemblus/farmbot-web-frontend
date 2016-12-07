@@ -28,7 +28,7 @@ export interface ToolBayFormState {
     x?: number;
     y?: number;
     z?: number;
-    tool_id?: number;
+    tool_id?: null | number;
 }
 
 export interface ToolFormState {
@@ -39,7 +39,7 @@ export interface ToolFormState {
 export interface ToolSlot {
     id?: number;
     tool_bay_id?: number;
-    tool_id?: number;
+    tool_id?: null | number;
     created_at?: string;
     x?: number;
     y?: number;
