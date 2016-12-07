@@ -5,7 +5,10 @@ export interface ToolsState {
     editorMode: boolean;
     tool_bays: ToolBay[];
     tool_slots: ToolSlot[];
-    tools: Tool[];
+    tools: {
+        isEditing: boolean;
+        all: Tool[];
+    };
 }
 
 /** Related */
@@ -17,14 +20,15 @@ export interface ListAndFormProps {
 export interface ToolBay {
     id: number;
     name: string;
+    isEditing?: boolean;
+    dirty?: boolean;
 }
 
 export interface ToolBayFormState {
-    x?: string;
-    y?: string;
-    z?: string;
-    name?: string;
-    tool_bay_id?: number;
+    x?: number;
+    y?: number;
+    z?: number;
+    tool_id?: number;
 }
 
 export interface ToolFormState {
@@ -33,29 +37,20 @@ export interface ToolFormState {
 }
 
 export interface ToolSlot {
-    id: number;
-    tool_bay_id: number;
-    tool_id: number;
-    created_at: string;
-    x: number;
-    y: number;
-    z: number;
-}
-
-export interface AddToolSlotPayl {
-    slotState: {
-        name: string,
-        x: number,
-        y: number,
-        z: number
-    };
-    bay_id: number;
+    id?: number;
+    tool_bay_id?: number;
+    tool_id?: number;
+    created_at?: string;
+    x?: number;
+    y?: number;
+    z?: number;
+    dirty?: boolean;
 }
 
 export interface UpdateToolSlotPayl {
-    slot_id: string;
-    property: string;
-    value: string;
+    value: number;
+    name: string;
+    id: number;
 }
 
 export interface Tool {

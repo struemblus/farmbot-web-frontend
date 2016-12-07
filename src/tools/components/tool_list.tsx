@@ -1,13 +1,13 @@
 import * as React from "react";
 import { ListAndFormProps } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { startEditing } from "../actions";
+import { startEditingTools } from "../actions";
 import * as _ from "lodash";
 import { t } from "i18next";
 
 export class ToolList extends React.Component<ListAndFormProps, {}> {
     render() {
-        let onClick = () => { this.props.dispatch(startEditing()); };
+        let onClick = () => { this.props.dispatch(startEditingTools()); };
         return <div>
             <Widget>
                 <WidgetHeader
@@ -29,7 +29,7 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.all.tools.map((tool, index) => {
+                            {this.props.all.tools.all.map((tool, index) => {
                                 let { name } = tool;
                                 index++;
                                 return <tr key={index}>

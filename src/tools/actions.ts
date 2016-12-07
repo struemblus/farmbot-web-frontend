@@ -9,96 +9,138 @@ import {
     ErrorPayl
 } from "./interfaces";
 import { success, error } from "../ui";
+import * as _ from "lodash";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
-/** TODO: Remove this action when API is finished */
-export function startEditing(): ReduxAction<{}> {
+export function startEditingToolBays(): ReduxAction<{}> {
+    return { type: "EDIT_TOOL_BAYS_START", payload: {} };
+}
+
+export function stopEditingToolBays(): ReduxAction<{}> {
+    return { type: "EDIT_TOOL_BAYS_STOP", payload: {} };
+}
+
+export function startEditingTools(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_START", payload: {} };
 }
 
-export function stopEditing(): ReduxAction<{}> {
+export function stopEditingTools(): ReduxAction<{}> {
     return { type: "EDIT_TOOLS_STOP", payload: {} };
 }
 
 /** ToolBays */
-export function saveToolBaysNo(toolBays: AxiosErrorResponse): ErrorPayl {
-    return { type: "SAVE_TOOL_BAYS_NO", payload: error };
+export function saveToolBayNo(toolBays: AxiosErrorResponse): ErrorPayl {
+    return { type: "SAVE_TOOL_BAY_NO", payload: error };
 }
 
-export function saveToolBaysOk(toolBays: ToolBay[]): ReduxAction<{}> {
-    return { type: "SAVE_TOOL_BAYS_OK", payload: toolBays };
+export function saveToolBayOk(toolBay: ToolBay): ReduxAction<{}> {
+    return { type: "SAVE_TOOL_BAY_OK", payload: toolBay };
 }
 
-export function saveToolBayNameOk(toolBay: ToolBay): ReduxAction<{}> {
-    return { type: "SAVE_TOOL_BAY_NAME_OK", payload: toolBay };
+export function updateToolBay(id: number, value: string): ReduxAction<{}> {
+    return { type: "UPDATE_TOOL_BAY", payload: { id, value } };
 }
 
-export function saveToolBays(toolBays: ToolBay[]): Thunk {
-    return (dispatch, getState) => {
-        axios.patch<ToolBay[]>(API.current.toolBaysPath, toolBays)
-            .then(resp => {
-                success(t("ToolBays successfully updated."));
-                dispatch(saveToolBaysOk(resp.data));
-            }, (e: Error) => {
-                dispatch(saveToolBaysNo(e));
-                error(t(`ToolBays could not be updated: ${e.message}`));
-            });
-    };
-}
-
-export function updateToolBayName(id: string, value: string): Thunk {
+export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
+    let bay = _.findWhere(toolBays, { id });
     return (dispatch, getState) => {
         axios
-            .patch<ToolBay>(API.current.toolBaysPath + id, { name: value })
+            .patch<ToolBay>(API.current.toolBaysPath + id, bay)
             .then(resp => {
-                dispatch(saveToolBayNameOk(resp.data));
-                success(t("ToolBays successfully updated."));
+                dispatch(saveToolBayOk(resp.data));
+                success(t("ToolBay successfully updated."));
             }, (e: Error) => {
-                dispatch(saveToolBaysNo(e));
-                error(t(`ToolBays could not be updated: ${e.message}`));
+                dispatch(saveToolBayNo(e));
+                error(t(`ToolBay could not be updated: ${e.message}`));
             });
     };
 }
 
 /** ToolSlots */
-export function saveToolSlotsNo(toolSlots: AxiosErrorResponse): ErrorPayl {
-    return { type: "SAVE_TOOL_SLOTS_NO", payload: error };
+export function updateToolSlot(id: number, name: string, value: number):
+    ReduxAction<{}> {
+    return { type: "UPDATE_TOOL_SLOT", payload: { id, name, value } };
 }
 
-export function saveToolSlotsOk(toolSlots: ToolSlot[]): ReduxAction<{}> {
-    return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlots };
+export function addToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
+    return { type: "ADD_TOOL_SLOT_OK", payload: toolSlot };
 }
 
-export function destroySlot(slot_id?: number): ReduxAction<{}> {
-    return { type: "DESTROY_SLOT", payload: { slot_id } };
+export function addToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
+    return { type: "ADD_TOOL_SLOT_NO", payload: error };
 }
 
-export function addSlot(payload: {}): ReduxAction<{}> {
-    return { type: "ADD_SLOT", payload };
+export function saveToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
+    return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlot };
 }
 
-export function updateSlot(payload: {}): ReduxAction<{}> {
-    return { type: "UPDATE_SLOT", payload };
+export function saveToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
+    return { type: "SAVE_TOOL_SLOT_NO", payload: error };
+}
+
+export function updateToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
+    return { type: "UPDATE_TOOL_SLOT_OK", payload: toolSlot };
+}
+
+export function updateToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
+    return { type: "UPDATE_TOOL_SLOT_NO", payload: error };
+}
+
+export function destroyToolSlotOk(id: number): ReduxAction<{}> {
+    return { type: "DESTROY_TOOL_SLOT_OK", payload: id };
+}
+
+export function destroyToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
+    return { type: "DESTROY_TOOL_SLOT_NO", payload: error };
+}
+
+export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
+    let { x, y, z, tool_id } = slot;
+    let data = { x, y, z, tool_id, tool_bay_id };
+    return (dispatch, getState) => {
+        axios
+            .post<ToolSlot>(API.current.toolSlotsPath, data)
+            .then(resp => {
+                dispatch(addToolSlotOk(resp.data));
+                success(t("ToolSlot added."));
+            }, (e: Error) => {
+                dispatch(addToolSlotNo(e));
+                error(prettyPrintApiErrors(e));
+            });
+    };
 }
 
 export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
-    return function (dispatch) {
-        let url = API.current.toolSlotsPath;
-        let method: Function = axios.post;
-        return method(url, toolSlots)
-            .then(function (resp: { data: ToolSlot[] }) {
-                success(t("Saved ToolSlots."));
-                dispatch(saveToolSlotsOk(resp.data));
-            })
-            .catch(function (err:
-                { response: { data: { [reason: string]: string }; } }) {
-                error(prettyPrintApiErrors(err),
-                    t("Could not save ToolSlots."));
-                dispatch(saveToolBaysNo(err));
+    return (dispatch, getState) => {
+        toolSlots.filter(allSlots => !!allSlots.dirty).map(dirtySlot => {
+            let url = API.current.toolSlotsPath + dirtySlot.id;
+            axios
+                .put<ToolSlot>(url, dirtySlot)
+                .then(resp => {
+                    dispatch(saveToolSlotOk(resp.data));
+                    success(t("ToolBay saved."));
+                }, (e: Error) => {
+                    dispatch(saveToolSlotNo(e));
+                    error(prettyPrintApiErrors(e));
+                });
+        });
+    };
+}
+
+export function destroySlot(id: number): Thunk {
+    return (dispatch, getState) => {
+        axios
+            .delete<ToolSlot>(API.current.toolSlotsPath + id)
+            .then(resp => {
+                dispatch(destroyToolSlotOk(id));
+                success(t("ToolSlot deleted."));
+            }, (e: Error) => {
+                dispatch(destroyToolSlotNo(e));
+                error(prettyPrintApiErrors(e));
             });
     };
-};
+}
 
 /** Tools */
 export function saveToolOk(tool: Tool): ReduxAction<{}> {
