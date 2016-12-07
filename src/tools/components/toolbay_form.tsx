@@ -104,7 +104,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="x"
-                        value={(x || "").toString()}
+                        value={(x || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -113,7 +113,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="y"
-                        value={(y || "").toString()}
+                        value={(y || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -122,7 +122,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="z"
-                        value={(z || "").toString()}
+                        value={(z || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -218,7 +218,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(x || "").toString()}
+                                            value={(x || "0").toString()}
                                             type="number"
                                             name="x"
                                             onCommit={set}
@@ -226,7 +226,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(y || "").toString()}
+                                            value={(y || "0").toString()}
                                             type="number"
                                             name="y"
                                             onCommit={set}
@@ -234,7 +234,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(z || "").toString()}
+                                            value={(z || "0").toString()}
                                             type="number"
                                             name="z"
                                             onCommit={set}
