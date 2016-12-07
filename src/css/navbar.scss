@@ -15,6 +15,9 @@ nav {
     .mobile-menu-extras {
         display: none;
     }
+    .mobile-only {
+        display: none;
+    }
     .page-name {
         display: none;
     }
@@ -206,7 +209,27 @@ nav {
             display: block;
             li:last-of-type {
                 position: absolute;
-                bottom: 2rem;
+                bottom: 7rem;
+            }
+        }
+        .mobile-only {
+            display: block;
+        }
+        .version-links {
+            position: absolute;
+            bottom: 0;
+            background: #000;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 2rem 1rem;
+            display: flex;
+            font-size: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            a {
+                text-decoration: underline !important;
             }
         }
         .links {
