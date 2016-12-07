@@ -49,7 +49,6 @@ export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
             .patch<ToolBay>(API.current.toolBaysPath + id, bay)
             .then(resp => {
                 dispatch(saveToolBayOk(resp.data));
-                success(t("ToolBay successfully updated."));
             }, (e: Error) => {
                 dispatch(saveToolBayNo(e));
                 error(t(`ToolBay could not be updated: ${e.message}`));
@@ -88,7 +87,7 @@ export function updateToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
 }
 
 export function destroyToolSlotOk(id: number): ReduxAction<{}> {
-    return { type: "DESTROY_TOOL_SLOT_OK", payload: id };
+    return { type: "DESTROY_TOOL_SLOT_OK", payload: { id } };
 }
 
 export function destroyToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
@@ -103,7 +102,6 @@ export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
             .post<ToolSlot>(API.current.toolSlotsPath, data)
             .then(resp => {
                 dispatch(addToolSlotOk(resp.data));
-                success(t("ToolSlot added."));
             }, (e: Error) => {
                 dispatch(addToolSlotNo(e));
                 error(prettyPrintApiErrors(e));
@@ -113,18 +111,21 @@ export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
 
 export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
     return (dispatch, getState) => {
-        toolSlots.filter(allSlots => !!allSlots.dirty).map(dirtySlot => {
-            let url = API.current.toolSlotsPath + dirtySlot.id;
-            axios
-                .put<ToolSlot>(url, dirtySlot)
-                .then(resp => {
-                    dispatch(saveToolSlotOk(resp.data));
-                    success(t("ToolBay saved."));
-                }, (e: Error) => {
-                    dispatch(saveToolSlotNo(e));
-                    error(prettyPrintApiErrors(e));
-                });
-        });
+        Promise.all(
+            toolSlots.filter(allSlots => !!allSlots.dirty).map(dirtySlot => {
+                let url = API.current.toolSlotsPath + dirtySlot.id;
+                axios
+                    .put<ToolSlot>(url, dirtySlot)
+                    .then(resp => {
+                        dispatch(saveToolSlotOk(resp.data));
+                    }, (e: Error) => {
+                        dispatch(saveToolSlotNo(e));
+                    });
+            })).then(function () {
+                success(t("ToolBay saved."));
+            }).catch(function (e: Error) {
+                error(prettyPrintApiErrors(e));
+            });
     };
 }
 
@@ -134,7 +135,6 @@ export function destroySlot(id: number): Thunk {
             .delete<ToolSlot>(API.current.toolSlotsPath + id)
             .then(resp => {
                 dispatch(destroyToolSlotOk(id));
-                success(t("ToolSlot deleted."));
             }, (e: Error) => {
                 dispatch(destroyToolSlotNo(e));
                 error(prettyPrintApiErrors(e));
@@ -155,8 +155,16 @@ export function saveToolNo(error: AxiosErrorResponse): ErrorPayl {
     return { type: "SAVE_TOOL_NO", payload: error };
 }
 
-export function destroyToolOk(tool_id: number): ErrorPayl {
-    return { type: "DESTROY_TOOL_OK", payload: tool_id };
+export function addToolOk(tool: Tool): ReduxAction<{}> {
+    return { type: "ADD_TOOL_OK", payload: tool };
+}
+
+export function addToolNo(error: AxiosErrorResponse): ErrorPayl {
+    return { type: "ADD_TOOL_NO", payload: error };
+}
+
+export function destroyToolOk(id: number): ReduxAction<{}> {
+    return { type: "DESTROY_TOOL_OK", payload: { id } };
 }
 
 export function destroyToolNo(error: AxiosErrorResponse): ErrorPayl {
@@ -165,28 +173,30 @@ export function destroyToolNo(error: AxiosErrorResponse): ErrorPayl {
 
 export function saveTools(tools: Tool[]): Thunk {
     return (dispatch, getState) => {
-        tools.filter(allTools => !!allTools.dirty).map(dirtyTool => {
-            let url = API.current.toolSlotsPath + dirtyTool.id;
-            axios
-                .put<ToolSlot>(url, dirtyTool)
-                .then(resp => {
-                    dispatch(saveToolSlotOk(resp.data));
-                    success(t("Tools saved."));
-                }, (e: Error) => {
-                    dispatch(saveToolSlotNo(e));
-                    error(prettyPrintApiErrors(e));
-                });
-        });
+        Promise.all(
+            tools.filter(allTools => !!allTools.dirty).map(dirtyTool => {
+                let url = API.current.toolsPath + dirtyTool.id;
+                axios
+                    .put<Tool>(url, dirtyTool)
+                    .then(resp => {
+                        dispatch(saveToolOk(resp.data));
+                    }, (e: Error) => {
+                        dispatch(saveToolNo(e));
+                    });
+            })).then(function () {
+                success(t("Tools saved."));
+            }).catch(function (e: Error) {
+                error(prettyPrintApiErrors(e));
+            });
     };
 }
 
-export function destroyTool(tool_id: number): Thunk {
+export function destroyTool(id: number): Thunk {
     return (dispatch, getState) => {
         axios
-            .delete<Tool>(API.current.toolsPath + tool_id)
+            .delete<Tool>(API.current.toolsPath + id)
             .then(resp => {
-                dispatch(destroyToolOk(tool_id));
-                success(t("Tool deleted."));
+                dispatch(destroyToolOk(id));
             }, (e: Error) => {
                 dispatch(destroyToolNo(e));
                 error(prettyPrintApiErrors(e));
@@ -199,10 +209,9 @@ export function addTool(name: string): Thunk {
         axios
             .post<Tool>(API.current.toolsPath, { name })
             .then(resp => {
-                dispatch(saveToolOk(resp.data));
-                success(t("Tool successfully updated."));
+                dispatch(addToolOk(resp.data));
             }, (e: Error) => {
-                dispatch(saveToolNo(e));
+                dispatch(addToolNo(e));
                 error(prettyPrintApiErrors(e));
             });
     };

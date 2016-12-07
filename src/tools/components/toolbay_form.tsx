@@ -22,6 +22,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.updateToolBayName = this.updateToolBayName.bind(this);
         this.updateToolSlotTool = this.updateToolSlotTool.bind(this);
         this.addToolSlot = this.addToolSlot.bind(this);
+        this.updateToolSelect = this.updateToolSelect.bind(this);
         this.resetState = this.resetState.bind(this);
         this.saveAll = this.saveAll.bind(this);
         this.state = { x: 0, y: 0, z: 0, tool_id: null };
@@ -55,7 +56,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
-        console.log("update tool select");
+        this.setState({ tool_id: parseInt(e.currentTarget.value) });
     }
 
     addToolSlot(tool_bay_id: number) {
@@ -241,11 +242,14 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                             />
                                     </td>
                                     <td>
-                                        <Select value="0"
-                                            onChange={updateToolSelect}>
+                                        <Select onChange={updateToolSelect}
+                                            value={(this.state.tool_id || "0")
+                                                .toString()}>
                                             {tools.all.map((tool, iTool) => {
                                                 iTool++;
-                                                return <option key={iTool}>
+                                                return <option
+                                                    key={iTool}
+                                                    value={tool.id}>
                                                     {tool.name}
                                                 </option>;
                                             })}
