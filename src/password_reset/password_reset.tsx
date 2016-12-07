@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as axios from "axios";
 import { t } from "i18next";
-import { error as log } from "../ui";
+import { error as log, init as logInit } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
 import { PasswordResetState, PasswordResetProps } from "./interfaces";
@@ -19,6 +19,7 @@ export class PasswordReset extends React.Component<PasswordResetProps,
     }
 
     componentDidMount() {
+        logInit();
         API.setBaseUrl(API.fetchBrowserLocation());
         this.setState({
             serverURL: API.fetchHostName(),

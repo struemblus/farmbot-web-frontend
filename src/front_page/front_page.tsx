@@ -2,7 +2,7 @@ import * as React from "react";
 import * as i18next from "i18next";
 import * as axios from "axios";
 import { AuthState } from "../auth/interfaces";
-import { error as log, success } from "../ui";
+import { error as log, success, init as logInit } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
 import { Session } from "../session";
@@ -27,6 +27,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
     }
 
     componentDidMount() {
+        logInit();
         API.setBaseUrl(API.fetchBrowserLocation());
         this.setState({
             serverURL: API.fetchHostName(),
