@@ -49,6 +49,8 @@ let createToast = (title: string, message: string) => {
     toastEl.appendChild(messageEl);
     toastEl.appendChild(loaderEl);
     tc.appendChild(toastEl);
+
+
 };
 
 export function init() {
