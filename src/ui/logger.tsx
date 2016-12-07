@@ -93,7 +93,9 @@ let createToast = (message: string, title: string, color: string) => {
             timer--;
             if (timer <= 0) {
                 clearInterval(int);
-                tc.removeChild(toastEl);
+                if (toastEl && toastEl.parentNode === tc) {
+                    tc.removeChild(toastEl);
+                }
             }
         }
     }, 1000);
