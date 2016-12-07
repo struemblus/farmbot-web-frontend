@@ -72,9 +72,7 @@ let links = [
 export class NavBar extends React.Component<Everything, NavBarState> {
     constructor() {
         super();
-        this.state = {
-            mobileNavExpanded: false
-        };
+        this.state = { mobileNavExpanded: false };
     }
 
     toggleNav() {

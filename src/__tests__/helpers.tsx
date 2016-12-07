@@ -4,6 +4,7 @@ import { ConfigState } from "../config/interfaces";
 import { BotState } from "../devices/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
 import { ToolsState } from "../tools/interfaces";
+import { Log } from "../interfaces";
 
 export class Wrapper extends React.Component<any, any> {
     render() {
@@ -130,7 +131,8 @@ export function fakeState(dispatcher?: Function): Everything {
         tool_bays: [],
         tool_slots: [],
         tools: [],
-        plants: []
+        plants: [],
+        logs: []
     };
 
     let draggable = { dataTransfer: {} };

@@ -19,6 +19,18 @@ import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
 
+export interface Log {
+    id: number;
+    message: string;
+    meta: {
+        type: String[]
+    };
+    channels: String[];
+    device_id: number;
+    created_at: string;
+    updated_at: string;
+}
+
 interface Location {
     /** EX: /app/designer */
     pathname: string;
@@ -69,4 +81,5 @@ export interface Sync {
     tool_bays: ToolBay[];
     tool_slots: ToolSlot[];
     tools: Tool[];
+    logs: Log[];
 }
