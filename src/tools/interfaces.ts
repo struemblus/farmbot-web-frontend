@@ -6,8 +6,9 @@ export interface ToolsState {
     tool_bays: ToolBay[];
     tool_slots: ToolSlot[];
     tools: {
-        isEditing: boolean;
+        isEditing?: boolean;
         all: Tool[];
+        dirty?: boolean;
     };
 }
 
@@ -28,7 +29,7 @@ export interface ToolBayFormState {
     x?: number;
     y?: number;
     z?: number;
-    tool_id?: number;
+    tool_id?: null | number;
 }
 
 export interface ToolFormState {
@@ -39,7 +40,7 @@ export interface ToolFormState {
 export interface ToolSlot {
     id?: number;
     tool_bay_id?: number;
-    tool_id?: number;
+    tool_id?: null | number;
     created_at?: string;
     x?: number;
     y?: number;
@@ -56,6 +57,7 @@ export interface UpdateToolSlotPayl {
 export interface Tool {
     id: number;
     name: string;
+    dirty?: boolean;
 }
 
 /** Actions */

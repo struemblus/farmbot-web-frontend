@@ -20,6 +20,15 @@ export function success(message: string, title = "Success", color = "green") {
     createToast(message, title, color);
 }
 
+export function info(message: string, title = "FYI", color = "blue") {
+    createToast(message, title, color);
+}
+
+export function fun(message: string, title = "Did you know?",
+    color = "dark-blue") {
+    createToast(message, title, color);
+}
+
 let createToast = (message: string, title: string, color: string) => {
     /** Get container */
     let tc = document.querySelector(".toast-container");
@@ -54,20 +63,20 @@ let createToast = (message: string, title: string, color: string) => {
     spinnerLoaderEl.classList.add("toast-loader-spinner");
 
     /** Add events */
-    toastEl.addEventListener("click", function (e: any) {
+    toastEl.addEventListener("click", function(e: any) {
         e.currentTarget.classList.add("poof");
-        setTimeout(function () {
+        setTimeout(function() {
             tc.removeChild(toastEl);
         }, 200);
     });
-    toastEl.addEventListener("mouseenter", function (e: any) {
+    toastEl.addEventListener("mouseenter", function(e: any) {
         let children = e.currentTarget.children[2].children;
         for (let i = 0; i < children.length; i++) {
             children[i].style.animationPlayState = "paused";
         }
         isHovered = true;
     });
-    toastEl.addEventListener("mouseleave", function (e: any) {
+    toastEl.addEventListener("mouseleave", function(e: any) {
         let children = e.currentTarget.children[2].children;
         for (let i = 0; i < children.length; i++) {
             children[i].style.animationPlayState = "running";
@@ -85,15 +94,17 @@ let createToast = (message: string, title: string, color: string) => {
     tc.appendChild(toastEl);
 
     /** Start */
-    let int = setInterval(function () {
+    let int = setInterval(function() {
         if (!isHovered && timer <= 2) {
             toastEl.classList.add("poof");
         }
         if (!isHovered) {
             timer--;
             if (timer <= 0) {
-                tc.removeChild(toastEl);
                 clearInterval(int);
+                if (toastEl && toastEl.parentNode === tc) {
+                    tc.removeChild(toastEl);
+                }
             }
         }
     }, 1000);

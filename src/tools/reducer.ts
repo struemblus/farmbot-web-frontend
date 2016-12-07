@@ -56,6 +56,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         let bay = _.findWhere(s.tool_bays, { id });
         bay.name = name;
         bay.dirty = false;
+        s.editorMode = false;
         return s;
     })
     /** ToolSlots */
@@ -66,6 +67,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<ToolSlot>("SAVE_TOOL_SLOTS_OK", function (s, a) {
         let index = _.findIndex(s.tool_slots, { id: a.payload.id });
         s.tool_slots.splice(index, 1, a.payload);
+        s.editorMode = false;
         return s;
     })
     .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
@@ -85,15 +87,26 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     /** Tools */
-    .add<{ tool_id: number }>("DESTROY_TOOL_OK", function (s, a) {
-        let { tools } = s;
-        let index = _.findIndex(tools.all, { id: a.payload.tool_id });
-        tools.all.splice(index, 1);
+    .add<{ id: number }>("DESTROY_TOOL_OK", function (s, a) {
+        let index = _.findIndex(s.tools.all, { id: a.payload.id });
+        s.tools.all.splice(index, 1);
+        return s;
+    })
+    .add<{ id: number, value: string }>("UPDATE_TOOL", function (s, a) {
+        let tool = _.findWhere(s.tools.all, { id: a.payload.id });
+        tool.name = a.payload.value;
+        tool.dirty = true;
+        s.tools.dirty = true;
+        return s;
+    })
+    .add<Tool>("ADD_TOOL_OK", function (s, a) {
+        let { name, id } = a.payload;
+        s.tools.all.push({ name, id });
         return s;
     })
     .add<Tool>("SAVE_TOOL_OK", function (s, a) {
-        let { name, id } = a.payload;
-        s.tools.all.push({ name, id });
+        s.tools.dirty = false;
+        s.tools.isEditing = false;
         return s;
     });
 

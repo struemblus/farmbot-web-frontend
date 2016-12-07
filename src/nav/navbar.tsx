@@ -68,7 +68,8 @@ let links = [
     { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
-class XNavBar extends React.Component<Everything, NavBarState> {
+@connect((state: Everything) => state)
+export class NavBar extends React.Component<Everything, NavBarState> {
     constructor() {
         super();
         this.state = {
@@ -77,6 +78,7 @@ class XNavBar extends React.Component<Everything, NavBarState> {
     }
 
     toggleNav() {
+        document.body.classList.toggle("freeze"); // Don't let user scroll
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
         });
@@ -127,6 +129,18 @@ class XNavBar extends React.Component<Everything, NavBarState> {
                         </a>
                     </li>
                 </ul>
+                <div className="version-links mobile-only">
+                    <span>API:
+                    <a href="https://github.com/FarmBot/Farmbot-Web-API"
+                            target="_blank">{this.props.sync.api_version}
+                        </a>
+                    </span>
+                    <span>Frontend:
+                    <a href="https://github.com/FarmBot/farmbot-web-frontend"
+                            target="_blank">{process.env.SHORT_REVISION}
+                        </a>
+                    </span>
+                </div>
             </div>
             <SyncButton { ...this.props } />
             <EStopButton { ...this.props } />
@@ -137,5 +151,3 @@ class XNavBar extends React.Component<Everything, NavBarState> {
         </nav>;
     }
 }
-
-export let NavBar = connect((state: Everything) => state)(XNavBar);

@@ -135,10 +135,20 @@ export class Controls extends React.Component<Everything, ControlsState> {
         this.setState({ isEditingCameraURL: !this.state.isEditingCameraURL });
     }
 
+    clearURL() {
+        this.props.dispatch({
+            type: "CHANGE_WEBCAM_URL",
+            payload: "/"
+        });
+        let urlInput = document
+            .querySelector(".webcam-url-input") as HTMLInputElement;
+        urlInput.focus();
+    }
+
     render() {
         let fallback = "/webcam_url_not_set.jpeg";
         let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
-        let url = custom || fallback;
+        let url = custom || fallback || "";
         let dirty = !!this.props.bot.account.dirty;
         let { isEditingCameraURL } = this.state;
         return (
@@ -306,16 +316,20 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <div>
-                                                    {isEditingCameraURL ?
+                                                    {isEditingCameraURL && (
                                                         <div>
                                                             <label>{t("Set Webcam URL:")}</label>
+                                                            <button
+                                                                className="clear-webcam-url-btn"
+                                                                onClick={this.clearURL.bind(this)}>
+                                                                <i className="fa fa-times"></i>
+                                                            </button>
                                                             <input type="text"
                                                                 onChange={updateWebcamUrl(this.props.dispatch)}
-                                                                value={url} />
+                                                                value={url}
+                                                                className="webcam-url-input" />
                                                         </div>
-                                                        :
-                                                        <div>{url}</div>
-                                                    }
+                                                    )}
                                                 </div>
                                                 {showUrl(url, dirty)}
                                             </div>

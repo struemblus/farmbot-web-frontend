@@ -11,8 +11,12 @@ nav {
     height: 100%;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
+    padding: 1rem 2rem 0;
+    margin: 3rem 0 0 0;
     .mobile-menu-extras {
+        display: none;
+    }
+    .mobile-only {
         display: none;
     }
     .page-name {
@@ -36,7 +40,7 @@ nav {
         padding: 0.5rem 1rem;
     }
     a {
-        padding: 2rem 1rem;
+        padding: 1.8rem 1rem;
         color: $gray !important;
         &:hover {
             color: $white !important;
@@ -206,7 +210,27 @@ nav {
             display: block;
             li:last-of-type {
                 position: absolute;
-                bottom: 2rem;
+                bottom: 7rem;
+            }
+        }
+        .mobile-only {
+            display: block;
+        }
+        .version-links {
+            position: absolute;
+            bottom: 0;
+            background: #000;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 2rem 1rem;
+            display: flex;
+            font-size: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            a {
+                text-decoration: underline !important;
             }
         }
         .links {

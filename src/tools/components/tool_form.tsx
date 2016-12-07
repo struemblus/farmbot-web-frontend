@@ -1,6 +1,12 @@
 import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
-import { destroyTool, addTool, stopEditingTools } from "../actions";
+import {
+    destroyTool,
+    addTool,
+    stopEditingTools,
+    updateTool,
+    saveTools
+} from "../actions";
 import { t } from "i18next";
 import {
     Widget,
@@ -14,6 +20,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
         super();
         this.add = this.add.bind(this);
         this.set = this.set.bind(this);
+        this.save = this.save.bind(this);
         this.updateToolName = this.updateToolName.bind(this);
         this.state = { name: "" };
     }
@@ -24,7 +31,12 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     }
 
     updateToolName(e: React.FormEvent<HTMLInputElement>) {
-        this.setState({ name: e.currentTarget.value });
+        let { id, value } = e.currentTarget;
+        this.props.dispatch(updateTool(parseInt(id), value));
+    }
+
+    save() {
+        this.props.dispatch(saveTools(this.props.all.tools.all));
     }
 
     set(e: React.FormEvent<HTMLInputElement>) {
@@ -32,7 +44,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
     }
 
     render() {
-        let { set, add, updateToolName } = this;
+        let { set, add, updateToolName, save } = this;
         let { dispatch } = this.props;
         let { tools } = this.props.all;
         let stopEdit = () => { dispatch(stopEditingTools()); };
@@ -43,8 +55,9 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                     title="TOOLS">
                     <button
                         className="green button-like widget-control"
-                        onClick={stopEdit}>
+                        onClick={() => { save(); } }>
                         {t("SAVE")}
+                        {tools.dirty && ("*")}
                     </button>
                     <button
                         className="gray button-like widget-control"
@@ -68,6 +81,7 @@ export class ToolForm extends React.Component<ListAndFormProps, ToolFormState> {
                                         <BlurableInput
                                             value={name || "Error getting Name"}
                                             onCommit={updateToolName}
+                                            id={id.toString()}
                                             name={index.toString()}
                                             />
                                     </td>

@@ -22,13 +22,14 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         this.updateToolBayName = this.updateToolBayName.bind(this);
         this.updateToolSlotTool = this.updateToolSlotTool.bind(this);
         this.addToolSlot = this.addToolSlot.bind(this);
+        this.updateToolSelect = this.updateToolSelect.bind(this);
         this.resetState = this.resetState.bind(this);
         this.saveAll = this.saveAll.bind(this);
-        this.state = { x: 0, y: 0, z: 0, tool_id: 0 };
+        this.state = { x: 0, y: 0, z: 0, tool_id: null };
     }
 
     resetState() {
-        this.setState({ x: 0, y: 0, z: 0, tool_id: 0 });
+        this.setState({ x: 0, y: 0, z: 0, tool_id: null });
     }
 
     set(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -55,7 +56,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
 
     updateToolSelect(e: React.SyntheticEvent<HTMLSelectElement>) {
-        console.log("update tool select");
+        this.setState({ tool_id: parseInt(e.currentTarget.value) });
     }
 
     addToolSlot(tool_bay_id: number) {
@@ -70,7 +71,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
         dispatch(saveToolBay(tool_bay_id, tool_bays));
     }
 
-    renderTools(tool_id: number | undefined, slot_id: number | undefined) {
+    renderTools(tool_id: number | undefined | null, slot_id: number | undefined) {
         let defaultValue = 0;
         let options = this.props.all.tools.all.map((tool, index) => {
             index++;
@@ -104,7 +105,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="x"
-                        value={(x || "").toString()}
+                        value={(x || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -113,7 +114,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="y"
-                        value={(y || "").toString()}
+                        value={(y || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -122,7 +123,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                         type="number"
                         id={(slot_id || "").toString()}
                         name="z"
-                        value={(z || "").toString()}
+                        value={(z || "0").toString()}
                         onCommit={this.updateCoordinate}
                         />
                 </td>
@@ -218,7 +219,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(x || "").toString()}
+                                            value={(x || "0").toString()}
                                             type="number"
                                             name="x"
                                             onCommit={set}
@@ -226,7 +227,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(y || "").toString()}
+                                            value={(y || "0").toString()}
                                             type="number"
                                             name="y"
                                             onCommit={set}
@@ -234,18 +235,21 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <BlurableInput
-                                            value={(z || "").toString()}
+                                            value={(z || "0").toString()}
                                             type="number"
                                             name="z"
                                             onCommit={set}
                                             />
                                     </td>
                                     <td>
-                                        <Select value="0"
-                                            onChange={updateToolSelect}>
+                                        <Select onChange={updateToolSelect}
+                                            value={(this.state.tool_id || "0")
+                                                .toString()}>
                                             {tools.all.map((tool, iTool) => {
                                                 iTool++;
-                                                return <option key={iTool}>
+                                                return <option
+                                                    key={iTool}
+                                                    value={tool.id}>
                                                     {tool.name}
                                                 </option>;
                                             })}
