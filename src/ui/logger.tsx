@@ -92,8 +92,8 @@ let createToast = (message: string, title: string, color: string) => {
         if (!isHovered) {
             timer--;
             if (timer <= 0) {
-                tc.removeChild(toastEl);
                 clearInterval(int);
+                tc.removeChild(toastEl);
             }
         }
     }, 1000);
