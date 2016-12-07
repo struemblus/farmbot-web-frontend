@@ -1,7 +1,7 @@
 import * as React from "react";
 import { NavBar } from "./nav/navbar";
 import { Everything } from "./interfaces";
-import { init } from "./toastr";
+import { init } from "./ui";
 
 init();
 export default class App extends React.Component<Everything, {}> {
