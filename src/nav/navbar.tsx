@@ -68,7 +68,8 @@ let links = [
     { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
-class XNavBar extends React.Component<Everything, NavBarState> {
+@connect((state: Everything) => state)
+export class NavBar extends React.Component<Everything, NavBarState> {
     constructor() {
         super();
         this.state = {
@@ -150,5 +151,3 @@ class XNavBar extends React.Component<Everything, NavBarState> {
         </nav>;
     }
 }
-
-export let NavBar = connect((state: Everything) => state)(XNavBar);
