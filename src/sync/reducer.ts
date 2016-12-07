@@ -18,7 +18,8 @@ const initialState: Sync = {
     tool_bays: [],
     tool_slots: [],
     tools: [],
-    plants: []
+    plants: [],
+    logs: []
 };
 
 export let syncReducer = generateReducer<Sync>(initialState)
