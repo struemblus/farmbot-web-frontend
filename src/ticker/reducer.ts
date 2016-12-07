@@ -9,7 +9,9 @@ import { get } from "lodash";
 let YELLOW = "#fd6",
     RED = "#e66",
     GREEN = "#6a4",
-    BLUE = "#4286f4";
+    BLUE = "#4286f4",
+    ORANGE = "#e93",
+    PURPLE = "#C68ED2";
 
 function firstPerson(color: string, m: string, show = true) {
     return function (s: TickerState, a: ReduxAction<{}>) {
@@ -47,13 +49,20 @@ export let tickerReducer = generateReducer<TickerState>(initialState)
     firstPerson(GREEN, "done fetching sequences."))
     .add<{}>("FETCH_DEVICE_ERR", change(RED, "Can't connect to MQTT server"))
     .add<{}>("BOT_SYNC_OK", firstPerson(GREEN, "synced"))
-    .add<string>("BOT_ERROR", (s, a) => {
-        return { color: RED, message: a.payload, show: true };
-    })
     .add<RpcBotLog>("BOT_LOG", (s, a) => {
-        if (a.payload.channels.indexOf("ticker") != -1) {
-            return { color: BLUE, message: a.payload.message, show: true };
-        } else {
-            return s;
+        let message = a.payload.message;
+        switch (a.payload.meta.type) {
+            case "success":
+                return { color: GREEN, message: message, show: true };
+            case "busy":
+                return { color: YELLOW, message: message, show: true };
+            case "warn":
+                return { color: ORANGE, message: message, show: true };
+            case "error":
+                return { color: RED, message: message, show: true };
+            case "info":
+                return { color: BLUE, message: message, show: true };
+            case "fun":
+                return { color: PURPLE, message: message, show: true };
         }
     });

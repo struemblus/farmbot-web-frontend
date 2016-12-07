@@ -20,6 +20,8 @@ export interface ListAndFormProps {
 export interface ToolBay {
     id: number;
     name: string;
+    isEditing?: boolean;
+    dirty?: boolean;
 }
 
 export interface ToolBayFormState {
@@ -42,6 +44,13 @@ export interface ToolSlot {
     x?: number;
     y?: number;
     z?: number;
+    dirty?: boolean;
+}
+
+export interface UpdateToolSlotPayl {
+    value: number;
+    name: string;
+    id: number;
 }
 
 export interface Tool {
