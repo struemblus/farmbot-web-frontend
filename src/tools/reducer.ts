@@ -91,6 +91,13 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         tools.all.splice(index, 1);
         return s;
     })
+    .add<{ id: number, value: string }>("UPDATE_TOOL", function (s, a) {
+        let tool = _.findWhere(s.tools.all, { id: a.payload.id });
+        tool.name = a.payload.value;
+        tool.dirty = true;
+        s.tools.dirty = true;
+        return s;
+    })
     .add<Tool>("SAVE_TOOL_OK", function (s, a) {
         let { name, id } = a.payload;
         s.tools.all.push({ name, id });

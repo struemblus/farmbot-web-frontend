@@ -143,6 +143,10 @@ export function destroySlot(id: number): Thunk {
 }
 
 /** Tools */
+export function updateTool(id: number, value: string): ReduxAction<{}> {
+    return { type: "UPDATE_TOOL", payload: { id, value } };
+}
+
 export function saveToolOk(tool: Tool): ReduxAction<{}> {
     return { type: "SAVE_TOOL_OK", payload: tool };
 }
@@ -157,6 +161,23 @@ export function destroyToolOk(tool_id: number): ErrorPayl {
 
 export function destroyToolNo(error: AxiosErrorResponse): ErrorPayl {
     return { type: "DESTROY_TOOL_NO", payload: error };
+}
+
+export function saveTools(tools: Tool[]): Thunk {
+    return (dispatch, getState) => {
+        tools.filter(allTools => !!allTools.dirty).map(dirtyTool => {
+            let url = API.current.toolSlotsPath + dirtyTool.id;
+            axios
+                .put<ToolSlot>(url, dirtyTool)
+                .then(resp => {
+                    dispatch(saveToolSlotOk(resp.data));
+                    success(t("Tools saved."));
+                }, (e: Error) => {
+                    dispatch(saveToolSlotNo(e));
+                    error(prettyPrintApiErrors(e));
+                });
+        });
+    };
 }
 
 export function destroyTool(tool_id: number): Thunk {
