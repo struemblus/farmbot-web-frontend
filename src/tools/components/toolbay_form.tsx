@@ -166,7 +166,10 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                 let tool_bay_id = bay.id;
                 return <Widget key={index}>
                     <WidgetHeader
-                        helpText="Bays are for Tools"
+                        helpText={t(`Toolbays are where you store your FarmBot
+                          Tools. Each Toolbay has Slots that you can put your
+                          Tools in, which should be reflective of your real
+                          FarmBot hardware configuration.`)}
                         title={name}>
                         <button
                             className="green button-like widget-control"
@@ -253,7 +256,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                                     </td>
                                     <td>
                                         <button
-                                            className={`button-like 
+                                            className={`button-like
                                                     widget-control green`}
                                             onClick={() => addToolSlot(
                                                 tool_bay_id
