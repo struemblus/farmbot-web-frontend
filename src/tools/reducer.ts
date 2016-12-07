@@ -56,6 +56,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         let bay = _.findWhere(s.tool_bays, { id });
         bay.name = name;
         bay.dirty = false;
+        s.editorMode = false;
         return s;
     })
     /** ToolSlots */
@@ -66,6 +67,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     .add<ToolSlot>("SAVE_TOOL_SLOTS_OK", function (s, a) {
         let index = _.findIndex(s.tool_slots, { id: a.payload.id });
         s.tool_slots.splice(index, 1, a.payload);
+        s.editorMode = false;
         return s;
     })
     .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
@@ -104,6 +106,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     })
     .add<Tool>("SAVE_TOOL_OK", function (s, a) {
         s.tools.dirty = false;
+        s.tools.isEditing = false;
         return s;
     });
 

@@ -185,6 +185,7 @@ export function saveTools(tools: Tool[]): Thunk {
                     });
             })).then(function () {
                 success(t("Tools saved."));
+                dispatch(stopEditingTools());
             }).catch(function (e: Error) {
                 error(prettyPrintApiErrors(e));
             });
