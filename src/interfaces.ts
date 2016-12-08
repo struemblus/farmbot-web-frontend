@@ -23,9 +23,9 @@ export interface Log {
     id: number;
     message: string;
     meta: {
-        type: String[]
+        type: string;
     };
-    channels: String[];
+    channels: string;
     device_id: number;
     created_at: string;
     updated_at: string;

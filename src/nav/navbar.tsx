@@ -3,7 +3,12 @@ import { Link } from "react-router";
 import { sync } from "../devices/actions";
 import { Ticker } from "../ticker/ticker";
 import { Everything } from "../interfaces";
-import { NavButtonProps, DropDownProps, NavBarState } from "./interfaces";
+import {
+    NavButtonProps,
+    DropDownProps,
+    NavBarState,
+    TickerListProps
+} from "./interfaces";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
@@ -67,6 +72,27 @@ let links = [
     },
     { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
+
+function toggleLogs() {
+    document.body.classList.toggle("logs-open");
+    document.body.classList.toggle("freeze");
+};
+
+let TickerList = ({sync}: TickerListProps) => {
+    return <div className="ticker-list"
+        onMouseEnter={() => { toggleLogs(); } }
+        onMouseLeave={() => { toggleLogs(); } }>
+        {sync.logs.map((log, index) => {
+            return <div key={index}
+                className="status-ticker-wrapper">
+                <div className={`saucer ${log.meta.type}`} />
+                <label className="status-ticker-message">
+                    {log.message || t("Loading")}
+                </label>
+            </div>;
+        })}
+    </div>;
+};
 
 @connect((state: Everything) => state)
 export class NavBar extends React.Component<Everything, NavBarState> {
@@ -142,7 +168,8 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             </div>
             <SyncButton { ...this.props } />
             <EStopButton { ...this.props } />
-            <Ticker { ...this.props } />
+            <Ticker {...this.props} />
+            <TickerList {...this.props} />
             <DropDown onClick={this.logout.bind(this)} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}
                 onClick={this.toggleNav.bind(this)}></div>

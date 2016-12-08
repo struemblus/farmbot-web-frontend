@@ -15,11 +15,11 @@ export class SpeciesInfo extends React.Component<Everything, any> {
 
     drop(e: React.MouseEvent<any>) {
 
-        let box = document.querySelector("#drop-area > svg > rect");
-        if (!box) {
+        let el = document.querySelector("#drop-area > svg > rect");
+        if (!el) {
             throw new Error("why");
         } else {
-            box.getBoundingClientRect();
+            let box = el.getBoundingClientRect();
 
             let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.bottom);
             // TEMPORARY SOLUTION =======

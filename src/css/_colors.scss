@@ -70,37 +70,51 @@ $darkest_red: #900;
 }
 
 .dark-gray {
-    background-color: $dark_gray;
+    background-color: $dark_gray !important;
 }
 
 .light-gray {
-    background-color: $gray;
+    background-color: $gray !important;
 }
 
 .black {
-    background-color: $black;
+    background-color: $black !important;
 }
 
 .brown {
-    background-color: $brown;
+    background-color: $brown !important;
 }
 
-.green {
-    background: $green;
+.green,
+.success {
+    background: $green !important;
 }
 
 .red {
-    background: $red;
+    background: $red !important;
 }
 
-.yellow {
-    background: $yellow;
+.dark-red,
+.error {
+    background: $dark_red !important;
 }
 
-.blue {
-    background: $blue;
+.dark-orange,
+.warn {
+    background: $dark_orange !important;
 }
 
-.dark-blue {
-    background: $dark_blue;
+.yellow,
+.busy {
+    background: $yellow !important;
+}
+
+.blue,
+.info {
+    background: $blue !important;
+}
+
+.dark-blue,
+.fun {
+    background: $dark_blue !important;
 }
