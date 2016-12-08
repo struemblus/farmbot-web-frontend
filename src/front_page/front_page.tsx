@@ -47,9 +47,13 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
         e.preventDefault();
         let { email, loginPassword, showServerOpts } = this.state;
         let payload = { user: { email, password: loginPassword } };
+        let url: string;
         if (showServerOpts) {
-            API.setBaseUrl(API.fetchBrowserLocation());
+            url = `//${this.state.serverURL}:${this.state.serverPort}`;
+        } else {
+            url = API.fetchBrowserLocation();
         }
+        API.setBaseUrl(url);
         axios.post<AuthState>(API.current.tokensPath, payload)
             .then(resp => {
                 Session.put(resp.data);
