@@ -2,6 +2,7 @@ var path = require('path'),
     exec = require('child_process').exec,
     execSync = require('child_process').execSync,
     webpack = require('webpack');
+
 var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 var revisionPlugin = new webpack.DefinePlugin({
@@ -12,6 +13,10 @@ var revisionPlugin = new webpack.DefinePlugin({
 var shortRevisionPlugin = new webpack.DefinePlugin({
     'process.env.SHORT_REVISION': JSON.stringify(execSync(
         'git log --pretty=format:"%h" -1').toString())
+});
+
+var npmAddons = new webpack.DefinePlugin({
+    'process.env.NPM_ADDON': JSON.stringify(process.env.NPM_ADDON || false).toString()
 });
 
 module.exports = function() {
@@ -49,6 +54,7 @@ module.exports = function() {
         plugins: [
             revisionPlugin,
             shortRevisionPlugin,
+            npmAddons,
             new StaticSiteGeneratorPlugin("app-index", "/app/", {
                 templateName: "app_index"
             }),
