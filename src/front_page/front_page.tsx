@@ -71,8 +71,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             }
         };
         axios.post<AuthState>(API.current.usersPath, form).then(resp => {
-            Session.put(resp.data);
-            window.location.replace("/app/controls");
+            let m = "Almost done! Check your email for the verification link.";
+            success(i18next.t(m));
         }).catch(error => {
             log(prettyPrintApiErrors(error));
         });
