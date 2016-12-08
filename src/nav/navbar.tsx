@@ -73,15 +73,11 @@ let links = [
     { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
-function toggleLogs() {
-    document.body.classList.toggle("logs-open");
-    document.body.classList.toggle("freeze");
-};
-
 let TickerList = ({sync}: TickerListProps) => {
     return <div className="ticker-list"
-        onMouseEnter={() => { toggleLogs(); } }
-        onMouseLeave={() => { toggleLogs(); } }>
+        onMouseEnter={() => { document.body.classList.toggle("freeze"); } }
+        onMouseLeave={() => { document.body.classList.toggle("freeze"); } }
+        >
         {sync.logs.map((log, index) => {
             return <div key={index}
                 className="status-ticker-wrapper">
@@ -99,6 +95,8 @@ export class NavBar extends React.Component<Everything, NavBarState> {
     constructor() {
         super();
         this.state = { mobileNavExpanded: false };
+        this.toggleNav = this.toggleNav.bind(this);
+        this.logout = this.logout.bind(this);
     }
 
     toggleNav() {
@@ -116,9 +114,10 @@ export class NavBar extends React.Component<Everything, NavBarState> {
     render() {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
         let pageName = this.props.location.pathname.split("/").pop() || "";
+        let { toggleNav, logout } = this;
         return <nav role="navigation">
             <button
-                onClick={this.toggleNav.bind(this)}>
+                onClick={() => { toggleNav; } }>
                 <i className="fa fa-bars"></i>
             </button>
             <span className="page-name">{pageName}</span>
@@ -128,7 +127,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         return (
                             <li key={link.url}>
                                 <Link to={link.url}
-                                    onClick={this.toggleNav.bind(this)}
+                                    onClick={() => { toggleNav; } }
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
@@ -143,12 +142,12 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 <ul className="mobile-menu-extras">
                     <li>
                         <Link to="/app/account"
-                            onClick={this.toggleNav.bind(this)}>
+                            onClick={() => { toggleNav; } }>
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
                     <li>
-                        <a onClick={this.logout.bind(this)}>
+                        <a onClick={logout}>
                             <i className="fa fa-sign-out"></i>{t("Logout")}
                         </a>
                     </li>
@@ -170,9 +169,9 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             <EStopButton { ...this.props } />
             <Ticker {...this.props} />
             <TickerList {...this.props} />
-            <DropDown onClick={this.logout.bind(this)} { ...this.props } />
+            <DropDown onClick={logout} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}
-                onClick={this.toggleNav.bind(this)}></div>
+                onClick={toggleNav}></div>
         </nav>;
     }
 }
