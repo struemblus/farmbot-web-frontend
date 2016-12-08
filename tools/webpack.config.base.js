@@ -18,14 +18,14 @@ module.exports = function() {
     return {
         module: {
             loaders: [{
-                    test: /\.tsx?$/,
-                    exclude: /(node_modules)/,
-                    loader: 'ts'
-                },
-                {
-                    test: /\.hbs$/,
-                    loader: 'handlebars-loader'
-                }
+                test: /\.tsx?$/,
+                exclude: /(node_modules)/,
+                loader: 'ts'
+            },
+            {
+                test: /\.hbs$/,
+                loader: 'handlebars-loader'
+            }
             ],
         },
         entry: {
@@ -35,6 +35,7 @@ module.exports = function() {
             'app-index': './src/static/app_index.ts',
             'front_page': './src/front_page/index.tsx',
             'password-reset': './src/static/password_reset.ts',
+            'verify': './src/static/verify.ts',
             'password_reset': './src/password_reset/index.tsx'
         },
         output: {

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Everything } from "../interfaces";
-import { ConfigState } from "../config/interfaces";
-import { BotState } from "../devices/interfaces";
-import { PeripheralState } from "../controls/peripherals/interfaces";
-import { ToolsState } from "../tools/interfaces";
-import { Log } from "../interfaces";
+import { Everything } from "./interfaces";
+import { ConfigState } from "./config/interfaces";
+import { BotState } from "./devices/interfaces";
+import { PeripheralState } from "./controls/peripherals/interfaces";
+import { ToolsState } from "./tools/interfaces";
+import { Log } from "./interfaces";
 
 export class Wrapper extends React.Component<any, any> {
     render() {
