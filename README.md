@@ -31,7 +31,9 @@ If you would like to report a problem with the web app, please [submit an issue]
 
 # Want to Help?
 
-[Low Hanging Fruit](https://github.com/FarmBot/farmbot-web-frontend/search?l=typescript&q=TODO&utf8=%E2%9C%93)
+Check out the [Low Hanging Fruit](https://github.com/FarmBot/farmbot-web-frontend/search?l=typescript&q=TODO&utf8=%E2%9C%93).
+
+Also, if you're experiencing UI/UX issues, please include any possible specifications (device type, device OS, and device browser) to help in the debugging process. Bonus points for GIFs and screenshots :fist:
 
 # Translating the app into your language
 Thanks for your interest in internationalizing the FarmBot web app! To add translations:
