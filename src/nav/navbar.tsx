@@ -117,7 +117,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         let { toggleNav, logout } = this;
         return <nav role="navigation">
             <button
-                onClick={() => { toggleNav; } }>
+                onClick={toggleNav}>
                 <i className="fa fa-bars"></i>
             </button>
             <span className="page-name">{pageName}</span>
@@ -127,7 +127,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         return (
                             <li key={link.url}>
                                 <Link to={link.url}
-                                    onClick={() => { toggleNav; } }
+                                    onClick={toggleNav}
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
@@ -142,7 +142,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 <ul className="mobile-menu-extras">
                     <li>
                         <Link to="/app/account"
-                            onClick={() => { toggleNav; } }>
+                            onClick={toggleNav}>
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
