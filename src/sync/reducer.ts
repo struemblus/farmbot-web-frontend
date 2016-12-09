@@ -26,7 +26,7 @@ const initialState: Sync = {
 export let syncReducer = generateReducer<Sync>(initialState)
     .add<Log>("BOT_LOG", function(state, { payload }) {
         state.logs.unshift(payload);
-        state.logs = _(state.logs).uniq(false).take(50).value();
+        state.logs = _.take(_.uniq(state.logs, JSON.stringify), 50);
         return state;
     })
     .add<Sync>("FETCH_SYNC_OK", function(s, a) {
