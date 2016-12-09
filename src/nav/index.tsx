@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { sync } from "../devices/actions";
-import { Ticker } from "../ticker";
 import { Everything } from "../interfaces";
 import {
     NavButtonProps,
@@ -181,7 +180,6 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             </div>
             <SyncButton { ...this.props } />
             <EStopButton { ...this.props } />
-            <Ticker {...this.props} />
             <TickerList {...this.props} />
             <DropDown onClick={logout} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}

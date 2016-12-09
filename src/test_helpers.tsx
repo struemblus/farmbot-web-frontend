@@ -171,7 +171,6 @@ export function fakeState(dispatcher?: Function): Everything {
         , designer
         , dispatch
         , bot
-        , ticker
         , sequences
         , regimens
         , bulkScheduler

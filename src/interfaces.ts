@@ -1,7 +1,6 @@
 import { AuthState, User } from "./auth/interfaces";
 import { ConfigState } from "./config/interfaces";
 import { BotState, DeviceAccountSettings } from "./devices/interfaces";
-import { TickerState } from "./ticker/interfaces";
 import { BulkSchedulerState } from "./regimens/bulk_scheduler/interfaces";
 import {
     RegimensState,
@@ -53,7 +52,6 @@ export interface Everything {
     designer: DesignerState;
     dispatch: Function;
     bot: BotState;
-    ticker: TickerState;
     sequences: SequenceReducerState;
     regimens: RegimensState;
     bulkScheduler: BulkSchedulerState;
