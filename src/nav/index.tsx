@@ -81,7 +81,7 @@ let TickerList = ({sync}: TickerListProps) => {
         onMouseEnter={() => { document.body.classList.toggle("freeze"); } }
         onMouseLeave={() => { document.body.classList.toggle("freeze"); } }>
         {sync.logs.map((log, index) => {
-            /** TODO: This should be refactored to user the Ticker component,
+            /** TODO: This should be refactored to reuse the Ticker component,
              * the tickers in the list get their information just slightly
              * different, as well as their styles.
              */
