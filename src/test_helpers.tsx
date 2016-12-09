@@ -90,12 +90,6 @@ export function fakeState(dispatcher?: Function): Everything {
         all: []
     };
 
-    let ticker = {
-        message: "Inside test suite",
-        color: "red",
-        show: true
-    };
-
     let bulkScheduler = {
         currentRegimen: 0,
         form: {
