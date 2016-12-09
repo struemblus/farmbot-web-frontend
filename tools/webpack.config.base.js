@@ -23,14 +23,18 @@ module.exports = function() {
     return {
         module: {
             loaders: [{
-                test: /\.tsx?$/,
-                exclude: /(node_modules)/,
-                loader: 'ts'
-            },
-            {
-                test: /\.hbs$/,
-                loader: 'handlebars-loader'
-            }
+                    test: /\.tsx?$/,
+                    exclude: /(node_modules)/,
+                    loader: 'ts'
+                },
+                {
+                    test: /\.hbs$/,
+                    loader: 'handlebars'
+                },
+                {
+                    test: /\.json$/,
+                    loader: 'json'
+                }
             ],
         },
         entry: {

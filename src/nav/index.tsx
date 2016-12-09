@@ -13,6 +13,7 @@ import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";
+import { Markdown } from "../ui";
 import * as moment from "moment";
 
 let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
@@ -92,7 +93,7 @@ let TickerList = ({sync}: TickerListProps) => {
             return <div key={index} className="status-ticker-wrapper">
                 <div className={`saucer ${log.meta.type}`} />
                 <label className="status-ticker-message">
-                    {log.message || t("Loading")}
+                    <Markdown>{log.message + " and a link <a href='blah'>Cat video</a> :sunglasses:"}</Markdown>
                 </label>
                 <label className="status-ticker-created-at">
                     {time}
