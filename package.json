@@ -10,7 +10,7 @@
   "scripts": {
     "build": "node_modules/webpack/bin/webpack.js --config tools/webpack.config.prd.js --display-error-details",
     "start": "webpack-dev-server --config tools/webpack.config.dev.js --content-base public/ --host 0.0.0.0",
-    "test": "karma start karma.config.js"
+    "test": "jest --coverage --no-cache"
   },
   "keywords": [
     "farmbot"
@@ -48,7 +48,6 @@
     "moxios": "^0.3.0",
     "node-sass": "^3.10.0",
     "react": "^15.0.0",
-    "react-addons-test-utils": "^15.2.1",
     "react-dom": "^15.0.0",
     "react-redux": "^4.4.1",
     "react-router": "^2.0.1",
@@ -62,5 +61,31 @@
     "tslint": "^3.15.1",
     "typescript": "^2.1.4",
     "webpack": "^1.12.11"
+  },
+  "devDependencies": {
+    "@types/enzyme": "^2.5.39",
+    "@types/jest": "^16.0.1",
+    "enzyme": "^2.6.0",
+    "jest": "^17.0.3",
+    "ts-jest": "^17.0.3"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "testResultsProcessor": "<rootDir>/node_modules/ts-jest/coverageprocessor.js",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageReporters": [
+      "html"
+    ]
   }
 }
