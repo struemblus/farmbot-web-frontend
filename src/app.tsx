@@ -1,5 +1,5 @@
 import * as React from "react";
-import { NavBar } from "./nav/navbar";
+import { NavBar } from "./nav";
 import { Everything } from "./interfaces";
 import { init } from "./ui";
 

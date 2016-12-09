@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { sync } from "../devices/actions";
-import { Ticker } from "../ticker/ticker";
+import { Ticker } from "../ticker";
 import { Everything } from "../interfaces";
 import {
     NavButtonProps,
@@ -76,16 +76,26 @@ let links = [
 
 let TickerList = ({sync}: TickerListProps) => {
     return <div className="ticker-list"
+        /** Don't let user scroll when ticker list is shown */
         onMouseEnter={() => { document.body.classList.toggle("freeze"); } }
         onMouseLeave={() => { document.body.classList.toggle("freeze"); } }>
         {sync.logs.map((log, index) => {
+            /** TODO: This should be refactored to user the Ticker component,
+             * the tickers in the list get their information just slightly
+             * different, as well as their styles.
+             */
+            let time = moment.utc(log.created_at).format("HH:mma");
+            /** If the first number is 0, ditch it. */
+            if (time.charAt(0) === "0") {
+                time = time.substr(1);
+            }
             return <div key={index} className="status-ticker-wrapper">
                 <div className={`saucer ${log.meta.type}`} />
                 <label className="status-ticker-message">
                     {log.message || t("Loading")}
                 </label>
                 <label className="status-ticker-created-at">
-                    {moment.utc(log.created_at).format("H:mma")}
+                    {time}
                 </label>
             </div>;
         })}
@@ -102,7 +112,8 @@ export class NavBar extends React.Component<Everything, NavBarState> {
     }
 
     toggleNav() {
-        document.body.classList.toggle("freeze"); // Don't let user scroll
+        /** Don't let user scroll when nav is open */
+        document.body.classList.toggle("freeze");
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
         });
@@ -119,7 +130,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         let { toggleNav, logout } = this;
         return <nav role="navigation">
             <button
-                onClick={toggleNav}>
+                onClick={() => { toggleNav; } }>
                 <i className="fa fa-bars"></i>
             </button>
             <span className="page-name">{pageName}</span>
@@ -129,7 +140,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         return (
                             <li key={link.url}>
                                 <Link to={link.url}
-                                    onClick={toggleNav}
+                                    onClick={() => { toggleNav; } }
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
@@ -144,7 +155,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 <ul className="mobile-menu-extras">
                     <li>
                         <Link to="/app/account"
-                            onClick={toggleNav}>
+                            onClick={() => { toggleNav; } }>
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
@@ -173,7 +184,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             <TickerList {...this.props} />
             <DropDown onClick={logout} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}
-                onClick={toggleNav}></div>
+                onClick={() => { toggleNav; } }></div>
         </nav>;
     }
 }
