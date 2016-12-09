@@ -77,6 +77,7 @@ var HelperNamespace = (function(){
             });
 
             var ordered = {};
+            var fileContent;
             try{ 
                 //check the file can be openned
                 var stats = fs.statSync(langFilePath);
@@ -85,23 +86,30 @@ var HelperNamespace = (function(){
                 var fileContent = fs.readFileSync(langFilePath, 'utf8');
                 console.log("Current file content: ");
                 console.log(fileContent);
-
-                var jsonContent = fileContent
-                    .replace("module.exports = ", "")
-                    //regex to delete all comments // and :* in the JSON file
-                    .replace(/(\/\*(\n|\r|.)*\*\/)|(\/\/.*(\n|\r))/g, "");
-
-                var jsonParsed = JSON.parse(jsonContent);
-
-                Object.keys(jsonParsed).sort().forEach(function(key) {
-                    ordered[key] = jsonParsed[key];
-                });
             }  
             catch(e) { // do this 
-                console.log("file: "+langFilePath+" does not exists or error:"+e);
+                console.log("we will create the file: "+langFilePath);
+                //If there is no current file, we will create it 
+            };
+
+            try{
+                if(fileContent != undefined){
+                    var jsonContent = fileContent
+                        .replace("module.exports = ", "")
+                        //regex to delete all comments // and :* in the JSON file
+                        .replace(/(\/\*(\n|\r|.)*\*\/)|(\/\/.*(\n|\r))/g, "");
+
+                    var jsonParsed = JSON.parse(jsonContent);
+
+                    Object.keys(jsonParsed).sort().forEach(function(key) {
+                        ordered[key] = jsonParsed[key];
+                    });
+                }
+            }catch(e){
+                console.log("file: "+langFilePath+" contains an error: "+e);
                 //If there is an error with the current file content, abort 
                 return;
-            };
+            }
 
             // merge new tags with existing translation
             var result = {};
@@ -138,6 +146,6 @@ var HelperNamespace = (function(){
         createOrUpdateTranslationFile: createOrUpdateTranslationFile }; 
 })();
 
-// Need to run this cmd in this folder: node helper.js
-HelperNamespace.createOrUpdateTranslationFile('fr')
+// Need to run this cmd in this folder: node _helper.js
+HelperNamespace.createOrUpdateTranslationFile('es')
 
