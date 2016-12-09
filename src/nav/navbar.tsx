@@ -76,14 +76,15 @@ let links = [
 let TickerList = ({sync}: TickerListProps) => {
     return <div className="ticker-list"
         onMouseEnter={() => { document.body.classList.toggle("freeze"); } }
-        onMouseLeave={() => { document.body.classList.toggle("freeze"); } }
-        >
+        onMouseLeave={() => { document.body.classList.toggle("freeze"); } }>
         {sync.logs.map((log, index) => {
-            return <div key={index}
-                className="status-ticker-wrapper">
+            return <div key={index} className="status-ticker-wrapper">
                 <div className={`saucer ${log.meta.type}`} />
                 <label className="status-ticker-message">
                     {log.message || t("Loading")}
+                </label>
+                <label className="status-ticker-created-at">
+                    {log.created_at}
                 </label>
             </div>;
         })}

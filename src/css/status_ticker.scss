@@ -38,6 +38,10 @@ nav>.status-ticker-wrapper {
             transition: all 0.4s ease-in-out;
             opacity: 1 !important;
         }
+        .status-ticker-created-at {
+            transition: all 0.4s ease-in-out;
+            opacity: 1 !important;
+        }
         transition: all 0.4s ease-in-out;
         padding: 5rem 0;
         height: 22rem;
@@ -84,6 +88,14 @@ nav>.status-ticker-wrapper {
             width: 1.4rem;
             height: 1.4rem;
             vertical-align: middle;
+            opacity: 0;
+        }
+        .status-ticker-created-at {
+            transition: all 0.4s ease-in-out;
+            float: right;
+            color: $white;
+            text-transform: none;
+            font-weight: 300;
             opacity: 0;
         }
     }
