@@ -13,6 +13,7 @@ import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";
+import * as moment from "moment";
 
 let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
     if (!auth) { return <span></span>; }
@@ -84,7 +85,7 @@ let TickerList = ({sync}: TickerListProps) => {
                     {log.message || t("Loading")}
                 </label>
                 <label className="status-ticker-created-at">
-                    {log.created_at}
+                    {moment.utc(log.created_at).format("H:mma")}
                 </label>
             </div>;
         })}
