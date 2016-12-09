@@ -101,7 +101,7 @@
 
 .toast-loader-right {
     right: 0;
-    background: #666;
+    background: #666 !important;
     z-index: 1;
     opacity: 0;
     animation: show-hide 6s infinite steps(1, end) reverse;
