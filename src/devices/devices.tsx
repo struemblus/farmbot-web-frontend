@@ -17,7 +17,6 @@ import {
     reboot,
     powerOff,
     checkArduinoUpdates,
-    clearLogs,
     updateConfig
 } from "./actions";
 import { t } from "i18next";
@@ -517,56 +516,6 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-10 col-sm-12 col-xs-12 col-md-offset-1">
-                                    <div>
-                                        <div className="widget-wrapper">
-                                            <div className="row">
-                                                <div className="col-sm-12">
-                                                    <div className="row">
-                                                        <div className="col-sm-12">
-                                                            <button type="submit"
-                                                                className="button-like green widget-control"
-                                                                onClick={() => this.props.dispatch(clearLogs())}>
-                                                                {t("Clear Logs")}
-                                                            </button>
-                                                            <div className="widget-header">
-                                                                <h5>{t("Logs")}</h5>
-                                                                <i className="fa fa-question-circle widget-help-icon">
-                                                                    <div className="widget-help-text">{t(`All messages from
-                                your FarmBot are shown in these logs. Note: these
-                                are not currently saved anywhere so if you refresh
-                                the app this table will be cleared.`)}</div>
-                                                                </i>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="row">
-                                                        <div className="col-sm-12">
-                                                            <table>
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th width="15%">
-                                                                            <label>{t("TIME")}</label>
-                                                                        </th>
-                                                                        <th width="75%">
-                                                                            <label>{t("MESSAGE")}</label>
-                                                                        </th>
-                                                                        <th width="10%">
-                                                                            <label>{t("COORDINATES")}</label>
-                                                                        </th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <Logs logs={this.props.bot.logQueue} />
                                                             </table>
                                                         </div>
                                                     </div>
