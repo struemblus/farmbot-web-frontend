@@ -1,18 +1,21 @@
 import * as React from "react";
-import { shallow } from "enzyme";
+import { mount } from "enzyme";
 import { ChangePassword } from "../change_password";
 import { ChangePwPropTypes } from "../../interfaces";
 
-test("<ChangePassword/>", function() {
-    it("renders", function() {
+describe("<ChangePassword/>", function() {
+    it("saves", function() {
         let props: ChangePwPropTypes = {
             password: "wow",
             new_password: "wow",
             new_password_confirmation: "wow",
-            set: function() { },
-            save: function() { }
+            set: jest.fn(),
+            save: jest.fn()
         };
-        let dom = shallow(<ChangePassword {...props} />);
-        expect(dom.text()).toContain("password");
+        let dom = mount(<ChangePassword {...props} />);
+        expect(props.save).not.toHaveBeenCalled();
+        dom.find("button").simulate("click");
+        expect(props.save).toHaveBeenCalled();
+        expect(dom.html()).toContain("password");
     });
 });
