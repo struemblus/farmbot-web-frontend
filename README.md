@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/FarmBot/farmbot-web-frontend.svg?branch=master)](https://travis-ci.org/FarmBot/farmbot-web-frontend)
+
 # Do I need this?
 
 This repository is intended for *software developers* who wish to modify the frontend of the FarmBot Web App or host it on their own server. **If you are not a developer**, you are highly encouraged to use the free hosted web app at [my.farmbot.io](http://my.farmbot.io/).
