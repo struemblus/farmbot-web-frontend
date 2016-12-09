@@ -93,7 +93,7 @@ let TickerList = ({sync}: TickerListProps) => {
             return <div key={index} className="status-ticker-wrapper">
                 <div className={`saucer ${log.meta.type}`} />
                 <label className="status-ticker-message">
-                    <Markdown>{log.message + " and a link <a href='blah'>Cat video</a> :sunglasses:"}</Markdown>
+                    <Markdown>{log.message}</Markdown>
                 </label>
                 <label className="status-ticker-created-at">
                     {time}
