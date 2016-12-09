@@ -15,17 +15,9 @@ export function handleIncomingBotNotification(msg: Notification<any>,
             beep();
             break;
         case "log_message":
-            handleLogMessage(dispatch, (msg as Notification<[RpcBotLog]>));
-            break;
-        case "log_dump":
-            dispatch(logDump(msg as Notification<RpcBotLog[]>));
+            dispatch(logNotification(msg));
             break;
     };
-}
-
-function handleLogMessage(dispatch: Function,
-    message: Notification<[RpcBotLog]>) {
-    dispatch(logNotification(message));
 }
 
 function statusUpdate(statusMessage: Notification<[HardwareState]>) {
