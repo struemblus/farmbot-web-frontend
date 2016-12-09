@@ -7,6 +7,8 @@ import { ready } from "./config/actions";
 import { detectLanguage } from "./i18n";
 import * as i18next from "i18next";
 
+if (process.env.NPM_ADDON) { require(process.env.NPM_ADDON); }
+
 let r = (process.env.REVISION as string) || "REVISION INFO NOT AVAILABLE";
 console.log(r);
 

@@ -24,10 +24,11 @@ If you would like to report a problem with the web app, please [submit an issue]
 
 **NOTE:** The [Web API](https://github.com/FarmBot/Farmbot-Web-API) deployment will automatically build the latest version of the frontend and mount it in the web server. The instructions below are intended for reference purposes, or for users who wish to host their frontend code on a different server than their API.
 
-1. run `npm run build`
-2. Copy the contents of `/app` into your webserver and it will be accessible via `/`.
-3. Visit `/` on your web server to verify installation.
-4. [Submit an issue](https://github.com/FarmBot/farmbot-web-frontend/issues/new?title=Installation%20Failure) if you hit problems during the installation.
+1. (optional, usually not needed) If you have an NPM module that needs to get baked into the build, pass the NPM modules name in as `NPM_ADDON=foo`
+2. run `npm run build`
+3. Copy the contents of `/app` into your webserver and it will be accessible via `/`.
+4. Visit `/` on your web server to verify installation.
+5. [Submit an issue](https://github.com/FarmBot/farmbot-web-frontend/issues/new?title=Installation%20Failure) if you hit problems during the installation.
 
 # Want to Help?
 
