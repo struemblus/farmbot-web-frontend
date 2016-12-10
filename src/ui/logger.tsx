@@ -60,10 +60,11 @@ let createToast = (message: string, title: string, color: string) => {
         messageEl.classList.add("toast-message");
         loaderEl.classList.add("toast-loader");
         leftLoaderEl.classList.add("toast-loader-right");
-        leftLoaderEl.classList.add(color);
+        // leftLoaderEl.classList.add(color);
         rightLoaderEl.classList.add("toast-loader-left");
-        rightLoaderEl.classList.add(color);
+        // rightLoaderEl.classList.add(color);
         spinnerLoaderEl.classList.add("toast-loader-spinner");
+        spinnerLoaderEl.classList.add(color);
 
         /** Add events */
         toastEl.addEventListener("click", function (e: any) {
@@ -109,7 +110,7 @@ let createToast = (message: string, title: string, color: string) => {
                 toastEl.classList.add("poof");
             }
             if (!isHovered) {
-                timer--;
+                // timer--;
                 if (timer <= 0) {
                     clearInterval(int);
                     if (toastEl && toastEl.parentNode === tc) {
