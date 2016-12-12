@@ -20,6 +20,11 @@ body {
     max-width: 160rem;
 }
 
+.page:not(.all-content-wrapper) {
+    padding: 3rem 0 0;
+    display: flex;
+}
+
 @media (max-width: 767px) {
     .all-content-wrapper {
         padding: 2.5rem 0rem 0rem 0rem;

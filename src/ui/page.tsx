@@ -5,7 +5,7 @@ interface PageProps {
 }
 
 export function Page(props: PageProps) {
-    return <div className="all-content-wrapper">
+    return <div className="all-content-wrapper page">
         {props.children}
     </div>;
 }
