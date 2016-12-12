@@ -6,12 +6,10 @@ import { store } from "./redux/store";
 import { ready } from "./config/actions";
 import { detectLanguage } from "./i18n";
 import * as i18next from "i18next";
-
-if (process.env.NPM_ADDON) { require(process.env.NPM_ADDON); }
+import "./npm_addons";
 
 let r = (process.env.REVISION as string) || "REVISION INFO NOT AVAILABLE";
 console.log(r);
-
 
 detectLanguage().then((config) => {
     i18next.init(config, (err, t) => {
