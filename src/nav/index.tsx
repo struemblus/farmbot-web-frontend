@@ -113,6 +113,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
 
     toggleNav() {
         /** Don't let user scroll when nav is open */
+        console.log("NAVTOGGLE");
         document.body.classList.toggle("freeze");
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
@@ -130,7 +131,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         let { toggleNav, logout } = this;
         return <nav role="navigation">
             <button
-                onClick={() => { toggleNav; } }>
+                onClick={() => { toggleNav(); } }>
                 <i className="fa fa-bars"></i>
             </button>
             <span className="page-name">{pageName}</span>
@@ -140,7 +141,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         return (
                             <li key={link.url}>
                                 <Link to={link.url}
-                                    onClick={() => { toggleNav; } }
+                                    onClick={() => { toggleNav(); } }
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
@@ -155,7 +156,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 <ul className="mobile-menu-extras">
                     <li>
                         <Link to="/app/account"
-                            onClick={() => { toggleNav; } }>
+                            onClick={() => { toggleNav(); } }>
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
@@ -183,7 +184,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             <TickerList {...this.props} />
             <DropDown onClick={logout} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}
-                onClick={() => { toggleNav; } }></div>
+                onClick={() => { toggleNav(); } }></div>
         </nav>;
     }
 }
