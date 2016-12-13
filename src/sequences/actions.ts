@@ -145,6 +145,7 @@ export function saveSequence(sequence: Sequence): Thunk {
                 success(i18next.t("Saved '{{SequenceName}}'",
                     { SequenceName: (sequence.name || "sequence") }));
                 dispatch(saveSequenceOk(resp.data));
+                return resp.data;
             })
             .catch(function (err: {
                 response: {
@@ -156,6 +157,7 @@ export function saveSequence(sequence: Sequence): Thunk {
                 error(prettyPrintApiErrors(err),
                     i18next.t(template, context));
                 dispatch(saveSequenceNo(err));
+                return Promise.reject(err);
             });
     };
 };
@@ -205,11 +207,11 @@ export function addComment(step: Step, index: number, comment: string) {
 }
 
 export function deleteSequence(index: number) {
-    // use cases: 
+    // use cases:
     // unsaved sequence. (in state)
     // saved sequence  (http DELETE)
-    // misc errors 
-    // dependency error. 
+    // misc errors
+    // dependency error.
 
     return function (dispatch: Function, getState: Function) {
         let state: Everything = getState();

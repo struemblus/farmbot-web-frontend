@@ -6,7 +6,7 @@ import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan } from "../actions";
-
+import * as _ from "lodash";
 
 let channels = _.pairs<{}, string>({
     "ticker": "Status Ticker/Logs",
