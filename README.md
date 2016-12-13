@@ -32,6 +32,12 @@ If you would like to report a problem with the web app, please [submit an issue]
 4. Visit `/` on your web server to verify installation.
 5. [Submit an issue](https://github.com/FarmBot/farmbot-web-frontend/issues/new?title=Installation%20Failure) if you hit problems during the installation.
 
+# Debugging external devices (DEV ONLY)
+
+Weinre is included in this project. To utilize it, head over to /src/app.tsx and uncomment the code block and fill the url with your IP address. 
+Then, in your console, type `weinre --boundHost YOUR-IP-ADDRESS --httpPort 8081`.
+Then navigate to http://YOUR-IP-ADDRESS:8081/client/#anonymous. A browser refresh on your device may be required.   
+
 # Want to Help?
 
 Check out the [Low Hanging Fruit](https://github.com/FarmBot/farmbot-web-frontend/search?l=typescript&q=TODO&utf8=%E2%9C%93).
