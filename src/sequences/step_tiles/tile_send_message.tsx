@@ -14,21 +14,9 @@ let channels = _.pairs<{}, string>({
     "email": "Email",
     "sms": "SMS",
     "twitter": "Twitter"
-    // "error_ticker": "Ticker (Error)",
-    // "success_toast": "Toast (Success)",
-    // "error_toast": "Toast (Error)",
-    // "warning_toast": "Toast (Warning)"
 });
 
-let options = [
-    "Success",
-    "Busy",
-    "Warning",
-    "Error",
-    "Info",
-    "Fun"
-];
-
+let options = ["Success", "Busy", "Warning", "Error", "Info", "Fun"];
 
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -58,13 +46,13 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
         </fieldset>;
     });
 
-    let optionsList = options.map(function (name, key) {
+    let optionsList = options.map((name, key) => {
         return <option key={key}>
             {name}
         </option>;
     });
 
-    return (<div>
+    return <div>
         <div className="step-wrapper">
             <div className="row">
                 <div className="col-sm-12">
@@ -97,7 +85,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                     field="message" />
                                 <div className="bottom-content">
                                     <div className="channel-options">
-                                        <Select>
+                                        <Select onChange={handleOptionChange}>
                                             {optionsList}
                                         </Select>
                                     </div>
@@ -111,5 +99,5 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                 </div>
             </div>
         </div>
-    </div>);
+    </div>;
 }
