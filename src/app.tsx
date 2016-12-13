@@ -6,7 +6,7 @@ import { init } from "./ui";
 init();
 /** For external device debugging purposes */
 // let script = document.createElement("script");
-// script.src = "http://YOUR-IP:8081/target/target-script-min.js#anonymous";
+// script.src = "http://YOUR-IP/target/target-script-min.js#anonymous";
 // document.body.appendChild(script);
 export default class App extends React.Component<Everything, {}> {
     render() {
