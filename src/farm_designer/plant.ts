@@ -3,7 +3,7 @@ import { Plant } from "./interfaces";
  *  SOLUTION: Temporarily hard code icons on our end as a proof-of-concept
  *  until we work something out with OF.
  */
-let TEMP_ICON_MAP: {[ofSlug: string]: string} = {
+let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
     "apple-tree": "/img/icons/Apple-96.png",
     "asparagus": "/img/icons/Asparagus-96.png",
     "avocado": "/img/icons/Avocado-96.png",
@@ -55,11 +55,11 @@ let TEMP_ICON_MAP: {[ofSlug: string]: string} = {
     "sesame": "/img/icons/Sesame-96.png",
     "soy": "/img/icons/Soy-96.png",
     "strawberry": "/img/icons/Strawberry-96.png",
-    "sweet-potato": "/img/icons/Sweet-96.png Potato",
+    "sweet-potato": "/img/icons/Sweet-96.png",
     "tomato": "/img/icons/Tomato-96.png",
     "watermelon": "/img/icons/Watermelon-96.png",
     "wheat": "/img/icons/Wheat-96.png",
-    "not-set": "/img/icons/Natural Food-96.png"
+    "not-set": "/img/icons/Natural-Food-96.png"
 };
 
 export interface PlantOptions {
@@ -76,7 +76,7 @@ export interface PlantOptions {
 /** Factory function for Plant types. */
 export function Plant(options: PlantOptions): Plant {
     let openfarm_slug = options.openfarm_slug || "not-set";
-    let icon_url = TEMP_ICON_MAP[openfarm_slug] ||  TEMP_ICON_MAP["not-set"];
+    let icon_url = TEMP_ICON_MAP[openfarm_slug] || TEMP_ICON_MAP["not-set"];
     return {
         id: options.id,
         planted_at: (options.planted_at || _.random(0, 5)),
