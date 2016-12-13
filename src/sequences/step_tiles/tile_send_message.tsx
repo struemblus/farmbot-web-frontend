@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StepParams } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help } from "../../ui";
+import { Help, Select, Saucer } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
@@ -9,12 +9,26 @@ import { addChan, removeChan } from "../actions";
 
 
 let channels = _.pairs<{}, string>({
-    "ticker": "Ticker",
-    "error_ticker": "Ticker (Error)",
-    "success_toast": "Toast (Success)",
-    "error_toast": "Toast (Error)",
-    "warning_toast": "Toast (Warning)"
+    "ticker": "Status Ticker/Logs",
+    "toast": "Toast Notification",
+    "email": "Email",
+    "sms": "SMS",
+    "twitter": "Twitter"
+    // "error_ticker": "Ticker (Error)",
+    // "success_toast": "Toast (Success)",
+    // "error_toast": "Toast (Error)",
+    // "warning_toast": "Toast (Warning)"
 });
+
+let options = [
+    "Success",
+    "Busy",
+    "Warning",
+    "Error",
+    "Info",
+    "Fun"
+];
+
 
 let handleChange = (channel_name: string, index: number, dispatch: Function) =>
     (e: React.FormEvent<HTMLInputElement>) => {
@@ -23,19 +37,31 @@ let handleChange = (channel_name: string, index: number, dispatch: Function) =>
         dispatch(action({ channel_name, index }));
     };
 
+let handleOptionChange = () => {
+    console.log("update option");
+};
+
 export function TileSendMessage({dispatch, step, index}: StepParams) {
     let choices = channels.map(function (pair, key) {
         let [name, label] = pair;
         let name_list = _.pluck((step.body || []), "args.channel_name");
         let isChecked = !!name_list.includes(name);
-
+        /** TODO: Temporary. Once features are available, enable them. */
+        let isDisabled = name == "email" || name == "sms" || name == "twitter";
         return <fieldset key={key}>
             <label htmlFor={name}> {label}</label>
             <input type="checkbox"
                 id={name}
+                disabled={isDisabled}
                 onChange={handleChange(name, index, dispatch)}
                 checked={isChecked} />
         </fieldset>;
+    });
+
+    let optionsList = options.map(function (name, key) {
+        return <option key={key}>
+            {name}
+        </option>;
     });
 
     return (<div>
@@ -69,8 +95,15 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                     step={step}
                                     index={index}
                                     field="message" />
-                                <div className="channel-fields">
-                                    {choices}
+                                <div className="bottom-content">
+                                    <div className="channel-options">
+                                        <Select>
+                                            {optionsList}
+                                        </Select>
+                                    </div>
+                                    <div className="channel-fields">
+                                        {choices}
+                                    </div>
                                 </div>
                             </div>
                         </div>
