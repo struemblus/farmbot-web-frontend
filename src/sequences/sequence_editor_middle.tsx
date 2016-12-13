@@ -94,7 +94,8 @@ let destroy = function(dispatch: Function,
 
 export let performSeq = (dispatch: Function, s: Sequence) => {
     return () => {
-        dispatch(saveSequence(s)).then(() => execSequence(s));
+        dispatch(saveSequence(s, false))
+            .then(() => execSequence(s));
     };
 };
 
@@ -121,9 +122,9 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                         onClick={save(dispatch, sequence)}>
                         {t("Save")} {sequence.dirty ? " *" : ""}
                     </button>
-                    <button className="yellow button-like widget-control"
+                    <button className="green button-like widget-control"
                         onClick={performSeq(dispatch, sequence)}>
-                        {t("Test")}
+                        {t("Save & Run")}
                     </button>
                     <button className="red button-like widget-control"
                         onClick={destroy(dispatch, sequence, inx)}>

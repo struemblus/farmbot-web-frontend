@@ -130,8 +130,8 @@ export function removeStep(index: number): RemoveStep {
     };
 }
 
-export function saveSequence(sequence: Sequence): Thunk {
-    return function (dispatch) {
+export function saveSequence(sequence: Sequence, notify = true): Thunk {
+    return function(dispatch) {
         let url = API.current.sequencesPath;
         let method: Function;
         if (sequence.id) {
@@ -141,13 +141,15 @@ export function saveSequence(sequence: Sequence): Thunk {
             method = axios.post;
         };
         return method(url, sequence)
-            .then(function (resp: { data: Sequence }) {
-                success(i18next.t("Saved '{{SequenceName}}'",
-                    { SequenceName: (sequence.name || "sequence") }));
+            .then(function(resp: { data: Sequence }) {
+                if (notify) {
+                    success(i18next.t("Saved '{{SequenceName}}'",
+                        { SequenceName: (sequence.name || "sequence") }));
+                }
                 dispatch(saveSequenceOk(resp.data));
                 return resp.data;
             })
-            .catch(function (err: {
+            .catch(function(err: {
                 response: {
                     data: { [reason: string]: string };
                 }
@@ -213,7 +215,7 @@ export function deleteSequence(index: number) {
     // misc errors
     // dependency error.
 
-    return function (dispatch: Function, getState: Function) {
+    return function(dispatch: Function, getState: Function) {
         let state: Everything = getState();
 
         let sequence: Sequence = state.sequences.all[index];
