@@ -140,7 +140,14 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         return (
                             <li key={link.url}>
                                 <Link to={link.url}
-                                    onClick={() => { toggleNav(); } }
+                                    /** TODO: Royal pain. This onClick fires
+                                     * every time a link is clicked in the 
+                                     * desktop nav. Which in turn "freezes"
+                                     * the user scroll when not desired. 
+                                     * Tried all sorts of plugins and 
+                                     * alternatives. No dice.
+                                     */
+                                    // onClick={() => { toggleNav(); } } 
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
