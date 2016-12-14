@@ -34,9 +34,18 @@ If you would like to report a problem with the web app, please [submit an issue]
 
 # Debugging external devices (DEV ONLY)
 
-Weinre is included in this project. To utilize it, head over to /src/app.tsx and uncomment the code block and fill the url with your IP address. 
-Then, in your console, type `weinre --boundHost YOUR-IP-ADDRESS --httpPort 8081`.
-Then navigate to http://YOUR-IP-ADDRESS:8081/client/#anonymous. A browser refresh on your device may be required.   
+[Weinre](https://www.npmjs.com/package/weinre) is included in this project. 
+To utilize it, head over to the `/src` directory of the app, add a file called 
+`config.json`, and populate it with this:
+```
+{
+    "ip_address": "YOUR-IP-ADDRESS"
+}
+```  
+Then, in your console, `weinre --boundHost YOUR-IP-ADDRESS --httpPort 8081`.
+This should run in tandem with the rest of your project.
+Then navigate to http://YOUR-IP-ADDRESS:8081/client/#anonymous. 
+After adding the `config.json`, you may be required to `npm start` again.
 
 # Want to Help?
 

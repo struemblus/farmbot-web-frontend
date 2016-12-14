@@ -11,6 +11,16 @@ import "./npm_addons";
 let r = (process.env.REVISION as string) || "REVISION INFO NOT AVAILABLE";
 console.log(r);
 
+/** For external device debugging purposes */
+if (process.env.CONFIG
+    && process.env.CONFIG.ip_address
+    && process.env.NODE_ENV !== "production") {
+    let ip = process.env.CONFIG.ip_address;
+    let script = document.createElement("script");
+    script.src = `http://${ip}:8081/target/target-script-min.js#anonymous`;
+    document.body.appendChild(script);
+}
+
 detectLanguage().then((config) => {
     i18next.init(config, (err, t) => {
         let node = document.createElement("DIV");
