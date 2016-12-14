@@ -2,7 +2,8 @@ import {
     Step,
     Sequence,
     SequenceReducerState,
-    ChanParams
+    ChanParams,
+    MessageParams
 } from "./interfaces";
 import {
     nullSequence,
@@ -67,6 +68,15 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         } else {
             throw new Error("ADD_CHANNEL only works on `send_message` nodes.");
         }
+        return s;
+    })
+    .add<MessageParams>("UPDATE_MESSAGE_TYPE", function (s, a) {
+        let { value, index} = a.payload;
+        let seq = s.all[s.current];
+        seq.dirty = true;
+        let step = seq.body[index];
+        /** TODO: Uncomment when DB migration is done */
+        // step.args.message_type = value;
         return s;
     })
     .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {

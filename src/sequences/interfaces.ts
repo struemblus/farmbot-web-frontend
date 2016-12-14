@@ -150,6 +150,12 @@ export interface ChanParams {
   index: number;
 };
 
+/** Used when dispatching an updated message type. */
+export interface MessageParams {
+  value: string;
+  index: number;
+};
+
 export interface ColorPickerProps {
   current: Color;
   onChange?: (color: Color) => any;
