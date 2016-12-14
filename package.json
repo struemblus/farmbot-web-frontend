@@ -90,6 +90,7 @@
     ],
     "coverageReporters": [
       "html"
-    ]
+    ],
+    "verbose": true
   }
 }
