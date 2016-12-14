@@ -21,14 +21,14 @@ let options = ["Success", "Busy", "Warning", "Error", "Info", "Fun"];
 export class TileSendMessage extends React.Component<StepParams, {}> {
     constructor() {
         super();
-        this.handleInputChange = this.handleInputChange.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.state = { chars: 0 };
     }
-
+    /** TODO: Temp fix. Change these once statefulness is working */
     handleChange(name: any, index: any, dispatch: any, event: any) {
         let channel_name = name;
-        console.log("HEEERE");
         let el = event.target as HTMLInputElement;
         let action = (el.checked) ? addChan : removeChan;
         dispatch(action({ channel_name, index }));
@@ -39,7 +39,7 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
     }
 
     handleInputChange() {
-        console.log("Ayyyy :D");
+        console.log("update input");
     }
 
     render() {
@@ -47,7 +47,7 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
         let { index, dispatch, step } = this.props;
         let name_list = _.pluck((this.props.step.body || []), "args.channel_name");
         let isChecked = !!name_list.includes(name);
-        let choices = channels.map(function(pair, key) {
+        let choices = channels.map(function (pair, key) {
             let [name, label] = pair;
             /** TODO: Temporary. Once features are available, enable them. */
             let isDisabled = name == "email" || name == "sms" || name == "twitter";
@@ -102,11 +102,16 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
                                         step={step}
                                         index={index}
                                         field="message"
-                                        onChange={handleChange(name, index, dispatch, event)}
+                                        onChange={() => {
+                                            handleChange(name, index, dispatch, event);
+                                            handleInputChange;
+                                        } }
                                         />
                                     <div className="bottom-content">
                                         <div className="channel-options">
-                                            <Select onChange={handleOptionChange}>
+                                            <Select onChange={() => {
+                                                handleOptionChange;
+                                            } }>
                                                 {optionsList}
                                             </Select>
                                         </div>
