@@ -47,7 +47,7 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
         let { index, dispatch, step } = this.props;
         let name_list = _.pluck((this.props.step.body || []), "args.channel_name");
         let isChecked = !!name_list.includes(name);
-        let choices = channels.map(function (pair, key) {
+        let choices = channels.map(function(pair, key) {
             let [name, label] = pair;
             /** TODO: Temporary. Once features are available, enable them. */
             let isDisabled = name == "email" || name == "sms" || name == "twitter";
@@ -56,7 +56,9 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
                 <input type="checkbox"
                     id={name}
                     disabled={isDisabled}
-                    onChange={handleChange(name, index, dispatch, event)}
+                    onChange={() => {
+                        handleChange(name, index, dispatch, event);
+                    } }
                     checked={isChecked}
                     />
             </fieldset>;
