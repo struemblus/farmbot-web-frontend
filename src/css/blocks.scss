@@ -10,6 +10,7 @@
             box-shadow: 0 4px 10px $translucent;
             transition: all 0.2s ease-out;
             .block-control {
+                transition: all 0.2s ease-out;
                 opacity: 1;
             }
         }
@@ -33,6 +34,7 @@
 }
 
 .block-control {
+    transition: all 0.2s ease-out;
     color: $dark_gray;
     opacity: 0;
     float: right;
