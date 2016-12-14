@@ -16,7 +16,14 @@ let channels = _.pairs<{}, string>({
     "twitter": "Twitter"
 });
 
-let options = ["Success", "Busy", "Warning", "Error", "Info", "Fun"];
+let options = [
+    { value: "success", label: "Success" },
+    { value: "busy", label: "Busy" },
+    { value: "warning", label: "Warning" },
+    { value: "error", label: "Error" },
+    { value: "info", label: "Info" },
+    { value: "fun", label: "Fun" }
+];
 
 export class TileSendMessage extends React.Component<StepParams, {}> {
     constructor() {
@@ -66,12 +73,6 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
             </fieldset>;
         });
 
-        let optionsList = options.map((name, key) => {
-            return <option key={key}>
-                {name}
-            </option>;
-        });
-
         return <div>
             <div className="step-wrapper">
                 <div className="row">
@@ -112,9 +113,9 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
                                         <div className="channel-options">
                                             <Select onChange={() => {
                                                 handleOptionChange();
-                                            } }>
-                                                {optionsList}
-                                            </Select>
+                                            } }
+                                                options={options}
+                                                />
                                         </div>
                                         <div className="channel-fields">
                                             {choices}
