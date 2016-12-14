@@ -45,7 +45,8 @@ interface UpdateStepParams {
 export function updateStep({ dispatch,
   step,
   index,
-  field }: UpdateStepParams) {
+  field
+}: UpdateStepParams) {
   return (e: React.FormEvent<HTMLInputElement>) => {
     let copy = defensiveClone<Step>(step);
     let val = e.currentTarget.value;
@@ -59,7 +60,6 @@ export function updateStep({ dispatch,
     } else {
       _.assign(copy.args, { [field]: val });
     };
-
     dispatch(changeStep(index, copy));
   };
 };
@@ -85,7 +85,6 @@ export interface IStepInput {
   | "sub_sequence_id";
   dispatch: Function;
   index: number;
-  onChange?: any;
 }
 
 export interface StepParams {
@@ -111,6 +110,7 @@ let Pending = ({ dispatch, index }: StepParams) => {
   </div>;
 };
 
+/** TODO: Change to correct type */
 export let stepTiles: any = {
   emergency_stop: Pending,
   home_all: Pending,

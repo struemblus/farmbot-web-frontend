@@ -21,13 +21,12 @@ let options = ["Success", "Busy", "Warning", "Error", "Info", "Fun"];
 export class TileSendMessage extends React.Component<StepParams, {}> {
     constructor() {
         super();
-        this.handleChange = this.handleChange.bind(this);
+        this.handleChannelChange = this.handleChannelChange.bind(this);
         this.handleOptionChange = this.handleOptionChange.bind(this);
-        this.handleInputChange = this.handleInputChange.bind(this);
-        this.state = { chars: 0 };
     }
-    /** TODO: Temp fix. Change these once statefulness is working */
-    handleChange(name: any, index: any, dispatch: any, event: any) {
+
+    handleChannelChange(name: string, index: number, dispatch: Function,
+        event: React.SyntheticEvent<HTMLInputElement>) {
         let channel_name = name;
         let el = event.target as HTMLInputElement;
         let action = (el.checked) ? addChan : removeChan;
@@ -38,17 +37,20 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
         console.log("update option");
     }
 
-    handleInputChange() {
-        console.log("update input");
-    }
-
     render() {
-        let { handleChange, handleOptionChange, handleInputChange } = this;
+        let { handleChannelChange, handleOptionChange } = this;
         let { index, dispatch, step } = this.props;
-        let name_list = _.pluck((this.props.step.body || []), "args.channel_name");
-        let isChecked = !!name_list.includes(name);
+
+        /** TODO: Hack?, is this node not getting the SendMessage interface? 
+         * says step.body.message does not exist.
+        */
+        let args = step.args as any;
+        let message = args.message;
+
+        let name_list = _.pluck((step.body || []), "args.channel_name");
         let choices = channels.map(function (pair, key) {
             let [name, label] = pair;
+            let isChecked = name_list.includes(name);
             /** TODO: Temporary. Once features are available, enable them. */
             let isDisabled = name == "email" || name == "sms" || name == "twitter";
             return <fieldset key={key}>
@@ -56,8 +58,8 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
                 <input type="checkbox"
                     id={name}
                     disabled={isDisabled}
-                    onChange={() => {
-                        handleChange(name, index, dispatch, event);
+                    onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
+                        handleChannelChange(name, index, dispatch, event);
                     } }
                     checked={isChecked}
                     />
@@ -98,19 +100,18 @@ export class TileSendMessage extends React.Component<StepParams, {}> {
                             <div className="row">
                                 <div className="col-xs-12">
                                     <label>{t("Message")}</label>
+                                    <span className="char-limit">
+                                        {message.length}/300
+                                    </span>
                                     <StepInputBox dispatch={dispatch}
                                         step={step}
                                         index={index}
                                         field="message"
-                                        onChange={() => {
-                                            handleChange(name, index, dispatch, event);
-                                            handleInputChange;
-                                        } }
                                         />
                                     <div className="bottom-content">
                                         <div className="channel-options">
                                             <Select onChange={() => {
-                                                handleOptionChange;
+                                                handleOptionChange();
                                             } }>
                                                 {optionsList}
                                             </Select>
