@@ -1,34 +1,59 @@
 import * as React from "react";
-import {
-    StepParams,
-    copy,
-    remove
-} from "./index";
+import { StepParams, copy, remove, CustomOptionProps } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help, Select } from "../../ui";
+import { Help, Select, Saucer } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan, updateMessageType } from "../actions";
 import * as _ from "lodash";
 
-let channels = _.pairs<{}, string>({
-    // "ticker": "Status Ticker/Logs",
-    "toast": "Toast Notification",
-    "email": "Email",
-    "sms": "SMS",
-    "twitter": "Twitter"
-});
-
-let options = [
-    { value: "success", label: "Success" },
-    { value: "busy", label: "Busy" },
-    { value: "warning", label: "Warning" },
-    { value: "error", label: "Error" },
-    { value: "info", label: "Info" },
-    { value: "fun", label: "Fun" }
-];
-
 export function TileSendMessage({dispatch, step, index}: StepParams) {
+    /** TODO: Hack?, is this node not getting the SendMessage interface? 
+    * says step.args.message does not exist. */
+    let args = step.args as any;
+    let message = args.message;
+    let type = args.message_type;
+
+    let channels = _.pairs<{}, string>({
+        "toast": "Toast Notification",
+        "email": "Email",
+        "sms": "SMS",
+        "twitter": "Twitter"
+    });
+
+    let options = [
+        { value: "success", label: "Success" },
+        { value: "busy", label: "Busy" },
+        { value: "warning", label: "Warning" },
+        { value: "error", label: "Error" },
+        { value: "info", label: "Info" },
+        { value: "fun", label: "Fun" }
+    ];
+
+    let optionComponent = (props: CustomOptionProps) => {
+        let handleMouseDown = (e: React.SyntheticEvent<HTMLDivElement>) => {
+            e.preventDefault();
+            e.stopPropagation();
+            props.onSelect(props.option, e);
+        };
+        let handleMouseEnter = (e: React.SyntheticEvent<HTMLDivElement>) => {
+            props.onFocus(props.option, e);
+        };
+        let handleMouseMove = (e: React.SyntheticEvent<HTMLDivElement>) => {
+            if (props.isFocused) { return; };
+            props.onFocus(props.option, e);
+        };
+        return (
+            <div className={props.className}
+                onMouseDown={handleMouseDown}
+                onMouseEnter={handleMouseEnter}
+                onMouseMove={handleMouseMove}>
+                <Saucer color={type} />
+                {props.children}
+            </div>
+        );
+    };
+
     /** TODO: Event equivalent for React-Select? */
     let handleOptionChange = (event: any) => {
         let { value } = event;
@@ -41,12 +66,6 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
         let action = (el.checked) ? addChan : removeChan;
         dispatch(action({ channel_name, index }));
     };
-
-    /** TODO: Hack?, is this node not getting the SendMessage interface? 
-    * says step.args.message does not exist. */
-    let args = step.args as any;
-    let message = args.message;
-    let type = args.message_type;
 
     let choices = channels.map(function (pair, key) {
         let name_list = _.pluck((step.body || []), "args.channel_name");
@@ -109,6 +128,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                             onChange={handleOptionChange}
                                             value={type}
                                             options={options}
+                                            optionComponent={optionComponent}
                                             />
                                     </div>
                                     <div className="channel-fields">

@@ -7,7 +7,10 @@ interface SelectProps {
     onChange?: (e: React.SyntheticEvent<HTMLSelectElement>) => void;
     value?: string;
     id?: string;
-    options?: any[];
+    options?: {}[];
+    valueComponent?: any;
+    optionComponent?: any;
+    autoFocus?: boolean;
 }
 
 export function Select(props: SelectProps) {
@@ -15,7 +18,9 @@ export function Select(props: SelectProps) {
         return <ReactSelect
             onChange={props.onChange}
             value={props.value}
-            options={props.options} />;
+            options={props.options}
+            valueComponent={props.valueComponent}
+            optionComponent={props.optionComponent} />;
     } else {
         return <div className="select-wrapper">
             <select
