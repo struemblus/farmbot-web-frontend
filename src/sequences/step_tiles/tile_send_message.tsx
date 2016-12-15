@@ -1,5 +1,11 @@
 import * as React from "react";
-import { StepParams, copy, remove, CustomOptionProps } from "./index";
+import {
+    StepParams,
+    copy,
+    remove,
+    CustomOptionProps,
+    CustomValueProps
+} from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help, Select, Saucer } from "../../ui";
 import { t } from "i18next";
@@ -24,7 +30,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
     let options = [
         { value: "success", label: "Success" },
         { value: "busy", label: "Busy" },
-        { value: "warning", label: "Warning" },
+        { value: "warn", label: "Warning" },
         { value: "error", label: "Error" },
         { value: "info", label: "Info" },
         { value: "fun", label: "Fun" }
@@ -51,8 +57,19 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                 onMouseDown={handleMouseDown}
                 onMouseEnter={handleMouseEnter}
                 onMouseMove={handleMouseMove}>
-                <Saucer color={type} />
+                <Saucer color={props.option.value} />
                 {props.children}
+            </div>
+        );
+    };
+
+    let valueComponent = (props: CustomValueProps) => {
+        return (
+            <div className="Select-value">
+                <span className="Select-value-label">
+                    <Saucer color={type} />
+                    {props.children}
+                </span>
             </div>
         );
     };
@@ -119,7 +136,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                 <label>{t("Message")}</label>
                                 <span className="char-limit">
                                     {message.length}/300
-                                    </span>
+                                </span>
                                 <StepInputBox dispatch={dispatch}
                                     step={step}
                                     index={index}
@@ -132,6 +149,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                             value={type}
                                             options={options}
                                             optionComponent={optionComponent}
+                                            valueComponent={valueComponent}
                                             />
                                     </div>
                                     <div className="channel-fields">

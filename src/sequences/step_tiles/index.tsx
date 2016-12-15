@@ -99,8 +99,14 @@ export interface CustomOptionProps {
     onSelect: Function;
     onFocus: Function;
     isFocused: Function;
-    option: {};
+    option: {
+        value: string;
+    };
     className: string;
+    children: JSX.Element;
+}
+
+export interface CustomValueProps {
     children: JSX.Element;
 }
 

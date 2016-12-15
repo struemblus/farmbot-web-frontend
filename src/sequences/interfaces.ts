@@ -101,7 +101,7 @@ export interface SendMessageNode extends BasicNode {
   kind: "send_message";
   args: {
     message: string;
-    message_type?: string;
+    message_type: string;
   };
   body?: ChannelNode[] | undefined;
 }

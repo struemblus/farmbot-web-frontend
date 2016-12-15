@@ -7,6 +7,7 @@ interface SelectProps {
     value?: string;
     id?: string;
     options?: {}[];
+    // TODO: Values for anys
     valueComponent?: any;
     optionComponent?: any;
     autoFocus?: boolean;

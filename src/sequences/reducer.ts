@@ -75,8 +75,9 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let seq = s.all[s.current];
         seq.dirty = true;
         let step = seq.body[index];
-        /** TODO: Uncomment when DB migration is done */
-        // step.args.message_type = value;
+        if (step.kind === "send_message") {
+            step.args.message_type = value.toString();
+        }
         return s;
     })
     .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {
