@@ -54,7 +54,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
         );
     };
 
-    /** TODO: Event equivalent for React-Select? */
+    // TODO: Take care of this any
     let handleOptionChange = (event: any) => {
         let { value } = event;
         dispatch(updateMessageType({ value, index }));

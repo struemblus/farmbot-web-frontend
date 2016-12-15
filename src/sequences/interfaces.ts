@@ -152,7 +152,7 @@ export interface ChanParams {
 
 /** Used when dispatching an updated message type. */
 export interface MessageParams {
-  value: string;
+  value: string | number;
   index: number;
 };
 
