@@ -36,13 +36,16 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
             e.stopPropagation();
             props.onSelect(props.option, e);
         };
+
         let handleMouseEnter = (e: React.SyntheticEvent<HTMLDivElement>) => {
             props.onFocus(props.option, e);
         };
+
         let handleMouseMove = (e: React.SyntheticEvent<HTMLDivElement>) => {
             if (props.isFocused) { return; };
             props.onFocus(props.option, e);
         };
+
         return (
             <div className={props.className}
                 onMouseDown={handleMouseDown}

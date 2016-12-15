@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Sequence } from "../../sequences/interfaces";
 import { setSequence } from "./actions";
-import * as ReactSelect from "react-select";
+import { Select } from "../../ui";
 import * as _ from "lodash";
 
 interface SequenceListProps {
@@ -31,11 +31,11 @@ export function SequenceList({sequences,
 
     return <div>
         <label>Sequence</label>
-        <ReactSelect value={selectedValue.toString()}
+        <Select value={selectedValue.toString()}
             onChange={change(dispatch, sequences)}
             options={options}
             placeholder="Select Sequence">
-        </ReactSelect>
+        </Select>
     </div>;
 }
 

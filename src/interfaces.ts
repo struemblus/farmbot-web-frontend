@@ -18,11 +18,6 @@ import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
 
-export interface ReactSelectProps {
-    label: string | number;
-    value: string | number;
-}
-
 export interface Log {
     id: number;
     message: string;

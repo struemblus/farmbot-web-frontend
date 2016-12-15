@@ -10,6 +10,7 @@ interface SelectProps {
     valueComponent?: any;
     optionComponent?: any;
     autoFocus?: boolean;
+    placeholder?: string;
 }
 
 export function Select(props: SelectProps) {
@@ -19,7 +20,8 @@ export function Select(props: SelectProps) {
             value={props.value}
             options={props.options}
             valueComponent={props.valueComponent}
-            optionComponent={props.optionComponent} />;
+            optionComponent={props.optionComponent}
+            placeholder={props.placeholder} />;
     } else {
         return <div className="select-wrapper">
             <select

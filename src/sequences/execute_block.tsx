@@ -4,7 +4,7 @@ import { Step, Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
 import * as _ from "lodash";
-import * as ReactSelect from "react-select";
+import { Select } from "../ui";
 
 /** Removes un-executable sequences, such as "self" or unsaved ones */
 function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
@@ -66,11 +66,11 @@ function SequenceSelectBox({dispatch,
         id: ""
     };
 
-    return <ReactSelect onChange={change}
+    return <Select onChange={change}
         value={(subSeq.id || "").toString()}
         options={finalOptions}
         placeholder="Pick a sequence (or save a new one)">
-    </ReactSelect>;
+    </Select>;
 }
 
 export function ExecuteBlock({dispatch, step, index, sequence, sequences}:
