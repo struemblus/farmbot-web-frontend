@@ -156,7 +156,11 @@ export interface MessageParams {
   index: number;
 };
 
-export interface ColorPickerProps {
+export interface PickerProps {
   current: Color;
   onChange?: (color: Color) => any;
+}
+
+export interface PickerState {
+  isOpen: boolean;
 }
