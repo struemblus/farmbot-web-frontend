@@ -1,7 +1,7 @@
 import { history, push } from "../history";
 
-describe("", () => {
-    it("", () => {
+describe("push()", () => {
+    it("calls history with a URL", () => {
         const URL = "/wow.html";
         let oldFn = history.push;
         history.push = jest.fn();
