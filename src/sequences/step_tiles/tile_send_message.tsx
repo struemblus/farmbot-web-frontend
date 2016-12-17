@@ -15,7 +15,7 @@ import * as _ from "lodash";
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
     /** TODO: Hack?, is this node not getting the SendMessage interface? 
-    * says step.args.message does not exist. */
+    * says step.args.* does not exist. */
     let args = step.args as any;
     let message = args.message;
     let type = args.message_type;
