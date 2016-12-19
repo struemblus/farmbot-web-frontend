@@ -34,8 +34,32 @@ input[type=time] {
     box-shadow: 0px 0px 10px $light_gray !important;
 }
 
+.Select-option {
+    padding: 0.4rem 1rem !important;
+}
+
+.Select-menu {
+    padding: 0.8rem 0;
+}
+
 .Select-menu-outer {
-    z-index: 99999 !important;
+    position: relative;
+    &:after,
+    &:before {
+        content: "";
+        pointer-events: none;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+    }
+    &:before {
+        background: linear-gradient(to bottom, #fff 0%, transparent 10%)
+    }
+    &:after {
+        background: linear-gradient(to top, #fff 0%, transparent 10%)
+    }
 }
 
 .Select-option,
