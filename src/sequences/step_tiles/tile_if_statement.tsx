@@ -88,10 +88,6 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         <div className="row">
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("LHS")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="lhs" />*/}
                                 <Select
                                     options={LHSOptions}
                                     placeholder="LHS..."
@@ -101,10 +97,6 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                             </div>
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("OPERATOR")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="op" />*/}
                                 <Select
                                     options={OperatorOptions}
                                     placeholder="Condition..."
@@ -121,10 +113,6 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                             </div>
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("Sub Sequence")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="sub_sequence_id" />*/}
                                 <Select
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
