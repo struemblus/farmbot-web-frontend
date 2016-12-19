@@ -14,7 +14,9 @@ export function addGhostImage(
     el.classList.add(cssClass);
     el.style.top = "-300px";
     el.style.position = "absolute";
-    el.ondragend = el.remove;
+    document.body.addEventListener("drop", function () {
+        el.remove();
+    });
     document.body.appendChild(el);
     // TS doesn't seem to recognize this member on ev.dataTransfer...
     (ev.dataTransfer as any).setDragImage(el, 0, 0);
