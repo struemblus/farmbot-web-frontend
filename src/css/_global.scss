@@ -21,6 +21,10 @@ input[type=time] {
     box-shadow: 0px 0px 10px $light_gray !important;
 }
 
+.Select-menu-outer {
+    z-index: 99999 !important;
+}
+
 .Select-option,
 .Select-value {
     .saucer {
