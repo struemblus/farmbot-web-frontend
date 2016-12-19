@@ -12,9 +12,9 @@ export function addGhostImage(
     // RELEVANT READING:
     // http://www.kryogenix.org/code/browser/custom-drag-image.html
     el.classList.add(cssClass);
-    // el.style.top = "-300px";
-    // el.style.position = "absolute";
-    document.body.addEventListener("drop", function () {
+    el.style.left = "-300px";
+    el.style.position = "absolute";
+    document.body.addEventListener("dragend", function () {
         el.remove();
     });
     document.body.appendChild(el);
