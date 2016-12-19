@@ -49,7 +49,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
         { value: "<", label: "is less than", field: "op" },
         { value: ">", label: "is greater than", field: "op" },
         { value: "is", label: "is equal to", field: "op" },
-        { value: "not", label: "X position", field: "op" }
+        { value: "not", label: "is not equal to", field: "op" }
     ];
 
     // TODO: Anys coming from react-select events
