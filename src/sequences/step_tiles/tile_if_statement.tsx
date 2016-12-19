@@ -73,7 +73,12 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         <i className="fa fa-trash step-control"
                             onClick={() => remove({ dispatch, index })} />
                         <Help text={(`Detailed documentation coming soon`)} />
-                        <label>{isRecursive && ("Warning: Recursive")}</label>
+                        {isRecursive && (
+                            <span>
+                                <i className="fa fa-exclamation-triangle"></i>
+                                &nbsp;Sub sequence is recursive.
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
