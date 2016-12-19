@@ -15,6 +15,15 @@ input[type=time] {
     border-radius: 0;
 }
 
+
+/* Mobile and Tablet */
+
+@media (max-width: 830px) {
+    .app {
+        overflow: hidden !important;
+    }
+}
+
 .Select-control {
     border-radius: 0 !important;
     font-size: 1.2rem !important;
@@ -74,10 +83,6 @@ body {
     .all-content-wrapper {
         padding: 2.5rem 0rem 0rem 0rem;
     }
-}
-
-.app {
-    overflow: hidden !important;
 }
 
 .hide {
