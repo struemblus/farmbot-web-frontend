@@ -14,7 +14,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
     /** TODO: Hack?, is this node not getting the SendMessage interface? 
     * says step.args.* does not exist. */
     let args = step.args as any;
-    let { lhs, op } = args;
+    let { lhs, op, sub_sequence_id } = args;
 
     let LHSOptions: SelectOptionsParams[] = [
         { value: "busy", label: "Busy Status (0, 1)", field: "lhs" },
@@ -49,7 +49,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
         { value: "<", label: "is less than", field: "op" },
         { value: ">", label: "is greater than", field: "op" },
         { value: "is", label: "is equal to", field: "op" },
-        { value: "not", label: "X position", field: "op" }
+        { value: "not", label: "is not equal to", field: "op" }
     ];
 
     // TODO: Anys coming from react-select events
@@ -58,6 +58,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
         dispatch(changeStepSelect(value, index, field));
     };
 
+    let isRecursive = args.sub_sequence_id == sequence.id;
     return (<div>
         <div className="step-wrapper">
             <div className="row">
@@ -72,6 +73,12 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         <i className="fa fa-trash step-control"
                             onClick={() => remove({ dispatch, index })} />
                         <Help text={(`Detailed documentation coming soon`)} />
+                        {isRecursive && (
+                            <span>
+                                <i className="fa fa-exclamation-triangle"></i>
+                                &nbsp;Sub sequence is recursive.
+                            </span>
+                        )}
                     </div>
                 </div>
             </div>
@@ -81,10 +88,6 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         <div className="row">
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("LHS")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="lhs" />*/}
                                 <Select
                                     options={LHSOptions}
                                     placeholder="LHS..."
@@ -94,10 +97,6 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                             </div>
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("OPERATOR")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="op" />*/}
                                 <Select
                                     options={OperatorOptions}
                                     placeholder="Condition..."
@@ -114,14 +113,11 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                             </div>
                             <div className="col-xs-6 col-md-3">
                                 <label>{t("Sub Sequence")}</label>
-                                {/*<StepInputBox dispatch={dispatch}
-                                    step={step}
-                                    index={index}
-                                    field="sub_sequence_id" />*/}
                                 <Select
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
                                     onChange={update}
+                                    value={sub_sequence_id}
                                     />
                             </div>
                         </div>
