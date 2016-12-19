@@ -2,7 +2,8 @@ import * as React from "react";
 import { StepParams } from "./index";
 import { Help, Select } from "../../ui";
 import { t } from "i18next";
-import { copy, remove, updateStep } from "./index";
+import { copy, remove } from "./index";
+import { changeStepSelect } from "../actions";
 import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SelectOptionsParams } from "../../interfaces";
@@ -16,44 +17,45 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
     let { lhs, op } = args;
 
     let LHSOptions: SelectOptionsParams[] = [
-        { value: "busy", label: "Busy Status (0, 1)" },
-        { value: "pin0", label: "Pin 0" },
-        { value: "pin1", label: "Pin 1" },
-        { value: "pin2", label: "Pin 2" },
-        { value: "pin3", label: "Pin 3" },
-        { value: "pin4", label: "Pin 4" },
-        { value: "pin5", label: "Pin 5" },
-        { value: "pin6", label: "Pin 6" },
-        { value: "pin7", label: "Pin 7" },
-        { value: "pin8", label: "Pin 8" },
-        { value: "pin9", label: "Pin 9" },
-        { value: "pin10", label: "Pin 10" },
-        { value: "pin11", label: "Pin 11" },
-        { value: "pin12", label: "Pin 12" },
-        { value: "pin13", label: "Pin 13" },
-        { value: "x", label: "X position" },
-        { value: "y", label: "Y Position" },
-        { value: "z", label: "Z position" }
+        { value: "busy", label: "Busy Status (0, 1)", field: "lhs" },
+        { value: "pin0", label: "Pin 0", field: "lhs" },
+        { value: "pin1", label: "Pin 1", field: "lhs" },
+        { value: "pin2", label: "Pin 2", field: "lhs" },
+        { value: "pin3", label: "Pin 3", field: "lhs" },
+        { value: "pin4", label: "Pin 4", field: "lhs" },
+        { value: "pin5", label: "Pin 5", field: "lhs" },
+        { value: "pin6", label: "Pin 6", field: "lhs" },
+        { value: "pin7", label: "Pin 7", field: "lhs" },
+        { value: "pin8", label: "Pin 8", field: "lhs" },
+        { value: "pin9", label: "Pin 9", field: "lhs" },
+        { value: "pin10", label: "Pin 10", field: "lhs" },
+        { value: "pin11", label: "Pin 11", field: "lhs" },
+        { value: "pin12", label: "Pin 12", field: "lhs" },
+        { value: "pin13", label: "Pin 13", field: "lhs" },
+        { value: "x", label: "X position", field: "lhs" },
+        { value: "y", label: "Y Position", field: "lhs" },
+        { value: "z", label: "Z position", field: "lhs" }
     ];
 
     let sequenceOptions: SelectOptionsParams[] = sequences.map(seq => {
         return {
             label: seq.name ? seq.name : "SEQUENCE NAME NOT FOUND",
-            value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND"
+            value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND",
+            field: "sub_sequence_id"
         };
     });
 
     let OperatorOptions: SelectOptionsParams[] = [
-        { value: "<", label: "is less than" },
-        { value: ">", label: "is greater than" },
-        { value: "is", label: "is equal to" },
-        { value: "not", label: "X position" }
+        { value: "<", label: "is less than", field: "op" },
+        { value: ">", label: "is greater than", field: "op" },
+        { value: "is", label: "is equal to", field: "op" },
+        { value: "not", label: "X position", field: "op" }
     ];
 
     // TODO: Anys coming from react-select events
-    let changeSubSequence = (e: any) => {
-        // console.dir(e);
-        // updateStep({ dispatch, step, index });
+    let update = (e: any) => {
+        let { field, value } = e;
+        dispatch(changeStepSelect(value, index, field));
     };
 
     return (<div>
@@ -86,7 +88,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                 <Select
                                     options={LHSOptions}
                                     placeholder="LHS..."
-                                    onChange={changeSubSequence}
+                                    onChange={update}
                                     value={lhs}
                                     />
                             </div>
@@ -99,7 +101,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                 <Select
                                     options={OperatorOptions}
                                     placeholder="Condition..."
-                                    onChange={changeSubSequence}
+                                    onChange={update}
                                     value={op}
                                     />
                             </div>
@@ -119,7 +121,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                 <Select
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
-                                    onChange={changeSubSequence}
+                                    onChange={update}
                                     />
                             </div>
                         </div>
