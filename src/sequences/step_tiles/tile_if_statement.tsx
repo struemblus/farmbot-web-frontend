@@ -76,7 +76,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         {isRecursive && (
                             <span>
                                 <i className="fa fa-exclamation-triangle"></i>
-                                &nbsp;Sub sequence is recursive.
+                                &nbsp;Recursive sequence.
                             </span>
                         )}
                     </div>
@@ -112,7 +112,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                     field="rhs" />
                             </div>
                             <div className="col-xs-6 col-md-3">
-                                <label>{t("Sub Sequence")}</label>
+                                <label>{t("Sequence")}</label>
                                 <Select
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
