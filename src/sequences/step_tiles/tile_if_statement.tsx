@@ -14,7 +14,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
     /** TODO: Hack?, is this node not getting the SendMessage interface? 
     * says step.args.* does not exist. */
     let args = step.args as any;
-    let { lhs, op } = args;
+    let { lhs, op, sub_sequence_id } = args;
 
     let LHSOptions: SelectOptionsParams[] = [
         { value: "busy", label: "Busy Status (0, 1)", field: "lhs" },
@@ -58,6 +58,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
         dispatch(changeStepSelect(value, index, field));
     };
 
+    let isRecursive = args.sub_sequence_id == sequence.id;
     return (<div>
         <div className="step-wrapper">
             <div className="row">
@@ -72,6 +73,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                         <i className="fa fa-trash step-control"
                             onClick={() => remove({ dispatch, index })} />
                         <Help text={(`Detailed documentation coming soon`)} />
+                        <label>{isRecursive && ("Warning: Recursive")}</label>
                     </div>
                 </div>
             </div>
@@ -122,6 +124,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
                                     onChange={update}
+                                    value={sub_sequence_id}
                                     />
                             </div>
                         </div>

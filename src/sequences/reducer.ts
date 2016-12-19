@@ -127,11 +127,10 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<{ value: string | number, index: number, field: string }>(
     "CHANGE_STEP_SELECT", function (state, action) {
+        markDirty(state);
         let currentSequence = state.all[state.current];
         let currentStep = currentSequence.body[action.payload.index];
-        // console.log(currentStep);
-        // console.log(state);
-        // Why isn't this working with the interface?
+        /** Why isn't this interface working?? */
         let args: any = currentStep.args;
         args[action.payload.field] = action.payload.value;
         return state;
