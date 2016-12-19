@@ -126,6 +126,26 @@ export function changeStep(index: number, step: Step): ChangeStep {
     };
 }
 
+type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT";
+export interface ChangeStepSelect {
+    type: CHANGE_STEP_SELECT;
+    payload: {
+        value: number | string;
+        index: number
+        field: string;
+    };
+}
+
+export function changeStepSelect(
+    value: string | number,
+    index: number,
+    field: string): ChangeStepSelect {
+    return {
+        type: "CHANGE_STEP_SELECT",
+        payload: { value, index, field }
+    };
+}
+
 export interface RemoveStep {
     type: "REMOVE_STEP";
     payload: {

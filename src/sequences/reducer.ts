@@ -125,6 +125,17 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         _.assign(currentStep, action.payload.step);
         return state;
     })
+    .add<{ value: string | number, index: number, field: string }>(
+    "CHANGE_STEP_SELECT", function (state, action) {
+        let currentSequence = state.all[state.current];
+        let currentStep = currentSequence.body[action.payload.index];
+        // console.log(currentStep);
+        // console.log(state);
+        // Why isn't this working with the interface?
+        let args: any = currentStep.args;
+        args[action.payload.field] = action.payload.value;
+        return state;
+    })
     .add<{ index: number }>("REMOVE_STEP", function (state, action) {
         let seq = state.all[state.current];
         let index = action.payload.index;
