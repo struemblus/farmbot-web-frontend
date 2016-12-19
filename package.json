@@ -93,8 +93,8 @@
       "src/**/*.{ts,tsx}"
     ],
     "coverageReporters": [
-      "html"
-    ],
-    "verbose": true
+      "html",
+      "json"
+    ]
   }
 }
