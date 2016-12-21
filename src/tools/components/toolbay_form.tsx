@@ -214,9 +214,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                             <tbody>
                                 {this.renderSlots(tool_bay_id)}
                                 <tr>
-                                    <td>
-                                        {tool_slots.length + 1}
-                                    </td>
+                                    <td></td>
                                     <td>
                                         <BlurableInput
                                             value={(x || "0").toString()}
