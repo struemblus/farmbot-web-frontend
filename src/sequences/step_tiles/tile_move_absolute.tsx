@@ -18,6 +18,7 @@ export function TileMoveAbsolute({dispatch, step, index, tools}: StepParams) {
         { label: "---", value: "---" }
     ];
 
+    /** Populate the select */
     tools.tools.all.map(tool => {
         tools.tool_slots.map(slot => {
             if (tool.id === slot.tool_id) {
@@ -32,6 +33,7 @@ export function TileMoveAbsolute({dispatch, step, index, tools}: StepParams) {
         });
     });
 
+    /** Required for any custom options in the select */
     let optionComponent = (props: CustomOptionProps) => {
         let handleMouseDown = (e: React.SyntheticEvent<HTMLDivElement>) => {
             e.preventDefault();
@@ -80,11 +82,11 @@ export function TileMoveAbsolute({dispatch, step, index, tools}: StepParams) {
         return _.findWhere(tools.tool_slots, { tool_id: args.tool_id });
     }
 
-    let isDisabled = args.tool_id ? true : false;
-    let toolId = args.tool_id ? args.tool_id : "---";
-    let z = args.tool_id ? getToolCoords().z : args.z;
-    let x = args.tool_id ? getToolCoords().x : args.x;
-    let y = args.tool_id ? getToolCoords().y : args.y;
+    let isDisabled = raw.args.location.kind === "tool";
+    let toolId = raw.args.location.kind === "tool" ? args.tool_id : "---";
+    let z = raw.args.location.kind === "tool" ? getToolCoords().z : args.z;
+    let x = raw.args.location.kind === "tool" ? getToolCoords().x : args.x;
+    let y = raw.args.location.kind === "tool" ? getToolCoords().y : args.y;
 
     return <div>
         <div className="step-wrapper">
