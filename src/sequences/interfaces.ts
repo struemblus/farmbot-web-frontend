@@ -29,7 +29,7 @@ export interface Sequence extends SequenceNode {
 type Steps = Step[];
 
 // Typescript does not have subset types.
-// If you are reading this in the future and subset types exist, 
+// If you are reading this in the future and subset types exist,
 // refactor this code.
 export interface SequenceOptions {
   color?: Color;
