@@ -157,7 +157,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             saveAll
         } = this;
         let { dispatch } = this.props;
-        let { tool_bays, tools, tool_slots } = this.props.all;
+        let { tool_bays, tools } = this.props.all;
         let stopEdit = () => { dispatch(stopEditingToolBays()); };
         return <Col>
             {tool_bays.map((bay, index) => {
