@@ -18,6 +18,7 @@ import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
+import { ToolsState } from "../tools/interfaces";
 
 let Oops: StepTile = (_) => {
     return <div>Whoops! Not a valid message_type</div>;
@@ -46,9 +47,14 @@ let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
     routeIncomingDroppedItems(dispatch, key, dropperId);
 };
 
-let StepList = ({sequence, sequences, dispatch}:
-    { sequence: Sequence, sequences: Sequence[], dispatch: Function }) => {
-    return (<div>
+let StepList = ({sequence, sequences, dispatch, tools}:
+    {
+        sequence: Sequence,
+        sequences: Sequence[],
+        dispatch: Function,
+        tools: ToolsState
+    }) => {
+    return <div>
         {sequence.body.map((step: IStep, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
             return <div key={inx}>
@@ -62,11 +68,12 @@ let StepList = ({sequence, sequences, dispatch}:
                         index={inx}
                         dispatch={dispatch}
                         sequence={sequence}
-                        sequences={sequences} />
+                        sequences={sequences}
+                        tools={tools} />
                 </StepDragger>
             </div>;
         })}
-    </div>);
+    </div>;
 };
 
 let handleNameUpdate = (dispatch: Function) =>
@@ -99,7 +106,7 @@ export let performSeq = (dispatch: Function, s: Sequence) => {
     };
 };
 
-export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
+export function SequenceEditorMiddle({sequences, dispatch, tools}: Everything) {
     let inx = sequences.current;
     let sequence: Sequence = sequences.all[inx] || nullSequence();
     let fixThisToo = function (key: string) {
@@ -120,7 +127,7 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                 <div className="col-sm-12">
                     <button className="green button-like widget-control"
                         onClick={save(dispatch, sequence)}>
-                        {t("Save")} {sequence.dirty ? " *" : ""}
+                        {t("Save")} {sequence.dirty && ("*")}
                     </button>
                     <button className="green button-like widget-control"
                         onClick={performSeq(dispatch, sequence)}>
@@ -167,7 +174,8 @@ export function SequenceEditorMiddle({sequences, dispatch}: Everything) {
                         </div>
                         {<StepList sequence={sequence}
                             dispatch={dispatch}
-                            sequences={sequences.all} />}
+                            sequences={sequences.all}
+                            tools={tools} />}
                         <div className="row">
                             <div className="col-sm-12">
                                 <DropArea isLocked={true}

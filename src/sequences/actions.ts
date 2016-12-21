@@ -146,6 +146,13 @@ export function changeStepSelect(
     };
 }
 
+export function updateMoveAbsStep(data: {}, index: number): any {
+    return {
+        type: "UPDATE_MOVE_ABSOLUTE_STEP",
+        payload: { data, index }
+    };
+}
+
 export interface RemoveStep {
     type: "REMOVE_STEP";
     payload: {

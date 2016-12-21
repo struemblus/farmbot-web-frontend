@@ -81,6 +81,10 @@ input[type=time] {
     display: none !important;
 }
 
+.Select-value-params {
+    float: right;
+}
+
 body {
     min-height: 100vh;
     &.freeze {
@@ -376,6 +380,10 @@ button,
 select,
 input {
     outline: none !important;
+}
+
+input:disabled {
+    background: rgba(0, 0, 0, 0.1) !important;
 }
 
 ul {

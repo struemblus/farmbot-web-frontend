@@ -56,11 +56,29 @@ export interface SequenceReducerState {
 interface MoveAbsoluteNode extends BasicNode {
   kind: "move_absolute";
   args: {
-    x: number;
-    y: number;
-    z: number;
+    location: {
+      kind: "coordinate" | "tool";
+      args: { x: number; y: number; z: number; } | { tool_id: number }
+    },
+    offset: {
+      kind: "coordinate",
+      args: {
+        x: number;
+        y: number;
+        z: number;
+      }
+    }
     speed: number;
   };
+}
+
+export interface UpdateAbsoluteStepPayl {
+  data: {
+    name?: string;
+    value?: string | number;
+    label?: string;
+  };
+  index: number;
 }
 
 interface MoveRelativeNode extends BasicNode {

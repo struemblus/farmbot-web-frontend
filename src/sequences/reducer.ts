@@ -3,7 +3,8 @@ import {
     Sequence,
     SequenceReducerState,
     ChanParams,
-    MessageParams
+    MessageParams,
+    UpdateAbsoluteStepPayl
 } from "./interfaces";
 import {
     nullSequence,
@@ -40,6 +41,51 @@ const initialState: SequenceReducerState = {
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
+    .add<UpdateAbsoluteStepPayl>("UPDATE_MOVE_ABSOLUTE_STEP", function (s, a) {
+        let { data, index } = a.payload;
+        let seq = s.all[s.current];
+        seq.dirty = true;
+        // TODO: any
+        let step: any = seq.body[index];
+
+        // TODO: Refactor this beast :,(
+        // Setting up multiple handlers in the tile component might be best
+        if (data.value === "---") {
+            step.args.location.kind = "coordinate";
+            delete step.args.location.args.tool_id;
+            parseInt(step.args.speed);
+            step.args.location.args.x = 0;
+            step.args.location.args.y = 0;
+            step.args.location.args.z = 0;
+        } else if (data.label) {
+            step.args.location.kind = "tool";
+            step.args.location.args.tool_id = data.value;
+            delete step.args.location.args.x;
+            delete step.args.location.args.y;
+            delete step.args.location.args.z;
+            parseInt(step.args.speed);
+        } else if (data.name === "speed") {
+            step.args.speed = data.value;
+            step.args.speed = parseInt(step.args.speed);
+        } else if (data.name == "x" || data.name == "y" || data.name == "z") {
+            step.args.location.kind = "coordinate";
+            if (data.name && data.value) {
+                step.args.location.args[data.name] = data.value;
+                step.args.location.args[data.name] = parseInt(
+                    step.args.location.args[data.name]
+                );
+            }
+            parseInt(step.args.speed);
+        } else {
+            if (data.name) {
+                // name: offset-x is now x for nesting clarity
+                let name = data.name.split("-")[1];
+                step.args.offset.args[name] = data.value;
+            }
+        }
+
+        return s;
+    })
     .add<ChanParams>("ADD_CHANNEL", function (s, a) {
         let { index, channel_name} = a.payload;
         let seq = s.all[s.current];

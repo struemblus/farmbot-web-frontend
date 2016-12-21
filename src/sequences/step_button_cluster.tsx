@@ -7,7 +7,21 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
         <StepButton dispatch={dispatch}
             step={{
                 kind: "move_absolute",
-                args: { x: 0, y: 0, z: 0, speed: 100 }
+                args: {
+                    location: {
+                        kind: "coordinate",
+                        args: { x: 0, y: 0, z: 0 }
+                    },
+                    offset: {
+                        kind: "coordinate",
+                        args: {
+                            x: 0,
+                            y: 0,
+                            z: 0
+                        },
+                    },
+                    speed: 100
+                }
             }}
             color="blue">
             {t("MOVE ABSOLUTE")}

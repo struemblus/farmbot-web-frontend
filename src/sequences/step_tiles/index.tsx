@@ -6,7 +6,6 @@ import { Help } from "../../ui";
 import { ExecuteBlock } from "../execute_block";
 import { Sequence } from "../interfaces";
 import { defensiveClone } from "../../util";
-import { t } from "i18next";
 import { TileIfStatment } from "./tile_if_statement";
 import { TileWait } from "./tile_wait";
 import { TileMoveAbsolute } from "./tile_move_absolute";
@@ -14,6 +13,7 @@ import { TileMoveRelative } from "./tile_move_relative";
 import { TileReadPin } from "./tile_read_pin";
 import { TileSendMessage } from "./tile_send_message";
 import { TileWritePin } from "./tile_write_pin";
+import { ToolsState } from "../../tools/interfaces";
 import * as _ from "lodash";
 
 interface CopyParams {
@@ -93,6 +93,7 @@ export interface StepParams {
     index: number;
     sequence: Sequence;
     sequences: Sequence[];
+    tools: ToolsState;
 }
 
 export interface CustomOptionProps {
@@ -101,6 +102,9 @@ export interface CustomOptionProps {
     isFocused: Function;
     option: {
         value: string;
+        x?: number;
+        y?: number;
+        z?: number;
     };
     className: string;
     children: JSX.Element;
