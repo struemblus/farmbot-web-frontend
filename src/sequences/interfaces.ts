@@ -3,6 +3,7 @@ import {
 } from "farmbot/dist/interfaces";
 // import { BasicNode } from "../ast/interfaces";
 import { Color } from "../interfaces";
+import { SelectOptionsParams } from "../interfaces";
 
 /** TODO: Move this into FarmBotjs or celery
  *  script NPM pacakge. */
@@ -74,9 +75,23 @@ interface MoveAbsoluteNode extends BasicNode {
 
 export interface UpdateAbsoluteStepPayl {
   data: {
-    name?: string;
-    value?: string | number;
     label?: string;
+    tool_id: number;
+    value: string | number;
+    options: [
+      {
+        label: string;
+        value: string | number;
+        x: number;
+        y: number;
+        z: number;
+      }
+    ],
+    offset: string;
+    x: number;
+    y: number;
+    z: number;
+    speed: number;
   };
   index: number;
 }
@@ -183,4 +198,13 @@ export interface PickerProps {
 
 export interface PickerState {
   isOpen: boolean;
+}
+
+export interface MoveAbsState {
+  options?: SelectOptionsParams[];
+  value?: string | number;
+  x?: number;
+  y?: number;
+  z?: number;
+  speed?: number;
 }

@@ -45,45 +45,17 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let { data, index } = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
-        // TODO: any
+        /** TODO: Fix interfaces and refactor old code for sequences */
         let step: any = seq.body[index];
 
-        // TODO: Refactor this beast :,(
-        // Setting up multiple handlers in the tile component might be best
+        delete step.args.location;
         if (data.value === "---") {
-            step.args.location.kind = "coordinate";
-            delete step.args.location.args.tool_id;
-            parseInt(step.args.speed);
-            step.args.location.args.x = 0;
-            step.args.location.args.y = 0;
-            step.args.location.args.z = 0;
-        } else if (data.label) {
-            step.args.location.kind = "tool";
-            step.args.location.args.tool_id = data.value;
-            delete step.args.location.args.x;
-            delete step.args.location.args.y;
-            delete step.args.location.args.z;
-            parseInt(step.args.speed);
-        } else if (data.name === "speed") {
-            step.args.speed = data.value;
-            step.args.speed = parseInt(step.args.speed);
-        } else if (data.name == "x" || data.name == "y" || data.name == "z") {
-            step.args.location.kind = "coordinate";
-            if (data.name && data.value) {
-                step.args.location.args[data.name] = data.value;
-                step.args.location.args[data.name] = parseInt(
-                    step.args.location.args[data.name]
-                );
-            }
-            parseInt(step.args.speed);
+            let { x, y, z } = data;
+            step.args.location = { args: { x, y, z }, kind: "coordinate" };
         } else {
-            if (data.name) {
-                // name: offset-x is now x for nesting clarity
-                let name = data.name.split("-")[1];
-                step.args.offset.args[name] = data.value;
-            }
+            let { value } = data;
+            step.args.location = { args: { tool_id: value }, kind: "tool" };
         }
-
         return s;
     })
     .add<ChanParams>("ADD_CHANNEL", function (s, a) {
