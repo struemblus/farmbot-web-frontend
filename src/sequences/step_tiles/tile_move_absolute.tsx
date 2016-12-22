@@ -100,8 +100,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 props.onFocus(props.option, e);
             };
 
-            let params = props.option.value === "---" ?
-                `(${this.state.x}, ${this.state.y}, ${this.state.z})` :
+            let params = props.option.value === "---" ? "" :
                 `(${props.option.x}, ${props.option.y}, ${props.option.z})`;
 
             return (

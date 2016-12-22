@@ -59,7 +59,7 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
     };
 
     let isRecursive = args.sub_sequence_id == sequence.id;
-    return (<div>
+    return <div>
         <div className="step-wrapper">
             <div className="row">
                 <div className="col-sm-12">
@@ -86,8 +86,11 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                 <div className="col-sm-12">
                     <div className="step-content if-step">
                         <div className="row">
-                            <div className="col-xs-6 col-md-3">
-                                <label>{t("LHS")}</label>
+                            <div className="col-xs-12 col-md-12">
+                                <h4 className="top">IF...</h4>
+                            </div>
+                            <div className="col-xs-4 col-md-4">
+                                <label>{t("Variable")}</label>
                                 <Select
                                     options={LHSOptions}
                                     placeholder="LHS..."
@@ -95,8 +98,8 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                     value={lhs}
                                     />
                             </div>
-                            <div className="col-xs-6 col-md-3">
-                                <label>{t("OPERATOR")}</label>
+                            <div className="col-xs-4 col-md-4">
+                                <label>{t("Operator")}</label>
                                 <Select
                                     options={OperatorOptions}
                                     placeholder="Condition..."
@@ -104,15 +107,30 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                                     value={op}
                                     />
                             </div>
-                            <div className="col-xs-6 col-md-3">
-                                <label>{t("RHS")}</label>
+                            <div className="col-xs-4 col-md-4">
+                                <label>{t("Value")}</label>
                                 <StepInputBox dispatch={dispatch}
                                     step={step}
                                     index={index}
                                     field="rhs" />
                             </div>
-                            <div className="col-xs-6 col-md-3">
-                                <label>{t("Sequence")}</label>
+                            <div className="col-xs-12 col-md-12">
+                                <h4>THEN...</h4>
+                            </div>
+                            <div className="col-xs-12 col-md-12">
+                                <label>{t("Execute Sequence")}</label>
+                                <Select
+                                    options={sequenceOptions}
+                                    placeholder="Sequence..."
+                                    onChange={update}
+                                    value={sub_sequence_id}
+                                    />
+                            </div>
+                            <div className="col-xs-12 col-md-12">
+                                <h4>ELSE...</h4>
+                            </div>
+                            <div className="col-xs-12 col-md-12">
+                                <label>{t("Execute Sequence")}</label>
                                 <Select
                                     options={sequenceOptions}
                                     placeholder="Sequence..."
@@ -125,5 +143,5 @@ export function TileIfStatment({dispatch, step, index, sequences, sequence}:
                 </div>
             </div>
         </div>
-    </div>);
+    </div>;
 }
