@@ -26,11 +26,11 @@ c = function () {
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
         }));
 
-    // conf
-    //     .plugins
-    //     .push(new webpack.optimize.UglifyJsPlugin({
-    //         compressor: { warnings: false },
-    //     }));
+    conf
+        .plugins
+        .push(new webpack.optimize.UglifyJsPlugin({
+            compressor: { warnings: false },
+        }));
 
     conf
         .plugins
