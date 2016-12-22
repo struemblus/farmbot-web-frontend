@@ -104,7 +104,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         s.tools.all.push({ name, id });
         return s;
     })
-    .add<Tool>("SAVE_TOOL_OK", function (s, a) {
+    .add<Tool[]>("SAVE_TOOLS_OK", function (s, a) {
         s.tools.dirty = false;
         s.tools.isEditing = false;
         return s;
