@@ -5,7 +5,7 @@ var path = require("path");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 global.WEBPACK_ENV = "production";
 
-c = function () {
+c = function() {
     var conf = generateConfig();
 
     conf
@@ -17,6 +17,7 @@ c = function () {
         });
 
     conf.devtool = 'source-map';
+    conf.devtoolLineToLine = true;
 
     conf
         .plugins
