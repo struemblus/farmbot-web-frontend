@@ -1,12 +1,13 @@
 import * as React from "react";
 import { changeStep, removeStep, pushStep } from "../actions";
 import { assign } from "lodash";
-import { Step, NUMERIC_FIELDS } from "../interfaces";
+import { CeleryNode as Step } from "../corpus";
+import { NUMERIC_FIELDS } from "../interfaces";
 import { Help } from "../../ui";
 import { ExecuteBlock } from "../execute_block";
 import { Sequence } from "../interfaces";
 import { defensiveClone } from "../../util";
-import { TileIfStatment } from "./tile_if_statement";
+import { TileIf } from "./tile_if";
 import { TileWait } from "./tile_wait";
 import { TileMoveAbsolute } from "./tile_move_absolute";
 import { TileMoveRelative } from "./tile_move_relative";
@@ -138,7 +139,7 @@ export let stepTiles: { [name: string]: React.ReactType | undefined } = {
     write_parameter: Pending,
     read_parameter: Pending,
     execute: ExecuteBlock,
-    _if: TileIfStatment,
+    _if: TileIf,
     move_relative: TileMoveRelative,
     move_absolute: TileMoveAbsolute,
     write_pin: TileWritePin,

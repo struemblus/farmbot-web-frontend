@@ -1,5 +1,5 @@
+import { CeleryNode as Step } from "./corpus";
 import {
-    Step,
     Sequence,
     SequenceReducerState,
     ChanParams,

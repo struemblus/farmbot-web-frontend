@@ -75,8 +75,14 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
         </StepButton >,
         <StepButton dispatch={dispatch}
             step={{
-                kind: "if_statement",
-                args: { lhs: "x", op: "is", rhs: 0, sub_sequence_id: 0 }
+                kind: "_if",
+                args: {
+                    lhs: "x",
+                    op: "is",
+                    rhs: 0,
+                    _then: { kind: "nothing", args: {} },
+                    _else: { kind: "nothing", args: {} }
+                }
             }}
             color="purple" >
             {t("IF STATEMENT")}

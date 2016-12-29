@@ -1,5 +1,7 @@
 import * as React from "react";
-import { Step as IStep, Sequence } from "./interfaces";
+import { CeleryNode as Step } from "./corpus";
+import { CeleryNode as IStep } from "./corpus";
+import { Sequence } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
     editCurrentSequence,

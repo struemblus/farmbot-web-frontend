@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StepDragger, NULL_DRAGGER_ID } from "../../draggable/step_dragger";
-import { Step } from "../interfaces";
+import { CeleryNode as Step } from "../corpus";
 import { pushStep } from "../actions";
 
 interface StepButtonParams {

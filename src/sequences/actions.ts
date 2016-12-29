@@ -1,9 +1,9 @@
 import * as axios from "axios";
 import { Everything } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
+import { CeleryNode as Step } from "./corpus";
 import {
     SequenceOptions,
-    Step,
     Sequence,
     ChanParams,
     MessageParams

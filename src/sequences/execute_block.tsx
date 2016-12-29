@@ -1,6 +1,7 @@
 import * as React from "react";
 import { copy, remove, StepParams } from "./step_tiles/index";
-import { Step, Sequence } from "./interfaces";
+import { CeleryNode as Step } from "./corpus";
+import { Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
 import * as _ from "lodash";

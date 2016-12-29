@@ -8,10 +8,10 @@ import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SelectOptionsParams } from "../../interfaces";
 
-export function TileIfStatment({dispatch, step, index, sequences, sequence}:
+export function TileIf({dispatch, step, index, sequences, sequence}:
     StepParams) {
 
-    /** TODO: Hack?, is this node not getting the SendMessage interface? 
+    /** TODO: Hack?, is this node not getting the SendMessage interface?
     * says step.args.* does not exist. */
     let args = step.args as any;
     let { lhs, op, sub_sequence_id } = args;
