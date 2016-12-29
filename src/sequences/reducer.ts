@@ -4,7 +4,8 @@ import {
     SequenceReducerState,
     ChanParams,
     MessageParams,
-    UpdateAbsoluteStepPayl
+    UpdateAbsoluteStepPayl,
+    SequenceBodyMember
 } from "./interfaces";
 import {
     nullSequence,
@@ -53,6 +54,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
             step.args.location = { args: { x, y, z }, kind: "coordinate" };
         } else {
             let { value } = data;
+            value = parseInt(value.toString(), 10);
             step.args.location = { args: { tool_id: value }, kind: "tool" };
         }
         return s;
@@ -112,8 +114,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
             .all[state.current] || populate(state);
         markDirty(state);
         let { step } = action.payload;
-        let stepp = step;
-        current_sequence.body.push(stepp);
+        let stepp = step as SequenceBodyMember;
+        (current_sequence.body || []).push(stepp);
         return state;
     })
     .add<void>("ADD_SEQUENCE", function (state, action) {
@@ -201,14 +203,14 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         markDirty(s);
         s.all[s.current].body = move<Step>((s.all[s.current].body || []),
             a.payload.from,
-            a.payload.to);
+            a.payload.to) as SequenceBodyMember[];
         if (from < to) {
             // EDGE CASE: If you drag a step upwards, it will end up in the
             // wrong slot. As a fix, I swap the "to" index with the item below
             // it an vice versa.
             // I KNOW THERE ARE SHORTER WAYS TO SWAP AN ARRAY.
             // DO NOT OPTOMIZE. INTENTIONALLY LENGTHENED FOR CLARITY.
-            let list = s.all[s.current].body;
+            let list = (s.all[s.current].body || []);
             let topIndex = to;
             let bottomIndex = to - 1;
             let top = list[topIndex];
@@ -221,7 +223,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
         markDirty(s);
         let body = s.all[s.current].body || [];
-        body.splice(a.payload.insertBefore, 0, a.payload.step);
+        let step = a.payload.step as SequenceBodyMember;
+        body.splice(a.payload.insertBefore, 0, step);
         return s;
     });
 

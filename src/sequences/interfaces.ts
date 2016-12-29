@@ -1,11 +1,31 @@
 import { Color } from "../interfaces";
 import { SelectOptionsParams } from "../interfaces";
-import { Sequence as CeleryScriptSequence } from "./corpus";
+import {
+    Sequence as CeleryScriptSequence,
+    MoveAbsolute,
+    MoveRelative,
+    WritePin,
+    ReadPin,
+    Wait,
+    SendMessage,
+    If,
+    Execute
+} from "./corpus";
 export type CHANNEL_NAME = "toast" | "ticker";
 
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
     "pin_value", "pin_mode", "milliseconds",
     "sub_sequence_id", "rhs", "sub_sequence_id"];
+
+/** CeleryScript nodes allowed within a Sequence node's `body` attr. */
+export type SequenceBodyMember = MoveAbsolute
+    | MoveRelative
+    | WritePin
+    | ReadPin
+    | Wait
+    | SendMessage
+    | If
+    | Execute;
 
 export interface Sequence extends CeleryScriptSequence {
     color: Color;
