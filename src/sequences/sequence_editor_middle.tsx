@@ -57,7 +57,7 @@ let StepList = ({sequence, sequences, dispatch, tools}:
         tools: ToolsState
     }) => {
     return <div>
-        {sequence.body.map((step: IStep, inx: number) => {
+        {(sequence.body || []).map((step: IStep, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
             return <div key={inx}>
                 <DropArea callback={onDrop(dispatch as dispatcher, inx)} />

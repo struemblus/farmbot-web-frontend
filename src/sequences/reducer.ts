@@ -1,4 +1,4 @@
-import { CeleryNode as Step } from "./corpus";
+import { CeleryNode as Step, LATEST_VERSION, MoveAbsolute } from "./corpus";
 import {
     Sequence,
     SequenceReducerState,
@@ -31,7 +31,7 @@ const initialState: SequenceReducerState = {
         {
             color: "red",
             kind: "sequence",
-            args: { version: 99 },
+            args: { version: LATEST_VERSION },
             name: "New Sequence",
             body: [],
             dirty: false
@@ -45,8 +45,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let { data, index } = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
-        /** TODO: Fix interfaces and refactor old code for sequences */
-        let step: any = seq.body[index];
+        let step = (seq.body || [])[index] as MoveAbsolute;
 
         delete step.args.location;
         if (data.value === "---") {
@@ -62,7 +61,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let { index, channel_name} = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
-        let step = seq.body[index];
+        let step = (seq.body || [])[index];
         if (step.kind === "send_message") {
             step.body = step.body || [];
             step.body.push({ kind: "channel", args: { channel_name } });
@@ -76,7 +75,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let { index, channel_name} = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
-        let step = seq.body[index];
+        let step = (seq.body || [])[index];
         if (step.kind === "send_message") {
             step.body = step.body || [];
             step.body.push({ kind: "channel", args: { channel_name } });
@@ -92,7 +91,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let { value, index} = a.payload;
         let seq = s.all[s.current];
         seq.dirty = true;
-        let step = seq.body[index];
+        let step = (seq.body || [])[index];
         if (step.kind === "send_message") {
             step.args.message_type = value.toString();
         }
@@ -100,7 +99,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<{ index: number, comment: string }>("ADD_COMMENT", function (s, a) {
         let seq = s.all[s.current];
-        let node = seq.body[a.payload.index];
+        let node = (seq.body || [])[a.payload.index];
         markDirty(s);
         node.comment = a.payload.comment;
         // API complains about empty values.
@@ -131,14 +130,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<{ step: Step, index: number }>("CHANGE_STEP",
     function (state, action) {
-        /// DELETE THIS!?!?!?!?
-        // let steps = state.all[state.current].body || populate(state).body;
-        // let index = action.payload.index;
-        // let current_step = steps[index];
-        // steps[index] = assign<{}, Step>(current_step, action.payload.step);
-        // state.all[state.current].dirty = true;
         let currentSequence = state.all[state.current];
-        let currentStep = currentSequence.body[action.payload.index];
+        let currentStep = (currentSequence.body || [])[action.payload.index];
         markDirty(state);
         _.assign(currentStep, action.payload.step);
         return state;
@@ -147,7 +140,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     "CHANGE_STEP_SELECT", function (state, action) {
         markDirty(state);
         let currentSequence = state.all[state.current];
-        let currentStep = currentSequence.body[action.payload.index];
+        let currentStep = (currentSequence.body || [])[action.payload.index];
         /** Why isn't this interface working?? */
         let args: any = currentStep.args;
         args[action.payload.field] = action.payload.value;
@@ -156,7 +149,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<{ index: number }>("REMOVE_STEP", function (state, action) {
         let seq = state.all[state.current];
         let index = action.payload.index;
-        seq.body = _.without(seq.body, seq.body[index]);
+        seq.body = _.without((seq.body || []), (seq.body || [])[index]);
         markDirty(state);
         return state;
     })
@@ -206,7 +199,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
         let { from, to } = a.payload;
         markDirty(s);
-        s.all[s.current].body = move<Step>(s.all[s.current].body,
+        s.all[s.current].body = move<Step>((s.all[s.current].body || []),
             a.payload.from,
             a.payload.to);
         if (from < to) {
@@ -227,7 +220,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
         markDirty(s);
-        s.all[s.current].body.splice(a.payload.insertBefore, 0, a.payload.step);
+        let body = s.all[s.current].body || [];
+        body.splice(a.payload.insertBefore, 0, a.payload.step);
         return s;
     });
 

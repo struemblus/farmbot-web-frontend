@@ -14,8 +14,7 @@ export interface Sequence extends CeleryScriptSequence {
     id?: number;
 }
 
-
-type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };;
+export type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };
 
 export interface SequenceReducerState {
     all: Array<Sequence>;
