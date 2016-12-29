@@ -21,41 +21,54 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     }
 
     componentDidMount() {
-        let raw = this.props.step as any;
-        let location = raw.args.location;
-        let currSlot: { x?: number, y?: number, z?: number } = {};
-        this.props.tools.tools.all.map(tool => {
-            this.props.tools.tool_slots.map(slot => {
-                if (tool.id === slot.tool_id && this.state.options) {
-                    if (location.kind === "tool" &&
-                        location.args.tool_id === slot.tool_id) {
-                        currSlot = slot;
-                    }
-                    this.state.options.push({
-                        label: tool.name,
-                        value: tool.id,
-                        x: slot.x,
-                        y: slot.y,
-                        z: slot.z
-                    });
-                }
-            });
-        });
+        let raw = this.props.step;
 
-        let { speed } = raw.args;
-        switch (location.kind) {
-            case "tool":
-                this.setState({
-                    value: location.args.tool_id, speed,
-                    x: currSlot.x, y: currSlot.y, z: currSlot.z
+        if (raw.kind === "move_absolute") {
+            let location = raw.args.location;
+            let currSlot: { x?: number, y?: number, z?: number } = {};
+            this.props.tools.tools.all.map(tool => {
+                this.props.tools.tool_slots.map(slot => {
+                    if (tool.id === slot.tool_id && this.state.options) {
+                        if (location.kind === "tool" &&
+                            location.args.tool_id === slot.tool_id) {
+                            currSlot = slot;
+                        }
+                        this.state.options.push({
+                            label: tool.name,
+                            value: tool.id,
+                            x: slot.x,
+                            y: slot.y,
+                            z: slot.z
+                        });
+                    }
                 });
-                break;
-            case "coordinate":
-                let { x, y, z } = location.args;
-                this.setState({ x, y, z, speed });
-                break;
-            default:
-                throw new Error("Error getting node kind.");
+            });
+
+            let { speed } = raw.args;
+            switch (location.kind) {
+                case "tool":
+                    this.setState({
+                        value: location.args.tool_id, speed,
+                        x: currSlot.x, y: currSlot.y, z: currSlot.z
+                    });
+                    break;
+                case "coordinate":
+                    // CHRIS: This is a quick stub while I fix if_statement.
+                    //          - Rick, 12/29/16
+                    let wow = { ...location.args };
+                    let ok = { ...this.state };
+                    this.setState({
+                        x: wow.x || ok.x,
+                        y: wow.x || ok.y,
+                        z: wow.z || ok.z,
+                        speed
+                    });
+                    break;
+                default:
+                    throw new Error("Error getting node kind.");
+            }
+        } else {
+            console.warn(`Expected a move_absolute block, but got ${raw.kind}`);
         }
     }
 
@@ -135,20 +148,20 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                                 onClick={() => copy({ dispatch, step })} />
                             <i className="fa fa-trash step-control"
                                 onClick={() => remove({ dispatch, index })} />
-                            <Help text={(`The Move Absolute step instructs 
-                                FarmBot to move to the specified coordinate 
-                                regardless of the current position. For example, 
-                                if FarmBot is currently at X=1000, Y=1000 and it 
-                                receives a Move Absolute where X=0 and Y=3000, 
-                                then FarmBot will move to X=0, Y=3000. If 
-                                FarmBot must move in multiple directions, it 
-                                will move diagonally. If you require straight 
+                            <Help text={(`The Move Absolute step instructs
+                                FarmBot to move to the specified coordinate
+                                regardless of the current position. For example,
+                                if FarmBot is currently at X=1000, Y=1000 and it
+                                receives a Move Absolute where X=0 and Y=3000,
+                                then FarmBot will move to X=0, Y=3000. If
+                                FarmBot must move in multiple directions, it
+                                will move diagonally. If you require straight
                                 movements along one axis at a time, use multiple
-                                Move Absolute steps. Coming soon: Offsets allow 
+                                Move Absolute steps. Coming soon: Offsets allow
                                 you to more easily instruct FarmBot to move to a
-                                location, but offset from it by the specified 
-                                amount. For example moving to just above where a 
-                                peripheral is located. Using offsets lets 
+                                location, but offset from it by the specified
+                                amount. For example moving to just above where a
+                                peripheral is located. Using offsets lets
                                 FarmBot do the math for you.`)} />
                         </div>
                     </div>

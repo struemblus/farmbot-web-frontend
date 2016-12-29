@@ -140,13 +140,26 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<{ value: string | number, index: number, field: string }>(
     "CHANGE_STEP_SELECT", function (state, action) {
+        // CHRIS: I MADE SOME (stub) CHANGES HERE. Let's talk about this one.
+        //        proceed with caution, there may be issues with my changes.
+        //        - Rick wuz here. 12/29/16
         markDirty(state);
         let currentSequence = state.all[state.current];
         let currentStep = (currentSequence.body || [])[action.payload.index];
-        /** Why isn't this interface working?? */
-        let args: any = currentStep.args;
-        args[action.payload.field] = action.payload.value;
-        return state;
+        if (currentStep.kind === "_if") {
+            let sub_sequence_id = parseInt(action.payload.value.toString(), 10);
+            // TODO Come back and add `_else` feature.
+            currentStep.args._then = {
+                kind: "execute",
+                args: { sub_sequence_id }
+            };
+            currentStep.args._else = { kind: "nothing", args: {} };
+            debugger;
+            return state;
+        } else {
+            console.warn(`Unexpectedly got a '${currentStep.kind}' step.`);
+            return state;
+        }
     })
     .add<{ index: number }>("REMOVE_STEP", function (state, action) {
         let seq = state.all[state.current];
