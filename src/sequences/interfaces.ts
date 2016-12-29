@@ -1,24 +1,11 @@
-// import {
-//   userVariables as FarmBotJsuserVariables
-// } from "farmbot/dist/interfaces";
-// // import { BasicNode } from "../ast/interfaces";
 import { Color } from "../interfaces";
 import { SelectOptionsParams } from "../interfaces";
 import { Sequence as CeleryScriptSequence } from "./corpus";
-// /** TODO: Move this into FarmBotjs or celery
-//  *  script NPM pacakge. */
-// export interface BasicNode {
-//   kind: string;
-//   args: {};
-//   body?: BasicNode[] | undefined;
-//   comment?: string;
-// };
 export type CHANNEL_NAME = "toast" | "ticker";
 
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
     "pin_value", "pin_mode", "milliseconds",
     "sub_sequence_id", "rhs", "sub_sequence_id"];
-// type userVariables = FarmBotJsuserVariables;
 
 export interface Sequence extends CeleryScriptSequence {
     color: Color;
@@ -27,43 +14,13 @@ export interface Sequence extends CeleryScriptSequence {
     id?: number;
 }
 
-// type Steps = Step[];
 
 type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };;
-
-// export type possibleKind = "move_absolute"
-//   | "move_relative"
-//   | "write_pin"
-//   | "read_pin"
-//   | "wait"
-//   | "send_message"
-//   | "execute"
-//   | "if_statement"
-//   | "sub_sequence_id";
 
 export interface SequenceReducerState {
     all: Array<Sequence>;
     current: number;
 };
-
-// interface MoveAbsoluteNode extends BasicNode {
-//   kind: "move_absolute";
-//   args: {
-//     location: {
-//       kind: "coordinate" | "tool";
-//       args: { x: number; y: number; z: number; } | { tool_id: number }
-//     },
-//     offset: {
-//       kind: "coordinate",
-//       args: {
-//         x: number;
-//         y: number;
-//         z: number;
-//       }
-//     }
-//     speed: number;
-//   };
-// }
 
 export interface UpdateAbsoluteStepPayl {
     data: {
@@ -87,89 +44,6 @@ export interface UpdateAbsoluteStepPayl {
     };
     index: number;
 }
-
-// interface MoveRelativeNode extends BasicNode {
-//   kind: "move_relative";
-//   args: {
-//     x: number;
-//     y: number;
-//     z: number;
-//     speed: number;
-//   };
-// }
-
-// interface WritePinNode extends BasicNode {
-//   kind: "write_pin";
-//   args: {
-//     pin_number: number;
-//     pin_value: number;
-//     pin_mode: number;
-//   };
-// }
-
-// interface ReadPinNode extends BasicNode {
-//   kind: "read_pin";
-//   args: {
-//     pin_number: number;
-//     data_label: string;
-//   };
-// }
-
-// interface WaitNode extends BasicNode {
-//   kind: "wait";
-//   args: {
-//     milliseconds: number;
-//   };
-// }
-
-// export interface SendMessageNode extends BasicNode {
-//   kind: "send_message";
-//   args: {
-//     message: string;
-//     message_type: string;
-//   };
-//   body?: ChannelNode[] | undefined;
-// }
-
-// interface ExecuteNode extends BasicNode {
-//   kind: "execute";
-//   args: {
-//     sub_sequence_id: number;
-//   };
-// }
-
-// interface IfStatementNode extends BasicNode {
-//   kind: "if_statement";
-//   args: {
-//     lhs: userVariables | number
-//     op: ">" | "<" | "is" | "not";
-//     rhs: number;
-//     sub_sequence_id: number;
-//   };
-// }
-
-// export type Step = MoveAbsoluteNode
-//   | MoveRelativeNode
-//   | WritePinNode
-//   | ReadPinNode
-//   | WaitNode
-//   | SendMessageNode
-//   | ExecuteNode
-//   | IfStatementNode
-//   | ChannelNode;
-
-// export interface ChannelNode extends BasicNode {
-//   kind: "channel";
-//   args: {
-//     channel_name: string;
-//   };
-// }
-
-// export interface SequenceNode extends BasicNode {
-//   kind: "sequence";
-//   args: {};
-//   body: Step[] | undefined;
-// };
 
 /** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */
 export interface ChanParams {

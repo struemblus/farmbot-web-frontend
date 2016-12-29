@@ -31,7 +31,7 @@ const initialState: SequenceReducerState = {
         {
             color: "red",
             kind: "sequence",
-            args: {},
+            args: { version: 99 },
             name: "New Sequence",
             body: [],
             dirty: false
