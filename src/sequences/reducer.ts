@@ -148,13 +148,12 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[action.payload.index];
         if (currentStep.kind === "_if") {
             let sub_sequence_id = parseInt(action.payload.value.toString(), 10);
-            // TODO Come back and add `_else` feature.
             currentStep.args._then = {
                 kind: "execute",
                 args: { sub_sequence_id }
             };
+            // TODO Come back and add `_else` feature.
             currentStep.args._else = { kind: "nothing", args: {} };
-            debugger;
             return state;
         } else {
             console.warn(`Unexpectedly got a '${currentStep.kind}' step.`);
