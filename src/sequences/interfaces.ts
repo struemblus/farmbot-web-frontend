@@ -46,8 +46,9 @@ export type possibleKind = "move_absolute"
   | "wait"
   | "send_message"
   | "execute"
-  | "if_statement"
-  | "sub_sequence_id";
+  | "_if"
+  | "_else"
+  | "_then";
 
 export interface SequenceReducerState {
   all: Array<Sequence>;
@@ -147,7 +148,7 @@ interface ExecuteNode extends BasicNode {
 }
 
 interface IfStatementNode extends BasicNode {
-  kind: "if_statement";
+  kind: "_if";
   args: {
     lhs: userVariables | number
     op: ">" | "<" | "is" | "not";

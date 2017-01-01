@@ -56,7 +56,7 @@ function SequenceSelectBox({dispatch,
         dispatch(changeStep(index, newStep));
     };
 
-    if (step.kind === "execute" || step.kind === "if_statement") {
+    if (step.kind === "execute" || step.kind === "_if") {
         var ssid = step.args.sub_sequence_id;
     } else {
         console.warn("No sub sequence ID");

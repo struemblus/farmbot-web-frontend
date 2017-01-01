@@ -140,7 +140,7 @@ export let stepTiles: any = {
     write_parameter: Pending,
     read_parameter: Pending,
     execute: ExecuteBlock,
-    if_statement: TileIfStatment,
+    _if: TileIfStatment,
     move_relative: TileMoveRelative,
     move_absolute: TileMoveAbsolute,
     write_pin: TileWritePin,
