@@ -68,7 +68,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                     z: wow.z || ok.z,
                     speed
                 });
-                // offsets.x = location;
                 break;
             default:
                 throw new Error("Error getting node kind.");
@@ -222,7 +221,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                                         onCommit={update}
                                         value={step.args.offset.args.x.toString()}
                                         type="number"
-                                        name="offset-x" />
+                                        name="offsetX" />
                                 </div>
                                 <div className="col-xs-3 col-md-3">
                                     <label>{t("Y-Offset")}</label>
@@ -230,7 +229,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                                         onCommit={update}
                                         value={step.args.offset.args.y.toString()}
                                         type="number"
-                                        name="offset-y" />
+                                        name="offsetY" />
                                 </div>
                                 <div className="col-xs-3 col-md-3">
                                     <label>{t("Z-Offset")}</label>
@@ -238,7 +237,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                                         onCommit={update}
                                         value={step.args.offset.args.z.toString()}
                                         type="number"
-                                        name="offset-z" />
+                                        name="offsetZ" />
                                 </div>
                             </div>
                         </div>

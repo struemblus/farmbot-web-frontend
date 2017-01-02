@@ -55,7 +55,9 @@ export interface UpdateAbsoluteStepPayl {
         z: number;
       }
     ],
-    offset: string;
+    offsetX?: number;
+    offsetY?: number;
+    offsetZ?: number;
     x: number;
     y: number;
     z: number;
