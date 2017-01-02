@@ -49,6 +49,12 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         seq.dirty = true;
         let step = (seq.body || [])[index] as MoveAbsolute;
 
+        /** By checking to see if the data is being passed this way,
+         * we're able to keep useful data in Redux alone */
+        if (data.offsetX) { step.args.offset.args.x = data.offsetX; };
+        if (data.offsetY) { step.args.offset.args.y = data.offsetY; };
+        if (data.offsetZ) { step.args.offset.args.z = data.offsetZ; };
+
         delete step.args.location;
         if (data.value === "---") {
             let { x, y, z } = data;
