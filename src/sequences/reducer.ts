@@ -11,7 +11,8 @@ import {
     nullSequence,
     EditCurrentSequence,
     SpliceStepPayl,
-    MoveStepPayl
+    MoveStepPayl,
+    SelectPayl
 } from "./actions";
 import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
@@ -135,27 +136,52 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         _.assign(currentStep, a.payload.step);
         return s;
     })
-    .add<{ value: string | number, index: number, field: string }>(
-    "CHANGE_STEP_SELECT", function (s, a) {
+    .add<SelectPayl>("CHANGE_STEP_SELECT", function (s, a) {
         markDirty(s);
         let currentSequence = s.all[s.current];
         let currentStep = (currentSequence.body || [])[a.payload.index];
         let { field, value } = a.payload;
-        if (currentStep.kind === "_if" && field === "sub_sequence_id") {
+
+        // TODO: Any - Figure out index signatures?
+        let raw = currentStep.args as any;
+        raw[field] = value;
+        return s;
+    })
+    .add<SelectPayl>("UPDATE_SUB_SEQUENCE", function (s, a) {
+        markDirty(s);
+        let currentSequence = s.all[s.current];
+        let currentStep = (currentSequence.body || [])[a.payload.index];
+        let { value, type } = a.payload;
+
+        /** This kinda sucks. A lot is because of pleasing TS. 
+         * Eligible for a refactor.
+         */
+        if (currentStep.kind === "_if" && type === "_then" && value) {
             let sub_sequence_id = parseInt(value.toString());
             currentStep.args._then = {
                 kind: "execute",
                 args: { sub_sequence_id }
             };
-            // TODO Come back and add `_else` feature.
-            currentStep.args._else = { kind: "nothing", args: {} };
-            return s;
+        } else if (currentStep.kind === "_if" && type === "_else" && value) {
+            let sub_sequence_id = parseInt(value.toString());
+            currentStep.args._else = {
+                kind: "execute",
+                args: { sub_sequence_id }
+            };
+        } else if (currentStep.kind === "_if" && type === "_then") {
+            currentStep.args._then = {
+                kind: "nothing",
+                args: {}
+            };
+        } else if (currentStep.kind === "_if" && type === "_else") {
+            currentStep.args._else = {
+                kind: "nothing",
+                args: {}
+            };
         } else {
-            // TODO: Any - Figure out index signatures
-            let raw = currentStep.args as any;
-            raw[field] = value;
-            return s;
+            throw new Error("Error updating sub sequences.");
         }
+        return s;
     })
     .add<{ index: number }>("REMOVE_STEP", function (s, a) {
         let seq = s.all[s.current];

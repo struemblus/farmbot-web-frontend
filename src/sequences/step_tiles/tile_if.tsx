@@ -3,7 +3,10 @@ import { StepParams } from "./index";
 import { Help, Select } from "../../ui";
 import { t } from "i18next";
 import { copy, remove } from "./index";
-import { changeStepSelect } from "../actions";
+import {
+    changeStepSelect,
+    updateSubSequence
+} from "../actions";
 import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SelectOptionsParams } from "../../interfaces";
@@ -14,11 +17,14 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
     step = step as If;
     let args = step.args;
     let { lhs, op } = args;
-    let sub_sequence_id: number | undefined;
+    let then_id: number | undefined;
+    let else_id: number | undefined;
+
     if (args._then.kind === "execute") {
-        sub_sequence_id = args._then.args.sub_sequence_id;
-    } else {
-        sub_sequence_id = undefined;
+        then_id = args._then.args.sub_sequence_id;
+    }
+    if (args._else.kind === "execute") {
+        else_id = args._else.args.sub_sequence_id;
     };
 
     let LHSOptions: SelectOptionsParams[] = [
@@ -42,11 +48,21 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         { value: "z", label: "Z position", field: "lhs" }
     ];
 
-    let sequenceOptions: SelectOptionsParams[] = sequences.map(seq => {
+    let thenOptions: SelectOptionsParams[] = sequences.map(seq => {
         return {
             label: seq.name ? seq.name : "SEQUENCE NAME NOT FOUND",
             value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND",
-            field: "sub_sequence_id"
+            field: "sub_sequence_id",
+            type: "_then"
+        };
+    });
+
+    let elseOptions: SelectOptionsParams[] = sequences.map(seq => {
+        return {
+            label: seq.name ? seq.name : "SEQUENCE NAME NOT FOUND",
+            value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND",
+            field: "sub_sequence_id",
+            type: "_else"
         };
     });
 
@@ -63,7 +79,18 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         dispatch(changeStepSelect(value, index, field));
     };
 
-    let isRecursive = sub_sequence_id === sequence.id;
+    let updateSubSeq = (e: any) => {
+        let { field, value, type } = e;
+        dispatch(updateSubSequence(value, index, field, type));
+    };
+
+    // Let user know one of their sub sequences is recursive
+    let isRecursive = then_id === sequence.id || else_id === sequence.id;
+
+    // Add the ability to make the sub sequences blank
+    thenOptions.unshift({ label: "---", value: undefined, type: "_then" });
+    elseOptions.unshift({ label: "---", value: undefined, type: "_else" });
+
     return <div>
         <div className="step-wrapper">
             <div className="row">
@@ -125,10 +152,10 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                             <div className="col-xs-12 col-md-12">
                                 <label>{t("Execute Sequence")}</label>
                                 <Select
-                                    options={sequenceOptions}
+                                    options={thenOptions}
                                     placeholder="Sequence..."
-                                    onChange={update}
-                                    value={sub_sequence_id}
+                                    onChange={updateSubSeq}
+                                    value={then_id}
                                     />
                             </div>
                             <div className="col-xs-12 col-md-12">
@@ -137,10 +164,10 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                             <div className="col-xs-12 col-md-12">
                                 <label>{t("Execute Sequence")}</label>
                                 <Select
-                                    options={sequenceOptions}
+                                    options={elseOptions}
                                     placeholder="Sequence..."
-                                    onChange={update}
-                                    value={sub_sequence_id}
+                                    onChange={updateSubSeq}
+                                    value={else_id}
                                     />
                             </div>
                         </div>

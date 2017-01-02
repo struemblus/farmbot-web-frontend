@@ -127,14 +127,24 @@ export function changeStep(index: number, step: Step): ChangeStep {
     };
 }
 
-type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT";
+type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT" |
+    "UPDATE_SUB_SEQUENCE";
+
 export interface ChangeStepSelect {
     type: CHANGE_STEP_SELECT;
     payload: {
         value: number | string;
-        index: number
+        index: number;
         field: string;
+        type?: string;
     };
+}
+
+export interface SelectPayl {
+    value: number | string;
+    index: number;
+    field: string;
+    type?: string;
 }
 
 export function changeStepSelect(
@@ -144,6 +154,16 @@ export function changeStepSelect(
     return {
         type: "CHANGE_STEP_SELECT",
         payload: { value, index, field }
+    };
+}
+
+export function updateSubSequence(
+    value: string | number,
+    index: number,
+    field: string, type: string): ChangeStepSelect {
+    return {
+        type: "UPDATE_SUB_SEQUENCE",
+        payload: { value, index, field, type }
     };
 }
 
