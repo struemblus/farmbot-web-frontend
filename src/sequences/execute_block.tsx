@@ -1,6 +1,6 @@
 import * as React from "react";
 import { copy, remove, StepParams } from "./step_tiles/index";
-import { CeleryNode as Step } from "./corpus";
+import { CeleryNode as Step, Execute } from "./corpus";
 import { Sequence } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
@@ -57,17 +57,7 @@ function SequenceSelectBox({dispatch,
         dispatch(changeStep(index, newStep));
     };
 
-    let ssid: number;
-
-    if (step.kind === "execute") {
-        ssid = step.args.sub_sequence_id;
-    }
-    if (step.kind === "_if" && step.args._then.kind === "execute") {
-        ssid = step.args._then.args.sub_sequence_id;
-    } else {
-        // TODO: CHRIS- this is a stub. Let's talk about it.
-        ssid = -999;
-    };
+    let ssid = (step as Execute).args.sub_sequence_id;
 
     let subSeq = _.find(eligibleSequences, (s) => s.id === ssid) || {
         id: ""
