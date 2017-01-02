@@ -165,7 +165,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                                 <label>{t("Execute Sequence")}</label>
                                 <Select
                                     options={elseOptions}
-                                    placeholder="Sequence..."
+                                    placeholder="None (continue to next step)"
                                     onChange={updateSubSeq}
                                     value={else_id}
                                     />
