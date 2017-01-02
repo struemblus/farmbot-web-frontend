@@ -201,7 +201,7 @@ class DevicesPage extends React.Component<Everything, any> {
                     <div className="all-content-wrapper">
                         <div>
                             <div className="row">
-                                <div className={`col-md-5 col-sm-6 col-xs-12 
+                                <div className={`col-md-5 col-sm-6 col-xs-12
                                     col-md-offset-1`}>
                                     <div>
                                         <div className="widget-wrapper">
@@ -419,13 +419,13 @@ class DevicesPage extends React.Component<Everything, any> {
                                                                             <label>{t("CALIBRATION")}</label>
                                                                         </td>
                                                                         <td>
-                                                                            <CalibrationButton target="x" />
+                                                                            <CalibrationButton axis="x" />
                                                                         </td>
                                                                         <td>
-                                                                            <CalibrationButton target="y" />
+                                                                            <CalibrationButton axis="y" />
                                                                         </td>
                                                                         <td>
-                                                                            <CalibrationButton target="z" />
+                                                                            <CalibrationButton axis="z" />
                                                                         </td>
                                                                     </tr>
                                                                     <tr>

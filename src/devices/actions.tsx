@@ -2,7 +2,8 @@ import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success } from "../ui";
 import { Everything } from "../interfaces";
-import { GithubRelease, ChangeSettingsBuffer } from "./interfaces";
+import { BotStateTree } from "farmbot/dist/interfaces";
+import { GithubRelease, ChangeSettingsBuffer, RpcBotLog } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
 import {
@@ -12,22 +13,31 @@ import {
 } from "../devices/interfaces";
 import { t } from "i18next";
 import { configKey, Configuration } from "farmbot/dist/interfaces";
-import { MovementRequest } from "farmbot/dist/bot_commands";
-import { Notification } from "farmbot/dist/jsonrpc";
 import { Sequence } from "../sequences/interfaces";
-import { handleIncomingBotNotification } from "./incoming_bot_notification";
 import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
 import { API } from "../api";
+import { beep } from "../util";
+import { HardwareState } from "../devices/interfaces";
 
 const ON = 1, OFF = 0;
+
+export function incomingStatus(statusMessage: HardwareState) {
+    beep();
+    return { type: "BOT_CHANGE", payload: statusMessage };
+}
+
+export function incomingLog(botLog: RpcBotLog) {
+    beep();
+    return { type: "BOT_LOG", payload: botLog };
+};
 
 export function startRegimen(regimen: Regimen) {
     let noun = "Start Regimen";
     if (regimen.id != undefined) {
         devices
             .current
-            .startRegimen(regimen.id)
+            .startRegimen({ regimen_id: regimen.id })
             .then(() => { commandOK(noun); })
             .catch(() => { commandErr(noun); });
     }
@@ -38,7 +48,7 @@ export function stopRegimen(regimen: Regimen) {
     if (regimen.id != undefined) {
         devices
             .current
-            .stopRegimen(regimen.id)
+            .stopRegimen({ regimen_id: regimen.id })
             .then(() => { commandOK(noun); })
             .catch(() => { commandErr(noun); });
     }
@@ -103,7 +113,7 @@ export function emergencyUnlock() {
 
 export function sync(): Thunk {
     let noun = "Sync";
-    return function(dispatch, getState) {
+    return function (dispatch, getState) {
         devices
             .current
             .sync()
@@ -118,13 +128,17 @@ export function sync(): Thunk {
 
 export function execSequence(sequence: Sequence) {
     const noun = "Sequence execution";
-    return devices
-        .current
-        .execSequence({ steps: [], ...sequence })
-        .then(commandOK(noun), commandErr(noun));
+    if (sequence.id) {
+        return devices
+            .current
+            .execSequence(sequence.id)
+            .then(commandOK(noun), commandErr(noun));
+    } else {
+        throw new Error("Can't execute unsaved sequences");
+    }
 }
 
-export let saveAccountChanges: Thunk = function(dispatch, getState) {
+export let saveAccountChanges: Thunk = function (dispatch, getState) {
     let state = getState();
     let bot = getState().bot.account;
     let url = API.current.baseUrl;
@@ -221,7 +235,14 @@ export function settingToggle(name: configKey, bot: BotState) {
         .then(commandOK(noun), commandErr(noun));
 };
 
-export function moveRelative(props: MovementRequest) {
+interface MoveRelProps {
+    x: number;
+    y: number;
+    z: number;
+    speed: number;
+}
+
+export function moveRelative(props: MoveRelProps) {
     const noun = "Relative movement";
     return devices
         .current
@@ -241,7 +262,7 @@ export function homeAll(speed: number) {
     let noun = "'Home All' command";
     devices
         .current
-        .homeAll({ speed })
+        .home({ axis: "all", speed })
         .then(commandOK(noun), commandErr(noun));
 }
 
@@ -265,22 +286,15 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                 devices.current = bot;
                 readStatus();
                 dispatch(sync());
-                logDump();
-                bot.on("notification",
-                    (msg: Notification<any>) => {
-                        handleIncomingBotNotification(msg, dispatch);
-                    });
+                bot.on("logs", function (msg: RpcBotLog) {
+                    dispatch(incomingLog(msg));
+                });
+                bot.on("status", function (msg: BotStateTree) {
+                    dispatch(incomingStatus(msg));
+                });
             }, (err) => dispatch(fetchDeviceErr(err)));
     };
 };
-
-function logDump() {
-    return devices
-        .current
-        .logDump()
-        .then(() => { })
-        .catch(() => { });
-}
 
 function fetchDeviceErr(err: Error) {
     return {
@@ -314,7 +328,7 @@ export function changeStepSize(integer: number) {
 }
 
 export function commitAxisChanges() {
-    return function(
+    return function (
         dispatch: Function,
         getState: () => Everything) {
         let {axisBuffer, hardware} = getState().bot;
@@ -326,7 +340,7 @@ export function commitAxisChanges() {
             return Number(axisBuffer[attr] ||
                 (hardware as any)[attr] || fallback);
         };
-        let packet: MovementRequest = {
+        let packet = {
             speed: pick("speed", speed),
             x: pick("x", 0),
             y: pick("y", 0),
@@ -341,7 +355,7 @@ export function commitAxisChanges() {
 }
 
 export function commitSettingsChanges() {
-    return function(dispatch: Function,
+    return function (dispatch: Function,
         getState: () => Everything) {
         let { settingsBuffer, configBuffer, hardware } = getState().bot;
         let mcuPacket = _({})
@@ -378,7 +392,7 @@ export function changeAxisBuffer(key: string, val: number) {
 }
 
 export function clearLogs(): Thunk {
-    return function(dispatch, getState) {
+    return function (dispatch, getState) {
         dispatch({ type: "CLEAR_BOT_LOG", payload: {} });
     };
 }
