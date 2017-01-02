@@ -31,9 +31,7 @@ export interface SelectOptionsParams {
 export interface Log {
     id: number;
     message: string;
-    meta: {
-        type: string;
-    };
+    meta: { type: string; };
     channels: string;
     device_id: number;
     created_at: string;

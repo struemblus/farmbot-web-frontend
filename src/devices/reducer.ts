@@ -14,6 +14,7 @@ import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot/dist/interfaces";
 import { Sync } from "../interfaces";
 
+// TODO: Do we even need this anymore after the ticker overhaul?
 let status = {
     NOT_READY: (): string => { return i18next.t("never connected to device"); },
     CONNECTING: (): string => { return i18next.t("initiating connection"); },

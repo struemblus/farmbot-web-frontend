@@ -41,7 +41,7 @@ export interface MoveAbsolute {
   kind: "move_absolute";
   args: {
     location: Tool
-          | Coordinate;
+    | Coordinate;
     speed: number;
     offset: Coordinate;
   };
@@ -127,9 +127,9 @@ export interface If {
     op: string;
     rhs: number;
     _then: Execute
-          | Nothing;
+    | Nothing;
     _else: Execute
-          | Nothing;
+    | Nothing;
   };
   comment?: string | undefined;
   body?: undefined;
@@ -142,13 +142,13 @@ export interface Sequence {
   };
   comment?: string | undefined;
   body?: (MoveAbsolute
-          | MoveRelative
-          | WritePin
-          | ReadPin
-          | Wait
-          | SendMessage
-          | Execute
-          | If)[] | undefined;
+    | MoveRelative
+    | WritePin
+    | ReadPin
+    | Wait
+    | SendMessage
+    | Execute
+    | If)[] | undefined;
 }
 
 export interface Home {
@@ -262,26 +262,26 @@ export interface RpcRequest {
   };
   comment?: string | undefined;
   body?: (Home
-          | EmergencyLock
-          | EmergencyUnlock
-          | ReadStatus
-          | Sync
-          | CheckUpdates
-          | PowerOff
-          | Reboot
-          | TogglePin
-          | StartRegimen
-          | StopRegimen
-          | McuConfigUpdate
-          | Calibrate
-          | BotConfigUpdate
-          | Execute
-          | MoveAbsolute
-          | MoveRelative
-          | WritePin
-          | ReadPin
-          | Wait
-          | SendMessage)[] | undefined;
+    | EmergencyLock
+    | EmergencyUnlock
+    | ReadStatus
+    | Sync
+    | CheckUpdates
+    | PowerOff
+    | Reboot
+    | TogglePin
+    | StartRegimen
+    | StopRegimen
+    | McuConfigUpdate
+    | Calibrate
+    | BotConfigUpdate
+    | Execute
+    | MoveAbsolute
+    | MoveRelative
+    | WritePin
+    | ReadPin
+    | Wait
+    | SendMessage)[] | undefined;
 }
 
 export interface RpcOk {
@@ -330,52 +330,58 @@ export interface BotConfigUpdate {
 }
 
 export type CeleryNode = Nothing
-          | Tool
-          | Coordinate
-          | MoveAbsolute
-          | MoveRelative
-          | WritePin
-          | ReadPin
-          | Channel
-          | Wait
-          | SendMessage
-          | Execute
-          | If
-          | Sequence
-          | Home
-          | EmergencyLock
-          | EmergencyUnlock
-          | ReadStatus
-          | Sync
-          | CheckUpdates
-          | PowerOff
-          | Reboot
-          | TogglePin
-          | StartRegimen
-          | StopRegimen
-          | Explanation
-          | RpcRequest
-          | RpcOk
-          | RpcError
-          | Calibrate
-          | McuConfigUpdate
-          | BotConfigUpdate;
+  | Tool
+  | Coordinate
+  | MoveAbsolute
+  | MoveRelative
+  | WritePin
+  | ReadPin
+  | Channel
+  | Wait
+  | SendMessage
+  | Execute
+  | If
+  | Sequence
+  | Home
+  | EmergencyLock
+  | EmergencyUnlock
+  | ReadStatus
+  | Sync
+  | CheckUpdates
+  | PowerOff
+  | Reboot
+  | TogglePin
+  | StartRegimen
+  | StopRegimen
+  | Explanation
+  | RpcRequest
+  | RpcOk
+  | RpcError
+  | Calibrate
+  | McuConfigUpdate
+  | BotConfigUpdate;
 export const LATEST_VERSION = 3;
 export const DIGITAL = 0;
 export const ANALOG = 1;
 export type ALLOWED_PIN_MODES = 0
-          | 1;
+  | 1;
 export type ALLOWED_MESSAGE_TYPES = "success"
-          | "busy"
-          | "warn"
-          | "error"
-          | "info"
-          | "fun";
+  | "busy"
+  | "warn"
+  | "error"
+  | "info"
+  | "fun";
 export type ALLOWED_CHANNEL_NAMES = "ticker"
-          | "toast";
+  | "toast";
 export type ALLOWED_DATA_TYPES = "string"
-          | "integer";
+  | "integer";
 export type ALLOWED_OPS = "<"
-          | ">"
-          | "is"
-          | "not";
+  | ">"
+  | "is"
+  | "not";
+export type ALLOWED_PACKAGES = "farmbot_os"
+  | "arduino_firmware";
+export type ALLOWED_AXIS = "x"
+  | "y"
+  | "z"
+  | "all";
