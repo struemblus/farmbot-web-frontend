@@ -138,7 +138,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         _.assign(currentStep, action.payload.step);
         return state;
     })
-    .add<{ value: string | number, index: number, field: string }>(
+    .add<{ value: string | number | undefined, index: number, field: string }>(
     "CHANGE_STEP_SELECT", function (state, action) {
         // CHRIS: I MADE SOME (stub) CHANGES HERE. Let's talk about this one.
         //        proceed with caution, there may be issues with my changes.
@@ -146,7 +146,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         markDirty(state);
         let currentSequence = state.all[state.current];
         let currentStep = (currentSequence.body || [])[action.payload.index];
-        if (currentStep.kind === "_if") {
+        if (currentStep.kind === "_if" && action.payload.value) {
             let sub_sequence_id = parseInt(action.payload.value.toString(), 10);
             currentStep.args._then = {
                 kind: "execute",

@@ -7,8 +7,15 @@ import { copy, remove, CustomOptionProps } from "./index";
 import { MoveAbsState } from "../interfaces";
 import { t } from "i18next";
 import { updateMoveAbsStep } from "../actions";
+import { MoveAbsolute } from "../corpus";
 
-export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
+/** Adds more specificity to the `StepParams` interface, since we only deal with
+ *  MoveAbsolute nodes. */
+interface MoveAbsProps extends StepParams {
+    step: MoveAbsolute;
+}
+
+export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     constructor() {
         super();
         this.update = this.update.bind(this);
@@ -21,54 +28,51 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     }
 
     componentDidMount() {
-        let raw = this.props.step;
+        let step = this.props.step;
 
-        if (raw.kind === "move_absolute") {
-            let location = raw.args.location;
-            let currSlot: { x?: number, y?: number, z?: number } = {};
-            this.props.tools.tools.all.map(tool => {
-                this.props.tools.tool_slots.map(slot => {
-                    if (tool.id === slot.tool_id && this.state.options) {
-                        if (location.kind === "tool" &&
-                            location.args.tool_id === slot.tool_id) {
-                            currSlot = slot;
-                        }
-                        this.state.options.push({
-                            label: tool.name,
-                            value: tool.id,
-                            x: slot.x,
-                            y: slot.y,
-                            z: slot.z
-                        });
+        let location = step.args.location;
+        let currSlot: { x?: number, y?: number, z?: number } = {};
+        this.props.tools.tools.all.map(tool => {
+            this.props.tools.tool_slots.map(slot => {
+                if (tool.id === slot.tool_id && this.state.options) {
+                    if (location.kind === "tool" &&
+                        location.args.tool_id === slot.tool_id) {
+                        currSlot = slot;
                     }
-                });
+                    this.state.options.push({
+                        label: tool.name,
+                        value: tool.id,
+                        x: slot.x,
+                        y: slot.y,
+                        z: slot.z
+                    });
+                }
             });
+        });
 
-            let { speed } = raw.args;
-            switch (location.kind) {
-                case "tool":
-                    this.setState({
-                        value: location.args.tool_id, speed,
-                        x: currSlot.x, y: currSlot.y, z: currSlot.z
-                    });
-                    break;
-                case "coordinate":
-                    // CHRIS: This is a quick stub while I fix if_statement.
-                    //          - Rick, 12/29/16
-                    let wow = { ...location.args };
-                    let ok = { ...this.state };
-                    this.setState({
-                        x: wow.x || ok.x,
-                        y: wow.x || ok.y,
-                        z: wow.z || ok.z,
-                        speed
-                    });
-                    break;
-                default:
-                    throw new Error("Error getting node kind.");
-            }
-        } else {
-            console.warn(`Expected a move_absolute block, but got ${raw.kind}`);
+        let { speed } = step.args;
+        switch (location.kind) {
+            case "tool":
+                this.setState({
+                    value: location.args.tool_id, speed,
+                    x: currSlot.x, y: currSlot.y, z: currSlot.z
+                });
+                break;
+            case "coordinate":
+                // CHRIS: This is a quick stub while I fix if_statement.
+                //          - Rick, 12/29/16
+                let wow = { ...location.args };
+                let ok = { ...this.state };
+                this.setState({
+                    x: wow.x || ok.x,
+                    y: wow.x || ok.y,
+                    z: wow.z || ok.z,
+                    speed
+                });
+                // offsets.x = location;
+                break;
+            default:
+                throw new Error("Error getting node kind.");
         }
     }
 
@@ -93,9 +97,6 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
         let { update, updateSelect } = this;
         let { index, dispatch, step } = this.props;
         let { options, value } = this.state;
-
-        let raw = step as any;
-        let args = raw.args.location.args;
 
         let optionComponent = (props: CustomOptionProps) => {
             let handleMouseDown = (e: React.SyntheticEvent<HTMLDivElement>) => {
@@ -220,7 +221,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                                     <label>{t("X-Offset")}</label>
                                     <BlurableInput
                                         onCommit={update}
-                                        value={raw.args.offset.args.x}
+                                        value={step.args.offset.args.x.toString()}
                                         type="number"
                                         name="offset-x" />
                                 </div>
@@ -228,7 +229,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                                     <label>{t("Y-Offset")}</label>
                                     <BlurableInput
                                         onCommit={update}
-                                        value={raw.args.offset.args.y}
+                                        value={step.args.offset.args.y.toString()}
                                         type="number"
                                         name="offset-y" />
                                 </div>
@@ -236,7 +237,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                                     <label>{t("Z-Offset")}</label>
                                     <BlurableInput
                                         onCommit={update}
-                                        value={raw.args.offset.args.z}
+                                        value={step.args.offset.args.z.toString()}
                                         type="number"
                                         name="offset-z" />
                                 </div>
