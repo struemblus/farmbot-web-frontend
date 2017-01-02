@@ -20,7 +20,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
         super();
         this.update = this.update.bind(this);
         this.updateSelect = this.updateSelect.bind(this);
-        // this.updateReducer = this.updateReducer.bind(this);
         this.state = {
             options: [{ label: "---", value: "---", x: 0, y: 0, z: 0 }],
             value: "---", x: 0, y: 0, z: 0, speed: 0

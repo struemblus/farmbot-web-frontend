@@ -20,8 +20,9 @@ export type Color = FarmBotJsColor;
 
 export interface SelectOptionsParams {
     label: string;
-    value: string | number;
+    value: string | number | undefined;
     field?: string;
+    type?: string;
     x?: number;
     y?: number;
     z?: number;
