@@ -57,19 +57,19 @@ export function fakeState(dispatcher?: Function): Everything {
         },
         /** Holds settings that the user is currently editing, but has not sent */
         settingsBuffer: {
-            movement_max_spd_x: "",
-            movement_max_spd_y: "",
-            movement_max_spd_z: "",
-            movement_steps_acc_dec_x: "",
-            movement_steps_acc_dec_y: "",
-            movement_steps_acc_dec_z: "",
-            movement_timeout_x: "",
-            movement_timeout_y: "",
-            movement_timeout_z: "",
+            movement_max_spd_x: "0",
+            movement_max_spd_y: "0",
+            movement_max_spd_z: "0",
+            movement_steps_acc_dec_x: "0",
+            movement_steps_acc_dec_y: "0",
+            movement_steps_acc_dec_z: "0",
+            movement_timeout_x: "0",
+            movement_timeout_y: "0",
+            movement_timeout_z: "0",
         },
         configBuffer: {
-            os_auto_update: false,
-            fw_auto_update: true
+            os_auto_update: 0,
+            fw_auto_update: 1
         },
         hardware: {
             mcu_params: {},
