@@ -20,6 +20,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
     } else {
         sub_sequence_id = undefined;
     };
+
     let LHSOptions: SelectOptionsParams[] = [
         { value: "busy", label: "Busy Status (0, 1)", field: "lhs" },
         { value: "pin0", label: "Pin 0", field: "lhs" },
@@ -49,7 +50,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         };
     });
 
-    let OperatorOptions: SelectOptionsParams[] = [
+    let operatorOptions: SelectOptionsParams[] = [
         { value: "<", label: "is less than", field: "op" },
         { value: ">", label: "is greater than", field: "op" },
         { value: "is", label: "is equal to", field: "op" },
@@ -59,12 +60,10 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
     // TODO: Anys coming from react-select events
     let update = (e: any) => {
         let { field, value } = e;
-        console.dir(`Changed to: ${String(field)}, ${String(value)}`);
         dispatch(changeStepSelect(value, index, field));
     };
 
-    let isRecursive = sub_sequence_id == sequence.id;
-    console.log(`ssid is ${String(sub_sequence_id)}`);
+    let isRecursive = sub_sequence_id === sequence.id;
     return <div>
         <div className="step-wrapper">
             <div className="row">
@@ -107,7 +106,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                             <div className="col-xs-4 col-md-4">
                                 <label>{t("Operator")}</label>
                                 <Select
-                                    options={OperatorOptions}
+                                    options={operatorOptions}
                                     placeholder="Condition..."
                                     onChange={update}
                                     value={op}
