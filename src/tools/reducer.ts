@@ -65,8 +65,6 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     .add<ToolSlot[]>("SAVE_TOOL_SLOTS_OK", function (s, a) {
-        // CHRIS I MADE CHANGES HERE. Please review.
-        //  - Rick 12/30/16
         a.payload.map(function (ts) {
             let index = _.findIndex(s.tool_slots, { id: ts.id });
             s.tool_slots.splice(index, 1, ts);
@@ -82,8 +80,6 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     })
     .add<UpdateToolSlotPayl>("UPDATE_TOOL_SLOT", function (s, a) {
         let { name, value } = a.payload;
-        // CHRIS I MADE CHANGES HERE PLEASE REVIEW.
-        // - Rick 12/30/16
         let slot = _.find(s.tool_slots, { id: a.payload.id });
         let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
         bay.dirty = true;
