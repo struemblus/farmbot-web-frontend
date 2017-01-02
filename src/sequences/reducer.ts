@@ -142,9 +142,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[a.payload.index];
         let { field, value } = a.payload;
         if (currentStep.kind === "_if" && field === "sub_sequence_id") {
-            // TODO: Why does TS complain about parseInt(value)?
-            let theValue = value as string;
-            let sub_sequence_id = parseInt(theValue);
+            let sub_sequence_id = parseInt(value.toString());
             currentStep.args._then = {
                 kind: "execute",
                 args: { sub_sequence_id }
