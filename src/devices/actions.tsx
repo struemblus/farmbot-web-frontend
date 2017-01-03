@@ -275,7 +275,7 @@ export function readStatus() {
             commandOK(noun);
         })
         .catch(function () {
-            error(t("Could not fetch bot status. Is FarmBot online?"));
+            warning(t("Could not fetch bot status. Is FarmBot online?"));
         });
 }
 
@@ -301,7 +301,7 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                     if (!alreadyToldYou) {
                         warning(t("FarmBot sent a malformed message. " +
                             "You may need to upgrade FarmBot OS. " +
-                            "Please upgrading FarmBot OS and log back in."));
+                            "Please upgrade FarmBot OS and log back in."));
                         alreadyToldYou = true;
                     }
                 });
