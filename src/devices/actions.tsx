@@ -1,6 +1,6 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
-import { error, success } from "../ui";
+import { error, success, warning } from "../ui";
 import { Everything } from "../interfaces";
 import { BotStateTree } from "farmbot/dist/interfaces";
 import { GithubRelease, ChangeSettingsBuffer, RpcBotLog } from "./interfaces";
@@ -274,7 +274,9 @@ export function readStatus() {
         .then(() => {
             commandOK(noun);
         })
-        .catch(commandErr(noun));
+        .catch(function () {
+            error(t("Could not fetch bot status. Is FarmBot online?"));
+        });
 }
 
 export function connectDevice(token: string): {} | ((dispatch: any) => any) {
@@ -291,6 +293,17 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                 });
                 bot.on("status", function (msg: BotStateTree) {
                     dispatch(incomingStatus(msg));
+                });
+
+                let alreadyToldYou = false;
+                bot.on("malformed", function (unsafe: any) {
+                    console.dir(unsafe);
+                    if (!alreadyToldYou) {
+                        warning(t("FarmBot sent a malformed message. " +
+                            "You may need to upgrade FarmBot OS. " +
+                            "Please upgrading FarmBot OS and log back in."));
+                        alreadyToldYou = true;
+                    }
                 });
             }, (err) => dispatch(fetchDeviceErr(err)));
     };
