@@ -2,7 +2,6 @@ import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success, warning } from "../ui";
 import { Everything } from "../interfaces";
-import { BotStateTree } from "farmbot/dist/interfaces";
 import { GithubRelease, ChangeSettingsBuffer, RpcBotLog } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
@@ -12,7 +11,7 @@ import {
     BotState
 } from "../devices/interfaces";
 import { t } from "i18next";
-import { configKey, Configuration } from "farmbot/dist/interfaces";
+import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
@@ -21,6 +20,7 @@ import { beep } from "../util";
 import { HardwareState } from "../devices/interfaces";
 
 const ON = 1, OFF = 0;
+type configKey = keyof McuParams;
 
 export function incomingStatus(statusMessage: HardwareState) {
     beep();

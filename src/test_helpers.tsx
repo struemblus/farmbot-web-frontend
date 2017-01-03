@@ -78,9 +78,7 @@ export function fakeState(dispatcher?: Function): Everything {
             location: [-1, -1, -1],
             pins: {},
             farm_scheduler: {
-                current_sequence: null,
-                process_info: [],
-                sequence_log: []
+                process_info: []
             }
         },
     };

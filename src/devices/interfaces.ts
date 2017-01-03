@@ -1,8 +1,8 @@
 import {
   BotStateTree,
   Configuration,
-  configKey
-} from "farmbot/dist/interfaces";
+  McuParams
+} from "farmbot";
 import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "../sequences/corpus";
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
@@ -101,6 +101,7 @@ export interface GithubRelease {
   tag_name: string;
 }
 
+type configKey = keyof McuParams;
 export interface ChangeSettingsBuffer {
   key: configKey;
   val: number;

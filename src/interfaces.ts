@@ -9,7 +9,7 @@ import {
 } from "./regimens/interfaces";
 import { SequenceReducerState, Sequence } from "./sequences/interfaces";
 import { DesignerState, Plant } from "./farm_designer/interfaces";
-import { Color as FarmBotJsColor } from "farmbot/dist/interfaces";
+import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
