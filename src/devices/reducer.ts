@@ -11,7 +11,7 @@ import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
-import { Configuration } from "farmbot/dist/interfaces";
+import { Configuration } from "farmbot";
 import { Sync } from "../interfaces";
 
 // TODO: Do we even need this anymore after the ticker overhaul?
@@ -50,8 +50,6 @@ let initialState: BotState = {
         informational_settings: {},
         farm_scheduler: {
             process_info: [],
-            sequence_log: [],
-            current_sequence: null,
         }
     },
     axisBuffer: {},
