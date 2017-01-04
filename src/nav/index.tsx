@@ -64,7 +64,7 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
 let links = [
     { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
     { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
-    { name: "Devices", icon: "cog", url: "/app/devices" },
+    { name: "Device", icon: "cog", url: "/app/devices" },
     { name: "Sequences", icon: "server", url: "/app/sequences" },
     {
         name: "Regimens", icon: "calendar-check-o",
@@ -143,13 +143,13 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                             <li key={link.url}>
                                 <Link to={link.url}
                                     /** TODO: Royal pain. This onClick fires
-                                     * every time a link is clicked in the 
+                                     * every time a link is clicked in the
                                      * desktop nav. Which in turn "freezes"
-                                     * the user scroll when not desired. 
-                                     * Tried all sorts of plugins and 
+                                     * the user scroll when not desired.
+                                     * Tried all sorts of plugins and
                                      * alternatives. No dice.
                                      */
-                                    // onClick={() => { toggleNav(); } } 
+                                    // onClick={() => { toggleNav(); } }
                                     activeClassName="active">
                                     <i className={`fa fa-${link.icon}`} />
                                     {link.name}
@@ -158,7 +158,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                         );
                     })}
                 </ul>
-                {/** TODO: Getting the links from the desktop dropdown to the 
+                {/** TODO: Getting the links from the desktop dropdown to the
                     mobile slide-out menu involves gnarly (and probably mobile-
                     incompatible) CSS. I'll look into this one. -CV */}
                 <ul className="mobile-menu-extras">
