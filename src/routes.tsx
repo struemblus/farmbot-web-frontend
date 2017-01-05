@@ -53,7 +53,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
       /app                => App
       /app/designer?p1&p2 => FarmDesigner
       /app/controls       => Controls
-      /app/devices        => Devices
+      /app/device         => Devices
       /app/sequences      => Sequences
       /app/regimens       => Regimens
       /app/tools          => Tools
@@ -66,7 +66,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         <Route path="controls"
             component={Controls}
             onEnter={this.requireAuth.bind(this)} />
-        <Route path="devices"
+        <Route path="device"
             component={Devices}
             onEnter={this.requireAuth.bind(this)} />
         <Route path="sequences"
