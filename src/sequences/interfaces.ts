@@ -15,7 +15,7 @@ export type CHANNEL_NAME = "toast" | "ticker";
 
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
   "pin_value", "pin_mode", "milliseconds",
-  "sub_sequence_id", "rhs", "sub_sequence_id"];
+  "sequence_id", "rhs", "sequence_id"];
 
 /** CeleryScript nodes allowed within a Sequence node's `body` attr. */
 export type SequenceBodyMember = MoveAbsolute

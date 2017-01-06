@@ -163,16 +163,16 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
          * Eligible for a refactor.
          */
         if (currentStep.kind === "_if" && type === "_then" && value) {
-            let sub_sequence_id = parseInt(value.toString());
+            let sequence_id = parseInt(value.toString());
             currentStep.args._then = {
                 kind: "execute",
-                args: { sub_sequence_id }
+                args: { sequence_id }
             };
         } else if (currentStep.kind === "_if" && type === "_else" && value) {
-            let sub_sequence_id = parseInt(value.toString());
+            let sequence_id = parseInt(value.toString());
             currentStep.args._else = {
                 kind: "execute",
-                args: { sub_sequence_id }
+                args: { sequence_id }
             };
         } else if (currentStep.kind === "_if" && type === "_then") {
             currentStep.args._then = {

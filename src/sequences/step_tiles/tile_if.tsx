@@ -21,10 +21,10 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
     let else_id: number | undefined;
 
     if (args._then.kind === "execute") {
-        then_id = args._then.args.sub_sequence_id;
+        then_id = args._then.args.sequence_id;
     }
     if (args._else.kind === "execute") {
-        else_id = args._else.args.sub_sequence_id;
+        else_id = args._else.args.sequence_id;
     };
 
     let LHSOptions: SelectOptionsParams[] = [
@@ -52,7 +52,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         return {
             label: seq.name ? seq.name : "SEQUENCE NAME NOT FOUND",
             value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND",
-            field: "sub_sequence_id",
+            field: "sequence_id",
             type: "_then"
         };
     });
@@ -61,7 +61,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         return {
             label: seq.name ? seq.name : "SEQUENCE NAME NOT FOUND",
             value: seq.id ? seq.id : "SEQUENCE ID NOT FOUND",
-            field: "sub_sequence_id",
+            field: "sequence_id",
             type: "_else"
         };
     });

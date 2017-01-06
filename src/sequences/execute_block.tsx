@@ -50,14 +50,14 @@ function SequenceSelectBox({dispatch,
     // TODO: Take care of this any
     function change(e: any) {
         let val = e.value;
-        let sub_sequence_id = parseInt(val.toString(), 10);
-        let update = { args: { sub_sequence_id } };
+        let sequence_id = parseInt(val.toString(), 10);
+        let update = { args: { sequence_id } };
         let newStep = Object.assign({}, step, update);
 
         dispatch(changeStep(index, newStep));
     };
 
-    let ssid = (step as Execute).args.sub_sequence_id;
+    let ssid = (step as Execute).args.sequence_id;
 
     let subSeq = _.find(eligibleSequences, (s) => s.id === ssid) || {
         id: ""

@@ -77,13 +77,13 @@ export interface IStepInput {
     | "z"
     | "stub" // For unimplemented features.
     | "variable"
-    | "data_label"
+    | "label"
     | "milliseconds"
     | "message"
     | "lhs"
     | "op"
     | "rhs"
-    | "sub_sequence_id";
+    | "sequence_id";
     dispatch: Function;
     index: number;
 }
