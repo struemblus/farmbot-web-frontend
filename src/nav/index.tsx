@@ -64,7 +64,7 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
 let links = [
     { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
     { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
-    { name: "Device", icon: "cog", url: "/app/devices" },
+    { name: "Device", icon: "cog", url: "/app/device" },
     { name: "Sequences", icon: "server", url: "/app/sequences" },
     {
         name: "Regimens", icon: "calendar-check-o",

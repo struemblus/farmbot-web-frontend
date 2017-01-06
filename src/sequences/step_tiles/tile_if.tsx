@@ -74,14 +74,18 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
     ];
 
     // TODO: Anys coming from react-select events
-    let update = (e: any) => {
+    let update = (e: SelectOptionsParams) => {
         let { field, value } = e;
-        dispatch(changeStepSelect(value, index, field));
+        if (value && field) {
+            dispatch(changeStepSelect(value, index, field));
+        }
     };
 
-    let updateSubSeq = (e: any) => {
+    let updateSubSeq = (e: SelectOptionsParams) => {
         let { field, value, type } = e;
-        dispatch(updateSubSequence(value, index, field, type));
+        if (value && field && type) {
+            dispatch(updateSubSequence(value, index, field, type));
+        }
     };
 
     // Let user know one of their sub sequences is recursive
