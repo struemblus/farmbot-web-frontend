@@ -10,7 +10,7 @@ import {
 import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SelectOptionsParams } from "../../interfaces";
-import { If } from "../corpus";
+import { If } from "farmbot";
 
 export function TileIf({dispatch, step, index, sequences, sequence}:
     StepParams) {

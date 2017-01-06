@@ -10,7 +10,7 @@ import {
   SendMessage,
   If,
   Execute
-} from "./corpus";
+} from "farmbot";
 export type CHANNEL_NAME = "toast" | "ticker";
 
 export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",

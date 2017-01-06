@@ -1,4 +1,4 @@
-import { CeleryNode as Step, LATEST_VERSION, MoveAbsolute } from "./corpus";
+import { CeleryNode as Step, LATEST_VERSION, MoveAbsolute } from "farmbot";
 import {
     Sequence,
     SequenceReducerState,
@@ -159,7 +159,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[a.payload.index];
         let { value, type } = a.payload;
 
-        /** This kinda sucks. A lot is because of pleasing TS. 
+        /** This kinda sucks. A lot is because of pleasing TS.
          * Eligible for a refactor.
          */
         if (currentStep.kind === "_if" && type === "_then" && value) {

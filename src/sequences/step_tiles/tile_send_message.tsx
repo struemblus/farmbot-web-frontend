@@ -11,8 +11,7 @@ import { Help, Select, Saucer } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan, updateMessageType } from "../actions";
-import { CHANNEL_NAME } from "../interfaces";
-import { SendMessage } from "../corpus";
+import { SendMessage } from "farmbot";
 import * as _ from "lodash";
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {

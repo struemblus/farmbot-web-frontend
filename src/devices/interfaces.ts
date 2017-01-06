@@ -3,7 +3,7 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "../sequences/corpus";
+import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
  */

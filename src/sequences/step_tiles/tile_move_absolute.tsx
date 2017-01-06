@@ -7,7 +7,7 @@ import { copy, remove, CustomOptionProps } from "./index";
 import { MoveAbsState } from "../interfaces";
 import { t } from "i18next";
 import { updateMoveAbsStep } from "../actions";
-import { MoveAbsolute } from "../corpus";
+import { MoveAbsolute } from "farmbot";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
