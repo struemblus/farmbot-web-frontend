@@ -19,15 +19,17 @@ export function SequenceList({sequences,
     let selectedValue = current ? sequences.indexOf(
         _.findWhere(sequences, current)) : 0;
 
-    sequences.map((sequence, index) => {
-        let target = { label: sequence.name, value: index.toString() };
-        if (!_.some(options, target)) {
-            options.push({
-                label: sequence.name,
-                value: index.toString()
-            });
-        }
-    });
+    sequences
+        .filter(x => !!x.id) // Don't show unsaved.
+        .map((sequence, index) => {
+            let target = { label: sequence.name, value: index.toString() };
+            if (!_.some(options, target)) {
+                options.push({
+                    label: sequence.name,
+                    value: index.toString()
+                });
+            }
+        });
 
     return <div>
         <label>Sequence</label>
