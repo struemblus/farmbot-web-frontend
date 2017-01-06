@@ -18,8 +18,8 @@ import { getParam } from "../util";
 
 // Dynamically determine what to render in the designer"s first panel
 // based on the value of hash fragment "p1"
-type ComponentMap = { [name: string]: React.ComponentClass<any> };
-export class Panel1 extends React.Component<any, any> {
+type ComponentMap = { [name: string]: React.ComponentClass<{}> };
+export class Panel1 extends React.Component<{}, {}> {
   get tabName(): string {
     return (getParam("p1") || "Plants");
   }

@@ -6,11 +6,13 @@ import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { success } from "../ui";
 
-class FarmDesignerPage extends React.Component<Everything, any> {
+@connect((state: Everything) => state)
+export class FarmDesigner extends React.Component<Everything, {}> {
   componentDidMount() {
     success("Subscribe to the FarmBot.io mailing list for news and updates.",
       "Work in Progress");
   }
+
   render() {
     return (
       <div className="farm-designer">
@@ -32,4 +34,3 @@ class FarmDesignerPage extends React.Component<Everything, any> {
   }
 }
 
-export let FarmDesigner = connect((state: Everything) => state)(FarmDesignerPage);
