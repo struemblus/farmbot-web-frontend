@@ -53,7 +53,7 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
                     {String(osUpdateBool) || "undefined"}
                     toggleAction={() => {
                         updateConfig({
-                            os_auto_update: osUpdateBool || 0
+                            os_auto_update: (osUpdateBool === 1) ? 0 : 1
                         });
                     }
                     } />
@@ -87,7 +87,7 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
                     {String(fwUpdateBool) || "undefined"}
                     toggleAction={() => {
                         updateConfig({
-                            fw_auto_update: fwUpdateBool || 0
+                            fw_auto_update: (fwUpdateBool === 1) ? 0 : 1
                         });
                     } } />
             </p>
