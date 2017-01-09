@@ -1,40 +1,52 @@
-var webpack = require('webpack');
-var generateConfig = require("./webpack.config.base");
-var exec = require("child_process").execSync;
-var fs = require("fs");
 var path = require("path");
-var configPath = path.join(process.cwd(), "src/config.json");
-global.WEBPACK_ENV = "development";
+var webpack = require("webpack");
 
-c = function() {
-    var conf = generateConfig();
-
-    conf
-        .module
-        .loaders
-        .push({
-            test: [/\.scss$/, /\.css$/],
-            loader: 'style!css!sass'
-        });
-
-    conf.devtool = 'source-map';
-
-    conf
-        .plugins
-        .push(new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development'),
-            'process.env.REVISION': JSON.stringify(
-                exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString())
-        }));
-
-    if (fs.existsSync(configPath)) {
-        var config = require(configPath);
-        conf.plugins.push(new webpack.DefinePlugin({
-            "process.env.CONFIG": JSON.stringify(config)
-        }));
+module.exports = {
+    resolve: {
+        extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json"]
+    },
+    entry: {
+        main: path.resolve(__dirname, "../src/entry.tsx"),
+        vendor: "moment"
+    },
+    output: {
+        path: "/app/app-resources",
+        filename: "[chunkhash].[name].js",
+        // publicPath: "/assets/",
+    },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin({
+            name: ["vendor", "manifest"]
+        })
+    ],
+    module: {
+        rules: [
+            { test: /\.tsx?$/, use: "ts-loader" },
+            {
+                test: /\.scss$/,
+                use: [
+                    "style-loader",
+                    "css-loader",
+                    "sass-loader"
+                ]
+            },
+            {
+                test: [/\.woff$/, /\.woff2$/, /\.ttf$/],
+                use: "url-loader"
+            },
+            {
+                test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
+                use: "file-loader"
+            }
+        ]
+    },
+    devServer: {
+        historyApiFallback: {
+            index: "/index.html",
+            rewrites: [
+                { from: /\/app\//, to: "/app/index.html" },
+                { from: /password_reset/, to: "password_reset.html" }
+            ]
+        },
     }
-
-    return conf;
-};
-
-module.exports = c();
+}
