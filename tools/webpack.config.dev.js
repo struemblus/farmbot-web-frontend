@@ -6,13 +6,20 @@ module.exports = {
         extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json"]
     },
     entry: {
-        main: path.resolve(__dirname, "../src/entry.tsx"),
-        vendor: "moment"
+        "bundle": path.resolve(__dirname, "../src/entry.tsx"),
+        "password_reset": "./src/password_reset/index.tsx",
+        "app-index": "./src/static/app_index.ts",
+        "front_page": "./src/front_page/index.tsx",
+        "password-reset": "./src/static/password_reset.ts",
+        "verify": "./src/static/verify.ts",
+        "password_reset": "./src/password_reset/index.tsx",
+
+        vendor: ["moment", "react", "react-router"]
     },
     output: {
         path: "/app/app-resources",
         filename: "[chunkhash].[name].js",
-        // publicPath: "/assets/",
+        publicPath: "/public/"
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
