@@ -192,8 +192,7 @@ button {
 
 .plus-button {
     border-radius: 50%;
-    bottom: 7rem;
-    right: 10rem;
+    bottom: 5rem;
     width: 5rem;
     height: 5rem;
     color: $off_white;
@@ -202,7 +201,9 @@ button {
     text-align: center;
     cursor: pointer;
     border-bottom-width: 3px!important;
-    position: absolute;
+    position: fixed;
+    left: 0;
+    right: 0;
     i {
         line-height: 5rem;
     }

@@ -2,7 +2,9 @@ import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success, warning } from "../ui";
 import { Everything } from "../interfaces";
-import { GithubRelease, ChangeSettingsBuffer, RpcBotLog } from "./interfaces";
+import {
+    GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
+} from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { put, get } from "axios";
 import {
@@ -234,13 +236,6 @@ export function settingToggle(name: configKey, bot: BotState) {
         })
         .then(commandOK(noun), commandErr(noun));
 };
-
-interface MoveRelProps {
-    x: number;
-    y: number;
-    z: number;
-    speed: number;
-}
 
 export function moveRelative(props: MoveRelProps) {
     const noun = "Relative movement";

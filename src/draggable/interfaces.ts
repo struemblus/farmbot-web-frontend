@@ -47,3 +47,12 @@ export interface DropAreaProps {
 export interface DropAreaState {
     isHovered?: boolean;
 }
+
+export interface StepDraggerProps {
+    dispatch: Function;
+    step: Step;
+    intent: DataXferIntent;
+    ghostCss: string;
+    children?: JSX.Element | undefined;
+    draggerId: number;
+}
