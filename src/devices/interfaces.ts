@@ -106,3 +106,10 @@ export interface ChangeSettingsBuffer {
   key: configKey;
   val: number;
 }
+
+export interface MoveRelProps {
+    x: number;
+    y: number;
+    z: number;
+    speed: number;
+}
