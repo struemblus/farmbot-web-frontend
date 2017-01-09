@@ -5,21 +5,22 @@ module.exports = {
     resolve: {
         extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json"]
     },
+    devtool: 'cheap-module-source-map',
     entry: {
         "bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        "password_reset": "./src/password_reset/index.tsx",
-        "app-index": "./src/static/app_index.ts",
-        "front_page": "./src/front_page/index.tsx",
-        "password-reset": "./src/static/password_reset.ts",
-        "verify": "./src/static/verify.ts",
-        "password_reset": "./src/password_reset/index.tsx",
-
+        // "password_reset": "./src/password_reset/index.tsx",
+        // "app-index": "./src/static/app_index.ts",
+        // "front_page": "./src/front_page/index.tsx",
+        // "password-reset": "./src/static/password_reset.ts",
+        // "verify": "./src/static/verify.ts",
+        // "password_reset": "./src/password_reset/index.tsx",
         vendor: ["moment", "react", "react-router"]
     },
     output: {
-        path: "/app/app-resources",
+        path: "./blah",
         filename: "[chunkhash].[name].js",
-        publicPath: "/public/"
+        publicPath: "/public/",
+        sourceMapFilename: '[name].map'
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
@@ -47,13 +48,13 @@ module.exports = {
             }
         ]
     },
-    devServer: {
-        historyApiFallback: {
-            index: "/index.html",
-            rewrites: [
-                { from: /\/app\//, to: "/app/index.html" },
-                { from: /password_reset/, to: "password_reset.html" }
-            ]
-        },
-    }
+    // devServer: {
+    //     historyApiFallback: {
+    //         index: "/index.html",
+    //         rewrites: [
+    //             { from: /\/app\//, to: "/app/index.html" },
+    //             { from: /password_reset/, to: "password_reset.html" }
+    //         ]
+    //     },
+    // }
 }

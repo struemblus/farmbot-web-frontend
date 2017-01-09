@@ -1,18 +1,18 @@
-import * as hbs from "handlebars";
+// import * as hbs from "handlebars";
 
-interface StaticConfigSettings {
-    templateName: string;
-}
+// interface StaticConfigSettings {
+//     templateName: string;
+// }
 
-export default function({templateName}: StaticConfigSettings) {
+// export default function({templateName}: StaticConfigSettings) {
 
-    var template = require("./" + templateName + ".hbs");
+//     var template = require("./" + templateName + ".hbs");
 
-    var isProd = (global as any).WEBPACK_ENV === "production";
-    var locals = {
-        isProd
-    };
+//     var isProd = (global as any).WEBPACK_ENV === "production";
+//     var locals = {
+//         isProd
+//     };
 
-    return template(locals);
+//     return template(locals);
 
-}
+// }
