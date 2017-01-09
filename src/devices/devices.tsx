@@ -76,7 +76,6 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
             buttonColor = "green";
         }
     }
-<<<<<<< HEAD
     return (
         <div>
             <button className={"button-like " + buttonColor}
@@ -93,24 +92,6 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
                     } } />
             </p>
         </div>);
-=======
-    return <div className="updates">
-        <p>
-            {t("Auto Updates?")}
-        </p>
-        <ToggleButton toggleval=
-            {String(fwUpdateBool) || "undefined"}
-            toggleAction={() => {
-                updateConfig({
-                    fw_auto_update: fwUpdateBool || 0
-                });
-            } } />
-        <button className={`button-like ${buttonColor}`}
-            onClick={() => checkArduinoUpdates()}>
-            {buttonStr}
-        </button>
-    </div>;
->>>>>>> 4e134f844a9f58240c1e41b39c4af196e34f711a
 };
 
 export class ConfigInputBox extends React.Component<any, {}> {
