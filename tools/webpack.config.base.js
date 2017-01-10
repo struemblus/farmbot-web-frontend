@@ -4,10 +4,7 @@ var exec = require("child_process").exec;
 var execSync = require("child_process").execSync;
 var webpack = require("webpack");
 
-// TODO:
-// var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
-
-console.log(path.resolve(__dirname, "../public/app-resources"));
+var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 
 /** For reference in the console. */
 var revisionPlugin = new webpack.DefinePlugin({
@@ -22,67 +19,76 @@ var shortRevisionPlugin = new webpack.DefinePlugin({
 
 /** FarmBot Inc related. */
 var npmAddons = new webpack.DefinePlugin({
-    'process.env.NPM_ADDON': JSON.stringify(process.env.NPM_ADDON || false).toString()
+    'process.env.NPM_ADDON': JSON.stringify(
+        process.env.NPM_ADDON || false).toString()
 });
 
 /** WEBPACK BASE CONFIG */
-module.exports = {
+module.exports = function() {
+    return {
+        /** Allows imports without file extensions. */
+        resolve: {
+            extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json", ".hbs"]
+        },
 
-    /** Allows imports without file extensions. */
-    resolve: {
-        extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json"]
-    },
+        /** Determines entry file names and locations. */
+        entry: {
+            ["app-resources/bundle"]: path.resolve(__dirname, "../src/entry.tsx"),
+            "app-index": "./src/static/app_index.ts",
+            "front_page": "./src/front_page/index.tsx",
+            "password-reset": "./src/static/password_reset.ts",
+            "verify": "./src/static/verify.ts",
+            "password_reset": "./src/password_reset/index.tsx"
+        },
 
-    /** Determines entry file names and locations. */
-    entry: {
-        bundle: path.resolve(__dirname, "../src/entry.tsx"),
-        vendor: ["moment", "react", "react-router"]
-    },
+        /** Where the app will be either emitted or built based on env. */
+        output: {
+            path: path.resolve(__dirname, "../public"),
+            filename: "[name].js",
+            libraryTarget: "umd"
+        },
 
-    /** Where the app will be either emitted or built based on env. */
-    output: {
-        path: path.resolve(__dirname, "../public/app-resources"),
-        filename: "[name].js",
-        libraryTarget: "umd"
-    },
-
-    /** Shared loaders for prod and dev. */
-    module: {
-        rules: [
-            { test: /\.tsx?$/, use: "ts-loader" },
-            {
-                test: /\.scss$/,
-                use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
-                ]
-            },
-            {
-                test: [/\.woff$/, /\.woff2$/, /\.ttf$/],
-                use: "url-loader"
-            },
-            {
-                test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
-                use: "file-loader"
-            }
-        ]
-    },
-
-    /** Shared plugins for prod and dev. */
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            filename: 'vendor.js'
-        })
-    ],
-    devServer: {
-        historyApiFallback: {
-            index: "/index.html",
-            rewrites: [
-                { from: /\/app\//, to: "/app/index.html" },
-                { from: /password_reset/, to: "password_reset.html" }
+        /** Shared loaders for prod and dev. */
+        module: {
+            rules: [
+                { test: /\.tsx?$/, use: "ts-loader" },
+                {
+                    test: [/\.woff$/, /\.woff2$/, /\.ttf$/],
+                    use: "url-loader"
+                },
+                {
+                    test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
+                    use: "file-loader"
+                },
+                {
+                    test: /\.hbs$/,
+                    use: "handlebars-loader"
+                }
             ]
+        },
+
+        /** Shared plugins for prod and dev. */
+        plugins: [
+            revisionPlugin,
+            shortRevisionPlugin,
+            npmAddons,
+            new StaticSiteGeneratorPlugin("app-index", "/app/", {
+                templateName: "app_index"
+            }),
+            new StaticSiteGeneratorPlugin("password-reset", "/app/", {
+                templateName: "password_reset"
+            })
+        ],
+
+        /** Webpack Dev Server. */
+        devServer: {
+            historyApiFallback: {
+                index: "/index.html",
+                rewrites: [
+                    { from: /\/app\//, to: "/app/index.html" },
+                    { from: /password_reset/, to: "password_reset.html" }
+                ]
+            }
         }
     }
 }

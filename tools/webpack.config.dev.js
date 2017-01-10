@@ -1,60 +1,40 @@
-var path = require("path");
 var webpack = require("webpack");
+var generateConfig = require("./webpack.config.base");
+var exec = require("child_process").execSync;
+var fs = require("fs");
+var path = require("path");
+var configPath = path.resolve(__dirname, "../src/config.json");
+global.WEBPACK_ENV = "development";
 
-module.exports = {
-    resolve: {
-        extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json"]
-    },
-    devtool: 'cheap-module-source-map',
-    entry: {
-        "bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        // "password_reset": "./src/password_reset/index.tsx",
-        // "app-index": "./src/static/app_index.ts",
-        // "front_page": "./src/front_page/index.tsx",
-        // "password-reset": "./src/static/password_reset.ts",
-        // "verify": "./src/static/verify.ts",
-        // "password_reset": "./src/password_reset/index.tsx",
-        vendor: ["moment", "react", "react-router"]
-    },
-    output: {
-        path: "./blah",
-        filename: "[chunkhash].[name].js",
-        publicPath: "/public/",
-        sourceMapFilename: '[name].map'
-    },
-    plugins: [
-        new webpack.optimize.CommonsChunkPlugin({
-            name: ["vendor", "manifest"]
-        })
-    ],
-    module: {
-        rules: [
-            { test: /\.tsx?$/, use: "ts-loader" },
-            {
-                test: /\.scss$/,
-                use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
-                ]
-            },
-            {
-                test: [/\.woff$/, /\.woff2$/, /\.ttf$/],
-                use: "url-loader"
-            },
-            {
-                test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
-                use: "file-loader"
-            }
-        ]
-    },
-    // devServer: {
-    //     historyApiFallback: {
-    //         index: "/index.html",
-    //         rewrites: [
-    //             { from: /\/app\//, to: "/app/index.html" },
-    //             { from: /password_reset/, to: "password_reset.html" }
-    //         ]
-    //     },
-    // }
-}
+c = function() {
+    var conf = generateConfig();
+
+    conf
+        .module
+        .rules
+        .push({
+            test: [/\.scss$/, /\.css$/],
+            use: ["style-loader", "css-loader", "sass-loader"]
+        });
+
+    conf.devtool = "source-map";
+
+    conf
+        .plugins
+        .push(new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify("development"),
+            "process.env.REVISION": JSON.stringify(
+                exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString())
+        }));
+
+    if (fs.existsSync(configPath)) {
+        var config = require(configPath);
+        conf.plugins.push(new webpack.DefinePlugin({
+            "process.env.CONFIG": JSON.stringify(config)
+        }));
+    }
+
+    return conf;
+};
+
+module.exports = c();
