@@ -106,7 +106,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             {
                 path: 'app',
                 getComponent(location: any, cb: any) {
-                    System.import('./tools').then(
+                    System.import('./devices/devices.tsx').then(
+                        (module: any) => cb(null, module.Devices)
+                    ).catch(errorLoading);
+                }
+            }, {
+                path: 'app/tools',
+                getComponent(location: any, cb: any) {
+                    System.import('./tools/index.tsx').then(
                         (module: any) => cb(null, module.Tools)
                     ).catch(errorLoading);
                 }

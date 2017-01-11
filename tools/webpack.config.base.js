@@ -24,7 +24,7 @@ var npmAddons = new webpack.DefinePlugin({
 });
 
 /** WEBPACK BASE CONFIG */
-module.exports = function() {
+module.exports = function () {
     return {
         /** Allows imports without file extensions. */
         resolve: {
@@ -45,7 +45,8 @@ module.exports = function() {
         output: {
             path: path.resolve(__dirname, "../public"),
             filename: "[name].js",
-            libraryTarget: "umd"
+            libraryTarget: "umd",
+            publicPath: "/"
         },
 
         /** Shared loaders for prod and dev. */
