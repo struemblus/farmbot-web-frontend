@@ -101,9 +101,10 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
 
     routes = {
         component: App,
+        // path: "app",
         childRoutes: [
             {
-                path: '/app',
+                path: 'app',
                 getComponent(location: any, cb: any) {
                     System.import('./tools').then(
                         (module: any) => cb(null, module.Tools)
