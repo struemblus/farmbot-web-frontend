@@ -4,22 +4,11 @@ import {
     Provider
 } from "react-redux";
 import {
-    Redirect,
-    IndexRoute,
-    Route,
     Router,
     RedirectFunction,
     RouterState
 } from "react-router";
 import App from "./app";
-import { FourOhFour } from "./404";
-import { Controls } from "./controls/controls";
-import { Devices } from "./devices/devices";
-import { Sequences } from "./sequences/sequences";
-import { Regimens } from "./regimens/index";
-import { FarmDesigner } from "./farm_designer/farm_designer";
-import { Account } from "./account";
-import { Tools } from "./tools";
 import { store } from "./redux/store";
 import { history } from "./history";
 import { Store } from "./redux/interfaces";
@@ -33,11 +22,7 @@ interface RootComponentProps {
 declare const System: any;
 
 function errorLoading(err: any) {
-    console.error('Dynamic page loading failed', err);
-}
-
-function loadRoute(cb: any) {
-
+    console.error("Dynamic page loading failed", err);
 }
 
 export class RootComponent extends React.Component<RootComponentProps, {}> {
@@ -61,60 +46,88 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
 
     /*
       /app                => App
-      /app/designer?p1&p2 => FarmDesigner
+      /app/account        => Account
       /app/controls       => Controls
       /app/device         => Devices
-      /app/sequences      => Sequences
+      /app/designer?p1&p2 => FarmDesigner
       /app/regimens       => Regimens
+      /app/sequences      => Sequences
       /app/tools          => Tools
+      /app/404            => 404
     */
-
-
-    // routes = <Route path="app" component={App}>
-    //     <Route path="designer(?:p1&?:id)"
-    //         component={FarmDesigner}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="controls"
-    //         component={Controls}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="device"
-    //         component={Devices}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="sequences"
-    //         component={Sequences}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="regimens"
-    //         component={Regimens}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="account"
-    //         component={Account}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="tools"
-    //         component={Tools}
-    //         onEnter={this.requireAuth.bind(this)} />
-    //     <Route path="404"
-    //         component={FourOhFour} />
-    //     <IndexRoute
-    //         component={Controls} />
-    //     <Redirect path="*" to="404" />
-    // </Route>;
 
     routes = {
         component: App,
-        // path: "app",
+        indexRoute: {
+            path: "app/controls",
+            getComponent(location: any, cb: any) {
+                System.import("./controls/controls.tsx").then(
+                    (module: any) => cb(null, module.Controls)
+                ).catch(errorLoading);
+            }
+        },
         childRoutes: [
             {
-                path: 'app',
+                path: "app/account",
                 getComponent(location: any, cb: any) {
-                    System.import('./devices/devices.tsx').then(
+                    System.import("./account/index.tsx").then(
+                        (module: any) => cb(null, module.Account)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/controls",
+                getComponent(location: any, cb: any) {
+                    System.import("./controls/controls.tsx").then(
+                        (module: any) => cb(null, module.Controls)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/device",
+                getComponent(location: any, cb: any) {
+                    System.import("./devices/devices.tsx").then(
                         (module: any) => cb(null, module.Devices)
                     ).catch(errorLoading);
                 }
-            }, {
-                path: 'app/tools',
+            },
+            {
+                path: "app/designer(?:p1&?:id)",
                 getComponent(location: any, cb: any) {
-                    System.import('./tools/index.tsx').then(
+                    System.import("./farm_designer/farm_designer.tsx").then(
+                        (module: any) => cb(null, module.FarmDesigner)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/regimens",
+                getComponent(location: any, cb: any) {
+                    System.import("./regimens/index.tsx").then(
+                        (module: any) => cb(null, module.Regimens)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/sequences",
+                getComponent(location: any, cb: any) {
+                    System.import("./sequences/sequences.tsx").then(
+                        (module: any) => cb(null, module.Sequences)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/tools",
+                getComponent(location: any, cb: any) {
+                    System.import("./tools/index.tsx").then(
                         (module: any) => cb(null, module.Tools)
+                    ).catch(errorLoading);
+                }
+            },
+            {
+                path: "app/404",
+                getComponent(location: any, cb: any) {
+                    System.import("./404").then(
+                        (module: any) => cb(null, module.FourOhFour)
                     ).catch(errorLoading);
                 }
             }
