@@ -30,6 +30,16 @@ interface RootComponentProps {
     store: Store;
 }
 
+declare const System: any;
+
+function errorLoading(err: any) {
+    console.error('Dynamic page loading failed', err);
+}
+
+function loadRoute(cb: any) {
+
+}
+
 export class RootComponent extends React.Component<RootComponentProps, {}> {
 
     requireAuth(_: RouterState, replace: RedirectFunction) {
@@ -60,34 +70,48 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
     */
 
 
-    routes = <Route path="app" component={App}>
-        <Route path="designer(?:p1&?:id)"
-            component={FarmDesigner}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="controls"
-            component={Controls}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="device"
-            component={Devices}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="sequences"
-            component={Sequences}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="regimens"
-            component={Regimens}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="account"
-            component={Account}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="tools"
-            component={Tools}
-            onEnter={this.requireAuth.bind(this)} />
-        <Route path="404"
-            component={FourOhFour} />
-        <IndexRoute
-            component={Controls} />
-        <Redirect path="*" to="404" />
-    </Route>;
+    // routes = <Route path="app" component={App}>
+    //     <Route path="designer(?:p1&?:id)"
+    //         component={FarmDesigner}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="controls"
+    //         component={Controls}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="device"
+    //         component={Devices}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="sequences"
+    //         component={Sequences}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="regimens"
+    //         component={Regimens}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="account"
+    //         component={Account}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="tools"
+    //         component={Tools}
+    //         onEnter={this.requireAuth.bind(this)} />
+    //     <Route path="404"
+    //         component={FourOhFour} />
+    //     <IndexRoute
+    //         component={Controls} />
+    //     <Redirect path="*" to="404" />
+    // </Route>;
+
+    routes = {
+        component: App,
+        childRoutes: [
+            {
+                path: '/app',
+                getComponent(location: any, cb: any) {
+                    System.import('./tools').then(
+                        (module: any) => cb(null, module.Tools)
+                    ).catch(errorLoading);
+                }
+            }
+        ]
+    };
 
     render() {
         return <Provider store={store}>
