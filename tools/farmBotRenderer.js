@@ -5,10 +5,10 @@ var fs = require("fs");
 function FarmBotRenderer(options) {
     this.options = merge({}, {
         path: "/",
-        filename: "blah.html",
+        filename: "index.html",
         outputPath: "/",
         isProd: false,
-        exclude: []
+        include: "bundle"
     }, options);
 }
 
@@ -35,27 +35,20 @@ FarmBotRenderer.prototype = {
             var wantedAssets = [];
 
             stats.assets.map(function(asset) {
-                var nameWithoutHash = asset.name.split(".")[0].toString();
-                if (self.options.exclude.indexOf(nameWithoutHash) <= 0) {
-                    wantedAssets.push({ name: asset.name });
+                if (asset.name.includes(self.options.include)) {
+                    wantedAssets.push(asset);
                 }
-            })
+            });
 
             var finalPath = self.options.path;
             fs.readFile(finalPath, "utf-8", function(err, source) {
-
-                wantedAssets.sort(function(a, b) {
-                    if (a.name > b.name) return -1;
-                    if (a.name < b.name) return 1;
-                    return 0;
-                });
 
                 var data = self.options;
                 data.wantedAssets = wantedAssets;
                 var template = hbs.compile(source);
 
                 var html = template(data);
-                var outputDest = self.option.outputPath + self.options.filename;
+                var outputDest = self.options.outputPath + "/" + self.options.filename;
 
                 fs.writeFile(outputDest, html, function(err, data) {
                     if (err) { console.error("error in writing file", err); }

@@ -3,6 +3,7 @@ var generateConfig = require("./webpack.config.base");
 var exec = require("child_process").execSync;
 var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "production";
 
 c = function() {
@@ -37,9 +38,28 @@ c = function() {
     conf
         .plugins
         .push(new ExtractTextPlugin({
-            filename: "app-resources/styles.css",
+            filename: "../styles.css",
             disable: false,
             allChunks: true
+        }));
+
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/app_index.hbs"),
+            filename: "index.html",
+            outputPath: path.resolve(__dirname, "../public/app/"),
+            isProd: true
+        }));
+
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/front_page.hbs"),
+            filename: "index.html",
+            outputPath: path.resolve(__dirname, "../public/"),
+            include: "front_page",
+            isProd: true
         }));
 
     return conf;
