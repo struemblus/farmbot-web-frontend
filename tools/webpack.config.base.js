@@ -5,8 +5,15 @@ var execSync = require("child_process").execSync;
 var webpack = require("webpack");
 var fs = require("fs");
 
-var StaticSiteGeneratorPlugin = require("static-site-generator-webpack-plugin");
-var HtmlWebpackPlugin = require("html-webpack-plugin");
+var FarmBotRenderer = require("./farmBotRenderer");
+
+var excludes = [
+    "",
+    "front_page",
+    "password_reset",
+    "verify",
+    "password-reset"
+];
 
 /** For reference in the console. */
 var revisionPlugin = new webpack.DefinePlugin({
@@ -36,7 +43,7 @@ module.exports = function() {
         /** Determines entry file names and locations. */
         entry: {
             "app-resources/bundle": path.resolve(__dirname, "../src/entry.tsx"),
-            "app-resources/vendor": "react",
+            // "app-resources/vendor": "react",
             "app-index": "./src/static/app_index.ts",
             "front_page": "./src/front_page/index.tsx",
             "password-reset": "./src/static/password_reset.ts",
@@ -86,27 +93,14 @@ module.exports = function() {
             revisionPlugin,
             shortRevisionPlugin,
             npmAddons,
-            new StaticSiteGeneratorPlugin("app-index", "/app/", {
-                templateName: "app_index"
-            }),
-            new StaticSiteGeneratorPlugin("password-reset", "/app/", {
-                templateName: "password_reset"
-            }),
-            new webpack.optimize.CommonsChunkPlugin({
-                name: "vendor"
-            }),
-            new HtmlWebpackPlugin({
-                filename: "test-index.html",
-                title: "Farmbot",
-                excludeChunks: ["app-index", "front_page", "password_reset", "verify", "password-reset"],
-                template: path.resolve(__dirname, "../tools/index-test.ejs")
-            }),
-            function() {
-                this.plugin("done", function(statsData) {
-                    // Do we really have to iterate over the System.imports ourselves?
-                    console.log(statsData)
-                })
-            }
+            // new webpack.optimize.CommonsChunkPlugin({
+            //     name: "vendor"
+            // })
+            new FarmBotRenderer({
+                path: path.resolve(__dirname, "../src/static/app_index.hbs"),
+                filename: "index.html",
+                outputPath: path.resolve(__dirname, "../public/app")
+            })
         ],
 
         /** Webpack Dev Server. */
