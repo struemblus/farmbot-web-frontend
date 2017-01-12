@@ -3,28 +3,30 @@ var webpack = require("webpack");
 var exec = require("child_process").exec;
 var execSync = require("child_process").execSync;
 var webpack = require("webpack");
+var fs = require("fs");
 
-var StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
+var StaticSiteGeneratorPlugin = require("static-site-generator-webpack-plugin");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 /** For reference in the console. */
 var revisionPlugin = new webpack.DefinePlugin({
-    'process.env.REVISION': JSON.stringify(execSync(
+    "process.env.REVISION": JSON.stringify(execSync(
         'git log --pretty=format:"%h%n%ad%n%f" -1').toString())
 });
 
 var shortRevisionPlugin = new webpack.DefinePlugin({
-    'process.env.SHORT_REVISION': JSON.stringify(execSync(
+    "process.env.SHORT_REVISION": JSON.stringify(execSync(
         'git log --pretty=format:"%h" -1').toString())
 });
 
 /** FarmBot Inc related. */
 var npmAddons = new webpack.DefinePlugin({
-    'process.env.NPM_ADDON': JSON.stringify(
+    "process.env.NPM_ADDON": JSON.stringify(
         process.env.NPM_ADDON || false).toString()
 });
 
 /** WEBPACK BASE CONFIG */
-module.exports = function () {
+module.exports = function() {
     return {
         /** Allows imports without file extensions. */
         resolve: {
@@ -33,18 +35,19 @@ module.exports = function () {
 
         /** Determines entry file names and locations. */
         entry: {
-            ["app-resources/bundle"]: path.resolve(__dirname, "../src/entry.tsx"),
+            "app-resources/bundle": path.resolve(__dirname, "../src/entry.tsx"),
+            "app-resources/vendor": "react",
             "app-index": "./src/static/app_index.ts",
             "front_page": "./src/front_page/index.tsx",
             "password-reset": "./src/static/password_reset.ts",
             "verify": "./src/static/verify.ts",
-            "password_reset": "./src/password_reset/index.tsx"
+            "password_reset": "./src/password_reset/index.tsx",
         },
 
         /** Where the app will be either emitted or built based on env. */
         output: {
             path: path.resolve(__dirname, "../public"),
-            filename: "[name].js",
+            filename: "[name].[chunkhash].js",
             libraryTarget: "umd",
             publicPath: "/"
         },
@@ -69,7 +72,7 @@ module.exports = function () {
                     test: /\.js$/,
                     exclude: /node_modules/,
                     use: [{
-                        loader: 'babel-loader',
+                        loader: "babel-loader",
                         query: {
                             cacheDirectory: true
                         }
@@ -88,7 +91,22 @@ module.exports = function () {
             }),
             new StaticSiteGeneratorPlugin("password-reset", "/app/", {
                 templateName: "password_reset"
-            })
+            }),
+            new webpack.optimize.CommonsChunkPlugin({
+                name: "vendor"
+            }),
+            new HtmlWebpackPlugin({
+                filename: "test-index.html",
+                title: "Farmbot",
+                excludeChunks: ["app-index", "front_page", "password_reset", "verify", "password-reset"],
+                template: path.resolve(__dirname, "../tools/index-test.ejs")
+            }),
+            function() {
+                this.plugin("done", function(statsData) {
+                    // Do we really have to iterate over the System.imports ourselves?
+                    console.log(statsData)
+                })
+            }
         ],
 
         /** Webpack Dev Server. */

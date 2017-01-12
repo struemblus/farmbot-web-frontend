@@ -13,14 +13,12 @@ c = function() {
         .rules
         .push({
             test: /\.scss$/,
-            use: ExtractTextPlugin.extract({
-                fallbackLoader: "style-loader",
-                loader: "css-loader!sass-loader",
-            }),
+            loader: ExtractTextPlugin.extract("css-loader!sass-loader")
         });
 
     conf.devtool = "source-map";
-    conf.devtoolLineToLine = true;
+    // TODO: Webpack 2 doesn't allow?? This helped with RollBar issues
+    // conf.devtoolLineToLine = true;
 
     conf
         .plugins
@@ -38,7 +36,12 @@ c = function() {
 
     conf
         .plugins
-        .push(new ExtractTextPlugin("app-resources/styles.css"));
+        .push(new ExtractTextPlugin({
+            filename: "app-resources/styles.css",
+            disable: false,
+            allChunks: true
+        }));
+
     return conf;
 }
 

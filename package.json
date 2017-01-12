@@ -49,6 +49,7 @@
     "fastclick": "^1.0.6",
     "handlebars": "^4.0.5",
     "handlebars-loader": "^1.4.0",
+    "html-webpack-plugin": "^2.26.0",
     "i18next": "^3.4.3",
     "json-loader": "^0.5.4",
     "lodash": "^3.10.1",
