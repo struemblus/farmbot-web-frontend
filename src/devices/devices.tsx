@@ -50,7 +50,7 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
             "undefined"}
             toggleAction={() => {
                 updateConfig({ os_auto_update: osUpdateBool || 0 });
-            } } />
+            }} />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkControllerUpdates()}>
             {buttonStr}
@@ -82,7 +82,7 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
                 updateConfig({
                     fw_auto_update: fwUpdateBool || 0
                 });
-            } } />
+            }} />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkArduinoUpdates()}>
             {buttonStr}
@@ -253,7 +253,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("CONTROLLER")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {String(this.props.bot.hardware
                                                                             .informational_settings.controller_version)
@@ -266,7 +266,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("FIRMWARE")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {
                                                                             String(this.props.bot.hardware.mcu_params.param_version)
