@@ -10,6 +10,22 @@ global.WEBPACK_ENV = "development";
 c = function() {
     var conf = generateConfig();
 
+    conf.entry = {
+        "app-resources/bundle": path.resolve(__dirname, "../src/entry.tsx"),
+        // "app-resources/vendor": "react",
+        "front_page": "./src/front_page/index.tsx",
+        "password-reset": "./src/static/password_reset.ts",
+        "verify": "./src/static/verify.ts",
+        "password_reset": "./src/password_reset/index.tsx",
+    };
+
+    conf.output = {
+        path: path.resolve(__dirname, "../public"),
+        filename: "[name].[chunkhash].js",
+        libraryTarget: "umd",
+        publicPath: "/"
+    };
+
     conf
         .module
         .rules

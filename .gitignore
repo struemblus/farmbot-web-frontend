@@ -8,10 +8,9 @@ node_modules
 npm-debug.log
 .DS_Store
 .vscode
+app/index.html
 public/app-resources/*.js*
 public/app-resources/chunks/*.js*
 public/app-resources/*.css*
 public/*.js*
-public/*.js*
-app/*bundle.js*
 *.js.map

@@ -17,6 +17,22 @@ c = function() {
             loader: ExtractTextPlugin.extract("css-loader!sass-loader")
         });
 
+    conf.entry = {
+        "../bundle": path.resolve(__dirname, "../src/entry.tsx"),
+        // "app-resources/vendor": "react",
+        "../front_page": "./src/front_page/index.tsx",
+        // "../password-reset": "./src/static/password_reset.ts",
+        "../verify": "./src/static/verify.ts",
+        // "../password_reset": "./src/password_reset/index.tsx",
+    };
+
+    conf.output = {
+        path: path.resolve(__dirname, "../public/app-resources/chunks"),
+        filename: "[name].[chunkhash].js",
+        libraryTarget: "umd",
+        publicPath: "/public"
+    };
+
     conf.devtool = "source-map";
     // TODO: Webpack 2 doesn't allow?? This helped with RollBar issues
     // conf.devtoolLineToLine = true;
@@ -29,11 +45,11 @@ c = function() {
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
         }));
 
-    conf
-        .plugins
-        .push(new webpack.optimize.UglifyJsPlugin({
-            compressor: { warnings: false },
-        }));
+    // conf
+    //     .plugins
+    //     .push(new webpack.optimize.UglifyJsPlugin({
+    //         compressor: { warnings: false },
+    //     }));
 
     conf
         .plugins
