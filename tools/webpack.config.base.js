@@ -67,16 +67,6 @@ module.exports = function() {
                 {
                     test: /\.hbs$/,
                     use: "handlebars-loader"
-                },
-                {
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: [{
-                        loader: "babel-loader",
-                        query: {
-                            cacheDirectory: true
-                        }
-                    }]
                 }
             ]
         },

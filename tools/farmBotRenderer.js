@@ -42,13 +42,15 @@ FarmBotRenderer.prototype = {
                     if (asset.name.includes("bundle")) {
                         if (self.options.isProd) {
                             asset.name = "../app-resources" + asset.name.slice(2);
+                        } else {
+                            asset.name = "/";
                         }
 
                     }
                     // Temp
                     if (asset.name.includes("front_page")) {
                         if (self.options.isProd) {
-                            asset.name = "/app-resources" + asset.name.slice(2);
+                            asset.name = "/app-resources";
                         }
                     }
                     wantedAssets.push(asset);
