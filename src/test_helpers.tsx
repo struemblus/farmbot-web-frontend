@@ -68,8 +68,8 @@ export function fakeState(dispatcher?: Function): Everything {
             movement_timeout_z: "0",
         },
         configBuffer: {
-            os_auto_update: 0,
-            fw_auto_update: 1
+            os_auto_update: false,
+            fw_auto_update: true
         },
         hardware: {
             mcu_params: {},

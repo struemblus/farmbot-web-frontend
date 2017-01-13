@@ -49,7 +49,7 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
         <ToggleButton toggleval={String(osUpdateBool) ||
             "undefined"}
             toggleAction={() => {
-                updateConfig({ os_auto_update: osUpdateBool || 0 });
+                updateConfig({ os_auto_update: !osUpdateBool });
             } } />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkControllerUpdates()}>
@@ -79,9 +79,7 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
         <ToggleButton toggleval=
             {String(fwUpdateBool) || "undefined"}
             toggleAction={() => {
-                updateConfig({
-                    fw_auto_update: fwUpdateBool || 0
-                });
+                updateConfig({ fw_auto_update: !fwUpdateBool });
             } } />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkArduinoUpdates()}>
@@ -201,7 +199,7 @@ export class Devices extends React.Component<Everything, {}> {
                                         <div className="row">
                                             <div className="col-sm-12">
                                                 <button type="submit"
-                                                    className={`button-like 
+                                                    className={`button-like
                                                         green widget-control`}
                                                     onClick={this.updateBot
                                                         .bind(this)}>
@@ -211,13 +209,13 @@ export class Devices extends React.Component<Everything, {}> {
                                                 </button>
                                                 <div className="widget-header">
                                                     <h5>{t("DEVICE")}</h5>
-                                                    <i className={`fa 
-                                                        fa-question-circle 
+                                                    <i className={`fa
+                                                        fa-question-circle
                                                         widget-help-icon`}>
                                                         <div className={`
                                                             widget-help-text`}>
-                                                            {t(`This widget 
-                                                                shows device 
+                                                            {t(`This widget
+                                                                shows device
                                                                 information.`)}
                                                         </div>
                                                     </i>
