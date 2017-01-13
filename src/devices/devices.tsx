@@ -251,7 +251,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("CONTROLLER")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {String(this.props.bot.hardware
                                                                             .informational_settings.controller_version)
@@ -264,7 +264,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("FIRMWARE")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {
                                                                             String(this.props.bot.hardware.mcu_params.param_version)
