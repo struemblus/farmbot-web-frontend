@@ -13,7 +13,7 @@ import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
-
+import { ImageState, Image } from "./images";
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
@@ -68,6 +68,7 @@ export interface Everything {
     peripherals: PeripheralState;
     tools: ToolsState;
     sync: Sync;
+    images: ImageState;
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */
@@ -88,4 +89,5 @@ export interface Sync {
     tool_slots: ToolSlot[];
     tools: Tool[];
     logs: Log[];
+    images: Image[];
 }

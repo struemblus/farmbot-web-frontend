@@ -124,7 +124,8 @@ export function fakeState(dispatcher?: Function): Everything {
         tool_slots: [],
         tools: [],
         plants: [],
-        logs: []
+        logs: [],
+        images: []
     };
 
     let draggable = { dataTransfer: {} };
@@ -157,6 +158,8 @@ export function fakeState(dispatcher?: Function): Everything {
         }
     };
 
+    let images = { all: [] };
+
     return {
         location
         , auth
@@ -171,5 +174,6 @@ export function fakeState(dispatcher?: Function): Everything {
         , peripherals
         , sync
         , tools
+        , images
     };
 }
