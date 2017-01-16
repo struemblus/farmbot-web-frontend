@@ -43,16 +43,26 @@ FarmBotRenderer.prototype = {
                         if (self.options.isProd) {
                             asset.name = "../app-resources" + asset.name.slice(2);
                         } else {
-                            asset.name = "/";
+                            asset.name = "/" + asset.name;
                         }
 
                     }
+
                     // Temp
                     if (asset.name.includes("front_page")) {
+                        if (self.options.isProd) {
+                            asset.name = "./app-resources/" + asset.name.slice(3);
+                            // "../front_page.56641929c3f3efef42d6.js"
+                        }
+                    }
+
+                    // Temp
+                    if (asset.name.includes("password_reset")) {
                         if (self.options.isProd) {
                             asset.name = "/app-resources";
                         }
                     }
+
                     wantedAssets.push(asset);
                 }
             });
