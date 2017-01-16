@@ -1,3 +1,6 @@
+*.js.map
+.DS_Store
+.vscode
 /src/config.json
 bower_components
 build
@@ -6,11 +9,9 @@ dist
 jest
 node_modules
 npm-debug.log
-.DS_Store
-.vscode
-public/app/index.html
+public/*.js*
+public/app-resources/*.css*
 public/app-resources/*.js*
 public/app-resources/chunks/*.js*
-public/app-resources/*.css*
-public/*.js*
-*.js.map
+public/app/index.html
+public/index.html
