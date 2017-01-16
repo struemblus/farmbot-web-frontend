@@ -4,8 +4,9 @@ import { Everything } from "../../interfaces";
 import { Select } from "../../ui";
 import { t } from "i18next";
 import { ChromePicker } from "react-color";
-// import { RadiusElement } from "./radius_element";
 import { DetectorState } from "../interfaces";
+
+// No "import" support for this lib :(
 let Slider = require("rc-slider");
 require("rc-slider/assets/index.css");
 
@@ -20,7 +21,7 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
     constructor() {
         super();
         this.state = {
-            isEditing: false,
+            isEditing: true,
             HUELow: 10,
             HUEHigh: 20,
             saturationLow: 30,
@@ -184,7 +185,7 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                                 {!isEditing && (
                                     <div className="widget-content">
                                         <div className="row">
-                                            <div className="col-md-6 col-sm-12">
+                                            <div className="col-md-12 col-sm-12">
                                                 <img className="temp-plant" src="/plant.jpg" />
                                                 <div className="weed-detector-meta">
                                                     <div className="time">
