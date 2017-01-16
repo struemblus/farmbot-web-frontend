@@ -19,7 +19,7 @@ c = function() {
 
     conf.output = {
         path: path.resolve(__dirname, "../public"),
-        filename: "[name].[chunkhash].js",
+        filename: "dist/[name].[chunkhash].js",
         libraryTarget: "umd",
         publicPath: "/public"
     };

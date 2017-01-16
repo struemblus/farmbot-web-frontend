@@ -34,11 +34,14 @@ FarmBotRenderer.prototype = {
 
             var wantedAssets = [];
 
-            stats.assets.map(function(asset) {
+            stats
+              .assets
+              .map(function(asset) {
                 var name = asset.name;
-                if (asset.name.includes(self.options.include)) {
-                    asset.name = "/" + (asset.name.split("/").pop()); // Unacceptable. :(
-
+                var isIncluded = asset.name.includes(self.options.include);
+                var notMapFile = !asset.name.endsWith(".map");
+                if (isIncluded && notMapFile) {
+                    asset.name = "/" + asset.name.replace("../", ""); // Unacceptable. :(
                     wantedAssets.push(asset);
                 }
             });

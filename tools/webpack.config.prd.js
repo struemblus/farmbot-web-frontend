@@ -23,14 +23,14 @@ c = function() {
         });
 
     conf.entry = {
-        "../bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        "../front_page": "./src/front_page/index.tsx",
-        "../verify": "./src/static/verify.ts"
+        "bundle": path.resolve(__dirname, "../src/entry.tsx"),
+        "front_page": "./src/front_page/index.tsx",
+        "verify": "./src/static/verify.ts"
     };
 
     conf.output = {
         path: path.resolve(__dirname, "../public/"),
-        filename: "[name].[chunkhash].js",
+        filename: "dist/[name].[chunkhash].js",
         libraryTarget: "umd",
         publicPath: "/"
     };
@@ -46,12 +46,6 @@ c = function() {
             "process.env.REVISION": JSON.stringify(
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
         }));
-
-    // conf
-    //     .plugins
-    //     .push(new webpack.optimize.UglifyJsPlugin({
-    //         compressor: { warnings: false },
-    //     }));
 
     conf
         .plugins
