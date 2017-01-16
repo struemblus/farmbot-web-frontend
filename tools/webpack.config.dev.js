@@ -1,29 +1,46 @@
-var webpack = require('webpack');
+var webpack = require("webpack");
 var generateConfig = require("./webpack.config.base");
 var exec = require("child_process").execSync;
 var fs = require("fs");
 var path = require("path");
-var configPath = path.join(process.cwd(), "src/config.json");
+var configPath = path.resolve(__dirname, "../src/config.json");
+var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "development";
 
 c = function() {
     var conf = generateConfig();
 
+    conf.entry = {
+        "app-resources/bundle": path.resolve(__dirname, "../src/entry.tsx"),
+        // "app-resources/vendor": "react",
+        "front_page": "./src/front_page/index.tsx",
+        "password-reset": "./src/static/password_reset.ts",
+        "verify": "./src/static/verify.ts",
+        "password_reset": "./src/password_reset/index.tsx",
+    };
+
+    conf.output = {
+        path: path.resolve(__dirname, "../public"),
+        filename: "[name].[chunkhash].js",
+        libraryTarget: "umd",
+        publicPath: "/"
+    };
+
     conf
         .module
-        .loaders
+        .rules
         .push({
             test: [/\.scss$/, /\.css$/],
-            loader: 'style!css!sass'
+            use: ["style-loader", "css-loader", "sass-loader"]
         });
 
-    conf.devtool = 'source-map';
+    conf.devtool = "source-map";
 
     conf
         .plugins
         .push(new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('development'),
-            'process.env.REVISION': JSON.stringify(
+            "process.env.NODE_ENV": JSON.stringify("development"),
+            "process.env.REVISION": JSON.stringify(
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString())
         }));
 
@@ -33,6 +50,23 @@ c = function() {
             "process.env.CONFIG": JSON.stringify(config)
         }));
     }
+
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/app_index.hbs"),
+            filename: "index.html",
+            outputPath: path.resolve(__dirname, "../public/app/")
+        }));
+
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/front_page.hbs"),
+            filename: "index.html",
+            outputPath: path.resolve(__dirname, "../public/"),
+            include: "front_page"
+        }));
 
     return conf;
 };

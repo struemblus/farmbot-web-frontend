@@ -4,7 +4,7 @@ interface StaticConfigSettings {
     templateName: string;
 }
 
-export default function({templateName}: StaticConfigSettings) {
+export default function ({templateName}: StaticConfigSettings) {
 
     var template = require("./" + templateName + ".hbs");
 
