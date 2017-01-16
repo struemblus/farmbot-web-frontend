@@ -11,8 +11,7 @@ c = function() {
     var conf = generateConfig();
 
     conf.entry = {
-        "app-resources/bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        // "app-resources/vendor": "react",
+        "bundle": path.resolve(__dirname, "../src/entry.tsx"),
         "front_page": "./src/front_page/index.tsx",
         "verify": "./src/static/verify.ts",
         "password_reset": "./src/password_reset/index.tsx"

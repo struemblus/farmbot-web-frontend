@@ -19,18 +19,15 @@ c = function() {
 
     conf.entry = {
         "../bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        // "app-resources/vendor": "react",
         "../front_page": "./src/front_page/index.tsx",
-        // "../password-reset": "./src/static/password_reset.ts",
-        "../verify": "./src/static/verify.ts",
-        // "../password_reset": "./src/password_reset/index.tsx",
+        "../verify": "./src/static/verify.ts"
     };
 
     conf.output = {
-        path: path.resolve(__dirname, "../public/app-resources/chunks"),
+        path: path.resolve(__dirname, "../public/"),
         filename: "[name].[chunkhash].js",
         libraryTarget: "umd",
-        publicPath: "/public"
+        publicPath: "/"
     };
 
     conf.devtool = "source-map";

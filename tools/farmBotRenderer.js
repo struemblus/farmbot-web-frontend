@@ -37,31 +37,7 @@ FarmBotRenderer.prototype = {
             stats.assets.map(function(asset) {
                 var name = asset.name;
                 if (asset.name.includes(self.options.include)) {
-
-                    // Temp
-                    if (asset.name.includes("bundle")) {
-                        if (self.options.isProd) {
-                            asset.name = "../app-resources" + asset.name.slice(2);
-                        } else {
-                            asset.name = "/" + asset.name;
-                        }
-
-                    }
-
-                    // Temp
-                    if (asset.name.includes("front_page")) {
-                        if (self.options.isProd) {
-                            asset.name = "./app-resources/" + asset.name.slice(3);
-                            // "../front_page.56641929c3f3efef42d6.js"
-                        }
-                    }
-
-                    // Temp
-                    if (asset.name.includes("password_reset")) {
-                        if (self.options.isProd) {
-                            asset.name = "/app-resources";
-                        }
-                    }
+                    asset.name = "/" + (asset.name.split("/").pop()); // Unacceptable. :(
 
                     wantedAssets.push(asset);
                 }
