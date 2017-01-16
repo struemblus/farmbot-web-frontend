@@ -42,24 +42,20 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
     } else {
         buttonStr = "Can't Connect to release server";
     }
-    return (
-        <div>
-            <button className={"button-like " + buttonColor}
-                onClick={() => checkControllerUpdates()}>
-                {buttonStr}
-            </button >
-            <p> {t("OS Auto Updates")}
-                <ToggleButton toggleval=
-                    {String(osUpdateBool) || "undefined"}
-                    toggleAction={() => {
-                        updateConfig({
-                            os_auto_update: (osUpdateBool === 1) ? 0 : 1
-                        });
-                    }
-                    } />
-            </p>
-        </div>
-    );
+    return <div className="updates">
+        <p>
+            {t("Auto Updates?")}
+        </p>
+        <ToggleButton toggleval={String(osUpdateBool) ||
+            "undefined"}
+            toggleAction={() => {
+                updateConfig({ os_auto_update: !osUpdateBool });
+            } } />
+        <button className={`button-like ${buttonColor}`}
+            onClick={() => checkControllerUpdates()}>
+            {buttonStr}
+        </button>
+    </div>;
 };
 
 let FwUpdateButton = ({bot}: UpdateButtonProps) => {
@@ -76,22 +72,20 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
             buttonColor = "green";
         }
     }
-    return (
-        <div>
-            <button className={"button-like " + buttonColor}
-                onClick={() => checkArduinoUpdates()}>
-                {buttonStr}
-            </button >
-            <p> {t("OS Auto Updates")}
-                <ToggleButton toggleval=
-                    {String(fwUpdateBool) || "undefined"}
-                    toggleAction={() => {
-                        updateConfig({
-                            fw_auto_update: (fwUpdateBool === 1) ? 0 : 1
-                        });
-                    } } />
-            </p>
-        </div>);
+    return <div className="updates">
+        <p>
+            {t("Auto Updates?")}
+        </p>
+        <ToggleButton toggleval=
+            {String(fwUpdateBool) || "undefined"}
+            toggleAction={() => {
+                updateConfig({ fw_auto_update: !fwUpdateBool });
+            } } />
+        <button className={`button-like ${buttonColor}`}
+            onClick={() => checkArduinoUpdates()}>
+            {buttonStr}
+        </button>
+    </div>;
 };
 
 export class ConfigInputBox extends React.Component<any, {}> {
@@ -257,7 +251,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("CONTROLLER")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {String(this.props.bot.hardware
                                                                             .informational_settings.controller_version)
@@ -270,7 +264,7 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 <td>
                                                                     <label>{t("FIRMWARE")}</label>
                                                                 </td>
-                                                                <td>
+                                                                <td className="devices-pad">
                                                                     <p>
                                                                         {t("Version")} {
                                                                             String(this.props.bot.hardware.mcu_params.param_version)

@@ -12,6 +12,7 @@ import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import * as _ from "lodash";
 import { API } from "../api";
+import { TemporaryImageList } from "../images/temporary_image_list";
 
 export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
     primary(): string {
@@ -318,6 +319,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                             {showUrl(url, dirty)}
                                         </div>
                                     </div>
+                                    <TemporaryImageList images={this.props.sync.images} />
                                 </div>
                             </div>
                         </div>
