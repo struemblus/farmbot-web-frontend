@@ -6,6 +6,11 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "production";
 
+exec("touch public/app/index.html");
+exec("echo -n > public/app/index.html");
+exec("rm -rf public/app-resources/chunks/*");
+exec("rm -rf public/app-resources/*.*");
+
 c = function() {
     var conf = generateConfig();
 

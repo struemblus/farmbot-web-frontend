@@ -11,8 +11,9 @@ node_modules
 npm-debug.log
 bundle.*.js*
 front_page.*.js*
+verify.*.js*
 public/app-resources/*.css*
 public/app-resources/*.js*
 public/app-resources/chunks/*.js*
-public/app/index.html
+public/app/*
 public/index.html

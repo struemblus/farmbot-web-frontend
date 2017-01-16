@@ -4,6 +4,10 @@ var exec = require("child_process").exec;
 var execSync = require("child_process").execSync;
 var webpack = require("webpack");
 var fs = require("fs");
+exec("touch public/app/index.html");
+exec("echo -n > public/app/index.html");
+exec("rm -rf public/app-resources/chunks/*");
+exec("rm -rf public/app-resources/*.*");
 
 /** For reference in the console. */
 var revisionPlugin = new webpack.DefinePlugin({
@@ -21,10 +25,6 @@ var npmAddons = new webpack.DefinePlugin({
     "process.env.NPM_ADDON": JSON.stringify(
         process.env.NPM_ADDON || false).toString()
 });
-
-exec("rm -rf public/app/index.html");
-exec("rm -rf public/app-resources/chunks/*");
-exec("rm -rf public/app-resources/*.*");
 
 /** WEBPACK BASE CONFIG */
 module.exports = function() {
