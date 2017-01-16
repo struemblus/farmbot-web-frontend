@@ -23,6 +23,7 @@ let reducers = combineReducers({
     regimens,
     bulkScheduler,
     config,
+    designer,
     draggable,
     peripherals,
     tools,
