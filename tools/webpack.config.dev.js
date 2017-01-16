@@ -21,7 +21,7 @@ c = function() {
         path: path.resolve(__dirname, "../public"),
         filename: "[name].[chunkhash].js",
         libraryTarget: "umd",
-        publicPath: "/"
+        publicPath: "/public"
     };
 
     conf

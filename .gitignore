@@ -9,7 +9,8 @@ dist
 jest
 node_modules
 npm-debug.log
-public/*.js*
+bundle.*.js*
+front_page.*.js*
 public/app-resources/*.css*
 public/app-resources/*.js*
 public/app-resources/chunks/*.js*
