@@ -63,10 +63,6 @@ module.exports = function() {
                 {
                     test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
                     use: "file-loader"
-                },
-                {
-                    test: /\.hbs$/,
-                    use: "handlebars-loader"
                 }
             ]
         },
@@ -75,7 +71,7 @@ module.exports = function() {
         plugins: [
             revisionPlugin,
             shortRevisionPlugin,
-            npmAddons,
+            npmAddons
             // new webpack.optimize.CommonsChunkPlugin({
             //     name: "vendor"
             // })

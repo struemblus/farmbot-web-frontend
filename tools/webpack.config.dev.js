@@ -15,7 +15,7 @@ c = function() {
         // "app-resources/vendor": "react",
         "front_page": "./src/front_page/index.tsx",
         "verify": "./src/static/verify.ts",
-        "password_reset": "./src/password_reset/index.tsx",
+        "password_reset": "./src/password_reset/index.tsx"
     };
 
     conf.output = {
