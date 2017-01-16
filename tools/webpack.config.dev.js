@@ -7,7 +7,11 @@ var configPath = path.resolve(__dirname, "../src/config.json");
 var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "development";
 
-c = function () {
+// Ensure index.html is built for dev
+exec("mkdir -p public/app")
+exec("touch public/app/index.html")
+
+c = function() {
     var conf = generateConfig();
 
     conf.entry = {
