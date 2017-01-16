@@ -7,7 +7,7 @@ var configPath = path.resolve(__dirname, "../src/config.json");
 var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "development";
 
-c = function() {
+c = function () {
     var conf = generateConfig();
 
     conf.entry = {
@@ -21,7 +21,7 @@ c = function() {
         path: path.resolve(__dirname, "../public"),
         filename: "dist/[name].[chunkhash].js",
         libraryTarget: "umd",
-        publicPath: "/public"
+        publicPath: "/"
     };
 
     conf

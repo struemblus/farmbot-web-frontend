@@ -50,7 +50,7 @@ c = function() {
     conf
         .plugins
         .push(new ExtractTextPlugin({
-            filename: "../styles.css",
+            filename: "dist/styles.css",
             disable: false,
             allChunks: true
         }));

@@ -27,7 +27,7 @@ var npmAddons = new webpack.DefinePlugin({
 });
 
 /** WEBPACK BASE CONFIG */
-module.exports = function() {
+module.exports = function () {
     return {
         /** Allows imports without file extensions. */
         resolve: {
@@ -62,10 +62,9 @@ module.exports = function() {
         /** Webpack Dev Server. */
         devServer: {
             historyApiFallback: {
-                index: "/index.html",
                 rewrites: [
                     { from: /\/app\//, to: "/app/index.html" },
-                    { from: /password_reset/, to: "password_reset.html" }
+                    { from: /password_reset/, to: "password_reset.html" },
                 ]
             }
         }
