@@ -4,6 +4,8 @@ var exec = require("child_process").exec;
 var execSync = require("child_process").execSync;
 var webpack = require("webpack");
 var fs = require("fs");
+
+// Bootstrapping
 exec("touch public/app/index.html");
 exec("echo -n > public/app/index.html");
 exec("rm -rf public/app-resources/chunks/*");
@@ -27,7 +29,7 @@ var npmAddons = new webpack.DefinePlugin({
 });
 
 /** WEBPACK BASE CONFIG */
-module.exports = function () {
+module.exports = function() {
     return {
         /** Allows imports without file extensions. */
         resolve: {
