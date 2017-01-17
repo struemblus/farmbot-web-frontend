@@ -284,6 +284,8 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                 readStatus();
                 dispatch(sync());
                 bot.on("logs", function (msg: RpcBotLog) {
+                    // Temporary hack to trace source of logs.
+                    eval("msg.source = 'from_bot'");
                     dispatch(incomingLog(msg));
                 });
                 bot.on("status", function (msg: BotStateTree) {
