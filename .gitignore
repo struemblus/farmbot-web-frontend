@@ -17,5 +17,6 @@ public/app-resources/*.js*
 public/app-resources/chunks/*.js*
 public/app/*
 public/index.html
+public/password_reset.html
 public/app-index.js
 public/front_page.js

@@ -4,34 +4,29 @@ var exec = require("child_process").exec;
 var execSync = require("child_process").execSync;
 var webpack = require("webpack");
 var fs = require("fs");
+var FarmBotRenderer = require("./farmBotRenderer");
 
 // Bootstrapping
-exec("mkdir -p public/app");
-exec("touch public/app/index.html");
-exec("echo -n > public/app/index.html");
-exec("rm -rf public/app-resources/chunks/*");
-exec("rm -rf public/app-resources/*.*");
-
-/** For reference in the console. */
-var revisionPlugin = new webpack.DefinePlugin({
-    "process.env.REVISION": JSON.stringify(execSync(
-        'git log --pretty=format:"%h%n%ad%n%f" -1').toString())
-});
-
-var shortRevisionPlugin = new webpack.DefinePlugin({
-    "process.env.SHORT_REVISION": JSON.stringify(execSync(
-        'git log --pretty=format:"%h" -1').toString())
-});
-
-/** FarmBot Inc related. */
-var npmAddons = new webpack.DefinePlugin({
-    "process.env.NPM_ADDON": JSON.stringify(
-        process.env.NPM_ADDON || false).toString()
-});
-
+// Ensure index.html is built for dev
 /** WEBPACK BASE CONFIG */
+exec("mkdir -p public/app");
+exec("echo -n > public/app/index.html");
+exec("touch public/app/index.html");
+var isProd = !!(global.WEBPACK_ENV === "production");
 module.exports = function () {
     return {
+        entry: {
+            "bundle": path.resolve(__dirname, "../src/entry.tsx"),
+            "front_page": "./src/front_page/index.tsx",
+            "password_reset": "./src/password_reset/index.tsx"
+        },
+        output: {
+            path: path.resolve(__dirname, "../public"),
+            filename: "dist/[name].[chunkhash].js",
+            libraryTarget: "umd",
+            publicPath: "/"
+        },
+        devtool: "source-map",
         /** Allows imports without file extensions. */
         resolve: {
             extensions: [".js", ".ts", ".tsx", ".css", ".scss", ".json", ".hbs"]
@@ -54,12 +49,39 @@ module.exports = function () {
 
         /** Shared plugins for prod and dev. */
         plugins: [
-            revisionPlugin,
-            shortRevisionPlugin,
-            npmAddons
-            // new webpack.optimize.CommonsChunkPlugin({
-            //     name: "vendor"
-            // })
+            new webpack.DefinePlugin({
+                "process.env.REVISION": JSON.stringify(execSync(
+                    'git log --pretty=format:"%h%n%ad%n%f" -1').toString())
+            }),
+            new webpack.DefinePlugin({
+                "process.env.SHORT_REVISION": JSON.stringify(execSync(
+                    'git log --pretty=format:"%h" -1').toString())
+            }),
+            // FarmBot Inc related.
+            new webpack.DefinePlugin({
+                "process.env.NPM_ADDON": JSON.stringify(
+                    process.env.NPM_ADDON || false).toString()
+            }),
+            new FarmBotRenderer({
+                isProd: isProd,
+                path: path.resolve(__dirname, "../src/static/app_index.hbs"),
+                filename: "index.html",
+                outputPath: path.resolve(__dirname, "../public/app/")
+            }),
+            new FarmBotRenderer({
+                isProd: isProd,
+                path: path.resolve(__dirname, "../src/static/front_page.hbs"),
+                filename: "index.html",
+                outputPath: path.resolve(__dirname, "../public/"),
+                include: "front_page"
+            }),
+            new FarmBotRenderer({
+                isProd: isProd,
+                path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
+                filename: "password_reset.html",
+                outputPath: path.resolve(__dirname, "../public/"),
+                include: "password_reset"
+            })
         ],
 
         /** Webpack Dev Server. */
