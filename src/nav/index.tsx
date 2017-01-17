@@ -56,7 +56,7 @@ let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
     let dirty = bot.dirty;
     let color = dirty ? "yellow" : "green";
     return <button className={`nav-sync button-like ${color}`}
-        onClick={() => { dispatch(sync()); } }>
+        onClick={() => { dispatch(sync()); }}>
         {dirty ? t("Sync Required") : t("Synced")}
     </button>;
 };
@@ -131,7 +131,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
 
         return <nav role="navigation">
             <button
-                onClick={() => { toggleNav(); } }>
+                onClick={() => { toggleNav(); }}>
                 <i className="fa fa-bars"></i>
             </button>
             <span className="page-name">{pageName}</span>
@@ -163,7 +163,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 <ul className="mobile-menu-extras">
                     <li>
                         <Link to="/app/account"
-                            onClick={() => { toggleNav(); } }>
+                            onClick={() => { toggleNav(); }}>
                             <i className="fa fa-cog"></i>{t("Account Settings")}
                         </Link>
                     </li>
@@ -190,11 +190,11 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             <EStopButton { ...this.props } />
 
             <div className={`ticker-list ${isActive}`}
-                onClick={() => { clickToggleTicker(); } }
-                onMouseEnter={() => { hoverToggleTicker(); } }
-                onMouseLeave={() => { hoverToggleTicker(); } }>
+                onClick={() => { clickToggleTicker(); }}
+                onMouseEnter={() => { hoverToggleTicker(); }}
+                onMouseLeave={() => { hoverToggleTicker(); }}>
                 {this.props.sync.logs.map((log, index) => {
-                    let time = moment.utc(log.created_at).format("HH:mma");
+                    let time = moment.utc(log.created_at).local().format("HH:mma");
                     /** Otherwise yields "03:15PM"" etc. */
                     if (time.charAt(0) === "0") { time = time.substr(1); }
                     return <div key={index} className="status-ticker-wrapper">
@@ -213,7 +213,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
 
             <DropDown onClick={logout} { ...this.props } />
             <div className={`underlay ${mobileMenuClass}`}
-                onClick={() => { toggleNav(); } }></div>
+                onClick={() => { toggleNav(); }}></div>
         </nav>;
     }
 }
