@@ -194,9 +194,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
                 onMouseEnter={() => { hoverToggleTicker(); }}
                 onMouseLeave={() => { hoverToggleTicker(); }}>
                 {this.props.sync.logs.map((log, index) => {
-                    let time = moment.utc(log.created_at).local().format("HH:mma");
-                    /** Otherwise yields "03:15PM"" etc. */
-                    if (time.charAt(0) === "0") { time = time.substr(1); }
+                    let time = moment.utc(log.created_at).local().format("h:mm a");
                     return <div key={index} className="status-ticker-wrapper">
                         <div className={`saucer ${log.meta.type}`} />
                         <label className="status-ticker-message">
