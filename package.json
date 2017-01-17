@@ -39,7 +39,7 @@
     "boxed_value": "^1.0.0",
     "css-loader": "^0.25.0",
     "extract-text-webpack-plugin": "^2.0.0-beta.5",
-    "farmbot": "2.7.0",
+    "farmbot": "3.0.0",
     "fastclick": "^1.0.6",
     "handlebars": "^4.0.5",
     "i18next": "^3.4.3",
@@ -65,9 +65,7 @@
     "tslint": "^3.15.1",
     "typescript": "^2.1.4",
     "webpack": "^2.2.0-rc.3",
-    "weinre": "^2.0.0-pre-I0Z7U9OV"
-  },
-  "devDependencies": {
+    "weinre": "^2.0.0-pre-I0Z7U9OV",
     "@types/enzyme": "^2.5.39",
     "@types/jest": "^16.0.1",
     "enzyme": "^2.6.0",
@@ -76,6 +74,7 @@
     "react-dom": "^15.4.1",
     "ts-jest": "^17.0.3"
   },
+  "devDependencies": {},
   "jest": {
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"

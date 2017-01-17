@@ -23,6 +23,7 @@ export interface ToolBay {
     name: string;
     isEditing?: boolean;
     dirty?: boolean;
+    created_at?: string | undefined;
 }
 
 export interface ToolBayFormState {
