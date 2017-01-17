@@ -28,7 +28,8 @@ c = function () {
     conf.entry = {
         "bundle": path.resolve(__dirname, "../src/entry.tsx"),
         "front_page": "./src/front_page/index.tsx",
-        "verify": "./src/static/verify.ts"
+        "reset": "./src/static/reset.ts",
+        "password_reset": "./src/password_reset/index.tsx"
     };
 
     conf.output = {
@@ -66,6 +67,13 @@ c = function () {
             outputPath: path.resolve(__dirname, "../public/app/"),
             isProd: true
         }));
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/app_index.hbs"),
+            filename: "index.html",
+            outputPath: path.resolve(__dirname, "../public/app/")
+        }));
 
     conf
         .plugins
@@ -73,8 +81,7 @@ c = function () {
             path: path.resolve(__dirname, "../src/static/front_page.hbs"),
             filename: "index.html",
             outputPath: path.resolve(__dirname, "../public/"),
-            include: "front_page",
-            isProd: true
+            include: "front_page"
         }));
 
     conf
@@ -83,24 +90,11 @@ c = function () {
             path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
             filename: "password_reset.html",
             outputPath: path.resolve(__dirname, "../public/"),
-            include: "verify"
-        }));
-
-    conf
-        .plugins
-        .push(new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        }));
-
-    conf
-        .plugins
-        .push(new PurifyPlugin({
-            paths: glob.sync(path.resolve(__dirname, '../public/dist/styles.css')),
+            include: "reset"
         }));
 
     return conf;
+
 }
 
 module.exports = c();
