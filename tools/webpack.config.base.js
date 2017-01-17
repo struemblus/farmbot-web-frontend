@@ -18,6 +18,7 @@ module.exports = function () {
         entry: {
             "bundle": path.resolve(__dirname, "../src/entry.tsx"),
             "front_page": "./src/front_page/index.tsx",
+            "verification": "./src/verification.ts",
             "password_reset": "./src/password_reset/index.tsx"
         },
         output: {
@@ -74,6 +75,13 @@ module.exports = function () {
                 filename: "index.html",
                 outputPath: path.resolve(__dirname, "../public/"),
                 include: "front_page"
+            }),
+            new FarmBotRenderer({
+                isProd: isProd,
+                path: path.resolve(__dirname, "../src/static/verification.hbs"),
+                filename: "verify.html",
+                outputPath: path.resolve(__dirname, "../public/"),
+                include: "verification"
             }),
             new FarmBotRenderer({
                 isProd: isProd,
