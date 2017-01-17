@@ -9,6 +9,7 @@ global.WEBPACK_ENV = "development";
 
 c = function () {
     var conf = generateConfig();
+
     conf
         .module
         .rules

@@ -6,34 +6,29 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
 var glob = require("glob");
 var PurifyPlugin = require("purifycss-webpack-plugin");
+
 global.WEBPACK_ENV = "production";
 
-c = function () {
+c = function() {
     var conf = generateConfig();
-
-    conf
-        .module
-        .rules
-        .push({
-            test: /\.scss$/,
-            loader: ExtractTextPlugin.extract("css-loader!sass-loader")
-        });
-
-    conf
-        .plugins
-        .push(new webpack.DefinePlugin({
+    conf.module.rules.push({
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract("css-loader!sass-loader")
+    });
+    // PLUGINS:
+    [
+        new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify("production"),
             "process.env.REVISION": JSON.stringify(
                 exec('git log --pretty=format:"%h%n%ad%n%f" -1').toString()),
-        }));
-
-    conf
-        .plugins
-        .push(new ExtractTextPlugin({
+        }),
+        new ExtractTextPlugin({
             filename: "dist/styles.css",
             disable: false,
             allChunks: true
-        }));
+        })
+    ].forEach(function(x){ conf.plugins.push(x) })
+
     return conf;
 
 }
