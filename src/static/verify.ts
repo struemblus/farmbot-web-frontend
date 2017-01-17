@@ -6,7 +6,7 @@ import { Session } from "../session";
 export async function verify() {
     const token = getParam('token');
     const url = API.fetchBrowserLocation();
-    let { data } = await put(url + "/api/users/verify/" + token) as any;
+    let { data } = await put(url + "/api/password_resets?token=" + token) as any;
     Session.put(data);
     window.location.href = "/app/controls";
 }

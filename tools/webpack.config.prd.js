@@ -74,6 +74,15 @@ c = function() {
             isProd: true
         }));
 
+    conf
+        .plugins
+        .push(new FarmBotRenderer({
+            path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
+            filename: "password_reset.html",
+            outputPath: path.resolve(__dirname, "../public/"),
+            include: "verify"
+        }));
+
     return conf;
 }
 
