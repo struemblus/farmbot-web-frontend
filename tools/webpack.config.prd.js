@@ -4,6 +4,8 @@ var exec = require("child_process").execSync;
 var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
+var glob = require("glob");
+var PurifyPlugin = require("purifycss-webpack-plugin");
 global.WEBPACK_ENV = "production";
 
 exec("touch public/app/index.html");
@@ -72,6 +74,20 @@ c = function() {
             outputPath: path.resolve(__dirname, "../public/"),
             include: "front_page",
             isProd: true
+        }));
+
+    conf
+        .plugins
+        .push(new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }));
+
+    conf
+        .plugins
+        .push(new PurifyPlugin({
+            paths: glob.sync(path.resolve(__dirname, '../public/dist/styles.css')),
         }));
 
     return conf;
