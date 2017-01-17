@@ -8,12 +8,13 @@ var glob = require("glob");
 var PurifyPlugin = require("purifycss-webpack-plugin");
 global.WEBPACK_ENV = "production";
 
+exec("mkdir -p public/app");
 exec("touch public/app/index.html");
 exec("echo -n > public/app/index.html");
 exec("rm -rf public/app-resources/chunks/*");
 exec("rm -rf public/app-resources/*.*");
 
-c = function() {
+c = function () {
     var conf = generateConfig();
 
     conf
