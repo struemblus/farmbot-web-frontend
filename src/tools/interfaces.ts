@@ -59,6 +59,7 @@ export interface Tool {
     id: number;
     name: string;
     dirty?: boolean;
+    status?: undefined | "unknown" | "active" | "inactive";
 }
 
 /** Actions */

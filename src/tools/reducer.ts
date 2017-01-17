@@ -70,6 +70,15 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
             s.tool_slots.splice(index, 1, ts);
         });
         s.editorMode = false;
+        // TODO: Find a more elegant solution to this problem: nested resource?
+        // Deactivate all.
+        s.tools.all.map(t => t.status = "inactive");
+        // Activate the ones that have a tool_slot.
+        let activeTools = s.tool_slots.map(x => x.tool_id);
+        s.tools
+            .all
+            .filter(x => activeTools.includes(x.id))
+            .map(x => x.status = "active");
         return s;
     })
     .add<{ id: number }>("DESTROY_TOOL_SLOT_OK", function (s, a) {
@@ -100,8 +109,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
         return s;
     })
     .add<Tool>("ADD_TOOL_OK", function (s, a) {
-        let { name, id } = a.payload;
-        s.tools.all.push({ name, id });
+        s.tools.all.push(a.payload);
         return s;
     })
     .add<Tool[]>("SAVE_TOOLS_OK", function (s, a) {
