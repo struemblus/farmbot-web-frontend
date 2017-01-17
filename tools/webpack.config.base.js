@@ -12,18 +12,19 @@ var FarmBotRenderer = require("./farmBotRenderer");
 exec("mkdir -p public/app");
 exec("echo -n > public/app/index.html");
 exec("touch public/app/index.html");
+var isProd = !!(global.WEBPACK_ENV === "production");
 module.exports = function () {
     return {
         entry: {
-          "bundle": path.resolve(__dirname, "../src/entry.tsx"),
-          "front_page": "./src/front_page/index.tsx",
-          "password_reset": "./src/password_reset/index.tsx"
+            "bundle": path.resolve(__dirname, "../src/entry.tsx"),
+            "front_page": "./src/front_page/index.tsx",
+            "password_reset": "./src/password_reset/index.tsx"
         },
         output: {
-          path: path.resolve(__dirname, "../public"),
-          filename: "dist/[name].[chunkhash].js",
-          libraryTarget: "umd",
-          publicPath: "/"
+            path: path.resolve(__dirname, "../public"),
+            filename: "dist/[name].[chunkhash].js",
+            libraryTarget: "umd",
+            publicPath: "/"
         },
         devtool: "source-map",
         /** Allows imports without file extensions. */
@@ -62,17 +63,20 @@ module.exports = function () {
                     process.env.NPM_ADDON || false).toString()
             }),
             new FarmBotRenderer({
+                isProd: isProd,
                 path: path.resolve(__dirname, "../src/static/app_index.hbs"),
                 filename: "index.html",
                 outputPath: path.resolve(__dirname, "../public/app/")
             }),
             new FarmBotRenderer({
+                isProd: isProd,
                 path: path.resolve(__dirname, "../src/static/front_page.hbs"),
                 filename: "index.html",
                 outputPath: path.resolve(__dirname, "../public/"),
                 include: "front_page"
             }),
             new FarmBotRenderer({
+                isProd: isProd,
                 path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
                 filename: "password_reset.html",
                 outputPath: path.resolve(__dirname, "../public/"),

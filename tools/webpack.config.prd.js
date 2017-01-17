@@ -1,3 +1,5 @@
+global.WEBPACK_ENV = "production";
+
 var webpack = require("webpack");
 var generateConfig = require("./webpack.config.base");
 var exec = require("child_process").execSync;
@@ -7,9 +9,8 @@ var FarmBotRenderer = require("./farmBotRenderer");
 var glob = require("glob");
 var PurifyPlugin = require("purifycss-webpack-plugin");
 
-global.WEBPACK_ENV = "production";
 
-c = function() {
+c = function () {
     var conf = generateConfig();
     conf.module.rules.push({
         test: /\.scss$/,
@@ -27,7 +28,7 @@ c = function() {
             disable: false,
             allChunks: true
         })
-    ].forEach(function(x){ conf.plugins.push(x) })
+    ].forEach(function (x) { conf.plugins.push(x) })
 
     return conf;
 
