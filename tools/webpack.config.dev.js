@@ -7,27 +7,8 @@ var configPath = path.resolve(__dirname, "../src/config.json");
 var FarmBotRenderer = require("./farmBotRenderer");
 global.WEBPACK_ENV = "development";
 
-// Ensure index.html is built for dev
-exec("mkdir -p public/app")
-exec("touch public/app/index.html")
-
 c = function () {
     var conf = generateConfig();
-
-    conf.entry = {
-        "bundle": path.resolve(__dirname, "../src/entry.tsx"),
-        "front_page": "./src/front_page/index.tsx",
-        "reset": "./src/static/reset.ts",
-        "password_reset": "./src/password_reset/index.tsx"
-    };
-
-    conf.output = {
-        path: path.resolve(__dirname, "../public"),
-        filename: "dist/[name].[chunkhash].js",
-        libraryTarget: "umd",
-        publicPath: "/"
-    };
-
     conf
         .module
         .rules
@@ -35,8 +16,6 @@ c = function () {
             test: [/\.scss$/, /\.css$/],
             use: ["style-loader", "css-loader", "sass-loader"]
         });
-
-    conf.devtool = "source-map";
 
     conf
         .plugins
@@ -52,32 +31,6 @@ c = function () {
             "process.env.CONFIG": JSON.stringify(config)
         }));
     }
-
-    conf
-        .plugins
-        .push(new FarmBotRenderer({
-            path: path.resolve(__dirname, "../src/static/app_index.hbs"),
-            filename: "index.html",
-            outputPath: path.resolve(__dirname, "../public/app/")
-        }));
-
-    conf
-        .plugins
-        .push(new FarmBotRenderer({
-            path: path.resolve(__dirname, "../src/static/front_page.hbs"),
-            filename: "index.html",
-            outputPath: path.resolve(__dirname, "../public/"),
-            include: "front_page"
-        }));
-
-    conf
-        .plugins
-        .push(new FarmBotRenderer({
-            path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
-            filename: "password_reset.html",
-            outputPath: path.resolve(__dirname, "../public/"),
-            include: "reset"
-        }));
 
     return conf;
 };
