@@ -1,4 +1,4 @@
-var merge = require("lodash.merge");
+var merge = require("lodash").merge;
 var hbs = require("handlebars");
 var fs = require("fs");
 

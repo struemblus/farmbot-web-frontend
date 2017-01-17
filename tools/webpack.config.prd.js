@@ -4,14 +4,17 @@ var exec = require("child_process").execSync;
 var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
+var glob = require("glob");
+var PurifyPlugin = require("purifycss-webpack-plugin");
 global.WEBPACK_ENV = "production";
 
+exec("mkdir -p public/app");
 exec("touch public/app/index.html");
 exec("echo -n > public/app/index.html");
 exec("rm -rf public/app-resources/chunks/*");
 exec("rm -rf public/app-resources/*.*");
 
-c = function() {
+c = function () {
     var conf = generateConfig();
 
     conf
@@ -81,6 +84,20 @@ c = function() {
             filename: "password_reset.html",
             outputPath: path.resolve(__dirname, "../public/"),
             include: "verify"
+        }));
+
+    conf
+        .plugins
+        .push(new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }));
+
+    conf
+        .plugins
+        .push(new PurifyPlugin({
+            paths: glob.sync(path.resolve(__dirname, '../public/dist/styles.css')),
         }));
 
     return conf;
