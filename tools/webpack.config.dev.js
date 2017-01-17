@@ -11,13 +11,13 @@ global.WEBPACK_ENV = "development";
 exec("mkdir -p public/app")
 exec("touch public/app/index.html")
 
-c = function() {
+c = function () {
     var conf = generateConfig();
 
     conf.entry = {
         "bundle": path.resolve(__dirname, "../src/entry.tsx"),
         "front_page": "./src/front_page/index.tsx",
-        "verify": "./src/static/verify.ts",
+        "reset": "./src/static/reset.ts",
         "password_reset": "./src/password_reset/index.tsx"
     };
 
@@ -76,7 +76,7 @@ c = function() {
             path: path.resolve(__dirname, "../src/static/password_reset.hbs"),
             filename: "password_reset.html",
             outputPath: path.resolve(__dirname, "../public/"),
-            include: "verify"
+            include: "reset"
         }));
 
     return conf;
