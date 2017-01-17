@@ -77,7 +77,7 @@ function loginErr(err: any) {
  * thereby granting access to the API. */
 export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     // TODO: Create a shareable axios instance and set the `baseURL`
-    // IDEA: 
+    // IDEA:
     // https://medium.com/@srph/axios-configure-the-base-path-daed6ff79eab#.145enq9g6
     // OR THIS: https://github.com/srph/axios-base-url
     // property so we can get rid of all that un-DRY URL concat junk.
@@ -153,7 +153,7 @@ function requestToken(email: string,
     url: string) {
     let payload = { user: { email: email, password: password } };
     // Set the base URL once here.
-    // It will get set once more when we get the "iss" claim from the JWT. 
+    // It will get set once more when we get the "iss" claim from the JWT.
     API.setBaseUrl(url);
     return Axios.post<AuthState>(API.current.tokensPath, payload);
 }
@@ -165,7 +165,8 @@ export function logout() {
     // To circumvent this, we must check if the user had a token.
     // If there was infact a token, we can safely show the message.
     if (Session.get()) { success("You have been logged out."); }
-    Session.clear();
+    Session.clear(true);
+    // Technically this is unreachable code:
     return {
         type: "LOGOUT",
         payload: {}

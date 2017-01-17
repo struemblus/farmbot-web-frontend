@@ -96,8 +96,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
     }
 
     logout() {
-        Session.clear();
-        location.reload(true);
+        Session.clear(true);
     }
 
     hoverToggleTicker() {
