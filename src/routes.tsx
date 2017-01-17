@@ -94,7 +94,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             {
                 path: "app/designer(?:p1&?:id)",
                 getComponent(location: any, cb: any) {
-                    System.import("./farm_designer/farm_designer.tsx").then(
+                    System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
                     ).catch(errorLoading);
                 }
