@@ -38,11 +38,8 @@
             text-decoration: underline;
         }
     }
-    ul {
-        padding-left: 2rem;
-    }
     li {
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
 }
 
@@ -66,4 +63,30 @@
     /* align vertical */
     height: 3rem;
     width: 100%;
+}
+
+.current-plants {
+    li {
+        &:nth-child(even) {
+            margin-left: -15px;
+        }
+        a {
+            display: flex;
+            background-color: white;
+            position: relative;
+            label {
+                background-color: #434343;
+                color: #f4f4f4;
+                position: absolute;
+                left: 0;
+                right: 0;
+                padding: 0.2rem;
+                text-align: center;
+            }
+            img {
+                display: block;
+                margin: 2rem auto 0;
+            }
+        }
+    }
 }
