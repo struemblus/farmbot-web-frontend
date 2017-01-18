@@ -60,11 +60,38 @@ export class Events extends React.Component<Everything, {}> {
           </ul>
         </div>
       </div>
-      <div className="panel-content">
 
-        <Select options={[{ label: "January 1", value: 1 }]} />
+      <div className="panel-content events">
 
-        <div className="event-date">No Events Yet</div>
+        <div className="row">
+          <i className="col-sm-2 col-md-2 fa fa-calendar"></i>
+          <Select className="col-sm-10 col-md-10"
+            options={[{ label: "January 1", value: 1 }]} />
+        </div>
+
+        <div className="event-list">
+
+          {/* Foreach these guys.. */}
+          <div className="event-date col-sm-2">
+            <label className="month-abbr">AUG</label>
+            <label className="month-day">21</label>
+          </div>
+
+          <div className="event-block-list">
+            {/* aaand these ones */}
+            <div className="event-block col-sm-10">
+              <span className="time">4am</span>
+              <i className="fa fa-tint"></i>
+              <span className="desc">Water</span>
+            </div>
+            <div className="event-block col-sm-10">
+              <span className="time">3pm</span>
+              <i className="fa fa-leaf"></i>
+              <span className="desc">Seed</span>
+            </div>
+          </div>
+
+        </div>
 
         <Link to="/app/designer?p2=AddEvent">
           <div className="plus-button add-event button-like"
