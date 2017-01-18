@@ -21,6 +21,7 @@ import {
 } from "./actions";
 import { t } from "i18next";
 import * as _ from "lodash";
+import { WeedDetector } from "./components/weed_detector";
 
 interface UpdateButtonProps {
     bot: BotState;
@@ -50,7 +51,7 @@ let OsUpdateButton = ({bot}: UpdateButtonProps) => {
             "undefined"}
             toggleAction={() => {
                 updateConfig({ os_auto_update: !osUpdateBool });
-            } } />
+            }} />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkControllerUpdates()}>
             {buttonStr}
@@ -80,7 +81,7 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
             {String(fwUpdateBool) || "undefined"}
             toggleAction={() => {
                 updateConfig({ fw_auto_update: !fwUpdateBool });
-            } } />
+            }} />
         <button className={`button-like ${buttonColor}`}
             onClick={() => checkArduinoUpdates()}>
             {buttonStr}
@@ -519,9 +520,9 @@ export class Devices extends React.Component<Everything, {}> {
                                 </div>
                             </div>
                         </div>
+                        <WeedDetector {...this.props} />
                     </div>
                 </div>
-
             </div>;
         } else {
             throw new Error("Log in first");

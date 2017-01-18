@@ -42,9 +42,6 @@ export function fakeState(dispatcher?: Function): Everything {
             id: 1,
             name: "wow"
         },
-        /** Maximum number of messages to cache. Excess is truncated. */
-        logQueueSize: 0,
-        logQueue: [],
         status: "???",
         dirty: false,
         /** How many steps to move when the user presses a manual movement arrow */

@@ -32,45 +32,32 @@ export class MapPoint extends React.Component<MapPointProps, any> {
 };
 
 export class GardenMap extends React.Component<Everything, any> {
-  plants() {
-    return this
-      .props
-      .designer
-      .plants
-      .map((p, k) => {
-        let id = p.id || (function () { throw new Error(t("Plant needs to have an ID.")); })();
-        let isSelected = this.props.location.query["id"] === id.toString();
-        let icon = p.icon_url || ICONS[0];
-        return <MapPoint plant={p}
-          key={k}
-          icon={icon}
-          { ...this.props }
-          selected={isSelected} />;
-      });
+  dragover_handler(ev: any) {
+    // Perform drop availability here probably
+    ev.preventDefault();
+    ev.dataTransfer.dropEffect = "move";
+  }
+
+  drop_handler(ev: any) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+  }
+
+  componentDidMount() {
+    document.addEventListener("drop", function (e) {
+      e = e || window.event;
+      var dragX = e.pageX, dragY = e.pageY;
+      console.log("X: " + dragX + " Y: " + dragY);
+    }, false);
   }
 
   render() {
-    let style = {
-      fill: "rgba(0,0,0,0.05)",
-      strokeWidth: 5,
-      stroke: "rgba(0,0,0,0.15)"
-    };
-
-    let width = this.props.designer.x_size;
-    let length = this.props.designer.y_size;
-
-    return <div>
-      <div className="drop-area"
-        id="drop-area"
-        style={{ marginLeft: "10px", marginTop: "10px" }}>
-        <svg width={width}
-          height={length} >
-          <rect width={width}
-            height={length}
-            style={style} />
-          {this.plants()}
-        </svg>
-      </div>
+    return <div className="drop-area"
+      id="drop-area"
+      onDrop={this.drop_handler}
+      onDragEnter={this.dragover_handler}
+      onDragOver={this.dragover_handler}>
     </div>;
   }
 }

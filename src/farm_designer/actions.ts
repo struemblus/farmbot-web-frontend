@@ -1,11 +1,25 @@
 import * as Axios from "axios";
 import { error } from "../ui";
 import { Plant } from "./interfaces";
-import { Thunk } from "../redux/interfaces";
+import { Thunk, ReduxAction } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
+
+let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
+let _plantSearch = _.throttle((q: string) => Axios.get<CropSearchResult>(url(q)), 1500);
+
+export function searchPlants(event: any): Thunk {
+  return (dispatch, getState) => {
+    _plantSearch(event)
+      .then(resp => {
+        console.log(resp);
+      }, (e: Error) => {
+        // error(prettyPrintApiErrors(e));
+      });
+  };
+}
 
 export function savePlant(plant: Plant, baseUrl: string): Thunk {
   let url = API.current.plantsPath;
@@ -37,52 +51,5 @@ export function destroyPlant(plant: Plant, baseUrl: string): Thunk {
         error(t("Tried to delete plant, but couldn't."));
         dispatch({ type: "DESTROY_PLANT_ERR", payload });
       });
-  };
-};
-
-let STUB_IMAGE = "http://placehold.it/200x150";
-let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
-// If we do a search on keypress, we will DDoS OpenFarm.
-// This function prevents that from happening by pausing X ms
-// per keystroke.
-let _openFarmSearchQuery = _.throttle((q: string) => Axios.get<CropSearchResult>(url(q)), 1500);
-
-/** Search openfarm for crops. This is a throttled function, useful for live search. */
-export function openFarmSearchQuery(query: string) { // TODO make less smelly
-  return function (dispatch: Function) {
-    dispatch({
-      type: "SEARCH_QUERY_CHANGE",
-      payload: query
-    });
-    return _openFarmSearchQuery(query)
-      .then((resp) => {
-        // Pluck ID and URL of user-submitted OpenFarm crops...
-        // EG: => { X1y3ZAA: "cabbage.png" }
-        let images: { [key: string]: string } = {};
-
-        _.get<OpenFarm.Included[]>(resp, "data.included", [])
-          .map(function (item) {
-            return {
-              id: item.id,
-              url: item.attributes.thumbnail_url
-            };
-          })
-          .map((val, acc) => images[val.id] = val.url);
-
-        let payload = resp
-          .data
-          .data
-          .map(function (datum) {
-            let crop = datum.attributes;
-            let id = _.get<string>(datum, "relationships.pictures.data[0].id");
-            return { crop, image: (images[id] || STUB_IMAGE) };
-          });
-
-        dispatch({
-          type: "OF_SEARCH_RESULTS_OK",
-          payload
-        });
-      })
-      .catch(function (error) { console.warn(error); });
   };
 };

@@ -53,8 +53,6 @@ export interface DeviceAccountSettingsUpdate {
 export interface BotState {
   account: DeviceAccountSettings;
   /** Maximum number of messages to cache. Excess is truncated. */
-  logQueueSize: number;
-  logQueue: RpcBotLog[];
   status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
@@ -108,8 +106,23 @@ export interface ChangeSettingsBuffer {
 }
 
 export interface MoveRelProps {
-    x: number;
-    y: number;
-    z: number;
-    speed: number;
+  x: number;
+  y: number;
+  z: number;
+  speed: number;
+}
+
+export interface DetectorState {
+  isEditing?: boolean;
+  HUELow?: number;
+  HUEHigh?: number;
+  saturationLow?: number;
+  saturationHigh?: number;
+  valueLow?: number;
+  valueHigh?: number;
+  blur?: number;
+  morph?: number;
+  iterations?: number;
+  time?: string;
+  location?: string;
 }
