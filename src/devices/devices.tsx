@@ -319,7 +319,8 @@ export class Devices extends React.Component<Everything, {}> {
                                                                 </td>
                                                                 <td>
                                                                     <p>
-                                                                        {t(`This will reset ALL SETTINGS on the device. You will need to reconfigure your bot locally to bring it back online.`)}
+                                                                        {t(`
+Factory resetting your FarmBot will destroy all data on the device, revoking your FarmBot's abilily to connect to your web app account and your home wifi. Upon factory resetting, your device will restart into Conflgurator mode. Factory resetting your FarmBot will not affect any data or settings from your web app account, allowing you to do a complete restore to your device once it is back online and paired with your web app account.`)}
                                                                     </p>
                                                                 </td>
                                                                 <td>
