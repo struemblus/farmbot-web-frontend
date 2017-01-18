@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { BackArrow } from "./back_arrow";
 import { CropLiveSearchResult } from "./interfaces";
 import { Everything } from "../interfaces";
-// import { openFarmSearchQuery } from "./actions";
+import { openFarmSearchQuery } from "./actions";
 
 interface SpeciesCatalogTileProps {
   result: CropLiveSearchResult;
@@ -39,12 +39,13 @@ export class SpeciesCatalog extends React.Component<Everything, any> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow /> Choose a Species
+          <BackArrow />Choose a Species
         </p>
       </div>
       <div className="panel-content">
         <i className="fa fa-search"></i>
-
+        <SearchBox query={this.props.designer.cropSearchQuery}
+          dispatch={this.props.dispatch} />
         <div className="search-underline"></div>
         <div className="panel-content">
           {species}
@@ -59,14 +60,14 @@ interface SearchBoxParams {
   dispatch: Function;
 }
 
-// function SearchBox({query, dispatch}: SearchBoxParams) {
-//   return <input value={query}
-//     onChange={(e) => doSearch(e, dispatch)}
-//     className="search"
-//     placeholder="Search OpenFarm for crops" />;
-// }
+function SearchBox({query, dispatch}: SearchBoxParams) {
+  return <input value={query}
+    onChange={(e) => doSearch(e, dispatch)}
+    className="search"
+    placeholder="Search OpenFarm for crops" />;
+}
 
-// function doSearch(e: React.FormEvent<HTMLInputElement>,
-//   dispatch: Function) {
-//   dispatch(openFarmSearchQuery(e.currentTarget.value));
-// }
+function doSearch(e: React.FormEvent<HTMLInputElement>,
+  dispatch: Function) {
+  dispatch(openFarmSearchQuery(e.currentTarget.value));
+}

@@ -253,7 +253,11 @@ button {
     .plus-button.add-event {
         right: -78vw;
     }
-    .plus-button.add-plant {
-        left: -78vw;
+    .plus-button {
+        &.add-group,
+        &.add-zone,
+        &.add-plant {
+            left: -78vw;
+        }
     }
 }
