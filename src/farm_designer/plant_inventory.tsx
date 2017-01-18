@@ -5,7 +5,8 @@ import { Everything } from "../interfaces";
 
 const pathname = "/app/designer";
 
-export class Plants extends React.Component<Everything, any> {
+export class Plants extends React.Component<Everything, {}> {
+
   render() {
     return (
       <div className="panel-container green-panel">
