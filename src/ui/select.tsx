@@ -12,6 +12,7 @@ interface SelectProps {
     autoFocus?: boolean;
     placeholder?: string;
     onInputChange?: (inputValue: string) => void;
+    className?: string;
 }
 
 export function Select(props: SelectProps) {
@@ -24,6 +25,7 @@ export function Select(props: SelectProps) {
             optionComponent={props.optionComponent}
             placeholder={props.placeholder}
             onInputChange={props.onInputChange}
+            className={props.className}
         />;
     } else {
         return <div className="select-wrapper">

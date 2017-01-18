@@ -6,7 +6,6 @@ import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
 
-
 let DEFAULT_STATE = {
   plants: [],
   x_size: 0,
@@ -52,7 +51,6 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     return state;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", function (s, { payload }) {
-    console.log("1", payload);
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;

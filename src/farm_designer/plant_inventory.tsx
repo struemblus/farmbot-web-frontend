@@ -4,6 +4,7 @@ import { Plant } from "./interfaces";
 import { Everything } from "../interfaces";
 import { Select } from "../ui";
 import { searchPlants } from "./actions";
+import { ICONS } from "./icons";
 
 const pathname = "/app/designer";
 
@@ -64,29 +65,54 @@ export class Plants extends React.Component<Everything, PlantsState> {
           onInputChange={searchPlants}
         />
 
-        <div className="object-list">
+        <div className="object-list current-plants">
           <label>Current Plants</label>
-          <ul>
+          <ul className="row">
+
             <li draggable={true} onDragStart={this.dragstart_handler}
-              id="tomato">
+              id="tomato" className="col-sm-6 col-md-6 col-xs-6">
               <Link to={{
                 pathname: "/app/designer",
                 query: { p1: "PlantInfo", id: "tomato" }
               }}>
-                Tomato
+                <label>Tomato</label>
+                <img src="/app-resources/img/icons/Tomato-96.png" alt="" />
               </Link>
-              <p>{"Unknown planting time"}</p>
             </li>
+
             <li draggable={true} onDragStart={this.dragstart_handler}
-              id="avacado">
+              id="avacado" className="col-sm-6 col-md-6 col-xs-6">
               <Link to={{
                 pathname: "/app/designer",
                 query: { p1: "PlantInfo", id: "tomato" }
               }}>
-                Avacado
+                <label>Avacado</label>
+                <img src="/app-resources/img/icons/Avocado-96.png" alt="" />
               </Link>
-              <p>{"Unknown planting time"}</p>
             </li>
+
+            <li draggable={true} onDragStart={this.dragstart_handler}
+              id="apple" className="col-sm-6 col-md-6 col-xs-6">
+              <Link to={{
+                pathname: "/app/designer",
+                query: { p1: "PlantInfo", id: "apple" }
+              }}>
+                <label>Apple</label>
+                <img src="/app-resources/img/icons/Apple-96.png" alt="" />
+              </Link>
+            </li>
+
+            <li draggable={true} onDragStart={this.dragstart_handler}
+              id="barley" className="col-sm-6 col-md-6 col-xs-6">
+              <Link to={{
+                pathname: "/app/designer",
+                query: { p1: "PlantInfo", id: "barley" }
+              }}>
+                <label>Barley</label>
+                <img src="/app-resources/img/icons/Barley-96.png" alt="" />
+              </Link>
+            </li>
+
           </ul>
         </div>
       </div>

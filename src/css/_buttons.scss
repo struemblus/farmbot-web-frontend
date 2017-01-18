@@ -248,3 +248,16 @@ button {
         }
     }
 }
+
+@media (min-width: 568px) {
+    .plus-button.add-event {
+        right: -78vw;
+    }
+    .plus-button {
+        &.add-group,
+        &.add-zone,
+        &.add-plant {
+            left: -78vw;
+        }
+    }
+}

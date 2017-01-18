@@ -5,6 +5,7 @@ import { CalibrationButton } from "./components/calibration_button";
 import { RpcBotLog as BotLog, BotState } from "../devices/interfaces";
 import * as moment from "moment";
 import { Everything } from "../interfaces";
+import { success } from "../ui";
 import {
     saveAccountChanges,
     changeDevice,
@@ -169,6 +170,11 @@ export class McuInputBox extends React.Component<any, {}> {
 // Farmbot object and Redux .bot property (redundant).
 @connect((state: Everything) => state)
 export class Devices extends React.Component<Everything, {}> {
+
+    componentDidMount() {
+        success("Weed Detector is still under construction!",
+            "Work in Progress");
+    }
 
     updateBot(e: React.MouseEvent<{}>) {
         this.props.dispatch(saveAccountChanges);
