@@ -8,6 +8,7 @@ import { DetectorState } from "../interfaces";
 
 // No "import" support for this lib :(
 let Slider = require("rc-slider");
+require("rc-slider/assets/index.css");
 
 let DELETEMEOPTIONS = [
     { label: 1, value: 1 },

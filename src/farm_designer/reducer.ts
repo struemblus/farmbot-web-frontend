@@ -6,6 +6,7 @@ import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
 
+
 let DEFAULT_STATE = {
   plants: [],
   x_size: 0,

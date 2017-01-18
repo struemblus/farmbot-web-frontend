@@ -1,0 +1,102 @@
+// Styles for the farm designer panels
+.panel-container {
+    &.green-panel {
+        background-color: $light_green;
+    }
+    &.cyan-panel {
+        background-color: $light_cyan;
+    }
+    &.brown-panel {
+        background-color: $light_brown;
+    }
+    &.magenta-panel {
+        background-color: $light_magenta;
+    }
+}
+
+.panel-header {
+    color: $light_gray;
+    &.green-panel {
+        background-color: $dark_green;
+    }
+    &.cyan-panel {
+        background-color: $cyan;
+    }
+    &.brown-panel {
+        background-color: $dark_brown;
+    }
+    &.magenta-panel {
+        background-color: $magenta;
+    }
+    &.gray-panel {
+        background-color: $dark_gray;
+    }
+}
+
+.panel-tabs {
+    display: inline;
+    width: 100%;
+    list-style: none;
+    padding: 0rem;
+    text-transform: uppercase;
+    margin-bottom: 0px!important;
+    a {
+        font-size: 1.4rem;
+        padding: 0 1.2rem;
+        line-height: 5rem;
+        height: 5rem;
+        color: $light_gray;
+        display: block;
+        &:hover {
+            color: $off_white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        &:focus {
+            color: $off_white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    }
+    ul {
+        display: block;
+        overflow-x: scroll;
+        margin-bottom: 0;
+        padding: 0;
+        @media screen and (min-width: 768px) {
+            width: 100%;
+            display: table;
+            overflow: hidden;
+        }
+    }
+    li {
+        display: table-cell;
+        text-align: center;
+        .active {
+            font-weight: bold;
+            color: $off_white;
+            border-bottom: 2px solid $off_white;
+        }
+    }
+}
+
+.panel-content {
+    padding: 1rem;
+}
+
+.back-arrow {
+    width: 5rem;
+    float: left;
+    text-align: center;
+}
+
+.panel-title {
+    font-size: 1.6rem;
+    line-height: 5rem;
+    font-weight: bold;
+}
+
+.edit-link {
+    margin-left: 1rem;
+    font-size: 1.2rem;
+}
