@@ -16,6 +16,7 @@ import {
     checkControllerUpdates,
     reboot,
     powerOff,
+    factoryReset,
     checkArduinoUpdates,
     updateConfig
 } from "./actions";
@@ -309,6 +310,23 @@ export class Devices extends React.Component<Everything, {}> {
                                                                         className="button-like red"
                                                                         onClick={powerOff} >
                                                                         {t("SHUTDOWN")}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label>{t("Factory Reset")}</label>
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        {t(`This will reset ALL SETTINGS on the device. You will need to reconfigure your bot locally to bring it back online.`)}
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button"
+                                                                        className="button-like red"
+                                                                        onClick={factoryReset} >
+                                                                        {t("RESET")}
                                                                     </button>
                                                                 </td>
                                                             </tr>
