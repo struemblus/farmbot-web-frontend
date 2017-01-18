@@ -248,3 +248,12 @@ button {
         }
     }
 }
+
+@media (min-width: 568px) {
+    .plus-button.add-event {
+        right: -76rem;
+    }
+    .plus-button.add-plant {
+        left: -82rem;
+    }
+}
