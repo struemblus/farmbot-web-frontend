@@ -38,8 +38,6 @@ let status = {
 
 let initialState: BotState = {
     account: { id: 0, name: "" },
-    logQueueSize: 20,
-    logQueue: [],
     status: status.NOT_READY(),
     stepSize: 1000,
     hardware: {
@@ -71,10 +69,6 @@ export let botReducer = generateReducer<BotState>(initialState)
             }, {
                 status: status.READY()
             });
-    })
-    .add<{}>("CLEAR_BOT_LOG", function (s, a) {
-        s.logQueue = [];
-        return s;
     })
     .add<{}>("COMMIT_SETTINGS_OK", function (s, a) {
         let nextState = Object.assign({}, s, {

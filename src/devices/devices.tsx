@@ -350,8 +350,10 @@ export class Devices extends React.Component<Everything, {}> {
                                         </div>
                                         <div className="row">
                                             <div className="col-sm-12">
+                                                {/* Steps per mm needs to be three boxes. disable for now --connor
                                                 <label>{t("STEPS PER MM")}</label>
                                                 <ConfigInputBox setting="steps_per_mm" {...this.props} />
+                                                */}
                                                 <table className="plain">
                                                     <thead>
                                                         <tr>

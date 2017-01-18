@@ -36,7 +36,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                 store.dispatch(ready());
             };
         } else { // Not logged in yet.
-            location.href = "/";
+            Session.clear(true);
         }
     };
 
