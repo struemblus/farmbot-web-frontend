@@ -1,17 +1,22 @@
 import * as React from "react";
 import { Everything } from "../interfaces";
 
-export class GardenMap extends React.Component<Everything, any> {
-  dragover_handler(ev: any) {
+export class GardenMap extends React.Component<Everything, {}> {
+  handleDragOver(e: any) {
     // Perform drop availability here probably
-    ev.preventDefault();
-    ev.dataTransfer.dropEffect = "move";
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
   }
 
-  drop_handler(ev: any) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
+  handleDragEnter(e: any) {
+    e.preventDefault();
+    console.log("HAY");
+  }
+
+  handleDrop(e: any) {
+    e.preventDefault();
+    var data = e.dataTransfer.getData("text");
+    e.target.appendChild(document.getElementById(data));
   }
 
   componentDidMount() {
@@ -25,9 +30,9 @@ export class GardenMap extends React.Component<Everything, any> {
   render() {
     return <div className="drop-area"
       id="drop-area"
-      onDrop={this.drop_handler}
-      onDragEnter={this.dragover_handler}
-      onDragOver={this.dragover_handler}>
+      onDrop={this.handleDrop}
+      onDragEnter={this.handleDragEnter}
+      onDragOver={this.handleDragOver}>
     </div>;
   }
 }
