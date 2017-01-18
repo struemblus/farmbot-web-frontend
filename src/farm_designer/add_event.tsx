@@ -13,12 +13,14 @@ export class AddEvent extends React.Component<any, AddEventState> {
     super();
     this.state = { sequences: [], regimens: [] };
   }
+
   componentDidMount() {
     this.setState({
       sequences: this.props.sequeces.all,
       regimens: this.props.regimens.all
     });
   }
+
   render() {
     let seqOrRegOptions = this.state.sequences.concat(this.state.regimens);
     return <div className="panel-container magenta-panel">
