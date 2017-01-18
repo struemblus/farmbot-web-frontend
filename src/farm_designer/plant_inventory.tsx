@@ -17,8 +17,12 @@ export class Plants extends React.Component<Everything, PlantsState> {
     this.state = { searchResults: [] };
   }
 
+  dragstart_handler(ev: any) {
+    ev.dataTransfer.setData("text", ev.target.id);
+    ev.dataTransfer.effectAllowed = "move";
+  }
+
   render() {
-    console.log(this.props.dispatch)
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
@@ -54,16 +58,36 @@ export class Plants extends React.Component<Everything, PlantsState> {
       </div>
 
       <div className="panel-content">
-
         <Select
           value="one"
           options={this.state.searchResults}
-          onInputChange={this.props.dispatch(searchPlants)}
+          onInputChange={searchPlants}
         />
 
         <div className="object-list">
           <label>Current Plants</label>
-          <List plants={this.props.designer.plants} />
+          <ul>
+            <li draggable={true} onDragStart={this.dragstart_handler}
+              id="tomato">
+              <Link to={{
+                pathname: "/app/designer",
+                query: { p1: "PlantInfo", id: "tomato" }
+              }}>
+                Tomato
+              </Link>
+              <p>{"Unknown planting time"}</p>
+            </li>
+            <li draggable={true} onDragStart={this.dragstart_handler}
+              id="avacado">
+              <Link to={{
+                pathname: "/app/designer",
+                query: { p1: "PlantInfo", id: "tomato" }
+              }}>
+                Avacado
+              </Link>
+              <p>{"Unknown planting time"}</p>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -74,30 +98,6 @@ export class Plants extends React.Component<Everything, PlantsState> {
           <i className="fa fa-2x fa-plus" />
         </div>
       </Link>
-
     </div>;
-  }
-};
-
-interface ListProps {
-  plants: Plant[];
-}
-export class List extends React.Component<ListProps, any> {
-  render() {
-    let mapper = function (plant: Plant, key: number) {
-      return (
-        <li key={key} >
-          <Link to={{
-            pathname: "/app/designer",
-            query: { p1: "PlantInfo", id: (plant.openfarm_slug || "") }
-          }}>
-            {plant.name}
-          </Link>
-          <p>{plant.planted_at || "Unknown planting time"}</p>
-        </li>);
-    };
-    return (<ul>
-      {this.props.plants.map(mapper)}
-    </ul>);
   }
 };

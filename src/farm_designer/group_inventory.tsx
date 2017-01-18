@@ -41,47 +41,6 @@ export class Groups extends React.Component<any, any> {
           <i className="fa fa-search"></i>
           <input className="search" placeholder="Search" />
           <div className="search-underline"></div>
-          <div>
-            <div className="object-list">
-              <label>{t("My Groups")}</label>
-              <ul>
-                <li>
-                  <a href="#">{("Lucky Cabages")}</a>
-                  <p>{t("18 Plants")}</p>
-                </li>
-                <li>
-                  <a href="#">{("Sandwich Sprouts")}</a>
-                  <p>{t("142 Plants")}</p>
-                </li>
-              </ul>
-            </div>
-            <div className="object-list">
-              <label>{("Zone Auto-Groups")}</label>
-              <ul>
-                <li>
-                  <a href="#">{("Plants in Broccoli Overlord")}</a>
-                  <p>{t("459 Plants")}</p>
-                </li>
-                <li>
-                  <a href="#">{("Plants in Flower Patch")}</a>
-                  <p>{t("22 Plants")}</p>
-                </li>
-              </ul>
-            </div>
-            <div className="object-list">
-              <label>{t("Crop Auto-Groups")}</label>
-              <ul>
-                <li>
-                  <a href="#">{("All Strawberries")}</a>
-                  <p>{t("13 Plants")}</p>
-                </li>
-                <li>
-                  <a href="#">{("All Flowers")}</a>
-                  <p>{t("68 Plants")}</p>
-                </li>
-              </ul>
-            </div>
-          </div>
           <Link to="/app/designer?p1=AddGroup">
             <div className="plus-button add-group button-like" data-toggle="tooltip" title="Add group">
               <i className="fa fa-2x fa-plus" />

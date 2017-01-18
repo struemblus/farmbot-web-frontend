@@ -2,6 +2,7 @@ import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../interfaces";
 import { ScheduledEvent } from "./interfaces";
+import { Select } from "../ui";
 
 interface ScheduledEventProps {
   scheduledEvent: ScheduledEvent;
@@ -31,7 +32,6 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
 export class Events extends React.Component<Everything, {}> {
   render() {
-
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title hidden-xs events-title">
@@ -62,11 +62,7 @@ export class Events extends React.Component<Everything, {}> {
       </div>
       <div className="panel-content">
 
-        <div className="search-box-wrapper">
-          <i className="fa fa-search"></i>
-          <input className="search" placeholder="Search" />
-          <div className="search-underline"></div>
-        </div>
+        <Select options={[{ label: "January 1", value: 1 }]} />
 
         <div className="event-date">No Events Yet</div>
 

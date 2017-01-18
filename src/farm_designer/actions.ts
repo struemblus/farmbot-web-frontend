@@ -7,6 +7,20 @@ import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
 
+let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
+let _plantSearch = _.throttle((q: string) => Axios.get<CropSearchResult>(url(q)), 1500);
+
+export function searchPlants(event: any): Thunk {
+  return (dispatch, getState) => {
+    _plantSearch(event)
+      .then(resp => {
+        console.log(resp);
+      }, (e: Error) => {
+        // error(prettyPrintApiErrors(e));
+      });
+  };
+}
+
 export function savePlant(plant: Plant, baseUrl: string): Thunk {
   let url = API.current.plantsPath;
   return function (dispatch, getState) {
@@ -39,29 +53,3 @@ export function destroyPlant(plant: Plant, baseUrl: string): Thunk {
       });
   };
 };
-
-function addPlantOk(data: any) {
-  console.log("2", data);
-}
-
-export function destroyToolOk(data: any): ReduxAction<{}> {
-  return { type: "DESTROY_TOOL_OK", payload: { data } };
-}
-
-let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
-let _plantSearch = _.throttle((q: string) => Axios.get<CropSearchResult>(url(q)), 1500);
-let STUB_IMAGE = "http://placehold.it/200x150";
-
-export function searchPlants(query: string): Thunk {
-  return (dispatch, getState) => {
-    _plantSearch(query)
-      .then(resp => {
-        // finish();
-        dispatch(destroyToolOk(resp));
-        console.log(resp);
-      }, (e: Error) => {
-        // dispatch(saveToolNo(e));
-        // error(prettyPrintApiErrors(e));
-      });
-  };
-}
