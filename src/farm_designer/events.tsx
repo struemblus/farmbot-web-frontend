@@ -2,21 +2,7 @@ import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../interfaces";
 import { ScheduledEvent } from "./interfaces";
-
-/** Temp stub for now. */
-const FAKE_SCHEDULES: ScheduledEvent[] = [{
-  time: new Date("02-27-2015 06:00"),
-  desc: "Photos",
-  icon: "fa-trees"
-}, {
-  time: new Date("02-28-2015 07:00"),
-  desc: "Weeding",
-  icon: "fa-trees"
-}, {
-  time: new Date("02-28-2015 09:00"),
-  desc: "Spectral blah this is a long event title",
-  icon: "fa-trees"
-}];
+import { Select } from "../ui";
 
 interface ScheduledEventProps {
   scheduledEvent: ScheduledEvent;
@@ -33,8 +19,9 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
   render() {
     let evnt = this.props.scheduledEvent;
+    let isPassed = this.hasPassed(evnt.time) ? "past" : "";
 
-    return <div className="event { this.hasPassed(event.time) ? 'past' : '' }">
+    return <div className={`event ${isPassed}`}>
       <div className="event-time">
         {this.formatTime(evnt.time)}
       </div>
@@ -45,11 +32,6 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
 export class Events extends React.Component<Everything, {}> {
   render() {
-    let events = _(FAKE_SCHEDULES)
-      .sortBy("time")
-      .map((s, k) => <ScheduleEvent scheduledEvent={s} key={k} />)
-      .value();
-
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title hidden-xs events-title">
@@ -79,21 +61,18 @@ export class Events extends React.Component<Everything, {}> {
         </div>
       </div>
       <div className="panel-content">
-        <div className="search-box-wrapper">
-          <i className="fa fa-search"></i>
-          <input className="search" placeholder="Search" />
-          <div className="search-underline"></div>
-        </div>
-        <div className="event-date">May 9</div>
-        {events}
-        <div className="event-date">OCT 15</div>
-        {events}
+
+        <Select options={[{ label: "January 1", value: 1 }]} />
+
+        <div className="event-date">No Events Yet</div>
+
         <Link to="/app/designer?p2=AddEvent">
           <div className="plus-button add-event button-like"
             data-toggle="tooltip" title="Add event">
             <i className="fa fa-2x fa-plus" />
           </div>
         </Link>
+
       </div>
     </div>;
   }

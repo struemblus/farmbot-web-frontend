@@ -11,6 +11,7 @@ interface SelectProps {
     optionComponent?: any;
     autoFocus?: boolean;
     placeholder?: string;
+    onInputChange?: (inputValue: string) => void;
 }
 
 export function Select(props: SelectProps) {
@@ -21,7 +22,9 @@ export function Select(props: SelectProps) {
             options={props.options}
             valueComponent={props.valueComponent}
             optionComponent={props.optionComponent}
-            placeholder={props.placeholder} />;
+            placeholder={props.placeholder}
+            onInputChange={props.onInputChange}
+        />;
     } else {
         return <div className="select-wrapper">
             <select
