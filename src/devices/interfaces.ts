@@ -53,8 +53,6 @@ export interface DeviceAccountSettingsUpdate {
 export interface BotState {
   account: DeviceAccountSettings;
   /** Maximum number of messages to cache. Excess is truncated. */
-  logQueueSize: number;
-  logQueue: RpcBotLog[];
   status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
