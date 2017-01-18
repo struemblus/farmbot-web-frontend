@@ -191,7 +191,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
 
             <div className={`ticker-list ${isActive}`}
                 onClick={() => { clickToggleTicker(); }}
-                onMouseEnter={() => { hoverToggleTicker(); }}
+                onMouseEnter={() => { setTimeout(function() {hoverToggleTicker();}, 500); }}
                 onMouseLeave={() => { hoverToggleTicker(); }}>
                 {this.props.sync.logs.map((log, index) => {
                     let time = moment.utc(log.created_at).local().format("h:mm a");
