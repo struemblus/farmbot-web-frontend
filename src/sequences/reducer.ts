@@ -148,7 +148,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[a.payload.index];
         let { field, value } = a.payload;
 
-        // TODO: Any - Figure out index signatures?
+        // TODO: Any - replace using `keyof` operator.
         let raw = currentStep.args as any;
         raw[field] = value;
         return s;

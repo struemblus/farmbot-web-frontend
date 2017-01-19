@@ -92,7 +92,7 @@ export function fakeState(dispatcher?: Function): Everything {
             weeks: []
         }
     };
-    let dispatch = dispatcher || function (p: any) { };
+    let dispatch = dispatcher || function () { };
     let config: ConfigState = {
         host: "localhost",
         port: "5555"

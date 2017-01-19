@@ -47,11 +47,6 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         }
     };
 
-
-    // Thanks @noahMiller and @jpierson (Github) for this wonderful fix!
-    // Reference:
-    //  https://github.com/reactjs/react-router/issues/2704#issuecomment-174067923.
-
     /*
       /app                => App
       /app/account        => Account

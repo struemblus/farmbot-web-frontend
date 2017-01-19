@@ -74,8 +74,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
         }
     }
 
-    // TODO: React-select anys
-    updateSelect(event: any) {
+    updateSelect(event: Partial<MoveAbsState>) {
         let { x, y, z, value } = event;
         this.setState({ x, y, z, value, options: this.state.options }, () => {
             this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));

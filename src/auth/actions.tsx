@@ -16,6 +16,7 @@ import * as _ from "lodash";
 import { API } from "../api";
 import { prettyPrintApiErrors } from "../util";
 import { Session } from "../session";
+import { UnsafeError } from "../interfaces";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
     API.setBaseUrl(authState.token.unencoded.iss);
@@ -117,7 +118,7 @@ export function register(name: string,
 
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
-    return (err: any) => {
+    return (err: UnsafeError) => {
         error(prettyPrintApiErrors(err));
         dispatch({
             type: "REGISTRATION_ERROR",
