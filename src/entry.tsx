@@ -6,12 +6,12 @@ import { store } from "./redux/store";
 import { ready } from "./config/actions";
 import { detectLanguage } from "./i18n";
 import * as i18next from "i18next";
-// import "./npm_addons";
+import "./npm_addons";
 
 let r = (process.env.REVISION as string) || "REVISION INFO NOT AVAILABLE";
 console.log(r);
 
-/** For external device debugging purposes 
+/** For external device debugging purposes
  * See https://github.com/FarmBot/farmbot-web-frontend for details. */
 if (process.env.CONFIG
     && process.env.CONFIG.ip_address

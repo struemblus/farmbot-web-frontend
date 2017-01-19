@@ -29,7 +29,6 @@ c = function () {
             allChunks: true
         })
     ].forEach(function (x) { conf.plugins.push(x) })
-
     return conf;
 
 }
