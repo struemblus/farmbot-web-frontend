@@ -16,6 +16,7 @@ export class FarmDesigner extends React.Component<Everything, {}> {
       <div className="farm-designer">
         <div className="farm-designer-body">
           <div className="farm-designer-left">
+            {this.props.children}
           </div>
 
           <div className="farm-designer-map">

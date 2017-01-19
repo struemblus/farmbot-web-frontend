@@ -3,23 +3,18 @@ import { Link } from "react-router";
 import { Plant } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { Select } from "../../ui";
-import { searchPlants } from "../actions";
 import { ICONS } from "../icons";
 
 const pathname = "/app/designer";
 
-interface PlantsState {
-  searchResults: any[];
-}
-
-export class Plants extends React.Component<Everything, PlantsState> {
+export class Plants extends React.Component<Everything, {}> {
   constructor() {
     super();
     this.state = { searchResults: [] };
   }
 
-  dragstart_handler(ev: any) {
-    ev.dataTransfer.setData("text", ev.target.id);
+  dragstart_handler(ev: React.DragEvent<HTMLElement>) {
+    // ev.dataTransfer.setData("text", ev.currentTarget);
     ev.dataTransfer.effectAllowed = "move";
   }
 
@@ -28,30 +23,15 @@ export class Plants extends React.Component<Everything, PlantsState> {
       <div className="panel-header green-panel">
         <div className="panel-tabs">
           <ul>
-            <li className="hidden-sm hidden-md hidden-lg">
-              <Link to={{ pathname, query: { p1: "NoTab" } }}>
-                Designer
-              </Link>
-            </li>
             <li>
-              <Link to={{ pathname, query: { p1: "Plants" } }}
+              <Link to="plants"
                 className={"active"}>
                 Plants
               </Link>
             </li>
             <li>
-              <Link to={{ pathname, query: { p1: "Groups" } }}>
-                Groups
-                </Link>
-            </li>
-            <li>
-              <Link to={{ pathname, query: { p1: "Zones" } }}>
-                Zones
-              </Link>
-            </li>
-            <li className="hidden-sm hidden-md hidden-lg">
-              <Link to={{ pathname, query: { p1: "Panel2" } }}>
-                Calendar
+              <Link to="events">
+                Events
               </Link>
             </li>
           </ul>
@@ -59,11 +39,7 @@ export class Plants extends React.Component<Everything, PlantsState> {
       </div>
 
       <div className="panel-content">
-        <Select
-          value="one"
-          options={this.state.searchResults}
-          onInputChange={searchPlants}
-        />
+        // Select here
 
         <div className="object-list current-plants">
           <label>Current Plants</label>
@@ -112,7 +88,6 @@ export class Plants extends React.Component<Everything, PlantsState> {
                 <img src="/app-resources/img/icons/Barley-96.png" alt="" />
               </Link>
             </li>
-
           </ul>
         </div>
       </div>
