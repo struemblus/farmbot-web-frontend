@@ -30,32 +30,23 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
   }
 }
 
-export class Events extends React.Component<Everything, {}> {
+export class FarmEvents extends React.Component<Everything, {}> {
   render() {
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
-        <p className="panel-title hidden-xs events-title">
-          Events
-        </p>
-        <div className="panel-tabs hidden-sm hidden-md hidden-lg">
+        <div className="panel-tabs">
           <ul>
             <li>
-              <Link to={"/app/designer?p1=NoTab"}>Designer</Link>
+              <Link to="/app/designer/plants"
+                activeClassName={"active"}>
+                Plants
+              </Link>
             </li>
             <li>
-              <Link to={"/app/designer?p1=Plants"}>Plants</Link>
-            </li>
-            <li>
-              <Link to={"/app/designer?p1=Groups"}>Groups</Link>
-            </li>
-            <li>
-              <Link to={"/app/designer?p1=Zones"}>Zones</Link>
-            </li>
-            <li>
-              <Link to={"/app/designer?p1=Panel2"}
-                className="active">
-                Calendar
-                </Link>
+              <Link to="/app/designer/farm_events"
+                activeClassName={"active"}>
+                Farm Events
+              </Link>
             </li>
           </ul>
         </div>
@@ -93,7 +84,7 @@ export class Events extends React.Component<Everything, {}> {
 
         </div>
 
-        <Link to="/app/designer?p2=AddEvent">
+        <Link to="/app/designer/farm_events/add">
           <div className="plus-button add-event button-like"
             data-toggle="tooltip" title="Add event">
             <i className="fa fa-2x fa-plus" />

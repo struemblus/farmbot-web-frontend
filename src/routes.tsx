@@ -1,4 +1,4 @@
-import "./css/index.scss";
+import "./css/_index.scss";
 import * as React from "react";
 import {
     Provider
@@ -14,6 +14,7 @@ import { history } from "./history";
 import { Store } from "./redux/interfaces";
 import { ready } from "./config/actions";
 import { Session } from "./session";
+import { isMobile } from "./util";
 
 interface RootComponentProps {
     store: Store;
@@ -39,6 +40,13 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             Session.clear(true);
         }
     };
+
+    replaceIfDesktop(nextState: RouterState, replaceState: RedirectFunction) {
+        if (nextState.location.pathname === "/app/designer" && !isMobile()) {
+            replaceState(`${nextState.location.pathname}/plants`);
+        }
+    };
+
 
     // Thanks @noahMiller and @jpierson (Github) for this wonderful fix!
     // Reference:
@@ -93,6 +101,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             },
             {
                 path: "app/designer",
+                onEnter: this.replaceIfDesktop.bind(this),
                 getComponent(location: any, cb: any) {
                     System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
@@ -104,6 +113,46 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         getComponent(location: any, cb: any) {
                             System.import("./farm_designer/plants/plant_inventory.tsx").then(
                                 (module: any) => cb(null, module.Plants)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
+                        path: "plants/add",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/species_catalog.tsx").then(
+                                (module: any) => cb(null, module.SpeciesCatalog)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
+                        path: "plants/:plant",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/plant_info.tsx").then(
+                                (module: any) => cb(null, module.PlantInfo)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
+                        path: "plants/:plant/edit",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/edit_plant_info.tsx").then(
+                                (module: any) => cb(null, module.EditPlantInfo)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
+                        path: "farm_events",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/farm_events/farm_events.tsx").then(
+                                (module: any) => cb(null, module.FarmEvents)
+                            ).catch(errorLoading);
+                        }
+                    },
+                    {
+                        path: "farm_events/add",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/farm_events/add_farm_event.tsx").then(
+                                (module: any) => cb(null, module.AddFarmEvent)
                             ).catch(errorLoading);
                         }
                     },

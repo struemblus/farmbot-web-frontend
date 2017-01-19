@@ -171,11 +171,6 @@ export class McuInputBox extends React.Component<any, {}> {
 @connect((state: Everything) => state)
 export class Devices extends React.Component<Everything, {}> {
 
-    componentDidMount() {
-        success("Weed Detector is still under construction!",
-            "Work in Progress");
-    }
-
     updateBot(e: React.MouseEvent<{}>) {
         this.props.dispatch(saveAccountChanges);
     }

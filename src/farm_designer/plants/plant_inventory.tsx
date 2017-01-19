@@ -5,8 +5,6 @@ import { Everything } from "../../interfaces";
 import { Select } from "../../ui";
 import { ICONS } from "../icons";
 
-const pathname = "/app/designer";
-
 export class Plants extends React.Component<Everything, {}> {
   constructor() {
     super();
@@ -24,14 +22,14 @@ export class Plants extends React.Component<Everything, {}> {
         <div className="panel-tabs">
           <ul>
             <li>
-              <Link to="plants"
+              <Link to="/app/designer/plants"
                 className={"active"}>
                 Plants
               </Link>
             </li>
             <li>
-              <Link to="events">
-                Events
+              <Link to="/app/designer/farm_events">
+                Farm Events
               </Link>
             </li>
           </ul>
@@ -47,10 +45,7 @@ export class Plants extends React.Component<Everything, {}> {
 
             <li draggable={true} onDragStart={this.dragstart_handler}
               id="tomato" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to={{
-                pathname: "/app/designer",
-                query: { p1: "PlantInfo", id: "tomato" }
-              }}>
+              <Link to="/app/designer/plants/tomato">
                 <label>Tomato</label>
                 <img src="/app-resources/img/icons/Tomato-96.png" alt="" />
               </Link>
@@ -58,10 +53,7 @@ export class Plants extends React.Component<Everything, {}> {
 
             <li draggable={true} onDragStart={this.dragstart_handler}
               id="avacado" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to={{
-                pathname: "/app/designer",
-                query: { p1: "PlantInfo", id: "tomato" }
-              }}>
+              <Link to="/app/designer/plants/avacado">
                 <label>Avacado</label>
                 <img src="/app-resources/img/icons/Avocado-96.png" alt="" />
               </Link>
@@ -69,10 +61,7 @@ export class Plants extends React.Component<Everything, {}> {
 
             <li draggable={true} onDragStart={this.dragstart_handler}
               id="apple" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to={{
-                pathname: "/app/designer",
-                query: { p1: "PlantInfo", id: "apple" }
-              }}>
+              <Link to="/app/designer/plants/apple">
                 <label>Apple</label>
                 <img src="/app-resources/img/icons/Apple-96.png" alt="" />
               </Link>
@@ -80,10 +69,7 @@ export class Plants extends React.Component<Everything, {}> {
 
             <li draggable={true} onDragStart={this.dragstart_handler}
               id="barley" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to={{
-                pathname: "/app/designer",
-                query: { p1: "PlantInfo", id: "barley" }
-              }}>
+              <Link to="/app/designer/plants/barley">
                 <label>Barley</label>
                 <img src="/app-resources/img/icons/Barley-96.png" alt="" />
               </Link>
@@ -92,13 +78,14 @@ export class Plants extends React.Component<Everything, {}> {
         </div>
       </div>
 
-      <Link to={{ pathname, query: { p1: "SpeciesCatalog" } }}>
+      <Link to="/app/designer/plants/add">
         <div className="plus-button add-plant button-like"
           data-toggle="tooltip"
           title="Add plant">
           <i className="fa fa-2x fa-plus" />
         </div>
       </Link>
+
     </div>;
   }
 };
