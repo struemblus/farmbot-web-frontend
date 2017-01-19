@@ -14,14 +14,12 @@ export class FarmDesigner extends React.Component<Everything, {}> {
   render() {
     return (
       <div className="farm-designer">
-        <div className="farm-designer-body">
-          <div className="farm-designer-left">
-            {this.props.children}
-          </div>
+        <div className="farm-designer-panels">
+          {this.props.children}
+        </div>
 
-          <div className="farm-designer-map">
-            <GardenMap {...this.props} />
-          </div>
+        <div className="farm-designer-map">
+          <GardenMap {...this.props} />
         </div>
       </div>
     );

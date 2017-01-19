@@ -20,19 +20,12 @@ export class Plants extends React.Component<Everything, {}> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
-          <ul>
-            <li>
-              <Link to="/app/designer/plants"
-                className={"active"}>
-                Plants
-              </Link>
-            </li>
-            <li>
-              <Link to="/app/designer/farm_events">
-                Farm Events
-              </Link>
-            </li>
-          </ul>
+          <Link to="/app/designer/plants" className="active">
+            Plants
+          </Link>
+          <Link to="/app/designer/farm_events" >
+            Farm Events
+          </Link>
         </div>
       </div>
 
