@@ -1,4 +1,4 @@
-import "./css/index.scss";
+import "./css/_index.scss";
 import * as React from "react";
 import {
     Provider
