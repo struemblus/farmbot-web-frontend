@@ -13,7 +13,7 @@ exec("mkdir -p public/app");
 exec("echo -n > public/app/index.html");
 exec("touch public/app/index.html");
 var isProd = !!(global.WEBPACK_ENV === "production");
-module.exports = function () {
+module.exports = function() {
     return {
         entry: {
             "bundle": path.resolve(__dirname, "../src/entry.tsx"),
@@ -25,7 +25,8 @@ module.exports = function () {
             path: path.resolve(__dirname, "../public"),
             filename: "dist/[name].[chunkhash].js",
             libraryTarget: "umd",
-            publicPath: "/"
+            publicPath: "/",
+            devtoolLineToLine: true
         },
         devtool: "source-map",
         /** Allows imports without file extensions. */

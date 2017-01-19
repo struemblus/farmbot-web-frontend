@@ -7,15 +7,16 @@ var path = require("path");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
 var glob = require("glob");
-var PurifyPlugin = require("purifycss-webpack-plugin");
-
+var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 c = function() {
+
     var conf = generateConfig();
     conf.module.rules.push({
         test: [/\.scss$/, /\.css$/],
         loader: ExtractTextPlugin.extract("css-loader!sass-loader")
     });
+
     // PLUGINS:
     [
         new webpack.DefinePlugin({
@@ -27,6 +28,12 @@ c = function() {
             filename: "dist/styles.css",
             disable: false,
             allChunks: true
+        }),
+        new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require("cssnano"),
+            cssProcessorOptions: { discardComments: { removeAll: true } },
+            canPrint: true
         })
     ].forEach(function(x) { conf.plugins.push(x) })
 
