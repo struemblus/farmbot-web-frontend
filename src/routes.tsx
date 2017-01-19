@@ -133,6 +133,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         },
                     },
                     {
+                        path: "plants/:plant/edit",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/edit_plant_info.tsx").then(
+                                (module: any) => cb(null, module.EditPlantInfo)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
                         path: "farm_events",
                         getComponent(location: any, cb: any) {
                             System.import("./farm_designer/farm_events/farm_events.tsx").then(

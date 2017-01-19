@@ -1,35 +1,29 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
-import { getParam } from "../../util";
 import { destroyPlant } from "../actions";
 import { Plant as NewPlant } from "../plant";
 import { Plant } from "../interfaces";
-import { Everything } from "../../interfaces";
+import { Link } from "react-router";
 
-export class PlantInfo extends React.Component<Everything, any> {
-  removePlant() {
-    if (this.props.auth) {
-      let url = this.props.auth.token.unencoded.iss;
-      this.props.dispatch(destroyPlant(this.plant, url));
-    } else {
-      throw new Error("Log in first.");
-    }
-  }
+interface PlantInfoProps {
+  params: { plant: string };
+}
 
-  get plant() {
-    let plants = this.props.designer.plants;
-    let query = { openfarm_slug: getParam("id") };
-    var p = (_(plants).find(query) || NewPlant({ name: "Deleted plant" })) as Plant;
-    return p;
-  }
+export class PlantInfo extends React.Component<PlantInfoProps, {}> {
+  // get plant() {
+  //   let plants = this.props.designer.plants;
+  //   let query = { openfarm_slug: getParam("id") };
+  //   var p = (_(plants).find(query) || NewPlant({ name: "Deleted plant" })) as Plant;
+  //   return p;
+  // }
 
   render() {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow />
-          Plant
-          {/*this.plant.name || "Plant"*/}
+          <BackArrow /> Plant
+          <Link to={`/app/designer/plants/${this.props.params.plant}/edit`}
+            className="edit-plant-button">Edit</Link>
         </p>
       </div>
       <div className="panel-content">
@@ -47,14 +41,7 @@ export class PlantInfo extends React.Component<Everything, any> {
           <li>Blueberries by OpenFarm</li>
           <li>Soil Acidifier</li>
         </ul>
-        <label>Delete This Plant</label>
-        <div>
-          <button className="red button-like left" onClick={this.removePlant.bind(this)}>
-            Delete
-          </button>
-        </div>
       </div>
     </div>;
-
   }
 }
