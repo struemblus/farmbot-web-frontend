@@ -81,6 +81,17 @@ export function powerOff() {
         .then(commandOK(noun), commandErr(noun));
 }
 
+export function factoryReset() {
+    if (!confirm("WAIT! This will erase EVERYTHING stored on your device SD card. Are you sure?")) {
+        return;
+    }
+    let noun = "Factory reset";
+    devices
+        .current
+        .factoryReset()
+        .then(commandOK(noun), commandErr(noun));
+}
+
 export function reboot() {
     let noun = "Reboot Bot";
     devices

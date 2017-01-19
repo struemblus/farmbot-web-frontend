@@ -17,6 +17,7 @@ import {
     checkControllerUpdates,
     reboot,
     powerOff,
+    factoryReset,
     checkArduinoUpdates,
     updateConfig
 } from "./actions";
@@ -315,6 +316,24 @@ export class Devices extends React.Component<Everything, {}> {
                                                                         className="button-like red"
                                                                         onClick={powerOff} >
                                                                         {t("SHUTDOWN")}
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label>{t("Factory Reset")}</label>
+                                                                </td>
+                                                                <td>
+                                                                    <p>
+                                                                        {t(`
+Factory resetting your FarmBot will destroy all data on the device, revoking your FarmBot's abilily to connect to your web app account and your home wifi. Upon factory resetting, your device will restart into Conflgurator mode. Factory resetting your FarmBot will not affect any data or settings from your web app account, allowing you to do a complete restore to your device once it is back online and paired with your web app account.`)}
+                                                                    </p>
+                                                                </td>
+                                                                <td>
+                                                                    <button type="button"
+                                                                        className="button-like red"
+                                                                        onClick={factoryReset} >
+                                                                        {t("RESET")}
                                                                     </button>
                                                                 </td>
                                                             </tr>

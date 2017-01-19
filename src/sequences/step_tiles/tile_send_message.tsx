@@ -106,9 +106,9 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                 disabled={isDisabled}
                 onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
                     handleChannelChange(event);
-                } }
+                }}
                 checked={isChecked}
-                />
+            />
         </fieldset>;
     });
 
@@ -147,7 +147,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                     step={step}
                                     index={index}
                                     field="message"
-                                    />
+                                />
                                 <div className="bottom-content">
                                     <div className="channel-options">
                                         <Select
@@ -156,7 +156,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                             options={options}
                                             optionComponent={optionComponent}
                                             valueComponent={valueComponent}
-                                            />
+                                        />
                                     </div>
                                     <div className="channel-fields">
                                         <fieldset>
@@ -167,7 +167,7 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
                                                 id="ticker"
                                                 disabled
                                                 checked
-                                                />
+                                            />
                                         </fieldset>
                                         {choices}
                                     </div>
