@@ -10,10 +10,10 @@ var glob = require("glob");
 var PurifyPlugin = require("purifycss-webpack-plugin");
 
 
-c = function () {
+c = function() {
     var conf = generateConfig();
     conf.module.rules.push({
-        test: /\.scss$/,
+        test: [/\.scss$/, /\.css$/],
         loader: ExtractTextPlugin.extract("css-loader!sass-loader")
     });
     // PLUGINS:
@@ -28,7 +28,7 @@ c = function () {
             disable: false,
             allChunks: true
         })
-    ].forEach(function (x) { conf.plugins.push(x) })
+    ].forEach(function(x) { conf.plugins.push(x) })
 
     return conf;
 
