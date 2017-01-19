@@ -91,3 +91,9 @@ export interface Sync {
     logs: Log[];
     images: Image[];
 }
+
+/** There were a few cases where we handle errors that are legitimately unknown.
+ *  In those cases, we can use the `UnsafeError` type instead of `any`, just to
+ *  quiet down the linter and to let others know it is inherently unsafe.
+ */
+export type UnsafeError = any;

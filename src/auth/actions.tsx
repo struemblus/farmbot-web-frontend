@@ -16,6 +16,7 @@ import * as _ from "lodash";
 import { API } from "../api";
 import { prettyPrintApiErrors } from "../util";
 import { Session } from "../session";
+import { UnsafeError } from "../interfaces";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
     API.setBaseUrl(authState.token.unencoded.iss);
@@ -59,17 +60,14 @@ export function login(username: string,
     return dispatch => {
         return requestToken(username, password, url).then(
             onLogin(dispatch),
-            (err) => dispatch(loginErr(err))
+            (err) => dispatch(loginErr())
         );
     };
 }
 
-function loginErr(err: any) {
+function loginErr() {
     error(t("Login failed."));
-    return {
-        type: "LOGIN_ERR",
-        payload: err
-    };
+    return { type: "LOGIN_ERR" };
 }
 
 /** Very important. Once called, all outbound HTTP requests will
@@ -120,7 +118,7 @@ export function register(name: string,
 
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
-    return (err: any) => {
+    return (err: UnsafeError) => {
         error(prettyPrintApiErrors(err));
         dispatch({
             type: "REGISTRATION_ERROR",

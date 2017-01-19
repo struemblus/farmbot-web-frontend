@@ -13,6 +13,7 @@ import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
+import { Option } from "react-select";
 
 export function TileSendMessage({dispatch, step, index}: StepParams) {
     if (step.kind !== "send_message") {
@@ -79,10 +80,13 @@ export function TileSendMessage({dispatch, step, index}: StepParams) {
         );
     };
 
-    // TODO: Take care of this any
-    let handleOptionChange = (event: any) => {
+    let handleOptionChange = (event: Option) => {
         let { value } = event;
-        dispatch(updateMessageType({ value, index }));
+        if (value) {
+            dispatch(updateMessageType({ value, index }));
+        } else {
+            throw new Error("Must provide a value");
+        }
     };
 
     let handleChannelChange = (e: React.SyntheticEvent<HTMLInputElement>) => {

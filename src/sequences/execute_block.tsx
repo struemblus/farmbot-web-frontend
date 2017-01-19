@@ -6,6 +6,7 @@ import { changeStep } from "./actions";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { Select } from "../ui";
+import { Option } from "react-select";
 
 /** Removes un-executable sequences, such as "self" or unsaved ones */
 function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
@@ -48,13 +49,16 @@ function SequenceSelectBox({dispatch,
     });
 
     // TODO: Take care of this any
-    function change(e: any) {
+    function change(e: Option) {
         let val = e.value;
-        let sequence_id = parseInt(val.toString(), 10);
-        let update = { args: { sequence_id } };
-        let newStep = Object.assign({}, step, update);
-
-        dispatch(changeStep(index, newStep));
+        if (val) {
+            let sequence_id = parseInt(val.toString(), 10);
+            let update = { args: { sequence_id } };
+            let newStep = Object.assign({}, step, update);
+            dispatch(changeStep(index, newStep));
+        } else {
+            throw new Error("Tried to set a non-existant sequence_id");
+        }
     };
 
     let ssid = (step as Execute).args.sequence_id;

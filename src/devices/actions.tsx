@@ -222,7 +222,7 @@ export function updateDevice(apiUrl: string,
     ;
 }
 
-export function changeDevice(newAttrs: any) {
+export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
     // Flips the "dirty" flag to true.
     return {
         type: "CHANGE_DEVICE",
@@ -285,7 +285,7 @@ export function readStatus() {
         });
 }
 
-export function connectDevice(token: string): {} | ((dispatch: any) => any) {
+export function connectDevice(token: string): {} | ((dispatch: Function) => any) {
     return (dispatch) => {
         let bot = new Farmbot({ token });
         return bot
@@ -303,8 +303,8 @@ export function connectDevice(token: string): {} | ((dispatch: any) => any) {
                 });
 
                 let alreadyToldYou = false;
-                bot.on("malformed", function (unsafe: any) {
-                    console.dir(unsafe);
+                bot.on("malformed", function () {
+                    console.dir(arguments[0]);
                     if (!alreadyToldYou) {
                         warning(t("FarmBot sent a malformed message. " +
                             "You may need to upgrade FarmBot OS. " +

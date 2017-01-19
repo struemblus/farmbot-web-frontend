@@ -11,6 +11,7 @@ import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SelectOptionsParams } from "../../interfaces";
 import { If } from "farmbot";
+import { Option } from "react-select";
 
 export function TileIf({dispatch, step, index, sequences, sequence}:
     StepParams) {
@@ -73,7 +74,6 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
         { value: "not", label: "is not equal to", field: "op" }
     ];
 
-    // TODO: Anys coming from react-select events
     let update = (e: SelectOptionsParams) => {
         let { field, value } = e;
         if (value && field) {
@@ -132,7 +132,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                                     placeholder="LHS..."
                                     onChange={update}
                                     value={lhs}
-                                    />
+                                />
                             </div>
                             <div className="col-xs-4 col-md-4">
                                 <label>{t("Operator")}</label>
@@ -141,7 +141,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                                     placeholder="Condition..."
                                     onChange={update}
                                     value={op}
-                                    />
+                                />
                             </div>
                             <div className="col-xs-4 col-md-4">
                                 <label>{t("Value")}</label>
@@ -160,7 +160,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                                     placeholder="Sequence..."
                                     onChange={updateSubSeq}
                                     value={then_id}
-                                    />
+                                />
                             </div>
                             <div className="col-xs-12 col-md-12">
                                 <h4>ELSE...</h4>
@@ -172,7 +172,7 @@ export function TileIf({dispatch, step, index, sequences, sequence}:
                                     placeholder="None (continue to next step)"
                                     onChange={updateSubSeq}
                                     value={else_id}
-                                    />
+                                />
                             </div>
                         </div>
                     </div>

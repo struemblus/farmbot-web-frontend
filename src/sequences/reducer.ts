@@ -148,7 +148,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[a.payload.index];
         let { field, value } = a.payload;
 
-        // TODO: Any - Figure out index signatures?
+        // TODO: Any - replace using `keyof` operator.
         let raw = currentStep.args as any;
         raw[field] = value;
         return s;
@@ -190,9 +190,9 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<{ index: number }>("REMOVE_STEP", function (s, a) {
-        let seq = s.all[s.current];
+        let body = s.all[s.current].body || [];
         let index = a.payload.index;
-        seq.body = _.without((seq.body || []), (seq.body || [])[index]);
+        body.splice(index, 1);
         markDirty(s);
         return s;
     })
