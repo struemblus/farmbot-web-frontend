@@ -1,9 +1,9 @@
 import * as React from "react";
-import { savePlant } from "./actions";
-import { BackArrow } from "./back_arrow";
-import { Everything } from "../interfaces";
-import { Plant, PlantOptions } from "./plant";
-import { API } from "../api";
+import { savePlant } from "../actions";
+import { BackArrow } from "../back_arrow";
+import { Everything } from "../../interfaces";
+import { Plant, PlantOptions } from "../plant";
+import { API } from "../../api";
 import * as RR from "react-router";
 
 export class SpeciesInfo extends React.Component<Everything, any> {

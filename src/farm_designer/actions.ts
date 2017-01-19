@@ -1,24 +1,11 @@
 import * as Axios from "axios";
 import { error } from "../ui";
 import { Plant } from "./interfaces";
-import { Thunk, ReduxAction } from "../redux/interfaces";
+import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
-
-let _plantSearch = _.throttle((q: string) => Axios.get<CropSearchResult>(url(q)), 1500);
-
-export function searchPlants(event: any): Thunk {
-  return (dispatch, getState) => {
-    _plantSearch(event)
-      .then(resp => {
-        console.log(resp);
-      }, (e: Error) => {
-        // error(prettyPrintApiErrors(e));
-      });
-  };
-}
 
 export function savePlant(plant: Plant, baseUrl: string): Thunk {
   let url = API.current.plantsPath;

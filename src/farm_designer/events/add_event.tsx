@@ -1,7 +1,7 @@
 import * as React from "react";
-import { BackArrow } from "./back_arrow";
+import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select } from "../ui";
+import { Select } from "../../ui";
 
 interface AddEventState {
   sequences: {}[];

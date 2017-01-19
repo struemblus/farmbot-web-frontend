@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { BackArrow } from "./back_arrow";
-import { CropLiveSearchResult } from "./interfaces";
-import { Everything } from "../interfaces";
-import { openFarmSearchQuery } from "./actions";
+import { BackArrow } from "../back_arrow";
+import { CropLiveSearchResult } from "../interfaces";
+import { Everything } from "../../interfaces";
+import { openFarmSearchQuery } from "../actions";
 
 interface SpeciesCatalogTileProps {
   result: CropLiveSearchResult;

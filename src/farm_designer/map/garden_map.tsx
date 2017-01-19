@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Everything } from "../interfaces";
+import { Everything } from "../../interfaces";
 
 export class GardenMap extends React.Component<Everything, {}> {
   handleDragOver(e: any) {

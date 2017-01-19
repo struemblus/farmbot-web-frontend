@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Everything } from "../interfaces";
-import { ScheduledEvent } from "./interfaces";
-import { Select } from "../ui";
+import { Everything } from "../../interfaces";
+import { ScheduledEvent } from "../interfaces";
+import { Select } from "../../ui";
 
 interface ScheduledEventProps {
   scheduledEvent: ScheduledEvent;

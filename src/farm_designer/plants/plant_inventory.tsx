@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Plant } from "./interfaces";
-import { Everything } from "../interfaces";
-import { Select } from "../ui";
-import { searchPlants } from "./actions";
-import { ICONS } from "./icons";
+import { Plant } from "../interfaces";
+import { Everything } from "../../interfaces";
+import { Select } from "../../ui";
+import { searchPlants } from "../actions";
+import { ICONS } from "../icons";
 
 const pathname = "/app/designer";
 
