@@ -31,24 +31,24 @@ export function SpeciesCatalogTile({result}: SpeciesCatalogTileProps) {
 
 export class SpeciesCatalog extends React.Component<Everything, any> {
   render() {
-    let species = this.props.designer.cropSearchResults.map(
-      (result, k) => <SpeciesCatalogTile result={result}
-        key={k}
-        dispatch={this.props.dispatch} />
-    );
+    // let species = this.props.designer.cropSearchResults.map(
+    //   (result, k) => <SpeciesCatalogTile result={result}
+    //     key={k}
+    //     dispatch={this.props.dispatch} />
+    // );
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow />Choose a Species
+          <BackArrow /> Choose a Species
         </p>
       </div>
       <div className="panel-content">
         <i className="fa fa-search"></i>
-        <SearchBox query={this.props.designer.cropSearchQuery}
-          dispatch={this.props.dispatch} />
+        {/*<SearchBox query={this.props.designer.cropSearchQuery}
+          dispatch={this.props.dispatch} />*/}
         <div className="search-underline"></div>
         <div className="panel-content">
-          {species}
+          {/*species*/}
         </div>
       </div>
     </div>;

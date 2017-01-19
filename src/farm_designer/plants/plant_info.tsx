@@ -28,7 +28,8 @@ export class PlantInfo extends React.Component<Everything, any> {
       <div className="panel-header green-panel">
         <p className="panel-title">
           <BackArrow />
-          {this.plant.name || "Plant"}
+          Plant
+          {/*this.plant.name || "Plant"*/}
         </p>
       </div>
       <div className="panel-content">

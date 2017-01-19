@@ -3,35 +3,34 @@ import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
 import { Select } from "../../ui";
 
-interface AddEventState {
+interface AddFarmEventState {
   sequences: {}[];
   regimens: {}[];
 }
 
-export class AddEvent extends React.Component<any, AddEventState> {
+export class AddFarmEvent extends React.Component<{}, AddFarmEventState> {
   constructor() {
     super();
     this.state = { sequences: [], regimens: [] };
   }
 
   componentDidMount() {
-    this.setState({
-      sequences: this.props.sequeces.all,
-      regimens: this.props.regimens.all
-    });
+    // this.setState({
+    //   sequences: this.props.sequeces.all,
+    //   regimens: this.props.regimens.all
+    // });
   }
 
   render() {
-    let seqOrRegOptions = this.state.sequences.concat(this.state.regimens);
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title">
-          <BackArrow />Add Event
+          <BackArrow />Add Farm Event
         </p>
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
-        <Select options={seqOrRegOptions} />
+        // Select here
         <label>{t("Parameters")}</label>
         <p className="event-parameters">Show sequence/regimen parameters</p>
         <label>{t("Starts")}</label>
