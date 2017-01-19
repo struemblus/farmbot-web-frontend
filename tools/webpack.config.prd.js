@@ -41,6 +41,7 @@ c = function() {
             debug: true,
             minimize: true,
             sourceMap: true,
+            screw_ie8: true,
             output: {
                 comments: false
             },
