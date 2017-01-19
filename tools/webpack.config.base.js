@@ -12,6 +12,9 @@ var FarmBotRenderer = require("./farmBotRenderer");
 exec("mkdir -p public/app");
 exec("echo -n > public/app/index.html");
 exec("touch public/app/index.html");
+exec("touch public/app/index.html");
+exec("rm -rf public/dist/*.js");
+
 var isProd = !!(global.WEBPACK_ENV === "production");
 module.exports = function() {
     return {

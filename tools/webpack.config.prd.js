@@ -8,6 +8,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var FarmBotRenderer = require("./farmBotRenderer");
 var glob = require("glob");
 var OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+var webpackUglifyJsPlugin = require('webpack-uglify-js-plugin');
 
 c = function() {
 
@@ -34,8 +35,21 @@ c = function() {
             cssProcessor: require("cssnano"),
             cssProcessorOptions: { discardComments: { removeAll: true } },
             canPrint: true
+        }),
+        new webpackUglifyJsPlugin({
+            cacheFolder: path.resolve(__dirname, 'public/cached_uglify/'),
+            debug: true,
+            minimize: true,
+            sourceMap: true,
+            screw_ie8: true,
+            output: {
+                comments: false
+            },
+            compressor: {
+                warnings: false
+            }
         })
-    ].forEach(function (x) { conf.plugins.push(x) })
+    ].forEach(function(x) { conf.plugins.push(x) })
 
     return conf;
 }

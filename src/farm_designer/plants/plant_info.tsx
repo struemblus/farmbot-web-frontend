@@ -1,10 +1,10 @@
 import * as React from "react";
-import { BackArrow } from "./back_arrow";
-import { getParam } from "../util";
-import { destroyPlant } from "./actions";
-import { Plant as NewPlant } from "./plant";
-import { Plant } from "./interfaces";
-import { Everything } from "../interfaces";
+import { BackArrow } from "../back_arrow";
+import { getParam } from "../../util";
+import { destroyPlant } from "../actions";
+import { Plant as NewPlant } from "../plant";
+import { Plant } from "../interfaces";
+import { Everything } from "../../interfaces";
 
 export class PlantInfo extends React.Component<Everything, any> {
   removePlant() {

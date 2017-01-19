@@ -92,12 +92,22 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                 }
             },
             {
-                path: "app/designer(?:p1&?:id)",
+                path: "app/designer",
                 getComponent(location: any, cb: any) {
                     System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
                     ).catch(errorLoading);
-                }
+                },
+                childRoutes: [
+                    {
+                        path: "plants",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/plant_inventory.tsx").then(
+                                (module: any) => cb(null, module.Plants)
+                            ).catch(errorLoading);
+                        }
+                    },
+                ]
             },
             {
                 path: "app/regimens",
