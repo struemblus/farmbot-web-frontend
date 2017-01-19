@@ -192,6 +192,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<{ index: number }>("REMOVE_STEP", function (s, a) {
         let seq = s.all[s.current];
         let index = a.payload.index;
+        let body = seq.body || [];
+        seq.body.splice(seq.body.indexOf(seq), 1);
         seq.body = _.without((seq.body || []), (seq.body || [])[index]);
         markDirty(s);
         return s;
