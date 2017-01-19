@@ -49,9 +49,7 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
 
     }
 
-    handleColorChange(color: any) {
-        console.log(color.rgb);
-    }
+    handleColorChange() {}
 
     toggleEdit() {
         this.setState({ isEditing: !this.state.isEditing });
