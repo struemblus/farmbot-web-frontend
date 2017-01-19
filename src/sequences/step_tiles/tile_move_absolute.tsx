@@ -171,14 +171,14 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                             <div className="row">
                                 <div className="col-md-12">
                                     <label>
-                                        {t("Inherit coordinates from")}
+                                        {t("Import coordinates from")}
                                     </label>
                                     <Select
                                         options={options}
                                         optionComponent={optionComponent}
                                         onChange={updateSelect}
                                         value={value}
-                                        />
+                                    />
                                 </div>
                                 <div className="col-xs-3 col-md-3">
                                     <label>{t("X (mm)")}</label>
