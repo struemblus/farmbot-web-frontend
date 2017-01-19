@@ -23,6 +23,7 @@ import {
 } from "./actions";
 import { t } from "i18next";
 import * as _ from "lodash";
+import { McuParams } from "farmbot";
 import { WeedDetector } from "./components/weed_detector";
 
 interface UpdateButtonProps {
@@ -145,7 +146,7 @@ export class McuInputBox extends React.Component<any, {}> {
         };
     }
 
-    change(key: any, dispatch: Function) {
+    change(key: keyof McuParams, dispatch: Function) {
         return function (event: React.FormEvent<HTMLInputElement>) {
             let formInput = event.currentTarget.value;
             dispatch(changeSettingsBuffer(key, formInput));
@@ -555,7 +556,7 @@ interface LogsProps {
 }
 
 function Logs({logs}: LogsProps) {
-    function HasLogs(_: any) {
+    function HasLogs(_: LogsProps) {
         function displayTime(t: number): string {
             return moment.unix(t).format("D MMM h:mma");
         }
@@ -584,7 +585,7 @@ function Logs({logs}: LogsProps) {
         </tbody>;
     }
 
-    function NoLogs(_: any) {
+    function NoLogs(_: LogsProps) {
         return <tbody>
             <tr>
                 <td colSpan={3}>
@@ -593,5 +594,5 @@ function Logs({logs}: LogsProps) {
             </tr>
         </tbody>;
     }
-    return (logs.length ? <HasLogs logs={logs} /> : <NoLogs />);
+    return (logs.length ? <HasLogs logs={logs} /> : <NoLogs logs={logs} />);
 }

@@ -59,17 +59,14 @@ export function login(username: string,
     return dispatch => {
         return requestToken(username, password, url).then(
             onLogin(dispatch),
-            (err) => dispatch(loginErr(err))
+            (err) => dispatch(loginErr())
         );
     };
 }
 
-function loginErr(err: any) {
+function loginErr() {
     error(t("Login failed."));
-    return {
-        type: "LOGIN_ERR",
-        payload: err
-    };
+    return { type: "LOGIN_ERR" };
 }
 
 /** Very important. Once called, all outbound HTTP requests will
