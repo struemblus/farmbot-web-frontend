@@ -12,6 +12,7 @@ npm-debug.log
 bundle.*.js*
 front_page.*.js*
 verify.*.js*
+tsd-debug.log
 public/app-index.js
 public/app-resources/*.css*
 public/app-resources/*.js*
