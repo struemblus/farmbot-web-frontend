@@ -10,13 +10,12 @@ export class GardenMap extends React.Component<Everything, {}> {
 
   handleDragEnter(e: any) {
     e.preventDefault();
-    console.log("HAY");
   }
 
   handleDrop(e: any) {
     e.preventDefault();
     var data = e.dataTransfer.getData("text");
-    e.target.appendChild(document.getElementById(data));
+    // e.target.appendChild(document.getElementById(data));
   }
 
   componentDidMount() {
