@@ -93,6 +93,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             },
             {
                 path: "app/designer",
+                onEnter: function () { console.log("Hello") },
                 getComponent(location: any, cb: any) {
                     System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
@@ -104,6 +105,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         getComponent(location: any, cb: any) {
                             System.import("./farm_designer/plants/plant_inventory.tsx").then(
                                 (module: any) => cb(null, module.Plants)
+                            ).catch(errorLoading);
+                        }
+                    },
+                    {
+                        path: "events",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/events/events.tsx").then(
+                                (module: any) => cb(null, module.Events)
                             ).catch(errorLoading);
                         }
                     },
