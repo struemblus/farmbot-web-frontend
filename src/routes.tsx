@@ -14,6 +14,7 @@ import { history } from "./history";
 import { Store } from "./redux/interfaces";
 import { ready } from "./config/actions";
 import { Session } from "./session";
+import { isMobile } from "./util";
 
 interface RootComponentProps {
     store: Store;
@@ -93,7 +94,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             },
             {
                 path: "app/designer",
-                onEnter: function () { console.log("Hello") },
+                onEnter: function () { console.log(isMobile()) },
                 getComponent(location: any, cb: any) {
                     System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
