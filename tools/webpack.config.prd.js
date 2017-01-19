@@ -35,10 +35,9 @@ c = function() {
             cssProcessorOptions: { discardComments: { removeAll: true } },
             canPrint: true
         })
-    ].forEach(function(x) { conf.plugins.push(x) })
+    ].forEach(function (x) { conf.plugins.push(x) })
 
     return conf;
-
 }
 
 module.exports = c();

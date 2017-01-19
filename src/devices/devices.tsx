@@ -545,7 +545,7 @@ Factory resetting your FarmBot will destroy all data on the device, revoking you
                                 </div>
                             </div>
                         </div>
-                        <WeedDetector {...this.props} />
+                        {/*<WeedDetector {...this.props} />*/}
                     </div>
                 </div>
             </div>;
