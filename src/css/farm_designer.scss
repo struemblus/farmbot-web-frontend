@@ -51,6 +51,24 @@
         top: 1rem;
         left: 1rem;
     }
+    .thin-search {
+        border-bottom: 1px solid #000;
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            background: #000;
+            width: 1px;
+            height: 14px;
+            bottom: 0;
+        }
+    }
+    input.search {
+        background: transparent;
+        box-shadow: none;
+        padding-left: 3.5rem;
+        font-size: 1.6rem;
+    }
     .Select {
         border-bottom: 1px solid #000;
         &:before,

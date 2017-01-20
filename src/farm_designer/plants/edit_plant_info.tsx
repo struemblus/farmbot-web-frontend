@@ -1,12 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
-import { getParam } from "../../util";
-import { destroyPlant } from "../actions";
-import { Plant as NewPlant } from "../plant";
-import { Plant } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
-import * as lodash from "lodash";
 import * as moment from "moment";
 
 interface EditPlantInfoProps extends Everything {

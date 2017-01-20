@@ -1,8 +1,5 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
-import { destroyPlant } from "../actions";
-import { Plant as NewPlant } from "../plant";
-import { Plant } from "../interfaces";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";

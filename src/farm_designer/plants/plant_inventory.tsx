@@ -1,9 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Plant } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { Select } from "../../ui";
-import { ICONS } from "../icons";
 import { connect } from "react-redux";
 import { CustomOptionProps } from "../../interfaces";
 import * as moment from "moment";

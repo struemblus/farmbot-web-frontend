@@ -4,9 +4,16 @@ import { BackArrow } from "../back_arrow";
 import { Everything } from "../../interfaces";
 import { Plant, PlantOptions } from "../plant";
 import { API } from "../../api";
-import * as RR from "react-router";
+import { connect } from "react-redux";
 
-export class SpeciesInfo extends React.Component<Everything, any> {
+interface SpeciesInfoProps extends Everything {
+    params: {
+        species: string;
+    };
+}
+
+@connect((state: Everything) => state)
+export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     drag(e: React.DragEvent<any>) {
         var img = document.createElement("img");
         img.src = "/app-resources/img/icons/seed.png";
@@ -14,13 +21,11 @@ export class SpeciesInfo extends React.Component<Everything, any> {
     }
 
     drop(e: React.MouseEvent<any>) {
-
         let el = document.querySelector("#drop-area > svg > rect");
         if (!el) {
             throw new Error("why");
         } else {
             let box = el.getBoundingClientRect();
-
             let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.bottom);
             // TEMPORARY SOLUTION =======
             let OFEntry = this.findCrop(this.props.location.query["id"]);
@@ -28,10 +33,8 @@ export class SpeciesInfo extends React.Component<Everything, any> {
             p.openfarm_slug = OFEntry.crop.slug;
             p.name = OFEntry.crop.name || "Mystery Crop";
             // END TEMPORARY SOLUTION =======
-
             let plant = Plant(p);
             let baseUrl: string = API.current.baseUrl;
-
             this.props.dispatch(savePlant(plant, baseUrl));
         }
     }
@@ -57,7 +60,7 @@ export class SpeciesInfo extends React.Component<Everything, any> {
     }
 
     render() {
-        let result = this.findCrop(this.props.location.query["id"] || "PLANT_NOT_FOUND");
+        let result = this.findCrop(this.props.params.species || "PLANT_NOT_FOUND");
         return <div className="panel-container green-panel">
             <div className="panel-header green-panel">
                 <p className="panel-title">
@@ -72,13 +75,12 @@ export class SpeciesInfo extends React.Component<Everything, any> {
                         onDragEnd={this.drop.bind(this)} />
                     <div className="crop-info-overlay">
                         Drag and drop into map
-          </div>
+                    </div>
                 </div>
                 <div className="object-list">
                     <label>
                         Crop Info
-          </label>
-                    <span className="edit-link"><a href="#">Edit</a></span>
+                    </label>
                     <ul>
                         {
                             _(result.crop)
@@ -97,7 +99,7 @@ export class SpeciesInfo extends React.Component<Everything, any> {
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>;
     }
 }
 

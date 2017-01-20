@@ -120,6 +120,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         },
                     },
                     {
+                        path: "plants/add/:species",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/plants/species_info.tsx").then(
+                                (module: any) => cb(null, module.SpeciesInfo)
+                            ).catch(errorLoading);
+                        },
+                    },
+                    {
                         path: "plants/:plant_id",
                         getComponent(location: any, cb: any) {
                             System.import("./farm_designer/plants/plant_info.tsx").then(
