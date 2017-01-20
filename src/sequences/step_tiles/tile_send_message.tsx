@@ -3,7 +3,6 @@ import {
     StepParams,
     copy,
     remove,
-    CustomOptionProps,
     CustomValueProps
 } from "./index";
 import { StepTitleBar } from "./step_title_bar";
@@ -14,6 +13,7 @@ import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
 import { Option } from "react-select";
+import { CustomOptionProps } from "../../interfaces";
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
     handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
