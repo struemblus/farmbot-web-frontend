@@ -4,7 +4,36 @@ import { Plant } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { Select } from "../../ui";
 import { ICONS } from "../icons";
+import { connect } from "react-redux";
+import { CustomOptionProps } from "../../interfaces";
 
+class OptionComponent extends React.Component<CustomOptionProps, {}> {
+  handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.onSelect(this.props.option, e);
+  };
+
+  handleMouseEnter(e: React.SyntheticEvent<HTMLDivElement>) {
+    this.props.onFocus(this.props.option, e);
+  };
+
+  handleMouseMove(e: React.SyntheticEvent<HTMLDivElement>) {
+    if (this.props.isFocused) { return; };
+    this.props.onFocus(this.props.option, e);
+  };
+
+  render() {
+    return <div className={this.props.className}
+      onMouseDown={this.handleMouseDown.bind(this)}
+      onMouseEnter={this.handleMouseEnter.bind(this)}
+      onMouseMove={this.handleMouseMove.bind(this)}>
+      {this.props.children}
+    </div>;
+  }
+}
+
+@connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
   constructor() {
     super();
@@ -17,6 +46,12 @@ export class Plants extends React.Component<Everything, {}> {
   }
 
   render() {
+    let { plants } = this.props.designer;
+
+    let plantOptions = plants.map(plant => {
+      return { label: plant.openfarm_slug, value: plant.id };
+    });
+
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
@@ -30,43 +65,31 @@ export class Plants extends React.Component<Everything, {}> {
       </div>
 
       <div className="panel-content">
-        // Select here
+
+        <div className="thin-search-wrapper">
+          <Select options={plantOptions}
+            optionComponent={OptionComponent}
+          />
+          <div className="Select-menu-outer">
+            <div role="listbox" className="Select-menu" id="react-select-2--list">
+              <div className="Select-option is-focused">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+              <div className="Select-option">tomato</div>
+            </div>
+          </div>
+        </div>
 
         <div className="object-list current-plants">
           <label>Current Plants</label>
           <ul className="row">
 
-            <li draggable={true} onDragStart={this.dragstart_handler}
-              id="tomato" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to="/app/designer/plants/tomato">
-                <label>Tomato</label>
-                <img src="/app-resources/img/icons/Tomato-96.png" alt="" />
-              </Link>
-            </li>
-
-            <li draggable={true} onDragStart={this.dragstart_handler}
-              id="avacado" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to="/app/designer/plants/avacado">
-                <label>Avacado</label>
-                <img src="/app-resources/img/icons/Avocado-96.png" alt="" />
-              </Link>
-            </li>
-
-            <li draggable={true} onDragStart={this.dragstart_handler}
-              id="apple" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to="/app/designer/plants/apple">
-                <label>Apple</label>
-                <img src="/app-resources/img/icons/Apple-96.png" alt="" />
-              </Link>
-            </li>
-
-            <li draggable={true} onDragStart={this.dragstart_handler}
-              id="barley" className="col-sm-6 col-md-6 col-xs-6">
-              <Link to="/app/designer/plants/barley">
-                <label>Barley</label>
-                <img src="/app-resources/img/icons/Barley-96.png" alt="" />
-              </Link>
-            </li>
           </ul>
         </div>
       </div>

@@ -3,12 +3,12 @@ import { Component } from "react";
 import { StepParams } from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help, Select, BlurableInput } from "../../ui";
-import { copy, remove, CustomOptionProps } from "./index";
+import { copy, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
+import { CustomOptionProps } from "../../interfaces";
 import { t } from "i18next";
 import { updateMoveAbsStep } from "../actions";
 import { MoveAbsolute } from "farmbot";
-import * as ReactSelect from "react-select";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
@@ -37,9 +37,9 @@ class OptionComponent extends React.Component<CustomOptionProps, {}> {
             `(${this.props.option.x}, ${this.props.option.y}, ${this.props.option.z})`;
         return (
             <div className={this.props.className}
-                onMouseDown={this.handleMouseDown}
-                onMouseEnter={this.handleMouseEnter}
-                onMouseMove={this.handleMouseMove}>
+                onMouseDown={this.handleMouseDown.bind(this)}
+                onMouseEnter={this.handleMouseEnter.bind(this)}
+                onMouseMove={this.handleMouseMove.bind(this)}>
                 {this.props.children}
                 <span className="Select-value-params">
                     {params}
