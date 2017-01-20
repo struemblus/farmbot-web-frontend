@@ -4,8 +4,7 @@ import {
     SequenceReducerState,
     ChanParams,
     MessageParams,
-    UpdateAbsoluteStepPayl,
-    SequenceBodyMember
+    UpdateAbsoluteStepPayl
 } from "./interfaces";
 import {
     nullSequence,
@@ -18,7 +17,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 import * as _ from "lodash";
 import { Sync } from "../interfaces";
-
+import { SequenceBodyItem, uuid } from "farmbot";
 /** Adds an empty sequence to the front of the list. */
 function populate(s: SequenceReducerState): Sequence {
     // This worries me. What if #current and #all get out of sync?
@@ -120,7 +119,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let current_sequence = s.all[s.current] || populate(s);
         markDirty(s);
         let { step } = a.payload;
-        let stepp = step as SequenceBodyMember;
+        let stepp = step as SequenceBodyItem;
         (current_sequence.body || []).push(stepp);
         return s;
     })
@@ -244,7 +243,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         markDirty(s);
         s.all[s.current].body = move<Step>((s.all[s.current].body || []),
             a.payload.from,
-            a.payload.to) as SequenceBodyMember[];
+            a.payload.to) as SequenceBodyItem[];
         if (from < to) {
             // EDGE CASE: If you drag a step upwards, it will end up in the
             // wrong slot. As a fix, I swap the "to" index with the item below
@@ -264,7 +263,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
         markDirty(s);
         let body = s.all[s.current].body || [];
-        let step = a.payload.step as SequenceBodyMember;
+        let step = a.payload.step as SequenceBodyItem;
         body.splice(a.payload.insertBefore, 0, step);
         return s;
     });
