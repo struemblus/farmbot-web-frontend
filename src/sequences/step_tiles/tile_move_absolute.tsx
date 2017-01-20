@@ -128,7 +128,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
         let { update, updateSelect } = this;
         let { index, dispatch, step } = this.props;
         let { options, value } = this.state;
-
         let isTool = this.state.value !== "---";
         let x = this.state.x || "0";
         let y = this.state.y || "0";

@@ -171,7 +171,7 @@ export function SequenceEditorMiddle({sequences, dispatch, tools}: Everything) {
                                     dispatch(editCurrentSequence(
                                         { color }
                                     ));
-                                } } />
+                                }} />
                         </div>
                         {<StepList sequence={sequence}
                             dispatch={dispatch}

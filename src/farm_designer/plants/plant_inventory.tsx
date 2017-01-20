@@ -6,8 +6,30 @@ import { Select } from "../../ui";
 import { ICONS } from "../icons";
 import { connect } from "react-redux";
 import { CustomOptionProps } from "../../interfaces";
+import * as moment from "moment";
+import { ReactSelectProps } from "react-select";
 
-class OptionComponent extends React.Component<CustomOptionProps, {}> {
+// TODO: Optimize these if possible and relocate them 
+interface PlantOptionProps extends CustomOptionProps {
+  option: {
+    openfarm_slug: string;
+    plant_id: number;
+    img_url: string;
+    planted_at: string;
+  };
+}
+
+interface HandleRedirectEvent extends ReactSelectProps {
+  plant_id: string;
+}
+
+interface PlantsProps extends Everything {
+  router: {
+    push: Function;
+  };
+}
+
+class OptionComponent extends React.Component<PlantOptionProps, {}> {
   handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
@@ -24,32 +46,48 @@ class OptionComponent extends React.Component<CustomOptionProps, {}> {
   };
 
   render() {
+    let {
+      openfarm_slug,
+      plant_id,
+      img_url,
+      planted_at
+    } = this.props.option;
+
+    let dayPlanted = moment();
+    // Same day = 1 !0
+    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
+
     return <div className={this.props.className}
       onMouseDown={this.handleMouseDown.bind(this)}
       onMouseEnter={this.handleMouseEnter.bind(this)}
       onMouseMove={this.handleMouseMove.bind(this)}>
-      {this.props.children}
+      <img src={img_url} alt={openfarm_slug} />
+      <Link className="plant-name"
+        to={`/app/designer/plants/plant/${plant_id}`}>
+        {this.props.children}
+      </Link>
+      <i className="plant-age">{daysOld} days old</i>
     </div>;
   }
 }
 
 @connect((state: Everything) => state)
-export class Plants extends React.Component<Everything, {}> {
-  constructor() {
-    super();
-    this.state = { searchResults: [] };
-  }
-
-  dragstart_handler(ev: React.DragEvent<HTMLElement>) {
-    // ev.dataTransfer.setData("text", ev.currentTarget);
-    ev.dataTransfer.effectAllowed = "move";
+export class Plants extends React.Component<PlantsProps, {}> {
+  handleRedirect(e: HandleRedirectEvent) {
+    this.props.router.push(`/app/designer/plants/${e.plant_id}`);
   }
 
   render() {
     let { plants } = this.props.designer;
 
     let plantOptions = plants.map(plant => {
-      return { label: plant.openfarm_slug, value: plant.id };
+      return {
+        openfarm_slug: plant.openfarm_slug,
+        plant_id: plant.id,
+        img_url: plant.img_url,
+        planted_at: plant.planted_at,
+        label: plant.name
+      };
     });
 
     return <div className="panel-container green-panel">
@@ -67,31 +105,14 @@ export class Plants extends React.Component<Everything, {}> {
       <div className="panel-content">
 
         <div className="thin-search-wrapper">
+          <i className="fa fa-search"></i>
           <Select options={plantOptions}
             optionComponent={OptionComponent}
+            onChange={this.handleRedirect.bind(this)}
+            placeholder="Search Plants"
           />
-          <div className="Select-menu-outer">
-            <div role="listbox" className="Select-menu" id="react-select-2--list">
-              <div className="Select-option is-focused">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-              <div className="Select-option">tomato</div>
-            </div>
-          </div>
         </div>
 
-        <div className="object-list current-plants">
-          <label>Current Plants</label>
-          <ul className="row">
-
-          </ul>
-        </div>
       </div>
 
       <Link to="/app/designer/plants/add">

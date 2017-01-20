@@ -93,14 +93,15 @@ export interface Sync {
 }
 
 /** React-select does not provide an interface for their CustomOption 
- * component. Since they share similarities, we can go with this one.
+ * component. Since they share similarities, we can go with this one as a base.
  */
 export interface CustomOptionProps {
     onSelect: Function;
     onFocus: Function;
     isFocused: Function;
     option: {
-        value: string;
+        // I will have to refactor this. On the TODO list. -CV
+        value?: string;
         x?: number;
         y?: number;
         z?: number;
