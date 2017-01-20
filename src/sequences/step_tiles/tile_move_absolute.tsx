@@ -8,11 +8,45 @@ import { MoveAbsState } from "../interfaces";
 import { t } from "i18next";
 import { updateMoveAbsStep } from "../actions";
 import { MoveAbsolute } from "farmbot";
+import * as ReactSelect from "react-select";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
 interface MoveAbsProps extends StepParams {
     step: MoveAbsolute;
+}
+
+class OptionComponent extends React.Component<CustomOptionProps, {}> {
+    handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
+        e.preventDefault();
+        e.stopPropagation();
+        this.props.onSelect(this.props.option, e);
+    };
+
+    handleMouseEnter(e: React.SyntheticEvent<HTMLDivElement>) {
+        this.props.onFocus(this.props.option, e);
+    };
+
+    handleMouseMove(e: React.SyntheticEvent<HTMLDivElement>) {
+        if (this.props.isFocused) { return; };
+        this.props.onFocus(this.props.option, e);
+    };
+
+    render() {
+        let params = this.props.option.value === "---" ? "" :
+            `(${this.props.option.x}, ${this.props.option.y}, ${this.props.option.z})`;
+        return (
+            <div className={this.props.className}
+                onMouseDown={this.handleMouseDown}
+                onMouseEnter={this.handleMouseEnter}
+                onMouseMove={this.handleMouseMove}>
+                {this.props.children}
+                <span className="Select-value-params">
+                    {params}
+                </span>
+            </div>
+        );
+    }
 }
 
 export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
@@ -95,38 +129,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
         let { index, dispatch, step } = this.props;
         let { options, value } = this.state;
 
-        let optionComponent = (props: CustomOptionProps) => {
-            let handleMouseDown = (e: React.SyntheticEvent<HTMLDivElement>) => {
-                e.preventDefault();
-                e.stopPropagation();
-                props.onSelect(props.option, e);
-            };
-
-            let handleMouseEnter = (e: React.SyntheticEvent<HTMLDivElement>) => {
-                props.onFocus(props.option, e);
-            };
-
-            let handleMouseMove = (e: React.SyntheticEvent<HTMLDivElement>) => {
-                if (props.isFocused) { return; };
-                props.onFocus(props.option, e);
-            };
-
-            let params = props.option.value === "---" ? "" :
-                `(${props.option.x}, ${props.option.y}, ${props.option.z})`;
-
-            return (
-                <div className={props.className}
-                    onMouseDown={handleMouseDown}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseMove={handleMouseMove}>
-                    {props.children}
-                    <span className="Select-value-params">
-                        {params}
-                    </span>
-                </div>
-            );
-        };
-
         let isTool = this.state.value !== "---";
         let x = this.state.x || "0";
         let y = this.state.y || "0";
@@ -174,7 +176,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                                     </label>
                                     <Select
                                         options={options}
-                                        optionComponent={optionComponent}
+                                        optionComponent={OptionComponent}
                                         onChange={updateSelect}
                                         value={value}
                                     />
