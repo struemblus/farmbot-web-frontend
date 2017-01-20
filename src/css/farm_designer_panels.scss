@@ -34,15 +34,12 @@
 }
 
 .panel-tabs {
-    display: inline;
-    width: 100%;
-    list-style: none;
-    padding: 0rem;
-    text-transform: uppercase;
-    margin-bottom: 0px!important;
+    display: flex;
     a {
+        flex: 1;
+        text-align: center;
+        text-transform: uppercase;
         font-size: 1.4rem;
-        padding: 0 1.2rem;
         line-height: 5rem;
         height: 5rem;
         color: $light_gray;
@@ -58,45 +55,8 @@
             font-weight: bold;
         }
     }
-    ul {
-        display: block;
-        overflow-x: scroll;
-        margin-bottom: 0;
-        padding: 0;
-        @media screen and (min-width: 768px) {
-            width: 100%;
-            display: table;
-            overflow: hidden;
-        }
-    }
-    li {
-        display: table-cell;
-        text-align: center;
-        .active {
-            font-weight: bold;
-            color: $off_white;
-            border-bottom: 2px solid $off_white;
-        }
-    }
 }
 
 .panel-content {
     padding: 1rem;
-}
-
-.back-arrow {
-    width: 5rem;
-    float: left;
-    text-align: center;
-}
-
-.panel-title {
-    font-size: 1.6rem;
-    line-height: 5rem;
-    font-weight: bold;
-}
-
-.edit-link {
-    margin-left: 1rem;
-    font-size: 1.2rem;
 }
