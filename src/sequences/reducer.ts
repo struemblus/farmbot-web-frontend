@@ -195,7 +195,6 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<{ index: number }>("REMOVE_STEP", function (s, a) {
-        console.log(a);
         let body = s.all[s.current].body || [];
         let index = a.payload.index;
         body.splice(index, 1);
