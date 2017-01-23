@@ -113,7 +113,7 @@ export class Plants extends React.Component<PlantsProps, {}> {
 
       </div>
 
-      <Link to="/app/designer/plants/add">
+      <Link to="/app/designer/plants/crop_search">
         <div className="plus-button add-plant button-like"
           data-toggle="tooltip"
           title="Add plant">

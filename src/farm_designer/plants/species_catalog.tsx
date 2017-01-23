@@ -38,7 +38,7 @@ export class SpeciesCatalog extends React.Component<Everything, {}> {
         </div>
         <div>
           <p>
-            <Link to={`/app/designer/plants/add/${resp.crop.slug}`}>
+            <Link to={`/app/designer/plants/crop_search/${resp.crop.slug}`}>
               <img className="crop-drag-info-image" src={resp.image} />
             </Link>
           </p>

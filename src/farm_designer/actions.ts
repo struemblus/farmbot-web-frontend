@@ -7,8 +7,9 @@ import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
 
-export function savePlant(plant: Plant, baseUrl: string): Thunk {
+export function savePlant(plant: Plant): Thunk {
   let url = API.current.plantsPath;
+  console.log(plant);
   return function (dispatch, getState) {
     dispatch({ type: "SAVE_PLANT_START" });
     return Axios.post<Plant>(url, plant)
@@ -26,7 +27,6 @@ export function savePlant(plant: Plant, baseUrl: string): Thunk {
 
 export function movePlant(plant: Plant): Thunk {
   let url = API.current.plantsPath + plant.id;
-  console.log(url);
   return function (dispatch, getState) {
     return Axios.put<Plant>(url, plant)
       .then((resp) => {
