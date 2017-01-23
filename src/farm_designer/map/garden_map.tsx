@@ -2,19 +2,14 @@ import * as React from "react";
 import { Everything } from "../../interfaces";
 import * as Snap from "snapsvg";
 import { Plant, PlantOptions } from "../plant";
-import { savePlant, movePlant } from "../actions";
-import { API } from "../../api";
+import { savePlant } from "../actions";
 import { connect } from "react-redux";
-import { Plant as PlantInterface } from "../interfaces";
+import * as moment from "moment";
 
 interface GardenMapProps extends Everything {
   params: {
     species: string;
   };
-}
-
-interface GardenMapState {
-  plants: PlantInterface[];
 }
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
@@ -25,12 +20,7 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
 }
 
 @connect((state: Everything) => state)
-export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
-  constructor() {
-    super();
-    this.state = { plants: [] };
-  }
-
+export class GardenMap extends React.Component<GardenMapProps, {}> {
   handleDragOver(e: React.DragEvent<HTMLElement>) {
     // Perform drop availability here probably
     e.preventDefault();
@@ -75,11 +65,10 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.img_url = OFEntry.image;
       p.openfarm_slug = OFEntry.crop.slug;
       p.name = OFEntry.crop.name || "Mystery Crop";
+      p.planted_at = moment().toISOString();
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
-      let baseUrl: string = API.current.baseUrl;
-
-      this.props.dispatch(savePlant(plant, baseUrl));
+      this.props.dispatch(savePlant(plant));
       this.renderPlants();
     }
   }

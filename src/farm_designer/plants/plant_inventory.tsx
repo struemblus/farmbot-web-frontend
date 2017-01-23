@@ -27,6 +27,10 @@ interface PlantsProps extends Everything {
   };
 }
 
+interface PlantsState {
+  searchMenuShown: boolean;
+}
+
 class OptionComponent extends React.Component<PlantOptionProps, {}> {
   handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
     e.preventDefault();
@@ -61,7 +65,7 @@ class OptionComponent extends React.Component<PlantOptionProps, {}> {
       onMouseMove={this.handleMouseMove.bind(this)}>
       <img src={img_url} alt={openfarm_slug} />
       <Link className="plant-name"
-        to={`/app/designer/plants/plant/${plant_id}`}>
+        to={`/app/designer/plants/${plant_id}`}>
         {this.props.children}
       </Link>
       <i className="plant-age">{daysOld} days old</i>
@@ -70,9 +74,18 @@ class OptionComponent extends React.Component<PlantOptionProps, {}> {
 }
 
 @connect((state: Everything) => state)
-export class Plants extends React.Component<PlantsProps, {}> {
+export class Plants extends React.Component<PlantsProps, PlantsState> {
+  constructor() {
+    super();
+    this.state = { searchMenuShown: false };
+  }
+
   handleRedirect(e: HandleRedirectEvent) {
     this.props.router.push(`/app/designer/plants/${e.plant_id}`);
+  }
+
+  updateMenuState() {
+    this.setState({ searchMenuShown: !this.state.searchMenuShown });
   }
 
   render() {
@@ -91,6 +104,9 @@ export class Plants extends React.Component<PlantsProps, {}> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
+          <Link to="/app/designer" className="mobile-only">
+            Designer
+          </Link>
           <Link to="/app/designer/plants" className="active">
             Plants
           </Link>
@@ -111,9 +127,28 @@ export class Plants extends React.Component<PlantsProps, {}> {
           />
         </div>
 
+        <div className="outside-search-results">
+          <div className="Select-menu-outer">
+            <div className="Select-menu">
+              {plants.map(plant => {
+                let now = moment();
+                let daysOld = now.diff(moment(plant.planted_at), "days") + 1;
+                return <div className="Select-option" key={plant.id}>
+                  <img src={plant.img_url} alt={plant.name} />
+                  <Link className="plant-name"
+                    to={`/app/designer/plants/${plant.id}`}>
+                    {plant.name}
+                  </Link>
+                  <i className="plant-age">{daysOld} days old</i>
+                </div>;
+              })}
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      <Link to="/app/designer/plants/add">
+      <Link to="/app/designer/plants/crop_search">
         <div className="plus-button add-plant button-like"
           data-toggle="tooltip"
           title="Add plant">

@@ -11,7 +11,10 @@ interface SpeciesInfoProps extends Everything {
 
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
-    handleDragStart(e: React.DragEvent<HTMLElement>) {
+    handleDragStart(e: DragEvent) {
+        var img = document.createElement("img");
+        img.src = "";
+        (e as any).dataTransfer.setDragImage(img, 0, 0);
         console.log("starting drag...currentTarget", e.currentTarget);
     }
 
@@ -45,7 +48,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
             </div>
             <div className="panel-content">
                 <div className="crop-drag-info-tile"
-                    onDragStart={this.handleDragStart}
+                    onDragStart={this.handleDragStart.bind(this)}
                     draggable={true} >
                     <img className="crop-drag-info-image"
                         src={result.image} />

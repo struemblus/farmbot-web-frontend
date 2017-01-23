@@ -35,10 +35,13 @@ export class FarmEvents extends React.Component<Everything, {}> {
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <div className="panel-tabs">
-          <Link to="/app/designer/plants" activeClassName={"active"}>
+          <Link to="/app/designer" className="mobile-only">
+            Designer
+          </Link>
+          <Link to="/app/designer/plants">
             Plants
           </Link>
-          <Link to="/app/designer/farm_events" activeClassName={"active"}>
+          <Link to="/app/designer/farm_events" className="active">
             Farm Events
            </Link>
         </div>
