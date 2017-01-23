@@ -20,7 +20,7 @@ function SearchBox({query, dispatch}: SearchBoxParams) {
   return <input value={query}
     onChange={(e) => doSearch(e, dispatch)}
     className="search"
-    placeholder="Search OpenFarm for crops" />;
+    placeholder="Search OpenFarm" />;
 }
 
 function doSearch(e: React.FormEvent<HTMLInputElement>,

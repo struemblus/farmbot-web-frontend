@@ -14,29 +14,9 @@ interface SpeciesInfoProps extends Everything {
 
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
-    drag(e: React.DragEvent<any>) {
-        var img = document.createElement("img");
-        img.src = "/app-resources/img/icons/seed.png";
-        (e.dataTransfer as any)["setDragImage"](img, 12, 48);
-    }
-
-    drop(e: React.MouseEvent<any>) {
-        let el = document.querySelector("#drop-area > svg > rect");
-        if (!el) {
-            throw new Error("why");
-        } else {
-            let box = el.getBoundingClientRect();
-            let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.bottom);
-            // TEMPORARY SOLUTION =======
-            let OFEntry = this.findCrop(this.props.location.query["id"]);
-            p.img_url = OFEntry.image;
-            p.openfarm_slug = OFEntry.crop.slug;
-            p.name = OFEntry.crop.name || "Mystery Crop";
-            // END TEMPORARY SOLUTION =======
-            let plant = Plant(p);
-            let baseUrl: string = API.current.baseUrl;
-            this.props.dispatch(savePlant(plant, baseUrl));
-        }
+    handleDragStart(e: React.DragEvent<HTMLElement>) {
+        console.log("currentTarget", e.currentTarget);
+        e.dataTransfer.setData("text", e.currentTarget.id);
     }
 
     findCrop(slug?: string) {
@@ -71,8 +51,9 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                 <div className="crop-drag-info-tile">
                     <img className="crop-drag-info-image"
                         src={result.image}
-                        onDragStart={this.drag.bind(this)}
-                        onDragEnd={this.drop.bind(this)} />
+                        onDragStart={this.handleDragStart.bind(this)}
+                        draggable={true}
+                        id="blah" />
                     <div className="crop-info-overlay">
                         Drag and drop into map
                     </div>
@@ -102,10 +83,3 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         </div>;
     }
 }
-
-function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
-    let rawX = mouseX - boxX;
-    let rawY = boxY - mouseY;
-
-    return { x: rawX, y: rawY };
-};
