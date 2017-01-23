@@ -29,7 +29,7 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
   .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
     let state = cloneDeep(s);
     let a = state.plants;
-    a.splice(a.indexOf(payload), 1);
+    a.splice(a.indexOf(payload), 0);
     return state;
   })
   .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
