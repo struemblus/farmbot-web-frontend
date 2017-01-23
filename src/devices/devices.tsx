@@ -92,7 +92,6 @@ let FwUpdateButton = ({bot}: UpdateButtonProps) => {
     </div>;
 };
 
-// CHRIS HALLLPPPPP
 export class ConfigInputBox extends React.Component<any, {}> {
     primary() {
         return this.props.bot.configBuffer[this.props.setting];
@@ -122,10 +121,12 @@ export class ConfigInputBox extends React.Component<any, {}> {
     render() {
 
         return (
-            <input type="text"
-                style={this.style()}
-                onChange={this.change(this.props.setting, this.props.dispatch)}
-                value={this.primary() || this.secondary() || "---"} />);
+            <td>
+                <input type="text"
+                    style={this.style()}
+                    onChange={this.change(this.props.setting, this.props.dispatch)}
+                    value={this.primary() || this.secondary() || "---"} />
+            </td>);
     }
 }
 
