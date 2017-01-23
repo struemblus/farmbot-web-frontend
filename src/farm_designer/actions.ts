@@ -1,5 +1,5 @@
 import * as Axios from "axios";
-import { error } from "../ui";
+import { error, success } from "../ui";
 import { Plant } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
@@ -24,14 +24,15 @@ export function savePlant(plant: Plant, baseUrl: string): Thunk {
   };
 };
 
-export function destroyPlant(plant: Plant, baseUrl: string): Thunk {
-  let url = API.current.plantsPath + plant.id;
+export function destroyPlant(plant_id: number): Thunk {
+  let url = API.current.plantsPath + plant_id;
   return function (dispatch, getState) {
     dispatch({ type: "DESTROY_PLANT_START" });
     return Axios.delete<Plant>(url)
       .then((resp) => {
-        let payload = plant;
+        let payload = plant_id;
         dispatch({ type: "DESTROY_PLANT_OK", payload });
+        success("Successfully deleted plant.", "Deleted");
       })
       .catch((payload) => {
         error(t("Tried to delete plant, but couldn't."));

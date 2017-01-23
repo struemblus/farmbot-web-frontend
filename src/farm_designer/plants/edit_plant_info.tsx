@@ -3,8 +3,12 @@ import { BackArrow } from "../back_arrow";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
+import { destroyPlant } from "../actions";
 
 interface EditPlantInfoProps extends Everything {
+    router: {
+        push: Function;
+    };
     params: {
         plant_id: string;
     };
@@ -12,6 +16,11 @@ interface EditPlantInfoProps extends Everything {
 
 @connect((state: Everything) => state)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
+    destroy() {
+        let plant_id = parseInt(this.props.params.plant_id);
+        this.props.dispatch(destroyPlant(plant_id));
+        this.props.router.push("/app/designer/plants");
+    }
     render() {
         let plant_id = parseInt(this.props.params.plant_id);
         let plants = this.props.designer.plants;
@@ -44,12 +53,13 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
                 </ul>
                 <label>Delete This Plant</label>
                 <div>
-                    <button className="red button-like left">
+                    <button className="red button-like left"
+                        onClick={this.destroy.bind(this)}>
                         Delete
                     </button>
                 </div>
             </div>
-        </div>;
+        </div >;
 
     }
 }
