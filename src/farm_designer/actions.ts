@@ -24,6 +24,21 @@ export function savePlant(plant: Plant, baseUrl: string): Thunk {
   };
 };
 
+export function movePlant(plant: Plant): Thunk {
+  let url = API.current.plantsPath + plant.id;
+  console.log(url);
+  return function (dispatch, getState) {
+    return Axios.put<Plant>(url, plant)
+      .then((resp) => {
+        dispatch({ type: "SAVE_PLANT_OK", payload: resp.data });
+      })
+      .catch((payload) => {
+        error(t("Tried to save plant, but couldn't."));
+        dispatch({ type: "SAVE_PLANT_ERR", payload });
+      });
+  };
+};
+
 export function destroyPlant(plant_id: number): Thunk {
   let url = API.current.plantsPath + plant_id;
   return function (dispatch, getState) {

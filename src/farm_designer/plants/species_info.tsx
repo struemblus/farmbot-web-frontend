@@ -1,9 +1,6 @@
 import * as React from "react";
-import { savePlant } from "../actions";
 import { BackArrow } from "../back_arrow";
 import { Everything } from "../../interfaces";
-import { Plant, PlantOptions } from "../plant";
-import { API } from "../../api";
 import { connect } from "react-redux";
 
 interface SpeciesInfoProps extends Everything {
@@ -15,8 +12,7 @@ interface SpeciesInfoProps extends Everything {
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     handleDragStart(e: React.DragEvent<HTMLElement>) {
-        console.log("currentTarget", e.currentTarget);
-        e.dataTransfer.setData("text", e.currentTarget.id);
+        console.log("starting drag...currentTarget", e.currentTarget);
     }
 
     findCrop(slug?: string) {
@@ -48,12 +44,11 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                 </p>
             </div>
             <div className="panel-content">
-                <div className="crop-drag-info-tile">
+                <div className="crop-drag-info-tile"
+                    onDragStart={this.handleDragStart}
+                    draggable={true} >
                     <img className="crop-drag-info-image"
-                        src={result.image}
-                        onDragStart={this.handleDragStart.bind(this)}
-                        draggable={true}
-                        id="blah" />
+                        src={result.image} />
                     <div className="crop-info-overlay">
                         Drag and drop into map
                     </div>

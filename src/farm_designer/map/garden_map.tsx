@@ -2,9 +2,10 @@ import * as React from "react";
 import { Everything } from "../../interfaces";
 import * as Snap from "snapsvg";
 import { Plant, PlantOptions } from "../plant";
-import { savePlant } from "../actions";
+import { savePlant, movePlant } from "../actions";
 import { API } from "../../api";
 import { connect } from "react-redux";
+import { Plant as PlantInterface } from "../interfaces";
 
 interface GardenMapProps extends Everything {
   params: {
@@ -12,15 +13,24 @@ interface GardenMapProps extends Everything {
   };
 }
 
+interface GardenMapState {
+  plants: PlantInterface[];
+}
+
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   let rawX = mouseX - boxX;
-  let rawY = boxY - mouseY;
+  let rawY = mouseY - boxY;
 
   return { x: rawX, y: rawY };
 }
 
 @connect((state: Everything) => state)
-export class GardenMap extends React.Component<GardenMapProps, {}> {
+export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
+  constructor() {
+    super();
+    this.state = { plants: [] };
+  }
+
   handleDragOver(e: React.DragEvent<HTMLElement>) {
     // Perform drop availability here probably
     e.preventDefault();
@@ -59,24 +69,25 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
       throw new Error("why");
     } else {
       let box = el.getBoundingClientRect();
-      let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.bottom);
+      let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
+      console.log(box, p);
       // TEMPORARY SOLUTION =======
       let OFEntry = this.findCrop(this.props.params.species);
       p.img_url = OFEntry.image;
-      // TODO: Why is Natural-Food saving with a whitespace and not a "-"?
-      p.img_url.replace(" ", "-");
       p.openfarm_slug = OFEntry.crop.slug;
       p.name = OFEntry.crop.name || "Mystery Crop";
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
       let baseUrl: string = API.current.baseUrl;
+
       this.props.dispatch(savePlant(plant, baseUrl));
+      this.renderPlants();
     }
   }
 
-  componentDidMount() {
+  renderPlants() {
+    var s = Snap("#svg");
 
-    let s = Snap("#svg");
     let move = function (dx: number, dy: number) {
       this.attr({
         transform: this.data("origTransform") +
@@ -85,18 +96,24 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
     };
 
     let start = function () {
+      console.log(this);
       this.data("origTransform", this.transform().local);
     };
 
     let stop = function () {
-      console.log(event);
+      console.log(this);
+      // this.props.dispatch(movePlant())
     };
 
     this.props.designer.plants.map(plant => {
-      let plot = s.image(plant.icon_url, plant.x, plant.y, 45, 45);
-      plot.drag(move, start, stop);
+      let plnt = s.image(plant.icon_url, plant.x, plant.y, 60, 60);
+      plnt.attr({ "data-id": plant.id });
+      plnt.drag(move, start, stop);
     });
+  }
 
+  componentDidMount() {
+    this.renderPlants();
   }
 
   render() {

@@ -21,11 +21,11 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     return state;
   })
   .add<Plant>("SAVE_PLANT_OK", function (s, a) {
-    let state = cloneDeep(s);
     // Exxxttrraaa runtime safety.
     let plant = newPlant(a.payload);
-    state.plants.push(plant);
-    return state;
+    s.plants.push(plant);
+    console.log(s);
+    return s;
   })
   .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
     let state = cloneDeep(s);
