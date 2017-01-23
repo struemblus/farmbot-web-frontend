@@ -393,6 +393,14 @@ Factory resetting your FarmBot will destroy all data on the device, revoking you
                                                     <tbody>
                                                         <tr>
                                                             <td>
+                                                                <label>{t("Steps per MM")}</label>
+                                                            </td>
+                                                            <McuInputBox setting="steps_per_mm_x" {...this.props} />
+                                                            <McuInputBox setting="steps_per_mm_y" {...this.props} />
+                                                            <McuInputBox setting="steps_per_mm_z" {...this.props} />
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
                                                                 <label>{t("MAX SPEED (mm/s)")}</label>
                                                             </td>
                                                             <McuInputBox setting="movement_max_spd_x" {...this.props} />
