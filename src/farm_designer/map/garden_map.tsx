@@ -70,7 +70,6 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     } else {
       let box = el.getBoundingClientRect();
       let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
-      console.log(box, p);
       // TEMPORARY SOLUTION =======
       let OFEntry = this.findCrop(this.props.params.species);
       p.img_url = OFEntry.image;
@@ -86,7 +85,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   renderPlants() {
-    var s = Snap("#svg");
+    var s = Snap.Snap("#svg");
 
     let move = function (dx: number, dy: number) {
       this.attr({
@@ -96,12 +95,10 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     };
 
     let start = function () {
-      console.log(this);
       this.data("origTransform", this.transform().local);
     };
 
     let stop = function () {
-      console.log(this);
       // this.props.dispatch(movePlant())
     };
 
