@@ -24,7 +24,6 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     // Exxxttrraaa runtime safety.
     let plant = newPlant(a.payload);
     s.plants.push(plant);
-    console.log(s);
     return s;
   })
   .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
