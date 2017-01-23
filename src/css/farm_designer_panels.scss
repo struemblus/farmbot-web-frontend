@@ -59,6 +59,11 @@
         height: 5rem;
         color: $light_gray;
         display: block;
+        &.active {
+            border-bottom: 2px solid $white;
+            font-weight: bold;
+            color: $white;
+        }
         &:hover {
             color: $off_white;
             text-decoration: none;

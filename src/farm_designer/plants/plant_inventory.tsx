@@ -104,6 +104,9 @@ export class Plants extends React.Component<PlantsProps, PlantsState> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
+          <Link to="/app/designer" className="mobile-only">
+            Designer
+          </Link>
           <Link to="/app/designer/plants" className="active">
             Plants
           </Link>
