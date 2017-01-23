@@ -85,7 +85,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   renderPlants() {
-    var s = Snap.Snap("#svg");
+    var s = Snap("#svg");
 
     let move = function (dx: number, dy: number) {
       this.attr({
