@@ -24,6 +24,7 @@ function populate(s: SequenceReducerState): Sequence {
     let current_sequence = nullSequence();
     s.all.unshift(current_sequence);
     s.current = 0;
+    maybeAddMarkers(s);
     return current_sequence;
 }
 
@@ -125,6 +126,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     })
     .add<void>("ADD_SEQUENCE", function (s, a) {
         populate(s);
+        maybeAddMarkers(s);
         return s;
     })
     .add<EditCurrentSequence>("EDIT_CURRENT_SEQUENCE", function (s, a) {
@@ -132,6 +134,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         currentSequence.name = a.payload.name || currentSequence.name;
         currentSequence.color = a.payload.color || currentSequence.color;
         markDirty(s);
+        maybeAddMarkers(s);
         return s;
     })
     .add<{ step: Step, index: number }>("CHANGE_STEP", function (s, a) {
@@ -139,6 +142,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let currentStep = (currentSequence.body || [])[a.payload.index];
         markDirty(s);
         _.assign(currentStep, a.payload.step);
+        maybeAddMarkers(s);
         return s;
     })
     .add<SelectPayl>("CHANGE_STEP_SELECT", function (s, a) {
@@ -150,6 +154,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         // TODO: Any - replace using `keyof` operator.
         let raw = currentStep.args as any;
         raw[field] = value;
+        maybeAddMarkers(s);
         return s;
     })
     .add<SelectPayl>("UPDATE_SUB_SEQUENCE", function (s, a) {
@@ -186,6 +191,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         } else {
             throw new Error("Error updating sub sequences.");
         }
+        maybeAddMarkers(s);
         return s;
     })
     .add<{ index: number }>("REMOVE_STEP", function (s, a) {
@@ -197,16 +203,21 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         return s;
     })
     .add<Sequence>("SAVE_SEQUENCE_OK", function (s, a) {
+        // HERE
         s.all[s.current] = a.payload;
+        maybeAddMarkers(s);
         return s;
     })
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
+        // HERE
         s.all = a.payload.sequences || [];
+        maybeAddMarkers(s);
         return s;
     })
     .add<number>("SELECT_SEQUENCE", function (s, a) {
         let inx = a.payload;
         if (s.all[inx]) { s.current = inx; }
+        maybeAddMarkers(s);
         return s;
     })
     .add<Sequence>("DELETE_SEQUENCE_OK", function (s, a) {
@@ -217,6 +228,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         } else {
             throw new Error("Tried to delete a sequence that doesn't exist. ");
         }
+        maybeAddMarkers(s);
         return s;
     })
     .add<Sequence>("COPY_SEQUENCE", function (s, a) {
@@ -237,6 +249,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         seq.name += ` (copy ${copies})`;
         s.current = s.all.length;
         s.all.push(seq);
+        maybeAddMarkers(s);
         return s;
     })
     .add<MoveStepPayl>("MOVE_STEP", function (s, a) {
@@ -259,6 +272,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
             list[topIndex] = bottom;
             list[bottomIndex] = top;
         }
+        maybeAddMarkers(s);
         return s;
     })
     .add<SpliceStepPayl>("SPLICE_STEP", function (s, a) {
@@ -266,9 +280,25 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         let body = s.all[s.current].body || [];
         let step = a.payload.step as SequenceBodyItem;
         body.splice(a.payload.insertBefore, 0, step);
+        maybeAddMarkers(s);
         return s;
     });
 
 function markDirty(s: SequenceReducerState) {
     s.all[s.current].dirty = true;
+};
+
+/** HACK: TODO: If we were to iterate over sequence.body (using map()) and we
+ * wrote `key={inx}` inside the iterator, React's diff algorithm would loose
+ * track of which step has changed (and sometimes even mix up the state of
+ * completely different steps). To get around this, we add a `uuid` property to
+ * Steps that is guranteed to be unique and allows React to diff the list
+ * correctly. Let's refactor this out.
+ */
+function maybeAddMarkers(s: SequenceReducerState) {
+    s.all.map(function (seq) {
+        (seq.body || []).map(function (step) {
+            (step as any).uuid = (step as any).uuid || uuid();
+        })
+    });
 };
