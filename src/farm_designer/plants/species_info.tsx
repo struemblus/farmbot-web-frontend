@@ -9,13 +9,21 @@ interface SpeciesInfoProps extends Everything {
     };
 }
 
+interface DraggableEvent {
+    currentTarget: HTMLImageElement;
+    dataTransfer: {
+        setDragImage: Function;
+    };
+}
+
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
-    handleDragStart(e: DragEvent) {
-        var img = document.createElement("img");
-        img.src = "";
-        (e as any).dataTransfer.setDragImage(img, 0, 0);
-        console.log("starting drag...currentTarget", e.currentTarget);
+    handleDragStart(e: DraggableEvent) {
+        let img = document.createElement("img");
+        // Stub until we figure out dynamic drag images
+        img.src = "/app-resources/img/icons/Sprout-96.png";
+        // TS doesn't know setDragImage
+        e.dataTransfer.setDragImage(img, 50, 50);
     }
 
     findCrop(slug?: string) {
@@ -47,10 +55,10 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                 </p>
             </div>
             <div className="panel-content">
-                <div className="crop-drag-info-tile"
-                    onDragStart={this.handleDragStart.bind(this)}
-                    draggable={true} >
+                <div className="crop-drag-info-tile">
                     <img className="crop-drag-info-image"
+                        onDragStart={this.handleDragStart.bind(this)}
+                        draggable={true}
                         src={result.image} />
                     <div className="crop-info-overlay">
                         Drag and drop into map

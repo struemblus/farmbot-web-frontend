@@ -1,6 +1,5 @@
 import * as React from "react";
 import { Everything } from "../../interfaces";
-import * as Snap from "snapsvg";
 import { Plant, PlantOptions } from "../plant";
 import { savePlant } from "../actions";
 import { connect } from "react-redux";
@@ -13,8 +12,17 @@ interface GardenMapProps extends Everything {
 }
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
-  let rawX = mouseX - boxX;
-  let rawY = mouseY - boxY;
+  /** The offset of 50px is made for the setDragImage to make it in the
+   * center of the mouse for accuracy which is why this is being done.
+   * Once we get more dynamic with the values (different size plants),
+   * we can tweak this accordingly. 
+   */
+  let newMouseX = mouseX - 25;
+  let newMouseY = mouseY - 25;
+  /* */
+
+  let rawX = newMouseX - boxX;
+  let rawY = newMouseY - boxY;
 
   return { x: rawX, y: rawY };
 }
@@ -69,46 +77,30 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
       this.props.dispatch(savePlant(plant));
-      this.renderPlants();
     }
   }
 
-  renderPlants() {
-    var s = Snap("#svg");
-
-    let move = function (dx: number, dy: number) {
-      this.attr({
-        transform: this.data("origTransform") +
-        (this.data("origTransform") ? "T" : "t") + [dx, dy]
-      });
-    };
-
-    let start = function () {
-      this.data("origTransform", this.transform().local);
-    };
-
-    let stop = function () {
-      // this.props.dispatch(movePlant())
-    };
-
-    this.props.designer.plants.map(plant => {
-      let plnt = s.image(plant.icon_url, plant.x, plant.y, 60, 60);
-      plnt.attr({ "data-id": plant.id });
-      plnt.drag(move, start, stop);
-    });
-  }
-
   componentDidMount() {
-    this.renderPlants();
+    document.addEventListener("ondragstart", function (e) {
+      console.log(e);
+    })
   }
 
   render() {
+    let plants = this.props.designer.plants.map(plant => {
+      return <rect key={plant.id}
+        fill="green"
+        x={plant.x} y={plant.y}
+        height="60" width="60" draggable={true} />;
+    });
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
-      onDragEnter={this.handleDragEnter}
-      onDragOver={this.handleDragOver}>
-      <svg id="svg"></svg>
+      onDragEnter={this.handleDragEnter.bind(this)}
+      onDragOver={this.handleDragOver.bind(this)}>
+      <svg id="svg">
+        {plants}
+      </svg>
     </div>;
   }
 }

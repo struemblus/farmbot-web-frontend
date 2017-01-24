@@ -9,7 +9,6 @@ import { API } from "../api";
 
 export function savePlant(plant: Plant): Thunk {
   let url = API.current.plantsPath;
-  console.log(plant);
   return function (dispatch, getState) {
     dispatch({ type: "SAVE_PLANT_START" });
     return Axios.post<Plant>(url, plant)
