@@ -121,7 +121,9 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         markDirty(s);
         let { step } = a.payload;
         let stepp = step as SequenceBodyItem;
+        (stepp as any).uuid = uuid();
         (current_sequence.body || []).push(stepp);
+        maybeAddMarkers(s);
         return s;
     })
     .add<void>("ADD_SEQUENCE", function (s, a) {
