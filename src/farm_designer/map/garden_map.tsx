@@ -88,7 +88,20 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
       onDrop={this.handleDrop.bind(this)}
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
-      <svg id="svg"></svg>
+      <svg id="svg">
+        {
+          this
+            .props
+            .sync
+            .plants
+            .map((p, inx) => <image key={inx}
+              x={(p.x * 10)}
+              y={(p.y * 10)}
+              width="32"
+              height="32"
+              href={"/app-resources/img/icons/Apple-96.png"} />)
+        }
+      </svg>
     </div>;
   }
 }
