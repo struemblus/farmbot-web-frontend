@@ -4,6 +4,7 @@ import { Plant, PlantOptions } from "../plant";
 import { savePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
+import * as Snap from "snapsvg";
 
 interface GardenMapProps extends Everything {
   params: {
@@ -42,6 +43,7 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
   findCrop(slug?: string) {
     let crops = this.props.designer.cropSearchResults;
     let crop = _(crops).find((result) => result.crop.slug === slug);
+    console.log(this.props);
     return crop || {
       crop: {
         binomial_name: "binomial_name",
@@ -80,27 +82,13 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
     }
   }
 
-  componentDidMount() {
-    document.addEventListener("ondragstart", function (e) {
-      console.log(e);
-    })
-  }
-
   render() {
-    let plants = this.props.designer.plants.map(plant => {
-      return <rect key={plant.id}
-        fill="green"
-        x={plant.x} y={plant.y}
-        height="60" width="60" draggable={true} />;
-    });
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
-      <svg id="svg">
-        {plants}
-      </svg>
+      <svg id="svg"></svg>
     </div>;
   }
 }
