@@ -14,6 +14,7 @@ export interface CropLiveSearchResult {
 
 export interface Plant {
   id?: number;
+  dirty?: boolean | undefined;
   planted_at: string;
   img_url: string;
   name: string;

@@ -5,7 +5,8 @@ import { savePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import * as Snap from "snapsvg";
-
+import { Plant as IPlant } from "../interfaces";
+import { DraggableSvgImage } from "../draggable_svg_image";
 interface GardenMapProps extends Everything {
   params: {
     species: string;
@@ -28,8 +29,16 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
   return { x: rawX, y: rawY };
 }
 
+interface GardenMapState {
+  activePlant: IPlant | undefined;
+  tempX: number | undefined;
+  tempY: number | undefined;
+
+}
 @connect((state: Everything) => state)
-export class GardenMap extends React.Component<GardenMapProps, {}> {
+export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
+  state = { activePlant: undefined, tempX: undefined, tempY: undefined };
+
   handleDragOver(e: React.DragEvent<HTMLElement>) {
     // Perform drop availability here probably
     e.preventDefault();
@@ -87,7 +96,27 @@ export class GardenMap extends React.Component<GardenMapProps, {}> {
       onDrop={this.handleDrop.bind(this)}
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
-      <svg id="svg"></svg>
+      <svg id="svg">
+        {
+          this
+            .props
+            .sync
+            .plants
+            .map((p, inx) => <DraggableSvgImage key={inx}
+              x={(p.x)}
+              y={(p.y)}
+              id={p.id}
+              width="32"
+              height="32"
+              onUpdate={(x: number, y: number, id: any) => {
+                this.props.dispatch({
+                  type: "UPDATE_PLANT",
+                  payload: { x, y, id }
+                });
+              }}
+              href={"/app-resources/img/icons/Apple-96.png"} />)
+        }
+      </svg>
     </div>;
   }
 }

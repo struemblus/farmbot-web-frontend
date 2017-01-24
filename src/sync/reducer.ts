@@ -1,6 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { Sync } from "../interfaces";
 import { Log } from "../interfaces";
+import { Plant } from "../farm_designer/interfaces";
 
 const initialState: Sync = {
     api_version: "",
@@ -32,5 +33,16 @@ export let syncReducer = generateReducer<Sync>(initialState)
     })
     .add<Sync>("FETCH_SYNC_OK", function (s, a) {
         s = a.payload;
+        return s;
+    })
+    .add<{ x: number, y: number, id: number }>("UPDATE_PLANT", function (s, a) {
+        let thisOne = _.find<Plant | undefined>(s.plants, function (r) {
+            return r ? (r.id === a.payload.id) : false;
+        });
+        if (thisOne) {
+            thisOne.dirty = true;
+            thisOne.x += a.payload.x;
+            thisOne.y += a.payload.y;
+        }
         return s;
     });
