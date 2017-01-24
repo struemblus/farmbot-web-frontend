@@ -1,5 +1,5 @@
 import * as React from "react";
-import { changeStepSize } from "../devices/actions";
+import { changeStepSize, commitAxisChanges } from "../devices/actions";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { ControlsState } from "./interfaces";
@@ -146,7 +146,10 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                     <JogButtons bot={this.props.bot} />
                                                 </div>
                                                 <div className="row">
-                                                    <AxisInputBoxGroup onCommit={() => this.props.dispatch(commitAxisChanges())} />
+                                                    <AxisInputBoxGroup
+                                                        bot={this.props.bot}
+                                                        dispatch={this.props.dispatch}
+                                                        onCommit={() => this.props.dispatch(commitAxisChanges())} />
                                                 </div>
                                             </div>
                                         </div>
