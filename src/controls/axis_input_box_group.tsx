@@ -16,32 +16,28 @@ interface State {
     x?: number | undefined;
     y?: number | undefined;
     z?: number | undefined;
-    /** TODO: HACK: Needed a quick way to reset internal state of 
-     */
-    sorry: number;
 }
+
 export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
     constructor() {
         super();
         this.clicked = this.clicked.bind(this);
         this.change = this.change.bind(this);
-        this.state = { sorry: 0 };
+        this.state = {};
     }
 
     change(axis: keyof Vector, val: number) {
         this.setState({ [axis]: val });
     }
 
-    clicked() {
+    get vector() {
         let [x, y, z] = this.props.bot.hardware.location;
-        let rly = { ...{ x, y, z }, ...this.state };
-        this.props.onCommit(rly);
-        this.setState({
-            x: undefined,
-            y: undefined,
-            z: undefined,
-            sorry: this.state.sorry + 3
-        });
+        return { ...{ x, y, z }, ...this.state };
+    }
+
+    clicked() {
+        this.props.onCommit(this.vector);
+        this.setState({ x: undefined, y: undefined, z: undefined });
     }
 
     render() {
@@ -49,19 +45,16 @@ export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
         return (
             <div>
                 <AxisInputBox
-                    key={this.state.sorry}
                     axis="x"
                     label="X AXIS"
                     value={x}
                     onChange={this.change} />
                 <AxisInputBox
-                    key={1 + this.state.sorry}
                     axis="y"
                     label="Y AXIS"
                     value={y}
                     onChange={this.change} />
                 <AxisInputBox
-                    key={2 + this.state.sorry}
                     axis="z"
                     label="Z AXIS"
                     value={z}

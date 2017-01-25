@@ -256,6 +256,14 @@ export function moveRelative(props: MoveRelProps) {
         .then(commandOK(noun), commandErr(noun));
 }
 
+export function moveAbs(props: MoveRelProps) {
+    const noun = "Absolute movement";
+    return devices
+        .current
+        .moveAbsolute(props)
+        .then(commandOK(noun), commandErr(noun));
+}
+
 export function pinToggle(pin_number: number) {
     const noun = "Setting toggle";
     return devices
