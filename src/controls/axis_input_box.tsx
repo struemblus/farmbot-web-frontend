@@ -1,33 +1,67 @@
 import * as React from "react";
-import { AxisInputBoxProps } from "./interfaces";
-import { changeAxisBuffer } from "../devices/actions";
+import { isNaN } from "lodash";
 
-export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
-    primary(): string {
-        return this.props.bot.axisBuffer[this.props.axis] || "";
+export interface AxisInputBoxProps {
+    axis: "x" | "y" | "z";
+    label: string;
+    value: number | undefined;
+    onChange: (key: string, val: number | undefined) => void;
+}
+
+interface AxisInputBoxState {
+    value: string | undefined;
+}
+
+export class AxisInputBox extends React.Component<AxisInputBoxProps, AxisInputBoxState> {
+    constructor() {
+        super();
+        this.blur = this.blur.bind(this);
+        this.change = this.change.bind(this);
+        this.state = { value: undefined };
     }
 
-    secondary(): string {
-        const axisTranslation: { [axis: string]: number } = { x: 0, y: 1, z: 2 };
-        let axisNumber = axisTranslation[this.props.axis];
-        let num = this.props.bot.hardware.location[axisNumber];
-        if (_.isNumber(num)) {
-            return String(num); // Prevent 0 from being falsy.
+    whatToDisplay() {
+        if (this.state.value === undefined) {
+            return this.props.value;
         } else {
-            return num;
-        };
+            return this.state.value;
+        }
     }
 
     style() {
-        return { border: (this.primary()) ? "1px solid red" : "" };
+        let border = "1px solid red";
+        return (this.state.value === undefined) ? {} : { border };
     }
 
-    change(key: string, dispatch: Function):
-        React.EventHandler<React.FormEvent<HTMLInputElement>> {
-        return function (event) {
-            let num = Number(event.currentTarget.value);
-            dispatch(changeAxisBuffer(key, num));
-        };
+    componentWillReceiveProps(nextProps: AxisInputBoxProps) {
+        if (this.props.value !== nextProps.value) {
+            this.reset();
+        }
+    }
+
+    blur(e: React.FormEvent<HTMLInputElement>) {
+        switch (this.state.value) {
+            case undefined:
+                return;
+            case "":
+                return this.reset();
+            default:
+                let num = parseFloat(this.state.value);
+                if (isNaN(num)) {
+                    return this.reset();
+                } else {
+                    return this.props.onChange(this.props.axis, num);
+                }
+        }
+    }
+
+    reset() {
+        this.setState({ value: undefined });
+        this.props.onChange(this.props.axis, undefined);
+    }
+
+    change(e: React.FormEvent<HTMLInputElement>) {
+        this.setState({ value: e.currentTarget.value });
     }
 
     render() {
@@ -36,8 +70,9 @@ export class AxisInputBox extends React.Component<AxisInputBoxProps, {}> {
             <input className="move-input"
                 type="text"
                 style={this.style()}
-                onChange={this.change(this.props.axis, this.props.dispatch)}
-                value={this.primary() || this.secondary() || "---"} />
+                onBlur={this.blur}
+                onChange={this.change}
+                value={this.whatToDisplay()} />
         </div>;
     }
 }

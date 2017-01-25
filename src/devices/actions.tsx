@@ -347,33 +347,6 @@ export function changeStepSize(integer: number) {
     };
 }
 
-export function commitAxisChanges() {
-    return function (
-        dispatch: Function,
-        getState: () => Everything) {
-        let {axisBuffer, hardware} = getState().bot;
-        let speed: number = devices.current.getState()["speed"] as number;
-        /** Pick the value in axisBuffer or hardware settings dictionary.
-         *  axisBuffer has higher priortiy, but may not be available. */
-        function pick(attr: string,
-            fallback?: number) {
-            return Number(axisBuffer[attr] ||
-                (hardware as any)[attr] || fallback);
-        };
-        let packet = {
-            speed: pick("speed", speed),
-            x: pick("x", 0),
-            y: pick("y", 0),
-            z: pick("z", 0),
-        };
-        let noun = "Move Absolute Command";
-        return devices
-            .current
-            .moveAbsolute(packet)
-            .then(commandOK(noun), commandErr(noun));
-    };
-}
-
 export function commitSettingsChanges() {
     return function (dispatch: Function,
         getState: () => Everything) {
@@ -404,12 +377,12 @@ function commitSettingsChangesOk() {
     };
 }
 
-export function changeAxisBuffer(key: string, val: number) {
-    return {
-        type: "CHANGE_AXIS_BUFFER",
-        payload: { key, val }
-    };
-}
+// export function changeAxisBuffer(key: string, val: number) {
+//     return {
+//         type: "CHANGE_AXIS_BUFFER",
+//         payload: { key, val }
+//     };
+// }
 
 export function clearLogs(): Thunk {
     return function (dispatch, getState) {

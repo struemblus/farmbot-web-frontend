@@ -62,13 +62,6 @@ export interface BotState {
   currentFWVersion?: string;
   /** Is the bot in sync with the api */
   dirty: boolean;
-  /** Holds coordinates that the user is currently editing, but has not sent */
-  axisBuffer: {
-    // x?: string;
-    // y?: string;
-    // z?: string;
-    [name: string]: string | undefined;
-  };
   /** Holds settings that the user is currently editing, but has not sent */
   settingsBuffer: {
     movement_max_spd_x?: string;
