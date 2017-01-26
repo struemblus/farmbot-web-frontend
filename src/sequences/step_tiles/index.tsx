@@ -1,7 +1,7 @@
 import * as React from "react";
 import { changeStep, removeStep, pushStep } from "../actions";
 import { assign } from "lodash";
-import { CeleryNode as Step } from "farmbot";
+import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { Help } from "../../ui";
 import { ExecuteBlock } from "../execute_block";

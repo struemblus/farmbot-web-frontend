@@ -1,4 +1,4 @@
-import { CeleryNode as Step } from "farmbot";
+import { SequenceBodyItem as Step } from "farmbot";
 
 /** An entry in the data transfer table. Used to transfer data from a "draggable"
  * to a "dropable". For type safety, this is a "tagged union". See Typescript

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CeleryNode } from "farmbot";
+import { SequenceBodyItem } from "farmbot";
 import { Sequence } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
@@ -56,7 +56,7 @@ let StepList = ({sequence, sequences, dispatch, tools}:
         tools: ToolsState
     }) => {
     return <div>
-        {(sequence.body || []).map((step: CeleryNode, inx: number) => {
+        {(sequence.body || []).map((step: SequenceBodyItem, inx: number) => {
             let Step = stepTiles[step.kind] || Oops;
             /** HACK: If we wrote `key={inx}` for this iterator, React's diff
              * algorithm would loose track of which step has changed (and

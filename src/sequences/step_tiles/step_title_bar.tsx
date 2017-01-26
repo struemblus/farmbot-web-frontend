@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CeleryNode as Step, Dictionary } from "farmbot";
+import { SequenceBodyItem as Step, Dictionary } from "farmbot";
 import { addComment } from "../actions";
 import { t } from "i18next";
 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
+import { Farmbot } from "farmbot";
 
 export function StepButtonCluster({dispatch}: { dispatch: Function }) {
     const ALL_THE_BUTTONS = [
@@ -20,7 +21,7 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
                             z: 0
                         },
                     },
-                    speed: 100
+                    speed: Farmbot.defaults.speed
                 }
             }}
             color="blue">
@@ -29,7 +30,7 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
         <StepButton dispatch={dispatch}
             step={{
                 kind: "move_relative",
-                args: { x: 0, y: 0, z: 0, speed: 100 }
+                args: { x: 0, y: 0, z: 0, speed: Farmbot.defaults.speed }
             }}
             color="green" >
             {t("MOVE RELATIVE")}
