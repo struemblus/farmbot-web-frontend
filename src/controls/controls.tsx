@@ -1,5 +1,5 @@
 import * as React from "react";
-import { changeStepSize } from "../devices/actions";
+import { changeStepSize, moveAbs } from "../devices/actions";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { ControlsState } from "./interfaces";
@@ -148,8 +148,9 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                                 <div className="row">
                                                     <AxisInputBoxGroup
                                                         bot={this.props.bot}
-                                                        dispatch={this.props.dispatch}
-                                                        onCommit={({x, y, z}) => console.log(x, y, z)} />
+                                                        onCommit={(input) => {
+                                                            moveAbs(input);
+                                                        }} />
                                                 </div>
                                             </div>
                                         </div>

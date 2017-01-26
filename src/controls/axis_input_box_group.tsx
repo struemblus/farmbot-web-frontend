@@ -8,7 +8,6 @@ interface Vector {
 }
 interface Props {
     onCommit: (v: Vector) => void;
-    dispatch: Function;
     bot: BotState;
 }
 

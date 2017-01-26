@@ -102,7 +102,7 @@ export interface MoveRelProps {
   x: number;
   y: number;
   z: number;
-  speed: number;
+  speed?: number | undefined;
 }
 
 export interface DetectorState {
