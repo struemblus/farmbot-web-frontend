@@ -10,12 +10,6 @@ import { DetectorState } from "../interfaces";
 let Slider = require("rc-slider");
 require("rc-slider/assets/index.css");
 
-// let DELETEMEOPTIONS = [
-//     { label: 1, value: 1 },
-//     { label: 2, value: 2 },
-//     { label: 3, value: 3 },
-// ];
-
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, DetectorState> {
     constructor() {

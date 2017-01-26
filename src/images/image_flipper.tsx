@@ -1,13 +1,13 @@
 import { Image } from "./interfaces";
 import * as React from "react";
 
-export interface TempImageListProps {
+export interface ImageFlipperProps {
     images: Image[];
 }
 
 /** As the name suggests, this is just a temporary thing so that we can view
  * images as they come in. */
-export function TemporaryImageList({images}: TempImageListProps) {
+export function ImageFlipper({images}: ImageFlipperProps) {
     return <div>
         {images.map(function (x, y) {
             return (<div className="row" key={y} >

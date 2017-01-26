@@ -9,7 +9,6 @@ import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import * as _ from "lodash";
 import { API } from "../api";
-import { TemporaryImageList } from "../images/temporary_image_list";
 import { JogButtons } from "./jog_buttons";
 import { AxisInputBoxGroup } from "./axis_input_box_group";
 
@@ -215,7 +214,6 @@ export class Controls extends React.Component<Everything, ControlsState> {
                                             {showUrl(url, dirty)}
                                         </div>
                                     </div>
-                                    <TemporaryImageList images={this.props.sync.images} />
                                 </div>
                             </div>
                         </div>
