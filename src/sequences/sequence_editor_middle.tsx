@@ -138,7 +138,7 @@ export function SequenceEditorMiddle({sequences, dispatch, tools}: Everything) {
                         onClick={save(dispatch, sequence)}>
                         {t("Save")} {sequence.dirty && ("*")}
                     </button>
-                    <button className="green button-like widget-control"
+                    <button className="orange button-like widget-control"
                         onClick={performSeq(dispatch, sequence)}>
                         {t("Save & Run")}
                     </button>
