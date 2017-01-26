@@ -3,7 +3,6 @@ import { changeStep, removeStep, pushStep } from "../actions";
 import { assign } from "lodash";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
-import { Help } from "../../ui";
 import { ExecuteBlock } from "../execute_block";
 import { Sequence } from "../interfaces";
 import { defensiveClone } from "../../util";
@@ -15,7 +14,9 @@ import { TileReadPin } from "./tile_read_pin";
 import { TileSendMessage } from "./tile_send_message";
 import { TileWritePin } from "./tile_write_pin";
 import { ToolsState } from "../../tools/interfaces";
+import { TileExecuteScript } from "./tile_execute_script";
 import * as _ from "lodash";
+import { LegalArgString } from "farmbot";
 
 interface CopyParams {
     dispatch: Function;
@@ -67,23 +68,7 @@ export function updateStep({ dispatch,
 
 export interface IStepInput {
     step: Step;
-    field: "speed"
-    | "pin_number"
-    | "pin_value"
-    | "pin_mode"
-    | "operator"
-    | "x"
-    | "y"
-    | "z"
-    | "stub" // For unimplemented features.
-    | "variable"
-    | "label"
-    | "milliseconds"
-    | "message"
-    | "lhs"
-    | "op"
-    | "rhs"
-    | "sequence_id";
+    field: LegalArgString;
     dispatch: Function;
     index: number;
 }
@@ -107,23 +92,7 @@ interface StepDictionary {
     [stepName: string]: StepTile;
 };
 
-let Pending = ({ dispatch, index }: StepParams) => {
-    return <div>
-        <Help text="Not done yet :(" />
-        Coming soon!
-              Delete: <i className="fa fa-trash step-control"
-            onClick={() => remove({ dispatch, index })} />
-    </div>;
-};
 export let stepTiles: { [name: string]: React.ReactType | undefined } = {
-    emergency_stop: Pending,
-    home_all: Pending,
-    home_x: Pending,
-    home_y: Pending,
-    home_z: Pending,
-    read_status: Pending,
-    write_parameter: Pending,
-    read_parameter: Pending,
     execute: ExecuteBlock,
     _if: TileIf,
     move_relative: TileMoveRelative,
@@ -132,4 +101,5 @@ export let stepTiles: { [name: string]: React.ReactType | undefined } = {
     wait: TileWait,
     send_message: TileSendMessage,
     read_pin: TileReadPin,
+    execute_script: TileExecuteScript
 };

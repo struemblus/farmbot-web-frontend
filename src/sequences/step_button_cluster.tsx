@@ -94,7 +94,15 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
                 args: { sequence_id: 0 }
             }}
             color="gray" >
-            {t("EXECUTE")}
+            {t("EXECUTE SEQUENCE")}
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "execute_script",
+                args: { label: "plant-detection" }
+            }}
+            color="pink" >
+            {t("EXECUTE SCRIPT")}
         </StepButton >
     ];
     return (<div>

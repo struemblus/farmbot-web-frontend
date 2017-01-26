@@ -7,7 +7,15 @@ interface StepButtonParams {
     step: Step;
     dispatch: Function;
     children?: JSX.Element | undefined;
-    color: string;
+    color: "blue"
+    | "green"
+    | "orange"
+    | "yellow"
+    | "brown"
+    | "red"
+    | "purple"
+    | "pink"
+    | "gray";
 }
 
 let click = (dispatch: Function, step: Step) =>

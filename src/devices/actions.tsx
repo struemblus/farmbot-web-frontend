@@ -34,28 +34,6 @@ export function incomingLog(botLog: RpcBotLog) {
     return { type: "BOT_LOG", payload: botLog };
 };
 
-export function startRegimen(regimen: Regimen) {
-    let noun = "Start Regimen";
-    if (regimen.id != undefined) {
-        devices
-            .current
-            .startRegimen({ regimen_id: regimen.id })
-            .then(() => { commandOK(noun); })
-            .catch(() => { commandErr(noun); });
-    }
-}
-
-export function stopRegimen(regimen: Regimen) {
-    let noun = "Stop Regimen";
-    if (regimen.id != undefined) {
-        devices
-            .current
-            .stopRegimen({ regimen_id: regimen.id })
-            .then(() => { commandOK(noun); })
-            .catch(() => { commandErr(noun); });
-    }
-}
-
 export function updateConfig(config: Configuration) {
     let noun = "Update Config";
     devices
