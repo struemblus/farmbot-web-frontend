@@ -114,3 +114,8 @@ export function isMobile() {
     return false;
   }
 }
+
+/** Check to see if an index is within safe bounds for an array */
+export function withinBounds(array: Array<any>, index: number) {
+  return index > -1 && index < array.length;
+}
