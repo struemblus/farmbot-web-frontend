@@ -16,7 +16,7 @@ exec("touch public/app/index.html");
 exec("rm -rf public/dist/*.js");
 
 var isProd = !!(global.WEBPACK_ENV === "production");
-module.exports = function() {
+module.exports = function () {
     return {
         entry: {
             "bundle": path.resolve(__dirname, "../src/entry.tsx"),
@@ -48,12 +48,6 @@ module.exports = function() {
                 {
                     test: [/\.eot$/, /\.svg(\?v=\d+\.\d+\.\d+)?$/],
                     use: "file-loader"
-                },
-                {
-                    // Workaround to use Snap as a cjs module with webpack
-                    // Snap is currently working on this
-                    test: require.resolve("snapsvg"),
-                    loader: "imports-loader?this=>window,fix=>module.exports=0"
                 }
             ]
         },
