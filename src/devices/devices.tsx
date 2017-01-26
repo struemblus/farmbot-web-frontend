@@ -24,7 +24,7 @@ import {
 import { t } from "i18next";
 import * as _ from "lodash";
 import { McuParams } from "farmbot";
-import { WeedDetector } from "./components/weed_detector";
+import { WeedDetector } from "../images";
 
 interface UpdateButtonProps {
     bot: BotState;

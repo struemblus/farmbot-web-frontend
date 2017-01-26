@@ -1,10 +1,11 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Everything } from "../../interfaces";
-import { Select } from "../../ui";
+import { Everything } from "../interfaces";
+import { Select } from "../ui";
 import { t } from "i18next";
 import { ChromePicker } from "react-color";
-import { DetectorState } from "../interfaces";
+import { DetectorState } from "./interfaces";
+import { ImageFlipper } from ".";
 
 // No "import" support for this lib :(
 let Slider = require("rc-slider");
@@ -160,7 +161,7 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                                                     value={this.state.blur} />*/}
                                             </div>
                                         </div>
-                                        <img className="temp-plant" src="/plant.jpg" />
+                                        <ImageFlipper images={this.props.sync.images} />
                                         <div className="weed-detector-meta">
                                             <div className="time">
                                                 <label>Time:</label>
