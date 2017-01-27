@@ -9,27 +9,43 @@ import { ImageFlipper } from ".";
 import * as ReactSelect from "react-select";
 import { range } from "lodash";
 
-// TODO: This is a custom type definition that is stubbed to an `any` for now.
-//       We need real typings for this.
-var Slider = require("rc-slider");
+// TODO: Submit typings for RC slider.
+var Slider = require("rc-slider") as (props: TodoFixThis) => JSX.Element;
 require("rc-slider/assets/index.css");
+interface TodoFixThis {
+    onChange?: (val: number) => void;
+    min?: number;
+    max?: number;
+    onAfterChange?: (val: number) => void;
+    range?: boolean;
+    allowCross?: boolean;
+    defaultValue?: number[];
+}
 
-function options(hi: number, lo: number) {
+
+function sliderRange(hi: number, lo: number) {
     return _.range(hi, lo).map(x => ({ value: x.toString(), label: x.toString() }));
 }
 
+function hi(i: ReactSelect.Option[]): number {
+    return parseInt(String(i[i.length - 1].value), 10);
+}
+
+function lo(i: ReactSelect.Option[]): number {
+    return parseInt(String(i[0].value), 10);
+}
+
 const RANGE = {
-    H: options(0, 179),
-    S: options(0, 255),
-    V: options(0, 255),
-    blur: options(0, 255),
-    morph: options(0, 255),
-    iterations: options(0, 25)
+    H: sliderRange(0, 179),
+    S: sliderRange(0, 255),
+    V: sliderRange(0, 255),
+    blur: sliderRange(0, 255),
+    morph: sliderRange(0, 255),
+    iterations: sliderRange(0, 25)
 };
-console.log(456)
 
 @connect((state: Everything) => state)
-export class WeedDetector extends React.Component<Everything, DetectorState> {
+export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
         super();
         this.state = {
@@ -58,11 +74,33 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
 
     componentDidMount() {
         let img = document.querySelector(".weed-detector-widget img");
-
     }
 
-    handleColorChange() { }
+    changeNumber(val: keyof DetectorState) {
+        return (choice?: ReactSelect.Option) => {
+            let num;
+            if (choice) {
+                num = parseInt(String(choice.value), 10);
+                if (!_.isNaN(num)) {
+                    // TODO: Update to latest Typescript typings so we can use Partial<T>.
+                    let omg = { [val]: num };
+                    console.log(`
+                    choice?: ${JSON.stringify(choice)};
+                    num: ${num};
+                    val: ${val};
+                    omg: ${JSON.stringify(omg)}
+                    `);
+                    return this.setState(omg);
+                }
+            } else {
+                throw new Error(`Bad data. choice: ${choice}; num: ${num}; val: ${val}`);
+            }
+        };
+    }
 
+    handleColorChange() {
+        console.log("?????????")
+    }
     toggleEdit() {
         this.setState({ isEditing: !this.state.isEditing });
     }
@@ -124,25 +162,35 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                                                 </h4>
 
                                                 <label htmlFor="hue">HUE</label>
-                                                <Slider onChange={this.onSliderChange}
+                                                <Slider
+                                                    onChange={this.onSliderChange}
+                                                    min={lo(RANGE.H)}
+                                                    max={hi(RANGE.H)}
                                                     onAfterChange={this.onAfterChange}
-                                                    range={true} allowCross={true}
-                                                    defaultValue={[this.state.HUELow,
-                                                    this.state.HUEHigh]} />
+                                                    range={true}
+                                                    allowCross={true}
+                                                    defaultValue={[(this.state.HUELow || 0),
+                                                    (this.state.HUEHigh || 5)]} />
 
                                                 <label htmlFor="saturation">SATURATION</label>
                                                 <Slider onChange={this.onSliderChange}
+                                                    min={lo(RANGE.S)}
+                                                    max={hi(RANGE.S)}
                                                     onAfterChange={this.onAfterChange}
-                                                    range={true} allowCross={true}
-                                                    defaultValue={[this.state.saturationLow,
-                                                    this.state.saturationHigh]} />
+                                                    range={true}
+                                                    allowCross={true}
+                                                    defaultValue={[
+                                                        (this.state.saturationLow || 0),
+                                                        (this.state.saturationHigh || 5)]} />
 
                                                 <label htmlFor="value">VALUE</label>
                                                 <Slider onChange={this.onSliderChange}
+                                                    min={lo(RANGE.V)}
+                                                    max={hi(RANGE.V)}
                                                     onAfterChange={this.onAfterChange}
                                                     range={true} allowCross={true}
-                                                    defaultValue={[this.state.valueLow,
-                                                    this.state.valueHigh]} />
+                                                    defaultValue={[(this.state.valueLow || 1),
+                                                    (this.state.valueHigh || 5)]} />
                                             </div>
                                             <div className="col-md-6 col-sm-12">
                                                 <ChromePicker
@@ -160,22 +208,25 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                                             <div className="col-md-4 col-sm-4">
                                                 <label>BLUR</label>
                                                 <Select
-                                                    options={[]}
-                                                    value={this.state.blur} />
+                                                    onChange={this.changeNumber("blur")}
+                                                    options={RANGE.blur}
+                                                    value={"FOO" || this.state.blur} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>MORPH</label>
                                                 <Select
-                                                    options={[]}
-                                                    value={this.state.blur} />
+                                                    onChange={this.changeNumber("morph")}
+                                                    options={RANGE.morph}
+                                                    value={this.state.morph} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
-                                                <label>ITERATION</label>
+                                                <label>ITERATION {this.state.iterations}</label>
                                                 <Select
-                                                    options={[]}
-                                                    value={this.state.blur} />
+                                                    onChange={this.changeNumber("iterations")}
+                                                    options={RANGE.iterations}
+                                                    value={this.state.iterations} />
                                             </div>
                                         </div>
                                         <ImageFlipper images={this.props.sync.images} />
