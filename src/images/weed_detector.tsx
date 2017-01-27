@@ -6,10 +6,27 @@ import { t } from "i18next";
 import { ChromePicker } from "react-color";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
+import * as ReactSelect from "react-select";
+import { range } from "lodash";
 
-// No "import" support for this lib :(
-let Slider = require("rc-slider");
+// TODO: This is a custom type definition that is stubbed to an `any` for now.
+//       We need real typings for this.
+var Slider = require("rc-slider");
 require("rc-slider/assets/index.css");
+
+function options(hi: number, lo: number) {
+    return _.range(hi, lo).map(x => ({ value: x.toString(), label: x.toString() }));
+}
+
+const RANGE = {
+    H: options(0, 179),
+    S: options(0, 255),
+    V: options(0, 255),
+    blur: options(0, 255),
+    morph: options(0, 255),
+    iterations: options(0, 25)
+};
+console.log(456)
 
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, DetectorState> {
@@ -142,23 +159,23 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>BLUR</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <Select
+                                                    options={[]}
+                                                    value={this.state.blur} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>MORPH</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <Select
+                                                    options={[]}
+                                                    value={this.state.blur} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>ITERATION</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <Select
+                                                    options={[]}
+                                                    value={this.state.blur} />
                                             </div>
                                         </div>
                                         <ImageFlipper images={this.props.sync.images} />

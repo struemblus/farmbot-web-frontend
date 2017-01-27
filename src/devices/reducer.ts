@@ -46,8 +46,11 @@ let initialState: BotState = {
         pins: {},
         configuration: {},
         informational_settings: {},
-        farm_scheduler: {
-            process_info: [],
+        user_env: {},
+        process_info: {
+            farmwares: [],
+            regimens: [],
+            farm_events: []
         }
     },
     settingsBuffer: {},
