@@ -81,15 +81,14 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             mobileNavExpanded: false,
             tickerExpanded: false
         };
-        this.hoverToggleTicker = this.hoverToggleTicker.bind(this);
-        this.clickToggleTicker = this.clickToggleTicker.bind(this);
+        this.toggleTicker = this.toggleTicker.bind(this);
         this.toggleNav = this.toggleNav.bind(this);
         this.logout = this.logout.bind(this);
     }
 
     toggleNav() {
         /** Don't let user scroll when nav is open */
-        document.body.classList.toggle("freeze");
+        // document.body.classList.toggle("freeze");
         this.setState({
             mobileNavExpanded: !this.state.mobileNavExpanded
         });
@@ -99,25 +98,14 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         Session.clear(true);
     }
 
-    hoverToggleTicker() {
-        /** Hack to prevent ui bugs */
-        var width = Math.max(document.documentElement.clientWidth,
-            window.innerWidth || 0);
-        if (width <= 830) { return; }
-        /** Don't let user scroll when nav is open */
-        document.body.classList.toggle("freeze");
-        this.setState({
-            tickerExpanded: !this.state.tickerExpanded
-        });
+    get width() {
+        return Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
     }
 
-    clickToggleTicker() {
-        /** Hack to prevent ui bugs */
-        var width = Math.max(document.documentElement.clientWidth,
-            window.innerWidth || 0);
-        if (width >= 830) { return; }
+    toggleTicker() {
+        if (this.width >= 830) { return; }
         /** Don't let user scroll when nav is open */
-        document.body.classList.toggle("freeze");
+        // document.body.classList.toggle("freeze");
         this.setState({
             tickerExpanded: !this.state.tickerExpanded
         });
@@ -127,7 +115,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
         // The way our app is laid out, we'll pretty much always want this bit.
         let pageName = this.props.location.pathname.split("/")[2] || "";
-        let { toggleNav, logout, hoverToggleTicker, clickToggleTicker } = this;
+        let { toggleNav, logout, toggleTicker } = this;
         let isActive = this.state.tickerExpanded ? "active" : "";
 
         return <nav role="navigation">
@@ -191,9 +179,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             <EStopButton { ...this.props } />
 
             <div className={`ticker-list ${isActive}`}
-                onClick={() => { clickToggleTicker(); }}
-                onMouseEnter={() => { setTimeout(function () { hoverToggleTicker(); }, 500); }}
-                onMouseLeave={() => { hoverToggleTicker(); }}>
+                onClick={() => { toggleTicker(); }}>
                 {this.props.sync.logs.map((log, index) => {
                     let time = moment.utc(log.created_at).local().format("h:mm a");
                     return <div key={index} className="status-ticker-wrapper">
