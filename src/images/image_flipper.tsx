@@ -1,5 +1,4 @@
 import { Image } from "./interfaces";
-import { withinBounds } from "../util";
 import * as React from "react";
 
 export interface ImageFlipperProps {
@@ -36,26 +35,32 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         }
     }
 
+    get next() {
+        return this.props.images[this.state.currentInx + 1];
+    }
+
+    get prev() {
+        return this.props.images[this.state.currentInx - 1];
+    }
+
     up() {
-        let next = this.state.currentInx + 1;
-        if (withinBounds(this.props.images, next)) {
-            this.setState({ currentInx: next });
+        if (this.next) {
+            let num = this.state.currentInx + 1;
+            this.setState({ currentInx: _.min([this.props.images.length - 1, num]) });
         }
     }
 
     down() {
-        let next = this.state.currentInx - 1;
-        if (withinBounds(this.props.images, next)) {
-            this.setState({ currentInx: next });
+        if (this.prev) {
+            let num = this.state.currentInx - 1;
+            this.setState({ currentInx: _.max([0, num]) });
         }
     }
 
     render() {
-        let upOK = withinBounds(this.props.images, this.state.currentInx + 1);
-        let downOK = withinBounds(this.props.images, this.state.currentInx - 1);
         return <div>
-            <button onClick={this.down} disabled={downOK}>Prev</button>
-            <button onClick={this.up} disabled={upOK}>Next</button>
+            <button onClick={this.up}>Next></button>
+            <button onClick={this.down}>Prev</button>
             {this.image()}
         </div>;
     }
