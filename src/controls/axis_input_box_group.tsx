@@ -30,8 +30,14 @@ export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
     }
 
     get vector() {
-        let [x, y, z] = this.props.bot.hardware.location;
-        return { ...{ x, y, z }, ...this.state };
+        let {x, y, z} = this.state;
+        let [x2, y2, z2] = this.props.bot.hardware.location;
+
+        return {
+            x: _.isNumber(x) ? x : x2,
+            y: _.isNumber(y) ? y : y2,
+            z: _.isNumber(z) ? z : z2
+        };
     }
 
     clicked() {
