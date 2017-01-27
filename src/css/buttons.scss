@@ -63,6 +63,15 @@ button {
             background-color: darken($yellow, 10%);
         }
     }
+    &.orange {
+        background-color: $orange;
+        float: right;
+        color: $dark_gray;
+        border-bottom: solid $dark_orange;
+        &:hover {
+            background-color: darken($orange, 10%);
+        }
+    }
     &.cyan {
         background-color: $cyan;
         float: right;

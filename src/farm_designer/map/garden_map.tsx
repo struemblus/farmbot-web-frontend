@@ -4,7 +4,6 @@ import { Plant, PlantOptions } from "../plant";
 import { savePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import * as Snap from "snapsvg";
 import { Plant as IPlant } from "../interfaces";
 import { DraggableSvgImage } from "../draggable_svg_image";
 interface GardenMapProps extends Everything {

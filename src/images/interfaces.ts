@@ -15,3 +15,19 @@ export interface Image {
         z: number | undefined;
     };
 }
+
+export interface DetectorState {
+    isEditing?: boolean;
+    HUELow?: number;
+    HUEHigh?: number;
+    saturationLow?: number;
+    saturationHigh?: number;
+    valueLow?: number;
+    valueHigh?: number;
+    blur?: number;
+    morph?: number;
+    iterations?: number;
+    time?: string;
+    location?: string;
+}
+

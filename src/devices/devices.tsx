@@ -24,7 +24,7 @@ import {
 import { t } from "i18next";
 import * as _ from "lodash";
 import { McuParams } from "farmbot";
-import { WeedDetector } from "./components/weed_detector";
+import { WeedDetector } from "../images";
 
 interface UpdateButtonProps {
     bot: BotState;
@@ -548,7 +548,7 @@ Factory resetting your FarmBot will destroy all data on the device, revoking you
                                 </div>
                             </div>
                         </div>
-                        {/*<WeedDetector {...this.props} />*/}
+                        <WeedDetector {...this.props} />
                     </div>
                 </div>
             </div>;

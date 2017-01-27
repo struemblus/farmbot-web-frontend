@@ -127,6 +127,10 @@
         background: $light_gray;
         padding-bottom: 1rem;
     }
+    &.execute-script-step {
+        background: $light_red;
+        padding-bottom: 1rem;
+    }
     &.if-step {
         background: $light_purple;
         h4 {
