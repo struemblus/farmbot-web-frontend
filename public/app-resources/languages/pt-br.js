@@ -25,6 +25,32 @@ module.exports = {
   "You may need to upgrade FarmBot OS. " :  "Talvez você tenha que aprimorar o o Sistema Operacional do Farmbot. ",
   "Please upgrade FarmBot OS and log back in." :  "Por favor faça um upgrade do Sistema Operacional e tente novamente.",
   "CALIBRATE {{axis}}" ; "CALIBRAR {{axis}}",
+  "UP TO DATE" : "ATUALIZADO",
+  "UPDATE" : "ATUALIZAR",
+  "Auto Updates?" : "Atualizações Automáticas?",
+  "DEVICE" : "DISPOSITIVO",
+  "NAME" : "NOME";
+  "NETWORK" : "REDE",
+  "CONTROLLER" ; "CONTROLADOR",
+  "FIRMWARE" : "FIRMWARE",
+  "Version" : "Versão",
+  "Not Connected to bot" : "Não está conectado ao farmbot",
+  "RESTART FARMBOT" : "REINICIAR O FARMBOT",
+  "RESTART" : "REINICIAR",
+  "SHUTDOWN FARMBOT" : "DESLIGAR O FARMBOT",
+  "SHUTDOWN" : "DESLIGAR",,
+  "RESET" : "RESETAR TUDO",
+  "Factory Reset" : "Redefinir Todas as Configurações para o padrão de Fábrica",
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
+  ,
   
   
   // BELOW LINES ARE FOR TEST PURPOSES ONLY - DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING!
@@ -32,17 +58,23 @@ module.exports = {
   //"`User could not be updated: ${e.message}`" : "`Não foi possível atualizar o usuário: ${e.message}`",
   //"Impossible" :"Impossível",
   //"You have been logged out." "Você encerrou sua sessão.",
+  
   //`Use these manual control buttons to move FarmBot in realtime. Press the arrows for relative movements or type in new coordinates and press GO for an absolute movement.   Tip: Press the Home button when you are done so FarmBot is ready to get back to work.` : `Utilize estes botões de controle manual para movimentar o FarmBot em tempo real.  Pressione as setas para movimentar ou insira novas cordenadas e aperte o  botão IR para um movimento mais preciso. Dica: Aperte o botão de Início quando terminar para que o Farmbot saiba que deve voltar ao trabalho.`,
+  
   //`Press the edit button to update and save your webcam URL.` :   //`Pressione o botão de editar para atualizar e salvar a URL de sua webcam.`,
+ 
   //`Use these toggle switches to control FarmBot's peripherals in realtime. To edit and create new peripherals, press the EDIT button. Make sure to turn things off when you're done!` : `Use esses controles para  controlar os periféricos do Farmbot em tempo real. Para editar e criar novos periféricos, pressione o botão EDITAR. Tenha certeza de desligar tudo quando acabar!`
+  
   //`Tried to connect to null bot.You probably meant to set a bot first.` : `Tentou conectar a um farmbot inexistente. Você provavelmente esqueceu de configurar seu farmbot.`
+  
   //" request sent to device." : " solicitação enviada ao dispositivo."
   //"Setting toggle" : "Configuração de alternadores",
   //"Relative movement" : "Movimento Simples"
   //"Absolute movement" : "Movimento Preciso"
-  //
-  //
-  //
+  //`This widget` : `este widget`,
+  //`This will restart FarmBot's Raspberry` : `Isto irá reiniciar o equipamento Raspberry do FarmBot`,
+  //`This will shutdown FarmBot's Raspberry Pi`. : `Isto irá desligar o  Raspberry Pi do FarmBot`.
+  //`Change settings` : `Alterar configurações`,
   //
   //
   
