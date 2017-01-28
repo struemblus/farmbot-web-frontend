@@ -17,6 +17,14 @@ module.exports = {
   "Pin {{num}}" : "PIN - Número de Identificação Pessoal {{num}}",
   "no" : "não",
   "yes" : "sim",
+  "Farmbot Didn't Get That!" : "Comando inválido!",
+  "Could not download OS update information." : "Não foi possível transferir as informações de atualização do Sistema Operacional.",
+  "Could not download firmware update information." : "Não foi possível transferir as informações de atualização do Firmware do dispositivo.",
+  "Could not fetch bot status. Is FarmBot online?" : "Não foi possível verificar o estado do farmbot. Verifique se o mesmo se encontra conectado",
+  "FarmBot sent a malformed message. " : "O FarmBot está enviando mensagens truncadas. ",
+  "You may need to upgrade FarmBot OS. " :  "Talvez você tenha que aprimorar o o Sistema Operacional do Farmbot. ",
+  "Please upgrade FarmBot OS and log back in." :  "Por favor faça um upgrade do Sistema Operacional e tente novamente.",
+  "CALIBRATE {{axis}}" ; "CALIBRAR {{axis}}",
   
   
   // BELOW LINES ARE FOR TEST PURPOSES ONLY - DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING!
@@ -28,8 +36,16 @@ module.exports = {
   //`Press the edit button to update and save your webcam URL.` :   //`Pressione o botão de editar para atualizar e salvar a URL de sua webcam.`,
   //`Use these toggle switches to control FarmBot's peripherals in realtime. To edit and create new peripherals, press the EDIT button. Make sure to turn things off when you're done!` : `Use esses controles para  controlar os periféricos do Farmbot em tempo real. Para editar e criar novos periféricos, pressione o botão EDITAR. Tenha certeza de desligar tudo quando acabar!`
   //`Tried to connect to null bot.You probably meant to set a bot first.` : `Tentou conectar a um farmbot inexistente. Você provavelmente esqueceu de configurar seu farmbot.`
+  //" request sent to device." : " solicitação enviada ao dispositivo."
+  //"Setting toggle" : "Configuração de alternadores",
+  //"Relative movement" : "Movimento Simples"
+  //"Absolute movement" : "Movimento Preciso"
   //
   //
+  //
+  //
+  //
+  
 
   
   
