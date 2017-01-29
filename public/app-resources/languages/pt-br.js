@@ -206,27 +206,5 @@ module.exports = {
   //`This is a list of all of your regimens. Click one to begin editing it.` : `Esta é uma lista de todas as suas programações. Clique em uma delas para editá-la.`,
   //`Here is the list of all of your sequences. Click one to edit.` : `Aqui fica a lista de suas sequências. Clique em uma para editá-la.`
   //`Drag and drop commands here to create sequences for watering, planting seeds, measuring soil properties, and more. Press the Test button to immediately try your sequence with FarmBot. You can also edit, copy, and delete existing sequences; assign a color; and give your commands custom names.` : `Arraste e solte comandos aqui para criar sequências de irrigação, plantio de sementes, medição de propriedades do solo e outras. Aperte o obtão Testar para testar sua sequência com o FarmBot. Você também pode editar, copiar e excluir sequências existentes; atribuir cores; e dar nomes personalizados aos seus comandos.`
-  //
-  //
-  //
-  //
-  //
-  //
-  
-  
-  
-  
-
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+    
 }
