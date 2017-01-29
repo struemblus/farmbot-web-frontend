@@ -3,7 +3,6 @@ module.exports = {
   "ACCELERATE FOR (steps)" : "Acelerar n (passos)",
   "ALLOW NEGATIVES" : "PERMITIR NEGATIVAS",
   "BACK" : "VOLTAR",
-  "BACK" ; "VOLTAR",
   "CALIBRATE {{axis}}" ; "CALIBRAR {{axis}}",
   "CALIBRATION" : "CALIBRAÇÃO",
   "CONTROLLER" ; "CONTROLADOR",
