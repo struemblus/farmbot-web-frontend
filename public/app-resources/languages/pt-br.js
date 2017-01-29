@@ -85,6 +85,14 @@ module.exports = {
   "Create An Account" : "Criar uma conta",
   "Verfy Password" : "Verifique sua senha",
   "Create Account" : "Criar conta",
+  "TEST" ; "TESTAR",
+  "BACK" ; "VOLTAR",
+  "Weed Detector" ; "Detector de Ervas Daninhas",
+  "EDIT" : "EDITAR",
+  "Account Settings" : "Configurações de Conta",
+  "Logout" : "Encerrar Sessão",
+  ,
+  ,
   ,
   ,
   ,
@@ -93,9 +101,9 @@ module.exports = {
   
   // BELOW LINES ARE FOR TEST PURPOSES ONLY - DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING!
   //"Enter your password to delete your account." : "Digite sua senha pra excluir a conta.",
-  //"`User could not be updated: ${e.message}`" : "`Não foi possível atualizar o usuário: ${e.message}`",
+  //`User could not be updated: ${e.message}` : "`Não foi possível atualizar o usuário: ${e.message}`,
   //"Impossible" :"Impossível",
-  //"You have been logged out." "Você encerrou sua sessão.",
+  //"You have been logged out." "Sessão encerrada.",
   
   //`Use these manual control buttons to move FarmBot in realtime. Press the arrows for relative movements or type in new coordinates and press GO for an absolute movement.   Tip: Press the Home button when you are done so FarmBot is ready to get back to work.` : `Utilize estes botões de controle manual para movimentar o FarmBot em tempo real.  Pressione as setas para movimentar ou insira novas cordenadas e aperte o  botão IR para um movimento mais preciso. Dica: Aperte o botão de Início quando terminar para que o Farmbot saiba que deve voltar ao trabalho.`,
   
@@ -105,7 +113,7 @@ module.exports = {
   
   //`Tried to connect to null bot.You probably meant to set a bot first.` : `Tentou conectar a um farmbot inexistente. Você provavelmente esqueceu de configurar seu farmbot.`
   
-  //" request sent to device." : " solicitação enviada ao dispositivo."
+  //"request sent to device." : " solicitação enviada ao dispositivo."
   //"Setting toggle" : "Configuração de alternadores",
   //"Relative movement" : "Movimento Simples"
   //"Absolute movement" : "Movimento Preciso"
@@ -113,7 +121,7 @@ module.exports = {
   //`This will restart FarmBot's Raspberry` : `Isto irá reiniciar o equipamento Raspberry do FarmBot`,
   //`This will shutdown FarmBot's Raspberry Pi`. : `Isto irá desligar o  Raspberry Pi do FarmBot`.
   //`Change settings` : `Alterar configurações`,
-  //
+  //`Detect Weeds` : `Detectar Ervas Daninhas`
   //
   
 
