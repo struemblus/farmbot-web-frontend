@@ -8,31 +8,41 @@ module.exports = {
   "CONTROLLER" ; "CONTROLADOR",
   "DELETE ACCOUNT" : "EXCLUIR A CONTA",
   "DEVICE" : "DISPOSITIVO",
+  "DRAG STEP HERE" : "COLOQUE AS ETAPAS AQUI",
   "EDIT" : "EDITAR",
   "ENABLE ENCODERS" : "HABILITAR CODIFICADORES",
+  "EXECUTE SEQUENCE" : "EXECUTAR SEQUÊNCIA",
+  "EXECUTE SCRIPT" : "EXECUTAR ROTINA",
   "FIRMWARE" : "FIRMWARE",
+  "IF STATEMENT" : "DECLARAÇÃO DO TIPO `SE` (PROGRAMAÇÃO)",
   "INVERT ENDPOINTS" : "INVERTER EXTREMIDADES",
   "INVERT MOTORS" : "INVERTER MOTORES",
   "LENGTH (m)" : "COMPRIMENTO (m)",
   "MAX SPEED (mm/s)" : "VELOCIDADE MÁXIMA (mm/s)",
+  "MOVE ABSOLUTE" : "MOVER COM PRECISÃO",
   "MOVE AMOUNT (mm)" : "DISTÂNCIA DO MOVIMENTO (mm)",
+  "MOVE RELATIVE" : "MOVER (MENOR PRECISÃO)",
   "NAME" : "NOME";
   "NETWORK" : "REDE",
+  "READ PIN" : "EFETUAR LEITURA DO PIN",
   "RESET" : "RESETAR TUDO",
   "RESTART FARMBOT" : "REINICIAR O FARMBOT",
   "RESTART" : "REINICIAR",
   "SAVE" : "SALVAR",
+  "SEND MESSAGE" : "ENVIAR MESSAGEM",
   "SHUTDOWN FARMBOT" : "DESLIGAR O FARMBOT",
   "SHUTDOWN" : "DESLIGAR",
   "TEST" ; "TESTAR",
   "TIMEOUT AFTER (seconds)" : "TEMPO LIMITE DE X (segundos)",
   "UP TO DATE" : "ATUALIZADO",
   "UPDATE" : "ATUALIZAR",
+  "WAIT" : "AGUARDAR",
+  "WRITE PIN" : "GRAVAR Nº PIN",
   "X AXIS" : "EIXO X",
   "Y AXIS" : "EIXO Y",
   "Z AXIS" : "EIXO Z",
 
-  //ACCOUNT TEXT
+  //ACCOUNT & LOGIN TEXTS
   "Account Settings" : "Configurações de Conta",
   "Change Password" : "Alterar Senha",
   "Confirm Password" : "Confirmar Senha"
@@ -41,6 +51,7 @@ module.exports = {
   "Email" : "E-mail",
   "Enter Email" : "Digite seu e-mail",
   "Enter Password": "Digite sua Senha",
+  "Enter your password to delete your account." : "Digite sua senha pra excluir a conta.",
   "Forgot Password" : "Esqueci minha senha",
   "Login" : "Entrar",
   "Logout" : "Encerrar Sessão",
@@ -52,6 +63,7 @@ module.exports = {
   "Reset Password" : "Redefinir Senha",
   "Send Password reset" : "Solicitar nova senha",
   "Verfy Password" : "Verifique sua senha",
+  "You have been logged out." : "Sessão encerrada.",
   "Your Name" : "Seu Nome",
 
   //UPDATE TEXT
@@ -83,19 +95,25 @@ module.exports = {
   "Tried to save plant, but couldn't." : "Não foi possível salvar os dados desta planta.",
   "Unable to download device credentials" : "Não foi possível transferir as credenciais do dispositivo",
   "User successfully updated." : "Usuário atualizado.",
-  "You may need to upgrade FarmBot OS. " : "Talvez você tenha que aprimorar o o Sistema Operacional do Farmbot. ",
-  
+  "You may need to upgrade FarmBot OS. " : "Talvez você tenha efetuar um upgrade do Sistema Operacional do Farmbot. ",  
 
   //OTHERS/GENERAL WORDS
   "Add" : "Adicionar",
+  "Copy" : "Copiar",
   "Day {{day}}": "Dia {{day}}",
   "Delete" : "Excluir",
   "Edit" : "Editar",
+  "Move Absolute" : "Mover com Precisão",
+  "Move Relative" : "Mover (Sem precisão)",
   "no" : "não",
   "Parameters" : "Parâmetros",
   "Repeats Every" : "Repete a cada",
   "Reset" : "Redefinir",
   "Save" : "Salvar",
+  "Save & Run" : "Salvar & Executar",
+  "Sequence" : "Sequência",
+  "Sequence Editor" : "Editor de Sequências",
+  "Sequences" : "Sequências",
   "Server Port" : "Porta do Servidor",
   "Server URL" : "URL do Servidor",
   "Starts" : "Inicia em",
@@ -106,6 +124,7 @@ module.exports = {
   "Weed Detector" : "Detector de Ervas Daninhas",
   "Week" : "Semana",
   "We're sorry to see you go. :(" : "É uma pena que você tenha de ir. :( ",
+  "Write Pin" : "Gravar Nº PIN",
   "yes" : "sim",
 
   //REGIMEN & SEQUENCES
@@ -118,17 +137,18 @@ module.exports = {
   "Select a regimen or create one first." : "Selecione uma programação. Você deve criar a sua, se ainda não tiver feito isso.",
   "Select a sequence from the dropdown first." : "Selecione uma sequência da lista primeiro.",
   "This regimen is currently empty." : "Esta programação não possui nenhuma sequência agendada."
-  "Unable to delete regimen." ; "Erro ao deletar programação.",
+  "Unable to delete regimen." : "Erro ao deletar programação.",
+  "Unable to delete sequence" : "Erro ao deletar sequência.",
+  "Unable to save '{{SequenceName}}'" : "Não foi possível salvar '{{SequenceName}}'",
   "Unable to save regimen." : "A programação não pode ser salva.",
   
   
   
   // BELOW LINES ARE FOR TEST PURPOSES ONLY - DO NOT UNCOMMENT UNLESS YOU KNOW WHAT YOU ARE DOING!
   
-  //ACCOUNT MESSAGES
-  //"Enter your password to delete your account." : "Digite sua senha pra excluir a conta.",
+  //ACCOUNT MESSAGES  
   //`User could not be updated: ${e.message}` : "`Não foi possível atualizar o usuário: ${e.message}`,
-  //"You have been logged out." "Sessão encerrada.",
+  //
   
   //GENERAL TEXTS
   //"Absolute movement" : "Movimento Preciso"
@@ -154,8 +174,8 @@ module.exports = {
   //`Regimens allow FarmBot to take care of a plant throughout its entire life. A regimen consists of many sequences that are scheduled to run based on the age of the plant. Regimens are applied to plants from the farm designer (coming soon) and can be re-used on many plants growing at the same or different times. Multiple regimens can be applied to any one plant.` : `As programações permitem que o FarmBot cuide de uma planta ao longo de toda a vida dela. Uma programação consiste em várias sequências que tem sua execução agendada  de acordo com a idade da planta. As programações são aplicadas às plantas a partir do Planejador de hortas (disponível em breve) e podem ser reutilizadas  em várias plantas  de idades iguais ou diferentes. Várias programações podem ser atribuídas à uma mesma planta.`,
   //`Add sequences to this Regimen by using the "scheduler"` : `Adicione Sequências à esta programação utilizando o "agendador"`,
   //`This is a list of all of your regimens. Click one to begin editing it.` : `Esta é uma lista de todas as suas programações. Clique em uma delas para editá-la.`,
-  //
-  //
+  //`Here is the list of all of your sequences. Click one to edit.` : `Aqui fica a lista de suas sequências. Clique em uma para editá-la.`
+  //`Drag and drop commands here to create sequences for watering, planting seeds, measuring soil properties, and more. Press the Test button to immediately try your sequence with FarmBot. You can also edit, copy, and delete existing sequences; assign a color; and give your commands custom names.` : `Arraste e solte comandos aqui para criar sequências de irrigação, plantio de sementes, medição de propriedades do solo e outras. Aperte o obtão Testar para testar sua sequência com o FarmBot. Você também pode editar, copiar e excluir sequências existentes; atribuir cores; e dar nomes personalizados aos seus comandos.`
   //
   //
   //
