@@ -76,6 +76,7 @@ module.exports = {
   "Camera" : "Câmera",
   "Could not download firmware update information." : "Não foi possível transferir as informações de atualização do Firmware do dispositivo.",
   "Could not download OS update information." : "Não foi possível transferir as informações de atualização do Sistema Operacional.",
+  "Could not download sync data" : "Não foi possível transferir os dados de sincronização",
   "Could not fetch bot status. Is FarmBot online?" : "Não foi possível verificar o estado do farmbot. Verifique se o mesmo se encontra conectado",
   "Couldn\'t save device." : "Não foi possível salvar dados sobre o o dispositivo",
   "downloading device credentials" : "transferindo credenciais do dispositivo",
@@ -90,6 +91,8 @@ module.exports = {
   "Not Connected to bot" : "Não está conectado ao FarmBot",
   "Please upgrade FarmBot OS and log back in." : "Por favor faça um upgrade do Sistema Operacional e tente novamente.",
   "Socket Connection Established" : "Conexão com os soquetes estabelecida",
+  "ToolBay saved." : "Compartimento de Ferramentas salvo comm sucesso.",
+  "Tools saved." : "Ferramentas salvas com sucesso.",
   "Tried to delete plant, but couldn't." : "Não foi possível excluir esta planta.",
   "Tried to move plant, but couldn't." : "Não foi possível mover esta planta.",
   "Tried to save plant, but couldn't." : "Não foi possível salvar os dados desta planta.",
@@ -131,6 +134,7 @@ module.exports = {
   "Starts" : "Inicia em",
   "Steps per MM" : "Passos por unidade MM",
   "Time" : "Tempo",
+  "Time in milliseconds" : "Tempo em milisegundos",
   "Until" : "Até",
   "Variable" : "Variável",
   "Value" : "Valor",
@@ -170,7 +174,7 @@ module.exports = {
   
   //ACCOUNT MESSAGES  
   //`User could not be updated: ${e.message}` : "`Não foi possível atualizar o usuário: ${e.message}`,
-  //
+  //"saves new user password" : "salva a nova senha do usuário",
   
   //GENERAL TEXTS
   //"Absolute movement" : "Movimento Preciso"
@@ -189,6 +193,9 @@ module.exports = {
   //"request sent to device." : " solicitação enviada ao dispositivo."
   //`This will restart FarmBot's Raspberry` : `Isto irá reiniciar o equipamento Raspberry do FarmBot`,
   //`This will shutdown FarmBot's Raspberry Pi`. : `Isto irá desligar o  Raspberry Pi do FarmBot`.
+  //`ToolBay could not be updated: ${e.message}` : `O Compartimento de Ferramentas não pode ser atualizado: ${e.message}`
+  //`Toolbays are where you store your FarmBot Tools. Each Toolbay has Slots that you can put your Tools in, which should be reflective of your real FarmBot hardware configuration.` : `Toolbays (Compartimento de Ferramentas) é onde você armazena as Ferramentas do FarmBot. Cada Compartimento tem um slot (fendas) nas quais você pode colocar suas Ferramentas. Essas ferramentas devem ser iguais às da configuração de hardware do seu FarmBot.`
+  //`This is a list of all your FarmBot Tools. Click the Edit button to add, edit, or delete tools.` : `Esta é uma lista de todas as suas Ferramentas do FarmBot. Clique em Editar para adicionar, editar ou excluir ferramentas.`
   
   //REGIMEN & SEQUENCES
   //`Use this tool to schedule sequences to run on one or many days of your regimen.` : `Use esta ferramenta para agendar sequências a serem executadas em um ou mais dias de sua programação.`,
