@@ -69,7 +69,25 @@ module.exports = {
   "Tried to save plant, but couldn't." : "Não foi possível salvar os dados desta planta.",
   "Tried to move plant, but couldn't." : "Não foi possível mover esta planta.",
   "Tried to delete plant, but couldn't." : "Não foi possível excluir esta planta.",
-  
+  "Sequence or Regimen" : "Sequência ou Regime",
+  "Parameters" : "Parâmetros",
+  "Starts" ; "Inicia em",
+  "Repeats Every" : "Repete a cada",
+  "Until" : "Até",
+  "Login" : "Entrar",
+  "Password" : "Senha",
+  "Server URL" : "URL do Servidor",
+  "Server Port" : "Porta do Servidor",
+  "Forgot Password" : "Esqueci minha senha",
+  "BACK" : "VOLTAR",
+  "Enter Email" : "Digite seu e-mail",
+  "Send Password reset" : "Solicitar nova senha",
+  "Create An Account" : "Criar uma conta",
+  "Verfy Password" : "Verifique sua senha",
+  "Create Account" : "Criar conta",
+  ,
+  ,
+  ,
   
   
   
