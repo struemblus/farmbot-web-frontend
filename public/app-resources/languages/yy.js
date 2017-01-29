@@ -1,3 +1,6 @@
+//This file serves as a model for future translations. 
+//Do not translate it directly, instead copy and paste the text into your language file.
+//Feel free to add new strings to this file.
 module.exports = {
   "ACCELERATE FOR (steps)" : "ACCELERATE FOR (steps)"
   "ALLOW NEGATIVES" : "ALLOW NEGATIVES"
