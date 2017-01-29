@@ -33,6 +33,7 @@ module.exports = {
   "SHUTDOWN FARMBOT" : "DESLIGAR O FARMBOT",
   "SHUTDOWN" : "DESLIGAR",
   "TEST" : "TESTAR",
+  "TOOL NAME" : "NOME DA FERRAMENTA",
   "TIMEOUT AFTER (seconds)" : "TEMPO LIMITE DE X (segundos)",
   "UP TO DATE" : "ATUALIZADO",
   "UPDATE" : "ATUALIZAR",
