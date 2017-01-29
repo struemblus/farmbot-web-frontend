@@ -1,6 +1,6 @@
 module.exports = {
   //WARNINGS & Capitalized text
-  "ACCELERATE FOR (steps)" : "Acelerar n (passos)",
+  "ACCELERATE FOR (steps)" : "ACELERAR n (passos)",
   "ALLOW NEGATIVES" : "PERMITIR NEGATIVAS",
   "BACK" : "VOLTAR",
   "CALIBRATE {{axis}}" ; "CALIBRAR {{axis}}",
@@ -32,10 +32,10 @@ module.exports = {
   "Y AXIS" : "EIXO Y",
   "Z AXIS" : "EIXO Z",
 
-
   //ACCOUNT TEXT
   "Account Settings" : "Configurações de Conta",
   "Change Password" : "Alterar Senha",
+  "Confirm Password" : "Confirmar Senha"
   "Create Account" : "Criar conta",
   "Create An Account" : "Criar uma conta",
   "Email" : "E-mail",
@@ -49,6 +49,7 @@ module.exports = {
   "Password" : "Senha",
   "Pin {{num}}" : "PIN - Número de Identificação Pessoal {{num}}",
   "Please enter a valid label and pin number." : "Por favor insira um marcador e um número PIN válidos.",
+  "Reset Password" : "Redefinir Senha",
   "Send Password reset" : "Solicitar nova senha",
   "Verfy Password" : "Verifique sua senha",
   "Your Name" : "Seu Nome",
@@ -83,14 +84,15 @@ module.exports = {
   "Unable to download device credentials" ; "Não foi possível transferir as credenciais do dispositivo",
   "User successfully updated." : "Usuário atualizado.",
   "You may need to upgrade FarmBot OS. " : "Talvez você tenha que aprimorar o o Sistema Operacional do Farmbot. ",
+  
 
-  //OTHERS
+  //OTHERS/GENERAL WORDS
   "Day {{day}}": "Dia {{day}}",
   "Edit" : "Editar",
   "no" : "não",
   "Parameters" : "Parâmetros",
   "Repeats Every" : "Repete a cada",
-  "Sequence or Regimen" : "Sequência ou Regime",
+  "Reset" : "Redefinir",  
   "Server Port" : "Porta do Servidor",
   "Server URL" : "URL do Servidor",
   "Starts" ; "Inicia em",
@@ -101,6 +103,14 @@ module.exports = {
   "We're sorry to see you go. :(" : "É uma pena que você tenha de ir. :( ",
   "yes" : "sim",
 
+  //REGIMEN
+  "Could not download regimens." : "Não foi possível transferir a programação para o FarmBot.",
+  "Sequence or Regimen" : "Sequência ou Regime",
+  "Regimen deleted." : "Programação excluída.",
+  "Regimen saved." : "Programação Salva.",
+  "Select a sequence from the dropdown first." : "Selecione uma sequência da lista primeiro.",
+  "Unable to delete regimen." ; "Erro ao deletar programação.",
+  "Unable to save regimen." : "A programação não pode ser salva.",
   
   
   
