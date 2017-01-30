@@ -1,13 +1,7 @@
 import "./css/_index.scss";
 import * as React from "react";
-import {
-    Provider
-} from "react-redux";
-import {
-    Router,
-    RedirectFunction,
-    RouterState
-} from "react-router";
+import { Provider } from "react-redux";
+import { Router, RedirectFunction, RouterState } from "react-router";
 import App from "./app";
 import { store } from "./redux/store";
 import { history } from "./history";
@@ -41,9 +35,19 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         }
     };
 
-    replaceIfDesktop(nextState: RouterState, replaceState: RedirectFunction) {
-        if (nextState.location.pathname === "/app/designer" && !isMobile()) {
-            replaceState(`${nextState.location.pathname}/plants`);
+    /** These methods are a way to determine how to load certain modules
+     * based on the device (mobile or desktop) for optimization/css purposes.
+     * Open to revision.
+     */
+    replaceDesignerModules(next: RouterState, replace: RedirectFunction) {
+        if (next.location.pathname === "/app/designer" && !isMobile()) {
+            replace(`${next.location.pathname}/plants`);
+        }
+    };
+
+    replaceSequencesModules(next: RouterState, replace: RedirectFunction) {
+        if (next.location.pathname === "/app/sequences" && isMobile()) {
+            replace(`${next.location.pathname}/`);
         }
     };
 
@@ -96,7 +100,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             },
             {
                 path: "app/designer",
-                onEnter: this.replaceIfDesktop.bind(this),
+                onEnter: this.replaceDesignerModules.bind(this),
                 getComponent(location: any, cb: any) {
                     System.import("./farm_designer/index.tsx").then(
                         (module: any) => cb(null, module.FarmDesigner)
@@ -172,8 +176,22 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             {
                 path: "app/sequences",
                 getComponent(location: any, cb: any) {
-                    System.import("./sequences/sequences.tsx").then(
-                        (module: any) => cb(null, module.Sequences)
+                    if (!isMobile()) {
+                        System.import("./sequences/sequences.tsx").then(
+                            (module: any) => cb(null, module.Sequences)
+                        ).catch(errorLoading);
+                    } else {
+                        System.import("./sequences/sequences_list.tsx").then(
+                            (module: any) => cb(null, module.SequencesList)
+                        ).catch(errorLoading);
+                    }
+                }
+            },
+            {
+                path: "app/sequences/:sequence",
+                getComponent(location: any, cb: any) {
+                    System.import("./tools/index.tsx").then(
+                        (module: any) => cb(null, module.Tools)
                     ).catch(errorLoading);
                 }
             },
