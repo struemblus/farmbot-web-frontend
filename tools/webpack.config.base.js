@@ -22,7 +22,8 @@ module.exports = function () {
             "bundle": path.resolve(__dirname, "../src/entry.tsx"),
             "front_page": "./src/front_page/index.tsx",
             "verification": "./src/verification.ts",
-            "password_reset": "./src/password_reset/index.tsx"
+            "password_reset": "./src/password_reset/index.tsx",
+            "tos_update": "./src/tos_update/index.tsx"
         },
         output: {
             path: path.resolve(__dirname, "../public"),
@@ -93,6 +94,13 @@ module.exports = function () {
                 filename: "password_reset.html",
                 outputPath: path.resolve(__dirname, "../public/"),
                 include: "password_reset"
+            }),
+            new FarmBotRenderer({
+                isProd: isProd,
+                path: path.resolve(__dirname, "../src/static/tos_update.hbs"),
+                filename: "tos_update.html",
+                outputPath: path.resolve(__dirname, "../public/"),
+                include: "tos_update"
             })
         ],
 
