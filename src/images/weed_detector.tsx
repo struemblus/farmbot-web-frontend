@@ -6,13 +6,46 @@ import { t } from "i18next";
 import { ChromePicker } from "react-color";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
-
-// No "import" support for this lib :(
-let Slider = require("rc-slider");
+import * as ReactSelect from "react-select";
+import { range } from "lodash";
+import { devices } from "../device";
+// TODO: Submit typings for RC slider.
+var Slider = require("rc-slider") as (props: TodoFixThis) => JSX.Element;
 require("rc-slider/assets/index.css");
+interface TodoFixThis {
+    onChange?: (val: number) => void;
+    min?: number;
+    max?: number;
+    onAfterChange?: (val: number) => void;
+    range?: boolean;
+    allowCross?: boolean;
+    defaultValue?: number[];
+}
+
+
+function sliderRange(hi: number, lo: number) {
+    return _.range(hi, lo).map(x => ({ value: x.toString(), label: x.toString() }));
+}
+
+function hi(i: ReactSelect.Option[]): number {
+    return parseInt(String(i[i.length - 1].value), 10);
+}
+
+function lo(i: ReactSelect.Option[]): number {
+    return parseInt(String(i[0].value), 10);
+}
+
+const RANGE = {
+    H: sliderRange(0, 179),
+    S: sliderRange(0, 255),
+    V: sliderRange(0, 255),
+    blur: sliderRange(0, 255),
+    morph: sliderRange(0, 255),
+    iterations: sliderRange(0, 25)
+};
 
 @connect((state: Everything) => state)
-export class WeedDetector extends React.Component<Everything, DetectorState> {
+export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
         super();
         this.state = {
@@ -30,24 +63,34 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
             location: "230, 489, -6,890"
         };
     }
-
-    onSliderChange(val: number) {
-        console.log(val);
+    sendOffConfig() {
+        let s = this.state;
+        devices
+            .current
+            .setUserEnv({
+                "PLANT_DETECTION.HUELow": String(s.HUELow),
+                "PLANT_DETECTION.HUEHigh": String(s.HUEHigh),
+                "PLANT_DETECTION.saturationLow": String(s.saturationLow),
+                "PLANT_DETECTION.saturationHigh": String(s.saturationHigh),
+                "PLANT_DETECTION.valueLow": String(s.valueLow),
+                "PLANT_DETECTION.valueHigh": String(s.valueHigh),
+                "PLANT_DETECTION.blur": String(s.blur),
+                "PLANT_DETECTION.morph": String(s.morph),
+                "PLANT_DETECTION.iterations": String(s.iterations),
+            });
     }
-
-    onAfterChange() {
-        console.log("done");
-    }
-
-    componentDidMount() {
-        let img = document.querySelector(".weed-detector-widget img");
-
-    }
-
-    handleColorChange() { }
-
     toggleEdit() {
         this.setState({ isEditing: !this.state.isEditing });
+    }
+
+    temporary(key: keyof DetectorState) {
+        return (e: React.FormEvent<HTMLInputElement>) => {
+            let str = e.currentTarget.value;
+            let num = parseInt(str, 10);
+            if (!_.isNaN(num)) {
+                return this.setState({ [key]: num });
+            }
+        }
     }
 
     render() {
@@ -58,7 +101,7 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                     <div className="col-sm-12">
                         {isEditing && (
                             <div className="widget-header">
-                                <button
+                                <button onClick={this.sendOffConfig.bind(this)}
                                     className="green button-like">
                                     {t("SAVE")}
                                 </button>
@@ -107,30 +150,35 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
                                                 </h4>
 
                                                 <label htmlFor="hue">HUE</label>
-                                                <Slider onChange={this.onSliderChange}
-                                                    onAfterChange={this.onAfterChange}
-                                                    range={true} allowCross={true}
-                                                    defaultValue={[this.state.HUELow,
-                                                    this.state.HUEHigh]} />
+                                                <Slider
+                                                    min={lo(RANGE.H)}
+                                                    max={hi(RANGE.H)}
+                                                    range={true}
+                                                    allowCross={true}
+                                                    defaultValue={[(this.state.HUELow || 0),
+                                                    (this.state.HUEHigh || 5)]} />
 
                                                 <label htmlFor="saturation">SATURATION</label>
-                                                <Slider onChange={this.onSliderChange}
-                                                    onAfterChange={this.onAfterChange}
-                                                    range={true} allowCross={true}
-                                                    defaultValue={[this.state.saturationLow,
-                                                    this.state.saturationHigh]} />
+                                                <Slider
+                                                    min={lo(RANGE.S)}
+                                                    max={hi(RANGE.S)}
+                                                    range={true}
+                                                    allowCross={true}
+                                                    defaultValue={[
+                                                        (this.state.saturationLow || 0),
+                                                        (this.state.saturationHigh || 5)]} />
 
                                                 <label htmlFor="value">VALUE</label>
-                                                <Slider onChange={this.onSliderChange}
-                                                    onAfterChange={this.onAfterChange}
+                                                <Slider
+                                                    min={lo(RANGE.V)}
+                                                    max={hi(RANGE.V)}
                                                     range={true} allowCross={true}
-                                                    defaultValue={[this.state.valueLow,
-                                                    this.state.valueHigh]} />
+                                                    defaultValue={[(this.state.valueLow || 1),
+                                                    (this.state.valueHigh || 5)]} />
                                             </div>
                                             <div className="col-md-6 col-sm-12">
                                                 <ChromePicker
-                                                    color="#fff"
-                                                    onChangeComplete={this.handleColorChange} />
+                                                    color="#fff" />
                                             </div>
                                         </div>
                                         <div className="row">
@@ -142,23 +190,29 @@ export class WeedDetector extends React.Component<Everything, DetectorState> {
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>BLUR</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <input type="number"
+                                                    min={lo(RANGE.blur)}
+                                                    max={hi(RANGE.blur)}
+                                                    onChange={this.temporary("blur")}
+                                                    value={this.state.blur} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
                                                 <label>MORPH</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <input type="number"
+                                                    min={lo(RANGE.morph)}
+                                                    max={hi(RANGE.morph)}
+                                                    onChange={this.temporary("morph")}
+                                                    value={this.state.morph} />
                                             </div>
 
                                             <div className="col-md-4 col-sm-4">
-                                                <label>ITERATION</label>
-                                                {/*<Select
-                                                    options={DELETEMEOPTIONS}
-                                                    value={this.state.blur} />*/}
+                                                <label>ITERATION {this.state.iterations}</label>
+                                                <input type="number"
+                                                    min={lo(RANGE.iterations)}
+                                                    max={hi(RANGE.iterations)}
+                                                    onChange={this.temporary("iterations")}
+                                                    value={this.state.iterations} />
                                             </div>
                                         </div>
                                         <ImageFlipper images={this.props.sync.images} />

@@ -21,14 +21,5 @@ export function DeprecatedSelect(props: DeprecatedSelectProps) {
 }
 
 export function Select(props: ReactSelect.ReactSelectProps) {
-    return <ReactSelect
-        onChange={props.onChange}
-        value={props.value}
-        options={props.options}
-        valueComponent={props.valueComponent}
-        optionComponent={props.optionComponent}
-        placeholder={props.placeholder}
-        onInputChange={props.onInputChange}
-        className={props.className}
-    />;
+    return <ReactSelect {...props} />;
 }
