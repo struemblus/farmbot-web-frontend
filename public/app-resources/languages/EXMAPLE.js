@@ -63,7 +63,7 @@ module.exports = {
   "Please enter a valid label and pin number.": "Por favor insira um marcador e um número PIN válidos.",
   "Reset Password": "Redefinir Senha",
   "Send Password reset": "Solicitar nova senha",
-  "Verfy Password": "Verifique sua senha",
+  "Verify Password": "Verifique sua senha",
   "You have been logged out.": "Sessão encerrada.",
   "Your Name": "Seu Nome",
 
