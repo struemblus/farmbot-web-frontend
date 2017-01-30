@@ -8,7 +8,7 @@ import { API } from "../api";
 import { Session } from "../session";
 import { FrontPageState, FrontPageProps } from "./interfaces";
 
-export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
+export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPageState>> {
     constructor() {
         super();
         this.state = {
@@ -21,7 +21,8 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             showServerOpts: false,
             serverURL: "",
             serverPort: "",
-            forgotPassword: false
+            forgotPassword: false,
+            agreeToTerms: false
         };
         this.toggleServerOpts = this.toggleServerOpts.bind(this);
     }
@@ -59,19 +60,23 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                 Session.put(resp.data);
                 window.location.href = "/app/controls";
             }).catch(error => {
+                if (_.get(error, "response.status") === 451) {
+                    alert("You must sign the terms of service.");
+                }
                 log(prettyPrintApiErrors(error));
             });
     }
 
     submitRegistration(e: React.FormEvent<{}>) {
         e.preventDefault();
-        let { regEmail, regName, regPassword, regConfirmation } = this.state;
+        let { regEmail, regName, regPassword, regConfirmation, agreeToTerms } = this.state;
         let form = {
             user: {
                 name: regName,
                 email: regEmail,
                 password: regPassword,
-                password_confirmation: regConfirmation
+                password_confirmation: regConfirmation,
+                agree_to_terms: agreeToTerms
             }
         };
         axios.post<AuthState>(API.current.usersPath, form).then(resp => {
@@ -101,6 +106,16 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
             }).catch(error => {
                 log(prettyPrintApiErrors(error));
             });
+    }
+
+    maybeRenderTos() {
+        return <div>
+            <label>{i18next.t("I agree to the terms of use")}</label>
+            <input type="checkbox"
+                onChange={this.set("agreeToTerms").bind(this)}
+                value={this.state.agreeToTerms ? "true" : "false"}>
+            </input>
+        </div>;
     }
 
     render() {
@@ -255,6 +270,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                         onChange={
                                                             this.set("regConfirmation").bind(this)}>
                                                     </input>
+                                                    {this.maybeRenderTos()}
                                                 </div>
                                                 <div className="row">
                                                     <div className="col-xs-12">
