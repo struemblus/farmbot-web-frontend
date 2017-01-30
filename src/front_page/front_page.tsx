@@ -250,7 +250,7 @@ export class FrontPage extends React.Component<FrontPageProps, FrontPageState> {
                                                     <input type="password"
                                                         onChange={this.set("regPassword").bind(this)}>
                                                     </input>
-                                                    <label>{i18next.t("Verfy Password")}</label>
+                                                    <label>{i18next.t("Verify Password")}</label>
                                                     <input type="password"
                                                         onChange={
                                                             this.set("regConfirmation").bind(this)}>
