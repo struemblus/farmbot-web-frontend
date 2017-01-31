@@ -125,6 +125,7 @@ let createToast = (message: string, title: string, color: string) => {
 
 };
 
+/** Adds a secret container div for holding toast messages. */
 export function init() {
     /** Create container and append it */
     let toastContainer = document.createElement("div");

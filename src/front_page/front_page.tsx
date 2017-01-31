@@ -61,7 +61,9 @@ export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPage
                 window.location.href = "/app/controls";
             }).catch(error => {
                 if (_.get(error, "response.status") === 451) {
-                    alert("You must sign the terms of service.");
+                    setTimeout(function () {
+                        window.location.href = "/tos_update.html";
+                    }, 1000);
                 }
                 log(prettyPrintApiErrors(error));
             });
