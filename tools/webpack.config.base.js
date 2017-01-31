@@ -68,6 +68,16 @@ module.exports = function () {
                 "process.env.NPM_ADDON": JSON.stringify(
                     process.env.NPM_ADDON || false).toString()
             }),
+            // Conditionally add "terms of service"
+            // Eg: Servers run by FarmBot, Inc.
+            new webpack.DefinePlugin({
+                "process.env.TOS_URL": JSON.stringify(process.env.TOS_URL || false).toString()
+            }),
+            // Conditionally add privacy policy.
+            // Eg: Servers run by FarmBot, Inc.
+            new webpack.DefinePlugin({
+                "process.env.PRIV_URL": JSON.stringify(process.env.PRIV_URL || false).toString()
+            }),
             new FarmBotRenderer({
                 isProd: isProd,
                 path: path.resolve(__dirname, "../src/static/app_index.hbs"),
