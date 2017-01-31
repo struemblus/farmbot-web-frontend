@@ -73,12 +73,23 @@ export class Wow extends React.Component<Props, Partial<State>> {
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="widget-header">
-                                        <h5>{t("Error")}</h5>
+                                        <h5>{t("Agree to Terms of Service")}</h5>
                                     </div>
                                 </div>
                             </div>
                             <div className="row">
-                                <p>ERROR: Terms of use not found</p>
+                                <form onSubmit={this.submit}>
+                                    <div className="col-sm-12">
+                                        <div className="widget-content">
+                                            <div className="input-group">
+                                                <p>
+                                                    Something went wrong while rendering this page.
+                                                </p>
+                                                <p>Please send us an email at contact@farmbot.io or <a href="http://forum.farmbot.org/">the FarmBot forum</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
