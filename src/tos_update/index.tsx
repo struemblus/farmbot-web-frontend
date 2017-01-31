@@ -15,6 +15,7 @@ import "../npm_addons";
 
 interface Props { };
 interface State {
+    hideServerSettings: boolean;
     email: string;
     password: string;
     agree_to_terms: boolean;
@@ -27,11 +28,17 @@ export class Wow extends React.Component<Props, Partial<State>> {
     constructor() {
         super();
         this.submit = this.submit.bind(this);
+        this.toggleServerOpts = this.toggleServerOpts.bind(this);
         this.state = {
+            hideServerSettings: true,
             agree_to_terms: true,
             serverHost: API.fetchHostName(),
             serverPort: API.inferPort()
         };
+    }
+
+    toggleServerOpts() {
+        this.setState({ hideServerSettings: !this.state.hideServerSettings })
     }
 
     set(name: keyof State) {
@@ -59,6 +66,25 @@ export class Wow extends React.Component<Props, Partial<State>> {
             });
     }
 
+    serverOpts() {
+        if (this.state.hideServerSettings) {
+            return <div />;
+        } else {
+            return <div>
+                <label>{t("Server URL")}</label>
+                <input type="text"
+                    onChange={this.set("serverHost").bind(this)}
+                    value={this.state.serverHost}>
+                </input>
+                <label>{t("Server Port")}</label>
+                <input type="text"
+                    onChange={this.set("serverPort").bind(this)}
+                    value={this.state.serverPort}>
+                </input>
+            </div>;
+        }
+    }
+
     componentDidMount() {
         logInit();
     }
@@ -73,7 +99,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="widget-header">
-                                        <h5>{t("Agree to Terms of Service")}</h5>
+                                        <h5>{t("Problem Loading Terms of Use")}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -105,6 +131,8 @@ export class Wow extends React.Component<Props, Partial<State>> {
                             <div className="col-sm-12">
                                 <div className="widget-header">
                                     <h5>{t("Agree to Terms of Service")}</h5>
+                                    <i className="fa fa-gear" onClick={this.toggleServerOpts}>
+                                    </i>
                                 </div>
                             </div>
                         </div>
@@ -133,18 +161,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label>{t("Server URL")}</label>
-                                                <input type="text"
-                                                    onChange={this.set("serverHost").bind(this)}
-                                                    value={this.state.serverHost}>
-                                                </input>
-                                                <label>{t("Server Port")}</label>
-                                                <input type="text"
-                                                    onChange={this.set("serverPort").bind(this)}
-                                                    value={this.state.serverPort}>
-                                                </input>
-                                            </div>
+                                            {this.serverOpts()}
                                         </div>
                                     </div>
                                 </div>
