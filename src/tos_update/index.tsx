@@ -28,6 +28,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
         super();
         this.submit = this.submit.bind(this);
         this.state = {
+            agree_to_terms: true,
             serverHost: API.fetchHostName(),
             serverPort: API.inferPort()
         };
@@ -63,6 +64,27 @@ export class Wow extends React.Component<Props, Partial<State>> {
     }
 
     render() {
+        if (!process.env.TOS_URL && !process.env.PRIV_URL) {
+            return <div className="static-page">
+                <div className="all-content-wrapper">
+                    <div className="row">
+                        <div className={`widget-wrapper col-md-6 col-md-offset-3 
+                        col-sm-6 col-sm-offset-3`}>
+                            <div className="row">
+                                <div className="col-sm-12">
+                                    <div className="widget-header">
+                                        <h5>{t("Error")}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <p>ERROR: Terms of use not found</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
         return <div className="static-page">
             <div className="all-content-wrapper">
                 <div className="row">
@@ -88,11 +110,11 @@ export class Wow extends React.Component<Props, Partial<State>> {
                                             <input type="password"
                                                 onChange={this.set("password").bind(this)}>
                                             </input>
-                                            <label>
-                                                <input type="checkbox"
-                                                    onChange={this.set("agree_to_terms").bind(this)} />
-                                                {t("Accept")}
-                                            </label>
+                                            <hr />
+                                            <ul>
+                                                <li><a href={process.env.TOS_URL}>Terms of Use</a> <span className="fa fa-external-link"></span></li>
+                                                <li><a href={process.env.PRIV_URL}>Privacy Policy</a> <span className="fa fa-external-link"></span></li>
+                                            </ul>
                                             <div className="row">
                                                 <div className="col-xs-12">
                                                     <button className="button-like button green login">

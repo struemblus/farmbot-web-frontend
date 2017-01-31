@@ -124,8 +124,8 @@ export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPage
             // </div>
             return <div>
                 <p>
-                    <button href={PRV_URL}>Privacy Policy</button>
-                    <button href={TOS_URL}>Terms of Use </button>
+                    <a href={PRV_URL}>Privacy Policy</a>
+                    <a href={TOS_URL}>Terms of Use </a>
                 </p>
             </div>;
         }
