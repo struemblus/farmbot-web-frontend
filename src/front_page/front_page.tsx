@@ -111,13 +111,24 @@ export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPage
     }
 
     maybeRenderTos() {
-        return <div>
-            <label>{i18next.t("I agree to the terms of use")}</label>
-            <input type="checkbox"
-                onChange={this.set("agreeToTerms").bind(this)}
-                value={this.state.agreeToTerms ? "true" : "false"}>
-            </input>
-        </div>;
+        const TOS_URL = process.env.TOS_URL;
+        console.log(TOS_URL);
+        if (TOS_URL) {
+            const PRV_URL = process.env.PRIV_URL;
+
+            // <div>
+            //     <label>{i18next.t("I agree to the terms of use")}</label>
+            //     <input type="checkbox"
+            //         onChange={this.set("agreeToTerms").bind(this)}
+            //         value={this.state.agreeToTerms ? "true" : "false"} />
+            // </div>
+            return <div>
+                <p>
+                    <button href={PRV_URL}>Privacy Policy</button>
+                    <button href={TOS_URL}>Terms of Use </button>
+                </p>
+            </div>;
+        }
     }
 
     render() {
