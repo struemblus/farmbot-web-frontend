@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Everything } from "../../interfaces";
 import { Plant, PlantOptions } from "../plant";
-import { savePlant } from "../actions";
+import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { Plant as IPlant } from "../interfaces";
@@ -72,9 +72,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     e.preventDefault();
 
     let el = document.querySelector("#drop-area > svg");
-    if (!el) {
-      throw new Error("why");
-    } else {
+    if (el) {
       let box = el.getBoundingClientRect();
       let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       // TEMPORARY SOLUTION =======
@@ -85,11 +83,14 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.planted_at = moment().toISOString();
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
-      this.props.dispatch(savePlant(plant));
+      this.props.dispatch(deprecatedSavePlant(plant));
+    } else {
+      throw new Error("never");
     }
   }
 
   render() {
+    let { dispatch } = this.props;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
@@ -101,19 +102,27 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
             .props
             .sync
             .plants
-            .map((p, inx) => <DraggableSvgImage key={inx}
-              x={(p.x)}
-              y={(p.y)}
-              id={p.id}
-              width="32"
-              height="32"
-              onUpdate={(x: number, y: number, id: any) => {
-                this.props.dispatch({
-                  type: "UPDATE_PLANT",
-                  payload: { x, y, id }
-                });
-              }}
-              href={"/app-resources/img/icons/Apple-96.png"} />)
+            .map(function (p, inx) {
+              if (p.id) {
+                let updater = (deltaX: number, deltaY: number, plantId: number) => {
+                  dispatch(movePlant({ deltaX, deltaY, plantId }));
+                };
+
+                let dropper = (id: number) => {
+                  dispatch(savePlantById(id));
+                };
+
+                return <DraggableSvgImage key={p.id}
+                  x={p.x}
+                  y={p.y}
+                  id={p.id}
+                  onUpdate={updater}
+                  onDrop={dropper}
+                  href={"/app-resources/img/icons/Apple-96.png"} />;
+              } else {
+                throw new Error("Save plants before placing them on the map");
+              }
+            })
         }
       </svg>
     </div>;

@@ -1,13 +1,13 @@
 import { Plant, CropLiveSearchResult } from "./interfaces";
 import { Plant as newPlant } from "./plant";
 import { generateReducer } from "../redux/generate_reducer";
-import { DesignerState } from "./interfaces";
+import { DesignerState, MovePlantProps } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
 
-let DEFAULT_STATE = {
-  plants: [],
+let DEFAULT_STATE: DesignerState = {
+  deprecatedPlants: [],
   x_size: 0,
   y_size: 0,
   cropSearchQuery: "",
@@ -17,18 +17,18 @@ let DEFAULT_STATE = {
 export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
   .add<Sync>("FETCH_SYNC_OK", function (s, a) {
     let state = cloneDeep(s);
-    state.plants = a.payload.plants || [];
+    state.deprecatedPlants = a.payload.plants || [];
     return state;
   })
   .add<Plant>("SAVE_PLANT_OK", function (s, a) {
     // Exxxttrraaa runtime safety.
     let plant = newPlant(a.payload);
-    s.plants.push(plant);
+    s.deprecatedPlants.push(plant);
     return s;
   })
   .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
     let state = cloneDeep(s);
-    let a = state.plants;
+    let a = state.deprecatedPlants;
     a.splice(a.indexOf(payload), 0);
     return state;
   })

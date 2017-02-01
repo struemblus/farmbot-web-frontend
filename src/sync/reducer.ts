@@ -1,7 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { Sync } from "../interfaces";
 import { Log } from "../interfaces";
-import { Plant } from "../farm_designer/interfaces";
+import { Plant, MovePlantProps } from "../farm_designer/interfaces";
 
 const initialState: Sync = {
     api_version: "",
@@ -35,14 +35,29 @@ export let syncReducer = generateReducer<Sync>(initialState)
         s = a.payload;
         return s;
     })
-    .add<{ x: number, y: number, id: number }>("UPDATE_PLANT", function (s, a) {
-        let thisOne = _.find<Plant | undefined>(s.plants, function (r) {
-            return r ? (r.id === a.payload.id) : false;
-        });
-        if (thisOne) {
-            thisOne.dirty = true;
-            thisOne.x += a.payload.x;
-            thisOne.y += a.payload.y;
-        }
+    .add<MovePlantProps>("MOVE_PLANT", function (s, a) {
+        let thisOne = findPlantById(s.plants, a.payload.plantId);
+        thisOne.x += a.payload.deltaX;
+        thisOne.y += a.payload.deltaY;
+        thisOne.dirty = true;
+        return s;
+    })
+    .add<Partial<Plant>>("UPDATE_PLANT_OK", function (s, a) {
+        let thisOne = findPlantById(s.plants, a.payload.id);
+        _.merge(thisOne, a.payload);
+        thisOne.dirty = false;
         return s;
     });
+
+export function findPlantById(plants: Plant[], id: number | undefined): Plant {
+    let result = _.find<Plant | undefined>(plants, function (r) {
+        return r ? (r.id === id) : false;
+    });
+
+    if (result && id) {
+        return result;
+    } else {
+        // This method doesn't work for unsaved records.
+        throw new Error("Failed to find plant with id of ${id}.");
+    }
+};

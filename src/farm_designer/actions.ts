@@ -1,41 +1,49 @@
 import * as Axios from "axios";
 import { error, success } from "../ui";
-import { Plant } from "./interfaces";
+import { Plant, MovePlantProps } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
+import { Everything } from "../interfaces";
+import { findPlantById } from "../sync/reducer";
 
-export function savePlant(plant: Plant): Thunk {
+/** Deprecating this in favor of the new savePlant() method which users
+ * sync object rather than duplicating state.
+ */
+export function deprecatedSavePlant(plant: Plant): Thunk {
   let url = API.current.plantsPath;
   return function (dispatch, getState) {
-    dispatch({ type: "SAVE_PLANT_START" });
     return Axios.post<Plant>(url, plant)
       .then((resp) => {
-        // so that no persisted data sticks around.
-        let payload: Plant = _.assign({}, plant, resp.data) as Plant;
+        let payload: Plant = { ...plant, ...resp.data };
         dispatch({ type: "SAVE_PLANT_OK", payload });
       })
       .catch((payload) => {
         error(t("Tried to save plant, but couldn't."));
-        dispatch({ type: "SAVE_PLANT_ERR", payload });
       });
   };
 };
 
-export function movePlant(plant: Plant): Thunk {
-  let url = API.current.plantsPath + plant.id;
+export function savePlantById(id: number): Thunk {
+  let url = API.current.plantsPath;
   return function (dispatch, getState) {
-    return Axios.put<Plant>(url, plant)
+    let s = getState() as Everything;
+    let plant: Plant = findPlantById(s.sync.plants, id);
+    return Axios.put<Partial<Plant>>(url + `/${id}`, plant)
       .then((resp) => {
-        dispatch({ type: "SAVE_PLANT_OK", payload: resp.data });
+        let payload = { ...plant, ...resp.data };
+        dispatch({ type: "UPDATE_PLANT_OK", payload });
       })
       .catch((payload) => {
         error(t("Tried to save plant, but couldn't."));
-        dispatch({ type: "SAVE_PLANT_ERR", payload });
       });
   };
+};
+
+export function movePlant(payload: MovePlantProps) {
+  return { type: "MOVE_PLANT", payload };
 };
 
 export function destroyPlant(plant_id: number): Thunk {
