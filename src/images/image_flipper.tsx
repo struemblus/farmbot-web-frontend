@@ -21,15 +21,13 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     image() {
         let i = this.props.images[this.state.currentInx || 0];
         if (i) {
-            return <div className="row" >
-                <div className="col-sm-12">
-                    {
-                        (i.attachment_processed_at) ?
-                            <img src={i.attachment_url} /> :
-                            <p> Image {i.id} is still processing. </p>
-                    }
-                </div>
-            </div>;
+            if (i.attachment_processed_at) {
+                return <img
+                    className="image-flipper-image"
+                    src={i.attachment_url} />;
+            } else {
+                return <p> Image {i.id} is still processing. </p>;
+            }
         } else {
             return <p> Please snap some photos in the sequence editor first.</p>;
         }
@@ -58,10 +56,14 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
 
     render() {
-        return <div className="image-flipper">
-            <button onClick={this.up}>Next></button>
-            <button onClick={this.down} className="image-flipper-left">Prev</button>
-            {this.image()}
+        return <div className="row" >
+            <div className="col-sm-12">
+                <div className="image-flipper">
+                    {this.image()}
+                    <button onClick={this.down} className="image-flipper-left">Prev</button>
+                    <button onClick={this.up} className="image-flipper-right">Next</button>
+                </div>
+            </div>
         </div>;
     }
 }
