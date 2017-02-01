@@ -16,14 +16,14 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         this.state = { currentInx: 0 };
         this.down = this.down.bind(this);
         this.up = this.up.bind(this);
-        this.image = this.image.bind(this);
+        this.imageJSX = this.imageJSX.bind(this);
     }
 
     curent(): Image | undefined {
         return this.props.images[this.state.currentInx || 0];
     }
 
-    image() {
+    imageJSX() {
         let i = this.curent();
         if (i) {
             if (i.attachment_processed_at) {
@@ -82,7 +82,8 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
 
     render() {
-        let image = this.image();
+        let image = this.imageJSX();
+        let i = this.curent();
         return <div>
             <div className="row" >
                 <div className="col-sm-12">
@@ -95,7 +96,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
             </div>
             <div className="weed-detector-meta">
                 <div>
-                    {image ? <MetaInfo attr={"created_at"} obj={image} /> : ""}
+                    {i ? <MetaInfo attr={"created_at"} obj={i} /> : ""}
                     {this.metaDatas()}
                 </div>
             </div>
