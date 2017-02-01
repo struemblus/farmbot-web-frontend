@@ -1,5 +1,11 @@
 import { OpenFarm } from "./openfarm";
 
+export interface MovePlantProps {
+  deltaX: number;
+  deltaY: number;
+  plantId: number;
+}
+
 export interface ScheduledEvent {
   time: Date;
   desc: string;
@@ -34,7 +40,10 @@ export interface Specimen {
 export interface DesignerState {
   x_size: number;
   y_size: number;
-  plants: Plant[];
+  /** This causes too much data denormalization-
+   *  let's just use state.sync.plants moving forward.
+   */
+  deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }

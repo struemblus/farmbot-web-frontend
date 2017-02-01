@@ -1,8 +1,24 @@
 import * as React from "react";
 
+interface State {
+    isDragging: boolean;
+    mouseX: number;
+    mouseY: number;
+    radius: number;
+}
+
+interface Props {
+    id: number;
+    onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
+    onDrop: (id: number) => void;
+    x: number;
+    y: number;
+    href: string;
+}
+
 // THANK YOU!
 // https://github.com/winkerVSbecks/fermat-point/blob/master/src/handle.jsx
-export class DraggableSvgImage extends React.Component<any, any> {
+export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
 
     constructor() {
         super();
@@ -29,7 +45,10 @@ export class DraggableSvgImage extends React.Component<any, any> {
         });
     }
 
-    deSelectElement() {
+    deSelectElement(e: React.MouseEvent<SVGElement>) {
+        if (this.state.isDragging) {
+            this.props.onDrop(this.props.id);
+        }
         this.setState({
             isDragging: false,
             radius: 5
@@ -39,9 +58,9 @@ export class DraggableSvgImage extends React.Component<any, any> {
     drag(e: React.MouseEvent<SVGElement>) {
 
         if (this.state.isDragging) {
-            var idx = this.props.id;
-            var deltaX = e.pageX - this.state.mouseX;
-            var deltaY = e.pageY - this.state.mouseY;
+            let idx = this.props.id;
+            let deltaX = e.pageX - this.state.mouseX;
+            let deltaY = e.pageY - this.state.mouseY;
 
             this.props.onUpdate(deltaX, deltaY, idx);
 
@@ -55,15 +74,15 @@ export class DraggableSvgImage extends React.Component<any, any> {
     render() {
         return (
             <image className="handle"
-                id={this.props.id}
+                id={this.props.id.toString()}
                 x={this.props.x}
                 y={this.props.y}
                 href={this.props.href}
                 onMouseOver={() => this.hover()}
                 onMouseDown={(e) => this.selectElement(e)}
                 onMouseMove={(e) => this.drag(e)}
-                onMouseUp={() => this.deSelectElement()}
-                onMouseLeave={() => this.deSelectElement()} />
+                onMouseUp={(e) => this.deSelectElement(e)}
+                onMouseLeave={(e) => this.deSelectElement(e)} />
         );
     }
 

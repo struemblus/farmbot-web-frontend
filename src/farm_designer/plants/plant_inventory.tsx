@@ -89,7 +89,7 @@ export class Plants extends React.Component<PlantsProps, PlantsState> {
   }
 
   render() {
-    let { plants } = this.props.designer;
+    let { plants } = this.props.sync;
 
     let plantOptions = plants.map(plant => {
       return {
