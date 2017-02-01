@@ -4,7 +4,7 @@ import * as axios from "axios";
 import { t, init } from "i18next";
 import { AuthState } from "../auth/interfaces";
 import { Session } from "../session";
-import { error as log, init as logInit } from "../ui";
+import { fun as log, init as logInit } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import "../npm_addons";
 import { detectLanguage } from "../i18n";
@@ -87,6 +87,9 @@ export class Wow extends React.Component<Props, Partial<State>> {
 
     componentDidMount() {
         logInit();
+        let body = t("Before logging in, you must agree to our latest Terms" +
+            " of Service and Privacy Policy");
+        log(body, "New Terms of Service");
     }
 
     render() {
@@ -99,7 +102,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
                             <div className="row">
                                 <div className="col-sm-12">
                                     <div className="widget-header">
-                                        <h5>{t("Problem Loading Terms of Use")}</h5>
+                                        <h5>{t("Problem Loading Terms of Service")}</h5>
                                     </div>
                                 </div>
                             </div>
@@ -151,13 +154,13 @@ export class Wow extends React.Component<Props, Partial<State>> {
                                             </input>
                                             <hr />
                                             <ul>
-                                                <li><a href={process.env.TOS_URL}>Terms of Use</a> <span className="fa fa-external-link"></span></li>
+                                                <li><a href={process.env.TOS_URL}>Terms of Service</a> <span className="fa fa-external-link"></span></li>
                                                 <li><a href={process.env.PRIV_URL}>Privacy Policy</a> <span className="fa fa-external-link"></span></li>
                                             </ul>
                                             <div className="row">
                                                 <div className="col-xs-12">
                                                     <button className="button-like button green login">
-                                                        {t("I Agree to the Terms of Use")}
+                                                        {t("I Agree to the Terms of Service")}
                                                     </button>
                                                 </div>
                                             </div>
