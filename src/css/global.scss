@@ -126,7 +126,18 @@ a {
     outline: none !important;
 }
 
+    /* Rick wuz here. */
 .input-group {
+    a {
+        color: #434343;
+        &:visited {
+          color: #434343;
+        }       
+    }
+
+    input[type=checkbox] {
+        box-shadow: none;
+    }
     width: 100% !important;
 }
 

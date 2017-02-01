@@ -36,7 +36,7 @@ export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPage
         });
     }
 
-    set(name: string) {
+    set(name: keyof FrontPageState) {
         return function (event: React.FormEvent<HTMLInputElement>) {
             let state: { [name: string]: string } = {};
             state[name] = (event.currentTarget).value;
@@ -112,21 +112,19 @@ export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPage
 
     maybeRenderTos() {
         const TOS_URL = process.env.TOS_URL;
-        console.log(TOS_URL);
         if (TOS_URL) {
             const PRV_URL = process.env.PRIV_URL;
-
-            // <div>
-            //     <label>{i18next.t("I agree to the terms of use")}</label>
-            //     <input type="checkbox"
-            //         onChange={this.set("agreeToTerms").bind(this)}
-            //         value={this.state.agreeToTerms ? "true" : "false"} />
-            // </div>
             return <div>
-                <p>
-                    <button href={PRV_URL}>Privacy Policy</button>
-                    <button href={TOS_URL}>Terms of Use </button>
-                </p>
+                <div>
+                    <label>{i18next.t("I agree to the terms of use")}</label>
+                    <input type="checkbox"
+                        onChange={this.set("agreeToTerms").bind(this)}
+                        value={this.state.agreeToTerms ? "false" : "true"} />
+                </div>
+                <ul>
+                    <li><a href={PRV_URL}>Privacy Policy</a></li>
+                    <li><a href={TOS_URL}>Terms of Use </a></li>
+                </ul>
             </div>;
         }
     }

@@ -15,6 +15,7 @@ import "../npm_addons";
 
 interface Props { };
 interface State {
+    hideServerSettings: boolean;
     email: string;
     password: string;
     agree_to_terms: boolean;
@@ -27,10 +28,17 @@ export class Wow extends React.Component<Props, Partial<State>> {
     constructor() {
         super();
         this.submit = this.submit.bind(this);
+        this.toggleServerOpts = this.toggleServerOpts.bind(this);
         this.state = {
+            hideServerSettings: true,
+            agree_to_terms: true,
             serverHost: API.fetchHostName(),
             serverPort: API.inferPort()
         };
+    }
+
+    toggleServerOpts() {
+        this.setState({ hideServerSettings: !this.state.hideServerSettings })
     }
 
     set(name: keyof State) {
@@ -58,11 +66,62 @@ export class Wow extends React.Component<Props, Partial<State>> {
             });
     }
 
+    serverOpts() {
+        if (this.state.hideServerSettings) {
+            return <div />;
+        } else {
+            return <div>
+                <label>{t("Server URL")}</label>
+                <input type="text"
+                    onChange={this.set("serverHost").bind(this)}
+                    value={this.state.serverHost}>
+                </input>
+                <label>{t("Server Port")}</label>
+                <input type="text"
+                    onChange={this.set("serverPort").bind(this)}
+                    value={this.state.serverPort}>
+                </input>
+            </div>;
+        }
+    }
+
     componentDidMount() {
         logInit();
     }
 
     render() {
+        if (!process.env.TOS_URL && !process.env.PRIV_URL) {
+            return <div className="static-page">
+                <div className="all-content-wrapper">
+                    <div className="row">
+                        <div className={`widget-wrapper col-md-6 col-md-offset-3 
+                        col-sm-6 col-sm-offset-3`}>
+                            <div className="row">
+                                <div className="col-sm-12">
+                                    <div className="widget-header">
+                                        <h5>{t("Problem Loading Terms of Use")}</h5>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="row">
+                                <form onSubmit={this.submit}>
+                                    <div className="col-sm-12">
+                                        <div className="widget-content">
+                                            <div className="input-group">
+                                                <p>
+                                                    Something went wrong while rendering this page.
+                                                </p>
+                                                <p>Please send us an email at contact@farmbot.io or <a href="http://forum.farmbot.org/">the FarmBot forum</a>.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>;
+        }
         return <div className="static-page">
             <div className="all-content-wrapper">
                 <div className="row">
@@ -72,6 +131,8 @@ export class Wow extends React.Component<Props, Partial<State>> {
                             <div className="col-sm-12">
                                 <div className="widget-header">
                                     <h5>{t("Agree to Terms of Service")}</h5>
+                                    <i className="fa fa-gear" onClick={this.toggleServerOpts}>
+                                    </i>
                                 </div>
                             </div>
                         </div>
@@ -88,11 +149,11 @@ export class Wow extends React.Component<Props, Partial<State>> {
                                             <input type="password"
                                                 onChange={this.set("password").bind(this)}>
                                             </input>
-                                            <label>
-                                                <input type="checkbox"
-                                                    onChange={this.set("agree_to_terms").bind(this)} />
-                                                {t("Accept")}
-                                            </label>
+                                            <hr />
+                                            <ul>
+                                                <li><a href={process.env.TOS_URL}>Terms of Use</a> <span className="fa fa-external-link"></span></li>
+                                                <li><a href={process.env.PRIV_URL}>Privacy Policy</a> <span className="fa fa-external-link"></span></li>
+                                            </ul>
                                             <div className="row">
                                                 <div className="col-xs-12">
                                                     <button className="button-like button green login">
@@ -100,18 +161,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div>
-                                                <label>{t("Server URL")}</label>
-                                                <input type="text"
-                                                    onChange={this.set("serverHost").bind(this)}
-                                                    value={this.state.serverHost}>
-                                                </input>
-                                                <label>{t("Server Port")}</label>
-                                                <input type="text"
-                                                    onChange={this.set("serverPort").bind(this)}
-                                                    value={this.state.serverPort}>
-                                                </input>
-                                            </div>
+                                            {this.serverOpts()}
                                         </div>
                                     </div>
                                 </div>
