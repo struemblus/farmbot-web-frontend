@@ -1,5 +1,6 @@
 import { Image } from "./interfaces";
 import * as React from "react";
+import { safeStringFetch } from "../util";
 
 export interface ImageFlipperProps {
     images: Image[];
@@ -18,8 +19,12 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         this.image = this.image.bind(this);
     }
 
+    curent(): Image | undefined {
+        return this.props.images[this.state.currentInx || 0];
+    }
+
     image() {
-        let i = this.props.images[this.state.currentInx || 0];
+        let i = this.curent();
         if (i) {
             if (i.attachment_processed_at) {
                 return <img
@@ -55,15 +60,63 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         }
     }
 
+    metaTag(key: string, val: string) {
+
+    }
+
+    metaDatas() {
+        let i = this.curent();
+        if (i) {
+            let {meta, id} = i;
+            <MetaInfo key={id} attr={"OK"} obj={true} />
+            return Object.keys(meta).sort().map(function (key, index) {
+                return <MetaInfo key={id} attr={key} obj={meta} />;
+            });
+        } else {
+            return [
+                <div>
+                    <label>No meta data for this image.</label>
+                </div>
+            ];
+        }
+    }
+
     render() {
-        return <div className="row" >
-            <div className="col-sm-12">
-                <div className="image-flipper">
-                    {this.image()}
-                    <button onClick={this.down} className="image-flipper-left">Prev</button>
-                    <button onClick={this.up} className="image-flipper-right">Next</button>
+        let image = this.image();
+        return <div>
+            <div className="row" >
+                <div className="col-sm-12">
+                    <div className="image-flipper">
+                        {image}
+                        <button onClick={this.down} className="image-flipper-left">Prev</button>
+                        <button onClick={this.up} className="image-flipper-right">Next</button>
+                    </div>
                 </div>
             </div>
-        </div>;
+            <div className="weed-detector-meta">
+                <div>
+                    {image ? <MetaInfo attr={"created_at"} obj={image} /> : ""}
+                    {this.metaDatas()}
+                </div>
+            </div>
+        </div >;
     }
+}
+
+interface MetaInfoProps {
+    /** Default conversion is `attr_name ==> Attr Name`.
+     *  Setting a label property will over ride it to a differrent value.
+     */
+    label?: string;
+    attr: string;
+    obj: any; /** Really, it's OK here! See safeStringFetch */
+}
+
+function MetaInfo({obj, attr, label}: MetaInfoProps) {
+    let top = label || _.startCase(attr.split("_").join());
+    let bottom = safeStringFetch(obj, attr);
+    return <div>
+        <label>{top}</label>
+        <span>{bottom || "unknown"}</span>
+    </div>;
 }

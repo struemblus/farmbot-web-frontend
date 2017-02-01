@@ -195,16 +195,6 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         </div>
                                     </div>
                                     <ImageFlipper images={this.props.sync.images} />
-                                    <div className="weed-detector-meta">
-                                        <div className="time">
-                                            <label>Time:</label>
-                                            <span>{this.state.time}</span>
-                                        </div>
-                                        <div className="location">
-                                            <label>Location:</label>
-                                            <span>{this.state.location}</span>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>

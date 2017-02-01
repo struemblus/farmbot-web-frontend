@@ -115,10 +115,12 @@ export function isMobile() {
     return false;
   }
 }
-/** SITUATION: DYNAMICALLY plucks `obj[key]`.
- *             * `undefined` becomes `""`
- *             * `number` types are coerced to strings (Eg: "5").
- *             * All other types raise a runtime exception (Objects, functions, etc)
+/** USAGE: DYNAMICALLY plucks `obj[key]`.
+ *         * `undefined` becomes `""`
+ *         * `number` types are coerced to strings (Eg: "5").
+ *         * `boolean` is converted to "true" and "false" (a string).
+ *         * All other types raise a runtime exception (Objects, functions,
+ *           Array, Symbol, etc)
  */
 export function safeStringFetch(obj: any, key: string): string {
   let boxed = box(obj[key]);
@@ -129,8 +131,10 @@ export function safeStringFetch(obj: any, key: string): string {
     case "number":
     case "string":
       return boxed.value.toString();
+    case "boolean":
+      return (boxed.value) ? "true" : "false";
     default:
-      let msg = ("Only numbers strings and null are allowed here.");
+      let msg = "Only numbers strings and null are allowed here.";
       throw new Error(msg);
   }
 }
