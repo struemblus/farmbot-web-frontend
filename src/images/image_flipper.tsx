@@ -26,13 +26,15 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     imageJSX() {
         let i = this.curent();
         if (i) {
+            let url: string;
             if (i.attachment_processed_at) {
-                return <img
-                    className="image-flipper-image"
-                    src={i.attachment_url} />;
+                url = i.attachment_url;
             } else {
-                return <p> Image {i.id} is still processing. </p>;
+                url = "/app-resources/img/processing.png";
             }
+            return <img
+                className="image-flipper-image"
+                src={url} />;
         } else {
             return <p> Please snap some photos in the sequence editor first.</p>;
         }
