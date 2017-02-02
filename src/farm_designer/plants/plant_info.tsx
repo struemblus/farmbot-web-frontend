@@ -13,7 +13,7 @@ interface PlantInfoProps extends Everything {
 export class PlantInfo extends React.Component<PlantInfoProps, {}> {
     render() {
         let plant_id = parseInt(this.props.params.plant_id);
-        let plants = this.props.designer.plants;
+        let plants = this.props.designer.deprecatedPlants;
         let currentPlant = _.findWhere(plants, { id: plant_id });
 
         let { name, x, y, planted_at } = currentPlant;

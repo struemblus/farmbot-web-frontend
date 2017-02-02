@@ -33,7 +33,7 @@ export function fakeState(dispatcher?: Function): Everything {
     let designer = {
         x_size: 200,
         y_size: 200,
-        plants: [],
+        deprecatedPlants: [],
         cropSearchQuery: "?foo=bar",
         cropSearchResults: []
     };

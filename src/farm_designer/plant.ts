@@ -62,16 +62,7 @@ let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
     "not-set": "/app-resources/img/icons/Sprout-96.png"
 };
 
-export interface PlantOptions {
-    id?: number;
-    planted_at?: string;
-    img_url?: string;
-    name?: string;
-    x?: number;
-    y?: number;
-    planting_area_id?: string;
-    openfarm_slug?: string;
-}
+export type PlantOptions = Partial<Plant>;
 
 /** Factory function for Plant types. */
 export function Plant(options: PlantOptions): Plant {

@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 import { Color } from "./interfaces";
+import { box } from "boxed_value";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -112,5 +113,28 @@ export function isMobile() {
     return true;
   } else {
     return false;
+  }
+}
+/** USAGE: DYNAMICALLY plucks `obj[key]`.
+ *         * `undefined` becomes `""`
+ *         * `number` types are coerced to strings (Eg: "5").
+ *         * `boolean` is converted to "true" and "false" (a string).
+ *         * All other types raise a runtime exception (Objects, functions,
+ *           Array, Symbol, etc)
+ */
+export function safeStringFetch(obj: any, key: string): string {
+  let boxed = box(obj[key]);
+  switch (boxed.kind) {
+    case "undefined":
+    case "null":
+      return "";
+    case "number":
+    case "string":
+      return boxed.value.toString();
+    case "boolean":
+      return (boxed.value) ? "true" : "false";
+    default:
+      let msg = "Only numbers strings and null are allowed here.";
+      throw new Error(msg);
   }
 }

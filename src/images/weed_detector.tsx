@@ -1,7 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
-import { Select } from "../ui";
 import { t } from "i18next";
 import { ChromePicker } from "react-color";
 import { DetectorState } from "./interfaces";
@@ -90,164 +89,113 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             if (!_.isNaN(num)) {
                 return this.setState({ [key]: num });
             }
-        }
+        };
     }
 
     render() {
-        let isEditing = this.state.isEditing;
         return <div>
             <div className="widget-wrapper weed-detector-widget">
                 <div className="row">
                     <div className="col-sm-12">
-                        {isEditing && (
-                            <div className="widget-header">
-                                <button onClick={this.sendOffConfig.bind(this)}
-                                    className="green button-like">
-                                    {t("SAVE")}
-                                </button>
-                                <button
-                                    className="yellow button-like">
-                                    {t("TEST")}
-                                </button>
-                                <button
-                                    className="gray button-like"
-                                    onClick={this.toggleEdit.bind(this)}>
-                                    {t("BACK")}
-                                </button>
-                                <h5>{t("Weed Detector")}</h5>
-                                <i className={`fa fa-question-circle
+                        <div className="widget-header">
+                            <button onClick={this.sendOffConfig.bind(this)}
+                                className="green button-like">
+                                {t("SAVE")}
+                            </button>
+                            <button
+                                className="yellow button-like">
+                                {t("TEST")}
+                            </button>
+                            <button
+                                className="gray button-like"
+                                onClick={this.toggleEdit.bind(this)}>
+                                {t("BACK")}
+                            </button>
+                            <h5>{t("Weed Detector")}</h5>
+                            <i className={`fa fa-question-circle
                                             widget-help-icon`}>
-                                    <div className={`widget-help-text`}>
-                                        {t(`Detect Weeds`)}
-                                    </div>
-                                </i>
-                            </div>
-                        )}
-                        {!isEditing && (
-                            <div className="widget-header">
-                                <button
-                                    className="gray button-like"
-                                    onClick={this.toggleEdit.bind(this)}>
-                                    {t("EDIT")}
-                                </button>
-                                <h5>{t("Weed Detector")}</h5>
-                                <i className={`fa fa-question-circle
-                                            widget-help-icon`}>
-                                    <div className={`widget-help-text`}>
-                                        {t(`Detect Weeds`)}
-                                    </div>
-                                </i>
-                            </div>
-                        )}
+                                <div className={`widget-help-text`}>
+                                    {t(`Detect Weeds`)}
+                                </div>
+                            </i>
+                        </div>
                         <div className="row">
                             <div className="col-sm-12">
-                                {isEditing && (
-                                    <div className="widget-content">
-                                        <div className="row">
-                                            <div className="col-md-6 col-sm-12">
-                                                <h4>
-                                                    <i>Color Range</i>
-                                                </h4>
+                                <div className="widget-content">
+                                    <div className="row">
+                                        <div className="col-md-6 col-sm-12">
+                                            <h4>
+                                                <i>Color Range</i>
+                                            </h4>
 
-                                                <label htmlFor="hue">HUE</label>
-                                                <Slider
-                                                    min={lo(RANGE.H)}
-                                                    max={hi(RANGE.H)}
-                                                    range={true}
-                                                    allowCross={true}
-                                                    defaultValue={[(this.state.HUELow || 0),
-                                                    (this.state.HUEHigh || 5)]} />
+                                            <label htmlFor="hue">HUE</label>
+                                            <Slider
+                                                min={lo(RANGE.H)}
+                                                max={hi(RANGE.H)}
+                                                range={true}
+                                                allowCross={true}
+                                                defaultValue={[(this.state.HUELow || 0),
+                                                (this.state.HUEHigh || 5)]} />
 
-                                                <label htmlFor="saturation">SATURATION</label>
-                                                <Slider
-                                                    min={lo(RANGE.S)}
-                                                    max={hi(RANGE.S)}
-                                                    range={true}
-                                                    allowCross={true}
-                                                    defaultValue={[
-                                                        (this.state.saturationLow || 0),
-                                                        (this.state.saturationHigh || 5)]} />
+                                            <label htmlFor="saturation">SATURATION</label>
+                                            <Slider
+                                                min={lo(RANGE.S)}
+                                                max={hi(RANGE.S)}
+                                                range={true}
+                                                allowCross={true}
+                                                defaultValue={[
+                                                    (this.state.saturationLow || 0),
+                                                    (this.state.saturationHigh || 5)]} />
 
-                                                <label htmlFor="value">VALUE</label>
-                                                <Slider
-                                                    min={lo(RANGE.V)}
-                                                    max={hi(RANGE.V)}
-                                                    range={true} allowCross={true}
-                                                    defaultValue={[(this.state.valueLow || 1),
-                                                    (this.state.valueHigh || 5)]} />
-                                            </div>
-                                            <div className="col-md-6 col-sm-12">
-                                                <ChromePicker
-                                                    color="#fff" />
-                                            </div>
+                                            <label htmlFor="value">VALUE</label>
+                                            <Slider
+                                                min={lo(RANGE.V)}
+                                                max={hi(RANGE.V)}
+                                                range={true} allowCross={true}
+                                                defaultValue={[(this.state.valueLow || 1),
+                                                (this.state.valueHigh || 5)]} />
                                         </div>
-                                        <div className="row">
-                                            <div className="col-md-12 col-sm-12">
-                                                <h4>
-                                                    <i>Processing Parameters</i>
-                                                </h4>
-                                            </div>
-
-                                            <div className="col-md-4 col-sm-4">
-                                                <label>BLUR</label>
-                                                <input type="number"
-                                                    min={lo(RANGE.blur)}
-                                                    max={hi(RANGE.blur)}
-                                                    onChange={this.temporary("blur")}
-                                                    value={this.state.blur} />
-                                            </div>
-
-                                            <div className="col-md-4 col-sm-4">
-                                                <label>MORPH</label>
-                                                <input type="number"
-                                                    min={lo(RANGE.morph)}
-                                                    max={hi(RANGE.morph)}
-                                                    onChange={this.temporary("morph")}
-                                                    value={this.state.morph} />
-                                            </div>
-
-                                            <div className="col-md-4 col-sm-4">
-                                                <label>ITERATION {this.state.iterations}</label>
-                                                <input type="number"
-                                                    min={lo(RANGE.iterations)}
-                                                    max={hi(RANGE.iterations)}
-                                                    onChange={this.temporary("iterations")}
-                                                    value={this.state.iterations} />
-                                            </div>
-                                        </div>
-                                        <ImageFlipper images={this.props.sync.images} />
-                                        <div className="weed-detector-meta">
-                                            <div className="time">
-                                                <label>Time:</label>
-                                                <span>{this.state.time}</span>
-                                            </div>
-                                            <div className="location">
-                                                <label>Location:</label>
-                                                <span>{this.state.location}</span>
-                                            </div>
+                                        <div className="col-md-6 col-sm-12">
+                                            <ChromePicker
+                                                color="#fff" />
                                         </div>
                                     </div>
-                                )}
+                                    <div className="row">
+                                        <div className="col-md-12 col-sm-12">
+                                            <h4>
+                                                <i>Processing Parameters</i>
+                                            </h4>
+                                        </div>
 
-                                {!isEditing && (
-                                    <div className="widget-content">
-                                        <div className="row">
-                                            <div className="col-md-12 col-sm-12">
-                                                <img className="temp-plant" src="/plant.jpg" />
-                                                <div className="weed-detector-meta">
-                                                    <div className="time">
-                                                        <label>Time:</label>
-                                                        <span>{this.state.time}</span>
-                                                    </div>
-                                                    <div className="location">
-                                                        <label>Location:</label>
-                                                        <span>{this.state.location}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div className="col-md-4 col-sm-4">
+                                            <label>BLUR</label>
+                                            <input type="number"
+                                                min={lo(RANGE.blur)}
+                                                max={hi(RANGE.blur)}
+                                                onChange={this.temporary("blur")}
+                                                value={this.state.blur} />
+                                        </div>
+
+                                        <div className="col-md-4 col-sm-4">
+                                            <label>MORPH</label>
+                                            <input type="number"
+                                                min={lo(RANGE.morph)}
+                                                max={hi(RANGE.morph)}
+                                                onChange={this.temporary("morph")}
+                                                value={this.state.morph} />
+                                        </div>
+
+                                        <div className="col-md-4 col-sm-4">
+                                            <label>ITERATION {this.state.iterations}</label>
+                                            <input type="number"
+                                                min={lo(RANGE.iterations)}
+                                                max={hi(RANGE.iterations)}
+                                                onChange={this.temporary("iterations")}
+                                                value={this.state.iterations} />
                                         </div>
                                     </div>
-                                )}
+                                    <ImageFlipper images={this.props.sync.images} />
+                                </div>
                             </div>
                         </div>
                     </div>
