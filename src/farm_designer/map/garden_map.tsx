@@ -115,10 +115,12 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 return <DraggableSvgImage key={p.id}
                   x={p.x}
                   y={p.y}
+                  height={32}
+                  width={32}
                   id={p.id}
                   onUpdate={updater}
                   onDrop={dropper}
-                  href={"/app-resources/img/icons/Apple-96.png"} />;
+                  href={"/app-resources/img/icons/Sprout-96.png"} />;
               } else {
                 throw new Error("Save plants before placing them on the map");
               }
