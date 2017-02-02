@@ -23,12 +23,12 @@ let buttonList = (dispatch: Function) => (seq: Sequence, index: number) => {
       <i className="fa fa-pencil block-control" />
     </button>;
   } else {
-    return <Link to={`app/sequences/${seq.name}`}
+    return <Link
+      to={`/app/sequences/${seq.name.replace(" ", "_").toLowerCase()}`}
       key={seq.id || index}
       onClick={click}
       className={css.join(" ")}>
       {seq.name + (seq.dirty ? "*" : "")}
-      <i className="fa fa-pencil block-control" />
     </Link>;
   }
 };
@@ -65,6 +65,8 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
             </div>
           </div>
         </div>
+        <i className="fa fa-plus plus-button"
+          onClick={() => dispatch(addSequence())}></i>
       </div>
     </div>;
   }
