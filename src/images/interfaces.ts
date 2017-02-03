@@ -16,18 +16,30 @@ export interface Image {
     };
 }
 
-export interface DetectorState {
-    HUELow: number;
-    HUEHigh: number;
-    saturationLow: number;
-    saturationHigh: number;
-    valueLow: number;
-    valueHigh: number;
+/** Hue, Saturation, Value map. */
+export interface HSV<T> {
+    H: T;
+    S: T;
+    V: T;
+}
+
+/** A simple range object. */
+export interface HiLo {
+    hi: number;
+    lo: number;
+}
+
+/** JSON document that gets sent to the weed detection python script as an WeedDetectorENV
+ *  variable. */
+export interface WeedDetectorENV {
+    H: [number, number];
+    S: [number, number];
+    V: [number, number];
     blur: number;
     morph: number;
     iterations: number;
-    time: string;
-    location: string;
-    isEditing: boolean;
-}
+};
 
+export interface DetectorState extends WeedDetectorENV {
+    isEditing: boolean;
+};
