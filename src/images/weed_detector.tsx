@@ -5,43 +5,8 @@ import { t } from "i18next";
 import { ChromePicker } from "react-color";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
-import * as ReactSelect from "react-select";
-import { range } from "lodash";
 import { devices } from "../device";
-// TODO: Submit typings for RC slider.
-var Slider = require("rc-slider") as (props: TodoFixThis) => JSX.Element;
-require("rc-slider/assets/index.css");
-interface TodoFixThis {
-    onChange?: (val: number) => void;
-    min?: number;
-    max?: number;
-    onAfterChange?: (val: number) => void;
-    range?: boolean;
-    allowCross?: boolean;
-    defaultValue?: number[];
-}
-
-
-function sliderRange(hi: number, lo: number) {
-    return _.range(hi, lo).map(x => ({ value: x.toString(), label: x.toString() }));
-}
-
-function hi(i: ReactSelect.Option[]): number {
-    return parseInt(String(i[i.length - 1].value), 10);
-}
-
-function lo(i: ReactSelect.Option[]): number {
-    return parseInt(String(i[0].value), 10);
-}
-
-const RANGE = {
-    H: sliderRange(0, 179),
-    S: sliderRange(0, 255),
-    V: sliderRange(0, 255),
-    blur: sliderRange(0, 255),
-    morph: sliderRange(0, 255),
-    iterations: sliderRange(0, 25)
-};
+import { HsvSlider } from "./hsv_slider";
 
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
@@ -49,17 +14,9 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         super();
         this.state = {
             isEditing: true,
-            HUELow: 10,
-            HUEHigh: 20,
-            saturationLow: 30,
-            saturationHigh: 40,
-            valueLow: 50,
-            valueHigh: 60,
             blur: 1,
             morph: 2,
             iterations: 3,
-            time: "12:34pm",
-            location: "230, 489, -6,890"
         };
     }
     sendOffConfig() {
@@ -86,6 +43,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         return (e: React.FormEvent<HTMLInputElement>) => {
             let str = e.currentTarget.value;
             let num = parseInt(str, 10);
+            console.log("!!!");
             if (!_.isNaN(num)) {
                 return this.setState({ [key]: num });
             }
@@ -129,31 +87,11 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             </h4>
 
                                             <label htmlFor="hue">HUE</label>
-                                            <Slider
-                                                min={lo(RANGE.H)}
-                                                max={hi(RANGE.H)}
-                                                range={true}
-                                                allowCross={true}
-                                                defaultValue={[(this.state.HUELow || 0),
-                                                (this.state.HUEHigh || 5)]} />
-
+                                            <HsvSlider name={"H"} />
                                             <label htmlFor="saturation">SATURATION</label>
-                                            <Slider
-                                                min={lo(RANGE.S)}
-                                                max={hi(RANGE.S)}
-                                                range={true}
-                                                allowCross={true}
-                                                defaultValue={[
-                                                    (this.state.saturationLow || 0),
-                                                    (this.state.saturationHigh || 5)]} />
-
+                                            <HsvSlider name={"S"} />
                                             <label htmlFor="value">VALUE</label>
-                                            <Slider
-                                                min={lo(RANGE.V)}
-                                                max={hi(RANGE.V)}
-                                                range={true} allowCross={true}
-                                                defaultValue={[(this.state.valueLow || 1),
-                                                (this.state.valueHigh || 5)]} />
+                                            <HsvSlider name={"V"} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
                                             <ChromePicker
@@ -170,8 +108,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>BLUR</label>
                                             <input type="number"
-                                                min={lo(RANGE.blur)}
-                                                max={hi(RANGE.blur)}
+                                                min={(0)}
+                                                max={(0)}
                                                 onChange={this.temporary("blur")}
                                                 value={this.state.blur} />
                                         </div>
@@ -179,8 +117,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>MORPH</label>
                                             <input type="number"
-                                                min={lo(RANGE.morph)}
-                                                max={hi(RANGE.morph)}
+                                                min={(0)}
+                                                max={(0)}
                                                 onChange={this.temporary("morph")}
                                                 value={this.state.morph} />
                                         </div>
@@ -188,8 +126,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>ITERATION {this.state.iterations}</label>
                                             <input type="number"
-                                                min={lo(RANGE.iterations)}
-                                                max={hi(RANGE.iterations)}
+                                                min={(0)}
+                                                max={(0)}
                                                 onChange={this.temporary("iterations")}
                                                 value={this.state.iterations} />
                                         </div>
