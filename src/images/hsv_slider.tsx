@@ -66,8 +66,11 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
     render() {
 
         let { name } = this.props;
+        let max = RANGE[name].hi;
+
         return <RangeSlider
             onChange={this.onChange}
+            labelStepSize={max}
             min={RANGE[name].lo}
             max={RANGE[name].hi}
             value={[this.lo, this.hi]} />;
