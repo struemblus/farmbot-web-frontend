@@ -6,7 +6,7 @@ export interface MovePlantProps {
   plantId: number;
 }
 
-export interface ScheduledEvent {
+export interface FarmEvent {
   time: Date;
   desc: string;
   icon: string;
