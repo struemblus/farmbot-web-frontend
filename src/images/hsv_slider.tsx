@@ -50,14 +50,11 @@ export function HsvSlider(props: EnvSliderProps) {
     function wow() {
         debugger;
     }
-
-    // min={RANGE[name].lo}
-    // max={RANGE[name].hi}
-    // range={true}
-    // allowCross={true}
-    // onChange={wow}
-    // defaultValue={[DEFAULTS[name].lo, DEFAULTS[name].hi]} 
     let brb = (num: number) => { if (cb) { cb(name, num); } };
-    return <Slider />;
-    // return < />;
+    return <Slider
+        onChange={wow}
+        range={true}
+        min={RANGE[name].lo}
+        max={RANGE[name].hi}
+        defaultValue={[DEFAULTS[name].lo, DEFAULTS[name].hi]} />;
 }
