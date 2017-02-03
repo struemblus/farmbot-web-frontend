@@ -11,6 +11,7 @@ import {
 import { SelectSequenceOrRegimenProps } from "../interfaces";
 import { selectSequenceOrRegimen, saveFarmEvent } from "../actions";
 import * as _ from "lodash";
+import * as moment from "moment";
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
   handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
@@ -58,7 +59,16 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   }
 
   saveEvent() {
-    this.props.dispatch(saveFarmEvent);
+    let NOT_REAL_DATA = {
+      time: new Date(),
+      icon: "leaf",
+      desc: "Weed",
+      repeat: 1000,
+      time_unit: "daily",
+      executable_type: "Sequence",
+      executable_id: 1
+    };
+    this.props.dispatch(saveFarmEvent(NOT_REAL_DATA));
   }
 
   render() {
@@ -87,7 +97,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** For telling select box */
     let chosenNode = this.props.designer.currentSequenceOrRegimen;
 
-    return <div className="panel-container magenta-panel">
+    return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title">
           <BackArrow />Add Farm Event
@@ -103,20 +113,20 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
           value={chosenNode.id || 0} />
 
         <label>{t("Parameters")}</label>
-        <p className="event-parameters">Show sequence/regimen parameters</p>
+        <table>
+          <tr>
+            <td></td>
+          </tr>
+        </table>
 
         <label>{t("Starts")}</label>
         <div className="row">
           <div className="col-xs-6">
-            <input placeholder="Today"
-              type="text"
+            <input type="date"
               className="add-event-start-date" />
           </div>
           <div className="col-xs-6">
-            <select className="add-event-start-time">
-              <option value="1430">2:30pm</option>
-              <option value="1700">5:00pm</option>
-            </select>
+            <input type="time" className="add-event-start-time" />
           </div>
         </div>
         <label>{t("Repeats Every")}</label>
@@ -150,11 +160,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
               <option value="1700">5:00pm</option>
             </select>
           </div>
-        </div>
-        <div>
-          <button className="magenta button-like">
-            Save
-          </button>
         </div>
         <button className="magenta button-like"
           onClick={this.saveEvent.bind(this)}>
