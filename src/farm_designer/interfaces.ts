@@ -68,5 +68,5 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
-  currentSequenceOrRegimen: Partial<Sequence | Regimen>;
+  currentSequenceOrRegimen: Partial<Sequence | Regimen | undefined>;
 }

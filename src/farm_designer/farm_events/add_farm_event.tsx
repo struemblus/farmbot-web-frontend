@@ -110,7 +110,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
           options={regimenOptions.concat(sequencesOptions)}
           optionComponent={OptionComponent}
           onChange={this.selectFromDropDown.bind(this)}
-          value={chosenNode.id || 0} />
+          value={(chosenNode || {}).id || 0} />
 
         <label>{t("Parameters")}</label>
         <table>
