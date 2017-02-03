@@ -8,6 +8,8 @@ import {
   SelectOptionsParams,
   CustomOptionProps
 } from "../../interfaces";
+import { selectSequenceOrRegimen } from "../actions";
+import { Option } from "react-select";
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
   handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
@@ -39,6 +41,10 @@ class OptionComponent extends React.Component<CustomOptionProps, {}> {
 
 @connect((state: Everything) => state)
 export class AddFarmEvent extends React.Component<Everything, {}> {
+  selectFromDropDown(e: Option) {
+    this.props.dispatch(selectSequenceOrRegimen(e));
+  }
+
   render() {
     let regimenOptions: SelectOptionsParams[] = this.props.regimens.all.map(regimen => {
       return { label: regimen.name, value: regimen.id };
@@ -66,7 +72,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         <Select
           className="group-by"
           options={regimenOptions.concat(sequencesOptions)}
-          optionComponent={OptionComponent} />
+          optionComponent={OptionComponent}
+          onChange={this.selectFromDropDown.bind(this)} />
 
         <label>{t("Parameters")}</label>
         <p className="event-parameters">Show sequence/regimen parameters</p>

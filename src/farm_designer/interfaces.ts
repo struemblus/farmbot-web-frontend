@@ -1,4 +1,10 @@
 import { OpenFarm } from "./openfarm";
+import { Regimen } from "../regimens/interfaces";
+import { Sequence } from "../sequences/interfaces";
+
+export interface SelectSequenceOrRegimenProps {
+
+}
 
 export interface MovePlantProps {
   deltaX: number;
@@ -46,4 +52,5 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
+  currentSequenceOrRegimen: Partial<Sequence | Regimen>;
 }
