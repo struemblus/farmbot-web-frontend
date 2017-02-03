@@ -8,7 +8,7 @@ import { ImageFlipper } from ".";
 import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
-const DETECTOR_ENV = "PLANT_DETECTION.options";
+const DETECTOR_ENV = "PLANT_DETECTION_options";
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
