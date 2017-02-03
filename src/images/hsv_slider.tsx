@@ -30,7 +30,7 @@ const DEFAULTS: HSV<HiLo> = {
 
 interface EnvSliderProps {
     name: keyof HSV<{}>;
-    onChange?: (key: string, val: number) => void;
+    onChange?: (key: keyof HSV<{}>, val: [number, number]) => void;
 }
 
 interface EnvSliderState {
@@ -41,6 +41,7 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
     constructor() {
         super();
         this.onChange = this.onChange.bind(this);
+        this.onRelease = this.onRelease.bind(this);
         this.state = {};
     }
 
@@ -49,6 +50,13 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
             hi: range[1],
             lo: range[0]
         });
+    }
+
+    onRelease(range: [number, number]) {
+        let cb = this.props.onChange;
+        if (cb) {
+            cb(this.props.name, [this.lo, this.hi]);
+        }
     }
 
     get hi() {
@@ -68,6 +76,7 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
 
         return <RangeSlider
             onChange={this.onChange}
+            onRelease={this.onRelease}
             labelStepSize={RANGE[name].hi}
             min={RANGE[name].lo}
             max={RANGE[name].hi}
