@@ -2,58 +2,26 @@ import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
 import { Select } from "../../ui";
-import { connect } from "react-redux";
-import {
-  Everything,
-  SelectOptionsParams,
-  CustomOptionProps
-} from "../../interfaces";
 
-class OptionComponent extends React.Component<CustomOptionProps, {}> {
-  handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.onSelect(this.props.option, e);
-  };
-
-  handleMouseEnter(e: React.SyntheticEvent<HTMLDivElement>) {
-    this.props.onFocus(this.props.option, e);
-  };
-
-  handleMouseMove(e: React.SyntheticEvent<HTMLDivElement>) {
-    if (this.props.isFocused) { return; };
-    this.props.onFocus(this.props.option, e);
-  };
-
-  render() {
-    return (
-      <div className={this.props.className}
-        onMouseDown={this.handleMouseDown.bind(this)}
-        onMouseEnter={this.handleMouseEnter.bind(this)}
-        onMouseMove={this.handleMouseMove.bind(this)}>
-        {this.props.children}
-      </div>
-    );
-  }
+interface AddFarmEventState {
+  sequences: {}[];
+  regimens: {}[];
 }
 
-@connect((state: Everything) => state)
-export class AddFarmEvent extends React.Component<Everything, {}> {
+export class AddFarmEvent extends React.Component<{}, AddFarmEventState> {
+  constructor() {
+    super();
+    this.state = { sequences: [], regimens: [] };
+  }
+
+  componentDidMount() {
+    // this.setState({
+    //   sequences: this.props.sequeces.all,
+    //   regimens: this.props.regimens.all
+    // });
+  }
+
   render() {
-    let regimenOptions: SelectOptionsParams[] = this.props.regimens.all.map(regimen => {
-      return { label: regimen.name, value: regimen.id };
-    });
-
-    // Hack for group-by styling :\
-    regimenOptions.unshift({ label: "Regimens", value: 0, disabled: true });
-
-    let sequencesOptions: SelectOptionsParams[] = this.props.sequences.all.map(sequence => {
-      return { label: sequence.name, value: sequence.id };
-    });
-
-    // Hack for group-by styling :\
-    sequencesOptions.unshift({ label: "Sequences", value: 0, disabled: true });
-
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title">
@@ -61,13 +29,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         </p>
       </div>
       <div className="panel-content">
-
         <label>{t("Sequence or Regimen")}</label>
-        <Select
-          className="group-by"
-          options={regimenOptions.concat(sequencesOptions)}
-          optionComponent={OptionComponent} />
-
+        // Select here
         <label>{t("Parameters")}</label>
         <p className="event-parameters">Show sequence/regimen parameters</p>
         <label>{t("Starts")}</label>
