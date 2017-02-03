@@ -51,8 +51,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         };
     }
 
-    setHSV(key: "H" | "S" | "V", val: number) {
-        console.log(val);
+    setHSV(key: "H" | "S" | "V", val: [number, number]) {
+        console.log(`${key} => ${val[0]}, ${val[1]}`);
     }
 
     render() {
