@@ -1,18 +1,6 @@
 import * as React from "react";
+import { HSV, HiLo } from "./interfaces";
 import { RangeSlider } from "@blueprintjs/core";
-
-/** Hue, Saturation, Value map. */
-interface HSV<T> {
-    H: T;
-    S: T;
-    V: T;
-}
-
-/** A simple range object. */
-interface HiLo {
-    hi: number;
-    lo: number;
-}
 
 /** Max HSV allowed by farmbot weed detector. */
 const RANGE: HSV<HiLo> = {
@@ -33,16 +21,18 @@ interface EnvSliderProps {
     onChange?: (key: keyof HSV<{}>, val: [number, number]) => void;
 }
 
-interface EnvSliderState {
-    hi: number | undefined;
-    lo: number | undefined;
-}
-export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSliderState>> {
+type EnvSliderState = Partial<HiLo>;
+
+export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
     constructor() {
         super();
         this.onChange = this.onChange.bind(this);
         this.onRelease = this.onRelease.bind(this);
         this.state = {};
+    }
+
+    componentDidMount() {
+        this.onRelease();
     }
 
     onChange(range: [number, number]) {
@@ -52,7 +42,7 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
         });
     }
 
-    onRelease(range: [number, number]) {
+    onRelease() {
         let cb = this.props.onChange;
         if (cb) {
             cb(this.props.name, [this.lo, this.hi]);

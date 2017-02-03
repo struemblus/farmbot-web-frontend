@@ -7,7 +7,8 @@ import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
 import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
-
+import { BlurableInput } from "../ui/blurable_input";
+const DETECTOR_ENV = "PLANT_DETECTION.options";
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
@@ -20,31 +21,32 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             iterations: 3,
         };
     }
+
+    componentDidMout() {
+        let env = this.props.bot.hardware.user_env[DETECTOR_ENV];
+        if (env && (typeof env === "string")) {
+            try {
+                this.setState(JSON.parse(env));
+            } catch (e) { /** Well atleast we try'ed */ };
+        }
+    }
+
     sendOffConfig() {
-        let s = this.state;
+        let message = { [DETECTOR_ENV]: JSON.stringify(this.state) };
+        console.dir(message)
         devices
             .current
-            .setUserEnv({
-                "PLANT_DETECTION.HUELow": String(s.HUELow),
-                "PLANT_DETECTION.HUEHigh": String(s.HUEHigh),
-                "PLANT_DETECTION.saturationLow": String(s.saturationLow),
-                "PLANT_DETECTION.saturationHigh": String(s.saturationHigh),
-                "PLANT_DETECTION.valueLow": String(s.valueLow),
-                "PLANT_DETECTION.valueHigh": String(s.valueHigh),
-                "PLANT_DETECTION.blur": String(s.blur),
-                "PLANT_DETECTION.morph": String(s.morph),
-                "PLANT_DETECTION.iterations": String(s.iterations),
-            });
+            .setUserEnv(message);
     }
+
     toggleEdit() {
         this.setState({ isEditing: !this.state.isEditing });
     }
 
-    temporary(key: keyof DetectorState) {
+    onBlur(key: keyof DetectorState) {
         return (e: React.FormEvent<HTMLInputElement>) => {
             let str = e.currentTarget.value;
             let num = parseInt(str, 10);
-            console.log("!!!");
             if (!_.isNaN(num)) {
                 return this.setState({ [key]: num });
             }
@@ -52,7 +54,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     }
 
     setHSV(key: "H" | "S" | "V", val: [number, number]) {
-        console.log(`${key} => ${val[0]}, ${val[1]}`);
+        this.setState({ [key]: val });
     }
 
     render() {
@@ -110,29 +112,29 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
                                         <div className="col-md-4 col-sm-4">
                                             <label>BLUR</label>
-                                            <input type="number"
+                                            <BlurableInput type="number"
                                                 min={0}
-                                                max={0}
-                                                onChange={this.temporary("blur")}
-                                                value={this.state.blur} />
+                                                max={100}
+                                                onCommit={this.onBlur("blur")}
+                                                value={(this.state.blur || 0).toString()} />
                                         </div>
 
                                         <div className="col-md-4 col-sm-4">
                                             <label>MORPH</label>
-                                            <input type="number"
+                                            <BlurableInput type="number"
                                                 min={0}
-                                                max={0}
-                                                onChange={this.temporary("morph")}
-                                                value={this.state.morph} />
+                                                max={100}
+                                                onCommit={this.onBlur("morph")}
+                                                value={(this.state.morph || 0).toString()} />
                                         </div>
 
                                         <div className="col-md-4 col-sm-4">
-                                            <label>ITERATION {this.state.iterations}</label>
-                                            <input type="number"
+                                            <label>ITERATION</label>
+                                            <BlurableInput type="number"
                                                 min={0}
-                                                max={0}
-                                                onChange={this.temporary("iterations")}
-                                                value={this.state.iterations} />
+                                                max={100}
+                                                onCommit={this.onBlur("iterations")}
+                                                value={(this.state.iterations || 0).toString()} />
                                         </div>
                                     </div>
                                     <ImageFlipper images={this.props.sync.images} />

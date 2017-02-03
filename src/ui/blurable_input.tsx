@@ -3,6 +3,8 @@ import * as React from "react";
 interface BIProps {
     value: string;
     onCommit: Function;
+    min?: number;
+    max?: number;
     type?: "text" | "number" | "email" | "password";
     name?: string;
     id?: string;
@@ -48,8 +50,9 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
             onBlur={this.maybeCommit.bind(this)}
             name={this.props.name}
             id={this.props.id}
+            min={this.props.min}
+            max={this.props.max}
             type={this.props.type || "text"}
-            disabled={this.props.disabled}
-            />;
+            disabled={this.props.disabled} />;
     }
 }
