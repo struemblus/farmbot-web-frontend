@@ -12,6 +12,7 @@ import { HsvSlider } from "./hsv_slider";
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
         super();
+        this.setHSV = this.setHSV.bind(this);
         this.state = {
             isEditing: true,
             blur: 1,
@@ -50,6 +51,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         };
     }
 
+    setHSV(key: "H" | "S" | "V", val: number) {
+        console.log(val);
+    }
+
     render() {
         return <div>
             <div className="widget-wrapper weed-detector-widget">
@@ -85,17 +90,15 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <h4>
                                                 <i>Color Range</i>
                                             </h4>
-
                                             <label htmlFor="hue">HUE</label>
-                                            <HsvSlider name={"H"} />
+                                            <HsvSlider name={"H"} onChange={this.setHSV} />
                                             <label htmlFor="saturation">SATURATION</label>
-                                            <HsvSlider name={"S"} />
+                                            <HsvSlider name={"S"} onChange={this.setHSV} />
                                             <label htmlFor="value">VALUE</label>
-                                            <HsvSlider name={"V"} />
+                                            <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <ChromePicker
-                                                color="#fff" />
+                                            <ChromePicker color="#fff" />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -108,8 +111,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>BLUR</label>
                                             <input type="number"
-                                                min={(0)}
-                                                max={(0)}
+                                                min={0}
+                                                max={0}
                                                 onChange={this.temporary("blur")}
                                                 value={this.state.blur} />
                                         </div>
@@ -117,8 +120,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>MORPH</label>
                                             <input type="number"
-                                                min={(0)}
-                                                max={(0)}
+                                                min={0}
+                                                max={0}
                                                 onChange={this.temporary("morph")}
                                                 value={this.state.morph} />
                                         </div>
@@ -126,8 +129,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                         <div className="col-md-4 col-sm-4">
                                             <label>ITERATION {this.state.iterations}</label>
                                             <input type="number"
-                                                min={(0)}
-                                                max={(0)}
+                                                min={0}
+                                                max={0}
                                                 onChange={this.temporary("iterations")}
                                                 value={this.state.iterations} />
                                         </div>

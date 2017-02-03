@@ -1,6 +1,5 @@
 import * as React from "react";
-var Slider = require("rc-slider") as (props: TodoFixThis) => JSX.Element;
-require("rc-slider/assets/index.css");
+import { Slider } from "antd";
 
 interface TodoFixThis {
     onChange?: (val: number) => void;
@@ -42,15 +41,20 @@ const DEFAULTS: HSV<HiLo> = {
 
 interface EnvSliderProps {
     name: keyof HSV<{}>;
-    // value?: number | undefined;
+    onChange?: (key: string, val: number) => void;
 }
 
 export function HsvSlider(props: EnvSliderProps) {
+    let cb = props.onChange;
     let { name } = props;
+    function wow() {
+        debugger;
+    }
+    let brb = (num: number) => { if (cb) { cb(name, num); } };
     return <Slider
+        onChange={wow}
+        range={true}
         min={RANGE[name].lo}
         max={RANGE[name].hi}
-        range={true}
-        allowCross={true}
         defaultValue={[DEFAULTS[name].lo, DEFAULTS[name].hi]} />;
 }
