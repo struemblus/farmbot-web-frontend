@@ -100,7 +100,6 @@ export interface CustomOptionProps {
     onSelect: Function;
     onFocus: Function;
     isFocused: Function;
-    disabled: boolean;
     option: {
         // I will have to refactor this. On the TODO list. -CV
         value?: string;

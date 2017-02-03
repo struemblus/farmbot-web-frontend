@@ -1,10 +1,18 @@
 import { OpenFarm } from "./openfarm";
 import { Regimen } from "../regimens/interfaces";
 import { Sequence } from "../sequences/interfaces";
+import { Option } from "react-select";
 
-export interface SelectSequenceOrRegimenProps {
-
+export interface SelectSequenceOrRegimenProps extends Option {
+  /** Used to identify checking which id in what array to match. */
+  kind?: string;
 }
+
+export interface FarmEvent {
+  time: Date;
+  desc: string;
+  icon: string;
+};
 
 export interface MovePlantProps {
   deltaX: number;
@@ -12,7 +20,7 @@ export interface MovePlantProps {
   plantId: number;
 }
 
-export interface FarmEvent {
+export interface ScheduledEvent {
   time: Date;
   desc: string;
   icon: string;

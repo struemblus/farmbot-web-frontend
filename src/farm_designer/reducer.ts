@@ -9,6 +9,8 @@ import {
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
+import { Regimen } from "../regimens/interfaces";
+import { Sequence } from "../sequences/interfaces";
 
 let DEFAULT_STATE: DesignerState = {
   deprecatedPlants: [],
@@ -59,7 +61,7 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     state.cropSearchResults = payload;
     return state;
   })
-  .add<SelectSequenceOrRegimenProps>("SELECT_SEQUENCE_OR_REGIMEN", function (s, { payload }) {
-    console.log(payload);
+  .add<Sequence | Regimen>("SELECT_SEQUENCE_OR_REGIMEN", function (s, { payload }) {
+    s.currentSequenceOrRegimen = payload;
     return s;
   });

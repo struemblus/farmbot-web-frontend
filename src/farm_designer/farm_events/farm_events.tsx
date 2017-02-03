@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { FarmEvent } from "../interfaces";
+import { ScheduledEvent } from "../interfaces";
 import { Select } from "../../ui";
 
-interface FarmEventProps {
-  farmEvent: FarmEvent;
+interface ScheduledEventProps {
+  scheduledEvent: ScheduledEvent;
 }
 
-export class ScheduleEvent extends React.Component<FarmEventProps, {}> {
+export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
   hasPassed(date: Date) { return date < new Date(); }
 
@@ -18,7 +18,7 @@ export class ScheduleEvent extends React.Component<FarmEventProps, {}> {
   }
 
   render() {
-    let evnt = this.props.farmEvent;
+    let evnt = this.props.scheduledEvent;
     let isPassed = this.hasPassed(evnt.time) ? "past" : "";
 
     return <div className={`event ${isPassed}`}>

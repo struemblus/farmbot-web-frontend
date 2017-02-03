@@ -1,18 +1,7 @@
 import * as React from "react";
-import { Slider } from "antd";
+import { RangeSlider } from "@blueprintjs/core";
 
-interface TodoFixThis {
-    onChange?: (val: number) => void;
-    min?: number;
-    max?: number;
-    onAfterChange?: (val: number) => void;
-    range?: boolean;
-    allowCross?: boolean;
-    defaultValue?: number[];
-    value?: number | undefined;
-}
-
-/** Hue, Saturation, Value structure. */
+/** Hue, Saturation, Value map. */
 interface HSV<T> {
     H: T;
     S: T;
@@ -27,16 +16,16 @@ interface HiLo {
 
 /** Max HSV allowed by farmbot weed detector. */
 const RANGE: HSV<HiLo> = {
-    H: { hi: 0, lo: 179 },
-    S: { hi: 0, lo: 255 },
-    V: { hi: 0, lo: 255 }
+    H: { lo: 0, hi: 179 },
+    S: { lo: 0, hi: 255 },
+    V: { lo: 0, hi: 255 }
 };
 
 /** Default HSV if none found on bot. */
 const DEFAULTS: HSV<HiLo> = {
-    H: { hi: 10, lo: 20 },
-    S: { hi: 30, lo: 40 },
-    V: { hi: 50, lo: 60 }
+    H: { lo: 10, hi: 20 },
+    S: { lo: 30, hi: 40 },
+    V: { lo: 50, hi: 60 }
 };
 
 interface EnvSliderProps {
@@ -44,17 +33,43 @@ interface EnvSliderProps {
     onChange?: (key: string, val: number) => void;
 }
 
-export function HsvSlider(props: EnvSliderProps) {
-    let cb = props.onChange;
-    let { name } = props;
-    function wow() {
-        debugger;
+interface EnvSliderState {
+    hi: number | undefined;
+    lo: number | undefined;
+}
+export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSliderState>> {
+    constructor() {
+        super();
+        this.onChange = this.onChange.bind(this);
+        this.state = {};
     }
-    let brb = (num: number) => { if (cb) { cb(name, num); } };
-    return <Slider
-        onChange={wow}
-        range={true}
-        min={RANGE[name].lo}
-        max={RANGE[name].hi}
-        defaultValue={[DEFAULTS[name].lo, DEFAULTS[name].hi]} />;
+
+    onChange(range: [number, number]) {
+        this.setState({
+            hi: range[1],
+            lo: range[0]
+        });
+    }
+
+    get hi() {
+        let { hi } = this.state;
+        let { name } = this.props;
+        return (hi === undefined) ? DEFAULTS[name].lo : hi;
+    }
+
+    get lo() {
+        let { lo } = this.state;
+        let { name } = this.props;
+        return (lo === undefined) ? DEFAULTS[name].lo : lo;
+    }
+
+    render() {
+
+        let { name } = this.props;
+        return <RangeSlider
+            onChange={this.onChange}
+            min={RANGE[name].lo}
+            max={RANGE[name].hi}
+            value={[this.lo, this.hi]} />;
+    }
 }
