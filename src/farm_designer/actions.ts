@@ -1,6 +1,11 @@
 import * as Axios from "axios";
 import { error, success } from "../ui";
-import { Plant, MovePlantProps } from "./interfaces";
+import {
+  Plant,
+  MovePlantProps,
+  FarmEvent,
+  SelectSequenceOrRegimenProps
+} from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
@@ -8,6 +13,52 @@ import * as _ from "lodash";
 import { API } from "../api";
 import { Everything } from "../interfaces";
 import { findPlantById } from "../sync/reducer";
+
+export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
+  return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
+};
+
+export function saveFarmEvent(farm_event: FarmEvent): Thunk {
+  let url = API.current.farmEventsPath;
+  return function (dispatch, getState) {
+    return Axios.post<FarmEvent>(url, farm_event)
+      .then((resp) => {
+        let payload = { ...farm_event, ...resp.data };
+        dispatch({ type: "SAVE_FARM_EVENT_OK", payload });
+      })
+      .catch((payload) => {
+        error(t("Tried to save Farm Event, but couldn't."));
+      });
+  };
+};
+
+export function updateFarmEvent(farm_event: FarmEvent): Thunk {
+  let url = API.current.farmEventsPath;
+  return function (dispatch, getState) {
+    return Axios.put<Partial<FarmEvent>>(url, farm_event)
+      .then((resp) => {
+        let payload = { ...farm_event, ...resp.data };
+        dispatch({ type: "UPDATE_FARM_EVENT_OK", payload });
+      })
+      .catch((payload) => {
+        error(t("Tried to update Farm Event, but couldn't."));
+      });
+  };
+};
+
+export function destroyFarmEvent(farm_event_id: number): Thunk {
+  let url = API.current.farmEventsPath;
+  return function (dispatch, getState) {
+    return Axios.delete<Partial<FarmEvent>>(url, farm_event_id)
+      .then((resp) => {
+        let payload = { id: farm_event_id, ...resp.data };
+        dispatch({ type: "DELETE_FARM_EVENT_OK", payload });
+      })
+      .catch((payload) => {
+        error(t("Tried to delete Farm Event, but couldn't."));
+      });
+  };
+};
 
 /** Deprecating this in favor of the new savePlant() method which users
  * sync object rather than duplicating state.

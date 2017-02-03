@@ -48,7 +48,6 @@ function SequenceSelectBox({dispatch,
         }
     });
 
-    // TODO: Take care of this any
     function change(e: Option) {
         let val = e.value;
         if (val) {

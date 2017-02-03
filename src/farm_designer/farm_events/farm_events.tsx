@@ -3,10 +3,8 @@ import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { ScheduledEvent } from "../interfaces";
 import { Select } from "../../ui";
-
-interface ScheduledEventProps {
-  scheduledEvent: ScheduledEvent;
-}
+import { connect } from "react-redux";
+import { ScheduledEventProps } from "../interfaces";
 
 export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
@@ -30,6 +28,7 @@ export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
   }
 }
 
+@connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
   render() {
     return <div className="panel-container magenta-panel">
@@ -55,29 +54,8 @@ export class FarmEvents extends React.Component<Everything, {}> {
             options={[{ label: "January 1", value: 1 }]} />
         </div>
 
-        <div className="event-list">
 
-          {/* Foreach these guys.. */}
-          <div className="event-date col-sm-2">
-            <label className="month-abbr">AUG</label>
-            <label className="month-day">21</label>
-          </div>
 
-          <div className="event-block-list">
-            {/* aaand these ones */}
-            <div className="event-block col-sm-10">
-              <span className="time">4am</span>
-              <i className="fa fa-tint"></i>
-              <span className="desc">Water</span>
-            </div>
-            <div className="event-block col-sm-10">
-              <span className="time">3pm</span>
-              <i className="fa fa-leaf"></i>
-              <span className="desc">Seed</span>
-            </div>
-          </div>
-
-        </div>
 
         <Link to="/app/designer/farm_events/add">
           <div className="plus-button add-event button-like"

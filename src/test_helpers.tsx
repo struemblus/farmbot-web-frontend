@@ -35,7 +35,8 @@ export function fakeState(dispatcher?: Function): Everything {
         y_size: 200,
         deprecatedPlants: [],
         cropSearchQuery: "?foo=bar",
-        cropSearchResults: []
+        cropSearchResults: [],
+        currentSequenceOrRegimen: {}
     };
     let bot: BotState = {
         account: {
