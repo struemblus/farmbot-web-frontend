@@ -1,6 +1,5 @@
 import {
     prettyPrintApiErrors,
-    beep,
     defensiveClone,
     getParam
 } from "../util";
@@ -43,15 +42,4 @@ describe("util", () => {
             expect(result).toEqual("Email: can't be blank.");
         });
     });
-
-    describe("beep()", () => {
-        it("¯\_(ツ)_/¯", () => {
-            beep();
-        });
-    });
-    // describe("x", () => {
-    //     it("y", () => {
-
-    //     });
-    // });
 });
