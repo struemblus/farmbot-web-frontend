@@ -9,7 +9,7 @@ import {
   CustomOptionProps
 } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
-import { selectSequenceOrRegimen } from "../actions";
+import { selectSequenceOrRegimen, saveFarmEvent } from "../actions";
 import * as _ from "lodash";
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
@@ -45,8 +45,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   selectFromDropDown(e: SelectSequenceOrRegimenProps) {
     let { regimens, sequences } = this.props;
 
-    // Depending on the kind chosen, place that in the state tree
-    // e.value is the id of the node
+    /* Depending on the kind chosen, place that in the state tree
+    /* e.value is the id of the node */
     if (e.kind === "regimen") {
       let regimen = _.findWhere(regimens.all, { id: e.value });
       this.props.dispatch(selectSequenceOrRegimen(regimen));
@@ -55,6 +55,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       this.props.dispatch(selectSequenceOrRegimen(sequence));
     }
 
+  }
+
+  saveEvent() {
+    this.props.dispatch(saveFarmEvent);
   }
 
   render() {
@@ -66,7 +70,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       };
     });
 
-    // Hack for group-by styling :\
+    /** Hack for group-by styling :( */
     regimenOptions.unshift({ label: "Regimens", value: 0, disabled: true });
 
     let sequencesOptions: SelectOptionsParams[] = this.props.sequences.all.map(sequence => {
@@ -77,7 +81,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       };
     });
 
-    // Hack for group-by styling :\
+    /** Hack for group-by styling :( */
     sequencesOptions.unshift({ label: "Sequences", value: 0, disabled: true });
 
     /** For telling select box */
@@ -100,7 +104,60 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
 
         <label>{t("Parameters")}</label>
         <p className="event-parameters">Show sequence/regimen parameters</p>
-        <button className="magenta button-like">
+
+        <label>{t("Starts")}</label>
+        <div className="row">
+          <div className="col-xs-6">
+            <input placeholder="Today"
+              type="text"
+              className="add-event-start-date" />
+          </div>
+          <div className="col-xs-6">
+            <select className="add-event-start-time">
+              <option value="1430">2:30pm</option>
+              <option value="1700">5:00pm</option>
+            </select>
+          </div>
+        </div>
+        <label>{t("Repeats Every")}</label>
+        <div className="row">
+          <div className="col-xs-4">
+            <input placeholder="2"
+              type="text"
+              className="add-evet-repeat-frequency" />
+          </div>
+          <div className="col-xs-8">
+            <select className="add-event-repeat-period">
+              <option value="none">Does not repeat</option>
+              <option value="minutes">minutes</option>
+              <option value="hours">hours</option>
+              <option value="days">days</option>
+              <option value="weeks">weeks</option>
+              <option value="months">months</option>
+            </select>
+          </div>
+        </div>
+        <label>{t("Until")}</label>
+        <div className="row">
+          <div className="col-xs-6">
+            <input placeholder="Today"
+              type="text"
+              className="add-event-end-date" />
+          </div>
+          <div className="col-xs-6">
+            <select className="add-event-end-time">
+              <option value="1430">2:30pm</option>
+              <option value="1700">5:00pm</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <button className="magenta button-like">
+            Save
+          </button>
+        </div>
+        <button className="magenta button-like"
+          onClick={this.saveEvent.bind(this)}>
           Save
         </button>
       </div>
