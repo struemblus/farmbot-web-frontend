@@ -21,6 +21,7 @@ export type Color = FarmBotJsColor;
 export interface SelectOptionsParams {
     label: string;
     value: string | number | undefined;
+    disabled?: boolean;
     field?: string;
     type?: string;
     x?: number;
@@ -99,6 +100,7 @@ export interface CustomOptionProps {
     onSelect: Function;
     onFocus: Function;
     isFocused: Function;
+    disabled: boolean;
     option: {
         // I will have to refactor this. On the TODO list. -CV
         value?: string;
