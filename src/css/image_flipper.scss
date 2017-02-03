@@ -1,3 +1,7 @@
+.image-flipper {
+    margin-top: 2rem;
+}
+
 .image-flipper-image {
     width: 100%;
     min-height: 100px;
@@ -9,6 +13,9 @@
     left: 10px;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
 }
 
 ;
@@ -17,4 +24,7 @@
     right: 10px;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.5);
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
 }

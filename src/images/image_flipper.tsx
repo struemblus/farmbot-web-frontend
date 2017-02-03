@@ -19,12 +19,12 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         this.imageJSX = this.imageJSX.bind(this);
     }
 
-    curent(): Image | undefined {
+    current(): Image | undefined {
         return this.props.images[this.state.currentInx || 0];
     }
 
     imageJSX() {
-        let i = this.curent();
+        let i = this.current();
         if (i) {
             let url: string;
             if (i.attachment_processed_at) {
@@ -36,7 +36,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
                 className="image-flipper-image"
                 src={url} />;
         } else {
-            return <p> Please snap some photos in the sequence editor first.</p>;
+            return <p>Please snap some photos in the sequence editor first.</p>;
         }
     }
 
@@ -67,7 +67,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
 
     metaDatas() {
-        let i = this.curent();
+        let i = this.current();
         if (i) {
             let {meta, id} = i;
             <MetaInfo key={id} attr={"OK"} obj={true} />
@@ -85,7 +85,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
 
     render() {
         let image = this.imageJSX();
-        let i = this.curent();
+        let i = this.current();
         return <div>
             <div className="row" >
                 <div className="col-sm-12">
