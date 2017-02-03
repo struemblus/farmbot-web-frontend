@@ -23,9 +23,9 @@ const RANGE: HSV<HiLo> = {
 
 /** Default HSV if none found on bot. */
 const DEFAULTS: HSV<HiLo> = {
-    H: { lo: 10, hi: 20 },
-    S: { lo: 30, hi: 40 },
-    V: { lo: 50, hi: 60 }
+    H: { lo: 20, hi: 60 },
+    S: { lo: 60, hi: 120 },
+    V: { lo: 90, hi: 150 }
 };
 
 interface EnvSliderProps {
@@ -54,7 +54,7 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
     get hi() {
         let { hi } = this.state;
         let { name } = this.props;
-        return (hi === undefined) ? DEFAULTS[name].lo : hi;
+        return (hi === undefined) ? DEFAULTS[name].hi : hi;
     }
 
     get lo() {
@@ -64,13 +64,11 @@ export class HsvSlider extends React.Component<EnvSliderProps, Partial<EnvSlider
     }
 
     render() {
-
         let { name } = this.props;
-        let max = RANGE[name].hi;
 
         return <RangeSlider
             onChange={this.onChange}
-            labelStepSize={max}
+            labelStepSize={RANGE[name].hi}
             min={RANGE[name].lo}
             max={RANGE[name].hi}
             value={[this.lo, this.hi]} />;
