@@ -55,18 +55,17 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       let sequence = _.findWhere(sequences.all, { id: e.value });
       this.props.dispatch(selectSequenceOrRegimen(sequence));
     }
-
   }
 
   saveEvent() {
     let NOT_REAL_DATA = {
-      time: new Date(),
+      time: new Date(), // start
       icon: "leaf",
       desc: "Weed",
       repeat: 1000,
       time_unit: "daily",
       executable_type: "Sequence",
-      executable_id: 1
+      executable_id: 68
     };
     this.props.dispatch(saveFarmEvent(NOT_REAL_DATA));
   }
@@ -150,7 +149,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         <div className="row">
           <div className="col-xs-6">
             <input placeholder="Today"
-              type="text"
+              type="date"
               className="add-event-end-date" />
           </div>
           <div className="col-xs-6">

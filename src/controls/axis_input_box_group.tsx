@@ -1,6 +1,8 @@
 import * as React from "react";
 import { AxisInputBox } from "./axis_input_box";
 import { BotState } from "../devices/interfaces";
+import { t } from "i18next";
+
 interface Vector {
     x: number;
     y: number;
@@ -67,8 +69,8 @@ export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
                 <div className="col-xs-3">
                     <button onClick={this.clicked}
                         className="full-width green button-like go">
-                        GO
-                  </button>
+                        {t("GO")}
+                    </button>
                 </div>
             </div>);
     }

@@ -37,7 +37,8 @@ export class ConfigInputBox extends React.Component<Props, {}> {
             <td>
                 <input type="text"
                     style={this.style()}
-                    onChange={this.change(this.props.setting, this.props.dispatch)}
+                    onChange={this.change(this.props.setting,
+                        this.props.dispatch)}
                     value={this.primary() || this.secondary() || "---"} />
             </td>);
     }

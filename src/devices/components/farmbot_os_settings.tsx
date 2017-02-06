@@ -55,14 +55,10 @@ export class FarmbotOsSettings extends React.Component<Props, {}> {
                         </button>
                         <div className="widget-header">
                             <h5>{t("DEVICE")}</h5>
-                            <i className={`fa
-                                                        fa-question-circle
-                                                        widget-help-icon`}>
-                                <div className={`
-                                                            widget-help-text`}>
-                                    {t(`This widget
-                                                                shows device
-                                                                information.`)}
+                            <i className={`fa 
+                            fa-question-circle widget-help-icon`}>
+                                <div className={`widget-help-text`}>
+                                    {t(`This widget shows device information.`)}
                                 </div>
                             </i>
                         </div>
