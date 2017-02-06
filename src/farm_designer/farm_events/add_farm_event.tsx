@@ -97,6 +97,17 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** For telling select box */
     let chosenNode = this.props.designer.currentSequenceOrRegimen;
 
+    // minutely hourly daily weekly monthly yearly
+    let repeatOptions = [
+      { label: "Do not repeat", value: "" },
+      { label: "minutes", value: "minutely" },
+      { label: "hours", value: "hourly" },
+      { label: "days", value: "daily" },
+      { label: "weeks", value: "weekly" },
+      { label: "months", value: "monthly" },
+      { label: "years", value: "yearly" }
+    ];
+
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title">
@@ -137,14 +148,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
               className="add-evet-repeat-frequency" />
           </div>
           <div className="col-xs-8">
-            <select className="add-event-repeat-period">
-              <option value="none">Does not repeat</option>
-              <option value="minutes">minutes</option>
-              <option value="hours">hours</option>
-              <option value="days">days</option>
-              <option value="weeks">weeks</option>
-              <option value="months">months</option>
-            </select>
+            <Select options={repeatOptions} />
           </div>
         </div>
         <label>{t("Until")}</label>
