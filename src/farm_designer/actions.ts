@@ -22,11 +22,11 @@ export function saveFarmEvent(farm_event: FarmEvent): Thunk {
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.post<FarmEvent>(url, farm_event)
-      .then((resp) => {
+      .then(resp => {
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "SAVE_FARM_EVENT_OK", payload });
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to save Farm Event, but couldn't."));
       });
   };
@@ -36,11 +36,11 @@ export function updateFarmEvent(farm_event: FarmEvent): Thunk {
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.put<Partial<FarmEvent>>(url, farm_event)
-      .then((resp) => {
+      .then(resp => {
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "UPDATE_FARM_EVENT_OK", payload });
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to update Farm Event, but couldn't."));
       });
   };
@@ -50,11 +50,11 @@ export function destroyFarmEvent(farm_event_id: number): Thunk {
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.delete<Partial<FarmEvent>>(url, farm_event_id)
-      .then((resp) => {
+      .then(resp => {
         let payload = { id: farm_event_id, ...resp.data };
         dispatch({ type: "DELETE_FARM_EVENT_OK", payload });
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to delete Farm Event, but couldn't."));
       });
   };
@@ -67,11 +67,11 @@ export function deprecatedSavePlant(plant: Plant): Thunk {
   let url = API.current.plantsPath;
   return function (dispatch, getState) {
     return Axios.post<Plant>(url, plant)
-      .then((resp) => {
+      .then(resp => {
         let payload: Plant = { ...plant, ...resp.data };
         dispatch({ type: "SAVE_PLANT_OK", payload });
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to save plant, but couldn't."));
       });
   };
@@ -83,11 +83,11 @@ export function savePlantById(id: number): Thunk {
     let s = getState() as Everything;
     let plant: Plant = findPlantById(s.sync.plants, id);
     return Axios.put<Partial<Plant>>(url + `/${id}`, plant)
-      .then((resp) => {
+      .then(resp => {
         let payload = { ...plant, ...resp.data };
         dispatch({ type: "UPDATE_PLANT_OK", payload });
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to save plant, but couldn't."));
       });
   };
@@ -102,12 +102,12 @@ export function destroyPlant(plant_id: number): Thunk {
   return function (dispatch, getState) {
     dispatch({ type: "DESTROY_PLANT_START" });
     return Axios.delete<Plant>(url)
-      .then((resp) => {
+      .then(resp => {
         let payload = plant_id;
         dispatch({ type: "DESTROY_PLANT_OK", payload });
         success("Successfully deleted plant.", "Deleted");
       })
-      .catch((payload) => {
+      .catch(payload => {
         error(t("Tried to delete plant, but couldn't."));
         dispatch({ type: "DESTROY_PLANT_ERR", payload });
       });
@@ -129,13 +129,13 @@ export function openFarmSearchQuery(query: string) { // TODO make less smelly
       payload: query
     });
     return _openFarmSearchQuery(query)
-      .then((resp) => {
+      .then(resp => {
         // Pluck ID and URL of user-submitted OpenFarm crops...
         // EG: => { X1y3ZAA: "cabbage.png" }
         let images: { [key: string]: string } = {};
 
         _.get<OpenFarm.Included[]>(resp, "data.included", [])
-          .map(function (item) {
+          .map(item => {
             return {
               id: item.id,
               url: item.attributes.thumbnail_url
@@ -143,20 +143,17 @@ export function openFarmSearchQuery(query: string) { // TODO make less smelly
           })
           .map((val, acc) => images[val.id] = val.url);
 
-        let payload = resp
-          .data
-          .data
-          .map(function (datum) {
-            let crop = datum.attributes;
-            let id = _.get<string>(datum, "relationships.pictures.data[0].id");
-            return { crop, image: (images[id] || STUB_IMAGE) };
-          });
+        let payload = resp.data.data.map(datum => {
+          let crop = datum.attributes;
+          let id = _.get<string>(datum, "relationships.pictures.data[0].id");
+          return { crop, image: (images[id] || STUB_IMAGE) };
+        });
 
         dispatch({
           type: "OF_SEARCH_RESULTS_OK",
           payload
         });
       })
-      .catch(function (error) { console.warn(error); });
+      .catch(error => { console.warn(error); });
   };
 };

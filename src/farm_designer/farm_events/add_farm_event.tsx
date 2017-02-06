@@ -111,7 +111,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title">
-          <BackArrow />Add Farm Event
+          <BackArrow /> {t("Add Farm Event")}
         </p>
       </div>
       <div className="panel-content">
@@ -124,11 +124,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
           value={(chosenNode || {}).id || 0} />
 
         <label>{t("Parameters")}</label>
-        <table>
-          <tr>
-            <td></td>
-          </tr>
-        </table>
 
         <label>{t("Starts")}</label>
         <div className="row">
@@ -159,15 +154,12 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
               className="add-event-end-date" />
           </div>
           <div className="col-xs-6">
-            <select className="add-event-end-time">
-              <option value="1430">2:30pm</option>
-              <option value="1700">5:00pm</option>
-            </select>
+            <input type="time" />
           </div>
         </div>
         <button className="magenta button-like"
           onClick={this.saveEvent.bind(this)}>
-          Save
+          {t("Save")}
         </button>
       </div>
     </div>;

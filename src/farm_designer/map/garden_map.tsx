@@ -98,33 +98,29 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
         {
-          this
-            .props
-            .sync
-            .plants
-            .map(function (p, inx) {
-              if (p.id) {
-                let updater = (deltaX: number, deltaY: number, plantId: number) => {
-                  dispatch(movePlant({ deltaX, deltaY, plantId }));
-                };
+          this.props.sync.plants.map((p, inx) => {
+            if (p.id) {
+              let updater = (deltaX: number, deltaY: number, plantId: number) => {
+                dispatch(movePlant({ deltaX, deltaY, plantId }));
+              };
 
-                let dropper = (id: number) => {
-                  dispatch(savePlantById(id));
-                };
+              let dropper = (id: number) => {
+                dispatch(savePlantById(id));
+              };
 
-                return <DraggableSvgImage key={p.id}
-                  x={p.x}
-                  y={p.y}
-                  height={32}
-                  width={32}
-                  id={p.id}
-                  onUpdate={updater}
-                  onDrop={dropper}
-                  href={"/app-resources/img/icons/Sprout-96.png"} />;
-              } else {
-                throw new Error("Save plants before placing them on the map");
-              }
-            })
+              return <DraggableSvgImage key={p.id}
+                x={p.x}
+                y={p.y}
+                height={32}
+                width={32}
+                id={p.id}
+                onUpdate={updater}
+                onDrop={dropper}
+                href={"/app-resources/img/icons/Sprout-96.png"} />;
+            } else {
+              throw new Error("Save plants before placing them on the map");
+            }
+          })
         }
       </svg>
     </div>;

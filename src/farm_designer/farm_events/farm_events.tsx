@@ -5,6 +5,7 @@ import { ScheduledEvent } from "../interfaces";
 import { Select } from "../../ui";
 import { connect } from "react-redux";
 import { ScheduledEventProps } from "../interfaces";
+import { t } from "i18next";
 
 export class ScheduleEvent extends React.Component<ScheduledEventProps, {}> {
 
@@ -35,14 +36,14 @@ export class FarmEvents extends React.Component<Everything, {}> {
       <div className="panel-header magenta-panel">
         <div className="panel-tabs">
           <Link to="/app/designer" className="mobile-only">
-            Designer
+            {t("Designer")}
           </Link>
           <Link to="/app/designer/plants">
-            Plants
+            {t("Plants")}
           </Link>
           <Link to="/app/designer/farm_events" className="active">
-            Farm Events
-           </Link>
+            {t("Farm Events")}
+          </Link>
         </div>
       </div>
 
@@ -53,9 +54,6 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <Select className="col-sm-10 col-md-10"
             options={[{ label: "January 1", value: 1 }]} />
         </div>
-
-
-
 
         <Link to="/app/designer/farm_events/add">
           <div className="plus-button add-event button-like"

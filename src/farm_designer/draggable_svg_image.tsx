@@ -89,5 +89,4 @@ export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
                 onMouseLeave={(e) => this.deSelectElement(e)} />
         );
     }
-
 };
