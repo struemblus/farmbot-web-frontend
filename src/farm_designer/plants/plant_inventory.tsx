@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { CustomOptionProps } from "../../interfaces";
 import * as moment from "moment";
 import { ReactSelectProps } from "react-select";
+import { t } from "i18next";
 
 // TODO: Optimize these if possible and relocate them 
 interface PlantOptionProps extends CustomOptionProps {
@@ -139,7 +140,7 @@ export class Plants extends React.Component<PlantsProps, PlantsState> {
                     to={`/app/designer/plants/${plant.id}`}>
                     {plant.name}
                   </Link>
-                  <i className="plant-age">{daysOld} days old</i>
+                  <i className="plant-age">{daysOld} {t("days old")}</i>
                 </div>;
               })}
             </div>
