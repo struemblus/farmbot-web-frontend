@@ -8,12 +8,15 @@ import { ImageFlipper } from ".";
 import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
+import { Pair } from "farmbot";
+import { safeStringFetch } from "../util";
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
         super();
         this.setHSV = this.setHSV.bind(this);
+        this.test = this.test.bind(this);
         this.state = {
             isEditing: true,
             blur: 1,
@@ -61,6 +64,24 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         this.setState({ [key]: val });
     }
 
+    test() {
+        let pairs = Object
+            .keys(this.state)
+            .map<Pair>(function (value, index) {
+                return {
+                    kind: "pair",
+                    args: { value, label: safeStringFetch(this.state, value) }
+                };
+            });
+
+        devices
+            .current
+            .execScript("plant-detection", pairs)
+            .then(function () {
+                alert("TODO: finish this.");
+            });
+    }
+
     render() {
         return <div>
             <div className="widget-wrapper weed-detector-widget">
@@ -72,6 +93,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                 {t("SAVE")}
                             </button>
                             <button
+                                onClick={this.test}
                                 className="yellow button-like">
                                 {t("TEST")}
                             </button>
