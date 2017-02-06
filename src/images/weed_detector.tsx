@@ -49,7 +49,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             let num = parseInt(str, 10);
             if (!_.isNaN(num)) {
                 if (key === "blur" && ((num % 2) === 0)) {
-                    alert("Blur must be an even number.");
+                    alert("Blur must be an odd number.");
                 } else {
                     return this.setState({ [key]: num });
                 }
