@@ -44,7 +44,7 @@ module.exports = {
   "X AXIS" : "X AXIS",
   "Y AXIS" : "Y AXIS",
   "Z AXIS" : "Z AXIS",
- ,
+ 
  //ACCOUNT & LOGIN TEXTS
   "Account Settings" : "Account Settings",
   "Change Password" : "Change Password",
@@ -68,10 +68,10 @@ module.exports = {
   "Verfiy Password" : "Verfy Password",
   "You have been logged out." : "You have been logged out.",
   "Your Name" : "Your Name",
- ,
+ 
  //UPDATE TEXT
   "Auto Updates?" : "Auto Updates?",
- ,
+ 
  //STATUS & ERROR TEXTS
   "Add a div with id `root` to the page first." : "Add a div with id `root` to the page first.",
   "Bot ready" : "Bot ready",
@@ -154,8 +154,8 @@ module.exports = {
   "yes" : "yes",
   "Z (mm)" : "Z (mm)",
   "Z-Offset" : "Z-Offset",
-  ,
- ,
+ 
+ 
  //REGIMEN & SEQUENCES ,
   "Could not download regimens." : "Could not download regimens.",
   "Sequence or Regimen" : "Sequence or Regimen",
