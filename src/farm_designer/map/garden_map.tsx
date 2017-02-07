@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import * as moment from "moment";
 import { Plant as IPlant } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
+import { GardenPoint } from "./garden_point";
 
 interface GardenMapProps extends Everything {
   params: {
@@ -105,6 +106,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
+        {this.props.sync.points.map(function (p) {
+          return <GardenPoint point={p} key={p.id} />;
+        })}
         {
           this.props.sync.plants.map((p, inx) => {
             if (p.id) {

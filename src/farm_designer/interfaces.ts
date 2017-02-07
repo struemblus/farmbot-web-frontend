@@ -70,3 +70,13 @@ export interface DesignerState {
   cropSearchResults: CropLiveSearchResult[];
   currentSequenceOrRegimen: Partial<Sequence | Regimen | undefined>;
 }
+
+export interface Point {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  created_at: string;
+  meta: { [key: string]: (string | undefined) };
+}
