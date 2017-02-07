@@ -36,7 +36,6 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
     sendOffConfig() {
         let message = { [DETECTOR_ENV]: JSON.stringify(this.state) };
-        console.dir(message)
         devices
             .current
             .setUserEnv(message);
@@ -76,10 +75,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
         devices
             .current
-            .execScript("plant-detection", pairs)
-            .then(function () {
-                alert("TODO: finish this.");
-            });
+            .execScript("plant-detection", pairs);
     }
 
     render() {
