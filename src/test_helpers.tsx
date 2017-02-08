@@ -120,7 +120,8 @@ export function fakeState(dispatcher?: Function): Everything {
         tools: [],
         plants: [],
         logs: [],
-        images: []
+        images: [],
+        points: []
     };
 
     let draggable = { dataTransfer: {} };

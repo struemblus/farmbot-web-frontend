@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { t } from "i18next";
-import { ChromePicker } from "react-color";
+import { ChromePicker, HuePicker } from "react-color";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
 import { devices } from "../device";
@@ -36,7 +36,6 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
     sendOffConfig() {
         let message = { [DETECTOR_ENV]: JSON.stringify(this.state) };
-        console.dir(message)
         devices
             .current
             .setUserEnv(message);
@@ -76,10 +75,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
         devices
             .current
-            .execScript("plant-detection", pairs)
-            .then(function () {
-                alert("TODO: finish this.");
-            });
+            .execScript("plant-detection", pairs);
     }
 
     render() {
@@ -126,7 +122,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <ChromePicker color="#fff" />
+                                            <br/><br/><br/>
+                                            <HuePicker color={'#95ff00'} />
+                                            <HuePicker color={'#00ffb3'} />
+                                            <ChromePicker color={'green'} />
                                         </div>
                                     </div>
                                     <div className="row">
