@@ -17,6 +17,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         super();
         this.setHSV = this.setHSV.bind(this);
         this.test = this.test.bind(this);
+        this.sendOffConfig = this.sendOffConfig.bind(this);
         this.state = {
             isEditing: true,
             blur: 1,
@@ -126,9 +127,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <br /><br /><br />
                                             <HuePicker color={'#95ff00'} />
                                             <HuePicker color={'#00ffb3'} />
-                                            <ChromePicker color={'green'} onChangeComplete={function (a) {
-                                                {/*debugger;*/ }
-                                            }} />
+                                            <ChromePicker color={'green'}
+                                                onChangeComplete={function (a) {
+                                                    {/*debugger;*/ }
+                                                }} />
                                         </div>
                                     </div>
                                     <div className="row">
