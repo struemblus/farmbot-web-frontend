@@ -11,6 +11,7 @@ import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
 import { safeStringFetch } from "../util";
 const DETECTOR_ENV = "PLANT_DETECTION_options";
+
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
@@ -62,6 +63,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
     setHSV(key: "H" | "S" | "V", val: [number, number]) {
         this.setState({ [key]: val });
+        this.ok();
     }
 
     test() {
@@ -80,7 +82,16 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             .execScript("plant-detection", pairs);
     }
 
+    // TODO: I can't figure out why, but there is a noticeable, 3 second-ish
+    // HACK: lag when I move the sider. I'm either misusing react-color or found
+    //       a bug in the library. I'm not sure. ~ Rick, 8 Feb 17
+    ok = _.throttle(() => { // Debounce to avoid excessive re-diffing.
+        this.forceUpdate();
+    }, 100);
+
     render() {
+        let H = (this.state.H || [0, 0]);
+        let S = (this.state.S || [0, 0]);
         return <div>
             <div className="widget-wrapper weed-detector-widget">
                 <div className="row">
@@ -124,13 +135,15 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <br /><br /><br />
-                                            <HuePicker color={'#95ff00'} />
-                                            <HuePicker color={'#00ffb3'} />
-                                            <ChromePicker color={'green'}
-                                                onChangeComplete={function (a) {
-                                                    {/*debugger;*/ }
+                                            <HuePicker color={{ h: (H[0] * 2), s: 0, l: 0 }}
+                                                onChangeComplete={(a: ReactColor.ColorResult) => {
+                                                    this.setState({ H: [a.hsl.h, H[1]] });
                                                 }} />
+                                            <HuePicker color={{ h: (H[1] * 2), s: 0, l: 0 }}
+                                                onChangeComplete={(a: ReactColor.ColorResult) => {
+                                                    this.setState({ H: [H[0], a.hsl.h] });
+                                                }} />
+                                            <ChromePicker color={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: ((S[0] + S[1]) / 2), l: 0 }} />
                                         </div>
                                     </div>
                                     <div className="row">
