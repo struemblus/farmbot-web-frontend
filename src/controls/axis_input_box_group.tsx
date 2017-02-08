@@ -49,29 +49,28 @@ export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
 
     render() {
         let [x, y, z] = this.props.bot.hardware.location;
-        return (
-            <div>
-                <AxisInputBox
-                    axis="x"
-                    label="X AXIS"
-                    value={x}
-                    onChange={this.change} />
-                <AxisInputBox
-                    axis="y"
-                    label="Y AXIS"
-                    value={y}
-                    onChange={this.change} />
-                <AxisInputBox
-                    axis="z"
-                    label="Z AXIS"
-                    value={z}
-                    onChange={this.change} />
-                <div className="col-xs-3">
-                    <button onClick={this.clicked}
-                        className="full-width green button-like go">
-                        {t("GO")}
-                    </button>
-                </div>
-            </div>);
+        return <div>
+            <AxisInputBox
+                axis="x"
+                label="X AXIS"
+                value={x}
+                onChange={this.change} />
+            <AxisInputBox
+                axis="y"
+                label="Y AXIS"
+                value={y}
+                onChange={this.change} />
+            <AxisInputBox
+                axis="z"
+                label="Z AXIS"
+                value={z}
+                onChange={this.change} />
+            <div className="col-xs-3">
+                <button onClick={this.clicked}
+                    className="full-width green button-like go">
+                    {t("GO")}
+                </button>
+            </div>
+        </div>;
     }
 }

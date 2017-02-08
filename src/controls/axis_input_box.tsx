@@ -12,7 +12,8 @@ interface AxisInputBoxState {
     value: string | undefined;
 }
 
-export class AxisInputBox extends React.Component<AxisInputBoxProps, AxisInputBoxState> {
+export class AxisInputBox extends React.Component<AxisInputBoxProps,
+    AxisInputBoxState> {
     constructor() {
         super();
         this.blur = this.blur.bind(this);
