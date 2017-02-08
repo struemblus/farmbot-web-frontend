@@ -64,12 +64,13 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     }
 
     test() {
+        var that = this;
         let pairs = Object
             .keys(this.state)
             .map<Pair>(function (value, index) {
                 return {
                     kind: "pair",
-                    args: { value, label: safeStringFetch(this.state, value) }
+                    args: { value, label: safeStringFetch(that.state, value) }
                 };
             });
 
@@ -122,10 +123,12 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <br/><br/><br/>
+                                            <br /><br /><br />
                                             <HuePicker color={'#95ff00'} />
                                             <HuePicker color={'#00ffb3'} />
-                                            <ChromePicker color={'green'} />
+                                            <ChromePicker color={'green'} onChangeComplete={function (a) {
+                                                {/*debugger;*/ }
+                                            }} />
                                         </div>
                                     </div>
                                     <div className="row">
