@@ -9,6 +9,8 @@ interface State {
 
 interface Props {
     id: number;
+    height: number;
+    width: number;
     onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
     onDrop: (id: number) => void;
     x: number;
@@ -78,6 +80,8 @@ export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
                 x={this.props.x}
                 y={this.props.y}
                 href={this.props.href}
+                height={this.props.height}
+                width={this.props.width}
                 onMouseOver={() => this.hover()}
                 onMouseDown={(e) => this.selectElement(e)}
                 onMouseMove={(e) => this.drag(e)}
@@ -85,5 +89,4 @@ export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
                 onMouseLeave={(e) => this.deSelectElement(e)} />
         );
     }
-
 };

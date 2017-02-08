@@ -2,6 +2,7 @@ import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
+import { t } from "i18next";
 
 interface SpeciesInfoProps extends Everything {
     params: {
@@ -61,12 +62,12 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                         draggable={true}
                         src={result.image} />
                     <div className="crop-info-overlay">
-                        Drag and drop into map
+                        {t("Drag and drop into map")}
                     </div>
                 </div>
                 <div className="object-list">
                     <label>
-                        Crop Info
+                        {t("Crop Info")}
                     </label>
                     <ul>
                         {
@@ -77,11 +78,12 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                                     let key = pair[0] as string;
                                     let value = pair[1];
                                     return <li key={i}>
-                                        <strong>{_.startCase(key) + ": "}</strong>
+                                        <strong>
+                                            {_.startCase(key) + ": "}
+                                        </strong>
                                         {value || "Not set"}
                                     </li>;
-                                })
-                                .value()
+                                }).value()
                         }
                     </ul>
                 </div>

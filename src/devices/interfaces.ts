@@ -78,6 +78,10 @@ export interface BotState {
   configBuffer: Configuration;
   hardware: HardwareState;
 }
+export interface BotProp {
+  bot: BotState;
+}
+
 
 /** Status registers for the bot's status */
 export type HardwareState = BotStateTree;

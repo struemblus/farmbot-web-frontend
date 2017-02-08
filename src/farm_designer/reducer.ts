@@ -1,17 +1,24 @@
 import { Plant, CropLiveSearchResult } from "./interfaces";
 import { Plant as newPlant } from "./plant";
 import { generateReducer } from "../redux/generate_reducer";
-import { DesignerState, MovePlantProps } from "./interfaces";
+import {
+  DesignerState,
+  MovePlantProps,
+  SelectSequenceOrRegimenProps
+} from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
+import { Regimen } from "../regimens/interfaces";
+import { Sequence } from "../sequences/interfaces";
 
 let DEFAULT_STATE: DesignerState = {
   deprecatedPlants: [],
   x_size: 0,
   y_size: 0,
   cropSearchQuery: "",
-  cropSearchResults: []
+  cropSearchResults: [],
+  currentSequenceOrRegimen: {}
 };
 
 export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
@@ -53,4 +60,8 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;
+  })
+  .add<Sequence | Regimen>("SELECT_SEQUENCE_OR_REGIMEN", function (s, { payload }) {
+    s.currentSequenceOrRegimen = payload;
+    return s;
   });

@@ -5,7 +5,9 @@ import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { Plant as IPlant } from "../interfaces";
-import { DraggableSvgImage } from "../draggable_svg_image";
+import { GardenPlant } from "./garden_plant";
+import { GardenPoint } from "./garden_point";
+
 interface GardenMapProps extends Everything {
   params: {
     species: string;
@@ -91,38 +93,34 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
 
   render() {
     let { dispatch } = this.props;
+    let updater = (deltaX: number, deltaY: number, plantId: number) => {
+      dispatch(movePlant({ deltaX, deltaY, plantId }));
+    };
+
+    let dropper = (id: number) => {
+      dispatch(savePlantById(id));
+    };
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
+        {this.props.sync.points.map(function (p) {
+          return <GardenPoint point={p} key={p.id} />;
+        })}
         {
-          this
-            .props
-            .sync
-            .plants
-            .map(function (p, inx) {
-              if (p.id) {
-                let updater = (deltaX: number, deltaY: number, plantId: number) => {
-                  dispatch(movePlant({ deltaX, deltaY, plantId }));
-                };
-
-                let dropper = (id: number) => {
-                  dispatch(savePlantById(id));
-                };
-
-                return <DraggableSvgImage key={p.id}
-                  x={p.x}
-                  y={p.y}
-                  id={p.id}
-                  onUpdate={updater}
-                  onDrop={dropper}
-                  href={"/app-resources/img/icons/Apple-96.png"} />;
-              } else {
-                throw new Error("Save plants before placing them on the map");
-              }
-            })
+          this.props.sync.plants.map((p, inx) => {
+            if (p.id) {
+              return <GardenPlant
+                key={p.id}
+                plant={p}
+                onUpdate={updater}
+                onDrop={dropper} />;
+            } else {
+              throw new Error("Never.");
+            }
+          })
         }
       </svg>
     </div>;

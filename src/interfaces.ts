@@ -14,6 +14,7 @@ import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 import { ImageState, Image } from "./images";
+import { Point } from "./farm_designer/interfaces";
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
@@ -21,6 +22,7 @@ export type Color = FarmBotJsColor;
 export interface SelectOptionsParams {
     label: string;
     value: string | number | undefined;
+    disabled?: boolean;
     field?: string;
     type?: string;
     x?: number;
@@ -90,6 +92,7 @@ export interface Sync {
     tools: Tool[];
     logs: Log[];
     images: Image[];
+    points: Point[];
 }
 
 /** React-select does not provide an interface for their CustomOption 

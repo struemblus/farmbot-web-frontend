@@ -1,4 +1,26 @@
 import { OpenFarm } from "./openfarm";
+import { Regimen } from "../regimens/interfaces";
+import { Sequence } from "../sequences/interfaces";
+import { Option } from "react-select";
+
+export interface SelectSequenceOrRegimenProps extends Option {
+  /** Used to identify checking which id in what array to match. */
+  kind?: string;
+}
+
+export interface ScheduledEventProps {
+  scheduledEvent: ScheduledEvent;
+}
+
+export interface FarmEvent {
+  time: Date;
+  desc: string;
+  icon: string;
+  repeat: number;
+  time_unit: string;
+  executable_type: string;
+  executable_id: number;
+};
 
 export interface MovePlantProps {
   deltaX: number;
@@ -46,4 +68,15 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
+  currentSequenceOrRegimen: Partial<Sequence | Regimen | undefined>;
+}
+
+export interface Point {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+  radius: number;
+  created_at: string;
+  meta: { [key: string]: (string | undefined) };
 }

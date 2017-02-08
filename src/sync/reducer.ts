@@ -21,6 +21,7 @@ const initialState: Sync = {
     tool_slots: [],
     tools: [],
     plants: [],
+    points: [],
     logs: [],
     images: []
 };

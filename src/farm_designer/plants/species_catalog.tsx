@@ -5,6 +5,7 @@ import { CropLiveSearchResult } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { openFarmSearchQuery } from "../actions";
 import { connect } from "react-redux";
+import { t } from "i18next";
 
 interface SpeciesCatalogTileProps {
   result: CropLiveSearchResult;
@@ -49,7 +50,7 @@ export class SpeciesCatalog extends React.Component<Everything, {}> {
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow /> Choose a Species
+          <BackArrow /> {t("Choose a species")}
         </p>
       </div>
       <div className="panel-content">

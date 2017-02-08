@@ -15,22 +15,18 @@ import {
 import { t } from "i18next";
 import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
-import { Regimen } from "../regimens/interfaces";
 import * as _ from "lodash";
 import { API } from "../api";
-import { beep } from "../util";
 import { HardwareState } from "../devices/interfaces";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
 
 export function incomingStatus(statusMessage: HardwareState) {
-    beep();
     return { type: "BOT_CHANGE", payload: statusMessage };
 }
 
 export function incomingLog(botLog: RpcBotLog) {
-    beep();
     return { type: "BOT_LOG", payload: botLog };
 };
 

@@ -191,7 +191,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         path: ":sequence",
                         getComponent(location: any, cb: any) {
                             System.import("./sequences/sequence_editor_middle.tsx").then(
-                                (module: any) => cb(null, module.Regimens)
+                                (module: any) => cb(null, module.SequenceEditorMiddle)
                             ).catch(errorLoading);
                         }
                     }

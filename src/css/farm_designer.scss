@@ -100,11 +100,6 @@
 
 .thin-search-wrapper {
     position: relative;
-    &.show-menu {
-        .Select-menu-outer {
-            display: block !important;
-        }
-    }
     .fa-search {
         position: absolute;
         top: 1rem;

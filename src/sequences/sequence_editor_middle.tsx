@@ -3,10 +3,7 @@ import { SequenceBodyItem } from "farmbot";
 import { Sequence } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
-    editCurrentSequence,
-    saveSequence,
-    deleteSequence,
-    nullSequence
+    editCurrentSequence, saveSequence, deleteSequence, nullSequence
 } from "./actions";
 import { stepTiles, StepTile } from "./step_tiles/index";
 import { Everything } from "../interfaces";
@@ -23,7 +20,7 @@ import { ToolsState } from "../tools/interfaces";
 import { connect } from "react-redux";
 
 let Oops: StepTile = (_) => {
-    return <div>Whoops! Not a valid message_type</div>;
+    return <div> Whoops! Not a valid message_type </div>;
 };
 
 type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;

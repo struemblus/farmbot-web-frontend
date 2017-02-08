@@ -110,6 +110,8 @@ export class API {
     /** /api/peripherals/ */
     get peripheralsPath() { return `${this.baseUrl}/api/peripherals/`; };
     /** /api/plants/ */
+    get farmEventsPath() { return `${this.baseUrl}/api/farm_events/`; };
+    /** /api/plants/ */
     get plantsPath() { return `${this.baseUrl}/api/plants/`; };
     /** /api/regimens/ */
     get regimensPath() { return `${this.baseUrl}/api/regimens/`; };
