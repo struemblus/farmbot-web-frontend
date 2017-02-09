@@ -12,7 +12,7 @@ import { SelectSequenceOrRegimenProps } from "../interfaces";
 import {
   selectSequenceOrRegimen,
   saveFarmEvent,
-  changeFarmEventValue
+  addFarmEventStart
 } from "../actions";
 import * as _ from "lodash";
 import * as moment from "moment";
@@ -63,15 +63,13 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   }
 
   saveEvent() {
-    let NOT_REAL_DATA = {
-      end_time: "2099-02-17T18:19:20.000Z",
-      executable_id: 73,
-      executable_type: "Sequence",
-      repeat: 4,
-      start_time: "2015-02-17T15:16:17.000Z",
-      time_unit: "minutely"
-    };
-    this.props.dispatch(saveFarmEvent(NOT_REAL_DATA));
+    // let { currentSequenceOrRegimen } = this.props.designer;
+
+  }
+
+  updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { name, value } = event.currentTarget;
+    this.props.dispatch(addFarmEventStart(name, value));
   }
 
   updateEventWithInput(event: React.SyntheticEvent<HTMLInputElement>) {
@@ -84,7 +82,9 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   }
 
   render() {
-    let regimenOptions: SelectOptionsParams[] = this.props.regimens.all.map(regimen => {
+    let { regimens, sequences } = this.props;
+
+    let regimenOptions: SelectOptionsParams[] = regimens.all.map(regimen => {
       return {
         label: regimen.name || "No regimens.",
         value: regimen.id || 0,
@@ -95,10 +95,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** Hack for group-by styling :( */
     regimenOptions.unshift({ label: "Regimens", value: 0, disabled: true });
 
-    let sequencesOptions: SelectOptionsParams[] = this.props.sequences.all.map(sequence => {
+    let sequencesOptions: SelectOptionsParams[] = sequences.all.map(seq => {
       return {
-        label: sequence.name || "No sequences.",
-        value: sequence.id || 0,
+        label: seq.name || "No sequences.",
+        value: seq.id || 0,
         kind: "sequence"
       };
     });
@@ -143,13 +143,13 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             <input type="date"
               className="add-event-start-date"
               name="start_date"
-              onChange={this.updateEventWithInput.bind(this)} />
+              onChange={this.updateStart.bind(this)} />
           </div>
           <div className="col-xs-6">
             <input type="time"
               className="add-event-start-time"
               name="start_time"
-              onChange={this.updateEventWithInput.bind(this)} />
+              onChange={this.updateStart.bind(this)} />
           </div>
         </div>
         <label>{t("Repeats Every")}</label>
@@ -165,7 +165,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             <Select
               options={repeatOptions}
               name="time_unit"
-              onChange={this.updateEventWithSelect} />
+              onChange={this.updateEventWithSelect.bind(this)} />
           </div>
         </div>
         <label>{t("Until")}</label>

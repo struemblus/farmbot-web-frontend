@@ -18,8 +18,16 @@ export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
   return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
 };
 
-export function changeFarmEventValue(property: string, value: string | number) {
-  return { type: "CHANGE_FARM_EVENT_VALUE", payload: { property, value } };
+export function addFarmEventStart(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_START", payload: { property, value } };
+};
+
+export function addFarmEventRepeat(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_REPEAT", payload: { property, value } };
+};
+
+export function addFarmEventUntil(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_UNTIL", payload: { property, value } };
 };
 
 export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
