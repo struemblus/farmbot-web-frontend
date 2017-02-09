@@ -66,12 +66,19 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
 
         /* Depending on the kind chosen, place that in the state tree
         /* e.value is the id of the node */
-        if (e.kind === "regimen") {
-            let regimen = _.findWhere(regimens.all, { id: e.value });
-            this.props.dispatch(selectSequenceOrRegimen(regimen));
-        } else if (e.kind === "sequence") {
-            let sequence = _.findWhere(sequences.all, { id: e.value });
-            this.props.dispatch(selectSequenceOrRegimen(sequence));
+        switch (e.kind) {
+            case "regimen":
+                let regimen = _.findWhere(regimens.all, { id: e.value });
+                this.props.dispatch(selectSequenceOrRegimen(regimen));
+                break;
+
+            case "sequence":
+                let sequence = _.findWhere(sequences.all, { id: e.value });
+                this.props.dispatch(selectSequenceOrRegimen(sequence));
+                break;
+
+            default:
+                throw new Error("Error in the executable dropdown.");
         }
     }
 

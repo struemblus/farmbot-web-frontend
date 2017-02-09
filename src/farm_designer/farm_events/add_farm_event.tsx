@@ -56,12 +56,19 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
 
     /* Depending on the kind chosen, place that in the state tree
     /* e.value is the id of the node */
-    if (e.kind === "regimen") {
-      let regimen = _.findWhere(regimens.all, { id: e.value });
-      this.props.dispatch(selectSequenceOrRegimen(regimen));
-    } else if (e.kind === "sequence") {
-      let sequence = _.findWhere(sequences.all, { id: e.value });
-      this.props.dispatch(selectSequenceOrRegimen(sequence));
+    switch (e.kind) {
+      case "regimen":
+        let regimen = _.findWhere(regimens.all, { id: e.value });
+        this.props.dispatch(selectSequenceOrRegimen(regimen));
+        break;
+
+      case "sequence":
+        let sequence = _.findWhere(sequences.all, { id: e.value });
+        this.props.dispatch(selectSequenceOrRegimen(sequence));
+        break;
+
+      default:
+        throw new Error("Error in the executable dropdown.");
     }
   }
 
@@ -147,7 +154,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** For telling select box */
     let chosenNode = this.props.designer.currentSequenceOrRegimen;
 
-    // minutely hourly daily weekly monthly yearly
     let repeatOptions = [
       { label: "Do not repeat", value: "" },
       { label: "minutes", value: "minutely" },
