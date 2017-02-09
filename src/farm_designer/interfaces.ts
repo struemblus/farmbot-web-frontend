@@ -13,13 +13,15 @@ export interface ScheduledEventProps {
 }
 
 export interface FarmEvent {
-  time: Date;
-  desc: string;
-  icon: string;
+  id: number;
+  start_time: string;
+  end_time: string;
+  next_time: string;
   repeat: number;
   time_unit: string;
-  executable_type: string;
   executable_id: number;
+  executable_type: string;
+  calendar: string[];
 };
 
 export interface MovePlantProps {
@@ -59,6 +61,10 @@ export interface Specimen {
   imgUrl: string;
 }
 
+export interface RegimenWithKindProp extends Regimen {
+  kind: string;
+}
+
 export interface DesignerState {
   x_size: number;
   y_size: number;
@@ -68,7 +74,8 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
-  currentSequenceOrRegimen: Partial<Sequence | Regimen | undefined>;
+  currentSequenceOrRegimen: Partial<Sequence | RegimenWithKindProp | undefined>;
+  farmEventToBeAdded: Partial<FarmEvent>;
 }
 
 export interface Point {

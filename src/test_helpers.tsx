@@ -5,6 +5,7 @@ import { BotState } from "./devices/interfaces";
 import { PeripheralState } from "./controls/peripherals/interfaces";
 import { ToolsState } from "./tools/interfaces";
 import { Log } from "./interfaces";
+import { FarmEvent } from "./farm_designer/interfaces";
 
 export class Wrapper extends React.Component<any, any> {
     render() {
@@ -36,7 +37,8 @@ export function fakeState(dispatcher?: Function): Everything {
         deprecatedPlants: [],
         cropSearchQuery: "?foo=bar",
         cropSearchResults: [],
-        currentSequenceOrRegimen: {}
+        currentSequenceOrRegimen: {},
+        farmEventToBeAdded: {}
     };
     let bot: BotState = {
         account: {
@@ -121,7 +123,8 @@ export function fakeState(dispatcher?: Function): Everything {
         plants: [],
         logs: [],
         images: [],
-        points: []
+        points: [],
+        farm_events: []
     };
 
     let draggable = { dataTransfer: {} };

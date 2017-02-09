@@ -4,15 +4,18 @@ import { generateReducer } from "../redux/generate_reducer";
 import {
   DesignerState,
   MovePlantProps,
-  SelectSequenceOrRegimenProps
+  SelectSequenceOrRegimenProps,
+  RegimenWithKindProp
 } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 import { Sync } from "../interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Sequence } from "../sequences/interfaces";
+import * as moment from "moment";
 
 let DEFAULT_STATE: DesignerState = {
+  farmEventToBeAdded: {},
   deprecatedPlants: [],
   x_size: 0,
   y_size: 0,
@@ -56,12 +59,42 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     state.cropSearchQuery = payload;
     return state;
   })
-  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", function (s, { payload }) {
+  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK",
+  function (s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;
   })
-  .add<Sequence | Regimen>("SELECT_SEQUENCE_OR_REGIMEN", function (s, { payload }) {
+  .add<Sequence | RegimenWithKindProp>("SELECT_SEQUENCE_OR_REGIMEN",
+  function (s, { payload }) {
+    /** The regimen doesn't have a `kind` property */
     s.currentSequenceOrRegimen = payload;
+    if (s.currentSequenceOrRegimen && !payload.kind) {
+      s.currentSequenceOrRegimen.kind = "regimen";
+    }
+    return s;
+  })
+  .add<{ property: string, value: string }>("ADD_FARM_EVENT_UNTIL",
+  function (s, { payload }) {
+    /** TODO: Merge time and date somehow here? */
+    s.farmEventToBeAdded.end_time = moment(payload.value).toISOString();
+    return s;
+  })
+  .add<{ property: string, value: number }>("ADD_FARM_EVENT_REPEAT",
+  function (s, { payload }) {
+    let { value } = payload;
+    s.farmEventToBeAdded.repeat = value;
+    return s;
+  })
+  .add<{ value: string }>("ADD_FARM_EVENT_TIME_UNIT",
+  function (s, { payload }) {
+    let { value } = payload;
+    s.farmEventToBeAdded.time_unit = value;
+    return s;
+  })
+  .add<{ property: string, value: string }>("ADD_FARM_EVENT_START",
+  function (s, { payload }) {
+    /** TODO: Merge time and date somehow here? */
+    s.farmEventToBeAdded.start_time = moment(payload.value).toISOString();
     return s;
   });

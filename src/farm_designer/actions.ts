@@ -18,7 +18,24 @@ export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
   return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
 };
 
-export function saveFarmEvent(farm_event: FarmEvent): Thunk {
+export function addFarmEventStart(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_START", payload: { property, value } };
+};
+
+export function addFarmEventRepeat(value: number) {
+  return { type: "ADD_FARM_EVENT_REPEAT", payload: { value } };
+};
+
+export function addFarmEventTimeUnit(value: string | number | undefined) {
+  return { type: "ADD_FARM_EVENT_TIME_UNIT", payload: { value } };
+};
+
+export function addFarmEventUntil(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_UNTIL", payload: { property, value } };
+};
+
+export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
+  console.log("what", farm_event);
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.post<FarmEvent>(url, farm_event)

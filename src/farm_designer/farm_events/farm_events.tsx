@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { ScheduledEvent } from "../interfaces";
 import { Select } from "../../ui";
 import { connect } from "react-redux";
 import { ScheduledEventProps } from "../interfaces";
