@@ -128,7 +128,7 @@ export function safeStringFetch(obj: any, key: string): string {
     case "boolean":
       return (boxed.value) ? "true" : "false";
     default:
-      let msg = "Only numbers strings and null are allowed here.";
+      let msg = `Numbers strings and null only (got ${boxed.kind}).`;
       throw new Error(msg);
   }
 }

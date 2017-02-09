@@ -70,10 +70,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         var that = this;
         let pairs = Object
             .keys(this.state)
-            .map<Pair>(function (value, index) {
+            .map<Pair>(function (value: keyof DetectorState, index) {
                 return {
                     kind: "pair",
-                    args: { value, label: safeStringFetch(that.state, value) }
+                    args: { value, label: JSON.stringify(that.state[value]) || "null" }
                 };
             });
 
