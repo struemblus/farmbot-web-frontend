@@ -49,26 +49,6 @@ input[type=time] {
     padding: 0.8rem 0;
 }
 
-.Select-menu-outer {
-    position: relative;
-    &:after,
-    &:before {
-        content: "";
-        pointer-events: none;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        top: 0;
-    }
-    &:before {
-        background: linear-gradient(to bottom, #fff 0%, transparent 10%)
-    }
-    &:after {
-        background: linear-gradient(to top, #fff 0%, transparent 10%)
-    }
-}
-
 .Select-option,
 .Select-value {
     .saucer {
@@ -282,7 +262,7 @@ fieldset {
 }
 
 .webcam-url-input {
-    padding-left: 3.4rem;
+    padding-left: 4rem !important;
 }
 
 ul {

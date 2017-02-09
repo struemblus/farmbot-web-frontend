@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select } from "../../ui";
+import { Select, error } from "../../ui";
 import { connect } from "react-redux";
 import {
   Everything,
@@ -9,9 +9,17 @@ import {
   CustomOptionProps
 } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
-import { selectSequenceOrRegimen, saveFarmEvent } from "../actions";
+import {
+  selectSequenceOrRegimen,
+  saveFarmEvent,
+  addFarmEventStart,
+  addFarmEventRepeat,
+  addFarmEventUntil,
+  addFarmEventTimeUnit
+} from "../actions";
 import * as _ from "lodash";
 import * as moment from "moment";
+import { Option } from "react-select";
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
   handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
@@ -58,20 +66,63 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   }
 
   saveEvent() {
-    let NOT_REAL_DATA = {
-      time: new Date(), // start
-      icon: "leaf",
-      desc: "Weed",
-      repeat: 1000,
-      time_unit: "daily",
-      executable_type: "Sequence",
-      executable_id: 68
-    };
-    this.props.dispatch(saveFarmEvent(NOT_REAL_DATA));
+    let { farmEventToBeAdded, currentSequenceOrRegimen } = this.props.designer;
+    if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
+      farmEventToBeAdded.executable_id = currentSequenceOrRegimen.id;
+
+      let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
+
+      farmEventToBeAdded.executable_type = kind;
+      this.props.dispatch(saveFarmEvent(farmEventToBeAdded));
+    } else {
+      error("Select a sequence or Regimen.");
+    }
+  }
+
+  updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { name, value } = event.currentTarget;
+    this.props.dispatch(addFarmEventStart(name, value));
+  }
+
+  updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { value } = event.currentTarget;
+    let newValue = parseInt(value);
+    this.props.dispatch(addFarmEventRepeat(newValue));
+  }
+
+  updateTimeUnit(event: Option) {
+    let { value } = event;
+    this.props.dispatch(addFarmEventTimeUnit(value));
+  }
+
+  addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { name, value } = event.currentTarget;
+    this.props.dispatch(addFarmEventUntil(name, value));
   }
 
   render() {
-    let regimenOptions: SelectOptionsParams[] = this.props.regimens.all.map(regimen => {
+    let { regimens, sequences } = this.props;
+    let {
+      start_time,
+      repeat,
+      time_unit,
+      end_time
+    } = this.props.designer.farmEventToBeAdded;
+
+    let eventDate = start_time ? moment(start_time)
+      .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+    /** TODO: Why is moment freaking out about this? */
+    // let eventTime = start_time ? moment(start_time)
+    //   .format("h:mm") : moment().format("h:mm");
+
+    let eventUntilDate = end_time ? moment(end_time)
+      .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+    let eventRepeat = repeat ? repeat : 0;
+    let eventTimeUnit = time_unit ? time_unit : "";
+
+    let regimenOptions: SelectOptionsParams[] = regimens.all.map(regimen => {
       return {
         label: regimen.name || "No regimens.",
         value: regimen.id || 0,
@@ -82,10 +133,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** Hack for group-by styling :( */
     regimenOptions.unshift({ label: "Regimens", value: 0, disabled: true });
 
-    let sequencesOptions: SelectOptionsParams[] = this.props.sequences.all.map(sequence => {
+    let sequencesOptions: SelectOptionsParams[] = sequences.all.map(seq => {
       return {
-        label: sequence.name || "No sequences.",
-        value: sequence.id || 0,
+        label: seq.name || "No sequences.",
+        value: seq.id || 0,
         kind: "sequence"
       };
     });
@@ -122,38 +173,58 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
           onChange={this.selectFromDropDown.bind(this)}
           value={(chosenNode || {}).id || 0} />
 
-        <label>{t("Parameters")}</label>
+        {/*<label>{t("Parameters")}</label>*/}
 
         <label>{t("Starts")}</label>
         <div className="row">
           <div className="col-xs-6">
             <input type="date"
-              className="add-event-start-date" />
+              className="add-event-start-date"
+              name="start_date"
+              value={eventDate}
+              onChange={this.updateStart.bind(this)} />
           </div>
-          <div className="col-xs-6">
-            <input type="time" className="add-event-start-time" />
-          </div>
+          {/*<div className="col-xs-6">
+            <input type="time"
+              className="add-event-start-time"
+              name="start_time"
+              value={eventTime}
+              onChange={this.updateStart.bind(this)} />
+          </div>*/}
         </div>
         <label>{t("Repeats Every")}</label>
         <div className="row">
           <div className="col-xs-4">
-            <input placeholder="2"
+            <input placeholder="(Number)"
               type="text"
-              className="add-evet-repeat-frequency" />
+              className="add-evet-repeat-frequency"
+              name="repeat"
+              value={eventRepeat}
+              onChange={this.updateRepeat.bind(this)} />
           </div>
           <div className="col-xs-8">
-            <Select options={repeatOptions} />
+            <Select
+              options={repeatOptions}
+              name="time_unit"
+              value={eventTimeUnit}
+              onChange={this.updateTimeUnit.bind(this)} />
           </div>
         </div>
         <label>{t("Until")}</label>
         <div className="row">
           <div className="col-xs-6">
-            <input placeholder="Today"
+            <input
               type="date"
-              className="add-event-end-date" />
+              className="add-event-end-date"
+              name="until_date"
+              value={eventUntilDate}
+              onChange={this.addFarmEventUntil.bind(this)} />
           </div>
           <div className="col-xs-6">
-            <input type="time" />
+            <input
+              type="time"
+              name="until_time"
+              onChange={this.addFarmEventUntil.bind(this)} />
           </div>
         </div>
         <button className="magenta button-like"

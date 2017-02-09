@@ -8,13 +8,17 @@ import {
     RegimenItem
 } from "./regimens/interfaces";
 import { SequenceReducerState, Sequence } from "./sequences/interfaces";
-import { DesignerState, Plant } from "./farm_designer/interfaces";
+import {
+    DesignerState,
+    Plant,
+    Point,
+    FarmEvent
+} from "./farm_designer/interfaces";
 import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 import { ImageState, Image } from "./images";
-import { Point } from "./farm_designer/interfaces";
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
@@ -81,6 +85,7 @@ export interface Sync {
      * its software is out of date */
     compat_num: number;
     device: DeviceAccountSettings;
+    farm_events: FarmEvent[];
     users: User[];
     sequences: Sequence[];
     regimens: RegimenApiResponse[];
