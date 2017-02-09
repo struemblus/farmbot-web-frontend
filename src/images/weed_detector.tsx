@@ -3,13 +3,13 @@ import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { t } from "i18next";
 import { ChromePicker, HuePicker } from "react-color";
+import { FbChromePicker } from "./fb_chrome_picker";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
 import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
-import { safeStringFetch } from "../util";
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 
 @connect((state: Everything) => state)
@@ -143,7 +143,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                                 onChangeComplete={(a: ReactColor.ColorResult) => {
                                                     this.setState({ H: [H[0], a.hsl.h] });
                                                 }} />
-                                            <ChromePicker color={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: ((S[0] + S[1]) / 2), l: 0 }} />
+                                            <FbChromePicker h={H} s={S} />
                                         </div>
                                     </div>
                                     <div className="row">

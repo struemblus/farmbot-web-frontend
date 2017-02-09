@@ -9,7 +9,6 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "noImplicitAny": true,
-        "allowSyntheticDefaultImports": true,
         "allowUnreachableCode": false,
         "strictNullChecks": true,
         "sourceMap": true,
