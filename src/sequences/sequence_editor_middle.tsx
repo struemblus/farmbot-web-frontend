@@ -154,7 +154,8 @@ export class SequenceEditorMiddle extends React.Component<Everything, {}> {
                         </button>
                         <div className="widget-header">
                             <h5>{t("Sequence Editor")}</h5>
-                            <i className="fa fa-question-circle widget-help-icon">
+                            <i className={`fa fa-question-circle 
+                                widget-help-icon`}>
                                 <div className="widget-help-text">
                                     {t(`Drag and drop commands here to create
                               sequences for watering, planting seeds,
@@ -199,6 +200,6 @@ export class SequenceEditorMiddle extends React.Component<Everything, {}> {
                     </div>
                 </div>
             </div >
-        </div>;
+        </div >;
     }
 }
