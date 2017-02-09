@@ -64,4 +64,9 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
   .add<Sequence | Regimen>("SELECT_SEQUENCE_OR_REGIMEN", function (s, { payload }) {
     s.currentSequenceOrRegimen = payload;
     return s;
+  })
+  .add<{ property: string, value: string | number }>("CHANGE_FARM_EVENT_VALUE",
+  function (s, { payload }) {
+    console.log(payload);
+    return s;
   });

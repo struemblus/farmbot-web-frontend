@@ -13,13 +13,15 @@ export interface ScheduledEventProps {
 }
 
 export interface FarmEvent {
-  time: Date;
-  desc: string;
-  icon: string;
+  id: number;
+  start_time: string;
+  end_time: string;
+  next_time: string;
   repeat: number;
   time_unit: string;
-  executable_type: string;
   executable_id: number;
+  executable_type: string;
+  calendar: string[];
 };
 
 export interface MovePlantProps {

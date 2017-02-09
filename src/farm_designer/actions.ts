@@ -18,7 +18,11 @@ export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
   return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
 };
 
-export function saveFarmEvent(farm_event: FarmEvent): Thunk {
+export function changeFarmEventValue(property: string, value: string | number) {
+  return { type: "CHANGE_FARM_EVENT_VALUE", payload: { property, value } };
+};
+
+export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.post<FarmEvent>(url, farm_event)

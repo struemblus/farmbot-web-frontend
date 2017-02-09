@@ -23,6 +23,7 @@ const initialState: Sync = {
     plants: [],
     points: [],
     logs: [],
+    farm_events: [],
     images: []
 };
 
