@@ -40,14 +40,14 @@ export class FarmbotPicker extends React.Component<Props, State> {
     boxCss(): React.CSSProperties {
         let l = ((this.props.s[0] / 255) * 100);
         let w = ((this.props.s[1] / 255) * 100) - l;
-        let t = Math.abs(100 - Math.round((this.props.v[1] / 255) * 100));
-        let h = Math.abs(t - (100 - Math.round((this.props.v[0] / 255) * 100)));
+        let t = Math.abs(100 - (this.props.v[1] / 255) * 100);
+        let h = Math.abs(t - (100 - (this.props.v[0] / 255) * 100));
 
 
-        let width = `${Math.round(w)}%`;
-        let left = `${Math.round(l)}%`;
-        let height = `${Math.round(h)}%`;
-        let top = `${Math.round(t)}%`;
+        let width = `${w}%`;
+        let left = `${l}%`;
+        let height = `${h}%`;
+        let top = `${t}%`;
         return { ...this.BASE_CSS, width, height, top, left };
     }
 
