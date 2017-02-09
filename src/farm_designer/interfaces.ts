@@ -8,10 +8,6 @@ export interface SelectSequenceOrRegimenProps extends Option {
   kind?: string;
 }
 
-export interface ScheduledEventProps {
-  scheduledEvent: ScheduledEvent;
-}
-
 export interface FarmEvent {
   id: number;
   start_time: string;
@@ -23,6 +19,13 @@ export interface FarmEvent {
   executable_type: string;
   calendar: string[];
 };
+
+
+export interface FarmEventExecutableData extends FarmEvent {
+  executable_data: {
+    name: string;
+  };
+}
 
 export interface MovePlantProps {
   deltaX: number;

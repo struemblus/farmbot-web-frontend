@@ -35,7 +35,6 @@ export function addFarmEventUntil(property: string, value: string) {
 };
 
 export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
-  console.log("what", farm_event);
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.post<FarmEvent>(url, farm_event)
@@ -64,7 +63,7 @@ export function updateFarmEvent(farm_event: FarmEvent): Thunk {
 };
 
 export function destroyFarmEvent(farm_event_id: number): Thunk {
-  let url = API.current.farmEventsPath;
+  let url = API.current.farmEventsPath + farm_event_id;
   return function (dispatch, getState) {
     return Axios.delete<Partial<FarmEvent>>(url, farm_event_id)
       .then(resp => {

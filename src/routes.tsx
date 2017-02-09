@@ -156,6 +156,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
                         }
                     },
                     {
+                        path: "farm_events/:farm_event_id",
+                        getComponent(location: any, cb: any) {
+                            System.import("./farm_designer/farm_events/edit_farm_event.tsx").then(
+                                (module: any) => cb(null, module.EditFarmEvent)
+                            ).catch(errorLoading);
+                        }
+                    },
+                    {
                         path: "farm_events/add",
                         getComponent(location: any, cb: any) {
                             System.import("./farm_designer/farm_events/add_farm_event.tsx").then(
