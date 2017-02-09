@@ -2,21 +2,23 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { t } from "i18next";
-import { ChromePicker } from "react-color";
+import { ChromePicker, HuePicker } from "react-color";
+import { FbChromePicker } from "./fb_chrome_picker";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
 import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
-import { safeStringFetch } from "../util";
 const DETECTOR_ENV = "PLANT_DETECTION_options";
+
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
     constructor() {
         super();
         this.setHSV = this.setHSV.bind(this);
         this.test = this.test.bind(this);
+        this.sendOffConfig = this.sendOffConfig.bind(this);
         this.state = {
             isEditing: true,
             blur: 1,
@@ -61,15 +63,17 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
     setHSV(key: "H" | "S" | "V", val: [number, number]) {
         this.setState({ [key]: val });
+        this.ok();
     }
 
     test() {
+        var that = this;
         let pairs = Object
             .keys(this.state)
-            .map<Pair>(function (value, index) {
+            .map<Pair>(function (value: keyof DetectorState, index) {
                 return {
                     kind: "pair",
-                    args: { value, label: safeStringFetch(this.state, value) }
+                    args: { value, label: JSON.stringify(that.state[value]) || "null" }
                 };
             });
 
@@ -78,7 +82,16 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             .execScript("plant-detection", pairs);
     }
 
+    // TODO: I can't figure out why, but there is a noticeable, 3 second-ish
+    // HACK: lag when I move the sider. I'm either misusing react-color or found
+    //       a bug in the library. I'm not sure. ~ Rick, 8 Feb 17
+    ok = _.throttle(() => { // Debounce to avoid excessive re-diffing.
+        this.forceUpdate();
+    }, 100);
+
     render() {
+        let H = (this.state.H || [0, 0]);
+        let S = (this.state.S || [0, 0]);
         return <div>
             <div className="widget-wrapper weed-detector-widget">
                 <div className="row">
@@ -122,7 +135,15 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <ChromePicker color="#fff" />
+                                            <HuePicker color={{ h: (H[0] * 2), s: 0, l: 0 }}
+                                                onChangeComplete={(a: ReactColor.ColorResult) => {
+                                                    this.setState({ H: [a.hsl.h, H[1]] });
+                                                }} />
+                                            <HuePicker color={{ h: (H[1] * 2), s: 0, l: 0 }}
+                                                onChangeComplete={(a: ReactColor.ColorResult) => {
+                                                    this.setState({ H: [H[0], a.hsl.h] });
+                                                }} />
+                                            <FbChromePicker h={H} s={S} />
                                         </div>
                                     </div>
                                     <div className="row">
