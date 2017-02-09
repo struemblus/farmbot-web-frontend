@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select } from "../../ui";
+import { Select, error } from "../../ui";
 import { connect } from "react-redux";
 import {
   Everything,
@@ -12,7 +12,10 @@ import { SelectSequenceOrRegimenProps } from "../interfaces";
 import {
   selectSequenceOrRegimen,
   saveFarmEvent,
-  addFarmEventStart
+  addFarmEventStart,
+  addFarmEventRepeat,
+  addFarmEventUntil,
+  addFarmEventTimeUnit
 } from "../actions";
 import * as _ from "lodash";
 import * as moment from "moment";
@@ -63,8 +66,18 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   }
 
   saveEvent() {
-    // let { currentSequenceOrRegimen } = this.props.designer;
+    let { farmEventToBeAdded, currentSequenceOrRegimen } = this.props.designer;
+    if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
+      farmEventToBeAdded.executable_id = currentSequenceOrRegimen.id;
+      /** Woof. Make the first letter of executable_type capitalized. */
+      let kind = currentSequenceOrRegimen.kind.charAt(0).toUpperCase() +
+        currentSequenceOrRegimen.kind.substr(1);
 
+      farmEventToBeAdded.executable_type = kind;
+      this.props.dispatch(saveFarmEvent(farmEventToBeAdded));
+    } else {
+      error("Select a sequence or Regimen.");
+    }
   }
 
   updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
@@ -72,17 +85,43 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     this.props.dispatch(addFarmEventStart(name, value));
   }
 
-  updateEventWithInput(event: React.SyntheticEvent<HTMLInputElement>) {
-    console.log(event.currentTarget.name);
-    console.log(event.currentTarget.value);
+  updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { value } = event.currentTarget;
+    let newValue = parseInt(value);
+    this.props.dispatch(addFarmEventRepeat(newValue));
   }
 
-  updateEventWithSelect(event: Option) {
-    console.log(event);
+  updateTimeUnit(event: Option) {
+    let { value } = event;
+    this.props.dispatch(addFarmEventTimeUnit(value));
+  }
+
+  addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    let { name, value } = event.currentTarget;
+    this.props.dispatch(addFarmEventUntil(name, value));
   }
 
   render() {
     let { regimens, sequences } = this.props;
+    let {
+      start_time,
+      repeat,
+      time_unit,
+      end_time
+    } = this.props.designer.farmEventToBeAdded;
+
+    let eventDate = start_time ? moment(start_time)
+      .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+    /** TODO: Why is moment freaking out about this? */
+    // let eventTime = start_time ? moment(start_time)
+    //   .format("h:mm") : moment().format("h:mm");
+
+    let eventUntilDate = end_time ? moment(end_time)
+      .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+    let eventRepeat = repeat ? repeat : 0;
+    let eventTimeUnit = time_unit ? time_unit : "";
 
     let regimenOptions: SelectOptionsParams[] = regimens.all.map(regimen => {
       return {
@@ -143,14 +182,16 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             <input type="date"
               className="add-event-start-date"
               name="start_date"
+              value={eventDate}
               onChange={this.updateStart.bind(this)} />
           </div>
-          <div className="col-xs-6">
+          {/*<div className="col-xs-6">
             <input type="time"
               className="add-event-start-time"
               name="start_time"
+              value={eventTime}
               onChange={this.updateStart.bind(this)} />
-          </div>
+          </div>*/}
         </div>
         <label>{t("Repeats Every")}</label>
         <div className="row">
@@ -159,13 +200,15 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
               type="text"
               className="add-evet-repeat-frequency"
               name="repeat"
-              onChange={this.updateEventWithInput.bind(this)} />
+              value={eventRepeat}
+              onChange={this.updateRepeat.bind(this)} />
           </div>
           <div className="col-xs-8">
             <Select
               options={repeatOptions}
               name="time_unit"
-              onChange={this.updateEventWithSelect.bind(this)} />
+              value={eventTimeUnit}
+              onChange={this.updateTimeUnit.bind(this)} />
           </div>
         </div>
         <label>{t("Until")}</label>
@@ -175,13 +218,14 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
               type="date"
               className="add-event-end-date"
               name="until_date"
-              onChange={this.updateEventWithInput.bind(this)} />
+              value={eventUntilDate}
+              onChange={this.addFarmEventUntil.bind(this)} />
           </div>
           <div className="col-xs-6">
             <input
               type="time"
               name="until_time"
-              onChange={this.updateEventWithInput.bind(this)} />
+              onChange={this.addFarmEventUntil.bind(this)} />
           </div>
         </div>
         <button className="magenta button-like"

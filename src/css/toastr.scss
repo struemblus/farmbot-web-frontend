@@ -45,7 +45,8 @@
             color: $dark_gray;
         }
     }
-    &.green {
+    &.green,
+    &.red {
         .toast-title {
             color: $off_white;
         }

@@ -76,14 +76,25 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
   })
   .add<{ property: string, value: string }>("ADD_FARM_EVENT_UNTIL",
   function (s, { payload }) {
+    /** TODO: Merge time and date somehow here? */
+    s.farmEventToBeAdded.end_time = moment(payload.value).toISOString();
     return s;
   })
-  .add<{ property: string, value: string }>("ADD_FARM_EVENT_REPEAT",
+  .add<{ property: string, value: number }>("ADD_FARM_EVENT_REPEAT",
   function (s, { payload }) {
+    let { value } = payload;
+    s.farmEventToBeAdded.repeat = value;
+    return s;
+  })
+  .add<{ value: string }>("ADD_FARM_EVENT_TIME_UNIT",
+  function (s, { payload }) {
+    let { value } = payload;
+    s.farmEventToBeAdded.time_unit = value;
     return s;
   })
   .add<{ property: string, value: string }>("ADD_FARM_EVENT_START",
   function (s, { payload }) {
-    // s.farmEventToBeAdded.start_time = moment().toISOString();
+    /** TODO: Merge time and date somehow here? */
+    s.farmEventToBeAdded.start_time = moment(payload.value).toISOString();
     return s;
   });
