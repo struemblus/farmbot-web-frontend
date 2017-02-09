@@ -69,9 +69,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let { farmEventToBeAdded, currentSequenceOrRegimen } = this.props.designer;
     if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
       farmEventToBeAdded.executable_id = currentSequenceOrRegimen.id;
-      /** Woof. Make the first letter of executable_type capitalized. */
-      let kind = currentSequenceOrRegimen.kind.charAt(0).toUpperCase() +
-        currentSequenceOrRegimen.kind.substr(1);
+
+      let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
 
       farmEventToBeAdded.executable_type = kind;
       this.props.dispatch(saveFarmEvent(farmEventToBeAdded));

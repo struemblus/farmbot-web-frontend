@@ -18,26 +18,29 @@ export class FarmEvents extends React.Component<Everything, {}> {
     /** Merging the data needed from the correlating executable, refactor? */
     farmEvents.map(
       (farmEvent: FarmEventExecutableData) => {
-        if (farmEvent.executable_type === "Regimen") {
+        switch (farmEvent.executable_type) {
           // If type `regimen`
-          this.props.regimens.all.map(regimen => {
-            // Search all regimens and match id
-            if (regimen.id === farmEvent.executable_id) {
-              farmEvent.executable_data = { name: regimen.name };
-              eventsWithExecutableData.push(farmEvent);
-            }
-          });
-        } else if (farmEvent.executable_type === "Sequence") {
-          // If type `sequence`
-          this.props.sequences.all.map(sequence => {
-            // Search all sequences and match id
-            if (sequence.id === farmEvent.executable_id) {
-              farmEvent.executable_data = { name: sequence.name };
-              eventsWithExecutableData.push(farmEvent);
-            }
-          });
-        } else {
-          throw new Error("Something went wrong with events.");
+          case "Regimen":
+            this.props.regimens.all.map(regimen => {
+              // Search all regimens and match id
+              if (regimen.id === farmEvent.executable_id) {
+                farmEvent.executable_data = { name: regimen.name };
+                eventsWithExecutableData.push(farmEvent);
+              }
+            });
+            break;
+          case "Sequence":
+            // If type `sequence`
+            this.props.sequences.all.map(sequence => {
+              // Search all sequences and match id
+              if (sequence.id === farmEvent.executable_id) {
+                farmEvent.executable_data = { name: sequence.name };
+                eventsWithExecutableData.push(farmEvent);
+              }
+            });
+            break;
+          default:
+            throw new Error("Something went wrong with events.");
         }
       });
 
