@@ -14,35 +14,32 @@ export class FarmEvents extends React.Component<Everything, {}> {
 
   render() {
     let farmEvents = this.props.sync.farm_events || [];
-    let eventOptions = farmEvents.map(event => {
-      return {
-        label: moment(event.start_time).format("MM-DD"),
-        value: event.id
-      };
-    });
-
+    let eventsWithExecutableData: FarmEventExecutableData[] = [];
     /** Merging the data needed from the correlating executable, refactor? */
-    farmEvents.map((farmEvent: FarmEventExecutableData) => {
-      if (farmEvent.executable_type === "Regimen") {
-        // If type `regimen`
-        this.props.regimens.all.map(regimen => {
-          // Search all regimens and match id
-          if (regimen.id === farmEvent.executable_id) {
-            return farmEvent.executable_data = { name: regimen.name };
-          }
-        });
-      } else if (farmEvent.executable_type === "Sequence") {
-        // If type `sequence`
-        this.props.sequences.all.map(sequence => {
-          // Search all sequences and match id
-          if (sequence.id === farmEvent.executable_id) {
-            return farmEvent.executable_data = { name: sequence.name };
-          }
-        });
-      } else {
-        throw new Error("Something went wrong with events.");
-      }
-    });
+    farmEvents.map(
+      (farmEvent: FarmEventExecutableData) => {
+        if (farmEvent.executable_type === "Regimen") {
+          // If type `regimen`
+          this.props.regimens.all.map(regimen => {
+            // Search all regimens and match id
+            if (regimen.id === farmEvent.executable_id) {
+              farmEvent.executable_data = { name: regimen.name };
+              eventsWithExecutableData.push(farmEvent);
+            }
+          });
+        } else if (farmEvent.executable_type === "Sequence") {
+          // If type `sequence`
+          this.props.sequences.all.map(sequence => {
+            // Search all sequences and match id
+            if (sequence.id === farmEvent.executable_id) {
+              farmEvent.executable_data = { name: sequence.name };
+              eventsWithExecutableData.push(farmEvent);
+            }
+          });
+        } else {
+          throw new Error("Something went wrong with events.");
+        }
+      });
 
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
@@ -65,10 +62,10 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-sm-2 col-md-2 fa fa-calendar"></i>
 
           <Select className="col-sm-10 col-md-10"
-            options={eventOptions} />
+            options={[]} />
 
           <div className="farm-events col-sm-12">
-            {farmEvents.map((farmEvent: FarmEventExecutableData) => {
+            {eventsWithExecutableData.map((farmEvent: FarmEventExecutableData) => {
               return <div className="farm-event col-sm-12" key={farmEvent.id}>
                 <div className="event-time col-sm-3">
                   {moment(farmEvent.start_time).format("hha")}
