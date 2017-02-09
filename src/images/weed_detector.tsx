@@ -2,8 +2,8 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { t } from "i18next";
-import { ChromePicker, HuePicker } from "react-color";
-import { FbChromePicker } from "./fb_chrome_picker";
+import { HuePicker } from "react-color";
+import { FarmbotPicker } from "./farmbot_picker";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
 import { devices } from "../device";
@@ -92,6 +92,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     render() {
         let H = (this.state.H || [0, 0]);
         let S = (this.state.S || [0, 0]);
+        let V = (this.state.V || [0, 0]);
         return <div>
             <div className="widget-wrapper weed-detector-widget">
                 <div className="row">
@@ -135,15 +136,12 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <HuePicker color={{ h: (H[0] * 2), s: 0, l: 0 }}
-                                                onChangeComplete={(a: ReactColor.ColorResult) => {
-                                                    this.setState({ H: [a.hsl.h, H[1]] });
-                                                }} />
-                                            <HuePicker color={{ h: (H[1] * 2), s: 0, l: 0 }}
-                                                onChangeComplete={(a: ReactColor.ColorResult) => {
-                                                    this.setState({ H: [H[0], a.hsl.h] });
-                                                }} />
-                                            <FbChromePicker h={H} s={S} />
+                                            <HuePicker color={{ h: (H[0] * 2), s: 0, l: 0 }} />
+                                            <HuePicker color={{ h: (H[1] * 2), s: 0, l: 0 }} />
+                                            <FarmbotPicker h={H} s={S} v={V}
+                                                hsv={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, v: 0 }}
+                                                hsl={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, l: 0 }} />
+
                                         </div>
                                     </div>
                                     <div className="row">
