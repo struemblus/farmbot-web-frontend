@@ -5,7 +5,7 @@ import { Select } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
-import { FarmEventExecutableData } from "../interfaces";
+import { FarmEventExecutableData, FarmEvent } from "../interfaces";
 
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
@@ -15,17 +15,22 @@ export class FarmEvents extends React.Component<Everything, {}> {
   render() {
     let farmEvents = this.props.sync.farm_events || [];
     let eventsWithExecutableData: FarmEventExecutableData[] = [];
+
     /** Merging the data needed from the correlating executable, refactor? */
     farmEvents.map(
-      (farmEvent: FarmEventExecutableData) => {
+      (farmEvent: FarmEvent) => {
         switch (farmEvent.executable_type) {
           // If type `regimen`
           case "Regimen":
             this.props.regimens.all.map(regimen => {
               // Search all regimens and match id
               if (regimen.id === farmEvent.executable_id) {
-                farmEvent.executable_data = { name: regimen.name };
-                eventsWithExecutableData.push(farmEvent);
+                eventsWithExecutableData.push({
+                  farm_event_data: farmEvent,
+                  executable_data: {
+                    name: regimen.name
+                  }
+                });
               }
             });
             break;
@@ -34,8 +39,12 @@ export class FarmEvents extends React.Component<Everything, {}> {
             this.props.sequences.all.map(sequence => {
               // Search all sequences and match id
               if (sequence.id === farmEvent.executable_id) {
-                farmEvent.executable_data = { name: sequence.name };
-                eventsWithExecutableData.push(farmEvent);
+                eventsWithExecutableData.push({
+                  farm_event_data: farmEvent,
+                  executable_data: {
+                    name: sequence.name
+                  }
+                });
               }
             });
             break;
@@ -68,15 +77,16 @@ export class FarmEvents extends React.Component<Everything, {}> {
             options={[]} />
 
           <div className="farm-events col-sm-12">
-            {eventsWithExecutableData.map((farmEvent: FarmEventExecutableData) => {
-              return <div className="farm-event col-sm-12" key={farmEvent.id}>
+            {eventsWithExecutableData.map((fe: FarmEventExecutableData) => {
+              return <div className="farm-event col-sm-12"
+                key={fe.farm_event_data.id}>
                 <div className="event-time col-sm-3">
-                  {moment(farmEvent.start_time).format("hha")}
+                  {moment(fe.farm_event_data.start_time).format("hha")}
                 </div>
                 <div className="event-title col-sm-9">
-                  {farmEvent.executable_data.name || "No name?"}
+                  {fe.executable_data.name || "No name?"}
                 </div>
-                <Link to={`/app/designer/farm_events/${farmEvent.id}`}>
+                <Link to={`/app/designer/farm_events/${fe.farm_event_data.id}`}>
                   <i className="fa fa-pencil-square-o edit-icon"></i>
                 </Link>
               </div>;

@@ -1,7 +1,11 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { Sync } from "../interfaces";
 import { Log } from "../interfaces";
-import { Plant, MovePlantProps } from "../farm_designer/interfaces";
+import {
+    Plant,
+    MovePlantProps,
+    FarmEvent
+} from "../farm_designer/interfaces";
 
 const initialState: Sync = {
     api_version: "",
@@ -48,6 +52,15 @@ export let syncReducer = generateReducer<Sync>(initialState)
         let thisOne = findPlantById(s.plants, a.payload.id);
         _.merge(thisOne, a.payload);
         thisOne.dirty = false;
+        return s;
+    })
+    .add<{ id: number }>("DELETE_FARM_EVENT_OK", function (s, { payload }) {
+        let index = _.findIndex(s.farm_events, { id: payload.id });
+        s.farm_events.splice(index, 1);
+        return s;
+    })
+    .add<FarmEvent>("SAVE_FARM_EVENT_OK", function (s, { payload }) {
+        s.farm_events.push(payload);
         return s;
     });
 
