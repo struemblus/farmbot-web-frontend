@@ -30,6 +30,7 @@ export class FarmbotPicker extends React.Component<Props, State> {
         this.HueboxCSS = this.HueboxCSS.bind(this);
         this.SaturationboxCSS = this.SaturationboxCSS.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.CustomPointer = this.CustomPointer.bind(this);
     }
 
     HueCSS(): React.CSSProperties {
@@ -73,6 +74,9 @@ export class FarmbotPicker extends React.Component<Props, State> {
     }
 
     handleChange() {}
+    CustomPointer() {
+      return <div />
+    }
 
     render() {
         return <div>
@@ -80,7 +84,7 @@ export class FarmbotPicker extends React.Component<Props, State> {
             <div style={this.HueCSS()}>
                 <Hue
                     {...this.props}
-                    pointer={ 'none' }
+                    pointer={ this.CustomPointer }
                     onChange={ this.handleChange }/>
                 <div style={this.HueboxCSS()} />
             </div>
@@ -88,7 +92,7 @@ export class FarmbotPicker extends React.Component<Props, State> {
             <div style={this.SaturationCSS()}>
                 <Saturation
                     {...this.props}
-                    pointer={ 'none' }
+                    pointer={ this.CustomPointer }
                     onChange={ this.handleChange } />
                 <div style={this.SaturationboxCSS()} />
             </div>
