@@ -4,8 +4,10 @@ import { Log } from "../interfaces";
 import {
     Plant,
     MovePlantProps,
-    FarmEvent
+    FarmEvent,
+    UpdateSequenceOrRegimenProps
 } from "../farm_designer/interfaces";
+import * as moment from "moment";
 
 const initialState: Sync = {
     api_version: "",
@@ -61,6 +63,50 @@ export let syncReducer = generateReducer<Sync>(initialState)
     })
     .add<FarmEvent>("SAVE_FARM_EVENT_OK", function (s, { payload }) {
         s.farm_events.push(payload);
+        return s;
+    })
+    .add<UpdateSequenceOrRegimenProps>("UPDATE_SEQUENCE_OR_REGIMEN",
+    function (s, { payload }) {
+        let { value, kind, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.executable_id = value;
+        currentEvent.executable_type = kind;
+        return s;
+    })
+    .add<{
+        property: string, value: string, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_START",
+    function (s, { payload }) {
+        /** TODO: Merge time and date somehow here? */
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.start_time = moment(value).toISOString();
+        return s;
+    })
+    .add<{
+        property: string, value: number, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_REPEAT",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.repeat = value;
+        return s;
+    })
+    .add<{ value: string, farm_event_id: number }>("UPDATE_FARM_EVENT_TIME_UNIT",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.time_unit = value;
+        return s;
+    })
+    .add<{
+        property: string, value: string, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_UNTIL",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        /** TODO: Merge time and date somehow here? */
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.end_time = moment(value).toISOString();
         return s;
     });
 

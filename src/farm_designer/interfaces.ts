@@ -8,6 +8,13 @@ export interface SelectSequenceOrRegimenProps extends Option {
   kind?: string;
 }
 
+export interface UpdateSequenceOrRegimenProps {
+  label: string;
+  value: number;
+  kind: string;
+  farm_event_id: number;
+}
+
 export interface FarmEvent {
   id: number;
   start_time: string;

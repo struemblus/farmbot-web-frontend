@@ -8,14 +8,18 @@ import {
     SelectOptionsParams,
     CustomOptionProps
 } from "../../interfaces";
-import { SelectSequenceOrRegimenProps } from "../interfaces";
+import {
+    SelectSequenceOrRegimenProps,
+    UpdateSequenceOrRegimenProps
+} from "../interfaces";
+
 import {
     selectSequenceOrRegimen,
-    saveFarmEvent,
-    addFarmEventStart,
-    addFarmEventRepeat,
-    addFarmEventUntil,
-    addFarmEventTimeUnit,
+    updateFarmEvent,
+    updateFarmEventStart,
+    updateFarmEventRepeat,
+    updateFarmEventUntil,
+    updateFarmEventTimeUnit,
     destroyFarmEvent,
     updateSequenceOrRegimen
 } from "../actions";
@@ -81,28 +85,10 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
     }
 
     saveEvent() {
-        // let {
-        //     farmEventToBeAdded,
-        //     currentSequenceOrRegimen
-        // } = this.props.designer;
-
-        // if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-        //     let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
-
-        //     let data = _.assign({
-        //         executable_id: currentSequenceOrRegimen.id,
-        //         executable_type: kind
-        //     }, farmEventToBeAdded);
-
-        //     this.props.dispatch(saveFarmEvent(data));
-        //     this.props.router.push("/app/designer/farm_events");
-        // } else {
-        //     error("Select a sequence or Regimen.");
-        // }
-    }
-
-    updateSequenceOrRegimenOption(e: Option) {
-        // this.props.dispatch(updateSequenceOrRegimen(""));
+        let { sync, dispatch } = this.props;
+        let id = parseInt(this.props.params.farm_event_id);
+        let currentEvent = _.findWhere(sync.farm_events, { id });
+        dispatch(updateFarmEvent(currentEvent));
     }
 
     deleteEvent() {
@@ -111,25 +97,34 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         this.props.router.push("/app/designer/farm_events");
     }
 
+    updateSequenceOrRegimenOption(e: UpdateSequenceOrRegimenProps) {
+        e.farm_event_id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateSequenceOrRegimen(e));
+    }
+
     updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventStart(name, value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventStart(name, value, id));
     }
 
     updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
         let { value } = event.currentTarget;
         let newValue = parseInt(value);
-        this.props.dispatch(addFarmEventRepeat(newValue));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventRepeat(newValue, id));
     }
 
     updateTimeUnit(event: Option) {
         let { value } = event;
-        this.props.dispatch(addFarmEventTimeUnit(value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventTimeUnit(value, id));
     }
 
     addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventUntil(name, value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventUntil(name, value, id));
     }
 
     render() {

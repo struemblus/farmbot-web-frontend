@@ -3,8 +3,6 @@ import { Plant as newPlant } from "./plant";
 import { generateReducer } from "../redux/generate_reducer";
 import {
   DesignerState,
-  MovePlantProps,
-  SelectSequenceOrRegimenProps,
   RegimenWithKindProp
 } from "./interfaces";
 import { cloneDeep } from "lodash";

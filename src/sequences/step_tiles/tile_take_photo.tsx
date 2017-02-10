@@ -5,6 +5,7 @@ import { Help } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
+import { Link } from "react-router";
 
 export function TileTakePhoto({dispatch, step, index}: StepParams) {
     return (<div>
@@ -30,8 +31,10 @@ export function TileTakePhoto({dispatch, step, index}: StepParams) {
                         <div className="row">
                             <div className="col-xs-6 col-md-3">
                                 <p>
-                                    Photos are viewable from
-                                    the <a href="/app/device">devices page</a>.
+                                    Photos are viewable from the
+                                    <Link to="/app/device">
+                                        &nbsp;devices page
+                                    </Link>.
                                 </p>
                             </div>
                         </div>
