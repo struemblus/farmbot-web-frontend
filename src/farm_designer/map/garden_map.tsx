@@ -7,10 +7,12 @@ import * as moment from "moment";
 import { Plant as IPlant } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
+import { Link } from "react-router";
 
 interface GardenMapProps extends Everything {
   params: {
     species: string;
+    plant_id: string;
   };
 }
 
@@ -100,6 +102,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     let dropper = (id: number) => {
       dispatch(savePlantById(id));
     };
+
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
@@ -112,11 +115,17 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
         {
           this.props.sync.plants.map((p, inx) => {
             if (p.id) {
-              return <GardenPlant
-                key={p.id}
-                plant={p}
-                onUpdate={updater}
-                onDrop={dropper} />;
+              let isActive = parseInt(this.props.params.plant_id) === p.id ?
+                "active" : "";
+
+              return <Link to={`/app/designer/plants/${p.id}`}
+                className={`plant-link-wrapper ${isActive}`}
+                key={p.id}>
+                <GardenPlant
+                  plant={p}
+                  onUpdate={updater}
+                  onDrop={dropper} />
+              </Link>;
             } else {
               throw new Error("Never.");
             }

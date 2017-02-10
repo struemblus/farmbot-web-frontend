@@ -159,6 +159,8 @@ export function fakeState(dispatcher?: Function): Everything {
 
     let images = { all: [] };
 
+    let router = { push: function () { } };
+
     return {
         location
         , auth
@@ -174,5 +176,6 @@ export function fakeState(dispatcher?: Function): Everything {
         , sync
         , tools
         , images
+        , router
     };
 }
