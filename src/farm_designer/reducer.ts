@@ -98,4 +98,3 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
     s.farmEventToBeAdded.start_time = moment(payload.value).toISOString();
     return s;
   });
-

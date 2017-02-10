@@ -75,12 +75,15 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   saveEvent() {
     let { farmEventToBeAdded, currentSequenceOrRegimen } = this.props.designer;
     if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-      farmEventToBeAdded.executable_id = currentSequenceOrRegimen.id;
-
       let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
 
-      farmEventToBeAdded.executable_type = kind;
-      this.props.dispatch(saveFarmEvent(farmEventToBeAdded));
+      let data = _.assign({
+        executable_id: currentSequenceOrRegimen.id,
+        executable_type: kind
+      }, farmEventToBeAdded);
+
+      this.props.dispatch(saveFarmEvent(data));
+      this.props.router.push("/app/designer/farm_events");
     } else {
       error("Select a sequence or Regimen.");
     }

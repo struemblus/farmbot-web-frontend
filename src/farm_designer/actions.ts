@@ -35,17 +35,15 @@ export function addFarmEventUntil(property: string, value: string) {
 };
 
 export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
-  console.log("1", farm_event);
   let url = API.current.farmEventsPath;
   return function (dispatch, getState) {
     return Axios.post<FarmEvent>(url, farm_event)
       .then(resp => {
         let payload = { ...farm_event, ...resp.data };
-        console.log("2", payload);
         dispatch({ type: "SAVE_FARM_EVENT_OK", payload });
+        success(t("Successfully saved event."));
       })
       .catch(payload => {
-        console.log("3", payload);
         error(t("Tried to save Farm Event, but couldn't."));
       });
   };
