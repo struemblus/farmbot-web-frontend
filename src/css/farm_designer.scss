@@ -71,6 +71,16 @@
     }
 }
 
+.plant-link-wrapper {
+    position: relative;
+    image {
+        cursor: -webkit-grab !important;
+        &:active {
+            cursor: -webkit-grabbing !important;
+        }
+    }
+}
+
 .outside-search-results {
     // Come back to this problem
     display: none;
