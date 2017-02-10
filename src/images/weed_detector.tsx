@@ -42,8 +42,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             .setUserEnv(message);
     }
 
-    toggleEdit() {
-        this.setState({ isEditing: !this.state.isEditing });
+    takePhoto() {
+        devices
+            .current
+            .takePhoto();
     }
 
     onBlur(key: keyof DetectorState) {
@@ -100,8 +102,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                             </button>
                             <button
                                 className="gray button-like"
-                                onClick={this.toggleEdit.bind(this)}>
-                                {t("BACK")}
+                                onClick={this.takePhoto.bind(this)}>
+                                {t("Take Photo")}
                             </button>
                             <h5>{t("Weed Detector")}</h5>
                             <i className={`fa fa-question-circle
