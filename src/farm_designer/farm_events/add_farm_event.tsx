@@ -155,7 +155,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let chosenNode = this.props.designer.currentSequenceOrRegimen;
 
     let repeatOptions = [
-      { label: "Do not repeat", value: "" },
+      { label: "Do not repeat", value: "never" },
       { label: "minutes", value: "minutely" },
       { label: "hours", value: "hourly" },
       { label: "days", value: "daily" },

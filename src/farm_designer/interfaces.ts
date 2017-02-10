@@ -21,7 +21,7 @@ export interface FarmEvent {
 };
 
 
-export interface FarmEventExecutableData extends FarmEvent {
+export interface FarmEventExecutableData {
   farm_event_data: FarmEvent;
   executable_data: {
     name: string;

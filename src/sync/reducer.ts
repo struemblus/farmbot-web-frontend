@@ -49,6 +49,12 @@ export let syncReducer = generateReducer<Sync>(initialState)
         _.merge(thisOne, a.payload);
         thisOne.dirty = false;
         return s;
+    })
+    .add<{ id: number }>("DELETE_FARM_EVENT_OK",
+    function (s, { payload }) {
+        let index = _.findIndex(s.farm_events, { id: payload.id });
+        s.farm_events.splice(index, 1);
+        return s;
     });
 
 export function findPlantById(plants: Plant[], id: number | undefined): Plant {

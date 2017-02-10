@@ -172,7 +172,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
 
         // minutely hourly daily weekly monthly yearly
         let repeatOptions = [
-            { label: "Do not repeat", value: "" },
+            { label: "Do not repeat", value: "never" },
             { label: "minutes", value: "minutely" },
             { label: "hours", value: "hourly" },
             { label: "days", value: "daily" },
