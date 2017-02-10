@@ -18,6 +18,10 @@ export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
   return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
 };
 
+export function updateSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
+  return { type: "UPDATE_SEQUENCE_OR_REGIMEN", payload };
+};
+
 export function addFarmEventStart(property: string, value: string) {
   return { type: "ADD_FARM_EVENT_START", payload: { property, value } };
 };
@@ -49,10 +53,10 @@ export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
   };
 };
 
-export function updateFarmEvent(farm_event: FarmEvent): Thunk {
-  let url = API.current.farmEventsPath;
+export function updateFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
+  let url = API.current.farmEventsPath + farm_event.id;
   return function (dispatch, getState) {
-    return Axios.put<Partial<FarmEvent>>(url, farm_event)
+    return Axios.patch<Partial<FarmEvent>>(url, farm_event)
       .then(resp => {
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "UPDATE_FARM_EVENT_OK", payload });
