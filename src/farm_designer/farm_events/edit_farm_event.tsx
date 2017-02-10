@@ -23,9 +23,6 @@ import * as moment from "moment";
 import { Option } from "react-select";
 
 interface EditFarmEventProps extends Everything {
-    router: {
-        push: Function;
-    };
     params: {
         farm_event_id: string;
     };
@@ -82,24 +79,31 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         }
     }
 
+    saveEvent() {
+        let {
+            farmEventToBeAdded,
+            currentSequenceOrRegimen
+        } = this.props.designer;
+
+        if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
+            let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
+
+            let data = _.assign({
+                executable_id: currentSequenceOrRegimen.id,
+                executable_type: kind
+            }, farmEventToBeAdded);
+
+            this.props.dispatch(saveFarmEvent(data));
+            this.props.router.push("/app/designer/farm_events");
+        } else {
+            error("Select a sequence or Regimen.");
+        }
+    }
+
     deleteEvent() {
         let id = parseInt(this.props.params.farm_event_id);
         this.props.dispatch(destroyFarmEvent(id));
         this.props.router.push("/app/designer/farm_events");
-    }
-
-    saveEvent() {
-        let { farmEventToBeAdded, currentSequenceOrRegimen } = this.props.designer;
-        if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-            farmEventToBeAdded.executable_id = currentSequenceOrRegimen.id;
-
-            let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
-
-            farmEventToBeAdded.executable_type = kind;
-            this.props.dispatch(saveFarmEvent(farmEventToBeAdded));
-        } else {
-            error("Select a sequence or Regimen.");
-        }
     }
 
     updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
@@ -145,10 +149,10 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         let eventRepeat = repeat ? repeat : 0;
         let eventTimeUnit = time_unit ? time_unit : "";
 
-        let regimenOptions: SelectOptionsParams[] = regimens.all.map(regimen => {
+        let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {
             return {
-                label: regimen.name || "No regimens.",
-                value: regimen.id || 0,
+                label: reg.name || "No regimens.",
+                value: reg.id || 0,
                 kind: "regimen"
             };
         });
@@ -165,12 +169,15 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         });
 
         /** Hack for group-by styling :( */
-        sequencesOptions.unshift({ label: "Sequences", value: 0, disabled: true });
+        sequencesOptions.unshift({
+            label: "Sequences",
+            value: 0,
+            disabled: true
+        });
 
         /** For telling select box */
         let chosenNode = this.props.designer.currentSequenceOrRegimen;
 
-        // minutely hourly daily weekly monthly yearly
         let repeatOptions = [
             { label: "Do not repeat", value: "never" },
             { label: "minutes", value: "minutely" },
@@ -181,7 +188,8 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             { label: "years", value: "yearly" }
         ];
 
-        return <div className="panel-container magenta-panel edit-farm-event-panel">
+        return <div className={`panel-container magenta-panel 
+            edit-farm-event-panel`}>
             <div className="panel-header magenta-panel">
                 <p className="panel-title">
                     <BackArrow /> {t("Edit Farm Event")}

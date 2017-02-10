@@ -70,6 +70,7 @@ export function destroyFarmEvent(farm_event_id: number): Thunk {
       .then(resp => {
         let payload = { id: farm_event_id, ...resp.data };
         dispatch({ type: "DELETE_FARM_EVENT_OK", payload });
+        error("Deleted farm event.", "Deleted");
       })
       .catch(payload => {
         error(t("Tried to delete Farm Event, but couldn't."));
