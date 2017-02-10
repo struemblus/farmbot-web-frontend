@@ -27,8 +27,9 @@ export class FarmbotPicker extends React.Component<Props, State> {
         this.state = {};
         this.HueCSS = this.HueCSS.bind(this);
         this.SaturationCSS = this.SaturationCSS.bind(this);
-        this.HueboxCss = this.HueboxCss.bind(this);
-        this.SaturationboxCss = this.SaturationboxCss.bind(this);
+        this.HueboxCSS = this.HueboxCSS.bind(this);
+        this.SaturationboxCSS = this.SaturationboxCSS.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     HueCSS(): React.CSSProperties {
@@ -47,7 +48,7 @@ export class FarmbotPicker extends React.Component<Props, State> {
         return { position, width, paddingBottom, overflow };
     }
 
-    HueboxCss(): React.CSSProperties {
+    HueboxCSS(): React.CSSProperties {
         let l = ((this.props.h[0] * 2) / 360) * 100;
         let w = ((this.props.h[1] * 2) / 360) * 100 - l;
 
@@ -58,7 +59,7 @@ export class FarmbotPicker extends React.Component<Props, State> {
         return { ...this.BASE_CSS, width, height, top, left };
     }
 
-    SaturationboxCss(): React.CSSProperties {
+    SaturationboxCSS(): React.CSSProperties {
         let l = ((this.props.s[0] / 255) * 100);
         let w = ((this.props.s[1] / 255) * 100) - l;
         let t = 100 - (this.props.v[1] / 255) * 100;
@@ -71,17 +72,25 @@ export class FarmbotPicker extends React.Component<Props, State> {
         return { ...this.BASE_CSS, width, height, top, left };
     }
 
+    handleChange() {}
+
     render() {
         return <div>
             <div style={{ width: '100%', paddingBottom: '15%' }} />
             <div style={this.HueCSS()}>
-                <Hue {...this.props} pointer={ 'none' }/>
-                <div style={this.HueboxCss()} />
+                <Hue
+                    {...this.props}
+                    pointer={ 'none' }
+                    onChange={ this.handleChange }/>
+                <div style={this.HueboxCSS()} />
             </div>
             <div style={{ width: '100%', paddingBottom: '2%' }} />
             <div style={this.SaturationCSS()}>
-                <Saturation {...this.props} />
-                <div style={this.SaturationboxCss()} />
+                <Saturation
+                    {...this.props}
+                    pointer={ 'none' }
+                    onChange={ this.handleChange } />
+                <div style={this.SaturationboxCSS()} />
             </div>
         </div>;
     }
