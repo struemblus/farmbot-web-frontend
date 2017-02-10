@@ -76,7 +76,6 @@ export class FarmbotPicker extends React.Component<Props, State> {
             <div style={{ width: '100%', paddingBottom: '15%' }} />
             <div style={this.HueCSS()}>
                 <Hue {...this.props} pointer={ 'none' }/>
-                <Hue {...this.props} pointer={ 'none' }/>
                 <div style={this.HueboxCss()} />
             </div>
             <div style={{ width: '100%', paddingBottom: '2%' }} />
