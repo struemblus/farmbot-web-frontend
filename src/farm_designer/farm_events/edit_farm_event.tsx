@@ -15,11 +15,19 @@ import {
     addFarmEventStart,
     addFarmEventRepeat,
     addFarmEventUntil,
-    addFarmEventTimeUnit
+    addFarmEventTimeUnit,
+    destroyFarmEvent,
+    updateSequenceOrRegimen
 } from "../actions";
 import * as _ from "lodash";
 import * as moment from "moment";
 import { Option } from "react-select";
+
+interface EditFarmEventProps extends Everything {
+    params: {
+        farm_event_id: string;
+    };
+}
 
 class OptionComponent extends React.Component<CustomOptionProps, {}> {
     handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
@@ -50,7 +58,7 @@ class OptionComponent extends React.Component<CustomOptionProps, {}> {
 }
 
 @connect((state: Everything) => state)
-export class AddFarmEvent extends React.Component<Everything, {}> {
+export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
     selectFromDropDown(e: SelectSequenceOrRegimenProps) {
         let { regimens, sequences } = this.props;
 
@@ -73,24 +81,34 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     }
 
     saveEvent() {
-        let {
-            farmEventToBeAdded,
-            currentSequenceOrRegimen
-        } = this.props.designer;
+        // let {
+        //     farmEventToBeAdded,
+        //     currentSequenceOrRegimen
+        // } = this.props.designer;
 
-        if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-            let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
+        // if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
+        //     let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
 
-            let data = _.assign({
-                executable_id: currentSequenceOrRegimen.id,
-                executable_type: kind
-            }, farmEventToBeAdded);
+        //     let data = _.assign({
+        //         executable_id: currentSequenceOrRegimen.id,
+        //         executable_type: kind
+        //     }, farmEventToBeAdded);
 
-            this.props.dispatch(saveFarmEvent(data));
-            this.props.router.push("/app/designer/farm_events");
-        } else {
-            error("Select a sequence or Regimen.");
-        }
+        //     this.props.dispatch(saveFarmEvent(data));
+        //     this.props.router.push("/app/designer/farm_events");
+        // } else {
+        //     error("Select a sequence or Regimen.");
+        // }
+    }
+
+    updateSequenceOrRegimenOption(e: Option) {
+        // this.props.dispatch(updateSequenceOrRegimen(""));
+    }
+
+    deleteEvent() {
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(destroyFarmEvent(id));
+        this.props.router.push("/app/designer/farm_events");
     }
 
     updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
@@ -115,13 +133,16 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     }
 
     render() {
-        let { regimens, sequences } = this.props;
+        let { regimens, sequences, sync, params } = this.props;
+        let currentEvent = _.findWhere(sync.farm_events,
+            { id: parseInt(params.farm_event_id) });
+
         let {
             start_time,
             repeat,
             time_unit,
             end_time
-        } = this.props.designer.farmEventToBeAdded;
+        } = currentEvent;
 
         let eventDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
@@ -162,9 +183,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             disabled: true
         });
 
-        /** For telling select box */
-        let chosenNode = this.props.designer.currentSequenceOrRegimen;
-
         let repeatOptions = [
             { label: "Do not repeat", value: "never" },
             { label: "minutes", value: "minutely" },
@@ -176,10 +194,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         ];
 
         return <div className={`panel-container magenta-panel 
-            add-farm-event-panel`}>
+            edit-farm-event-panel`}>
             <div className="panel-header magenta-panel">
                 <p className="panel-title">
-                    <BackArrow /> {t("Add Farm Event")}
+                    <BackArrow /> {t("Edit Farm Event")}
                 </p>
             </div>
             <div className="panel-content">
@@ -188,8 +206,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                     className="group-by"
                     options={regimenOptions.concat(sequencesOptions)}
                     optionComponent={OptionComponent}
-                    onChange={this.selectFromDropDown.bind(this)}
-                    value={(chosenNode || {}).id || 0} />
+                    onChange={this.updateSequenceOrRegimenOption.bind(this)}
+                    value={(currentEvent || {}).executable_id || 0} />
 
                 {/*<label>{t("Parameters")}</label>*/}
 
@@ -203,12 +221,12 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                             onChange={this.updateStart.bind(this)} />
                     </div>
                     {/*<div className="col-xs-6">
-            <input type="time"
-              className="add-event-start-time"
-              name="start_time"
-              value={eventTime}
-              onChange={this.updateStart.bind(this)} />
-          </div>*/}
+                        <input type="time"
+                        className="add-event-start-time"
+                        name="start_time"
+                        value={eventTime}
+                        onChange={this.updateStart.bind(this)} />
+                    </div>*/}
                 </div>
                 <label>{t("Repeats Every")}</label>
                 <div className="row">
@@ -248,6 +266,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                 <button className="magenta button-like"
                     onClick={this.saveEvent.bind(this)}>
                     {t("Save")}
+                </button>
+                <button className="red button-like"
+                    onClick={this.deleteEvent.bind(this)}>
+                    {t("Delete")}
                 </button>
             </div>
         </div>;

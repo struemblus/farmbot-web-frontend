@@ -16,7 +16,7 @@ exec("touch public/app/index.html");
 exec("rm -rf public/dist/*.js");
 
 var isProd = !!(global.WEBPACK_ENV === "production");
-module.exports = function () {
+module.exports = function() {
     return {
         entry: {
             "bundle": path.resolve(__dirname, "../src/entry.tsx"),
@@ -27,7 +27,6 @@ module.exports = function () {
         },
         output: {
             path: path.resolve(__dirname, "../public"),
-            filename: "dist/[name].[chunkhash].js",
             libraryTarget: "umd",
             publicPath: "/",
             devtoolLineToLine: true

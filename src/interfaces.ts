@@ -75,6 +75,9 @@ export interface Everything {
     tools: ToolsState;
     sync: Sync;
     images: ImageState;
+    router: {
+        push: Function;
+    };
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */

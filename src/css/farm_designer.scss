@@ -47,6 +47,40 @@
     width: 100%;
 }
 
+.farm-events {
+    margin-top: 2rem;
+    .farm-event {
+        &:hover {
+            .edit-icon {
+                display: block;
+            }
+        }
+        padding: 0.8rem;
+        background: white;
+        border-bottom: 1px solid $gray;
+    }
+    .edit-icon {
+        display: none;
+        position: absolute;
+        right: 1rem;
+        top: 1rem;
+        color: $gray;
+        &:hover {
+            color: $dark_gray;
+        }
+    }
+}
+
+.plant-link-wrapper {
+    position: relative;
+    image {
+        cursor: -webkit-grab !important;
+        &:active {
+            cursor: -webkit-grabbing !important;
+        }
+    }
+}
+
 .outside-search-results {
     // Come back to this problem
     display: none;

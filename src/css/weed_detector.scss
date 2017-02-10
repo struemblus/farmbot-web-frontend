@@ -40,25 +40,4 @@
             float: right;
         }
     }
-    .chrome-picker {
-        width: 100% !important;
-        margin: 2rem 0 0 !important;
-        position: relative !important;
-        div:nth-of-type(2) {
-            display: none;
-        }
-        div {
-            padding-bottom: 35% !important;
-        }
-    }
-    .hue-picker {
-        width: 100% !important;
-        position: relative !important;
-        div div div div {
-            width: 0.25rem !important;
-            border-radius: 0% !important;
-            transform: 'translate(0.125rem, -1px)' !important;
-            background-color: black !important
-        }
-    }
 }

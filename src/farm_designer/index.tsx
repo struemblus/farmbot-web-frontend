@@ -9,6 +9,7 @@ import { t } from "i18next";
 interface IndexProps extends Everything {
   params: {
     species: string;
+    plant_id: string;
   };
 }
 
