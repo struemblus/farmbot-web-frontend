@@ -2,7 +2,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
 import { t } from "i18next";
-import { HuePicker } from "react-color";
 import { FarmbotPicker } from "./farmbot_picker";
 import { DetectorState } from "./interfaces";
 import { ImageFlipper } from ".";
@@ -128,12 +127,9 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                             <HsvSlider name={"V"} onChange={this.setHSV} />
                                         </div>
                                         <div className="col-md-6 col-sm-12">
-                                            <HuePicker color={{ h: (H[0] * 2), s: 0, l: 0 }} />
-                                            <HuePicker color={{ h: (H[1] * 2), s: 0, l: 0 }} />
                                             <FarmbotPicker h={H} s={S} v={V}
                                                 hsv={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, v: 0 }}
                                                 hsl={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, l: 0 }} />
-
                                         </div>
                                     </div>
                                     <div className="row">

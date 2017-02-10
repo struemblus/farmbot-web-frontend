@@ -40,14 +40,4 @@
             float: right;
         }
     }
-    .hue-picker {
-        width: 100% !important;
-        position: relative !important;
-        div div div div {
-            width: 0.25rem !important;
-            border-radius: 0% !important;
-            transform: 'translate(0.125rem, -1px)' !important;
-            background-color: black !important
-        }
-    }
 }
