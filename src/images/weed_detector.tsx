@@ -63,7 +63,6 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
     setHSV(key: "H" | "S" | "V", val: [number, number]) {
         this.setState({ [key]: val });
-        this.ok();
     }
 
     test() {
@@ -81,13 +80,6 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
             .current
             .execScript("plant-detection", pairs);
     }
-
-    // TODO: I can't figure out why, but there is a noticeable, 3 second-ish
-    // HACK: lag when I move the sider. I'm either misusing react-color or found
-    //       a bug in the library. I'm not sure. ~ Rick, 8 Feb 17
-    ok = _.throttle(() => { // Debounce to avoid excessive re-diffing.
-        this.forceUpdate();
-    }, 100);
 
     render() {
         let H = (this.state.H || [0, 0]);
