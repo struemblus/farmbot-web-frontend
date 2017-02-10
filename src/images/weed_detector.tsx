@@ -9,6 +9,8 @@ import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
+import { success, error } from "../ui";
+
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 
 @connect((state: Everything) => state)
@@ -45,7 +47,13 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     takePhoto() {
         devices
             .current
-            .takePhoto();
+            .takePhoto()
+            .then(function () {
+                success("Request sent. The image will be available after post processing.");
+            },
+            function () {
+                error("Unable to snap a photo. Is FarmBot online?");
+            });
     }
 
     onBlur(key: keyof DetectorState) {
