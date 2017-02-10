@@ -15,6 +15,7 @@ import { TileSendMessage } from "./tile_send_message";
 import { TileWritePin } from "./tile_write_pin";
 import { ToolsState } from "../../tools/interfaces";
 import { TileExecuteScript } from "./tile_execute_script";
+import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
 import { LegalArgString } from "farmbot";
 
@@ -101,5 +102,6 @@ export let stepTiles: { [name: string]: React.ReactType | undefined } = {
     wait: TileWait,
     send_message: TileSendMessage,
     read_pin: TileReadPin,
-    execute_script: TileExecuteScript
+    execute_script: TileExecuteScript,
+    take_photo: TileTakePhoto
 };
