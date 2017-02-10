@@ -148,4 +148,11 @@
     select {
         width: 100%;
     }
+    &.take-photo-step {
+        background: $light_brown;
+        color: $black
+    }
+    .take-photo-step a {
+        color: $red;
+    }
 }

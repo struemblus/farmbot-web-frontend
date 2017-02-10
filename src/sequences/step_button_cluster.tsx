@@ -103,6 +103,14 @@ export function StepButtonCluster({dispatch}: { dispatch: Function }) {
             }}
             color="pink" >
             {t("EXECUTE SCRIPT")}
+        </StepButton >,
+        <StepButton dispatch={dispatch}
+            step={{
+                kind: "take_photo",
+                args: {}
+            }}
+            color="pink" >
+            {t("TAKE PHOTO")}
         </StepButton >
     ];
     return (<div>
