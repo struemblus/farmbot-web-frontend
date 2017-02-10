@@ -74,7 +74,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
                 return <MetaInfo key={id} attr={key} obj={meta} />;
             });
         } else {
-            throw new Error("Never.");
+            return <MetaInfo attr={"image"} obj={{ image: "No meta data." }} />;
         }
     }
 
