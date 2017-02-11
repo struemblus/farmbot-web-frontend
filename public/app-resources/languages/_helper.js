@@ -1,4 +1,10 @@
 var HelperNamespace = (function(){
+    /**
+     * @desc Build a list of all the files that are children of the root isDirectory
+     * @param {string} dir The rot isDirectory
+     * @param {list} filelist The list of the directories/files already detected
+     * @param {string} ext The extension to filter for the files
+     */
     function walkSync(dir, filelist, ext) {
         var path = path || require('path');
         var fs = fs || require('fs'),
@@ -16,8 +22,12 @@ var HelperNamespace = (function(){
         return filelist;
     };
 
+    /**
+     * @desc search in the file in parameter to detect the tags
+     */
     function searchInFile(path){
         /* some tags could be missed in this regex
+           We detect all the tags in the code
            regex is matching '.t("")' or '{t("")}' or ' t("")' or '(t("")' */
         var REGEX = /[\.|\{|(|\s]t\(\"([\w|\s|\{|\}|\(|\)]*)[\"|,].*\)/g;
 
@@ -34,6 +44,9 @@ var HelperNamespace = (function(){
         return strArray;
     }
 
+    /**
+     * Get all the tags in the files with extension .ts of the current project
+     */
     function getAllTags(){
         const srcPath = __dirname + '/../../..';
 
@@ -50,20 +63,25 @@ var HelperNamespace = (function(){
         return sorted;
     }
 
+    /**
+     * For debugging
+     */
     function logAllTags(){
         console.dir(getAllTags());
     }
 
-    // Create the translation file for the language in parameter
-    // If the file does exist, it update the tag with those found in the src folders
-    // The tags are in the following order: 
-    // 1. New tags in English that need to be translated (ASC)
-    // 2. Tags already translated, and kept because it match an existing tag in src (ASC)
-    // 3. Tags already in the file before but not found at the moment in the src (ASC)
+    /**
+     * Create the translation file or update it with new tags
+     * The tags are in the following order: 
+     * 1. New tags in English that need to be translated (ASC)
+     * 2. Tags already translated, and kept because it match an existing tag in src (ASC)
+     * 3. Tags already in the file before but not found at the moment in the src (ASC)
+     * @param {string} lang The short name of the language.  for the language in parameter
+     */
     function createOrUpdateTranslationFile(lang){
          lang = lang || 'en';
         
-        //check actual file entry
+        //check current file entry
         const langFilePath = __dirname + '/' + lang + '.js';
         var fs = fs || require('fs')
 
@@ -147,5 +165,6 @@ var HelperNamespace = (function(){
 })();
 
 // Need to run this cmd in this folder: node _helper.js
-HelperNamespace.createOrUpdateTranslationFile('es')
+language = 'fr'
+HelperNamespace.createOrUpdateTranslationFile(language)
 
