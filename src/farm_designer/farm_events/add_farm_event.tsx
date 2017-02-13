@@ -57,12 +57,12 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         /* Depending on the kind chosen, place that in the state tree
         /* e.value is the id of the node */
         switch (e.kind) {
-            case "regimen":
+            case "Regimen":
                 let regimen = _.findWhere(regimens.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(regimen));
                 break;
 
-            case "sequence":
+            case "Sequence":
                 let sequence = _.findWhere(sequences.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(sequence));
                 break;
