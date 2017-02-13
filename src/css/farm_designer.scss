@@ -29,6 +29,16 @@
 .crop-drag-info-image {
     width: 100%;
     background-color: $translucent;
+    width: 12rem;
+    height: 12rem;
+}
+
+.crop-search-result-wrapper {
+    .plant-catalog-tile {
+        label {
+            font-size: 1.2rem !important;
+        }
+    }
 }
 
 .crop-info-overlay {
