@@ -5,104 +5,157 @@ import { Select } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
-import { FarmEventExecutableData, FarmEvent } from "../interfaces";
+import {
+    FarmEventExecutableData,
+    FarmEvent,
+    FinalEventData
+} from "../interfaces";
 
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
 
-  hasPassed(date: Date) { return date < new Date(); }
+    hasPassed(date: Date) { return date < new Date(); }
 
-  render() {
-    let farmEvents = this.props.sync.farm_events || [];
-    let eventsWithExecutableData: FarmEventExecutableData[] = [];
-
-    /** Merging the data needed from the correlating executable, refactor? */
-    farmEvents.map(
-      (farmEvent: FarmEvent) => {
-        switch (farmEvent.executable_type) {
-          // If type `regimen`
-          case "Regimen":
-            this.props.regimens.all.map(regimen => {
-              // Search all regimens and match id
-              if (regimen.id === farmEvent.executable_id) {
-                eventsWithExecutableData.push({
-                  farm_event_data: farmEvent,
-                  executable_data: {
-                    name: regimen.name
-                  }
-                });
-              }
-            });
-            break;
-          case "Sequence":
-            // If type `sequence`
-            this.props.sequences.all.map(sequence => {
-              // Search all sequences and match id
-              if (sequence.id === farmEvent.executable_id) {
-                eventsWithExecutableData.push({
-                  farm_event_data: farmEvent,
-                  executable_data: {
-                    name: sequence.name
-                  }
-                });
-              }
-            });
-            break;
-          default:
-            throw new Error("Something went wrong with events.");
-        }
-      });
-
-    return <div className="panel-container magenta-panel">
-      <div className="panel-header magenta-panel">
-        <div className="panel-tabs">
-          <Link to="/app/designer" className="mobile-only">
-            {t("Designer")}
-          </Link>
-          <Link to="/app/designer/plants">
-            {t("Plants")}
-          </Link>
-          <Link to="/app/designer/farm_events" className="active">
-            {t("Farm Events")}
-          </Link>
-        </div>
-      </div>
-
-      <div className="panel-content events">
-
-        <div className="row">
-          <i className="col-sm-2 col-md-2 fa fa-calendar"></i>
-
-          <Select className="col-sm-10 col-md-10"
-            options={[]} />
-
-          <div className="farm-events col-sm-12">
-            {eventsWithExecutableData.map((fe: FarmEventExecutableData) => {
-              return <div className="farm-event col-sm-12"
+    renderEvents(finalEvents: FarmEventExecutableData[]) {
+        {/** FarmEventExecutableData includes FarmEvent with exec `type`*/ }
+        return finalEvents.map((fe: FarmEventExecutableData) => {
+            return <div className="farm-event col-sm-12"
                 key={fe.farm_event_data.id}>
                 <div className="event-time col-sm-3">
-                  {moment(fe.farm_event_data.start_time).format("hha")}
+                    {moment(fe.farm_event_data.start_time).format("hha")}
                 </div>
                 <div className="event-title col-sm-9">
-                  {fe.executable_data.name || "No name?"}
+                    {fe.executable_data.name || "No name?"}
                 </div>
                 <Link to={`/app/designer/farm_events/${fe.farm_event_data.id}`}>
-                  <i className="fa fa-pencil-square-o edit-icon"></i>
+                    <i className="fa fa-pencil-square-o edit-icon"></i>
                 </Link>
-              </div>;
-            })}
-          </div>
+            </div>;
+        });
+    }
 
-        </div>
+    render() {
+        let farmEvents = this.props.sync.farm_events || [];
+        let eventsWithExecutableData: FarmEventExecutableData[] = [];
 
-        <Link to="/app/designer/farm_events/add">
-          <div className="plus-button add-event button-like"
-            data-toggle="tooltip" title="Add event">
-            <i className="fa fa-2x fa-plus" />
-          </div>
-        </Link>
+        /** Merging the data needed from the executable type, refactor? */
+        farmEvents.map(
+            (farmEvent: FarmEvent) => {
+                switch (farmEvent.executable_type) {
+                    // If type `regimen`
+                    case "Regimen":
+                        this.props.regimens.all.map(regimen => {
+                            // Search all regimens and match id
+                            if (regimen.id === farmEvent.executable_id) {
+                                eventsWithExecutableData.push({
+                                    farm_event_data: farmEvent,
+                                    executable_data: { name: regimen.name }
+                                });
+                            }
+                        });
+                        break;
+                    case "Sequence":
+                        // If type `sequence`
+                        this.props.sequences.all.map(sequence => {
+                            // Search all sequences and match id
+                            if (sequence.id === farmEvent.executable_id) {
+                                eventsWithExecutableData.push({
+                                    farm_event_data: farmEvent,
+                                    executable_data: { name: sequence.name }
+                                });
+                            }
+                        });
+                        break;
+                    default:
+                        throw new Error("Something went wrong with events.");
+                }
+            });
 
-      </div>
-    </div>;
-  }
+        /** Used to hold the final rendered Date and FarmEvents[] */
+        let farmEventsData: FinalEventData[] = [];
+        eventsWithExecutableData.map((fe: FarmEventExecutableData) => {
+            let { next_time } = fe.farm_event_data;
+
+            /** We just want to compare the day, month, and year */
+            let comparableDate = moment(`${next_time}`)
+                .set("minutes", 0)
+                .set("hours", 0)
+                .toISOString();
+
+            /** If the date isn't in FinalEventData[], push it with FarmEvent */
+            if (!!_.find(farmEventsData, { date: comparableDate })) {
+                let eventDate = _.findWhere(farmEventsData,
+                    { date: comparableDate });
+                eventDate.finalEvents.push(fe);
+            } else {
+                farmEventsData.push({
+                    date: comparableDate,
+                    finalEvents: [fe]
+                });
+            }
+        });
+
+        /** Sort */
+        farmEventsData.sort((a: FinalEventData, b: FinalEventData) => {
+            return (a.date > b.date) ? 1 : 0;
+        });
+
+        return <div className="panel-container magenta-panel">
+            <div className="panel-header magenta-panel">
+                <div className="panel-tabs">
+                    <Link to="/app/designer" className="mobile-only">
+                        {t("Designer")}
+                    </Link>
+                    <Link to="/app/designer/plants">
+                        {t("Plants")}
+                    </Link>
+                    <Link to="/app/designer/farm_events" className="active">
+                        {t("Farm Events")}
+                    </Link>
+                </div>
+            </div>
+
+            <div className="panel-content events">
+
+                <div className="row">
+                    <i className="col-sm-2 col-md-2 fa fa-calendar"></i>
+
+                    <Select className="col-sm-10 col-md-10"
+                        options={[]} />
+
+                    <div className="farm-events row">
+                        {/** Includes unique date and associated events */}
+                        {farmEventsData.map((evt: FinalEventData) => {
+                            return <div className="farm-event-wrapper col-sm-12"
+                                key={evt.date}>
+
+                                <div className="farm-event-date col-sm-2">
+                                    <div className="farm-event-date-month">
+                                        {/** i.e. `Feb` */}
+                                        {moment(`${evt.date}`).format("MMM")}
+                                    </div>
+                                    <div className="farm-event-date-day">
+                                        {/** i.e. `14` */}
+                                        {moment(`${evt.date}`).format("DD")}
+                                    </div>
+                                </div>
+
+                                <div className="col-sm-10 events">
+                                    {this.renderEvents(evt.finalEvents)}
+                                </div>
+                            </div>;
+                        })}
+                    </div>
+                </div>
+
+                <Link to="/app/designer/farm_events/add">
+                    <div className="plus-button add-event button-like"
+                        data-toggle="tooltip" title="Add event">
+                        <i className="fa fa-2x fa-plus" />
+                    </div>
+                </Link>
+
+            </div>
+        </div>;
+    }
 }

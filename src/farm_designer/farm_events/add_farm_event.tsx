@@ -214,7 +214,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                     <div className="col-xs-4">
                         <input placeholder="(Number)"
                             type="text"
-                            className="add-evet-repeat-frequency"
+                            className="add-event-repeat-frequency"
                             name="repeat"
                             value={eventRepeat}
                             onChange={this.updateRepeat.bind(this)} />
