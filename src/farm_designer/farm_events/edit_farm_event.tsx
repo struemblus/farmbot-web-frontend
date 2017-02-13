@@ -18,7 +18,7 @@ import {
     updateFarmEvent,
     updateFarmEventStart,
     updateFarmEventRepeat,
-    updateFarmEventUntil,
+    updateFarmEventEnd,
     updateFarmEventTimeUnit,
     destroyFarmEvent,
     updateSequenceOrRegimen
@@ -89,6 +89,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         let id = parseInt(this.props.params.farm_event_id);
         let currentEvent = _.findWhere(sync.farm_events, { id });
         dispatch(updateFarmEvent(currentEvent));
+        this.props.router.push("/app/designer/farm_events");
     }
 
     deleteEvent() {
@@ -121,10 +122,10 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         this.props.dispatch(updateFarmEventTimeUnit(value, id));
     }
 
-    addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    updateFarmEventEnd(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
         let id = parseInt(this.props.params.farm_event_id);
-        this.props.dispatch(updateFarmEventUntil(name, value, id));
+        this.props.dispatch(updateFarmEventEnd(name, value, id));
     }
 
     render() {
@@ -142,11 +143,10 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         let eventDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
 
-        /** TODO: Why is moment freaking out about this? */
-        // let eventTime = start_time ? moment(start_time)
-        //   .format("h:mm") : moment().format("h:mm");
+        let eventTime = start_time ? moment(start_time)
+            .format("h:mm") : moment().format("h:mm");
 
-        let eventUntilDate = end_time ? moment(end_time)
+        let eventEndDate = end_time ? moment(end_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
 
         let eventRepeat = repeat ? repeat : 0;
@@ -156,7 +156,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             return {
                 label: reg.name || "No regimens.",
                 value: reg.id || 0,
-                kind: "regimen"
+                kind: "Regimen"
             };
         });
 
@@ -167,7 +167,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             return {
                 label: seq.name || "No sequences.",
                 value: seq.id || 0,
-                kind: "sequence"
+                kind: "Sequence"
             };
         });
 
@@ -215,13 +215,13 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                             value={eventDate}
                             onChange={this.updateStart.bind(this)} />
                     </div>
-                    {/*<div className="col-xs-6">
+                    <div className="col-xs-6">
                         <input type="time"
-                        className="add-event-start-time"
-                        name="start_time"
-                        value={eventTime}
-                        onChange={this.updateStart.bind(this)} />
-                    </div>*/}
+                            className="add-event-start-time"
+                            name="start_time"
+                            value={eventTime}
+                            onChange={this.updateStart.bind(this)} />
+                    </div>
                 </div>
                 <label>{t("Repeats Every")}</label>
                 <div className="row">
@@ -247,15 +247,15 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                         <input
                             type="date"
                             className="add-event-end-date"
-                            name="until_date"
-                            value={eventUntilDate}
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_date"
+                            value={eventEndDate}
+                            onChange={this.updateFarmEventEnd.bind(this)} />
                     </div>
                     <div className="col-xs-6">
                         <input
                             type="time"
-                            name="until_time"
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_time"
+                            onChange={this.updateFarmEventEnd.bind(this)} />
                     </div>
                 </div>
                 <button className="magenta button-like"

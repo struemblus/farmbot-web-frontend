@@ -14,7 +14,7 @@ import {
     saveFarmEvent,
     addFarmEventStart,
     addFarmEventRepeat,
-    addFarmEventUntil,
+    addFarmEventEnd,
     addFarmEventTimeUnit
 } from "../actions";
 import * as _ from "lodash";
@@ -109,9 +109,9 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         this.props.dispatch(addFarmEventTimeUnit(value));
     }
 
-    addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    addFarmEventEnd(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventUntil(name, value));
+        this.props.dispatch(addFarmEventEnd(name, value));
     }
 
     render() {
@@ -126,9 +126,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         let eventDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
 
-        /** TODO: Why is moment freaking out about this? */
-        // let eventTime = start_time ? moment(start_time)
-        //   .format("h:mm") : moment().format("h:mm");
+        let eventTime = start_time ? moment(start_time)
+            .format("h:mm") : moment().format("h:mm");
 
         let eventUntilDate = end_time ? moment(end_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
@@ -139,8 +138,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {
             return {
                 label: reg.name || "No regimens.",
-                value: reg.id || 0,
-                kind: "regimen"
+                value: reg.id || undefined,
+                kind: "Regimen"
             };
         });
 
@@ -151,7 +150,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             return {
                 label: seq.name || "No sequences.",
                 value: seq.id || 0,
-                kind: "sequence"
+                kind: "Sequence"
             };
         });
 
@@ -202,13 +201,13 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                             value={eventDate}
                             onChange={this.updateStart.bind(this)} />
                     </div>
-                    {/*<div className="col-xs-6">
-            <input type="time"
-              className="add-event-start-time"
-              name="start_time"
-              value={eventTime}
-              onChange={this.updateStart.bind(this)} />
-          </div>*/}
+                    <div className="col-xs-6">
+                        <input type="time"
+                            className="add-event-start-time"
+                            name="start_time"
+                            value={eventTime}
+                            onChange={this.updateStart.bind(this)} />
+                    </div>
                 </div>
                 <label>{t("Repeats Every")}</label>
                 <div className="row">
@@ -234,15 +233,15 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                         <input
                             type="date"
                             className="add-event-end-date"
-                            name="until_date"
+                            name="end_date"
                             value={eventUntilDate}
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            onChange={this.addFarmEventEnd.bind(this)} />
                     </div>
                     <div className="col-xs-6">
                         <input
                             type="time"
-                            name="until_time"
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_time"
+                            onChange={this.addFarmEventEnd.bind(this)} />
                     </div>
                 </div>
                 <button className="magenta button-like"

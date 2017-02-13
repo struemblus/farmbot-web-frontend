@@ -31,8 +31,8 @@ export function addFarmEventTimeUnit(value: string | number | undefined) {
   return { type: "ADD_FARM_EVENT_TIME_UNIT", payload: { value } };
 };
 
-export function addFarmEventUntil(property: string, value: string) {
-  return { type: "ADD_FARM_EVENT_UNTIL", payload: { property, value } };
+export function addFarmEventEnd(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_END", payload: { property, value } };
 };
 
 /** Actions for updating an existing event */
@@ -62,11 +62,11 @@ export function updateFarmEventTimeUnit(
   };
 };
 
-export function updateFarmEventUntil(
+export function updateFarmEventEnd(
   property: string, value: string, farm_event_id: number
 ) {
   return {
-    type: "UPDATE_FARM_EVENT_UNTIL", payload:
+    type: "UPDATE_FARM_EVENT_END", payload:
     { property, value, farm_event_id }
   };
 };

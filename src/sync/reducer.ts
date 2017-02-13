@@ -77,10 +77,20 @@ export let syncReducer = generateReducer<Sync>(initialState)
         property: string, value: string, farm_event_id: number
     }>("UPDATE_FARM_EVENT_START",
     function (s, { payload }) {
-        /** TODO: Merge time and date somehow here? */
         let { value, farm_event_id } = payload;
         let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
-        currentEvent.start_time = moment(value).toISOString();
+
+        switch (payload.property) {
+            case "start_date":
+                currentEvent.start_time = moment(payload.value).toISOString();
+                break;
+
+            case "start_time":
+                let merge = moment(`${currentEvent.start_time}`);
+                /** Not sure about this one */
+                currentEvent.start_time = merge.toISOString();
+        }
+
         return s;
     })
     .add<{
@@ -101,12 +111,22 @@ export let syncReducer = generateReducer<Sync>(initialState)
     })
     .add<{
         property: string, value: string, farm_event_id: number
-    }>("UPDATE_FARM_EVENT_UNTIL",
+    }>("UPDATE_FARM_EVENT_END",
     function (s, { payload }) {
         let { value, farm_event_id } = payload;
-        /** TODO: Merge time and date somehow here? */
         let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
-        currentEvent.end_time = moment(value).toISOString();
+
+        switch (payload.property) {
+            case "end_date":
+                currentEvent.end_time = moment(payload.value).toISOString();
+                break;
+
+            case "end_time":
+                let merge = moment(`${currentEvent.end_time}`);
+                /** Not sure about this one */
+                currentEvent.end_time = merge.toISOString();
+        }
+
         return s;
     });
 
