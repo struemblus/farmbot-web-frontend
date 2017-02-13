@@ -50,6 +50,9 @@
 .farm-events {
     margin-top: 5rem;
     .farm-event {
+        &.has-passed {
+            color: $gray;
+        }
         &:hover {
             .edit-icon {
                 display: block;
@@ -91,6 +94,7 @@
     .farm-event-date-day {
         font-size: 2rem;
         font-weight: bold;
+        text-align: center;
     }
 }
 

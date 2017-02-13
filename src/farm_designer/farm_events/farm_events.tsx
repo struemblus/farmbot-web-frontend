@@ -14,20 +14,30 @@ import {
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
 
-    hasPassed(date: Date) { return date < new Date(); }
+    hasPassed(start_time: string) {
+        return start_time < new Date().toISOString();
+    }
 
     renderEvents(finalEvents: FarmEventExecutableData[]) {
-        {/** FarmEventExecutableData includes FarmEvent with exec `type`*/ }
+        { /** FarmEventExecutableData includes FarmEvent with exec `type` */ }
+        finalEvents.sort(
+            (a: FarmEventExecutableData, b: FarmEventExecutableData) => {
+                return (
+                    a.farm_event_data.start_time > b.farm_event_data.start_time
+                ) ? 1 : 0;
+            });
         return finalEvents.map((fe: FarmEventExecutableData) => {
-            return <div className="farm-event col-sm-12"
-                key={fe.farm_event_data.id}>
-                <div className="event-time col-sm-3">
-                    {moment(fe.farm_event_data.start_time).format("hha")}
+            let { id, start_time } = fe.farm_event_data;
+            let hasPassed = this.hasPassed(start_time) ? "has-passed" : "";
+            return <div className={`farm-event col-xs-12 ${hasPassed}`}
+                key={id}>
+                <div className="event-time col-xs-3">
+                    {moment(start_time).format("hha")}
                 </div>
-                <div className="event-title col-sm-9">
+                <div className="event-title col-xs-9">
                     {fe.executable_data.name || "No name?"}
                 </div>
-                <Link to={`/app/designer/farm_events/${fe.farm_event_data.id}`}>
+                <Link to={`/app/designer/farm_events/${id}`}>
                     <i className="fa fa-pencil-square-o edit-icon"></i>
                 </Link>
             </div>;
@@ -118,18 +128,18 @@ export class FarmEvents extends React.Component<Everything, {}> {
             <div className="panel-content events">
 
                 <div className="row">
-                    <i className="col-sm-2 col-md-2 fa fa-calendar"></i>
+                    <i className="col-xs-2 fa fa-calendar"></i>
 
-                    <Select className="col-sm-10 col-md-10"
+                    <Select className="col-xs-10"
                         options={[]} />
 
                     <div className="farm-events row">
                         {/** Includes unique date and associated events */}
                         {farmEventsData.map((evt: FinalEventData) => {
-                            return <div className="farm-event-wrapper col-sm-12"
+                            return <div className="farm-event-wrapper col-xs-12"
                                 key={evt.date}>
 
-                                <div className="farm-event-date col-sm-2">
+                                <div className="farm-event-date col-xs-2">
                                     <div className="farm-event-date-month">
                                         {/** i.e. `Feb` */}
                                         {moment(`${evt.date}`).format("MMM")}
@@ -140,7 +150,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
                                     </div>
                                 </div>
 
-                                <div className="col-sm-10 events">
+                                <div className="col-xs-10 events">
                                     {this.renderEvents(evt.finalEvents)}
                                 </div>
                             </div>;
