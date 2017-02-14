@@ -6,7 +6,7 @@
     .panel-container {
         width: 100%;
         height: 88vh;
-        overflow-y: scroll;
+        overflow-x: hidden;
         font-size: 1.6rem;
         label {
             font-size: 1.3rem;
@@ -115,6 +115,16 @@
 
 .panel-content {
     padding: 1rem;
+    .events {
+        .Select-menu-outer {
+            width: 98% !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        .Select-menu {
+            padding: 0 !important;
+        }
+    }
 }
 
 .add-farm-event-panel button,

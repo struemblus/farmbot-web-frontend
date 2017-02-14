@@ -5,13 +5,14 @@ interface BIProps {
     onCommit: Function;
     min?: number;
     max?: number;
-    type?: "text" | "number" | "email" | "password";
+    type?: "text" | "number" | "email" | "password" | "time";
     name?: string;
     id?: string;
     /** Allow the user to empty out the form control. If unset, form control
      * will reset itself to previous value. */
     allowEmpty?: boolean;
     disabled?: boolean;
+    className?: string;
 }
 
 interface BIState {
@@ -53,6 +54,7 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
             min={this.props.min}
             max={this.props.max}
             type={this.props.type || "text"}
-            disabled={this.props.disabled} />;
+            disabled={this.props.disabled}
+            className={this.props.className} />;
     }
 }

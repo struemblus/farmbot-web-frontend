@@ -10,7 +10,7 @@ import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
 import { success, error } from "../ui";
-
+import { resetWeedDetection } from "./actions";
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 
 @connect((state: Everything) => state)
@@ -19,6 +19,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         super();
         this.setHSV = this.setHSV.bind(this);
         this.test = this.test.bind(this);
+        this.resetWeedDetection = this.resetWeedDetection.bind(this);
         this.sendOffConfig = this.sendOffConfig.bind(this);
         this.state = {
             isEditing: true,
@@ -35,6 +36,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                 this.setState(JSON.parse(env));
             } catch (e) { /** Well atleast we try'ed */ };
         }
+    }
+
+    resetWeedDetection() {
+        this.props.dispatch(resetWeedDetection());
     }
 
     sendOffConfig() {
@@ -112,6 +117,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                                 className="gray button-like"
                                 onClick={this.takePhoto.bind(this)}>
                                 {t("Take Photo")}
+                            </button>
+                            <button onClick={this.resetWeedDetection}
+                                className="red button-like">
+                                {t("CLEAR WEEDS")}
                             </button>
                             <h5>{t("Weed Detector")}</h5>
                             <i className={`fa fa-question-circle

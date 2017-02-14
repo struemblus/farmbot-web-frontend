@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, error } from "../../ui";
+import { Select, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import {
     Everything,
@@ -14,7 +14,7 @@ import {
     saveFarmEvent,
     addFarmEventStart,
     addFarmEventRepeat,
-    addFarmEventUntil,
+    addFarmEventEnd,
     addFarmEventTimeUnit
 } from "../actions";
 import * as _ from "lodash";
@@ -57,12 +57,12 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         /* Depending on the kind chosen, place that in the state tree
         /* e.value is the id of the node */
         switch (e.kind) {
-            case "regimen":
+            case "Regimen":
                 let regimen = _.findWhere(regimens.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(regimen));
                 break;
 
-            case "sequence":
+            case "Sequence":
                 let sequence = _.findWhere(sequences.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(sequence));
                 break;
@@ -109,9 +109,9 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         this.props.dispatch(addFarmEventTimeUnit(value));
     }
 
-    addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    addFarmEventEnd(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventUntil(name, value));
+        this.props.dispatch(addFarmEventEnd(name, value));
     }
 
     render() {
@@ -123,15 +123,17 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             end_time
         } = this.props.designer.farmEventToBeAdded;
 
-        let eventDate = start_time ? moment(start_time)
+        let eventStartDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
 
-        /** TODO: Why is moment freaking out about this? */
-        // let eventTime = start_time ? moment(start_time)
-        //   .format("h:mm") : moment().format("h:mm");
-
-        let eventUntilDate = end_time ? moment(end_time)
+        let eventEndDate = end_time ? moment(end_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+        let eventStartTime = start_time ? moment(start_time)
+            .format("HH:mm") : moment().format("HH:mm");
+
+        let eventEndTime = end_time ? moment(end_time)
+            .format("HH:mm") : moment().format("HH:mm");
 
         let eventRepeat = repeat ? repeat : 0;
         let eventTimeUnit = time_unit ? time_unit : "";
@@ -139,8 +141,8 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
         let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {
             return {
                 label: reg.name || "No regimens.",
-                value: reg.id || 0,
-                kind: "regimen"
+                value: reg.id || undefined,
+                kind: "Regimen"
             };
         });
 
@@ -151,7 +153,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
             return {
                 label: seq.name || "No sequences.",
                 value: seq.id || 0,
-                kind: "sequence"
+                kind: "Sequence"
             };
         });
 
@@ -199,23 +201,23 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                         <input type="date"
                             className="add-event-start-date"
                             name="start_date"
-                            value={eventDate}
+                            value={eventStartDate}
                             onChange={this.updateStart.bind(this)} />
                     </div>
-                    {/*<div className="col-xs-6">
-            <input type="time"
-              className="add-event-start-time"
-              name="start_time"
-              value={eventTime}
-              onChange={this.updateStart.bind(this)} />
-          </div>*/}
+                    <div className="col-xs-6">
+                        <BlurableInput type="time"
+                            className="add-event-start-time"
+                            name="start_time"
+                            value={eventStartTime}
+                            onCommit={this.updateStart.bind(this)} />
+                    </div>
                 </div>
                 <label>{t("Repeats Every")}</label>
                 <div className="row">
                     <div className="col-xs-4">
                         <input placeholder="(Number)"
                             type="text"
-                            className="add-evet-repeat-frequency"
+                            className="add-event-repeat-frequency"
                             name="repeat"
                             value={eventRepeat}
                             onChange={this.updateRepeat.bind(this)} />
@@ -234,15 +236,17 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
                         <input
                             type="date"
                             className="add-event-end-date"
-                            name="until_date"
-                            value={eventUntilDate}
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_date"
+                            value={eventEndDate}
+                            onChange={this.addFarmEventEnd.bind(this)} />
                     </div>
                     <div className="col-xs-6">
-                        <input
+                        <BlurableInput
                             type="time"
-                            name="until_time"
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_time"
+                            className="add-event-end-time"
+                            value={eventEndTime}
+                            onCommit={this.addFarmEventEnd.bind(this)} />
                     </div>
                 </div>
                 <button className="magenta button-like"

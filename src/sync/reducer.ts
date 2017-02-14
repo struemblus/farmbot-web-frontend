@@ -4,8 +4,10 @@ import { Log } from "../interfaces";
 import {
     Plant,
     MovePlantProps,
-    FarmEvent
+    FarmEvent,
+    UpdateSequenceOrRegimenProps
 } from "../farm_designer/interfaces";
+import * as moment from "moment";
 
 const initialState: Sync = {
     api_version: "",
@@ -54,6 +56,13 @@ export let syncReducer = generateReducer<Sync>(initialState)
         thisOne.dirty = false;
         return s;
     })
+    .add<number[]>("DELETE_POINT_OK", function (s, a) {
+        let deletedPoints = a.payload;
+        s.points = s.points.filter(function (point) {
+            return !deletedPoints.includes(point.id);
+        });
+        return s;
+    })
     .add<{ id: number }>("DELETE_FARM_EVENT_OK", function (s, { payload }) {
         let index = _.findIndex(s.farm_events, { id: payload.id });
         s.farm_events.splice(index, 1);
@@ -61,6 +70,84 @@ export let syncReducer = generateReducer<Sync>(initialState)
     })
     .add<FarmEvent>("SAVE_FARM_EVENT_OK", function (s, { payload }) {
         s.farm_events.push(payload);
+        return s;
+    })
+    .add<UpdateSequenceOrRegimenProps>("UPDATE_SEQUENCE_OR_REGIMEN",
+    function (s, { payload }) {
+        let { value, kind, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.executable_id = value;
+        currentEvent.executable_type = kind;
+        return s;
+    })
+    .add<{
+        property: string, value: string, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_START",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+
+        switch (payload.property) {
+            case "start_date":
+                currentEvent.start_time = moment(payload.value).toISOString();
+                break;
+
+            case "start_time":
+                let merge = moment(`${currentEvent.start_time}`);
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
+                currentEvent.start_time = merge.toISOString();
+        }
+
+        return s;
+    })
+    .add<{
+        property: string, value: number, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_REPEAT",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.repeat = value;
+        return s;
+    })
+    .add<{ value: string, farm_event_id: number }>("UPDATE_FARM_EVENT_TIME_UNIT",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+        currentEvent.time_unit = value;
+        return s;
+    })
+    .add<{
+        property: string, value: string, farm_event_id: number
+    }>("UPDATE_FARM_EVENT_END",
+    function (s, { payload }) {
+        let { value, farm_event_id } = payload;
+        let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
+
+        switch (payload.property) {
+            case "end_date":
+                currentEvent.end_time = moment(payload.value).toISOString();
+                break;
+
+            case "end_time":
+                let merge = moment(`${currentEvent.end_time}`);
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
+                currentEvent.end_time = merge.toISOString();
+        }
+
         return s;
     });
 

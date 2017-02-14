@@ -1,21 +1,25 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, error } from "../../ui";
+import { Select, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import {
     Everything,
     SelectOptionsParams,
     CustomOptionProps
 } from "../../interfaces";
-import { SelectSequenceOrRegimenProps } from "../interfaces";
+import {
+    SelectSequenceOrRegimenProps,
+    UpdateSequenceOrRegimenProps
+} from "../interfaces";
+
 import {
     selectSequenceOrRegimen,
-    saveFarmEvent,
-    addFarmEventStart,
-    addFarmEventRepeat,
-    addFarmEventUntil,
-    addFarmEventTimeUnit,
+    updateFarmEvent,
+    updateFarmEventStart,
+    updateFarmEventRepeat,
+    updateFarmEventEnd,
+    updateFarmEventTimeUnit,
     destroyFarmEvent,
     updateSequenceOrRegimen
 } from "../actions";
@@ -65,12 +69,12 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         /* Depending on the kind chosen, place that in the state tree
         /* e.value is the id of the node */
         switch (e.kind) {
-            case "regimen":
+            case "Regimen":
                 let regimen = _.findWhere(regimens.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(regimen));
                 break;
 
-            case "sequence":
+            case "Sequence":
                 let sequence = _.findWhere(sequences.all, { id: e.value });
                 this.props.dispatch(selectSequenceOrRegimen(sequence));
                 break;
@@ -81,28 +85,11 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
     }
 
     saveEvent() {
-        // let {
-        //     farmEventToBeAdded,
-        //     currentSequenceOrRegimen
-        // } = this.props.designer;
-
-        // if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-        //     let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
-
-        //     let data = _.assign({
-        //         executable_id: currentSequenceOrRegimen.id,
-        //         executable_type: kind
-        //     }, farmEventToBeAdded);
-
-        //     this.props.dispatch(saveFarmEvent(data));
-        //     this.props.router.push("/app/designer/farm_events");
-        // } else {
-        //     error("Select a sequence or Regimen.");
-        // }
-    }
-
-    updateSequenceOrRegimenOption(e: Option) {
-        // this.props.dispatch(updateSequenceOrRegimen(""));
+        let { sync, dispatch } = this.props;
+        let id = parseInt(this.props.params.farm_event_id);
+        let currentEvent = _.findWhere(sync.farm_events, { id });
+        dispatch(updateFarmEvent(currentEvent));
+        this.props.router.push("/app/designer/farm_events");
     }
 
     deleteEvent() {
@@ -111,25 +98,34 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         this.props.router.push("/app/designer/farm_events");
     }
 
+    updateSequenceOrRegimenOption(e: UpdateSequenceOrRegimenProps) {
+        e.farm_event_id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateSequenceOrRegimen(e));
+    }
+
     updateStart(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventStart(name, value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventStart(name, value, id));
     }
 
     updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
         let { value } = event.currentTarget;
         let newValue = parseInt(value);
-        this.props.dispatch(addFarmEventRepeat(newValue));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventRepeat(newValue, id));
     }
 
     updateTimeUnit(event: Option) {
         let { value } = event;
-        this.props.dispatch(addFarmEventTimeUnit(value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventTimeUnit(value, id));
     }
 
-    addFarmEventUntil(event: React.SyntheticEvent<HTMLInputElement>) {
+    updateFarmEventEnd(event: React.SyntheticEvent<HTMLInputElement>) {
         let { name, value } = event.currentTarget;
-        this.props.dispatch(addFarmEventUntil(name, value));
+        let id = parseInt(this.props.params.farm_event_id);
+        this.props.dispatch(updateFarmEventEnd(name, value, id));
     }
 
     render() {
@@ -144,15 +140,17 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             end_time
         } = currentEvent;
 
-        let eventDate = start_time ? moment(start_time)
+        let eventStartDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
 
-        /** TODO: Why is moment freaking out about this? */
-        // let eventTime = start_time ? moment(start_time)
-        //   .format("h:mm") : moment().format("h:mm");
-
-        let eventUntilDate = end_time ? moment(end_time)
+        let eventEndDate = end_time ? moment(end_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+        let eventStartTime = start_time ? moment(start_time)
+            .format("HH:mm") : moment().format("HH:mm");
+
+        let eventEndTime = end_time ? moment(end_time)
+            .format("HH:mm") : moment().format("HH:mm");
 
         let eventRepeat = repeat ? repeat : 0;
         let eventTimeUnit = time_unit ? time_unit : "";
@@ -161,7 +159,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             return {
                 label: reg.name || "No regimens.",
                 value: reg.id || 0,
-                kind: "regimen"
+                kind: "Regimen"
             };
         });
 
@@ -172,7 +170,7 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             return {
                 label: seq.name || "No sequences.",
                 value: seq.id || 0,
-                kind: "sequence"
+                kind: "Sequence"
             };
         });
 
@@ -217,23 +215,23 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                         <input type="date"
                             className="add-event-start-date"
                             name="start_date"
-                            value={eventDate}
+                            value={eventStartDate}
                             onChange={this.updateStart.bind(this)} />
                     </div>
-                    {/*<div className="col-xs-6">
-                        <input type="time"
-                        className="add-event-start-time"
-                        name="start_time"
-                        value={eventTime}
-                        onChange={this.updateStart.bind(this)} />
-                    </div>*/}
+                    <div className="col-xs-6">
+                        <BlurableInput type="time"
+                            className="add-event-start-time"
+                            name="start_time"
+                            value={eventStartTime}
+                            onCommit={this.updateStart.bind(this)} />
+                    </div>
                 </div>
                 <label>{t("Repeats Every")}</label>
                 <div className="row">
                     <div className="col-xs-4">
                         <input placeholder="(Number)"
                             type="text"
-                            className="add-evet-repeat-frequency"
+                            className="add-event-repeat-frequency"
                             name="repeat"
                             value={eventRepeat}
                             onChange={this.updateRepeat.bind(this)} />
@@ -252,15 +250,17 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                         <input
                             type="date"
                             className="add-event-end-date"
-                            name="until_date"
-                            value={eventUntilDate}
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            name="end_date"
+                            value={eventEndDate}
+                            onChange={this.updateFarmEventEnd.bind(this)} />
                     </div>
                     <div className="col-xs-6">
-                        <input
+                        <BlurableInput
                             type="time"
-                            name="until_time"
-                            onChange={this.addFarmEventUntil.bind(this)} />
+                            className="add-event-end-time"
+                            name="end_time"
+                            value={eventEndTime}
+                            onCommit={this.updateFarmEventEnd.bind(this)} />
                     </div>
                 </div>
                 <button className="magenta button-like"

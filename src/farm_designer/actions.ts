@@ -14,12 +14,9 @@ import { API } from "../api";
 import { Everything } from "../interfaces";
 import { findPlantById } from "../sync/reducer";
 
+/** Actions for creating a new event */
 export function selectSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
   return { type: "SELECT_SEQUENCE_OR_REGIMEN", payload };
-};
-
-export function updateSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
-  return { type: "UPDATE_SEQUENCE_OR_REGIMEN", payload };
 };
 
 export function addFarmEventStart(property: string, value: string) {
@@ -34,8 +31,44 @@ export function addFarmEventTimeUnit(value: string | number | undefined) {
   return { type: "ADD_FARM_EVENT_TIME_UNIT", payload: { value } };
 };
 
-export function addFarmEventUntil(property: string, value: string) {
-  return { type: "ADD_FARM_EVENT_UNTIL", payload: { property, value } };
+export function addFarmEventEnd(property: string, value: string) {
+  return { type: "ADD_FARM_EVENT_END", payload: { property, value } };
+};
+
+/** Actions for updating an existing event */
+export function updateSequenceOrRegimen(payload: SelectSequenceOrRegimenProps) {
+  return { type: "UPDATE_SEQUENCE_OR_REGIMEN", payload };
+};
+
+export function updateFarmEventStart(
+  property: string, value: string, farm_event_id: number
+) {
+  return {
+    type: "UPDATE_FARM_EVENT_START", payload:
+    { property, value, farm_event_id }
+  };
+};
+
+export function updateFarmEventRepeat(value: number, farm_event_id: number) {
+  return { type: "UPDATE_FARM_EVENT_REPEAT", payload: { value, farm_event_id } };
+};
+
+export function updateFarmEventTimeUnit(
+  value: string | number | undefined, farm_event_id: number
+) {
+  return {
+    type: "UPDATE_FARM_EVENT_TIME_UNIT", payload:
+    { value, farm_event_id }
+  };
+};
+
+export function updateFarmEventEnd(
+  property: string, value: string, farm_event_id: number
+) {
+  return {
+    type: "UPDATE_FARM_EVENT_END", payload:
+    { property, value, farm_event_id }
+  };
 };
 
 export function saveFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
@@ -60,6 +93,7 @@ export function updateFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
       .then(resp => {
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "UPDATE_FARM_EVENT_OK", payload });
+        success(t("Successfully saved event."));
       })
       .catch(payload => {
         error(t("Tried to update Farm Event, but couldn't."));
