@@ -8,6 +8,19 @@ export interface SelectSequenceOrRegimenProps extends Option {
   kind?: string;
 }
 
+/** Used to associate dates with events in that are the same day */
+export interface FinalEventData {
+  date: string;
+  finalEvents: FarmEventExecutableData[];
+}
+
+export interface UpdateSequenceOrRegimenProps {
+  label: string;
+  value: number;
+  kind: string;
+  farm_event_id: number;
+}
+
 export interface FarmEvent {
   id: number;
   start_time: string;
