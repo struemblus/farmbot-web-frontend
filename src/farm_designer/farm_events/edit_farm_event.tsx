@@ -212,11 +212,11 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         <label>{t("Starts")}</label>
         <div className="row">
           <div className="col-xs-6">
-            <input type="date"
+            <BlurableInput type="date"
               className="add-event-start-date"
               name="start_date"
               value={eventStartDate}
-              onChange={this.updateStart.bind(this)} />
+              onCommit={this.updateStart.bind(this)} />
           </div>
           <div className="col-xs-6">
             <BlurableInput type="time"
@@ -247,12 +247,12 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
         <label>{t("Until")}</label>
         <div className="row">
           <div className="col-xs-6">
-            <input
+            <BlurableInput
               type="date"
               className="add-event-end-date"
               name="end_date"
               value={eventEndDate}
-              onChange={this.updateFarmEventEnd.bind(this)} />
+              onCommit={this.updateFarmEventEnd.bind(this)} />
           </div>
           <div className="col-xs-6">
             <BlurableInput
