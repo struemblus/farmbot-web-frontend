@@ -127,4 +127,8 @@ export class API {
     get toolsPath() { return `${this.baseUrl}/api/tools/`; };
     /** /api/images/ */
     get imagesPath() { return `${this.baseUrl}/api/images/`; };
+    /** /api/points/ */
+    get pointsPath() { return `${this.baseUrl}/api/points/`; };
+    /** /api/points/search */
+    get pointSearchPath() { return `${this.pointsPath}/search/`; };
 }

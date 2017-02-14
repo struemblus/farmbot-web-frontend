@@ -54,6 +54,13 @@ export let syncReducer = generateReducer<Sync>(initialState)
         thisOne.dirty = false;
         return s;
     })
+    .add<number[]>("DELETE_POINT_OK", function (s, a) {
+        let deletedPoints = a.payload;
+        s.points = s.points.filter(function (point) {
+            return !deletedPoints.includes(point.id);
+        });
+        return s;
+    })
     .add<{ id: number }>("DELETE_FARM_EVENT_OK", function (s, { payload }) {
         let index = _.findIndex(s.farm_events, { id: payload.id });
         s.farm_events.splice(index, 1);
