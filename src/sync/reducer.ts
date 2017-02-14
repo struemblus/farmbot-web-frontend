@@ -5,7 +5,8 @@ import {
   Plant,
   MovePlantProps,
   FarmEvent,
-  UpdateSequenceOrRegimenProps
+  UpdateSequenceOrRegimenProps,
+  TimeUnit
 } from "../farm_designer/interfaces";
 import * as moment from "moment";
 
@@ -116,7 +117,7 @@ export let syncReducer = generateReducer<Sync>(initialState)
     currentEvent.repeat = value;
     return s;
   })
-  .add<{ value: string, farm_event_id: number }>("UPDATE_FARM_EVENT_TIME_UNIT",
+  .add<{ value: TimeUnit, farm_event_id: number }>("UPDATE_FARM_EVENT_TIME_UNIT",
   function (s, { payload }) {
     let { value, farm_event_id } = payload;
     let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
