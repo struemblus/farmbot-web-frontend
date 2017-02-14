@@ -3,6 +3,7 @@ import { BackArrow } from "../back_arrow";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
+import { isMobile } from "../../util";
 
 interface SpeciesInfoProps extends Everything {
     params: {
@@ -49,7 +50,9 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
 
     render() {
         let result = this.findCrop(this.props.params.species || "PLANT_NOT_FOUND");
-        return <div className="panel-container green-panel">
+        let backgroundURL = isMobile() ? `${result.image}` : "";
+        return <div className="panel-container green-panel"
+            style={{ backgroundImage: backgroundURL }}>
             <div className="panel-header green-panel">
                 <p className="panel-title">
                     <BackArrow /> {result.crop.name}
