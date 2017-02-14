@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, error } from "../../ui";
+import { Select, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import {
     Everything,
@@ -140,14 +140,17 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
             end_time
         } = currentEvent;
 
-        let eventDate = start_time ? moment(start_time)
+        let eventStartDate = start_time ? moment(start_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
-
-        let eventTime = start_time ? moment(start_time)
-            .format("h:mm") : moment().format("h:mm");
 
         let eventEndDate = end_time ? moment(end_time)
             .format("YYYY-MM-DD") : moment().format("YYYY-MM-DD");
+
+        let eventStartTime = start_time ? moment(start_time)
+            .format("HH:mm") : moment().format("HH:mm");
+
+        let eventEndTime = end_time ? moment(end_time)
+            .format("HH:mm") : moment().format("HH:mm");
 
         let eventRepeat = repeat ? repeat : 0;
         let eventTimeUnit = time_unit ? time_unit : "";
@@ -212,15 +215,15 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                         <input type="date"
                             className="add-event-start-date"
                             name="start_date"
-                            value={eventDate}
+                            value={eventStartDate}
                             onChange={this.updateStart.bind(this)} />
                     </div>
                     <div className="col-xs-6">
-                        <input type="time"
+                        <BlurableInput type="time"
                             className="add-event-start-time"
                             name="start_time"
-                            value={eventTime}
-                            onChange={this.updateStart.bind(this)} />
+                            value={eventStartTime}
+                            onCommit={this.updateStart.bind(this)} />
                     </div>
                 </div>
                 <label>{t("Repeats Every")}</label>
@@ -252,10 +255,12 @@ export class EditFarmEvent extends React.Component<EditFarmEventProps, {}> {
                             onChange={this.updateFarmEventEnd.bind(this)} />
                     </div>
                     <div className="col-xs-6">
-                        <input
+                        <BlurableInput
                             type="time"
+                            className="add-event-end-time"
                             name="end_time"
-                            onChange={this.updateFarmEventEnd.bind(this)} />
+                            value={eventEndTime}
+                            onCommit={this.updateFarmEventEnd.bind(this)} />
                     </div>
                 </div>
                 <button className="magenta button-like"

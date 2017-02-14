@@ -87,7 +87,14 @@ export let syncReducer = generateReducer<Sync>(initialState)
 
             case "start_time":
                 let merge = moment(`${currentEvent.start_time}`);
-                /** Not sure about this one */
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
                 currentEvent.start_time = merge.toISOString();
         }
 
@@ -123,7 +130,14 @@ export let syncReducer = generateReducer<Sync>(initialState)
 
             case "end_time":
                 let merge = moment(`${currentEvent.end_time}`);
-                /** Not sure about this one */
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
                 currentEvent.end_time = merge.toISOString();
         }
 

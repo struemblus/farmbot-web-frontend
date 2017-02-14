@@ -83,7 +83,14 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
 
             case "start_time":
                 let merge = moment(`${s.farmEventToBeAdded.start_time}`);
-                /** Not sure about this one */
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
                 s.farmEventToBeAdded.start_time = merge.toISOString();
         }
 
@@ -98,8 +105,15 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
                 break;
 
             case "end_time":
+                /** It's a little ambiguous, but not sure how else to 
+                 * pull this one off.
+                 * payload.value.split => "13:40" => hours: 13, minutes: 40
+                 */
                 let merge = moment(`${s.farmEventToBeAdded.end_time}`);
-                /** Not sure about this one */
+                let time = payload.value.split(":");
+                let hours: number = parseInt(time[0]);
+                let minutes: number = parseInt(time[1]);
+                merge.set("hours", hours).set("minutes", minutes);
                 s.farmEventToBeAdded.end_time = merge.toISOString();
         }
 

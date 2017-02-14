@@ -280,3 +280,9 @@
         }
     }
 }
+
+@media(min-width: 568px) {
+    .event-time {
+        padding-left: 0;
+    }
+}

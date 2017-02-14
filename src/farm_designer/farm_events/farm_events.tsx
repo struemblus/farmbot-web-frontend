@@ -5,11 +5,53 @@ import { Select } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
+import { Option } from "react-select";
 import {
     FarmEventExecutableData,
     FarmEvent,
     FinalEventData
 } from "../interfaces";
+import { CustomOptionProps } from "../../interfaces";
+
+interface FarmEventSelectOption extends Option {
+    iso_string: string;
+    id: number;
+}
+
+interface FarmEventSelectOptionProps extends CustomOptionProps {
+    option: {
+        iso_string: string;
+        id: number;
+    };
+}
+
+class OptionComponent extends React.Component<FarmEventSelectOptionProps, {}> {
+    handleMouseEnter(e: React.SyntheticEvent<HTMLDivElement>) {
+        this.props.onFocus(this.props.option, e);
+    };
+
+    handleMouseMove(e: React.SyntheticEvent<HTMLDivElement>) {
+        if (this.props.isFocused) { return; };
+        this.props.onFocus(this.props.option, e);
+    };
+    render() {
+        return <Link to={`/app/designer/farm_events/${this.props.option.id}`}>
+            <div className={this.props.className}
+                onMouseEnter={this.handleMouseEnter.bind(this)}
+                onMouseMove={this.handleMouseMove.bind(this)}>
+                <div>
+                    {this.props.children}
+                </div>
+                <span className="event-select-date">
+                    {moment(this.props.option.iso_string).format("MM/DD")}
+                </span>
+                <span className="event-select-time">
+                    {moment(this.props.option.iso_string).format("HH:mma")}
+                </span>
+            </div>
+        </Link>;
+    }
+};
 
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
@@ -32,7 +74,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
             return <div className={`farm-event col-xs-12 ${hasPassed}`}
                 key={id}>
                 <div className="event-time col-xs-3">
-                    {moment(start_time).format("hha")}
+                    {moment(start_time).format("hh:mma")}
                 </div>
                 <div className="event-title col-xs-9">
                     {fe.executable_data.name || "No name?"}
@@ -81,10 +123,22 @@ export class FarmEvents extends React.Component<Everything, {}> {
                 }
             });
 
+
+        /** Used to hold the search results in select box */
+        let selectOptions: FarmEventSelectOption[] = [];
+
         /** Used to hold the final rendered Date and FarmEvents[] */
         let farmEventsData: FinalEventData[] = [];
+
         eventsWithExecutableData.map((fe: FarmEventExecutableData) => {
             let { next_time } = fe.farm_event_data;
+
+            selectOptions.push({
+                label: fe.executable_data.name,
+                value: fe.farm_event_data.id,
+                iso_string: fe.farm_event_data.next_time,
+                id: fe.farm_event_data.id
+            });
 
             /** We just want to compare the day, month, and year */
             let comparableDate = moment(`${next_time}`)
@@ -131,7 +185,8 @@ export class FarmEvents extends React.Component<Everything, {}> {
                     <i className="col-xs-2 fa fa-calendar"></i>
 
                     <Select className="col-xs-10"
-                        options={[]} />
+                        options={selectOptions}
+                        optionComponent={OptionComponent} />
 
                     <div className="farm-events row">
                         {/** Includes unique date and associated events */}
