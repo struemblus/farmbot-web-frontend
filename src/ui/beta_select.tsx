@@ -74,6 +74,51 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     }
   }
 
+  renderCustomComponent() {
+    console.log("renderCustomComponent");
+    return (this.state.dropDownItems || []).map((option: Option) => {
+      let { optionComponent } = this.props;
+      if (optionComponent && this.state.value) {
+
+        let CustomComponent = optionComponent;
+        let isHidden = option.hidden ? " is-hidden" : "";
+        return <div className={"select-result" + isHidden}
+          key={option.value}
+          onClick={() => {
+            this.handleSelectOption(option);
+            this.close();
+          }}>
+          <CustomComponent isOpen={!!this.props.isOpen}
+            dropDownItems={this.state.dropDownItems || []}
+            filter={this.state.filter || ""}
+            value={this.state.value || null}
+          />
+        </div>;
+      } else {
+        return <div key={option.value}> No optionComponent or state.value </div>;
+      }
+    }
+    );
+  }
+
+  renderStandardComponent() {
+    console.log("renderStandardComponent");
+    return (this.state.dropDownItems || []).map((option: Option) => {
+      let isHidden = option.hidden ? " is-hidden" : "";
+
+      return <Link to={option.pathTo + option.pathParams}
+        key={option.value}>
+        <div className={"select-result" + isHidden}
+          onClick={() => {
+            this.handleSelectOption(option);
+            this.close();
+          }}>
+          <label>{option.label}</label>
+        </div>
+      </Link>;
+    });
+  }
+
   render() {
     let filter = (this.state.filter || "").toUpperCase();
 
@@ -99,44 +144,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       </div>
 
       <div className={"select-results-container is-open-" + isOpen}>
-        {this.state.dropDownItems &&
-          this.state.dropDownItems.map((option: Option) => {
-            let isHidden = option.hidden ? " is-hidden" : "";
-
-            return <Link to={option.pathTo + option.pathParams}
-              key={option.value}>
-              <div className={"select-result" + isHidden}
-                onClick={() => {
-                  this.handleSelectOption(option);
-                  this.close();
-                }}>
-                <label>{option.label}</label>
-              </div>
-            </Link>;
-          })}
-
-        {(
-          (this.state.dropDownItems || []).map((option: Option) => {
-            let { optionComponent } = this.props;
-            if (optionComponent && this.state.value) {
-
-              let CustomComponent = optionComponent;
-              let isHidden = option.hidden ? " is-hidden" : "";
-              return <div className={"select-result" + isHidden}
-                key={option.value}
-                onClick={() => {
-                  this.handleSelectOption(option);
-                  this.close();
-                }}>
-                <CustomComponent isOpen={!!this.props.isOpen}
-                  dropDownItems={this.state.dropDownItems || []}
-                  filter={this.state.filter || ""}
-                  value={this.state.value || null}
-                />
-              </div>;
-            }
-          })
-        )}
+        {this.props.optionComponent ? this.renderCustomComponent() : this.renderStandardComponent()}
       </div>
 
     </div>;

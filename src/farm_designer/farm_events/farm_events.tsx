@@ -27,17 +27,7 @@ interface FarmEventSelectOptionProps extends CustomOptionProps {
 }
 
 function OptionComponent(props: SelectState) {
-  /*return <Link to={`/app/designer/farm_events/${this.props.option.id}`}>
-    <div>
-      {this.props.children}
-    </div>
-    <span className="event-select-date">
-      {moment(this.props.option.iso_string).format("MM/DD")}
-    </span>
-    <span className="event-select-time">
-      {moment(this.props.option.iso_string).format("HH:mma")}
-    </span>
-  </Link>;*/
+
   return <div>Option</div>;
 };
 
