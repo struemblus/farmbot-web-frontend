@@ -42,7 +42,6 @@ export interface FarmEvent {
 };
 
 
-
 export interface FarmEventExecutableData {
   farm_event_data: FarmEvent;
   executable_data: {

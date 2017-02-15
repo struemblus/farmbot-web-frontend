@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 
-type OptionComponent = React.ComponentClass<SelectState> | React.StatelessComponent<SelectState>;
+type OptionComponent = React.ComponentClass<Option> | React.StatelessComponent<Option>;
 
 export interface Option {
   /** Value passed to the onClick cb and also determines the "chosen" option. */
@@ -10,10 +10,6 @@ export interface Option {
   label: string;
   /** Component internal use only unless there's an edge case for it. */
   hidden?: boolean;
-  /** Path for `Link`s. */
-  pathTo?: string;
-  /** Path params for `pathTo`. */
-  pathParams?: string;
 }
 
 interface DropDownItem {
@@ -74,6 +70,44 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     }
   }
 
+  renderCustomComponent() {
+    console.log("renderCustomComponent");
+    return (this.state.dropDownItems || []).map((option: Option) => {
+      let { optionComponent } = this.props;
+      if (optionComponent) {
+        let CustomComponent = optionComponent;
+        let isHidden = option.hidden ? " is-hidden" : "";
+        return <div className={"select-result" + isHidden}
+          key={option.value}
+          onClick={() => {
+            this.handleSelectOption(option);
+            this.close();
+          }}>
+          <CustomComponent label={option.label} value={option.value} />
+        </div>;
+      } else {
+        return <div key={option.value}> No optionComponent or props.value </div>;
+      }
+    }
+    );
+  }
+
+  renderStandardComponent() {
+    console.log("renderStandardComponent");
+    return (this.state.dropDownItems || []).map((option: Option) => {
+      let isHidden = option.hidden ? " is-hidden" : "";
+
+      return <div className={"select-result" + isHidden}
+        key={option.value}
+        onClick={() => {
+          this.handleSelectOption(option);
+          this.close();
+        }}>
+        <label>{option.label}</label>
+      </div>;
+    });
+  }
+
   render() {
     let filter = (this.state.filter || "").toUpperCase();
 
@@ -99,42 +133,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       </div>
 
       <div className={"select-results-container is-open-" + isOpen}>
-        {this.state.dropDownItems &&
-          this.state.dropDownItems.map((option: Option) => {
-            let isHidden = option.hidden ? " is-hidden" : "";
-
-            return <div className={"select-result" + isHidden}
-              key={option.value}
-              onClick={() => {
-                this.handleSelectOption(option);
-                this.close();
-              }}>
-              <label>{option.label}</label>
-            </div>;
-          })}
-
-        {(
-          (this.state.dropDownItems || []).map((option: Option) => {
-            let { optionComponent } = this.props;
-            if (optionComponent && this.state.value) {
-
-              let CustomComponent = optionComponent;
-              let isHidden = option.hidden ? " is-hidden" : "";
-              return <div className={"select-result" + isHidden}
-                key={option.value}
-                onClick={() => {
-                  this.handleSelectOption(option);
-                  this.close();
-                }}>
-                <CustomComponent isOpen={!!this.props.isOpen}
-                  dropDownItems={this.state.dropDownItems || []}
-                  filter={this.state.filter || ""}
-                  value={this.state.value || null}
-                />
-              </div>;
-            }
-          })
-        )}
+        {this.props.optionComponent ? this.renderCustomComponent() : this.renderStandardComponent()}
       </div>
 
     </div>;

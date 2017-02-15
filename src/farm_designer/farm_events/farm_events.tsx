@@ -26,18 +26,7 @@ interface FarmEventSelectOptionProps extends CustomOptionProps {
   };
 }
 
-function OptionComponent(props: SelectState) {
-  /*return <Link to={`/app/designer/farm_events/${this.props.option.id}`}>
-    <div>
-      {this.props.children}
-    </div>
-    <span className="event-select-date">
-      {moment(this.props.option.iso_string).format("MM/DD")}
-    </span>
-    <span className="event-select-time">
-      {moment(this.props.option.iso_string).format("HH:mma")}
-    </span>
-  </Link>;*/
+function OptionComponent(props: Option) {
   return <div>Option</div>;
 };
 
@@ -177,7 +166,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <div className="col-xs-10">
             <BetaSelect optionComponent={OptionComponent}
               onChange={(selectedOption) => {
-                this.props.router.push("/app/designer/farm_events/" + selectedOption.value);
+                this.setState({ selectValue: selectedOption.value });
               }}
               dropDownItems={selectItems} />
           </div>
