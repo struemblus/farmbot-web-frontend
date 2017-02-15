@@ -79,7 +79,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     } = this.props.designer;
 
     if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-      let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
+      let kind = _.capitalize(currentSequenceOrRegimen.kind.toString());
 
       let data = _.assign({
         executable_id: currentSequenceOrRegimen.id,
@@ -136,7 +136,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let eventEndTime = end_time ? moment(end_time)
       .format("HH:mm") : moment().format("HH:mm");
 
-    let eventRepeat = repeat ? repeat : 0;
+    let eventRepeat = repeat ? repeat : 1;
     let eventTimeUnit = time_unit ? time_unit : "";
 
     let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {

@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Link } from "react-router";
 
+type OptionComponent = React.ComponentClass<SelectState> | React.StatelessComponent<SelectState>;
+
 export interface Option {
   /** Value passed to the onClick cb and also determines the "chosen" option. */
   value: number;
@@ -14,13 +16,13 @@ export interface Option {
   pathParams?: string;
 }
 
-interface SelectProps {
+export interface SelectProps {
   /** The list of rendered options to select from. */
   options: {}[];
   /** Determine whether the select list should always be open. */
   isOpen?: boolean;
   /** Custom JSX child rendered instead of a default item. */
-  optionComponent?: Function;
+  optionComponent?: OptionComponent;
   /** Optional className for `select`. */
   className?: string;
   /** Fires when option is selected. */
@@ -29,6 +31,7 @@ interface SelectProps {
 
 interface SelectState {
   filter: string;
+  // TODO: Figure out option interface layout
   options: {}[];
   isOpen: boolean;
   value: number | null;
@@ -111,9 +114,12 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
         {/** TODO: This will obviously need some refactoring.
           *  optionComponent is harder than expected.
          */}
-        {this.state.options && this.props.optionComponent && (
-          this.state.options.map((option: Option) => {
-            if (this.props.optionComponent) {
+        {(
+          (this.state.options || []).map((option: Option) => {
+            let { optionComponent } = this.props;
+            if (optionComponent && this.state.value) {
+
+              let CustomComponent = optionComponent;
               let isHidden = option.hidden ? " is-hidden" : "";
               return <div className={"select-result" + isHidden}
                 key={option.value}
@@ -121,7 +127,11 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
                   this.handleSelectOption(option);
                   this.close();
                 }}>
-                {this.props.optionComponent(option)}
+                <CustomComponent isOpen={!!this.props.isOpen}
+                  options={this.state.options || []}
+                  filter={this.state.filter || ""}
+                  value={this.state.value || null}
+                />
               </div>;
             }
           })

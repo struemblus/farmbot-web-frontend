@@ -66,7 +66,7 @@ class OptionComponent extends React.Component<PlantOptionProps, {}> {
       onMouseMove={this.handleMouseMove.bind(this)}>
       <img src={img_url} alt={openfarm_slug} />
       <Link className="plant-name"
-        to={`/app/designer/plants/${plant_id}`}>
+        to={`/app/designer/plants/` + plant_id.toString()}>
         {this.props.children}
       </Link>
       <i className="plant-age">{daysOld} days old</i>
@@ -82,7 +82,7 @@ export class Plants extends React.Component<PlantsProps, PlantsState> {
   }
 
   handleRedirect(e: HandleRedirectEvent) {
-    this.props.router.push(`/app/designer/plants/${e.plant_id}`);
+    this.props.router.push(`/app/designer/plants/` + e.plant_id.toString());
   }
 
   updateMenuState() {

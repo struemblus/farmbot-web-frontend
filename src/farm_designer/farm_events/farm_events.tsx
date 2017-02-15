@@ -58,8 +58,8 @@ export class FarmEvents extends React.Component<Everything, {}> {
       });
     return finalEvents.map((fe: FarmEventExecutableData) => {
       let { id, start_time } = fe.farm_event_data;
-      let hasPassed = this.hasPassed(start_time) ? "has-passed" : "";
-      return <div className={`farm-event col-xs-12 ${hasPassed}`}
+      let hasPassed = this.hasPassed(start_time) ? " has-passed" : "";
+      return <div className={`farm-event col-xs-12` + hasPassed.toString()}
         key={id}>
         <div className="event-time col-xs-3">
           {moment(start_time).format("hh:mma")}
@@ -67,7 +67,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
         <div className="event-title col-xs-9">
           {fe.executable_data.name || "No name?"}
         </div>
-        <Link to={`/app/designer/farm_events/${id}`}>
+        <Link to={`/app/designer/farm_events/` + id.toString()}>
           <i className="fa fa-pencil-square-o edit-icon"></i>
         </Link>
       </div>;
@@ -131,7 +131,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
       });
 
       /** We just want to compare the day, month, and year */
-      let comparableDate = moment(`${next_time}`)
+      let comparableDate = moment(next_time.toString())
         .set("minutes", 0)
         .set("hours", 0)
         .toISOString();
@@ -175,7 +175,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <BetaSelect options={selectOptions} />
+            <BetaSelect optionComponent={OptionComponent} options={selectOptions} />
           </div>
 
           <div className="farm-events row">
@@ -187,11 +187,11 @@ export class FarmEvents extends React.Component<Everything, {}> {
                 <div className="farm-event-date col-xs-2">
                   <div className="farm-event-date-month">
                     {/** i.e. `Feb` */}
-                    {evt.date.toString()}
+                    {moment(evt.date.toString()).format("MMM")}
                   </div>
                   <div className="farm-event-date-day">
                     {/** i.e. `14` */}
-                    {moment(`${evt.date}`).format("DD")}
+                    {moment(evt.date.toString()).format("DD")}
                   </div>
                 </div>
 
