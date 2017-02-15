@@ -21,13 +21,21 @@ export interface UpdateSequenceOrRegimenProps {
   farm_event_id: number;
 }
 
+export type TimeUnit = "never"
+  | "minutely"
+  | "hourly"
+  | "daily"
+  | "weekly"
+  | "monthly"
+  | "yearly";
+
 export interface FarmEvent {
   id: number;
   start_time: string;
   end_time: string;
   next_time: string;
   repeat: number;
-  time_unit: string;
+  time_unit: TimeUnit;
   executable_id: number;
   executable_type: string;
   calendar: string[];

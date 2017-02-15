@@ -187,7 +187,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
                 <div className="farm-event-date col-xs-2">
                   <div className="farm-event-date-month">
                     {/** i.e. `Feb` */}
-                    {moment(`${evt.date}`).format("MMM")}
+                    {evt.date.toString()}
                   </div>
                   <div className="farm-event-date-day">
                     {/** i.e. `14` */}
@@ -211,6 +211,6 @@ export class FarmEvents extends React.Component<Everything, {}> {
         </Link>
 
       </div>
-    </div >;
+    </div>;
   }
 }
