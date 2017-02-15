@@ -103,16 +103,14 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
           this.state.dropDownItems.map((option: Option) => {
             let isHidden = option.hidden ? " is-hidden" : "";
 
-            return <Link to={option.pathTo + option.pathParams}
-              key={option.value}>
-              <div className={"select-result" + isHidden}
-                onClick={() => {
-                  this.handleSelectOption(option);
-                  this.close();
-                }}>
-                <label>{option.label}</label>
-              </div>
-            </Link>;
+            return <div className={"select-result" + isHidden}
+              key={option.value}
+              onClick={() => {
+                this.handleSelectOption(option);
+                this.close();
+              }}>
+              <label>{option.label}</label>
+            </div>;
           })}
 
         {(

@@ -175,7 +175,11 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <BetaSelect optionComponent={OptionComponent} dropDownItems={selectItems} />
+            <BetaSelect optionComponent={OptionComponent}
+              onChange={(selectedOption) => {
+                this.props.router.push("/app/designer/farm_events/" + selectedOption.value);
+              }}
+              dropDownItems={selectItems} />
           </div>
 
           <div className="farm-events row">
