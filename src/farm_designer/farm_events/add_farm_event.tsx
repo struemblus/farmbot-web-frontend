@@ -87,7 +87,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       }, farmEventToBeAdded);
 
       let success = () => this.props.router.push("/app/designer/farm_events");
-      console.log("???!?!?!?!?")
       this.props.dispatch(saveFarmEvent(data, success));
     } else {
       error("Select a sequence or Regimen.");
@@ -102,6 +101,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
     let { value } = event.currentTarget;
     let newValue = parseInt(value);
+    debugger;
     this.props.dispatch(addFarmEventRepeat(newValue));
   }
 

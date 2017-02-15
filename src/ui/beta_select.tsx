@@ -16,9 +16,13 @@ export interface Option {
   pathParams?: string;
 }
 
+interface DropDownItem {
+  /** TODO */
+}
+
 export interface SelectProps {
   /** The list of rendered options to select from. */
-  options: {}[];
+  dropDownItems: DropDownItem[];
   /** Determine whether the select list should always be open. */
   isOpen?: boolean;
   /** Custom JSX child rendered instead of a default item. */
@@ -29,10 +33,10 @@ export interface SelectProps {
   onChange?: (newValue: Option) => void;
 }
 
-interface SelectState {
+export interface SelectState {
   filter: string;
   // TODO: Figure out option interface layout
-  options: {}[];
+  dropDownItems: DropDownItem[];
   isOpen: boolean;
   value: number | null;
 }
@@ -42,14 +46,14 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     super();
     this.state = {
       filter: "",
-      options: [],
+      dropDownItems: [],
       isOpen: false,
       value: null
     };
   }
 
   componentWillMount() {
-    this.setState({ options: this.props.options });
+    this.setState({ dropDownItems: this.props.dropDownItems });
   }
 
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -73,8 +77,8 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   render() {
     let filter = (this.state.filter || "").toUpperCase();
 
-    if (this.state.options) {
-      this.state.options.map((option: Option) => {
+    if (this.state.dropDownItems) {
+      this.state.dropDownItems.map((option: Option) => {
         if (option.label.toUpperCase().indexOf(filter) > -1) {
           option.hidden = false;
         } else {
@@ -83,7 +87,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       });
     }
 
-    let isOpen = this.props.isOpen ? true : this.state.isOpen;
+    let isOpen = !!this.state.isOpen;
     let className = this.props.className || "";
     return <div className={"select " + className}>
 
@@ -95,8 +99,8 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       </div>
 
       <div className={"select-results-container is-open-" + isOpen}>
-        {this.state.options &&
-          this.state.options.map((option: Option) => {
+        {this.state.dropDownItems &&
+          this.state.dropDownItems.map((option: Option) => {
             let isHidden = option.hidden ? " is-hidden" : "";
 
             return <Link to={option.pathTo + option.pathParams}
@@ -111,11 +115,8 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
             </Link>;
           })}
 
-        {/** TODO: This will obviously need some refactoring.
-          *  optionComponent is harder than expected.
-         */}
         {(
-          (this.state.options || []).map((option: Option) => {
+          (this.state.dropDownItems || []).map((option: Option) => {
             let { optionComponent } = this.props;
             if (optionComponent && this.state.value) {
 
@@ -128,7 +129,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
                   this.close();
                 }}>
                 <CustomComponent isOpen={!!this.props.isOpen}
-                  options={this.state.options || []}
+                  dropDownItems={this.state.dropDownItems || []}
                   filter={this.state.filter || ""}
                   value={this.state.value || null}
                 />

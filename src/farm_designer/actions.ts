@@ -80,7 +80,6 @@ export function saveFarmEvent(farm_event: Partial<FarmEvent>,
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "SAVE_FARM_EVENT_OK", payload });
         success(t("Successfully saved event."));
-        debugger;
         callback();
       })
       .catch(payload => {

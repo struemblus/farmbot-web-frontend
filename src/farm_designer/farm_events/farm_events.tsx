@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { BetaSelect, Option } from "../../ui";
+import { BetaSelect, Option, SelectState } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
@@ -26,7 +26,7 @@ interface FarmEventSelectOptionProps extends CustomOptionProps {
   };
 }
 
-function OptionComponent(props: FarmEventSelectOption) {
+function OptionComponent(props: SelectState) {
   /*return <Link to={`/app/designer/farm_events/${this.props.option.id}`}>
     <div>
       {this.props.children}
@@ -113,7 +113,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
 
 
     /** Used to hold the search results in select box */
-    let selectOptions: FarmEventSelectOption[] = [];
+    let selectItems: FarmEventSelectOption[] = [];
 
     /** Used to hold the final rendered Date and FarmEvents[] */
     let farmEventsData: FinalEventData[] = [];
@@ -121,7 +121,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
     eventsWithExecutableData.map((fe: FarmEventExecutableData) => {
       let { next_time } = fe.farm_event_data;
 
-      selectOptions.push({
+      selectItems.push({
         label: fe.executable_data.name,
         value: fe.farm_event_data.id,
         iso_string: fe.farm_event_data.next_time,
@@ -175,7 +175,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <BetaSelect optionComponent={OptionComponent} options={selectOptions} />
+            <BetaSelect optionComponent={OptionComponent} dropDownItems={selectItems} />
           </div>
 
           <div className="farm-events row">

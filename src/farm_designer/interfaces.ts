@@ -33,13 +33,14 @@ export interface FarmEvent {
   id: number;
   start_time: string;
   end_time: string | undefined;
-  repeat: number;
+  repeat: number | undefined;
   time_unit: TimeUnit;
   next_time: string;
   executable_id: number;
   executable_type: string;
   calendar: string[];
 };
+
 
 
 export interface FarmEventExecutableData {
