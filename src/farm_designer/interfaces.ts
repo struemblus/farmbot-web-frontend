@@ -23,6 +23,8 @@ export interface UpdateSequenceOrRegimenProps {
 
 export interface FarmEvent {
   id: number;
+  //  ST,     NT.     ET,
+  // [  1, 2, 3, 4, 5, 6]
   start_time: string;
   end_time: string;
   next_time: string;
