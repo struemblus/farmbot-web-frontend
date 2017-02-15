@@ -94,7 +94,7 @@ export let syncReducer = generateReducer<Sync>(initialState)
         break;
 
       case "start_time":
-        let merge = moment(`${currentEvent.start_time}`);
+        let merge = moment(currentEvent.start_time.toString());
         /** It's a little ambiguous, but not sure how else to 
          * pull this one off.
          * payload.value.split => "13:40" => hours: 13, minutes: 40

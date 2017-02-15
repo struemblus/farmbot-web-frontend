@@ -68,7 +68,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
     let { value } = event.currentTarget;
     let newValue = parseInt(value);
-    debugger;
+    // debugger; TODO: Come back when API stuff is cleared up.
     this.props.dispatch(addFarmEventRepeat(newValue));
   }
 
