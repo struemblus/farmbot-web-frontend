@@ -64,6 +64,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
   }
 
   render() {
+    let { push } = this.props.router;
     let farmEvents = this.props.sync.farm_events || [];
     let eventsWithExecutableData: FarmEventExecutableData[] = [];
 
@@ -164,11 +165,11 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <BetaSelect optionComponent={OptionComponent}
+            <BetaSelect dropDownItems={selectItems}
               onChange={(selectedOption) => {
-                this.setState({ selectValue: selectedOption.value });
+                push("/app/designer/farm_events/" + selectedOption.value);
               }}
-              dropDownItems={selectItems} />
+            />
           </div>
 
           <div className="farm-events row">

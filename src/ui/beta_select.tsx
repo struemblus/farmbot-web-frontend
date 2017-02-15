@@ -71,7 +71,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   renderCustomComponent() {
-    console.log("renderCustomComponent");
     return (this.state.dropDownItems || []).map((option: Option) => {
       let { optionComponent } = this.props;
       if (optionComponent) {
@@ -93,7 +92,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   renderStandardComponent() {
-    console.log("renderStandardComponent");
     return (this.state.dropDownItems || []).map((option: Option) => {
       let isHidden = option.hidden ? " is-hidden" : "";
 
