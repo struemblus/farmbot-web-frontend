@@ -27,6 +27,8 @@ export interface SelectProps {
   className?: string;
   /** Fires when option is selected. */
   onChange?: (newValue: Option) => void;
+  /** Placeholder for the input. */
+  placeholder?: string;
 }
 
 export interface SelectState {
@@ -49,7 +51,10 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   componentWillMount() {
-    this.setState({ dropDownItems: this.props.dropDownItems });
+    this.setState({
+      dropDownItems: this.props.dropDownItems,
+      isOpen: this.props.isOpen || false
+    });
   }
 
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
@@ -76,13 +81,12 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       if (optionComponent) {
         let CustomComponent = optionComponent;
         let isHidden = option.hidden ? " is-hidden" : "";
-        return <div className={"select-result" + isHidden}
-          key={option.value}
+        return <div className={"select-result" + isHidden} key={option.value}
           onClick={() => {
             this.handleSelectOption(option);
             this.close();
           }}>
-          <CustomComponent label={option.label} value={option.value} />
+          <CustomComponent {...option} />
         </div>;
       } else {
         return <div key={option.value}> No optionComponent or props.value </div>;
@@ -95,8 +99,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     return (this.state.dropDownItems || []).map((option: Option) => {
       let isHidden = option.hidden ? " is-hidden" : "";
 
-      return <div className={"select-result" + isHidden}
-        key={option.value}
+      return <div className={"select-result" + isHidden} key={option.value}
         onClick={() => {
           this.handleSelectOption(option);
           this.close();
@@ -127,7 +130,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
         <input type="text"
           onChange={this.updateInput.bind(this)}
           onClick={this.open.bind(this)}
-          placeholder="Search..." />
+          placeholder={this.props.placeholder || "Search..."} />
       </div>
 
       <div className={"select-results-container is-open-" + isOpen}>
