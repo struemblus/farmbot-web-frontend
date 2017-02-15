@@ -11,6 +11,8 @@ import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
 import { success, error } from "../ui";
 import { resetWeedDetection } from "./actions";
+import { weedDetectorENV } from "./weed_detector_env";
+
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 
 @connect((state: Everything) => state)
@@ -26,16 +28,14 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       blur: 15,
       morph: 6,
       iterations: 4,
+      ...weedDetectorENV(this.env)
     };
   }
-
+  get env() {
+    return this.props.bot.hardware.user_env[DETECTOR_ENV];
+  }
   componentDidMout() {
-    let env = this.props.bot.hardware.user_env[DETECTOR_ENV];
-    if (env && (typeof env === "string")) {
-      try {
-        this.setState(JSON.parse(env));
-      } catch (e) { /** Well atleast we try'ed */ };
-    }
+    this.setState(weedDetectorENV(this.env));
   }
 
   resetWeedDetection() {
