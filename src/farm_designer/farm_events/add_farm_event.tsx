@@ -1,13 +1,9 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, error, BlurableInput } from "../../ui";
+import { Select, BetaSelect, Option, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
-import {
-  Everything,
-  SelectOptionsParams,
-  CustomOptionProps
-} from "../../interfaces";
+import { Everything } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
 import {
   selectSequenceOrRegimen,
@@ -19,35 +15,6 @@ import {
 } from "../actions";
 import * as _ from "lodash";
 import * as moment from "moment";
-import { Option } from "react-select";
-
-class OptionComponent extends React.Component<CustomOptionProps, {}> {
-  handleMouseDown(e: React.SyntheticEvent<HTMLDivElement>) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.props.onSelect(this.props.option, e);
-  };
-
-  handleMouseEnter(e: React.SyntheticEvent<HTMLDivElement>) {
-    this.props.onFocus(this.props.option, e);
-  };
-
-  handleMouseMove(e: React.SyntheticEvent<HTMLDivElement>) {
-    if (this.props.isFocused) { return; };
-    this.props.onFocus(this.props.option, e);
-  };
-
-  render() {
-    return (
-      <div className={this.props.className}
-        onMouseDown={this.handleMouseDown.bind(this)}
-        onMouseEnter={this.handleMouseEnter.bind(this)}
-        onMouseMove={this.handleMouseMove.bind(this)}>
-        {this.props.children}
-      </div>
-    );
-  }
-}
 
 @connect((state: Everything) => state)
 export class AddFarmEvent extends React.Component<Everything, {}> {
@@ -139,31 +106,27 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let eventRepeat = repeat ? repeat : 1;
     let eventTimeUnit = time_unit ? time_unit : "";
 
-    let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {
+    let regimenOptions: Option[] = regimens.all.map(reg => {
       return {
         label: reg.name || "No regimens.",
-        value: reg.id || undefined,
+        value: (reg || {}).id,
         kind: "Regimen"
       };
     });
 
-    /** Hack for group-by styling :( */
-    regimenOptions.unshift({ label: "Regimens", value: 0, disabled: true });
+    /** For group-by styling */
+    regimenOptions.unshift({ label: "Regimens", heading: true });
 
-    let sequencesOptions: SelectOptionsParams[] = sequences.all.map(seq => {
+    let sequencesOptions: Option[] = sequences.all.map(seq => {
       return {
         label: seq.name || "No sequences.",
-        value: seq.id || 0,
+        value: (seq || {}).id,
         kind: "Sequence"
       };
     });
 
-    /** Hack for group-by styling :( */
-    sequencesOptions.unshift({
-      label: "Sequences",
-      value: 0,
-      disabled: true
-    });
+    /** For group-by styling */
+    sequencesOptions.unshift({ label: "Sequences", heading: true });
 
     /** For telling select box */
     let chosenNode = this.props.designer.currentSequenceOrRegimen;
@@ -187,12 +150,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
-        <Select
-          className="group-by"
-          options={regimenOptions.concat(sequencesOptions)}
-          optionComponent={OptionComponent}
+        <BetaSelect
+          dropDownItems={regimenOptions.concat(sequencesOptions)}
           onChange={this.selectFromDropDown.bind(this)}
-          value={(chosenNode || {}).id || 0} />
+          value={(chosenNode || {}).id || null} />
 
         {/*<label>{t("Parameters")}</label>*/}
 

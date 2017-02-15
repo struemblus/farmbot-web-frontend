@@ -5,11 +5,13 @@ type OptionComponent = React.ComponentClass<Option> | React.StatelessComponent<O
 
 export interface Option {
   /** Value passed to the onClick cb and also determines the "chosen" option. */
-  value: number;
+  value?: number;
   /** Name of the item shown in the list. */
   label: string;
   /** Component internal use only unless there's an edge case for it. */
   hidden?: boolean;
+  /** To determine group-by styling on rendered lists. */
+  heading?: boolean;
 }
 
 interface DropDownItem {
@@ -29,6 +31,8 @@ export interface SelectProps {
   onChange?: (newValue: Option) => void;
   /** Placeholder for the input. */
   placeholder?: string;
+  /** Determines what label to show in the select box. */
+  value?: number | null;
 }
 
 export interface SelectState {
@@ -98,8 +102,10 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   renderStandardComponent() {
     return (this.state.dropDownItems || []).map((option: Option) => {
       let isHidden = option.hidden ? " is-hidden" : "";
-
-      return <div className={"select-result" + isHidden} key={option.value}
+      let key = option.value ? option.value : option.label;
+      let isAGroupByHeader = option.heading ? " is-header" : "";
+      return <div key={key}
+        className={"select-result" + isHidden + isAGroupByHeader}
         onClick={() => {
           this.handleSelectOption(option);
           this.close();
@@ -124,6 +130,10 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
 
     let isOpen = !!this.state.isOpen;
     let className = this.props.className || "";
+    /** TODO: selected needs to be a `value` property in the input below */
+    let selected = this.props.value && this.state.dropDownItems ? _.findWhere(
+      this.state.dropDownItems, { value: this.props.value }) : 0;
+
     return <div className={"select " + className}>
 
       <div className="select-search-container">
