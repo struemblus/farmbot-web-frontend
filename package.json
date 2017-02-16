@@ -28,7 +28,7 @@
     "@types/history": "^2.0.39",
     "@types/i18next": "^2.3.32",
     "@types/jest": "^16.0.1",
-    "@types/later": "^1.2.0",
+    "@types/later": "^1.2.1",
     "@types/markdown-it": "0.0.1",
     "@types/mqtt": "0.0.32",
     "@types/node": "^6.0.63",

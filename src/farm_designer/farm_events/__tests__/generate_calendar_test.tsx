@@ -8,7 +8,7 @@ describe("generateCalendar()", function () {
   });
 });
 
-function fakeEvents(): FarmEvent[] {
+export function fakeEvents(): FarmEvent[] {
   return [
     {
       "id": 1,
