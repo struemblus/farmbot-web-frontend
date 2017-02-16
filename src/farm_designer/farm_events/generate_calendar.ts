@@ -12,23 +12,28 @@ import * as wow from "later";
  * ```
  */
 interface DateLookup {
-  [date: string]: FarmEvent[] | undefined;
+  [date: string]: number[] | undefined;
 }
 
 function putEventIntoCalendarMap(target: DateLookup,
   date: string,
   item: FarmEvent): void {
   let dateList = target[date] || (target[date] = []);
-  dateList.push(item);
+  if (item.id) {
+    dateList.push(item.id);
+  } else {
+    throw new Error("Refusing to process unsaved Event putEventIntoCalendarMap");
+  }
   target[date] = _.uniq(dateList, "id");
 }
 
 export function generateCalendar(input: FarmEvent[]) {
   let calendar: DateLookup = {};
   input.map(function (fe) {
-    if (fe.time_unit === "never") {
-      putEventIntoCalendarMap(calendar, fe.start_time, fe);
+    if (fe.calendar) {
+      fe.calendar.forEach(d => putEventIntoCalendarMap(calendar, d, fe));
     } else {
+      throw new Error("Refusing to put unsaved event on calendar.");
     }
   });
 }
