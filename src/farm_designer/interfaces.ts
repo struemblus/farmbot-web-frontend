@@ -30,10 +30,10 @@ export type TimeUnit = "never"
   | "yearly";
 
 export interface FarmEvent {
-  id: number | undefined;
+  id?: number | undefined;
   start_time: string;
-  end_time: string | undefined;
-  repeat: number | undefined;
+  end_time?: string | undefined;
+  repeat?: number | undefined;
   time_unit: TimeUnit;
   next_time: string;
   executable_id: number;
