@@ -1,5 +1,4 @@
 import { FarmEvent } from "../interfaces";
-import * as wow from "later";
 
 /** A dictionary that holds an ISO date as a key and a list of FarmEvent IDs
  * that are scheduled at that point in time.
