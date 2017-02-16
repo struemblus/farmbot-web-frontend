@@ -341,6 +341,17 @@ ul {
         &.is-hidden {
             display: none;
         }
+        &.is-header {
+            text-transform: uppercase;
+            padding-left: 1rem;
+            border-bottom: none;
+            pointer-events: none;
+            label {
+                text-transform: uppercase;
+                font-weight: bold;
+                padding-left: 0px;
+            }
+        }
         label {
             margin-top: 0 !important;
             text-transform: none;

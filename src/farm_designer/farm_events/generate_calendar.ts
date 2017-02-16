@@ -4,18 +4,6 @@ import {
   parse
 } from "later";
 
-/** Takes the FarmBot API terms as the key and returns the Later.JS terminology
- * as a value. */
-let TRANSLATIONS = {
-  "never": "never",
-  "minutely": "minutes",
-  "hourly": "hours",
-  "daily": "days",
-  "weekly": "weeks",
-  "monthly": "months",
-  "yearly": "years"
-};
-
 /** A dictionary that holds an ISO date as a key and a list of FarmEvent IDs
  * that are scheduled at that point in time.
  * TL;DR: It indexes a FarmEvents ID by date.

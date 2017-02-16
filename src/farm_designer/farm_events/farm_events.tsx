@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { BetaSelect, Option, SelectState } from "../../ui";
+import { BetaSelect, Option } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
@@ -10,25 +10,11 @@ import {
   FarmEvent,
   FinalEventData
 } from "../interfaces";
-import { CustomOptionProps } from "../../interfaces";
 
 interface FarmEventSelectOption extends Option {
   iso_string: string;
-  id: number;
-  pathTo: string;
-  pathParams: string;
+  id: number | undefined;
 }
-
-interface FarmEventSelectOptionProps extends CustomOptionProps {
-  option: {
-    iso_string: string;
-    id: number;
-  };
-}
-
-function OptionComponent(props: Option) {
-  return <div>Option</div>;
-};
 
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
@@ -56,7 +42,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
         <div className="event-title col-xs-9">
           {fe.executable_data.name || "No name?"}
         </div>
-        <Link to={`/app/designer/farm_events/` + id.toString()}>
+        <Link to={`/app/designer/farm_events/` + (id || "").toString()}>
           <i className="fa fa-pencil-square-o edit-icon"></i>
         </Link>
       </div>;
@@ -115,9 +101,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
         label: fe.executable_data.name,
         value: fe.farm_event_data.id,
         iso_string: fe.farm_event_data.next_time,
-        id: fe.farm_event_data.id,
-        pathTo: "/app/designer/farm_events/",
-        pathParams: fe.farm_event_data.id.toString()
+        id: fe.farm_event_data.id
       });
 
       /** We just want to compare the day, month, and year */
