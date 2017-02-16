@@ -13,7 +13,7 @@ import {
 
 interface FarmEventSelectOption extends Option {
   iso_string: string;
-  id: number;
+  id: number | undefined;
 }
 
 @connect((state: Everything) => state)
@@ -42,7 +42,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
         <div className="event-title col-xs-9">
           {fe.executable_data.name || "No name?"}
         </div>
-        <Link to={`/app/designer/farm_events/` + id.toString()}>
+        <Link to={`/app/designer/farm_events/` + (id || "").toString()}>
           <i className="fa fa-pencil-square-o edit-icon"></i>
         </Link>
       </div>;
