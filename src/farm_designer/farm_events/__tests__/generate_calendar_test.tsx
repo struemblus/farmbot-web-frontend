@@ -1,4 +1,5 @@
 import { generateCalendar } from "../generate_calendar";
+import { FarmEvent } from "../../interfaces";
 
 describe("generateCalendar()", function () {
   it("orders everything in the correct time slots", function () {
@@ -7,13 +8,11 @@ describe("generateCalendar()", function () {
   });
 });
 
-function fakeEvents() {
+function fakeEvents(): FarmEvent[] {
   return [
     {
       "id": 1,
-      "device_id": 78,
       "start_time": "2017-02-06T22:57:51.721Z",
-      "end_time": null,
       "next_time": "2019-11-03T22:57:51.721Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -22,9 +21,7 @@ function fakeEvents() {
     },
     {
       "id": 3,
-      "device_id": 2,
       "start_time": "2017-02-07T21:10:06.211Z",
-      "end_time": null,
       "next_time": "2019-11-04T21:10:06.211Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -33,9 +30,7 @@ function fakeEvents() {
     },
     {
       "id": 4,
-      "device_id": 2,
       "start_time": "2017-02-07T21:10:06.211Z",
-      "end_time": null,
       "next_time": "2019-11-04T21:10:06.211Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -44,9 +39,7 @@ function fakeEvents() {
     },
     {
       "id": 5,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -55,9 +48,7 @@ function fakeEvents() {
     },
     {
       "id": 6,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -66,9 +57,7 @@ function fakeEvents() {
     },
     {
       "id": 7,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -77,9 +66,7 @@ function fakeEvents() {
     },
     {
       "id": 8,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -88,9 +75,7 @@ function fakeEvents() {
     },
     {
       "id": 9,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -99,9 +84,7 @@ function fakeEvents() {
     },
     {
       "id": 10,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -110,9 +93,7 @@ function fakeEvents() {
     },
     {
       "id": 11,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -121,9 +102,7 @@ function fakeEvents() {
     },
     {
       "id": 12,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -132,9 +111,7 @@ function fakeEvents() {
     },
     {
       "id": 13,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -143,9 +120,7 @@ function fakeEvents() {
     },
     {
       "id": 14,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -154,9 +129,7 @@ function fakeEvents() {
     },
     {
       "id": 15,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -165,9 +138,7 @@ function fakeEvents() {
     },
     {
       "id": 16,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -176,9 +147,7 @@ function fakeEvents() {
     },
     {
       "id": 17,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -187,9 +156,7 @@ function fakeEvents() {
     },
     {
       "id": 18,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -198,9 +165,7 @@ function fakeEvents() {
     },
     {
       "id": 19,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -209,9 +174,7 @@ function fakeEvents() {
     },
     {
       "id": 20,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -220,9 +183,7 @@ function fakeEvents() {
     },
     {
       "id": 21,
-      "device_id": 57,
       "start_time": "2017-02-09T16:07:28.042Z",
-      "end_time": null,
       "next_time": "2019-11-06T16:07:28.042Z",
       "repeat": 1000,
       "time_unit": "daily",
@@ -231,7 +192,6 @@ function fakeEvents() {
     },
     {
       "id": 22,
-      "device_id": 6,
       "start_time": "2017-02-09T08:00:00.000Z",
       "end_time": "2017-02-09T08:00:00.000Z",
       "next_time": "2017-02-10T15:45:00.000Z",
@@ -242,7 +202,6 @@ function fakeEvents() {
     },
     {
       "id": 23,
-      "device_id": 2,
       "start_time": "2017-02-13T22:23:12.917Z",
       "end_time": "2017-02-28T08:00:00.000Z",
       "next_time": "2017-02-14T22:23:12.917Z",
@@ -253,9 +212,7 @@ function fakeEvents() {
     },
     {
       "id": 2,
-      "device_id": 2,
       "start_time": "2017-02-07T19:30:06.211Z",
-      "end_time": null,
       "next_time": "2019-11-04T21:10:06.211Z",
       "repeat": 1000,
       "time_unit": "daily",
