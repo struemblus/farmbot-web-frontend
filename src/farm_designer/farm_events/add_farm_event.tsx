@@ -79,15 +79,15 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     } = this.props.designer;
 
     if (currentSequenceOrRegimen && currentSequenceOrRegimen.kind) {
-      let kind = _.capitalize(`${currentSequenceOrRegimen.kind}`);
+      let kind = _.capitalize(currentSequenceOrRegimen.kind.toString());
 
       let data = _.assign({
         executable_id: currentSequenceOrRegimen.id,
         executable_type: kind
       }, farmEventToBeAdded);
 
-      this.props.dispatch(saveFarmEvent(data));
-      this.props.router.push("/app/designer/farm_events");
+      let success = () => this.props.router.push("/app/designer/farm_events");
+      this.props.dispatch(saveFarmEvent(data, success));
     } else {
       error("Select a sequence or Regimen.");
     }
@@ -101,6 +101,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
     let { value } = event.currentTarget;
     let newValue = parseInt(value);
+    debugger;
     this.props.dispatch(addFarmEventRepeat(newValue));
   }
 
@@ -135,7 +136,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let eventEndTime = end_time ? moment(end_time)
       .format("HH:mm") : moment().format("HH:mm");
 
-    let eventRepeat = repeat ? repeat : 0;
+    let eventRepeat = repeat ? repeat : 1;
     let eventTimeUnit = time_unit ? time_unit : "";
 
     let regimenOptions: SelectOptionsParams[] = regimens.all.map(reg => {
