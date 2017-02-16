@@ -27,13 +27,14 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       isEditing: true,
       blur: 15,
       morph: 6,
-      iterations: 4,
-      ...weedDetectorENV(this.env)
+      iterations: 4
     };
   }
+
   get env() {
     return this.props.bot.hardware.user_env[DETECTOR_ENV];
   }
+
   componentDidMout() {
     this.setState(weedDetectorENV(this.env));
   }
