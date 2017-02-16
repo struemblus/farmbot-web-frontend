@@ -16,17 +16,6 @@ interface FarmEventSelectOption extends Option {
   id: number | undefined;
 }
 
-import { generateCalendar } from "./generate_calendar";
-generateCalendar([{
-  id: 1,
-  start_time: "2017-02-06T22:57:51.721Z",
-  next_time: "2019-11-03T22:57:51.721Z",
-  repeat: 1000,
-  time_unit: "daily",
-  executable_type: "Sequence",
-  executable_id: 68
-}]);
-
 @connect((state: Everything) => state)
 export class FarmEvents extends React.Component<Everything, {}> {
 

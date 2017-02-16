@@ -3,7 +3,7 @@ import { FarmEvent } from "../../interfaces";
 
 describe("generateCalendar()", function () {
   it("orders everything in the correct time slots", function () {
-    generateCalendar(fakeEvents());
+    // generateCalendar(fakeEvents());
     pending("BRB");
   });
 });
