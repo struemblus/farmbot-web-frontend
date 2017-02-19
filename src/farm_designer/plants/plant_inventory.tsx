@@ -19,24 +19,21 @@ interface HandleRedirectEvent extends ReactSelectProps {
   plant_id: string;
 }
 
-function OptionComponent(plant: Plant[]) {
+function OptionComponent(plants: Plant[]) {
+  let indexedById = _.indexBy(plants, "id");
   return (props: DropDownItem) => {
     let {
-      // openfarm_slug,
-      // plant_id,
       img_url,
       planted_at,
-      // label
-    } = plant[0];
+    } = indexedById[props.value as number]; // TODO: Remove typecast after refactor.
 
     let dayPlanted = moment();
 
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-
     return <div className="plant-search-item">
       <img className="plant-search-item-image" src={img_url} />
-      <span className="plant-search-item-name">PUT LABEL HERE</span>
+      <span className="plant-search-item-name">{props.label}</span>
       <i className="plant-search-item-age">
         {daysOld} days old</i>
     </div>;

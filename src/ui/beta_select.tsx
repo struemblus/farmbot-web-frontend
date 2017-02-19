@@ -77,15 +77,31 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     let { dropDownItems } = this.state;
     let { optionComponent, className } = this.props;
     let Custom = optionComponent as React.ReactType; // Trust me.
+    console.log(`THIS IS THE PROBLEM RIGHT HERE:
+    What?: The 'plant_inventory' page doesn't show the search bar.
+    why?:  You forgot to put it back whilst refactoring.
+    How?:  You see the search bar in #standardItemList()? Bring it over here, too!
+    `);
     return <div className={"select " + (className || "")}>
-      {(dropDownItems || []).map(i => <Custom {...i} />)}
+      {(dropDownItems || []).map((p, i) => <Custom {...p} key={p.value || `@@KEY${i}`} />)}
     </div>;
   }
 
   standardItemList = () => {
     let { isOpen, dropDownItems } = this.state;
     let {placeholder, onChange, className} = this.props;
+    let eachItem = (dropDownItems || []).map((option: DropDownItem) => {
+      let { hidden, value, heading, label } = option;
+      let classes = "select-result";
+      if (hidden) { classes += " is-hidden"; }
+      if (heading) { classes += " is-header"; }
 
+      return <div key={value || label}
+        className={classes}
+        onClick={() => { (onChange || function () { })(option); }}>
+        <label>{label}</label>
+      </div>;
+    });
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
@@ -94,8 +110,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
           placeholder={placeholder || "Search..."} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        <StandardComponent dropDownItems={dropDownItems || []}
-          onChange={onChange} />
+        {eachItem}
       </div>
     </div>;
   }
@@ -114,26 +129,4 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     let fn = optionComponent ? this.customizedItemList : this.standardItemList;
     return fn();
   }
-}
-
-interface DropDownComponentProps {
-  label?: string;
-  dropDownItems: DropDownItem[];
-  onChange?: (e: DropDownItem) => void;
-}
-
-function StandardComponent({dropDownItems, onChange}: DropDownComponentProps) {
-  let eachItem = (dropDownItems || []).map((option: DropDownItem) => {
-    let { hidden, value, heading, label } = option;
-    let classes = "select-result";
-    if (hidden) { classes += " is-hidden"; }
-    if (heading) { classes += " is-header"; }
-
-    return <div key={value || label}
-      className={classes}
-      onClick={() => { (onChange || function () { })(option); }}>
-      <label>{label}</label>
-    </div>;
-  });
-  return <div>{eachItem}</div>;
 }
