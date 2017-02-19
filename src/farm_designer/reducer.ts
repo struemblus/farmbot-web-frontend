@@ -92,7 +92,7 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
         let minutes: number = parseInt(time[1]);
         merge.set("hours", hours).set("minutes", minutes);
         s.farmEventToBeAdded.start_time = merge.toISOString();
-      // debugger; TODO: Come back when API stuff is cleared up.
+      // TODO: Come back when API stuff is cleared up.
     }
 
     return s;

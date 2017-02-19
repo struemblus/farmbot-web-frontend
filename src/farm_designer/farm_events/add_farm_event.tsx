@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, BetaSelect, Option, error, BlurableInput } from "../../ui";
+import { Select, BetaSelect, DropDownItem, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import { Everything } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
@@ -68,11 +68,11 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
   updateRepeat(event: React.SyntheticEvent<HTMLInputElement>) {
     let { value } = event.currentTarget;
     let newValue = parseInt(value);
-    // debugger; TODO: Come back when API stuff is cleared up.
+    // TODO: Come back when API stuff is cleared up.
     this.props.dispatch(addFarmEventRepeat(newValue));
   }
 
-  updateTimeUnit(event: Option) {
+  updateTimeUnit(event: DropDownItem) {
     let { value } = event;
     this.props.dispatch(addFarmEventTimeUnit(value));
   }
@@ -106,7 +106,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     let eventRepeat = repeat ? repeat : 1;
     let eventTimeUnit = time_unit ? time_unit : "";
 
-    let regimenOptions: Option[] = regimens.all.map(reg => {
+    let regimenOptions: DropDownItem[] = regimens.all.map(reg => {
       return {
         label: reg.name || "No regimens.",
         value: (reg || {}).id,
@@ -117,7 +117,7 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
     /** For group-by styling */
     regimenOptions.unshift({ label: "Regimens", heading: true });
 
-    let sequencesOptions: Option[] = sequences.all.map(seq => {
+    let sequencesOptions: DropDownItem[] = sequences.all.map(seq => {
       return {
         label: seq.name || "No sequences.",
         value: (seq || {}).id,

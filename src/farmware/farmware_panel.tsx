@@ -1,5 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
+import { BetaSelect } from "../ui";
 
 interface FWState {
 }
@@ -25,7 +26,11 @@ export class Farmware extends React.Component<FWProps, FWState> {
       <div className="row">
         <div className="col-sm-12">
           <div className="widget-content">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum aspernatur odio sint est laudantium! Doloribus ad recusandae quam, culpa neque veniam esse inventore, atque tempora mollitia provident at sed. Minus.
+            <div className="row">
+              <input type="url" value="-1" />
+              <button className="green button-like go">Install Package</button>
+              <BetaSelect dropDownItems={[]} />
+            </div>
           </div>
         </div>
       </div>

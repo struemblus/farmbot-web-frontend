@@ -1,43 +1,46 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { BetaSelect, Option } from "../../ui";
+import { Plant } from "../interfaces";
+import { BetaSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { ReactSelectProps } from "react-select";
 import { t } from "i18next";
 
-// TODO: Optimize these if possible and relocate them 
-interface PlantOptionProps extends Option {
-  openfarm_slug: string;
-  plant_id: number;
-  img_url: string;
-  planted_at: string;
-  label: string;
-}
+// interface DropDownItem extends DropDownItem {
+//   // openfarm_slug: string;
+//   plant_id: number;
+//   img_url: string;
+//   planted_at: string;
+// }
 
 interface HandleRedirectEvent extends ReactSelectProps {
   plant_id: string;
 }
 
-function OptionComponent(props: PlantOptionProps) {
-  let {
-    openfarm_slug,
-    plant_id,
-    img_url,
-    planted_at,
-    label
-  } = props;
+function OptionComponent(plant: Plant[]) {
+  return (props: DropDownItem) => {
+    let {
+      // openfarm_slug,
+      // plant_id,
+      img_url,
+      planted_at,
+      // label
+    } = plant[0];
 
-  let dayPlanted = moment();
-  // Same day = 1 !0
-  let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
+    let dayPlanted = moment();
 
-  return <div className="plant-search-item">
-    <img className="plant-search-item-image" src={img_url} alt={openfarm_slug} />
-    <span className="plant-search-item-name">{label}</span>
-    <i className="plant-search-item-age">{daysOld} days old</i>
-  </div>;
+    // Same day = 1 !0
+    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
+
+    return <div className="plant-search-item">
+      <img className="plant-search-item-image" src={img_url} />
+      <span className="plant-search-item-name">PUT LABEL HERE</span>
+      <i className="plant-search-item-age">
+        {daysOld} days old</i>
+    </div>;
+  };
 }
 
 @connect((state: Everything) => state)
@@ -52,10 +55,10 @@ export class Plants extends React.Component<Everything, {}> {
 
     let plantOptions = plants.map(plant => {
       return {
-        openfarm_slug: plant.openfarm_slug,
-        plant_id: plant.id,
-        img_url: plant.img_url,
-        planted_at: plant.planted_at,
+        // openfarm_slug: plant.openfarm_slug,
+        // plant_id: plant.id,
+        // img_url: plant.img_url,
+        // planted_at: plant.planted_at,
         label: plant.name,
         value: plant.id
       };
@@ -81,7 +84,7 @@ export class Plants extends React.Component<Everything, {}> {
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
           <BetaSelect dropDownItems={plantOptions}
-            optionComponent={OptionComponent}
+            optionComponent={OptionComponent(this.props.sync.plants)}
             onChange={this.handleRedirect.bind(this)}
             isOpen={true}
             placeholder="Search Plants"
