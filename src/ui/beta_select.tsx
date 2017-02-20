@@ -33,8 +33,7 @@ export interface SelectProps {
 }
 
 export interface SelectState {
-  filter: string;
-  // dropDownItems: DropDownItem[];
+  currentText: string;
   isOpen: boolean;
   value: number | null;
 }
@@ -43,7 +42,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   constructor() {
     super();
     this.state = {
-      filter: "",
+      currentText: "",
       isOpen: false,
       value: null
     };
@@ -56,15 +55,16 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
-    this.setState({ filter: e.currentTarget.value });
+    this.setState({ currentText: e.currentTarget.value });
   }
 
-  open() {
-    this.setState({ isOpen: true });
-  }
+  open() { this.setState({ isOpen: true }); }
 
-  close() {
-    this.setState({ isOpen: false });
+  /** Closes the dropdown ONLY IF the developer has not set this.props.isOpen to
+   * true, since that would indicate the developer wants it to always be open.
+    */
+  maybeClose = () => {
+    this.setState({ isOpen: (this.props.isOpen || false) });
   }
 
   handleSelectOption(option: DropDownItem) {
@@ -98,26 +98,29 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     });
   }
 
-  render() {
-    let { className, optionComponent, dropDownItems, placeholder} = this.props;
-    let { isOpen } = this.state;
-    let filter = (this.state.filter || "").toUpperCase();
-    let data = (dropDownItems || []).filter((option: DropDownItem) => {
-      // TODO: Make props.filter a function instead of a string.
-      return (option.label.toUpperCase().indexOf(filter) > -1);
+  // returns dropDownItems that match the user's search term.
+  filterByInput = () => {
+    return this.props.dropDownItems.filter((option: DropDownItem) => {
+      let query = (this.state.currentText || "").toUpperCase();
+      return (option.label.toUpperCase().indexOf(query) > -1);
     });
-    let items: JSX.Element[];
+  }
 
-    items = (optionComponent ? this.custItemList : this.normlItemList)(data);
+  render() {
+    let { className, optionComponent, placeholder} = this.props;
+    let { isOpen } = this.state;
+    // Dynamically chose custom vs. standard list item JSX based on options:
+    let renderList = (optionComponent ? this.custItemList : this.normlItemList);
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
           onChange={this.updateInput.bind(this)}
           onClick={this.open.bind(this)}
+          onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        {items}
+        {renderList(this.filterByInput())}
       </div>
     </div>;
   }
