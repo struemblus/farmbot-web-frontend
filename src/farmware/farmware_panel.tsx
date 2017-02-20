@@ -56,7 +56,6 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
     let choices = farmwares.map((x, i) => ({ value: i, label: x.name }));
-    choices.push({ value: -9, label: "bar" });
     return choices;
   }
 
