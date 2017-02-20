@@ -73,24 +73,29 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     (this.props.onChange || (() => { }))(option);
   }
 
-  customizedItemList = () => {
-    let { dropDownItems } = this.state;
+  customizedItemList = (items: DropDownItem[]) => {
+    let { isOpen } = this.state;
     let { optionComponent, className } = this.props;
     let Custom = optionComponent as React.ReactType; // Trust me.
-    console.log(`THIS IS THE PROBLEM RIGHT HERE:
-    What?: The 'plant_inventory' page doesn't show the search bar.
-    why?:  You forgot to put it back whilst refactoring.
-    How?:  You see the search bar in #standardItemList()? Bring it over here, too!
-    `);
+    let eachItem = items
+      .map((p, i) => <Custom {...p} key={p.value || `@@KEY${i}`} />);
     return <div className={"select " + (className || "")}>
-      {(dropDownItems || []).map((p, i) => <Custom {...p} key={p.value || `@@KEY${i}`} />)}
+      <div className="select-search-container">
+        <input type="text"
+          onChange={this.updateInput.bind(this)}
+          onClick={this.open.bind(this)}
+          placeholder={"Change me..."} />
+      </div>
+      <div className={"select-results-container is-open-" + !!isOpen}>
+        {eachItem}
+      </div>
     </div>;
   }
 
-  standardItemList = () => {
-    let { isOpen, dropDownItems } = this.state;
+  standardItemList = (items: DropDownItem[]) => {
+    let { isOpen } = this.state;
     let {placeholder, onChange, className} = this.props;
-    let eachItem = (dropDownItems || []).map((option: DropDownItem) => {
+    let eachItem = items.map((option: DropDownItem) => {
       let { hidden, value, heading, label } = option;
       let classes = "select-result";
       if (hidden) { classes += " is-hidden"; }
@@ -119,14 +124,10 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     let filter = (this.state.filter || "").toUpperCase();
     let {dropDownItems } = this.state;
     let { optionComponent } = this.props;
-    (dropDownItems || []).map((option: DropDownItem) => {
-      if (option.label.toUpperCase().indexOf(filter) > -1) {
-        option.hidden = false;
-      } else {
-        option.hidden = true;
-      }
+    let items = (dropDownItems || []).filter((option: DropDownItem) => {
+      return (option.label.toUpperCase().indexOf(filter) > -1);
     });
     let fn = optionComponent ? this.customizedItemList : this.standardItemList;
-    return fn();
+    return fn(items);
   }
 }
