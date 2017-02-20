@@ -57,7 +57,7 @@ let StepList = ({sequence, sequences, dispatch, tools}:
     {(sequence.body || []).map((step: SequenceBodyItem, inx: number) => {
       let Step = stepTiles[step.kind] || Oops;
       /** HACK: If we wrote `key={inx}` for this iterator, React's diff
-       * algorithm would loose track of which step has changed (and
+       * algorithm would lose track of which step has changed (and
        * sometimes even mix up the state of completely different steps).
        * To get around this, we add a `uuid` property to Steps that
        * is guranteed to be unique and allows React to diff the list
@@ -171,7 +171,7 @@ export class SequenceEditorMiddle extends React.Component<Everything, {}> {
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <div className="widget-content">
+            <div className="widget-content no-bottom-padding">
               <div className="row">
                 <div className="col-sm-11 col-xs-11">
                   <BlurableInput value={sequence.name}

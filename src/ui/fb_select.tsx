@@ -1,5 +1,4 @@
 import * as React from "react";
-import { DropDownItem } from "../ui/fb_select";
 
 type OptionComponent = React.ComponentClass<DropDownItem>
   | React.StatelessComponent<DropDownItem>;

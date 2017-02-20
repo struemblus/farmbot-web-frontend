@@ -12,9 +12,7 @@ import {
   SelectSequenceOrRegimenProps,
   UpdateSequenceOrRegimenProps
 } from "../interfaces";
-import {
-  DropDownItem
-} from "../../ui/beta_select";
+import { DropDownItem } from "../../ui/fb_select";
 import {
   selectSequenceOrRegimen,
   updateFarmEvent,
