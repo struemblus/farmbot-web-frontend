@@ -1,5 +1,5 @@
 import * as React from "react";
-import { DropDownItem } from "../ui/beta_select";
+import { DropDownItem } from "../ui/fb_select";
 
 type OptionComponent = React.ComponentClass<DropDownItem>
   | React.StatelessComponent<DropDownItem>;
@@ -38,7 +38,7 @@ export interface SelectState {
   value: number | null;
 }
 
-export class BetaSelect extends React.Component<SelectProps, Partial<SelectState>> {
+export class FBSelect extends React.Component<SelectProps, Partial<SelectState>> {
   constructor() {
     super();
     this.state = {
@@ -64,14 +64,11 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
    * true, since that would indicate the developer wants it to always be open.
     */
   maybeClose = () => {
-    setTimeout(() => this.setState({ isOpen: (this.props.isOpen || false) }), 100);
+    this.setState({ isOpen: (this.props.isOpen || false) });
   }
 
   handleSelectOption = (option: DropDownItem) => {
     (this.props.onChange || (() => { }))(option);
-    let q = option;
-    debugger;
-    console.dir(option);
     this.setState(option);
   }
 
@@ -80,8 +77,8 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       let Comp = this.props.optionComponent;
       return items
         .map((p, i) => {
-          let key = _.isUndefined(p.value) ? `${p.label}:@KEY${i}` : `${p.value}`;
-          return <div onClick={() => { this.handleSelectOption(p); }}
+          let key = this.generateKey(p, i);
+          return <div onMouseDown={() => { this.handleSelectOption(p); }}
             key={key}>
             <Comp {...p}
             />
@@ -100,10 +97,10 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
       if (hidden) { classes += " is-hidden"; }
       if (heading) { classes += " is-header"; }
       // TODO: Put this in a shared function when we finish debugging callbacks.
-      let key = _.isUndefined(value) ? `${label}:@KEY${i}` : `${value}`;
+      let key = this.generateKey(option, i);
       return <div key={key}
         className={classes}
-        onClick={() => { this.handleSelectOption(option); }}>
+        onMouseDown={() => { this.handleSelectOption(option); }}>
         <label>{label}</label>
       </div>;
     });
@@ -117,6 +114,11 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     });
   }
 
+  generateKey(p: DropDownItem, i: number) {
+    let key = _.isUndefined(p.value) ? `${p.label}:@KEY${i}` : `${p.value}`;
+    return key;
+  }
+
   render() {
     let { className, optionComponent, placeholder} = this.props;
     let { isOpen } = this.state;
@@ -124,9 +126,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     let renderList = (optionComponent ? this.custItemList : this.normlItemList);
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
-        <p>
-          DEBUG: {this.state.label || "-"}/{this.state.value || "--"}
-        </p>
         <input type="text"
           onChange={this.updateInput.bind(this)}
           onFocus={this.open.bind(this)}

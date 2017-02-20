@@ -2,10 +2,9 @@ import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { Plant } from "../interfaces";
-import { BetaSelect, DropDownItem } from "../../ui";
+import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import { ReactSelectProps } from "react-select";
 import { t } from "i18next";
 
 function OptionComponent(plants: Plant[]) {
@@ -69,7 +68,7 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <BetaSelect dropDownItems={plantOptions}
+          <FBSelect dropDownItems={plantOptions}
             optionComponent={OptionComponent(this.props.sync.plants)}
             onChange={this.handleRedirect.bind(this)}
             isOpen={true}

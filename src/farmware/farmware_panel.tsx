@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { BetaSelect } from "../ui";
+import { FBSelect } from "../ui";
 
 interface FWState {
 }
@@ -29,7 +29,7 @@ export class Farmware extends React.Component<FWProps, FWState> {
             <div className="row">
               {/*<input type="url" value="-1" />*/}
               <button className="green button-like go">Install Package</button>
-              <BetaSelect dropDownItems={[
+              <FBSelect dropDownItems={[
                 { label: "Foo" },
                 { label: "Bar" },
                 { label: "Baz" },
