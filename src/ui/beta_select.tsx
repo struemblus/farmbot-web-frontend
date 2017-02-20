@@ -34,7 +34,7 @@ export interface SelectProps {
 
 export interface SelectState {
   filter: string;
-  dropDownItems: DropDownItem[];
+  // dropDownItems: DropDownItem[];
   isOpen: boolean;
   value: number | null;
 }
@@ -44,7 +44,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     super();
     this.state = {
       filter: "",
-      dropDownItems: [],
       isOpen: false,
       value: null
     };
@@ -52,7 +51,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
 
   componentWillMount() {
     this.setState({
-      dropDownItems: this.props.dropDownItems,
       isOpen: !!this.props.isOpen
     });
   }
@@ -73,29 +71,20 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     (this.props.onChange || (() => { }))(option);
   }
 
-  customizedItemList = (items: DropDownItem[]) => {
-    let { isOpen } = this.state;
-    let { optionComponent, className } = this.props;
-    let Custom = optionComponent as React.ReactType; // Trust me.
-    let eachItem = items
-      .map((p, i) => <Custom {...p} key={p.value || `@@KEY${i}`} />);
-    return <div className={"select " + (className || "")}>
-      <div className="select-search-container">
-        <input type="text"
-          onChange={this.updateInput.bind(this)}
-          onClick={this.open.bind(this)}
-          placeholder={"Change me..."} />
-      </div>
-      <div className={"select-results-container is-open-" + !!isOpen}>
-        {eachItem}
-      </div>
-    </div>;
+  custItemList = (items: DropDownItem[]) => {
+    if (this.props.optionComponent) {
+      let Comp = this.props.optionComponent;
+      return items
+        .map((p, i) => <Comp {...p} key={p.value || `@@KEY${i}`} />);
+    } else {
+      throw new Error(`You called custItemList() when props.optionComponent was
+      falsy. This should never happen.`);
+    }
   }
 
-  standardItemList = (items: DropDownItem[]) => {
-    let { isOpen } = this.state;
-    let {placeholder, onChange, className} = this.props;
-    let eachItem = items.map((option: DropDownItem) => {
+  normlItemList = (items: DropDownItem[]) => {
+    let { onChange } = this.props;
+    return items.map((option: DropDownItem) => {
       let { hidden, value, heading, label } = option;
       let classes = "select-result";
       if (hidden) { classes += " is-hidden"; }
@@ -107,6 +96,19 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
         <label>{label}</label>
       </div>;
     });
+  }
+
+  render() {
+    let { className, optionComponent, dropDownItems, placeholder} = this.props;
+    let { isOpen } = this.state;
+    let filter = (this.state.filter || "").toUpperCase();
+    let data = (dropDownItems || []).filter((option: DropDownItem) => {
+      // TODO: Make props.filter a function instead of a string.
+      return (option.label.toUpperCase().indexOf(filter) > -1);
+    });
+    let items: JSX.Element[];
+
+    items = (optionComponent ? this.custItemList : this.normlItemList)(data);
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
@@ -115,19 +117,8 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
           placeholder={placeholder || "Search..."} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        {eachItem}
+        {items}
       </div>
     </div>;
-  }
-
-  render() {
-    let filter = (this.state.filter || "").toUpperCase();
-    let {dropDownItems } = this.state;
-    let { optionComponent } = this.props;
-    let items = (dropDownItems || []).filter((option: DropDownItem) => {
-      return (option.label.toUpperCase().indexOf(filter) > -1);
-    });
-    let fn = optionComponent ? this.customizedItemList : this.standardItemList;
-    return fn(items);
   }
 }
