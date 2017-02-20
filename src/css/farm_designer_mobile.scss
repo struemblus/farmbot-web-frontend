@@ -42,9 +42,9 @@
     }
     .species-info-panel .panel-header,
     .dnd-species-mobile-panel .panel-header {
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: center center;
+        background-repeat: no-repeat !important;
+        background-size: 100% !important;
+        background-position: center center !important;
         height: 12rem;
         overflow-y: scroll;
         padding-bottom: 1rem;

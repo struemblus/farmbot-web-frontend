@@ -3,6 +3,16 @@
 }
 
 @media (max-width: 568px) {
+    .all-content-wrapper {
+        display: flex;
+        flex-direction: column-reverse;
+        .drag-drop-area {
+            display: none;
+        }
+        .widget-wrapper.sequences-widget {
+            display: none;
+        }
+    }
     .widget-wrapper.sequences-widget {
         box-shadow: none;
         .fa-plus {
