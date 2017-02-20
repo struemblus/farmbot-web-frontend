@@ -2,22 +2,27 @@ import * as React from "react";
 import { t } from "i18next";
 import { FBSelect } from "../ui";
 import { BotState } from "../devices/interfaces";
+import { devices } from "../device";
+
+
 interface FWState {
+  selectedFarmware: string | undefined;
 }
 
 interface FWProps {
   bot: BotState;
 }
 
-export class Farmware extends React.Component<FWProps, FWState> {
+export class Farmware extends React.Component<FWProps, Partial<FWState>> {
+  update = () => {
+    devices
+      .current;
+  }
   fwList = () => {
-    return this
-      .props
-      .bot
-      .hardware
-      .process_info
-      .farmwares
-      .map((x, i) => ({ value: i, label: x.name }));
+    let { farmwares } = this.props.bot.hardware.process_info;
+    let choices = farmwares.map((x, i) => ({ value: i, label: x.name }));
+    choices.push({ value: -9, label: "bar" });
+    return choices;
   }
 
   render() {
@@ -52,6 +57,7 @@ export class Farmware extends React.Component<FWProps, FWState> {
             <div className="row">
               <div className="col-sm-9">
                 <FBSelect dropDownItems={this.fwList()}
+                  onChange={(x) => this.setState({ selectedFarmware: x.label })}
                   placeholder="Installed Farmware Packages" />
               </div>
               <div className="col-sm-3">
