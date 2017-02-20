@@ -104,19 +104,19 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
               </div>
             </div>
             <div className="row">
-              <div className="col-sm-9">
+              <div className="col-sm-8">
                 <FBSelect dropDownItems={this.fwList()}
                   onChange={(x) => this.setState({ selectedFarmware: x.label })}
                   placeholder="Installed Farmware Packages" />
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-4">
                 <button className="button-like red" onClick={this.remove}>
                   Remove
                 </button>
                 <button className="button-like yellow" onClick={this.update}>
                   Update
                 </button>
-                <button className="button-like red" onClick={this.run}>
+                <button className="button-like green" onClick={this.run}>
                   Run
                 </button>
               </div>
