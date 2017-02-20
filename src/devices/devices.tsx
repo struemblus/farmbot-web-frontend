@@ -16,7 +16,7 @@ export class Devices extends React.Component<Everything, {}> {
           <div className="col-md-6 col-sm-6 col-xs-12 col-sm-12">
             <div className="widget-wrapper devices-widget">
               <div className="row">
-                <Farmware {...this.props} />
+                <Farmware bot={this.props.bot} />
                 <FarmbotOsSettings {...this.props} auth={auth} />
               </div>
             </div>
