@@ -92,7 +92,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
 
   normlItemList = (items: DropDownItem[]) => {
     return items.map((option: DropDownItem, i) => {
-      let { hidden, value, heading, label } = option;
+      let { hidden, heading, label } = option;
       let classes = "select-result";
       if (hidden) { classes += " is-hidden"; }
       if (heading) { classes += " is-header"; }

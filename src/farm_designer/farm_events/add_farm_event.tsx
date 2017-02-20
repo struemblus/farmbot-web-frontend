@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { FBSelect, DropDownItem, error, BlurableInput } from "../../ui";
+import { FBSelect, Select, DropDownItem, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import { Everything } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
