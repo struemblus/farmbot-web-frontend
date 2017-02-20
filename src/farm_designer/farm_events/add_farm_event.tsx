@@ -154,9 +154,6 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
           dropDownItems={regimenOptions.concat(sequencesOptions)}
           onChange={this.selectFromDropDown.bind(this)}
           value={(chosenNode || {}).id || null} />
-
-        {/*<label>{t("Parameters")}</label>*/}
-
         <label>{t("Starts")}</label>
         <div className="row">
           <div className="col-xs-6">

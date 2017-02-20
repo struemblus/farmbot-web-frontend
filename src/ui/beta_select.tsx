@@ -33,7 +33,7 @@ export interface SelectProps {
 }
 
 export interface SelectState {
-  currentText: string;
+  label: string;
   isOpen: boolean;
   value: number | null;
 }
@@ -42,7 +42,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   constructor() {
     super();
     this.state = {
-      currentText: "",
+      label: "",
       isOpen: false,
       value: null
     };
@@ -55,7 +55,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
-    this.setState({ currentText: e.currentTarget.value });
+    this.setState({ label: e.currentTarget.value });
   }
 
   open() { this.setState({ isOpen: true }); }
@@ -64,18 +64,29 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
    * true, since that would indicate the developer wants it to always be open.
     */
   maybeClose = () => {
-    this.setState({ isOpen: (this.props.isOpen || false) });
+    setTimeout(() => this.setState({ isOpen: (this.props.isOpen || false) }), 100);
   }
 
-  handleSelectOption(option: DropDownItem) {
+  handleSelectOption = (option: DropDownItem) => {
     (this.props.onChange || (() => { }))(option);
+    let q = option;
+    debugger;
+    console.dir(option);
+    this.setState(option);
   }
 
   custItemList = (items: DropDownItem[]) => {
     if (this.props.optionComponent) {
       let Comp = this.props.optionComponent;
       return items
-        .map((p, i) => <Comp {...p} key={p.value || `@@KEY${i}`} />);
+        .map((p, i) => {
+          let key = _.isUndefined(p.value) ? `${p.label}:@KEY${i}` : `${p.value}`;
+          return <div onClick={() => { this.handleSelectOption(p); }}
+            key={key}>
+            <Comp {...p}
+            />
+          </div>;
+        });
     } else {
       throw new Error(`You called custItemList() when props.optionComponent was
       falsy. This should never happen.`);
@@ -83,16 +94,16 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   }
 
   normlItemList = (items: DropDownItem[]) => {
-    let { onChange } = this.props;
-    return items.map((option: DropDownItem) => {
+    return items.map((option: DropDownItem, i) => {
       let { hidden, value, heading, label } = option;
       let classes = "select-result";
       if (hidden) { classes += " is-hidden"; }
       if (heading) { classes += " is-header"; }
-
-      return <div key={value || label}
+      // TODO: Put this in a shared function when we finish debugging callbacks.
+      let key = _.isUndefined(value) ? `${label}:@KEY${i}` : `${value}`;
+      return <div key={key}
         className={classes}
-        onClick={() => { (onChange || function () { })(option); }}>
+        onClick={() => { this.handleSelectOption(option); }}>
         <label>{label}</label>
       </div>;
     });
@@ -101,7 +112,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
   // returns dropDownItems that match the user's search term.
   filterByInput = () => {
     return this.props.dropDownItems.filter((option: DropDownItem) => {
-      let query = (this.state.currentText || "").toUpperCase();
+      let query = (this.state.label || "").toUpperCase();
       return (option.label.toUpperCase().indexOf(query) > -1);
     });
   }
@@ -113,11 +124,15 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     let renderList = (optionComponent ? this.custItemList : this.normlItemList);
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
+        <p>
+          DEBUG: {this.state.label || "-"}/{this.state.value || "--"}
+        </p>
         <input type="text"
           onChange={this.updateInput.bind(this)}
-          onClick={this.open.bind(this)}
+          onFocus={this.open.bind(this)}
           onBlur={this.maybeClose}
-          placeholder={placeholder || "Search..."} />
+          placeholder={placeholder || "Search..."}
+          value={this.state.label} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
         {renderList(this.filterByInput())}

@@ -27,7 +27,7 @@ export class Farmware extends React.Component<FWProps, FWState> {
         <div className="col-sm-12">
           <div className="widget-content">
             <div className="row">
-              <input type="url" value="-1" />
+              {/*<input type="url" value="-1" />*/}
               <button className="green button-like go">Install Package</button>
               <BetaSelect dropDownItems={[
                 { label: "Foo" },
