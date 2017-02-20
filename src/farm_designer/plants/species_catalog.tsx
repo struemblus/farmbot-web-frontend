@@ -40,12 +40,12 @@ export class SpeciesCatalog extends React.Component<Everything, {}> {
         to={`/app/designer/plants/crop_search/` + crop.slug.toString()}>
         <div className="plant-catalog-tile col-xs-6">
           <label>{crop.name}</label>
-          <img className="crop-drag-info-image" src={image} />
+          <img className="plant-catalog-image" src={image} />
         </div>
       </Link>;
     });
 
-    return <div className="panel-container green-panel">
+    return <div className="panel-container green-panel species-catalog-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
           <BackArrow /> {t("Choose a species")}
