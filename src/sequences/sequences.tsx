@@ -5,6 +5,7 @@ import { SequenceEditorMiddle } from "./sequence_editor_middle";
 import { MobileSequencesNav } from "./mobile_nav";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
+import { isMobile } from "../util";
 
 @connect((state: Everything) => state)
 export class Sequences extends React.Component<any, Everything> {
@@ -17,7 +18,9 @@ export class Sequences extends React.Component<any, Everything> {
         <div className="col-md-6 col-sm-8">
           <SequenceEditorMiddle { ...this.props } />
         </div>
-        <MobileSequencesNav { ...this.props} />
+        {isMobile() && (
+          <MobileSequencesNav { ...this.props} />
+        )}
         <div className="col-md-3 col-sm-12">
           <SequencesList { ...this.props } />
         </div>

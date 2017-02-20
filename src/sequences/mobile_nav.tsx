@@ -1,5 +1,4 @@
 import * as React from "react";
-import { t } from "i18next";
 import { Everything } from "../interfaces";
 import * as _ from "lodash";
 
@@ -15,7 +14,7 @@ export function MobileSequencesNav(props: MobileSequencesNavProps) {
       <div className="widget-header">
         <a href="javascript:history.back()" className="back-arrow">
           <i className="fa fa-arrow-left"></i>&nbsp;&nbsp;
-          {_.capitalize(props.params.sequence) || "Name not found"}
+          {_.capitalize(props.params.sequence.toString()) || "Name not found"}
         </a>
       </div>
     </div>
