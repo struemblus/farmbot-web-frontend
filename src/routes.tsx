@@ -202,16 +202,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             ).catch(errorLoading);
           }
         },
-        childRoutes: [
-          {
-            path: ":sequence",
-            getComponent(location: any, cb: any) {
-              System.import("./sequences/sequence_editor_middle.tsx").then(
-                (module: any) => cb(null, module.SequenceEditorMiddle)
-              ).catch(errorLoading);
-            }
-          }
-        ]
+      },
+      {
+        path: "app/sequences/:sequence",
+        getComponent(location: any, cb: any) {
+          System.import("./sequences/sequences.tsx").then(
+            (module: any) => cb(null, module.Sequences)
+          ).catch(errorLoading);
+        },
       },
       {
         path: "app/tools",
