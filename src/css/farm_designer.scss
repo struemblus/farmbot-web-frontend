@@ -32,6 +32,12 @@
     height: 12rem;
 }
 
+.plant-catalog-image {
+    width: 100%;
+    background-color: $translucent;
+    height: 12rem;
+}
+
 .crop-search-result-wrapper {
     .plant-catalog-tile {
         position: relative;
@@ -224,6 +230,7 @@
     }
     .select-results-container {
         top: 4rem;
+        margin-bottom: 12rem;
     }
     .select-result {
         padding: 0;
@@ -241,6 +248,7 @@
     }
     .plant-search-item {
         height: 4rem;
+        margin-bottom: 1rem;
         img {
             height: 4rem;
             width: 4rem;

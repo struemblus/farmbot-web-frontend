@@ -18,14 +18,30 @@ interface DraggableEvent {
   };
 }
 
+interface DNDSpeciesMobileState {
+  isDragging: boolean;
+}
+
 @connect((state: Everything) => state)
-export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
+/** DND => "drag and drop" */
+export class DNDSpeciesMobile extends React.Component<SpeciesInfoProps,
+DNDSpeciesMobileState> {
+  constructor() {
+    super();
+    this.state = { isDragging: false };
+  }
+
   handleDragStart(e: DraggableEvent) {
+    console.log(e.currentTarget);
     let img = document.createElement("img");
     // Stub until we figure out dynamic drag images
     img.src = "/app-resources/img/icons/Sprout-96.png";
     // TS doesn't know setDragImage
     e.dataTransfer.setDragImage(img, 50, 50);
+  }
+
+  toggleDesignerView() {
+    this.setState({ isDragging: !this.state.isDragging });
   }
 
   findCrop(slug?: string) {
@@ -51,36 +67,35 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   render() {
     let species = this.props.params.species.toString();
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
-    let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
     /** rgba arguments are a more mobile-friendly way apply filters */
     let backgroundURL = isMobile() ? `linear-gradient(
       rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${result.image})` : "";
 
-    return <div className="panel-container green-panel species-info-panel">
+    return <div className={`panel-container green-panel 
+    dnd-species-mobile-panel is-dragging-${this.state.isDragging}`}>
       <div className="panel-header green-panel"
         style={{ background: backgroundURL }}>
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
-          <a className="right-button mobile-only"
-            onClick={() => this.props.router.push(addSpeciesPath)}>
-            {t("Add to map")}
+          <a className="right-button"
+            onClick={() => { }}>
+            {t("Save and finish")}
           </a>
         </p>
         <div className="panel-header-description">
-          {result.crop.description}
+          <img alt={t("plant icon")}
+            draggable={true}
+            src="/app-resources/img/icons/Sprout-96.png"
+            onTouchStart={this.toggleDesignerView.bind(this)}
+            onTouchEnd={this.toggleDesignerView.bind(this)}
+            onTouchMove={this.handleDragStart.bind(this)} />
+          <b>{t("Drag and drop")}</b> {t(`the icon onto the map. You can add 
+          multiple plants and make adjustments as many times as you need to
+          before you save and finish.`)}
         </div>
       </div>
       <div className="panel-content">
-        <div className="crop-drag-info-tile">
-          <img className="crop-drag-info-image"
-            onDragStart={this.handleDragStart.bind(this)}
-            draggable={true}
-            src={result.image} />
-          <div className="crop-info-overlay">
-            {t("Drag and drop into map")}
-          </div>
-        </div>
         <div className="object-list">
           <label>
             {t("Crop Info")}
