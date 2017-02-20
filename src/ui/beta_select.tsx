@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Link } from "react-router";
+import { DropDownItem } from "../ui/beta_select";
 
-type OptionComponent = React.ComponentClass<Option> | React.StatelessComponent<Option>;
+type OptionComponent = React.ComponentClass<DropDownItem>
+  | React.StatelessComponent<DropDownItem>;
 
-export interface Option {
+export interface DropDownItem {
   /** Value passed to the onClick cb and also determines the "chosen" option. */
   value?: number;
   /** Name of the item shown in the list. */
@@ -12,10 +13,6 @@ export interface Option {
   hidden?: boolean;
   /** To determine group-by styling on rendered lists. */
   heading?: boolean;
-}
-
-interface DropDownItem {
-  /** TODO */
 }
 
 export interface SelectProps {
@@ -28,7 +25,7 @@ export interface SelectProps {
   /** Optional className for `select`. */
   className?: string;
   /** Fires when option is selected. */
-  onChange?: (newValue: Option) => void;
+  onChange?: (newValue: DropDownItem) => void;
   /** Placeholder for the input. */
   placeholder?: string;
   /** Determines what label to show in the select box. */
@@ -37,8 +34,7 @@ export interface SelectProps {
 
 export interface SelectState {
   filter: string;
-  // TODO: Figure out option interface layout
-  dropDownItems: DropDownItem[];
+  // dropDownItems: DropDownItem[];
   isOpen: boolean;
   value: number | null;
 }
@@ -48,7 +44,6 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     super();
     this.state = {
       filter: "",
-      dropDownItems: [],
       isOpen: false,
       value: null
     };
@@ -56,8 +51,7 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
 
   componentWillMount() {
     this.setState({
-      dropDownItems: this.props.dropDownItems,
-      isOpen: this.props.isOpen || false
+      isOpen: !!this.props.isOpen
     });
   }
 
@@ -73,82 +67,58 @@ export class BetaSelect extends React.Component<SelectProps, Partial<SelectState
     this.setState({ isOpen: false });
   }
 
-  handleSelectOption(option: Option) {
-    if (this.props.onChange) {
-      this.props.onChange(option);
+  handleSelectOption(option: DropDownItem) {
+    (this.props.onChange || (() => { }))(option);
+  }
+
+  custItemList = (items: DropDownItem[]) => {
+    if (this.props.optionComponent) {
+      let Comp = this.props.optionComponent;
+      return items
+        .map((p, i) => <Comp {...p} key={p.value || `@@KEY${i}`} />);
+    } else {
+      throw new Error(`You called custItemList() when props.optionComponent was
+      falsy. This should never happen.`);
     }
   }
 
-  renderCustomComponent() {
-    return (this.state.dropDownItems || []).map((option: Option) => {
-      let { optionComponent } = this.props;
-      if (optionComponent) {
-        let CustomComponent = optionComponent;
-        let isHidden = option.hidden ? " is-hidden" : "";
-        return <div className={"select-result" + isHidden} key={option.value}
-          onClick={() => {
-            this.handleSelectOption(option);
-            this.close();
-          }}>
-          <CustomComponent {...option} />
-        </div>;
-      } else {
-        return <div key={option.value}> No optionComponent or props.value </div>;
-      }
-    }
-    );
-  }
+  normlItemList = (items: DropDownItem[]) => {
+    let { onChange } = this.props;
+    return items.map((option: DropDownItem) => {
+      let { hidden, value, heading, label } = option;
+      let classes = "select-result";
+      if (hidden) { classes += " is-hidden"; }
+      if (heading) { classes += " is-header"; }
 
-  renderStandardComponent() {
-    return (this.state.dropDownItems || []).map((option: Option) => {
-      let isHidden = option.hidden ? " is-hidden" : "";
-      let key = option.value ? option.value : option.label;
-      let isAGroupByHeader = option.heading ? " is-header" : "";
-      return <div key={key}
-        className={"select-result" + isHidden + isAGroupByHeader}
-        onClick={() => {
-          this.handleSelectOption(option);
-          this.close();
-        }}>
-        <label>{option.label}</label>
+      return <div key={value || label}
+        className={classes}
+        onClick={() => { (onChange || function () { })(option); }}>
+        <label>{label}</label>
       </div>;
     });
   }
 
   render() {
+    let { className, optionComponent, dropDownItems, placeholder} = this.props;
+    let { isOpen } = this.state;
     let filter = (this.state.filter || "").toUpperCase();
+    let data = (dropDownItems || []).filter((option: DropDownItem) => {
+      // TODO: Make props.filter a function instead of a string.
+      return (option.label.toUpperCase().indexOf(filter) > -1);
+    });
+    let items: JSX.Element[];
 
-    if (this.state.dropDownItems) {
-      this.state.dropDownItems.map((option: Option) => {
-        if (option.label.toUpperCase().indexOf(filter) > -1) {
-          option.hidden = false;
-        } else {
-          option.hidden = true;
-        }
-      });
-    }
-
-    let isOpen = !!this.state.isOpen;
-    let className = this.props.className || "";
-    /** TODO: selected needs to be a `value` property in the input below */
-    let selected = this.props.value && this.state.dropDownItems ? _.findWhere(
-      this.state.dropDownItems, { value: this.props.value }) : 0;
-
-    return <div className={"select " + className}>
-
+    items = (optionComponent ? this.custItemList : this.normlItemList)(data);
+    return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
           onChange={this.updateInput.bind(this)}
           onClick={this.open.bind(this)}
-          placeholder={this.props.placeholder || "Search..."} />
+          placeholder={placeholder || "Search..."} />
       </div>
-
-      <div className={"select-results-container is-open-" + isOpen}>
-        {this.props.optionComponent ? this.renderCustomComponent() : this.renderStandardComponent()}
+      <div className={"select-results-container is-open-" + !!isOpen}>
+        {items}
       </div>
-
     </div>;
   }
 }
-
-

@@ -3,12 +3,12 @@ import { FarmEvent } from "../../interfaces";
 
 describe("generateCalendar()", function () {
   it("orders everything in the correct time slots", function () {
-    generateCalendar(fakeEvents());
+    // generateCalendar(fakeEvents());
     pending("BRB");
   });
 });
 
-function fakeEvents(): FarmEvent[] {
+export function fakeEvents(): FarmEvent[] {
   return [
     {
       "id": 1,

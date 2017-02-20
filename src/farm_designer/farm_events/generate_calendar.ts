@@ -1,7 +1,4 @@
 import { FarmEvent } from "../interfaces";
-import {
-  parse
-} from "later";
 
 /** A dictionary that holds an ISO date as a key and a list of FarmEvent IDs
  * that are scheduled at that point in time.
@@ -17,27 +14,25 @@ interface DateLookup {
   [date: string]: number[] | undefined;
 }
 
-export function generateCalendar(input: FarmEvent[]) {
-  let eventIdByDate: DateLookup = {};
+function putEventIntoCalendarMap(target: DateLookup,
+  date: string,
+  item: FarmEvent): void {
+  let dateList = target[date] || (target[date] = []);
+  if (item.id) {
+    dateList.push(item.id);
+  } else {
+    throw new Error("Refusing to process unsaved Event putEventIntoCalendarMap");
+  }
+  target[date] = _.uniq(dateList, "id");
+}
 
-  let rules = input.map(function (fe) {
-    if (fe.time_unit === "never") {
-      return fe.start_time;
+export function generateCalendar(input: FarmEvent[]) {
+  let calendar: DateLookup = {};
+  input.map(function (fe) {
+    if (fe.calendar) {
+      fe.calendar.forEach(d => putEventIntoCalendarMap(calendar, d, fe));
     } else {
-      let { start_time, end_time, repeat, time_unit } = fe;
-      let r = parse.recur();
-      r = end_time ? r.between(start_time, end_time) : r.startingOn(start_time);
-      r = r.every(repeat);
-      switch (time_unit) {
-        case "minutely": return r.minute();
-        case "hourly": return r.hour();
-        case "daily": return r.dayOfYear();
-        case "weekly": return r.weekOfYear();
-        case "monthly": return r.month();
-        case "yearly": return r.year();
-        default: throw new Error(`${time_unit} is not an expected time_unit`);
-      }
+      throw new Error("Refusing to put unsaved event on calendar.");
     }
   });
-  return rules;
 }

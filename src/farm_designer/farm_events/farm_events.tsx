@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { BetaSelect, Option } from "../../ui";
+import { BetaSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
@@ -11,7 +11,7 @@ import {
   FinalEventData
 } from "../interfaces";
 
-interface FarmEventSelectOption extends Option {
+interface FarmEventSelectOption extends DropDownItem {
   iso_string: string;
   id: number | undefined;
 }

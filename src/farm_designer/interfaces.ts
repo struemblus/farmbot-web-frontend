@@ -38,7 +38,7 @@ export interface FarmEvent {
   next_time: string;
   executable_id: number;
   executable_type: string;
-  // calendar: string[];
+  calendar?: string[] | undefined;
 };
 
 export interface FarmEventExecutableData {
