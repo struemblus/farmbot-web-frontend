@@ -2,22 +2,10 @@ import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { Plant } from "../interfaces";
-import { BetaSelect, DropDownItem } from "../../ui";
+import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import { ReactSelectProps } from "react-select";
 import { t } from "i18next";
-
-// interface DropDownItem extends DropDownItem {
-//   // openfarm_slug: string;
-//   plant_id: number;
-//   img_url: string;
-//   planted_at: string;
-// }
-
-interface HandleRedirectEvent extends ReactSelectProps {
-  plant_id: string;
-}
 
 function OptionComponent(plants: Plant[]) {
   let indexedById = _.indexBy(plants, "id");
@@ -43,8 +31,8 @@ function OptionComponent(plants: Plant[]) {
 @connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
 
-  handleRedirect(e: HandleRedirectEvent) {
-    this.props.router.push(`/app/designer/plants/` + e.plant_id.toString());
+  handleRedirect(e: DropDownItem) {
+    this.props.router.push(`/app/designer/plants/` + e.value);
   }
 
   render() {
@@ -80,7 +68,7 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <BetaSelect dropDownItems={plantOptions}
+          <FBSelect dropDownItems={plantOptions}
             optionComponent={OptionComponent(this.props.sync.plants)}
             onChange={this.handleRedirect.bind(this)}
             isOpen={true}

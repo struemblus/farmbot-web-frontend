@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { BetaSelect, DropDownItem } from "../../ui";
+import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
@@ -149,7 +149,7 @@ export class FarmEvents extends React.Component<Everything, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <BetaSelect dropDownItems={selectItems}
+            <FBSelect dropDownItems={selectItems}
               onChange={(selectedOption) => {
                 push("/app/designer/farm_events/" + selectedOption.value);
               }}

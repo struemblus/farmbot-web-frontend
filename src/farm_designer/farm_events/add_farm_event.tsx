@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
-import { Select, BetaSelect, DropDownItem, error, BlurableInput } from "../../ui";
+import { FBSelect, Select, DropDownItem, error, BlurableInput } from "../../ui";
 import { connect } from "react-redux";
 import { Everything } from "../../interfaces";
 import { SelectSequenceOrRegimenProps } from "../interfaces";
@@ -150,13 +150,10 @@ export class AddFarmEvent extends React.Component<Everything, {}> {
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
-        <BetaSelect
+        <FBSelect
           dropDownItems={regimenOptions.concat(sequencesOptions)}
           onChange={this.selectFromDropDown.bind(this)}
           value={(chosenNode || {}).id || null} />
-
-        {/*<label>{t("Parameters")}</label>*/}
-
         <label>{t("Starts")}</label>
         <div className="row">
           <div className="col-xs-6">
