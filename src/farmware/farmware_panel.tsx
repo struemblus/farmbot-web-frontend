@@ -42,6 +42,14 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
         .then(() => this.setState({ selectedFarmware: undefined })));
   }
 
+  run = () => {
+    this
+      .ifFarmwareSelected(label => devices
+        .current
+        .execScript(label)
+        .then(() => this.setState({ selectedFarmware: undefined })));
+  }
+
   install = () => {
     if (this.state.packageUrl) {
       devices
@@ -102,11 +110,14 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
                   placeholder="Installed Farmware Packages" />
               </div>
               <div className="col-sm-3">
-                <button className="button-like green">
+                <button className="button-like red" onClick={this.remove}>
+                  Remove
+                </button>
+                <button className="button-like yellow" onClick={this.update}>
                   Update
                 </button>
-                <button className="button-like red">
-                  Remove
+                <button className="button-like red" onClick={this.run}>
+                  Run
                 </button>
               </div>
             </div>
