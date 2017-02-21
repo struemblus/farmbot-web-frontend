@@ -12,6 +12,7 @@ import { Pair } from "farmbot";
 import { success, error } from "../ui";
 import { resetWeedDetection } from "./actions";
 import { weedDetectorENV } from "./weed_detector_env";
+import { Progress } from "../util";
 
 const DETECTOR_ENV = "PLANT_DETECTION_options";
 
@@ -27,7 +28,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       isEditing: true,
       blur: 15,
       morph: 6,
-      iterations: 4
+      iterations: 4,
+      deletionProgress: ""
     };
   }
 
@@ -40,7 +42,13 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
   }
 
   resetWeedDetection() {
-    this.props.dispatch(resetWeedDetection());
+    this.props.dispatch(resetWeedDetection(this.progress));
+    this.setState({ deletionProgress: "Deleting..." });
+  }
+
+  progress = (p: Readonly<Progress>) => {
+    let prg = p.isDone ? "" : `${Math.round((p.completed / p.total) * 100)} %`;
+    this.setState({ deletionProgress: prg });
   }
 
   sendOffConfig() {
@@ -121,7 +129,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
               </button>
               <button onClick={this.resetWeedDetection}
                 className="red button-like">
-                {t("CLEAR WEEDS")}
+                {this.state.deletionProgress || t("CLEAR WEEDS")}
               </button>
               <h5>{t("Weed Detector")}</h5>
               <i className={`fa fa-question-circle
