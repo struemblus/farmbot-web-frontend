@@ -42,6 +42,14 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
         .then(() => this.setState({ selectedFarmware: undefined })));
   }
 
+  run = () => {
+    this
+      .ifFarmwareSelected(label => devices
+        .current
+        .execScript(label)
+        .then(() => this.setState({ selectedFarmware: undefined })));
+  }
+
   install = () => {
     if (this.state.packageUrl) {
       devices
@@ -56,7 +64,6 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
     let choices = farmwares.map((x, i) => ({ value: i, label: x.name }));
-    choices.push({ value: -9, label: "bar" });
     return choices;
   }
 
@@ -97,17 +104,20 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
               </div>
             </div>
             <div className="row">
-              <div className="col-sm-9">
+              <div className="col-sm-8">
                 <FBSelect dropDownItems={this.fwList()}
                   onChange={(x) => this.setState({ selectedFarmware: x.label })}
                   placeholder="Installed Farmware Packages" />
               </div>
-              <div className="col-sm-3">
-                <button className="button-like green">
+              <div className="col-sm-4">
+                <button className="button-like red" onClick={this.remove}>
+                  Remove
+                </button>
+                <button className="button-like yellow" onClick={this.update}>
                   Update
                 </button>
-                <button className="button-like red">
-                  Remove
+                <button className="button-like green" onClick={this.run}>
+                  Run
                 </button>
               </div>
             </div>
