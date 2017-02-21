@@ -15,8 +15,8 @@ export function resetWeedDetection(): Thunk {
       let ids = data.map(x => x.id);
       // If you delete too many points, you will violate the URL length
       // limitation of 2,083. Chunking helps fix that.
-      let chunks = _.chunk(ids, 100).map(function (chunk) {
-        return Axios.delete(API.current.pointsPath + ids.join(","));
+      let chunks = _.chunk(ids, 200).map(function (chunk) {
+        return Axios.delete(API.current.pointsPath + chunk.join(","));
       });
       Promise.all(chunks)
         .then(function () {
