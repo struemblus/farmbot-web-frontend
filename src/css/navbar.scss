@@ -1,18 +1,26 @@
 /* Desktop */
 
+.nav-wrapper {
+    box-shadow: 0 4px 10px $translucent;
+    background: $dark_gray;
+}
+
 nav {
     background-color: $dark_gray;
     color: $light_gray;
     font-size: 1.2rem;
     letter-spacing: .15rem;
     text-transform: uppercase;
-    box-shadow: 0 4px 10px $translucent;
     display: flex;
     height: 100%;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 2rem 0.6rem;
-    margin: 3rem 0 0 0;
+    max-width: 98rem;
+    margin: 3rem auto 0;
+    .nav-sync {
+        margin-right: 2rem !important;
+    }
     .mobile-menu-extras {
         display: none;
     }
@@ -22,8 +30,11 @@ nav {
     .page-name {
         display: none;
     }
-    button:first-of-type {
-        display: none;
+    .right-nav-content {
+        align-items: center;
+        display: flex;
+        flex: 1;
+        justify-content: flex-end;
     }
     .links {
         .fa {
