@@ -1,6 +1,7 @@
 import * as _ from "lodash";
 import { Color } from "./interfaces";
 import { box } from "boxed_value";
+import { t } from "i18next";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -130,5 +131,21 @@ export function safeStringFetch(obj: any, key: string): string {
     default:
       let msg = `Numbers strings and null only (got ${boxed.kind}).`;
       throw new Error(msg);
+  }
+}
+
+/** We don't support IE. This method stops users from trying to use the site.
+ * It's unfortunate that we need to do this, but the site simply won't work on
+ * old browsers and our error logs were getting full of IE related bugs. */
+export function stopIE() {
+  let REQUIRED_GLOBALS = ["Promise", "console"];
+  let notCompatible = !REQUIRED_GLOBALS
+    .map(name => window.hasOwnProperty(name))
+    .filter(x => !x)
+    .length;
+
+  if (notCompatible) {
+    alert(t("This app only works with modern browsers."));
+    window.location.href = "https://www.google.com/chrome/";
   }
 }
