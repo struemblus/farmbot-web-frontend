@@ -138,14 +138,25 @@ export function safeStringFetch(obj: any, key: string): string {
  * It's unfortunate that we need to do this, but the site simply won't work on
  * old browsers and our error logs were getting full of IE related bugs. */
 export function stopIE() {
-  let REQUIRED_GLOBALS = ["Promise", "console"];
-  let notCompatible = !REQUIRED_GLOBALS
-    .map(name => window.hasOwnProperty(name))
-    .filter(x => !x)
-    .length;
-
-  if (notCompatible) {
-    alert(t("This app only works with modern browsers."));
+  function flunk() {
+    // Can't use i18next here, because old IE versions don't have promises,
+    // so English only here, unfortunatly.
+    alert("This app only works with modern browsers.");
     window.location.href = "https://www.google.com/chrome/";
+  }
+
+  let REQUIRED_GLOBALS = ["Promise", "console", "WebSocket"];
+  // Can't use Array.proto.map because IE.
+  // Can't translate the text because IE (no promises)
+  for (var i = 0; i < REQUIRED_GLOBALS.length; i++) {
+    if (!window.hasOwnProperty(REQUIRED_GLOBALS[i])) {
+      flunk();
+    }
+  }
+  let REQUIRED_ARRAY_METHODS = ["includes", "map", "filter"];
+  for (i = 0; i < REQUIRED_ARRAY_METHODS.length; i++) {
+    if (!Array.prototype.hasOwnProperty(REQUIRED_ARRAY_METHODS[i])) {
+      flunk();
+    }
   }
 }
