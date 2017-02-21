@@ -9,7 +9,6 @@ import {
 } from "../actions";
 import { t } from "i18next";
 import {
-  Col,
   Widget,
   WidgetBody,
   WidgetHeader,
