@@ -171,7 +171,7 @@ export class SequenceEditorMiddle extends React.Component<Everything, {}> {
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <div className="widget-content no-bottom-padding">
+            <div className="widget-content">
               <div className="row">
                 <div className="col-sm-11 col-xs-11">
                   <BlurableInput value={sequence.name}
