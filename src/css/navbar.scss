@@ -5,6 +5,10 @@
     background: $dark_gray;
 }
 
+.mobile-and-tablet-only {
+    display: none;
+}
+
 nav {
     background-color: $dark_gray;
     color: $light_gray;
@@ -134,6 +138,9 @@ nav {
 /* Mobile and Tablet */
 
 @media (max-width: 830px) {
+    .mobile-and-tablet-only {
+        display: block !important;
+    }
     nav {
         button:first-of-type {
             display: block;

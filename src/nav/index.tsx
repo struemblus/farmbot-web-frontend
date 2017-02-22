@@ -102,7 +102,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
     return <div className="nav-wrapper">
       <nav role="navigation">
         <button
-          className="mobile-only"
+          className="mobile-and-tablet-only"
           onClick={() => { toggleNav(); }}>
           <i className="fa fa-bars"></i>
         </button>
