@@ -23,21 +23,29 @@ export class FarmEvents extends React.Component<Everything, {}> {
     return start_time < new Date().toISOString();
   }
 
+  /** Attempts to use passed string, if string is undefined defaults to UTC */
+  timeOrFallback(start_time: string | undefined) {
+    return start_time || moment().utc().toISOString();
+  }
+
   renderEvents(finalEvents: FarmEventExecutableData[]) {
     { /** FarmEventExecutableData includes FarmEvent with exec `type` */ }
     finalEvents.sort(
       (a: FarmEventExecutableData, b: FarmEventExecutableData) => {
-        return (
-          a.farm_event_data.start_time > b.farm_event_data.start_time
-        ) ? 1 : 0;
+        let left = this.timeOrFallback(a.farm_event_data.start_time);
+        let right = this.timeOrFallback(b.farm_event_data.start_time);
+        return (left > right) ? 1 : 0;
       });
-    return finalEvents.map((fe: FarmEventExecutableData) => {
+
+    return finalEvents.map((fe_: FarmEventExecutableData) => {
       let { id, start_time } = fe.farm_event_data;
-      let hasPassed = this.hasPassed(start_time) ? " has-passed" : "";
+      let verifiedStartTime = this.timeOrFallback(start_time);
+
+      let hasPassed = this.hasPassed(verifiedStartTime) ? " has-passed" : "";
       return <div className={`farm-event col-xs-12` + hasPassed.toString()}
         key={id}>
         <div className="event-time col-xs-3">
-          {moment(start_time).format("hh:mma")}
+          {moment(verifiedStartTime).format("hh:mma")}
         </div>
         <div className="event-title col-xs-9">
           {fe.executable_data.name || "No name?"}
