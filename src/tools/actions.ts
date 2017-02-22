@@ -1,4 +1,4 @@
-import * as axios from "axios";
+import * as Axios from "axios";
 import { t } from "i18next";
 import { Thunk, ReduxAction } from "../redux/interfaces";
 import { API } from "../api";
@@ -45,7 +45,7 @@ export function updateToolBay(id: number, value: string): ReduxAction<{}> {
 export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
   let bay = _.findWhere(toolBays, { id });
   return (dispatch, getState) => {
-    axios
+    Axios
       .patch<ToolBay>(API.current.toolBaysPath + id, bay)
       .then(resp => {
         dispatch(saveToolBayOk(resp.data));
@@ -94,7 +94,7 @@ export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
   let { x, y, z, tool_id } = slot;
   let data = { x, y, z, tool_id, tool_bay_id };
   return (dispatch, getState) => {
-    axios
+    Axios
       .post<ToolSlot>(API.current.toolSlotsPath, data)
       .then(resp => {
         dispatch(addToolSlotOk(resp.data));
@@ -111,7 +111,7 @@ export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
       tool_slots: toolSlots.filter(allSlots => !!allSlots.dirty)
     };
     let url = API.current.toolSlotsPath;
-    axios.post<ToolSlot[]>(url, dirtSlots)
+    Axios.post<ToolSlot[]>(url, dirtSlots)
       .then(resp => {
         success(t("ToolBay saved."));
         dispatch(saveToolSlotOk(resp.data));
@@ -123,7 +123,7 @@ export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
 
 export function destroySlot(id: number): Thunk {
   return (dispatch, getState) => {
-    axios
+    Axios
       .delete<ToolSlot>(API.current.toolSlotsPath + id)
       .then(resp => {
         dispatch(destroyToolSlotOk(id));
@@ -173,7 +173,7 @@ export function saveTools(tools: Tool[]): Thunk {
     let dirtyTools = tools.filter(allTools => !!allTools.dirty);
     // Return early if API call not required.
     if (!dirtyTools.length) { return finish(); }
-    axios.post<Tool[]>(API.current.toolsPath, { tools: dirtyTools })
+    Axios.post<Tool[]>(API.current.toolsPath, { tools: dirtyTools })
       .then(resp => {
         finish();
         dispatch(saveToolsOk(resp.data));
@@ -186,7 +186,7 @@ export function saveTools(tools: Tool[]): Thunk {
 
 export function destroyTool(id: number): Thunk {
   return (dispatch, getState) => {
-    axios
+    Axios
       .delete<Tool>(API.current.toolsPath + id)
       .then(resp => {
         error("Tool has been deleted.", "Deleted");
@@ -200,15 +200,14 @@ export function destroyTool(id: number): Thunk {
 
 export function addTool(name: string): Thunk {
   return (dispatch, getState) => {
-    axios
+    Axios
       .post<Tool>(API.current.toolsPath, { name })
       .then(resp => {
-        console.log(resp);
+        if (resp instanceof Error) { throw resp; }
         success("Tool has been saved.", "Success");
         dispatch(addToolOk(resp.data));
       })
       .catch((e: Error) => {
-        console.log(e);
         dispatch(addToolNo(e));
         error(prettyPrintApiErrors(e));
       });
