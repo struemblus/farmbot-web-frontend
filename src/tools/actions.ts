@@ -106,6 +106,7 @@ export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
 }
 
 export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
+  console.log("toolSlots", toolSlots);
   return (dispatch, getState) => {
     let dirtSlots = {
       tool_slots: toolSlots.filter(allSlots => !!allSlots.dirty)

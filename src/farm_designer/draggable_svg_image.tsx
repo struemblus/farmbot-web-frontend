@@ -61,15 +61,17 @@ export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
 
     if (this.state.isDragging) {
       let idx = this.props.id;
-      let deltaX = e.pageX - this.state.mouseX;
-      let deltaY = e.pageY - this.state.mouseY;
+      if (this.state.mouseX && this.state.mouseY) {
+        let deltaX = e.pageX - this.state.mouseX;
+        let deltaY = e.pageY - this.state.mouseY;
 
-      this.props.onUpdate(deltaX, deltaY, idx);
+        this.props.onUpdate(deltaX, deltaY, idx);
 
-      this.setState({
-        mouseX: e.pageX,
-        mouseY: e.pageY
-      });
+        this.setState({
+          mouseX: e.pageX,
+          mouseY: e.pageY
+        });
+      }
     }
   }
 

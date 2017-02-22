@@ -65,26 +65,27 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
   }
 
   saveAll(tool_bay_id: number) {
-    let { dispatch } = this.props;
     let { tool_slots, tool_bays } = this.props.all;
-    dispatch(saveToolSlots(tool_slots));
-    dispatch(saveToolBay(tool_bay_id, tool_bays));
+    this.props.dispatch(saveToolSlots(tool_slots));
+    this.props.dispatch(saveToolBay(tool_bay_id, tool_bays));
   }
 
   renderTools(tool_id: number | undefined | null, slot_id: number | undefined) {
     let defaultValue = 0;
+
     let options = this.props.all.tools.all.map((tool, index) => {
       index++;
-      if (tool.id && (tool.id === tool_id)) {
-        var { id, name } = tool;
+      var name = "NOT FOUND";
+      if (tool.id && tool.id === tool_id) {
+        var { id } = tool;
+        name = tool.name;
         defaultValue = tool.id;
-      } else {
-        var name = "NOT FOUND";
-      };
+      }
       return <option value={id}
         id={(slot_id || "").toString()}
         key={index}>{name}</option>;
     });
+
     return <DeprecatedSelect id={(slot_id || "").toString()}
       onChange={this.updateToolSlotTool}
       value={defaultValue.toString()}>
@@ -264,8 +265,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
                   </td>
                   <td>
                     <button
-                      className={`button-like
-                                                    green`}
+                      className={`button-like green`}
                       onClick={() => addToolSlot(
                         tool_bay_id
                       )}>
