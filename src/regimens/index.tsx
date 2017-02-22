@@ -13,23 +13,21 @@ export class Regimens extends React.Component<RegimenPropsWithParams, {}> {
   render() {
     let { bulkScheduler } = this.props;
 
-    return <div>
-      <div className="all-content-wrapper">
-        <div className="row">
-          <div className={`col-md-3 col-sm-12 col-md-offset-1`}>
-            <BulkSchedulerWidget editor={bulkScheduler}
-              sequences={this.props.sequences.all}
-              dispatch={this.props.dispatch} />
-          </div>
-          <div className="col-md-4 col-sm-12">
-            <RegimenEditorWidget { ...this.props } />
-          </div>
-          {isMobile() && (
-            <MobileRegimensNav { ...this.props} />
-          )}
-          <div className="col-md-3 col-sm-12">
-            <RegimensList { ...this.props } />
-          </div>
+    return <div className="all-content-wrapper">
+      <div className="row">
+        <div className="col-md-4 col-sm-12">
+          <BulkSchedulerWidget editor={bulkScheduler}
+            sequences={this.props.sequences.all}
+            dispatch={this.props.dispatch} />
+        </div>
+        <div className="col-md-4 col-sm-12">
+          <RegimenEditorWidget { ...this.props } />
+        </div>
+        {isMobile() && (
+          <MobileRegimensNav { ...this.props} />
+        )}
+        <div className="col-md-4 col-sm-12">
+          <RegimensList { ...this.props } />
         </div>
       </div>
     </div>;
