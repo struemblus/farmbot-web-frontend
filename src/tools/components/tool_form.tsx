@@ -1,5 +1,7 @@
 import * as React from "react";
-import { ListAndFormProps, ToolFormState, Tool } from "../interfaces";
+import { ListAndFormProps, ToolFormState } from "../interfaces";
+import { t } from "i18next";
+import { Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
 import {
   destroyTool,
   addTool,
@@ -7,15 +9,6 @@ import {
   updateTool,
   saveTools
 } from "../actions";
-import { t } from "i18next";
-import {
-  Widget,
-  WidgetBody,
-  WidgetHeader,
-  BlurableInput,
-  error
-} from "../../ui";
-import * as _ from "lodash";
 
 export class ToolForm extends React.Component<ListAndFormProps,
   Partial<ToolFormState>> {
@@ -34,41 +27,39 @@ export class ToolForm extends React.Component<ListAndFormProps,
 
   setExistingToolName = (e: React.FormEvent<HTMLInputElement>) => {
     if (this.state.tools) {
-      let index = e.currentTarget.getAttribute("data-index") || "";
-      let currentTool = this.state.tools.filter((tool, idx) => {
-        return idx === parseInt(index || "");
-      }) as Partial<Tool>;
-      currentTool.name = e.currentTarget.value;
+      let toolStateCopy = this.state.tools.slice(0);
+      let index = e.currentTarget.id || "";
+      toolStateCopy[parseInt(index)].name = e.currentTarget.value;
+      this.setState({ tools: toolStateCopy });
     }
   }
 
   removeTool = (e: React.FormEvent<HTMLButtonElement>) => {
     if (this.state.tools) {
-      let index = e.currentTarget.getAttribute("data-index") || "";
+      let index = e.currentTarget.id || "";
       let newToolList = this.state.tools.filter((tool, idx) => {
         return idx !== parseInt(index || "");
       });
       this.setState({ tools: newToolList });
-    } else {
-      error("Could not remove tool...", "Error");
-      throw new Error("Could not find index of tool for removal.");
     }
   }
 
   addTool = (e: React.FormEvent<HTMLButtonElement>) => {
+    console.log(this.state.tools, this.state.newToolName);
     if (this.state.tools && this.state.newToolName) {
+      console.log("?");
       let newToolList = this.state.tools.concat({
         name: this.state.newToolName
       });
+      console.log(newToolList);
       this.setState({ tools: newToolList, newToolName: "" });
-    } else {
-      error("Tools need a name.", "Error");
-      throw new Error("Tools require a name for saving.");
     }
   }
 
   saveAll = () => {
-    this.props.dispatch(saveTools(this.props.all.tools.all));
+    if (this.state.tools) {
+      this.props.dispatch(saveTools(this.state.tools));
+    }
   }
 
   stopEdit = () => {
@@ -104,16 +95,16 @@ export class ToolForm extends React.Component<ListAndFormProps,
             {(this.state.tools || []).map((tool, index) => {
               return <tr key={index}>
                 <td>
-                  <input
-                    data-index={(index.toString() || "Error no index")}
+                  <BlurableInput
+                    id={(index.toString() || "Error no index")}
                     value={tool.name || "Error getting Name"}
-                    onChange={this.setExistingToolName}
+                    onCommit={this.setExistingToolName}
                   />
                 </td>
                 <td>
                   <button
                     className="button-like red"
-                    data-index={(index.toString() || "Error no index")}
+                    id={(index.toString() || "Error no index")}
                     onClick={this.removeTool}>
                     <i className="fa fa-times"></i>
                   </button>
@@ -122,9 +113,10 @@ export class ToolForm extends React.Component<ListAndFormProps,
             })}
             <tr>
               <td>
-                <input
-                  value={this.state.newToolName}
-                  onChange={this.setNewToolName}
+                <BlurableInput
+                  value={this.state.newToolName || ""}
+                  onCommit={this.setNewToolName}
+                  commitOnEnter={this.addTool}
                   type="text"
                 />
               </td>

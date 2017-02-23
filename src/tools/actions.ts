@@ -165,7 +165,6 @@ export function destroyToolNo(error: AxiosErrorResponse): ErrorPayl {
 }
 
 export function saveTools(tools: Tool[]): Thunk {
-
   return (dispatch, getState) => {
     function finish() {
       success(t("Tools saved."));

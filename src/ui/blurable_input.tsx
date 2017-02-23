@@ -13,6 +13,8 @@ interface BIProps {
   allowEmpty?: boolean;
   disabled?: boolean;
   className?: string;
+  /** If the user presses the `enter` key, this callback fires. */
+  commitOnEnter?: Function;
 }
 
 interface BIState {
@@ -43,11 +45,19 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
     this.setState({ buffer });
   }
 
+  maybeCommitOnEnter(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (this.props.commitOnEnter instanceof Function && e.which === 13) {
+      console.log("???");
+      this.props.commitOnEnter(e);
+    }
+  }
+
   render() {
     let value = this.state.isEditing ? this.state.buffer : this.props.value;
     return <input value={value}
       onFocus={this.focus.bind(this)}
       onChange={this.updateBuffer.bind(this)}
+      onKeyPress={this.maybeCommitOnEnter.bind(this)}
       onBlur={this.maybeCommit.bind(this)}
       name={this.props.name}
       id={this.props.id}
