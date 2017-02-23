@@ -6,8 +6,7 @@ import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
 import {
-  FarmEventExecutableData,
-  FinalEventData
+  FarmEventExecutableData
 } from "../interfaces";
 import { mapStateToProps, FarmEventProps } from "./map_state_props";
 
@@ -25,14 +24,14 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
 
   renderEvents(finalEvents: FarmEventExecutableData[]) {
     { /** FarmEventExecutableData includes FarmEvent with exec `type` */ }
-    finalEvents.sort(
-      (a: FarmEventExecutableData, b: FarmEventExecutableData) => {
-        let left = this.timeOrFallback(a.farm_event_data.start_time);
-        let right = this.timeOrFallback(b.farm_event_data.start_time);
-        return (left > right) ? 1 : 0;
-      });
+    // finalEvents.sort(
+    //   (a: FarmEventExecutableData, b: FarmEventExecutableData) => {
+    //     let left = this.timeOrFallback(a.farm_event_data.start_time);
+    //     let right = this.timeOrFallback(b.farm_event_data.start_time);
+    //     return (left > right) ? 1 : 0;
+    //   });
 
-    return finalEvents.map((fe_: FarmEventExecutableData) => {
+    return finalEvents.map((fe: FarmEventExecutableData) => {
       let { id, start_time } = fe.farm_event_data;
       let verifiedStartTime = this.timeOrFallback(start_time);
 
@@ -53,29 +52,49 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
   }
 
   renderCalendarRows() {
-    return [].map((evt: FinalEventData) => {
-      return <div className="farm-event-wrapper col-xs-12"
-        key={evt.date}>
+    return this.props.calendarRows.map(function (item) {
+      return <div className="farm-event-wrapper col-xs-12" key={item.timestamp}>
 
         <div className="farm-event-date col-xs-2">
           <div className="farm-event-date-month">
-            {/** i.e. `Feb` */}
-            {moment(evt.date.toString()).format("MMM")}
+            {item.month}
           </div>
           <div className="farm-event-date-day">
-            {/** i.e. `14` */}
-            {moment(evt.date.toString()).format("DD")}
+            {item.day}
           </div>
         </div>
 
         <div className="col-xs-10 events">
-          {this.renderEvents(evt.finalEvents)}
+          {item.list.map(function (farmEvent) {
+            let start: string;
+            console.log("helllooo??? from farm_events")
+            try {
+              start = moment(farmEvent.start_time).format("hh:mma");
+            } catch (e) {
+              debugger;
+            } finally {
+              start = "BROKE";
+            }
+            return <div className={`farm-event col-xs-12`}
+              key={farmEvent.id}>
+              <div className="event-time col-xs-3">
+                {start}
+              </div>
+              <div className="event-title col-xs-9">
+                {item.executableName}
+              </div>
+              <Link to={`/app/designer/farm_events/` +
+                (farmEvent.id || "UNSAVED EVENT").toString()}>
+                <i className="fa fa-pencil-square-o edit-icon"></i>
+              </Link>
+            </div>;
+          })}
         </div>
       </div>;
-    })
+    });
   }
+
   render() {
-    let { push } = this.props.router;
 
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
@@ -98,9 +117,9 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <div className="col-xs-10">
-            <FBSelect dropDownItems={selectItems}
+            <FBSelect dropDownItems={[]}
               onChange={(selectedOption) => {
-                push("/app/designer/farm_events/" + selectedOption.value);
+                this.props.push("/app/designer/farm_events/" + selectedOption.value);
               }}
             />
           </div>
