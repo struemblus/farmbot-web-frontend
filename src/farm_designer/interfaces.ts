@@ -35,14 +35,6 @@ export interface FarmEvent {
   calendar?: string[] | undefined;
 };
 
-
-export interface FarmEventExecutableData {
-  farm_event_data: Partial<FarmEvent>;
-  executable_data: {
-    name: string;
-  };
-}
-
 export interface MovePlantProps {
   deltaX: number;
   deltaY: number;

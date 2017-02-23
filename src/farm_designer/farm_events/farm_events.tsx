@@ -23,14 +23,6 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
   }
 
   renderEvents(finalEvents: FarmEventExecutableData[]) {
-    { /** FarmEventExecutableData includes FarmEvent with exec `type` */ }
-    // finalEvents.sort(
-    //   (a: FarmEventExecutableData, b: FarmEventExecutableData) => {
-    //     let left = this.timeOrFallback(a.farm_event_data.start_time);
-    //     let right = this.timeOrFallback(b.farm_event_data.start_time);
-    //     return (left > right) ? 1 : 0;
-    //   });
-
     return finalEvents.map((fe: FarmEventExecutableData) => {
       let { id, start_time } = fe.farm_event_data;
       let verifiedStartTime = this.timeOrFallback(start_time);
@@ -66,15 +58,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
 
         <div className="col-xs-10 events">
           {item.list.map(function (farmEvent) {
-            let start: string;
-            console.log("helllooo??? from farm_events")
-            try {
-              start = moment(farmEvent.start_time).format("hh:mma");
-            } catch (e) {
-              debugger;
-            } finally {
-              start = "BROKE";
-            }
+            let start = moment(farmEvent.start_time).format("hh:mma");
             return <div className={`farm-event col-xs-12`}
               key={farmEvent.id}>
               <div className="event-time col-xs-3">
@@ -125,8 +109,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
           </div>
 
           <div className="farm-events row">
-            {/** Includes unique date and associated events */}
-            {}
+            {this.renderCalendarRows()}
           </div>
         </div>
 
