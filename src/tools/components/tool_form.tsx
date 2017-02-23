@@ -2,13 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { t } from "i18next";
 import { Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
-import {
-  destroyTool,
-  addTool,
-  stopEditingTools,
-  updateTool,
-  saveTools
-} from "../actions";
+import { toggleEditingTools, saveAll } from "../actions";
 
 export class ToolForm extends React.Component<ListAndFormProps,
   Partial<ToolFormState>> {
@@ -28,42 +22,42 @@ export class ToolForm extends React.Component<ListAndFormProps,
   setExistingToolName = (e: React.FormEvent<HTMLInputElement>) => {
     if (this.state.tools) {
       let toolStateCopy = this.state.tools.slice(0);
-      let index = e.currentTarget.id || "";
-      toolStateCopy[parseInt(index)].name = e.currentTarget.value;
+      let index = e.currentTarget.id || "NO ID FOUND";
+      let modifiedTool = toolStateCopy[parseInt(index)];
+      modifiedTool.name = e.currentTarget.value;
+      modifiedTool.dirty = true;
       this.setState({ tools: toolStateCopy });
     }
   }
 
   removeTool = (e: React.FormEvent<HTMLButtonElement>) => {
     if (this.state.tools) {
-      let index = e.currentTarget.id || "";
-      let newToolList = this.state.tools.filter((tool, idx) => {
-        return idx !== parseInt(index || "");
-      });
-      this.setState({ tools: newToolList });
+      let toolStateCopy = this.state.tools.slice(0);
+      let index = e.currentTarget.id || "NO ID FOUND";
+      let modifiedTool = toolStateCopy[parseInt(index)];
+      modifiedTool.isNew = false;
+      modifiedTool.isDeleted = true;
+      this.setState({ tools: toolStateCopy });
     }
   }
 
   addTool = (e: React.FormEvent<HTMLButtonElement>) => {
-    console.log(this.state.tools, this.state.newToolName);
     if (this.state.tools && this.state.newToolName) {
-      console.log("?");
       let newToolList = this.state.tools.concat({
-        name: this.state.newToolName
+        name: this.state.newToolName, isNew: true
       });
-      console.log(newToolList);
       this.setState({ tools: newToolList, newToolName: "" });
     }
   }
 
   saveAll = () => {
     if (this.state.tools) {
-      this.props.dispatch(saveTools(this.state.tools));
+      this.props.dispatch(saveAll(this.state.tools));
     }
   }
 
-  stopEdit = () => {
-    this.props.dispatch(stopEditingTools());
+  toggleEdit = () => {
+    this.props.dispatch(toggleEditingTools());
   }
 
   render() {
@@ -80,7 +74,7 @@ export class ToolForm extends React.Component<ListAndFormProps,
         </button>
         <button
           className="gray button-like"
-          onClick={this.stopEdit}>
+          onClick={this.toggleEdit}>
           {t("BACK")}
         </button>
       </WidgetHeader>
@@ -93,7 +87,8 @@ export class ToolForm extends React.Component<ListAndFormProps,
           </thead>
           <tbody>
             {(this.state.tools || []).map((tool, index) => {
-              return <tr key={index}>
+              let isDeleted = tool.isDeleted || false;
+              return <tr key={index} className={"is-deleted-" + isDeleted}>
                 <td>
                   <BlurableInput
                     id={(index.toString() || "Error no index")}

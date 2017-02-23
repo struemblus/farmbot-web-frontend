@@ -8,7 +8,7 @@ import {
   addToolSlot,
   updateToolSlot,
   updateToolBay,
-  stopEditingToolBays,
+  toggleEditingToolBays,
   saveToolBay
 } from "../actions";
 import { t } from "i18next";
@@ -161,7 +161,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     } = this;
     let { dispatch } = this.props;
     let { tool_bays, tools } = this.props.all;
-    let stopEdit = () => { dispatch(stopEditingToolBays()); };
+    let toggleEdit = () => { dispatch(toggleEditingToolBays()); };
     return <Col>
       {tool_bays.map((bay, index) => {
         index++;
@@ -183,7 +183,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
             </button>
             <button
               className="gray button-like"
-              onClick={stopEdit}>
+              onClick={toggleEdit}>
               {t("BACK")}
             </button>
           </WidgetHeader>

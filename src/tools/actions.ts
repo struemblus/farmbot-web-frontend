@@ -13,20 +13,12 @@ import * as _ from "lodash";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 
 /** Generic */
-export function startEditingToolBays(): ReduxAction<{}> {
-  return { type: "EDIT_TOOL_BAYS_START", payload: {} };
+export function toggleEditingToolBays(): ReduxAction<{}> {
+  return { type: "TOGGLE_EDIT_TOOL_BAYS", payload: {} };
 }
 
-export function stopEditingToolBays(): ReduxAction<{}> {
-  return { type: "EDIT_TOOL_BAYS_STOP", payload: {} };
-}
-
-export function startEditingTools(): ReduxAction<{}> {
-  return { type: "EDIT_TOOLS_START", payload: {} };
-}
-
-export function stopEditingTools(): ReduxAction<{}> {
-  return { type: "EDIT_TOOLS_STOP", payload: {} };
+export function toggleEditingTools(): ReduxAction<{}> {
+  return { type: "TOGGLE_EDIT_TOOLS", payload: {} };
 }
 
 /** ToolBays */
@@ -136,80 +128,62 @@ export function destroySlot(id: number): Thunk {
 }
 
 /** Tools */
-export function updateTool(id: number, value: string): ReduxAction<{}> {
-  return { type: "UPDATE_TOOL", payload: { id, value } };
-}
-
 export function saveToolsOk(tools: Tool[]): ReduxAction<{}> {
   return { type: "SAVE_TOOLS_OK", payload: tools };
 }
 
 export function saveToolNo(error: AxiosErrorResponse): ErrorPayl {
-  return { type: "SAVE_TOOL_NO", payload: error };
+  return { type: "SAVE_TOOLS_NO", payload: error };
 }
 
-export function addToolOk(tool: Tool): ReduxAction<Tool> {
-  return { type: "ADD_TOOL_OK", payload: tool };
+function addTool(name: string) {
+  return Axios.post<Tool>(API.current.toolsPath, { name });
 }
 
-export function addToolNo(error: AxiosErrorResponse): ErrorPayl {
-  return { type: "ADD_TOOL_NO", payload: error };
+function updateTool(id: number) {
+  return Axios.put<Tool>(API.current.toolsPath + id);
 }
 
-export function destroyToolOk(id: number): ReduxAction<{ id: number }> {
-  return { type: "DESTROY_TOOL_OK", payload: { id } };
+function destroyTool(id: number) {
+  return Axios.delete<Tool>(API.current.toolsPath + id);
 }
 
-export function destroyToolNo(error: AxiosErrorResponse): ErrorPayl {
-  return { type: "DESTROY_TOOL_NO", payload: error };
-}
-
-export function saveTools(tools: Tool[]): Thunk {
+export function saveAll(tools: Tool[]): Thunk {
   return (dispatch, getState) => {
-    function finish() {
-      success(t("Tools saved."));
-      dispatch(stopEditingTools());
-    }
-    let dirtyTools = tools.filter(allTools => !!allTools.dirty);
-    // Return early if API call not required.
-    if (!dirtyTools.length) { return finish(); }
-    Axios.post<Tool[]>(API.current.toolsPath, { tools: dirtyTools })
-      .then(resp => {
-        finish();
-        dispatch(saveToolsOk(resp.data));
-      }, (e: Error) => {
-        dispatch(saveToolNo(e));
-        error(prettyPrintApiErrors(e));
-      });
-  };
-}
 
-export function destroyTool(id: number): Thunk {
-  return (dispatch, getState) => {
-    Axios
-      .delete<Tool>(API.current.toolsPath + id)
-      .then(resp => {
-        error("Tool has been deleted.", "Deleted");
-        dispatch(destroyToolOk(id));
-      }, (e: Error) => {
-        dispatch(destroyToolNo(e));
-        error(prettyPrintApiErrors(e));
-      });
-  };
-}
+    /** Add Tools */
+    let addedTools = tools.filter(allTools => !!allTools.isNew);
+    let addPromises = addedTools.map(function (addedTool) {
+      if (!addedTools.length) { return; }
+      return addTool(addedTool.name);
+    });
 
-export function addTool(name: string): Thunk {
-  return (dispatch, getState) => {
-    Axios
-      .post<Tool>(API.current.toolsPath, { name })
+    /** Update Tools */
+    let updatedTools = tools.filter(allTools => !!allTools.dirty);
+    let updatePromises = updatedTools.map(function (updatedTool) {
+      if (!updatedTools.length) { return; }
+      if (updatedTool.id) {
+        return updateTool(updatedTool.id);
+      }
+    });
+
+    /** Destroy Tools */
+    let deletedTools = tools.filter(allTools => !!allTools.isDeleted);
+    let deletePromises = deletedTools.map(function (deletedTool) {
+      if (!deletedTools.length) { return; }
+      if (deletedTool.id) { return destroyTool(deletedTool.id); }
+    });
+
+    /** Send off */
+    Promise.all([addPromises, updatePromises, deletePromises])
       .then(resp => {
-        if (resp instanceof Error) { throw resp; }
-        success("Tool has been saved.", "Success");
-        dispatch(addToolOk(resp.data));
+        success("Tools have been updated", "Success");
+        console.log(resp);
       })
       .catch((e: Error) => {
-        dispatch(addToolNo(e));
         error(prettyPrintApiErrors(e));
       });
+
   };
-}
+};
+
