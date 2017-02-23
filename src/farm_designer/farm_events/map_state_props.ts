@@ -5,11 +5,8 @@ import { Sequence } from "../../sequences/interfaces";
 import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
 
-export interface FarmEventProps {
-  calendarRows: CalendarRow[];
-  push: (url: string) => void;
-}
-
+/** All the information you will need to render a single row in the 
+ * calendar page */
 interface CalendarRow {
   day: string;
   month: string;
@@ -19,7 +16,16 @@ interface CalendarRow {
   timestamp: number;
 }
 
-const NULL = { name: "NO NAME", executable_type: "NO TYPE" };
+export interface FarmEventProps {
+  /** Sorted list of the first (100?) events due on the calnedar. */
+  calendarRows: CalendarRow[];
+  /** Call this function to navigate to different pages. */
+  push: (url: string) => void;
+}
+
+/** Stub object to handle fallback values. If you see this in production,
+ * something went wrong. */
+const NULL = { name: "NO NAME@", executable_type: "@NO TYPE" };
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
 export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
@@ -64,13 +70,9 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
         executableName: inferExecutableName(list),
         list
       });
-
     });
 
   calendarRows = _.sortBy(calendarRows, "timestamp").slice(1, 100);
-
-  return {
-    calendarRows,
-    push: (url) => { }
-  };
+  let push = (state.router && state.router.push) || ((url: string) => { });
+  return { calendarRows, push };
 }

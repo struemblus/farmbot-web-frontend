@@ -77,7 +77,7 @@ export interface Everything {
   sync: Sync;
   images: ImageState;
   router: {
-    push: Function;
+    push(url?: string): void;
   };
 };
 

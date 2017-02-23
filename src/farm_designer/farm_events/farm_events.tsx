@@ -1,46 +1,16 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Everything } from "../../interfaces";
-import { FBSelect, DropDownItem } from "../../ui";
+import { FBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
-import {
-  FarmEventExecutableData
-} from "../interfaces";
 import { mapStateToProps, FarmEventProps } from "./map_state_props";
 
 @connect(mapStateToProps)
 export class FarmEvents extends React.Component<FarmEventProps, {}> {
-
-  hasPassed(start_time: string) {
-    return start_time < new Date().toISOString();
-  }
-
   /** Attempts to use passed string, if string is undefined defaults to UTC */
   timeOrFallback(start_time: string | undefined) {
     return start_time || moment().utc().toISOString();
-  }
-
-  renderEvents(finalEvents: FarmEventExecutableData[]) {
-    return finalEvents.map((fe: FarmEventExecutableData) => {
-      let { id, start_time } = fe.farm_event_data;
-      let verifiedStartTime = this.timeOrFallback(start_time);
-
-      let hasPassed = this.hasPassed(verifiedStartTime) ? " has-passed" : "";
-      return <div className={`farm-event col-xs-12` + hasPassed.toString()}
-        key={id}>
-        <div className="event-time col-xs-3">
-          {moment(verifiedStartTime).format("hh:mma")}
-        </div>
-        <div className="event-title col-xs-9">
-          {fe.executable_data.name || "No name?"}
-        </div>
-        <Link to={`/app/designer/farm_events/` + (id || "").toString()}>
-          <i className="fa fa-pencil-square-o edit-icon"></i>
-        </Link>
-      </div>;
-    });
   }
 
   renderCalendarRows() {
