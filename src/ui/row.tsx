@@ -6,7 +6,6 @@ interface RowProps {
   key?: string | number;
 }
 
-
 export function Row(props: RowProps) {
   let className = props.className ? props.className += " row" : "row";
   return <div className={className} key={props.key || ""}>

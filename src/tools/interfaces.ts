@@ -27,11 +27,12 @@ export interface ToolBay {
 }
 
 export interface ToolBayFormState {
+  tools?: Tool[];
   tool_slots?: ToolSlot[];
   tool_bays?: ToolBay[];
-  new_slot_x?: string;
-  new_slot_y?: string;
-  new_slot_z?: string;
+  new_slot_x?: number;
+  new_slot_y?: number;
+  new_slot_z?: number;
   new_slot_tool_id?: null | number;
 }
 
@@ -49,6 +50,8 @@ export interface ToolSlot {
   y?: number;
   z?: number;
   dirty?: boolean;
+  // isNew?: boolean;
+  // isDeleted?: boolean;
 }
 
 export interface UpdateToolSlotPayl {

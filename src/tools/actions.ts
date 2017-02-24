@@ -22,16 +22,8 @@ export function toggleEditingTools(): ReduxAction<{}> {
 }
 
 /** ToolBays */
-export function saveToolBayNo(toolBays: AxiosErrorResponse): ErrorPayl {
-  return { type: "SAVE_TOOL_BAY_NO", payload: error };
-}
-
 export function saveToolBayOk(toolBay: ToolBay): ReduxAction<{}> {
   return { type: "SAVE_TOOL_BAY_OK", payload: toolBay };
-}
-
-export function updateToolBay(id: number, value: string): ReduxAction<{}> {
-  return { type: "UPDATE_TOOL_BAY", payload: { id, value } };
 }
 
 export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
@@ -42,7 +34,6 @@ export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
       .then(resp => {
         dispatch(saveToolBayOk(resp.data));
       }, (e: Error) => {
-        dispatch(saveToolBayNo(e));
         error(t(`ToolBay could not be updated: ${e.message}`));
       });
   };
@@ -175,7 +166,7 @@ export function saveAllTools(tools: Tool[]): Thunk {
     /** Send off */
     Promise.all([addPromises, updatePromises, deletePromises])
       .then(resp => {
-        success("Tools have been updated", "Success");
+        success("Tools have been updated.", "Success");
         dispatch(saveToolsOk(tools));
       })
       .catch((e: Error) => {
