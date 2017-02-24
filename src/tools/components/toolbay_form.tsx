@@ -14,18 +14,22 @@ import {
 import { t } from "i18next";
 import { Tool } from "../interfaces";
 export class ToolBayForm extends React.Component<ListAndFormProps,
-  ToolBayFormState> {
+  Partial<ToolBayFormState>> {
   constructor() {
     super();
     this.set = this.set.bind(this);
     this.updateCoordinate = this.updateCoordinate.bind(this);
-    this.updateToolBayName = this.updateToolBayName.bind(this);
     this.updateToolSlotTool = this.updateToolSlotTool.bind(this);
     this.addToolSlot = this.addToolSlot.bind(this);
     this.updateToolSelect = this.updateToolSelect.bind(this);
     this.resetState = this.resetState.bind(this);
     this.saveAll = this.saveAll.bind(this);
-    this.state = { x: 0, y: 0, z: 0, tool_id: null };
+    this.state = { x: 0, y: 0, z: 0, tool_id: null, tool_bay_name: "" };
+  }
+
+  componentDidMount() {
+    // [0] index until we allow more toolbays to be made
+    this.setState({ tool_bay_name: this.props.all.tool_bays[0].name });
   }
 
   resetState() {
@@ -50,7 +54,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
   }
 
-  updateToolBayName(e: React.SyntheticEvent<HTMLInputElement>) {
+  updateToolBayName = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { id, value } = e.currentTarget;
     this.props.dispatch(updateToolBay(parseInt(id), value));
   }

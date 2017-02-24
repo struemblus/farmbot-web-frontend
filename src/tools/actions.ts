@@ -97,11 +97,10 @@ export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
   };
 }
 
-export function saveToolSlots(toolSlots: ToolSlot[]): Thunk {
-  console.log("toolSlots", toolSlots);
+export function saveToolSlots(tool_slots: ToolSlot[]): Thunk {
   return (dispatch, getState) => {
     let dirtSlots = {
-      tool_slots: toolSlots.filter(allSlots => !!allSlots.dirty)
+      tool_slots: tool_slots.filter(allSlots => !!allSlots.dirty)
     };
     let url = API.current.toolSlotsPath;
     Axios.post<ToolSlot[]>(url, dirtSlots)
@@ -178,12 +177,11 @@ export function saveAll(tools: Tool[]): Thunk {
     Promise.all([addPromises, updatePromises, deletePromises])
       .then(resp => {
         success("Tools have been updated", "Success");
-        console.log(resp);
+        dispatch(saveToolsOk(tools));
       })
       .catch((e: Error) => {
         error(prettyPrintApiErrors(e));
       });
-
   };
 };
 

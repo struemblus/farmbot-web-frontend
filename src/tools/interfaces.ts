@@ -31,6 +31,7 @@ export interface ToolBayFormState {
   y?: number;
   z?: number;
   tool_id?: null | number;
+  tool_bay_name?: string;
 }
 
 export interface ToolFormState {

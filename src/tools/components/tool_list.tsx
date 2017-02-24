@@ -28,7 +28,7 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
               </tr>
             </thead>
             <tbody>
-              {_.sortBy(this.props.all.tools.all, "id").map((tool, index) => {
+              {this.props.all.tools.all.map((tool, index) => {
                 let { name } = tool;
                 index++;
                 return <tr key={index}>
