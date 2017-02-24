@@ -4,7 +4,7 @@ import { FBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import * as moment from "moment";
-import { mapStateToProps, FarmEventProps } from "./map_state_props";
+import { mapStateToProps, FarmEventProps } from "./map_state_to_props";
 
 @connect(mapStateToProps)
 export class FarmEvents extends React.Component<FarmEventProps, {}> {
