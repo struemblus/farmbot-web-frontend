@@ -27,11 +27,12 @@ export interface ToolBay {
 }
 
 export interface ToolBayFormState {
-  x?: number;
-  y?: number;
-  z?: number;
-  tool_id?: null | number;
-  tool_bay_name?: string;
+  tool_slots?: ToolSlot[];
+  tool_bays?: ToolBay[];
+  new_slot_x?: string;
+  new_slot_y?: string;
+  new_slot_z?: string;
+  new_slot_tool_id?: null | number;
 }
 
 export interface ToolFormState {

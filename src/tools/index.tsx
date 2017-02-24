@@ -10,20 +10,18 @@ export class Tools extends React.Component<Everything, ToolsState> {
     let editing = this.props.tools.editorMode;
     let isEditingTools = this.props.tools.tools.isEditing;
     return <div className="all-content-wrapper tools">
-      <div className="col-md-8">
-        {!editing && (
-          <ToolBayList
-            all={this.props.tools}
-            dispatch={this.props.dispatch}
-          />
-        )}
-        {editing && (
-          <ToolBayForm
-            all={this.props.tools}
-            dispatch={this.props.dispatch}
-          />
-        )}
-      </div>
+      {!editing && (
+        <ToolBayList
+          all={this.props.tools}
+          dispatch={this.props.dispatch}
+        />
+      )}
+      {editing && (
+        <ToolBayForm
+          all={this.props.tools}
+          dispatch={this.props.dispatch}
+        />
+      )}
       <div className="col-md-4">
         {!isEditingTools && (
           <ToolList

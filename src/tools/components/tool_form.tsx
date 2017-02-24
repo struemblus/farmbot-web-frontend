@@ -2,7 +2,7 @@ import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { t } from "i18next";
 import { Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
-import { toggleEditingTools, saveAll } from "../actions";
+import { toggleEditingTools, saveAllTools } from "../actions";
 
 export class ToolForm extends React.Component<ListAndFormProps,
   Partial<ToolFormState>> {
@@ -52,7 +52,7 @@ export class ToolForm extends React.Component<ListAndFormProps,
 
   saveAll = () => {
     if (this.state.tools) {
-      this.props.dispatch(saveAll(this.state.tools));
+      this.props.dispatch(saveAllTools(this.state.tools));
     }
   }
 

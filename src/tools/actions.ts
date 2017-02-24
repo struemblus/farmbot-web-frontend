@@ -85,6 +85,7 @@ export function destroyToolSlotNo(error: AxiosErrorResponse): ErrorPayl {
 export function addToolSlot(slot: ToolSlot, tool_bay_id: number): Thunk {
   let { x, y, z, tool_id } = slot;
   let data = { x, y, z, tool_id, tool_bay_id };
+
   return (dispatch, getState) => {
     Axios
       .post<ToolSlot>(API.current.toolSlotsPath, data)
@@ -147,7 +148,7 @@ function destroyTool(id: number) {
   return Axios.delete<Tool>(API.current.toolsPath + id);
 }
 
-export function saveAll(tools: Tool[]): Thunk {
+export function saveAllTools(tools: Tool[]): Thunk {
   return (dispatch, getState) => {
 
     /** Add Tools */
@@ -161,9 +162,7 @@ export function saveAll(tools: Tool[]): Thunk {
     let updatedTools = tools.filter(allTools => !!allTools.dirty);
     let updatePromises = updatedTools.map(function (updatedTool) {
       if (!updatedTools.length) { return; }
-      if (updatedTool.id) {
-        return updateTool(updatedTool.id);
-      }
+      if (updatedTool.id) { return updateTool(updatedTool.id); }
     });
 
     /** Destroy Tools */
