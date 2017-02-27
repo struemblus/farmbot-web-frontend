@@ -8,7 +8,7 @@ export interface AddFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   formatDate(input: string): string;
-  save(fe: Partial<FarmEvent>): void;
+  save(fe: Partial<Record<keyof FarmEvent, string>>): void;
 }
 
 export function mapStateToPropsAdd(state: Everything): AddFarmEventProps {

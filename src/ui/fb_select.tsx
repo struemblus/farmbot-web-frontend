@@ -27,6 +27,8 @@ export interface SelectProps {
   className?: string;
   /** Fires when option is selected. */
   onChange?: (newValue: DropDownItem) => void;
+  /** Fires when user enters text */
+  onUserTyping?: (userInput: string) => void;
   /** Placeholder for the input. */
   placeholder?: string;
   /** Allows user to have a non-selected value. */
@@ -55,12 +57,12 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
   }
 
   updateInput = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    // PROBABLY OK ============
-    this.setState({ label: e.currentTarget.value });
+    let { value } = e.currentTarget;
+    this.setState({ label: value });
+    this.props.onUserTyping && this.props.onUserTyping(value);
   }
 
   open = () => {
-    // PROBABLY OK ====
     this.setState({
       isOpen: true,
       label: ""

@@ -26,7 +26,7 @@ export interface FarmEvent {
   next_time: string;
   executable_id: number;
   executable_type: string;
-  calendar?: string[] | undefined;
+  readonly calendar?: string[] | undefined;
 };
 
 export interface MovePlantProps {

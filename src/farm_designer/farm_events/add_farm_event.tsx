@@ -12,7 +12,8 @@ import {
 import { connect } from "react-redux";
 import { mapStateToPropsAdd, AddFarmEventProps } from "./map_state_to_props_add";
 
-type AddFarmEventState = Partial<FarmEvent>
+// type AddFarmEventState = Partial<FarmEvent>
+type AddFarmEventState = Partial<Record<keyof FarmEvent, string>>;
 
 @connect(mapStateToPropsAdd)
 export class AddFarmEvent extends React.Component<AddFarmEventProps,
@@ -24,16 +25,29 @@ AddFarmEventState> {
 
   updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
     let { executable_id, executable_type } = e;
-    this.setState({ executable_id, executable_type });
+    console.log("This WILL break in production.");
+    this.setState({
+      executable_id: JSON.stringify(executable_id),
+      executable_type: JSON.stringify(executable_id)
+    });
   }
 
   updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
+    switch (name) {
+      case "start_time":
+      case "end_time":
+      case "repeat":
+      case "time_unit":
+      case "next_time":
+        let { name, value } = e.currentTarget;
+        return this.setState({ [name]: value });
+      default:
+        console.log("NOPE!");
+    }
   }
 
   render() {
-    return <div className={`panel-container magenta-panel 
+    return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
         <p className="panel-title">
