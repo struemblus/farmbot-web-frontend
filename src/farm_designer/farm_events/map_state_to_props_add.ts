@@ -18,26 +18,34 @@ export function mapStateToPropsAdd(state: Everything): AddFarmEventProps {
   };
 
   let repeatOptions = [
-    { label: "Do not repeat", value: "never" },
-    { label: "minutes", value: "minutely" },
-    { label: "hours", value: "hourly" },
-    { label: "days", value: "daily" },
-    { label: "weeks", value: "weekly" },
-    { label: "months", value: "monthly" },
-    { label: "years", value: "yearly" }
+    { label: "Do not repeat", value: "never", name: "time_unit" },
+    { label: "minutes", value: "minutely", name: "time_unit" },
+    { label: "hours", value: "hourly", name: "time_unit" },
+    { label: "days", value: "daily", name: "time_unit" },
+    { label: "weeks", value: "weekly", name: "time_unit" },
+    { label: "months", value: "monthly", name: "time_unit" },
+    { label: "years", value: "yearly", name: "time_unit" }
   ];
 
   let selectOptions: DropDownItem[] = [];
 
   state.sync.regimens.map((regimen, index) => {
     selectOptions.push({ label: t("REGIMENS"), heading: true });
-    let item = { label: regimen.name, value: regimen.id };
+    let item = {
+      label: regimen.name,
+      executable_id: regimen.id,
+      executable_type: "Regimen"
+    };
     selectOptions.push(item);
   });
 
   state.sync.sequences.map((sequence, index) => {
     selectOptions.push({ label: t("SEQUENCES"), heading: true });
-    let item = { label: sequence.name, value: sequence.id };
+    let item = {
+      label: sequence.name,
+      executable_id: sequence.id,
+      executable_type: "Sequence"
+    };
     selectOptions.push(item);
   });
 
@@ -50,24 +58,3 @@ export function mapStateToPropsAdd(state: Everything): AddFarmEventProps {
     }
   };
 }
-
-  // selectFromDropDown(e: SelectSequenceOrRegimenProps) {
-  //   let { regimens, sequences } = this.props;
-
-  //   /* Depending on the kind chosen, place that in the state tree
-  //   /* e.value is the id of the node */
-  //   switch (e.kind) {
-  //     case "Regimen":
-  //       let regimen = _.findWhere(regimens.all, { id: e.value });
-  //       this.props.dispatch(selectSequenceOrRegimen(regimen));
-  //       break;
-
-  //     case "Sequence":
-  //       let sequence = _.findWhere(sequences.all, { id: e.value });
-  //       this.props.dispatch(selectSequenceOrRegimen(sequence));
-  //       break;
-
-  //     default:
-  //       throw new Error("Error in the executable dropdown.");
-  //   }
-  // }

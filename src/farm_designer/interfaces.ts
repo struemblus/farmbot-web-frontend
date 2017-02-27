@@ -66,10 +66,6 @@ export interface Specimen {
   imgUrl: string;
 }
 
-export interface RegimenWithKindProp extends Regimen {
-  kind: string;
-}
-
 export interface DesignerState {
   x_size: number;
   y_size: number;
@@ -79,7 +75,6 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
-  currentSequenceOrRegimen: Partial<Sequence | RegimenWithKindProp | undefined>;
 }
 
 export interface Point {

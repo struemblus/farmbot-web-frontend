@@ -27,8 +27,14 @@ AddFarmEventState> {
     this.state = { next_time: new Date().toISOString() };
   }
 
-  updateForm = (e: DropDownItem) => {
+  updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
+    let { executable_id, executable_type } = e;
+    this.setState({ executable_id, executable_type });
+  }
 
+  updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let { name, value } = e.currentTarget;
+    this.setState({ [name]: value });
   }
 
   render() {
@@ -43,7 +49,7 @@ AddFarmEventState> {
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
           dropDownItems={this.props.selectOptions}
-          onChange={() => "this.props.selectblah"}
+          onChange={this.updateSequenceOrRegimen}
           value={0 || null} />
         <label>{t("Starts")}</label>
         <Row>
@@ -52,7 +58,7 @@ AddFarmEventState> {
               type="date"
               className="add-event-start-date"
               name="start_date"
-              value={"eventStartDate"}
+              value={(this.state.start_time || new Date().toISOString())}
               onCommit={this.updateForm} />
           </Col>
           <Col xs={6}>
