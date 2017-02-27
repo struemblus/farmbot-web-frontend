@@ -1,5 +1,4 @@
 import * as React from "react";
-import { BackArrow } from "../back_arrow";
 import { t } from "i18next";
 import { FarmEvent } from "../interfaces";
 import {
@@ -9,7 +8,8 @@ import {
   error,
   BlurableInput,
   Col,
-  Row
+  Row,
+  BackArrow
 } from "../../ui";
 import { connect } from "react-redux";
 import { Everything } from "../../interfaces";
