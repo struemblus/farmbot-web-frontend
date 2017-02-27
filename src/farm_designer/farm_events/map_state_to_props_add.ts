@@ -30,23 +30,31 @@ export function mapStateToPropsAdd(state: Everything): AddFarmEventProps {
   let selectOptions: DropDownItem[] = [];
 
   state.sync.regimens.map((regimen, index) => {
-    selectOptions.push({ label: t("REGIMENS"), heading: true });
-    let item = {
-      label: regimen.name,
-      executable_id: regimen.id,
-      executable_type: "Regimen"
-    };
-    selectOptions.push(item);
+    selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
+    // TODO: Remove executable_type from obj since it's
+    // not declared in the interface.
+    if (regimen.id) {
+      let item = {
+        label: regimen.name,
+        executable_type: "Regimen",
+        value: regimen.id
+      };
+      selectOptions.push(item);
+    }
   });
 
   state.sync.sequences.map((sequence, index) => {
-    selectOptions.push({ label: t("SEQUENCES"), heading: true });
-    let item = {
-      label: sequence.name,
-      executable_id: sequence.id,
-      executable_type: "Sequence"
-    };
-    selectOptions.push(item);
+    selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Regimens" });
+    // TODO: Remove executable_type from obj since it's
+    // not declared in the interface.
+    if (sequence.id) {
+      let item = {
+        label: sequence.name,
+        executable_type: "Sequence",
+        value: sequence.id
+      };
+      selectOptions.push(item);
+    }
   });
 
   return {

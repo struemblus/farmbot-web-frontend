@@ -7,7 +7,7 @@ export interface DropDownItem {
   /** Name of the item shown in the list. */
   label: string;
   /** Value passed to the onClick cb and also determines the "chosen" option. */
-  value?: number | string;
+  value: number | string;
   /** Component internal use only unless there's an edge case for it. */
   hidden?: boolean;
   /** To determine group-by styling on rendered lists. */
