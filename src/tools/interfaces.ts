@@ -50,8 +50,6 @@ export interface ToolSlot {
   y?: number;
   z?: number;
   dirty?: boolean;
-  // isNew?: boolean;
-  // isDeleted?: boolean;
 }
 
 export interface UpdateToolSlotPayl {

@@ -2,58 +2,41 @@ import * as React from "react";
 import { ListAndFormProps, ToolFormState } from "../interfaces";
 import { t } from "i18next";
 import { Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
-import { toggleEditingTools, saveAllTools } from "../actions";
+import {
+  toggleEditingTools,
+  addTool,
+  destroyTool,
+  updateTool,
+  saveTools
+} from "../actions";
 
 export class ToolForm extends React.Component<ListAndFormProps,
   Partial<ToolFormState>> {
   constructor() {
     super();
-    this.state = { newToolName: "" };
-  }
-
-  componentDidMount() {
-    this.setState({ tools: this.props.all.tools.all });
+    this.state = {};
   }
 
   setNewToolName = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ newToolName: e.currentTarget.value });
   }
 
-  setExistingToolName = (e: React.FormEvent<HTMLInputElement>) => {
-    if (this.state.tools) {
-      let toolStateCopy = this.state.tools.slice(0);
-      let index = e.currentTarget.id || "NO ID FOUND";
-      let modifiedTool = toolStateCopy[parseInt(index)];
-      modifiedTool.name = e.currentTarget.value;
-      modifiedTool.dirty = true;
-      this.setState({ tools: toolStateCopy });
+  update = (e: React.FormEvent<HTMLInputElement>) => {
+    let { id, value } = e.currentTarget;
+    this.props.dispatch(updateTool(parseInt(id), value));
+  }
+
+  destroy = (tool_id: number | null) => {
+    if (tool_id === null) {
+      throw new Error("Tool ID could not be found.");
+    } else {
+      this.props.dispatch(destroyTool(tool_id));
     }
   }
 
-  removeTool = (e: React.FormEvent<HTMLButtonElement>) => {
-    if (this.state.tools) {
-      let toolStateCopy = this.state.tools.slice(0);
-      let index = e.currentTarget.id || "NO ID FOUND";
-      let modifiedTool = toolStateCopy[parseInt(index)];
-      modifiedTool.isNew = false;
-      modifiedTool.isDeleted = true;
-      this.setState({ tools: toolStateCopy });
-    }
-  }
-
-  addTool = (e: React.FormEvent<HTMLButtonElement>) => {
-    if (this.state.tools && this.state.newToolName) {
-      let newToolList = this.state.tools.concat({
-        name: this.state.newToolName, isNew: true
-      });
-      this.setState({ tools: newToolList, newToolName: "" });
-    }
-  }
-
-  saveAll = () => {
-    if (this.state.tools) {
-      this.props.dispatch(saveAllTools(this.state.tools));
-    }
+  add = (e: React.FormEvent<HTMLButtonElement>) => {
+    this.props.dispatch(addTool(this.state.newToolName || ""));
+    this.setState({ newToolName: "" });
   }
 
   toggleEdit = () => {
@@ -68,7 +51,9 @@ export class ToolForm extends React.Component<ListAndFormProps,
         title="TOOLS">
         <button
           className="green button-like"
-          onClick={() => { this.saveAll(); }}>
+          onClick={() =>
+            this.props.dispatch(saveTools(this.props.all.tools.all))
+          }>
           {t("SAVE")}
           {this.props.all.tools.dirty && ("*")}
         </button>
@@ -86,21 +71,20 @@ export class ToolForm extends React.Component<ListAndFormProps,
             </tr>
           </thead>
           <tbody>
-            {(this.state.tools || []).map((tool, index) => {
+            {(this.props.all.tools.all || []).map((tool, index) => {
               let isDeleted = tool.isDeleted || false;
               return <tr key={index} className={"is-deleted-" + isDeleted}>
                 <td>
                   <BlurableInput
-                    id={(index.toString() || "Error no index")}
+                    id={(tool.id || "Error getting ID").toString()}
                     value={tool.name || "Error getting Name"}
-                    onCommit={this.setExistingToolName}
+                    onCommit={this.update}
                   />
                 </td>
                 <td>
                   <button
                     className="button-like red"
-                    id={(index.toString() || "Error no index")}
-                    onClick={this.removeTool}>
+                    onClick={() => this.destroy(tool.id || null)}>
                     <i className="fa fa-times"></i>
                   </button>
                 </td>
@@ -117,7 +101,7 @@ export class ToolForm extends React.Component<ListAndFormProps,
               <td>
                 <button
                   className="button-like green"
-                  onClick={this.addTool}>
+                  onClick={this.add}>
                   <i className="fa fa-plus"></i>
                 </button>
               </td>

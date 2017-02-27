@@ -1,14 +1,27 @@
 import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, FBSelect } from "../../ui";
-import { Col, Row, BlurableInput } from "../../ui";
-import { toggleEditingToolBays, saveToolBay } from "../actions";
-import { mapStateToPropsToolBay, ToolBayFormProps } from "./map_state_to_props_toolbay";
+import { Col, Row, BlurableInput, DropDownItem } from "../../ui";
+import { Everything } from "../../interfaces";
+import {
+  toggleEditingToolBays,
+  saveToolBay,
+  destroySlot,
+  addToolSlot,
+  updateToolSlot,
+  saveToolSlots
+} from "../actions";
 import { t } from "i18next";
 import { connect } from "react-redux";
 
-@connect(mapStateToPropsToolBay)
-export class ToolBayForm extends React.Component<ToolBayFormProps,
+// Feeling like this is unnecessary...
+interface FBSelectWithSlotId extends DropDownItem {
+  slot_id: number;
+  value: number;
+}
+
+@connect((state: Everything) => state)
+export class ToolBayForm extends React.Component<ListAndFormProps,
 Partial<ToolBayFormState>> {
   constructor() {
     super();
@@ -18,14 +31,6 @@ Partial<ToolBayFormState>> {
       new_slot_z: 0,
       new_slot_tool_id: null
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      tool_bays: this.props.tool_bays,
-      tool_slots: this.props.tool_slots,
-      tools: this.props.tools
-    });
   }
 
   resetState = () => {
@@ -42,45 +47,56 @@ Partial<ToolBayFormState>> {
     this.setState({ [name]: parseInt(value) });
   }
 
-  //   removeTool = (e: React.FormEvent<HTMLButtonElement>) => {
-  //   if (this.state.tools) {
-  //     let toolStateCopy = this.state.tools.slice(0);
-  //     let index = e.currentTarget.id || "NO ID FOUND";
-  //     let modifiedTool = toolStateCopy[parseInt(index)];
-  //     modifiedTool.isNew = false;
-  //     modifiedTool.isDeleted = true;
-  //     this.setState({ tools: toolStateCopy });
-  //   }
-  // }
-
-  addToolSlot(tool_bay_id: number) {
-    if (this.state.tool_slots) {
-      let newToolSlotList = this.state.tool_slots.concat({
-        x: this.state.new_slot_x,
-        y: this.state.new_slot_y,
-        z: this.state.new_slot_z,
-        tool_id: this.state.new_slot_tool_id,
-        tool_bay_id
-      });
-      this.setState({ tool_slots: newToolSlotList });
-      this.resetState();
+  destroy = (id: number | null) => {
+    if (id === null) {
+      throw new Error("Could not find tool slot ID.");
+    } else {
+      this.props.dispatch(destroySlot(id));
     }
   }
 
+  add = (tool_bay_id: number) => {
+    let slot = {
+      x: this.state.new_slot_x,
+      y: this.state.new_slot_y,
+      z: this.state.new_slot_z,
+      tool_id: this.state.new_slot_tool_id,
+      tool_bay_id
+    };
+    this.props.dispatch(addToolSlot(slot));
+    this.resetState();
+  }
+
+  update = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let { id, name, value } = e.currentTarget;
+    this.props.dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
+  }
+
+  updateTool = (item: FBSelectWithSlotId) => {
+    // Key is not assignable error? The interface above makes it work?
+    this.props.dispatch(updateToolSlot(item.slot_id, "tool_id", item.value));
+  }
+
+  updateNewSlotTool = (item: DropDownItem) => {
+    // Key is not assignable error?
+    // this.setState({ new_slot_tool_id: item.value });
+  }
+
   saveAll = () => {
+    this.props.dispatch(saveToolSlots(this.props.all.tool_slots));
     // TODO: This is NOT scalable. Temp solution for just having one toolbay.
-    if (this.state.tool_bays && this.state.tool_bays[0]) {
-      let tool_bay_id = this.state.tool_bays[0].id;
-      this.props.dispatch(saveToolBay(tool_bay_id, this.state.tool_bays));
+    if (this.props.all.tool_bays && this.props.all.tool_bays[0]) {
+      let tool_bay_id = this.props.all.tool_bays[0].id;
+      this.props.dispatch(saveToolBay(tool_bay_id, this.props.all.tool_bays));
     }
   }
 
   renderSlots = (tool_bay_id: number) => {
-    return _.sortBy((this.state.tool_slots || []), "id").map((slot, index) => {
-      let { x, y, z, tool_id } = slot;
+    return _.sortBy((this.props.all.tool_slots || []), "id").map((slot, index) => {
+      let { x, y, z, tool_id, id } = slot;
 
-      let toolOptions = (this.state.tools || []).map(tool => {
-        return { label: tool.name, value: tool.id };
+      let toolOptions = (this.props.all.tools.all || []).map(tool => {
+        return { label: tool.name, value: tool.id, slot_id: id };
       });
 
       return <div key={index}>
@@ -90,36 +106,41 @@ Partial<ToolBayFormState>> {
           </Col>
           <Col xs={2}>
             <BlurableInput
+              id={(id || "Error getting slot ID.").toString()}
               value={(x || 0).toString()}
               type="number"
               name="x"
-              onCommit={this.set}
+              onCommit={this.update}
             />
           </Col>
           <Col xs={2}>
             <BlurableInput
+              id={(id || "Error getting slot ID.").toString()}
               value={(y || 0).toString()}
               type="number"
               name="y"
-              onCommit={this.set}
+              onCommit={this.update}
             />
           </Col>
           <Col xs={2}>
             <BlurableInput
+              id={(id || "Error getting slot ID.").toString()}
               value={(z || 0).toString()}
               type="number"
               name="z"
-              onCommit={this.set}
+              onCommit={this.update}
             />
           </Col>
           <Col xs={4}>
             <FBSelect
+              onChange={this.updateTool}
               dropDownItems={toolOptions}
               value={tool_id}
             />
           </Col>
           <Col xs={1}>
             <button
+              onClick={() => this.destroy(slot.id || null)}
               className="button-like red">
               <i className="fa fa-times"></i>
             </button>
@@ -131,18 +152,13 @@ Partial<ToolBayFormState>> {
 
   render() {
     let toggleEdit = () => { this.props.dispatch(toggleEditingToolBays()); };
-    let {
-      new_slot_x,
-      new_slot_y,
-      new_slot_z,
-      tool_bays,
-      tool_slots
-    } = this.state;
+    let { new_slot_x, new_slot_y, new_slot_z } = this.state;
+    let { tool_bays, tool_slots } = this.props.all;
 
-    let toolOptions = (this.state.tools || []).map(tool => {
+    let newSlotToolOptions = (this.props.all.tools.all || []).map(tool => {
       return { label: tool.name, value: tool.id };
     });
-    console.log(this.state);
+
     return <Widget className="toolbay-form-widget">
       <WidgetHeader
         helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
@@ -164,6 +180,7 @@ Partial<ToolBayFormState>> {
       </WidgetHeader>
 
       {(tool_bays || []).map((tool_bay, index) => {
+
         return <div key={index}>
           <WidgetBody>
             <Row>
@@ -230,12 +247,14 @@ Partial<ToolBayFormState>> {
                 />
               </Col>
               <Col xs={4}>
-                <FBSelect dropDownItems={toolOptions} />
+                <FBSelect
+                  onChange={this.updateNewSlotTool}
+                  dropDownItems={newSlotToolOptions} />
               </Col>
               <Col xs={1}>
                 <button
                   className="button-like green"
-                  onClick={() => this.addToolSlot(tool_bay.id)}>
+                  onClick={() => this.add(tool_bay.id)}>
                   <i className="fa fa-plus"></i>
                 </button>
               </Col>

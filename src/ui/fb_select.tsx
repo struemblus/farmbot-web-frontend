@@ -52,6 +52,14 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     });
   }
 
+  componentDidMount() {
+    if (this.props.value) {
+      this.setState({
+        label: this.props.value.toString() || "",
+      });
+    }
+  }
+
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
     this.setState({ label: e.currentTarget.value });
   }
@@ -120,7 +128,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
   render() {
     let { className, optionComponent, placeholder } = this.props;
     let { isOpen } = this.state;
-    // Dynamically chose custom vs. standard list item JSX based on options:
+    // Dynamically choose custom vs. standard list item JSX based on options:
     let renderList = (optionComponent ? this.custItemList : this.normlItemList);
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">

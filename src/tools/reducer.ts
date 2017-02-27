@@ -85,5 +85,21 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     s.tools.dirty = false;
     s.tools.isEditing = false;
     return s;
+  })
+  .add<Tool>("ADD_TOOL_OK", function (s, a) {
+    s.tools.all.push(a.payload);
+    return s;
+  })
+  .add<Partial<Tool>>("DESTROY_TOOL_OK", function (s, a) {
+    let index = _.findIndex(s.tools.all, { id: a.payload });
+    s.tools.all.splice(index, 1);
+    return s;
+  })
+  .add<{ id: number, value: string }>("UPDATE_TOOL", function (s, a) {
+    let tool = _.findWhere(s.tools.all, { id: a.payload.id });
+    tool.name = a.payload.value;
+    tool.dirty = true;
+    s.tools.dirty = true;
+    return s;
   });
 

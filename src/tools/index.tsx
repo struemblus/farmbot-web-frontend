@@ -20,10 +20,8 @@ export class Tools extends React.Component<Everything, ToolsState> {
         )}
         {editing && (
           <ToolBayForm
+            all={this.props.tools}
             dispatch={this.props.dispatch}
-            tool_bays={this.props.tools.tool_bays}
-            tool_slots={this.props.tools.tool_slots}
-            tools={this.props.tools.tools.all}
           />
         )}
       </Col>
