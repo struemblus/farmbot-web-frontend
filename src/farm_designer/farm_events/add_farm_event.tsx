@@ -4,17 +4,12 @@ import { FarmEvent } from "../interfaces";
 import {
   FBSelect,
   Select,
-  DropDownItem,
-  error,
   BlurableInput,
   Col,
   Row,
   BackArrow
 } from "../../ui";
 import { connect } from "react-redux";
-import { Everything } from "../../interfaces";
-import * as _ from "lodash";
-import * as moment from "moment";
 import { mapStateToPropsAdd, AddFarmEventProps } from "./map_state_to_props_add";
 
 type AddFarmEventState = Partial<FarmEvent>

@@ -1,19 +1,18 @@
 import * as React from "react";
-import { ListAndFormProps, ToolBayFormState, ToolSlot } from "../interfaces";
+import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, FBSelect } from "../../ui";
 import { Col, Row, BlurableInput } from "../../ui";
-import { toggleEditingToolBays, saveToolBay, addToolSlot } from "../actions";
+import { toggleEditingToolBays, saveToolBay } from "../actions";
+import { mapStateToPropsToolBay, ToolBayFormProps } from "./map_state_to_props_toolbay";
 import { t } from "i18next";
-import { Dictionary } from "farmbot";
+import { connect } from "react-redux";
 
-export class ToolBayForm extends React.Component<ListAndFormProps,
-  Partial<ToolBayFormState>> {
+@connect(mapStateToPropsToolBay)
+export class ToolBayForm extends React.Component<ToolBayFormProps,
+Partial<ToolBayFormState>> {
   constructor() {
     super();
     this.state = {
-      tools: [],
-      tool_slots: [],
-      tool_bays: [],
       new_slot_x: 0,
       new_slot_y: 0,
       new_slot_z: 0,
@@ -23,9 +22,9 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
 
   componentDidMount() {
     this.setState({
-      tool_bays: this.props.all.tool_bays,
-      tool_slots: this.props.all.tool_slots,
-      tools: this.props.all.tools.all
+      tool_bays: this.props.tool_bays,
+      tool_slots: this.props.tool_slots,
+      tools: this.props.tools
     });
   }
 
@@ -40,18 +39,7 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
 
   set = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { name, value } = e.currentTarget;
-    this.setState({ [name]: value });
-  }
-
-  updateToolBayName = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    if (this.state.tool_bays) {
-      let toolBayStateCopy = this.state.tool_bays.slice(0);
-      let index = e.currentTarget.id || "NO ID FOUND";
-      let modifiedBay = toolBayStateCopy[parseInt(index)];
-      modifiedBay.name = e.currentTarget.value;
-      modifiedBay.dirty = true;
-      this.setState({ tool_bays: toolBayStateCopy });
-    }
+    this.setState({ [name]: parseInt(value) });
   }
 
   //   removeTool = (e: React.FormEvent<HTMLButtonElement>) => {
@@ -79,8 +67,12 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     }
   }
 
-  saveAll = (tool_bay_id: number) => {
-    // this.props.dispatch(saveToolBay(tool_bay_id, tool_bays));
+  saveAll = () => {
+    // TODO: This is NOT scalable. Temp solution for just having one toolbay.
+    if (this.state.tool_bays && this.state.tool_bays[0]) {
+      let tool_bay_id = this.state.tool_bays[0].id;
+      this.props.dispatch(saveToolBay(tool_bay_id, this.state.tool_bays));
+    }
   }
 
   renderSlots = (tool_bay_id: number) => {
@@ -150,110 +142,107 @@ export class ToolBayForm extends React.Component<ListAndFormProps,
     let toolOptions = (this.state.tools || []).map(tool => {
       return { label: tool.name, value: tool.id };
     });
-
-    return <Col md={8}>
-      <Widget className="toolbay-form-widget">
-        <WidgetHeader
-          helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
+    console.log(this.state);
+    return <Widget className="toolbay-form-widget">
+      <WidgetHeader
+        helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
           Toolbay has Slots that you can put your Tools in, which should be 
           reflective of your real FarmBot hardware configuration.`)}
 
-          /** Make [0] index dynamic once we support multiple bays */
-          title={tool_bays && tool_bays[0] && tool_bays[0].name || "Name not found"}>
-          <button
-            className="green button-like"
-            onClick={this.props.dispatch(addToolSlot)}>
-            {t("SAVE")}
-          </button>
-          <button
-            className="gray button-like"
-            onClick={toggleEdit}>
-            {t("BACK")}
-          </button>
-        </WidgetHeader>
+        /** Make [0] index dynamic once we support multiple bays */
+        title={tool_bays && tool_bays[0] && tool_bays[0].name || "Name not found"}>
+        <button
+          className="green button-like"
+          onClick={this.saveAll}>
+          {t("SAVE")}
+        </button>
+        <button
+          className="gray button-like"
+          onClick={toggleEdit}>
+          {t("BACK")}
+        </button>
+      </WidgetHeader>
 
-        {(tool_bays || []).map((tool_bay, index) => {
-          return <div key={index}>
-            <WidgetBody>
-              <Row>
-                <Col xs={3}>
-                  <label>{t("TOOLBAY NAME")}</label>
-                </Col>
-                <Col xs={9}>
-                  <BlurableInput
-                    value={tool_bay.name}
-                    onCommit={this.updateToolBayName}
-                    id={index.toString()}
-                  />
-                </Col>
-              </Row>
+      {(tool_bays || []).map((tool_bay, index) => {
+        return <div key={index}>
+          <WidgetBody>
+            <Row>
+              <Col xs={3}>
+                <label>{t("TOOLBAY NAME")}</label>
+              </Col>
+              <Col xs={9}>
+                <BlurableInput
+                  value={tool_bay.name}
+                  onCommit={() => console.log("update toolbay name")}
+                  id={index.toString()}
+                />
+              </Col>
+            </Row>
 
-              <Row>
-                <Col xs={1}>
-                  <label>{t("SLOT")}</label>
-                </Col>
-                <Col xs={2}>
-                  <label>{t("X")}</label>
-                </Col>
-                <Col xs={2}>
-                  <label>{t("Y")}</label>
-                </Col>
-                <Col xs={2}>
-                  <label>{t("Z")}</label>
-                </Col>
-                <Col xs={4}>
-                  <label>{t("TOOL")}</label>
-                </Col>
-              </Row>
+            <Row>
+              <Col xs={1}>
+                <label>{t("SLOT")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("X")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("Y")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("Z")}</label>
+              </Col>
+              <Col xs={4}>
+                <label>{t("TOOL")}</label>
+              </Col>
+            </Row>
 
-              {this.renderSlots(tool_bay.id)}
+            {this.renderSlots(tool_bay.id)}
 
-              <Row>
-                <Col xs={1}>
-                  <label>
-                    {tool_slots && tool_slots.length || 0}
-                  </label>
-                </Col>
-                <Col xs={2}>
-                  <BlurableInput
-                    value={(new_slot_x || 0).toString()}
-                    type="number"
-                    name="x"
-                    onCommit={this.set}
-                  />
-                </Col>
-                <Col xs={2}>
-                  <BlurableInput
-                    value={(new_slot_y || 0).toString()}
-                    type="number"
-                    name="y"
-                    onCommit={this.set}
-                  />
-                </Col>
-                <Col xs={2}>
-                  <BlurableInput
-                    value={(new_slot_z || 0).toString()}
-                    type="number"
-                    name="z"
-                    onCommit={this.set}
-                  />
-                </Col>
-                <Col xs={4}>
-                  <FBSelect dropDownItems={toolOptions} />
-                </Col>
-                <Col xs={1}>
-                  <button
-                    className="button-like green"
-                    onClick={() => this.addToolSlot(tool_bay.id)}>
-                    <i className="fa fa-plus"></i>
-                  </button>
-                </Col>
-              </Row>
-            </WidgetBody>
-          </div>;
-        })}
-
-      </Widget>
-    </Col>;
+            <Row>
+              <Col xs={1}>
+                <label>
+                  {tool_slots && tool_slots.length || 0}
+                </label>
+              </Col>
+              <Col xs={2}>
+                <BlurableInput
+                  value={(new_slot_x || 0).toString()}
+                  type="number"
+                  name="new_slot_x"
+                  onCommit={this.set}
+                />
+              </Col>
+              <Col xs={2}>
+                <BlurableInput
+                  value={(new_slot_y || 0).toString()}
+                  type="number"
+                  name="new_slot_y"
+                  onCommit={this.set}
+                />
+              </Col>
+              <Col xs={2}>
+                <BlurableInput
+                  value={(new_slot_z || 0).toString()}
+                  type="number"
+                  name="new_slot_z"
+                  onCommit={this.set}
+                />
+              </Col>
+              <Col xs={4}>
+                <FBSelect dropDownItems={toolOptions} />
+              </Col>
+              <Col xs={1}>
+                <button
+                  className="button-like green"
+                  onClick={() => this.addToolSlot(tool_bay.id)}>
+                  <i className="fa fa-plus"></i>
+                </button>
+              </Col>
+            </Row>
+          </WidgetBody>
+        </div>;
+      })}
+    </Widget>;
   }
 };

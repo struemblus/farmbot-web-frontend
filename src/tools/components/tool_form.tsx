@@ -8,7 +8,7 @@ export class ToolForm extends React.Component<ListAndFormProps,
   Partial<ToolFormState>> {
   constructor() {
     super();
-    this.state = { tools: [], newToolName: "" };
+    this.state = { newToolName: "" };
   }
 
   componentDidMount() {

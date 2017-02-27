@@ -34,7 +34,7 @@ export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
       .then(resp => {
         dispatch(saveToolBayOk(resp.data));
       }, (e: Error) => {
-        error(t(`ToolBay could not be updated: ${e.message}`));
+        error(prettyPrintApiErrors(e));
       });
   };
 }
