@@ -30,7 +30,6 @@ export class ToolList extends React.Component<ListAndFormProps, {}> {
             <tbody>
               {this.props.all.tools.all.map((tool, index) => {
                 let { name } = tool;
-                index++;
                 return <tr key={index}>
                   <td>{name}</td>
                   <td>{tool.status || ""}</td>

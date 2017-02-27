@@ -9,16 +9,10 @@ import {
   destroySlot,
   addToolSlot,
   updateToolSlot,
-  saveToolSlots
+  updateToolBayName
 } from "../actions";
 import { t } from "i18next";
 import { connect } from "react-redux";
-
-// Feeling like this is unnecessary...
-interface FBSelectWithSlotId extends DropDownItem {
-  slot_id: number;
-  value: number;
-}
 
 @connect((state: Everything) => state)
 export class ToolBayForm extends React.Component<ListAndFormProps,
@@ -67,23 +61,50 @@ Partial<ToolBayFormState>> {
     this.resetState();
   }
 
+  updateBayName = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    // let { id, value } = e.currentTarget;
+    // this.props.dispatch(updateToolBayName(parseInt(id), value));
+  }
+
   update = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { id, name, value } = e.currentTarget;
     this.props.dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
   }
 
-  updateTool = (item: FBSelectWithSlotId) => {
-    // Key is not assignable error? The interface above makes it work?
-    this.props.dispatch(updateToolSlot(item.slot_id, "tool_id", item.value));
+  updateTool = (slot_id: number | undefined) => {
+    let tools = _.indexBy(this.props.all.tools.all, "id");
+    return (item: DropDownItem) => {
+      if (item.value) {
+        let tool = tools[item.value];
+        if (tool && tool.id && slot_id) {
+          let id = tool.id;
+          this.props.dispatch(updateToolSlot(slot_id, "tool_id", id));
+        } else {
+          // Keeping an eye on this for Rollbar
+          throw new Error(`Should never happen: No Tool ID.
+          tool_id: ${tool.id}
+          slot_id: ${slot_id}`);
+        }
+      }
+    };
   }
 
   updateNewSlotTool = (item: DropDownItem) => {
-    // Key is not assignable error?
-    // this.setState({ new_slot_tool_id: item.value });
+    let tools = _.indexBy(this.props.all.tools.all, "id");
+    if (item.value) {
+      let tool = tools[item.value];
+      if (tool && tool.id) {
+        let id = tool.id;
+        this.setState({ new_slot_tool_id: id });
+      } else {
+        // Keeping an eye on this for Rollbar
+        throw new Error(`Should never happen: No Tool ID. 
+          tool_id: ${tool.id}`);
+      }
+    }
   }
 
   saveAll = () => {
-    this.props.dispatch(saveToolSlots(this.props.all.tool_slots));
     // TODO: This is NOT scalable. Temp solution for just having one toolbay.
     if (this.props.all.tool_bays && this.props.all.tool_bays[0]) {
       let tool_bay_id = this.props.all.tool_bays[0].id;
@@ -99,10 +120,13 @@ Partial<ToolBayFormState>> {
         return { label: tool.name, value: tool.id, slot_id: id };
       });
 
-      return <div key={index}>
+      let chosenTool = tool_id ?
+        _.indexBy(toolOptions, "value")[tool_id].label : null;
+
+      return <div key={id}>
         <Row>
           <Col xs={1}>
-            <label>{index}</label>
+            <label>{index + 1}</label>
           </Col>
           <Col xs={2}>
             <BlurableInput
@@ -133,9 +157,9 @@ Partial<ToolBayFormState>> {
           </Col>
           <Col xs={4}>
             <FBSelect
-              onChange={this.updateTool}
+              onChange={this.updateTool(id)}
               dropDownItems={toolOptions}
-              value={tool_id}
+              value={chosenTool}
             />
           </Col>
           <Col xs={1}>
@@ -181,7 +205,7 @@ Partial<ToolBayFormState>> {
 
       {(tool_bays || []).map((tool_bay, index) => {
 
-        return <div key={index}>
+        return <div key={tool_bay.id}>
           <WidgetBody>
             <Row>
               <Col xs={3}>
@@ -190,8 +214,8 @@ Partial<ToolBayFormState>> {
               <Col xs={9}>
                 <BlurableInput
                   value={tool_bay.name}
-                  onCommit={() => console.log("update toolbay name")}
-                  id={index.toString()}
+                  onCommit={this.updateBayName}
+                  id={(tool_bay.id || "").toString()}
                 />
               </Col>
             </Row>
@@ -219,7 +243,7 @@ Partial<ToolBayFormState>> {
             <Row>
               <Col xs={1}>
                 <label>
-                  {tool_slots && tool_slots.length || 0}
+                  {tool_slots && tool_slots.length + 1 || 0}
                 </label>
               </Col>
               <Col xs={2}>

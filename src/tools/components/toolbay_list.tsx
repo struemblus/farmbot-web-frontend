@@ -9,7 +9,6 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
   renderTool(tool_id: number | undefined | null) {
     let { tools } = this.props.all;
     return tools.all.map((tool, index) => {
-      index++;
       if (tool_id === tool.id) {
         return <td key={index}>
           {tool.name}
@@ -21,11 +20,10 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
   renderSlots(tool_bay_id: number) {
     let { tool_slots, tools } = this.props.all;
     let currentSlots = _.where(tool_slots, { tool_bay_id });
-    return currentSlots.map((slot, index) => {
-      index++;
+    return _.sortBy((currentSlots || []), "id").map((slot, index) => {
       let { x, y, z, tool_id } = slot;
       return <tr key={index}>
-        <td>{index}</td>
+        <td>{index + 1}</td>
         <td>{x}</td>
         <td>{y}</td>
         <td>{z}</td>
@@ -40,7 +38,6 @@ export class ToolBayList extends React.Component<ListAndFormProps, {}> {
     let { tool_bays } = this.props.all;
     return <Col>
       {tool_bays.map((bay, index) => {
-        index++;
         let { id, name } = bay;
         return <Widget key={index}>
           <WidgetHeader

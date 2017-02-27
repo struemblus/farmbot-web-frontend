@@ -28,7 +28,7 @@ export interface SelectProps {
   /** Placeholder for the input. */
   placeholder?: string;
   /** Determines what label to show in the select box. */
-  value?: number | null;
+  value?: string | null;
 }
 
 export interface SelectState {
@@ -64,7 +64,12 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     this.setState({ label: e.currentTarget.value });
   }
 
-  open() { this.setState({ isOpen: true }); }
+  open = () => {
+    this.setState({
+      isOpen: true,
+      label: ""
+    });
+  }
 
   /** Closes the dropdown ONLY IF the developer has not set this.props.isOpen to
    * true, since that would indicate the developer wants it to always be open.
@@ -134,7 +139,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
       <div className="select-search-container">
         <input type="text"
           onChange={this.updateInput.bind(this)}
-          onFocus={this.open.bind(this)}
+          onFocus={this.open}
           onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
           value={this.state.label} />

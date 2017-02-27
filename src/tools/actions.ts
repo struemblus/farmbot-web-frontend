@@ -22,20 +22,44 @@ export function toggleEditingTools(): ReduxAction<{}> {
 }
 
 /** ToolBays */
+export function updateToolBayName(id: number, value: number): ReduxAction<{}> {
+  return { type: "UPDATE_TOOL_BAY_NAME", payload: { id, value } };
+}
+
 export function saveToolBayOk(toolBay: ToolBay): ReduxAction<{}> {
   return { type: "SAVE_TOOL_BAY_OK", payload: toolBay };
 }
 
 export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
-  let bay = _.findWhere(toolBays, { id });
+
   return (dispatch, getState) => {
-    Axios
-      .patch<ToolBay>(API.current.toolBaysPath + id, bay)
+    let dirtSlots = {
+      tool_slots: getState().tools.tool_slots.filter(allSlots => !!allSlots.dirty)
+    };
+    let url = API.current.toolSlotsPath;
+    Axios.post<ToolSlot[]>(url, dirtSlots)
       .then(resp => {
-        dispatch(saveToolBayOk(resp.data));
+        if (resp instanceof Error) {
+          error(prettyPrintApiErrors(resp));
+          throw resp;
+        }
+        success(t("ToolBay saved."));
+        updateToolBayAfterSlots();
+        dispatch(saveToolSlotOk(resp.data));
       }, (e: Error) => {
         error(prettyPrintApiErrors(e));
       });
+
+    function updateToolBayAfterSlots() {
+      let bay = _.findWhere(toolBays, { id });
+      return Axios
+        .patch<ToolBay>(API.current.toolBaysPath + id, bay)
+        .then(resp => {
+          dispatch(saveToolBayOk(resp.data));
+        }, (e: Error) => {
+          error(prettyPrintApiErrors(e));
+        });
+    };
   };
 }
 
@@ -67,23 +91,11 @@ export function addToolSlot(slot: ToolSlot): Thunk {
     Axios
       .post<ToolSlot>(API.current.toolSlotsPath, slot)
       .then(resp => {
+        if (resp instanceof Error) {
+          error(prettyPrintApiErrors(resp));
+          throw resp;
+        }
         dispatch(addToolSlotOk(resp.data));
-      }, (e: Error) => {
-        error(prettyPrintApiErrors(e));
-      });
-  };
-}
-
-export function saveToolSlots(tool_slots: ToolSlot[]): Thunk {
-  return (dispatch, getState) => {
-    let dirtSlots = {
-      tool_slots: tool_slots.filter(allSlots => !!allSlots.dirty)
-    };
-    let url = API.current.toolSlotsPath;
-    Axios.post<ToolSlot[]>(url, dirtSlots)
-      .then(resp => {
-        success(t("ToolBay saved."));
-        dispatch(saveToolSlotOk(resp.data));
       }, (e: Error) => {
         error(prettyPrintApiErrors(e));
       });

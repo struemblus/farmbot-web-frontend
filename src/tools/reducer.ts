@@ -44,6 +44,13 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     s.editorMode = false;
     return s;
   })
+  .add<ToolBay>("UPDATE_TOOL_BAY_NAME", function (s, a) {
+    let { id, name } = a.payload;
+    let bay = _.findWhere(s.tool_bays, { id });
+    bay.name = name;
+    bay.dirty = true;
+    return s;
+  })
   /** ToolSlots */
   .add<ToolSlot>("ADD_TOOL_SLOT_OK", function (s, a) {
     s.tool_slots.push(a.payload);
@@ -54,7 +61,6 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
       let index = _.findIndex(s.tool_slots, { id: ts.id });
       s.tool_slots.splice(index, 1, ts);
     });
-    s.editorMode = false;
     // TODO: Find a more elegant solution to this problem: nested resource?
     // Deactivate all.
     s.tools.all.map(t => t.status = "inactive");
