@@ -41,11 +41,11 @@ Partial<ToolBayFormState>> {
     this.setState({ [name]: parseInt(value) });
   }
 
-  destroy = (id: number | null) => {
-    if (id === null) {
-      throw new Error("Could not find tool slot ID.");
-    } else {
+  destroy = (id: number | undefined) => {
+    if (id) {
       this.props.dispatch(destroySlot(id));
+    } else {
+      throw new Error("Could not find tool slot ID.");
     }
   }
 
@@ -121,7 +121,7 @@ Partial<ToolBayFormState>> {
       });
 
       let chosenTool = tool_id ?
-        _.indexBy(toolOptions, "value")[tool_id].label : null;
+        _.indexBy(toolOptions, "value")[tool_id].label : undefined;
 
       return <div key={id}>
         <Row>
@@ -164,7 +164,7 @@ Partial<ToolBayFormState>> {
           </Col>
           <Col xs={1}>
             <button
-              onClick={() => this.destroy(slot.id || null)}
+              onClick={() => this.destroy(slot.id)}
               className="button-like red">
               <i className="fa fa-times"></i>
             </button>

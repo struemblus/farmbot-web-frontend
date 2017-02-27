@@ -45,7 +45,7 @@ AddFarmEventState> {
         <FBSelect
           dropDownItems={this.props.selectOptions}
           onChange={this.updateSequenceOrRegimen}
-          value={0 || null} />
+          value={"0"} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>

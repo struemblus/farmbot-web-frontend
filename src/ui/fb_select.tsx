@@ -29,6 +29,8 @@ export interface SelectProps {
   placeholder?: string;
   /** Determines what label to show in the select box. */
   value?: string | undefined;
+  /** Allows user to have a non-selected value. */
+  allowEmpty?: boolean;
 }
 
 export interface SelectState {
