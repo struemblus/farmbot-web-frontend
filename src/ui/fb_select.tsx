@@ -28,7 +28,7 @@ export interface SelectProps {
   /** Placeholder for the input. */
   placeholder?: string;
   /** Determines what label to show in the select box. */
-  value?: string | null;
+  value?: string | undefined;
 }
 
 export interface SelectState {
@@ -75,6 +75,20 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
    * true, since that would indicate the developer wants it to always be open.
     */
   maybeClose = () => {
+
+    let isValidChoice = () => {
+      return this
+        .props
+        .dropDownItems
+        .map(x => x.label)
+        .includes(JSON.stringify(this.state.label));
+    };
+
+    if (!this.state.label || !isValidChoice()) {
+      // handle user clearing out the form.
+      this.setState({ label: this.props.value || "" });
+    };
+
     this.setState({ isOpen: (this.props.isOpen || false) });
   }
 
