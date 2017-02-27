@@ -101,6 +101,8 @@ Partial<ToolBayFormState>> {
         throw new Error(`Should never happen: No Tool ID. 
           tool_id: ${tool.id}`);
       }
+    } else {
+      // Handle "none" selection...
     }
   }
 
@@ -272,6 +274,7 @@ Partial<ToolBayFormState>> {
               </Col>
               <Col xs={4}>
                 <FBSelect
+                  allowEmpty={true}
                   onChange={this.updateNewSlotTool}
                   dropDownItems={newSlotToolOptions} />
               </Col>

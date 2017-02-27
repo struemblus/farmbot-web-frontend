@@ -48,25 +48,22 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     };
   }
 
-  componentWillMount() {
-    this.setState({
-      isOpen: !!this.props.isOpen
-    });
-  }
-
   componentDidMount() {
     if (this.props.value) {
       this.setState({
         label: this.props.value.toString() || "",
+        isOpen: !!this.props.isOpen
       });
     }
   }
 
   updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
+    // PROBABLY OK ============
     this.setState({ label: e.currentTarget.value });
   }
 
   open = () => {
+    // PROBABLY OK ====
     this.setState({
       isOpen: true,
       label: ""
@@ -85,18 +82,26 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
         .map(x => x.label)
         .includes(JSON.stringify(this.state.label));
     };
-
+    // ============ PROBABLY NOT THE SUSPECT:
     if (!this.state.label || !isValidChoice()) {
       // handle user clearing out the form.
       this.setState({ label: this.props.value || "" });
     };
 
     this.setState({ isOpen: (this.props.isOpen || false) });
+    // ============ PROBABLY NOT THE SUSPECT^^
   }
 
   handleSelectOption = (option: DropDownItem) => {
     (this.props.onChange || (() => { }))(option);
-    this.setState(option);
+    console.dir(option);
+    var that = this;
+    // ============ PROBABLY NOT THE SUSPECT:
+    this.setState({
+      label: option.label,
+      isOpen: false,
+      value: option.value
+    });
   }
 
   custItemList = (items: DropDownItem[]) => {
@@ -135,10 +140,13 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
 
   // returns dropDownItems that match the user's search term.
   filterByInput = () => {
-    return this.props.dropDownItems.filter((option: DropDownItem) => {
+    let results = this.props.dropDownItems.filter((option: DropDownItem) => {
       let query = (this.state.label || "").toUpperCase();
       return (option.label.toUpperCase().indexOf(query) > -1);
     });
+
+    // (this.props.allowEmpty) && results.unshift({ label: "None", value: "" });
+    return results;
   }
 
   generateKey(p: DropDownItem, i: number) {
@@ -151,6 +159,9 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     let { isOpen } = this.state;
     // Dynamically choose custom vs. standard list item JSX based on options:
     let renderList = (optionComponent ? this.custItemList : this.normlItemList);
+    if (this.props.allowEmpty) {
+      console.log(`Value of "label" is: ${this.state.label || "UNDEFINED"}.`);
+    }
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
