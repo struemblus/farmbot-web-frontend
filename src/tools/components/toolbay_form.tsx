@@ -8,8 +8,7 @@ import {
   saveToolBay,
   destroySlot,
   addToolSlot,
-  updateToolSlot,
-  updateToolBayName
+  updateToolSlot
 } from "../actions";
 import { t } from "i18next";
 import { connect } from "react-redux";
@@ -98,7 +97,7 @@ Partial<ToolBayFormState>> {
         this.setState({ new_slot_tool_id: id });
       } else {
         // Keeping an eye on this for Rollbar
-        throw new Error(`Should never happen: No Tool ID. 
+        throw new Error(`Should never happen: No Tool ID.
           tool_id: ${tool.id}`);
       }
     } else {
@@ -119,7 +118,11 @@ Partial<ToolBayFormState>> {
       let { x, y, z, tool_id, id } = slot;
 
       let toolOptions = (this.props.all.tools.all || []).map(tool => {
-        return { label: tool.name, value: tool.id, slot_id: id };
+        if (tool.id && id) {
+          return { label: tool.name, value: tool.id, slot_id: id };
+        } else {
+          throw new Error("Thought tool.id would be there. It was not.");
+        }
       });
 
       let chosenTool = tool_id ?
@@ -181,14 +184,19 @@ Partial<ToolBayFormState>> {
     let { new_slot_x, new_slot_y, new_slot_z } = this.state;
     let { tool_bays, tool_slots } = this.props.all;
 
-    let newSlotToolOptions = (this.props.all.tools.all || []).map(tool => {
-      return { label: tool.name, value: tool.id };
-    });
+    let newSlotToolOptions = (this.props.all.tools.all || [])
+      .map(tool => {
+        if (tool.id) {
+          return { label: tool.name, value: tool.id };
+        } else {
+          throw new Error("We thought tool.id would be there.");
+        }
+      });
 
     return <Widget className="toolbay-form-widget">
       <WidgetHeader
-        helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
-          Toolbay has Slots that you can put your Tools in, which should be 
+        helpText={t(`Toolbays are where you store your FarmBot Tools. Each
+          Toolbay has Slots that you can put your Tools in, which should be
           reflective of your real FarmBot hardware configuration.`)}
 
         /** Make [0] index dynamic once we support multiple bays */
