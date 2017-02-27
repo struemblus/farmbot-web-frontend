@@ -103,9 +103,8 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
       let Comp = this.props.optionComponent;
       return items
         .map((p, i) => {
-          let key = this.generateKey(p, i);
           return <div onMouseDown={() => { this.handleSelectOption(p); }}
-            key={key}>
+            key={p.value}>
             <Comp {...p}
             />
           </div>;
@@ -123,8 +122,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
       if (hidden) { classes += " is-hidden"; }
       if (heading) { classes += " is-header"; }
       // TODO: Put this in a shared function when we finish debugging callbacks.
-      let key = this.generateKey(option, i);
-      return <div key={key}
+      return <div key={option.value}
         className={classes}
         onMouseDown={() => { this.handleSelectOption(option); }}>
         <label>{label}</label>
@@ -132,9 +130,11 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     });
   }
 
-  generateKey(p: DropDownItem, i: number) {
-    let key = _.isUndefined(p.value) ? `${p.label}:@KEY${i}` : `${p.value}`;
-    return key;
+  filterByInput = () => {
+    return this.props.list.filter((option: DropDownItem) => {
+      let query = (this.state.label || "").toUpperCase();
+      return (option.label.toUpperCase().indexOf(query) > -1);
+    });
   }
 
   render() {
@@ -155,7 +155,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
           value={this.state.label} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        {renderList(this.props.list)}
+        {renderList(this.filterByInput())}
       </div>
     </div>;
   }
