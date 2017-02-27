@@ -1,12 +1,6 @@
 import { OpenFarm } from "./openfarm";
 import { Regimen } from "../regimens/interfaces";
 import { Sequence } from "../sequences/interfaces";
-import { Option } from "react-select";
-
-export interface SelectSequenceOrRegimenProps extends Option {
-  /** Used to identify checking which id in what array to match. */
-  kind?: string;
-}
 
 export interface UpdateSequenceOrRegimenProps {
   label: string;
@@ -86,7 +80,6 @@ export interface DesignerState {
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
   currentSequenceOrRegimen: Partial<Sequence | RegimenWithKindProp | undefined>;
-  farmEventToBeAdded: Partial<FarmEvent>;
 }
 
 export interface Point {
