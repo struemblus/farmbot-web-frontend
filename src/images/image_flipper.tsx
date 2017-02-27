@@ -9,6 +9,10 @@ export interface ImageFlipperProps {
 export interface ImageFlipperState {
   currentInx: number;
 }
+const NO_INDEX = new Error(`
+Attempter getting this.state.currentInx and expected a number.
+It was not a number.
+`);
 
 export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
   constructor() {
@@ -40,38 +44,35 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
   }
 
-  get next() {
-    if (this.state.currentInx) {
-      return this.props.images[this.state.currentInx + 1];
+  /** Clever trick to avoid type check errors and report problems. */
+  useIndex<T>(cb: (num: number) => T): T {
+    if (_.isNumber(this.state.currentInx)) {
+      return cb(this.state.currentInx);
+    } else {
+      throw NO_INDEX;
     }
   }
 
+  get next() {
+    return this.useIndex(n => this.props.images[n + 1]);
+  }
+
   get prev() {
-    if (this.state.currentInx) {
-      return this.props.images[this.state.currentInx - 1];
-    }
+    return this.useIndex(n => this.props.images[n - 1]);
   }
 
   up() {
     if (this.next) {
-      if (this.state.currentInx) {
-        let num = this.state.currentInx + 1;
-        this.setState({ currentInx: _.min([this.props.images.length - 1, num]) });
-      }
+      let num = this.useIndex(n => n + 1);
+      this.setState({ currentInx: _.min([this.props.images.length - 1, num]) });
     }
   }
 
   down() {
     if (this.prev) {
-      if (this.state.currentInx) {
-        let num = this.state.currentInx - 1;
-        this.setState({ currentInx: _.max([0, num]) });
-      }
+      let num = this.useIndex(n => n - 1);
+      this.setState({ currentInx: _.max([0, num]) });
     }
-  }
-
-  metaTag(key: string, val: string) {
-
   }
 
   metaDatas() {

@@ -1,18 +1,6 @@
 import { OpenFarm } from "./openfarm";
 import { Regimen } from "../regimens/interfaces";
 import { Sequence } from "../sequences/interfaces";
-import { Option } from "react-select";
-
-export interface SelectSequenceOrRegimenProps extends Option {
-  /** Used to identify checking which id in what array to match. */
-  kind?: string;
-}
-
-/** Used to associate dates with events in that are the same day */
-export interface FinalEventData {
-  date: string;
-  finalEvents: FarmEventExecutableData[];
-}
 
 export interface UpdateSequenceOrRegimenProps {
   label: string;
@@ -40,13 +28,6 @@ export interface FarmEvent {
   executable_type: string;
   calendar?: string[] | undefined;
 };
-
-export interface FarmEventExecutableData {
-  farm_event_data: FarmEvent;
-  executable_data: {
-    name: string;
-  };
-}
 
 export interface MovePlantProps {
   deltaX: number;
@@ -85,10 +66,6 @@ export interface Specimen {
   imgUrl: string;
 }
 
-export interface RegimenWithKindProp extends Regimen {
-  kind: string;
-}
-
 export interface DesignerState {
   x_size: number;
   y_size: number;
@@ -98,8 +75,6 @@ export interface DesignerState {
   deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
-  currentSequenceOrRegimen: Partial<Sequence | RegimenWithKindProp | undefined>;
-  farmEventToBeAdded: Partial<FarmEvent>;
 }
 
 export interface Point {

@@ -111,7 +111,6 @@ export class ToolForm extends React.Component<ListAndFormProps,
                 <BlurableInput
                   value={this.state.newToolName || ""}
                   onCommit={this.setNewToolName}
-                  commitOnEnter={this.addTool}
                   type="text"
                 />
               </td>

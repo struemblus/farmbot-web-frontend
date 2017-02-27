@@ -4,7 +4,6 @@ import { BotState, DeviceAccountSettings } from "./devices/interfaces";
 import { BulkSchedulerState } from "./regimens/bulk_scheduler/interfaces";
 import {
   RegimensState,
-  RegimenApiResponse,
   RegimenItem
 } from "./regimens/interfaces";
 import { SequenceReducerState, Sequence } from "./sequences/interfaces";
@@ -19,6 +18,8 @@ import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 import { ImageState, Image } from "./images";
+import { Regimen } from "./regimens/interfaces";
+
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
 export type Color = FarmBotJsColor;
@@ -76,7 +77,7 @@ export interface Everything {
   sync: Sync;
   images: ImageState;
   router: {
-    push: Function;
+    push(url?: string): void;
   };
 };
 
@@ -91,7 +92,7 @@ export interface Sync {
   farm_events: FarmEvent[];
   users: User[];
   sequences: Sequence[];
-  regimens: RegimenApiResponse[];
+  regimens: Regimen[];
   peripherals: Peripheral[];
   regimen_items: RegimenItem[];
   plants: Plant[];

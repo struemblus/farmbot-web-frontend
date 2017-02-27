@@ -14,15 +14,6 @@ export interface RegimenProps {
   dispatch: Function;
 };
 
-/**
- * A Regimen, as returned from the '/api/regemins' endpoint (JSON). 
- */
-export interface RegimenApiResponse {
-  id: number;
-  color: string;
-  device_id: string;
-  name: string;
-}
 /** A list of "sequences" scheduled after a starting point (epoch). */
 export interface Regimen {
   id?: number;
