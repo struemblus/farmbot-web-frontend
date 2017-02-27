@@ -160,7 +160,7 @@ Partial<ToolBayFormState>> {
           <Col xs={4}>
             <FBSelect
               onChange={this.updateTool(id)}
-              dropDownItems={toolOptions}
+              list={toolOptions}
               value={chosenTool}
             />
           </Col>
@@ -276,7 +276,7 @@ Partial<ToolBayFormState>> {
                 <FBSelect
                   allowEmpty={true}
                   onChange={this.updateNewSlotTool}
-                  dropDownItems={newSlotToolOptions} />
+                  list={newSlotToolOptions} />
               </Col>
               <Col xs={1}>
                 <button

@@ -4,10 +4,10 @@ type OptionComponent = React.ComponentClass<DropDownItem>
   | React.StatelessComponent<DropDownItem>;
 
 export interface DropDownItem {
-  /** Value passed to the onClick cb and also determines the "chosen" option. */
-  value?: number | string;
   /** Name of the item shown in the list. */
   label: string;
+  /** Value passed to the onClick cb and also determines the "chosen" option. */
+  value?: number | string;
   /** Component internal use only unless there's an edge case for it. */
   hidden?: boolean;
   /** To determine group-by styling on rendered lists. */
@@ -16,7 +16,9 @@ export interface DropDownItem {
 
 export interface SelectProps {
   /** The list of rendered options to select from. */
-  dropDownItems: DropDownItem[];
+  list: DropDownItem[];
+  /** Determines what label to show in the select box. */
+  value?: string | undefined;
   /** Determine whether the select list should always be open. */
   isOpen?: boolean;
   /** Custom JSX child rendered instead of a default item. */
@@ -27,8 +29,6 @@ export interface SelectProps {
   onChange?: (newValue: DropDownItem) => void;
   /** Placeholder for the input. */
   placeholder?: string;
-  /** Determines what label to show in the select box. */
-  value?: string | undefined;
   /** Allows user to have a non-selected value. */
   allowEmpty?: boolean;
 }
@@ -49,15 +49,12 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
   }
 
   componentDidMount() {
-    if (this.props.value) {
-      this.setState({
-        label: this.props.value.toString() || "",
-        isOpen: !!this.props.isOpen
-      });
-    }
+    this.setState({
+      isOpen: !!this.props.isOpen
+    });
   }
 
-  updateInput(e: React.SyntheticEvent<HTMLInputElement>) {
+  updateInput = (e: React.SyntheticEvent<HTMLInputElement>) => {
     // PROBABLY OK ============
     this.setState({ label: e.currentTarget.value });
   }
@@ -74,19 +71,18 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
    * true, since that would indicate the developer wants it to always be open.
     */
   maybeClose = () => {
-
-    let isValidChoice = () => {
-      return this
-        .props
-        .dropDownItems
-        .map(x => x.label)
-        .includes(JSON.stringify(this.state.label));
-    };
+    // let isValidChoice = () => {
+    //   return this
+    //     .props
+    //     .list
+    //     .map(x => x.label)
+    //     .includes(JSON.stringify(this.state.label));
+    // };
     // ============ PROBABLY NOT THE SUSPECT:
-    if (!this.state.label || !isValidChoice()) {
-      // handle user clearing out the form.
-      this.setState({ label: this.props.value || "" });
-    };
+    // if (!this.state.label || !isValidChoice()) {
+    //   // handle user clearing out the form.
+    //   this.setState({ label: this.props.value || "" });
+    // };
 
     this.setState({ isOpen: (this.props.isOpen || false) });
     // ============ PROBABLY NOT THE SUSPECT^^
@@ -94,8 +90,6 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
 
   handleSelectOption = (option: DropDownItem) => {
     (this.props.onChange || (() => { }))(option);
-    console.dir(option);
-    var that = this;
     // ============ PROBABLY NOT THE SUSPECT:
     this.setState({
       label: option.label,
@@ -138,17 +132,6 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     });
   }
 
-  // returns dropDownItems that match the user's search term.
-  filterByInput = () => {
-    let results = this.props.dropDownItems.filter((option: DropDownItem) => {
-      let query = (this.state.label || "").toUpperCase();
-      return (option.label.toUpperCase().indexOf(query) > -1);
-    });
-
-    // (this.props.allowEmpty) && results.unshift({ label: "None", value: "" });
-    return results;
-  }
-
   generateKey(p: DropDownItem, i: number) {
     let key = _.isUndefined(p.value) ? `${p.label}:@KEY${i}` : `${p.value}`;
     return key;
@@ -165,14 +148,14 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
-          onChange={this.updateInput.bind(this)}
+          onChange={this.updateInput}
           onFocus={this.open}
           onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
           value={this.state.label} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        {renderList(this.filterByInput())}
+        {renderList(this.props.list)}
       </div>
     </div>;
   }

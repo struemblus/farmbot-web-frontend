@@ -68,7 +68,7 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <FBSelect dropDownItems={plantOptions}
+          <FBSelect list={plantOptions}
             optionComponent={OptionComponent(this.props.sync.plants)}
             onChange={this.handleRedirect.bind(this)}
             isOpen={true}

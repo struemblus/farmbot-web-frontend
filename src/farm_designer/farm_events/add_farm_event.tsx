@@ -43,7 +43,7 @@ AddFarmEventState> {
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
-          dropDownItems={this.props.selectOptions}
+          list={this.props.selectOptions}
           onChange={this.updateSequenceOrRegimen}
           value={"0"} />
         <label>{t("Starts")}</label>
