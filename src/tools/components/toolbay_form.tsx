@@ -1,7 +1,6 @@
 import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, FBSelect } from "../../ui";
-import { NewFBSelect } from "../../ui/new_fb_select";
 import { Col, Row, BlurableInput, DropDownItem } from "../../ui";
 import { Everything } from "../../interfaces";
 import {
@@ -129,6 +128,15 @@ Partial<ToolBayFormState>> {
       let chosenTool = tool_id ?
         _.indexBy(toolOptions, "value")[tool_id].label : undefined;
 
+      let newSlotToolOptions = (this.props.all.tools.all || []).map(tool => {
+        if (tool.id) {
+          return { label: tool.name, value: tool.id };
+        } else {
+          // TODO: Filter out unsave tools in MapStateToProps.
+          throw new Error("Saved tools only.");
+        }
+      });
+
       return <div key={id}>
         <Row>
           <Col xs={1}>
@@ -162,11 +170,10 @@ Partial<ToolBayFormState>> {
             />
           </Col>
           <Col xs={4}>
-            <NewFBSelect
-              onSelect={this.updateTool(id)}
-              list={toolOptions}
-              query={chosenTool}
-            />
+            <FBSelect
+              allowEmpty={true}
+              onChange={this.updateNewSlotTool}
+              list={newSlotToolOptions} />
           </Col>
           <Col xs={1}>
             <button
