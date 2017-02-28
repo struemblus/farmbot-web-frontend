@@ -41,19 +41,23 @@ export interface SelectState {
   value: string | number | undefined;
 }
 
-export class FBSelect extends React.Component<SelectProps, Partial<SelectState>> {
+/** Used as a placeholder for a selection of "none" when allowEmpty is true. */
+const NULL_CHOICE: Readonly<DropDownItem> = {
+  label: "None",
+  // value: "🌠MAGIC🎩STRING🐇"
+  value: ""
+};
+
+export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
   constructor() {
     super();
-    this.state = {
-      label: "",
-      isOpen: false
-    };
+    this.state = {};
   }
 
   componentDidMount() {
-    this.setState({
-      isOpen: !!this.props.isOpen
-    });
+    let defaults = { isOpen: !!this.props.isOpen };
+    let { allowEmpty } = this.props;
+    this.setState(allowEmpty ? { ...NULL_CHOICE, ...defaults } : defaults);
   }
 
   updateInput = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -73,19 +77,18 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
    * true, since that would indicate the developer wants it to always be open.
     */
   maybeClose = () => {
-    // let isValidChoice = () => {
-    //   return this
-    //     .props
-    //     .list
-    //     .map(x => x.label)
-    //     .includes(JSON.stringify(this.state.label));
-    // };
-    // if (!this.state.label || !isValidChoice()) {
-    //   // handle user clearing out the form.
-    //   this.setState({ label: this.props.value || "" });
-    // };
-
-    this.setState({ isOpen: (this.props.isOpen || false) });
+    let { list, isOpen } = this.props;
+    let { label } = this.state;
+    let noLabel = !label;
+    let noMatch = (label) ? !this.filterByInput().length : false;
+    if (noLabel || noMatch) {
+      if (this.props.allowEmpty) {
+        this.setState({ ...NULL_CHOICE });
+      } else {
+        this.setState({ label: "", value: "" });
+      }
+    };
+    this.setState({ isOpen: (isOpen || false) });
   }
 
   handleSelectOption = (option: DropDownItem) => {
@@ -102,10 +105,8 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
       let Comp = this.props.optionComponent;
       return items
         .map((p, i) => {
-          return <div onMouseDown={() => { this.handleSelectOption(p); }}
-            key={p.value}>
-            <Comp {...p}
-            />
+          return <div onMouseDown={() => { this.handleSelectOption(p); }} key={p.value}>
+            <Comp {...p} />
           </div>;
         });
     } else {
@@ -129,8 +130,17 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     });
   }
 
+  list = () => {
+    if (this.props.allowEmpty) {
+      return [NULL_CHOICE].concat(this.props.list);
+    } else {
+      return this.props.list;
+    }
+
+  }
+
   filterByInput = () => {
-    return this.props.list.filter((option: DropDownItem) => {
+    return this.list().filter((option: DropDownItem) => {
       let query = (this.state.label || "").toUpperCase();
       return (option.label.toUpperCase().indexOf(query) > -1);
     });
@@ -141,9 +151,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     let { isOpen } = this.state;
     // Dynamically choose custom vs. standard list item JSX based on options:
     let renderList = (optionComponent ? this.custItemList : this.normlItemList);
-    if (this.props.allowEmpty) {
-      console.log(`Value of "label" is: ${this.state.label || "UNDEFINED"}.`);
-    }
+
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
@@ -151,7 +159,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
           onFocus={this.open}
           onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
-          value={this.state.label} />
+          value={this.state.label || ""} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
         {renderList(this.filterByInput())}
