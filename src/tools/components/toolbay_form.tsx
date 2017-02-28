@@ -1,6 +1,7 @@
 import * as React from "react";
 import { ListAndFormProps, ToolBayFormState } from "../interfaces";
 import { Widget, WidgetBody, WidgetHeader, FBSelect } from "../../ui";
+import { NewFBSelect } from "../../ui/new_fb_select";
 import { Col, Row, BlurableInput, DropDownItem } from "../../ui";
 import { Everything } from "../../interfaces";
 import {
@@ -161,10 +162,10 @@ Partial<ToolBayFormState>> {
             />
           </Col>
           <Col xs={4}>
-            <FBSelect
-              onChange={this.updateTool(id)}
+            <NewFBSelect
+              onSelect={this.updateTool(id)}
               list={toolOptions}
-              value={chosenTool}
+              query={chosenTool}
             />
           </Col>
           <Col xs={1}>

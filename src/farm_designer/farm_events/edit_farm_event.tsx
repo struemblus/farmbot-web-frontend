@@ -13,7 +13,7 @@ import {
 import { connect } from "react-redux";
 import { mapStateToPropsAdd, AddFarmEventProps } from "./map_state_to_props_add";
 
-type AddFarmEventState = Partial<FarmEvent>
+type AddFarmEventState = Partial<FarmEvent>;
 
 @connect(mapStateToPropsAdd)
 export class AddFarmEvent extends React.Component<AddFarmEventProps,
@@ -28,7 +28,7 @@ AddFarmEventState> {
   }
 
   render() {
-    return <div className={`panel-container magenta-panel 
+    return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
         <p className="panel-title">
