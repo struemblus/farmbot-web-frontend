@@ -5,7 +5,7 @@ import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent } from "../actions";
 
-export interface AddFarmEventProps {
+export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   formatDate(input: string): string;
@@ -14,7 +14,7 @@ export interface AddFarmEventProps {
   save(fe: FarmEventForm): void;
 }
 
-export function mapStateToPropsAdd(state: Everything): AddFarmEventProps {
+export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
 
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
     // Am I really doing this right now? How else?
