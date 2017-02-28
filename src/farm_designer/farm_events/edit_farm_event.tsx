@@ -9,13 +9,13 @@ import {
   Row,
   BackArrow
 } from "../../ui";
-import { DropDownItem } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import {
   mapStateToPropsAddEdit,
   AddEditFarmEventProps
 } from "./map_state_to_props_add_edit";
+import { oneOf } from "../../util";
 
 type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
 
@@ -39,16 +39,14 @@ AddFarmEventState> {
   }
 
   updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    switch (e.currentTarget.name) {
-      case "start_time":
-      case "end_time":
-      case "repeat":
-      case "time_unit":
-      case "next_time":
-        let { name, value } = e.currentTarget;
-        return this.setState({ [name]: value });
-      default:
-        throw new Error("Tried to match field name but couldn't.");
+    let { name, value } = e.currentTarget;
+    if (oneOf<AddFarmEventState>([
+      "start_time", "end_time", "repeat", "time_unit", "next_time"
+    ], name)) {
+      let so_cool = this.state[name];
+      return this.setState({ [name]: value });
+    } else {
+      throw new Error("Tried to match field name but couldn't.");
     }
   }
 
