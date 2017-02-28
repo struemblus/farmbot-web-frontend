@@ -30,7 +30,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
                 {start}
               </div>
               <div className="event-title col-xs-9">
-                {item.executableName}
+                ({farmEvent.id || 0}) {item.executableName}
               </div>
               <Link to={`/app/designer/farm_events/` +
                 (farmEvent.id || "UNSAVED_EVENT").toString()}>

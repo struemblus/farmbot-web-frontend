@@ -15,7 +15,7 @@ import {
   mapStateToPropsAddEdit,
   AddEditFarmEventProps
 } from "./map_state_to_props_add_edit";
-import { oneOf } from "../../util";
+import { hasKey } from "../../util";
 
 type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
 
@@ -38,16 +38,24 @@ AddFarmEventState> {
     this.setState({ executable_id, executable_type });
   }
 
+  /** Determine if its safe to use a string as a `keyof AddFarmEventState`.
+   * Good for sanitizing user input and such.
+   */
+  isKeyofState = hasKey<AddFarmEventState>([
+    "start_time",
+    "end_time",
+    "repeat",
+    "time_unit",
+    "next_time"
+  ]);
+
   updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { name, value } = e.currentTarget;
-    if (oneOf<AddFarmEventState>([
-      "start_time", "end_time", "repeat", "time_unit", "next_time"
-    ], name)) {
-      let so_cool = this.state[name];
+    if (this.isKeyofState(name)) {
       return this.setState({ [name]: value });
     } else {
-      throw new Error("Tried to match field name but couldn't.");
-    }
+      throw new Error("Got bad key: " + name);
+    };
   }
 
   // Waiting until we figure out the fb_select deal before borrowing interfaces
