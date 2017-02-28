@@ -1,6 +1,4 @@
 import { OpenFarm } from "./openfarm";
-import { Regimen } from "../regimens/interfaces";
-import { Sequence } from "../sequences/interfaces";
 
 export interface UpdateSequenceOrRegimenProps {
   label: string;
@@ -8,6 +6,8 @@ export interface UpdateSequenceOrRegimenProps {
   kind: string;
   farm_event_id: number;
 }
+
+export type FarmEventForm = Partial<Record<keyof FarmEvent, string | number>>;
 
 export type TimeUnit = "never"
   | "minutely"

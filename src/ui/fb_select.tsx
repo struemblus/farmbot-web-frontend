@@ -80,19 +80,16 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     //     .map(x => x.label)
     //     .includes(JSON.stringify(this.state.label));
     // };
-    // ============ PROBABLY NOT THE SUSPECT:
     // if (!this.state.label || !isValidChoice()) {
     //   // handle user clearing out the form.
     //   this.setState({ label: this.props.value || "" });
     // };
 
     this.setState({ isOpen: (this.props.isOpen || false) });
-    // ============ PROBABLY NOT THE SUSPECT^^
   }
 
   handleSelectOption = (option: DropDownItem) => {
     (this.props.onChange || (() => { }))(option);
-    // ============ PROBABLY NOT THE SUSPECT:
     this.setState({
       label: option.label,
       isOpen: false,
