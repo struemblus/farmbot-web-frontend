@@ -18,7 +18,7 @@ export interface SelectProps {
   /** The list of rendered options to select from. */
   list: DropDownItem[];
   /** Determines what label to show in the select box. */
-  value?: string | undefined;
+  query?: string | undefined;
   /** Determine whether the select list should always be open. */
   isOpen?: boolean;
   /** Custom JSX child rendered instead of a default item. */
@@ -26,9 +26,9 @@ export interface SelectProps {
   /** Optional className for `select`. */
   className?: string;
   /** Fires when option is selected. */
-  onChange?: (newValue: DropDownItem) => void;
+  onSelect?: (newValue: DropDownItem) => void;
   /** Fires when user enters text */
-  onUserTyping?: (userInput: string) => void;
+  onQueryChange?: (userInput: string) => void;
   /** Placeholder for the input. */
   placeholder?: string;
   /** Allows user to have a non-selected value. */
@@ -41,7 +41,7 @@ export interface SelectState {
   value: string | number | undefined;
 }
 
-export class FBSelect extends React.Component<SelectProps, Partial<SelectState>> {
+export class NewFBSelect extends React.Component<SelectProps, Partial<SelectState>> {
   constructor() {
     super();
     this.state = {
@@ -59,7 +59,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
   updateInput = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { value } = e.currentTarget;
     this.setState({ label: value });
-    this.props.onUserTyping && this.props.onUserTyping(value);
+    this.props.onQueryChange && this.props.onQueryChange(value);
   }
 
   open = () => {
@@ -80,16 +80,18 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     //     .map(x => x.label)
     //     .includes(JSON.stringify(this.state.label));
     // };
+    // ============ PROBABLY NOT THE SUSPECT:
     // if (!this.state.label || !isValidChoice()) {
     //   // handle user clearing out the form.
     //   this.setState({ label: this.props.value || "" });
     // };
 
     this.setState({ isOpen: (this.props.isOpen || false) });
+    // ============ PROBABLY NOT THE SUSPECT^^
   }
 
   handleSelectOption = (option: DropDownItem) => {
-    (this.props.onChange || (() => { }))(option);
+    // ============ PROBABLY NOT THE SUSPECT:
     this.setState({
       label: option.label,
       isOpen: false,
@@ -144,7 +146,7 @@ export class FBSelect extends React.Component<SelectProps, Partial<SelectState>>
     if (this.props.allowEmpty) {
       console.log(`Value of "label" is: ${this.state.label || "UNDEFINED"}.`);
     }
-    return <div className={"select " + (className || "")}>
+    return <div className={"select " + (className || "")} style={{ border: "1px solid red" }}>
       <div className="select-search-container">
         <input type="text"
           onChange={this.updateInput}
