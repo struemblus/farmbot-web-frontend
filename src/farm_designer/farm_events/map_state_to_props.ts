@@ -53,7 +53,6 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     .map((str: string) => moment(str))
     .value()
     .reduce((accumulator, date, indx) => {
-      // TODO: Refactor stringification stuff?
       let schedules = _.select(source, function (x) {
         return (x.calendar || []).includes(date.toISOString());
       });
