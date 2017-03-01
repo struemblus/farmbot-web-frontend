@@ -5,6 +5,21 @@ import { Sequence } from "../../sequences/interfaces";
 import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
 
+const MONTHS: Readonly<Dictionary<string>> = {
+  "12": "Dec",
+  "11": "Nov",
+  "10": "Oct",
+  "09": "Sep",
+  "08": "Aug",
+  "07": "Jul",
+  "06": "Jun",
+  "05": "May",
+  "04": "Apr",
+  "03": "Mar",
+  "02": "Feb",
+  "01": "Jan"
+}
+
 interface CalendarOccurrence {
   sortKey: number;
   hour: number;
@@ -15,7 +30,7 @@ interface CalendarOccurrence {
 }
 
 interface CalendarDay {
-  sortKey: number;
+  sortKey: string;
   month: string;
   day: number;
   items: CalendarOccurrence[];
@@ -38,6 +53,7 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
   let source = state && state.sync && state.sync.farm_events || [];
   let sequences = state && state.sync && state.sync.sequences || [];
   let regimens = state && state.sync && state.sync.regimens || [];
+  let push = (state && state.router && state.router.push) || (() => { });
   let everyDate = _.chain(source)
     .map(x => x.calendar || [])
     .flatten()
@@ -47,7 +63,7 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
   let sequenceById: Dictionary<Sequence | undefined> = _.indexBy(sequences, "id");
   let regimenById: Dictionary<Regimen | undefined> = _.indexBy(regimens, "id");
   let farmEventsByDate = indexByCalendarDate(everyDate, source);
-  let farmEventsByMMDD = indexByCalendarMMDD(everyDate, source);
+  // let farmEventsByMMDD = indexByCalendarMMDD(everyDate, source);
   let crazyIdea = indexByMMDDandDate(everyDate, source);
   function indexByMMDDandDate(dates: string[], source: FarmEvent[]): { [mmdd: string]: CalendarOccurrence[] } {
     let calOccurrByMMDD: { [mmdd: string]: CalendarOccurrence[] } = {};
@@ -86,29 +102,19 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     return calOccurrByMMDD;
   }
 
-  let calendarRows: CalendarDay[] = everyDate
-    .map(function (date) {
-      let m = moment(date);
-      let mmdd = m.format("MMDD");
-      let items = (farmEventsByMMDD[mmdd] || []).map(function (farmEvent) {
-
-        return {
-          sortKey: number;
-          hour: number;
-          minute: number;
-          ampm: string;
-          executableName: string;
-          executableId: number;
-        };
-      })
+  let calendarRows: CalendarDay[] = _(everyDate)
+    .map(x => moment(x).format("MMDD"))
+    .uniq()
+    .map(function (mmdd) {
+      let items = crazyIdea[mmdd];
       return {
-        sortKey: m.unix(),
-        month: m.format("MMM"),
-        day: m.day(),
+        sortKey: mmdd,
+        month: MONTHS[mmdd.slice(0, 2)] || "???",
+        day: parseInt(mmdd.slice(2, 4)),
         items
       };
-    });
-  let push = (state && state.router && state.router.push) || (() => { });
+    })
+    .value();
   return { calendarRows, push };
 }
 
