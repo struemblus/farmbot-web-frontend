@@ -5,7 +5,7 @@ import { Sequence } from "../../sequences/interfaces";
 import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
 
-/** All the information you will need to render a single row in the 
+/** All the information you will need to render a single row in the
  * calendar page */
 interface CalendarRow {
   day: string;
@@ -62,6 +62,8 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
       return accumulator;
     }, (new Map<moment.Moment, FarmEvent[]>()))
     .forEach(function (list, time) {
+      console.log(`${time.month()} ${time.day()} ${time.year()}
+                   ${time.hour()} ${time.minute()} `);
       calendarRows.push({
         timestamp: time.unix(),
         month: time.format("MMM"),
@@ -73,5 +75,6 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
 
   calendarRows = _.sortBy(calendarRows, "timestamp").slice(1, 100);
   let push = (state.router && state.router.push) || ((url: string) => { });
+  console.dir(calendarRows);
   return { calendarRows, push };
 }

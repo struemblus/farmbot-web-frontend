@@ -23,6 +23,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
 
         <div className="col-xs-10 events">
           {item.list.map(function (farmEvent) {
+            // WRONG!
             let start = moment(item.timestamp).format("hh:mma");
             return <div className={`farm-event col-xs-12`}
               key={farmEvent.id}>
