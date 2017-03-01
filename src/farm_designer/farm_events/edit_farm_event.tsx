@@ -86,6 +86,10 @@ AddFarmEventState> {
     }
   }
 
+  destroy = () => {
+
+  }
+
   render() {
     let { formatDate, formatTime } = this.props;
 
@@ -93,7 +97,7 @@ AddFarmEventState> {
             add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
         <p className="panel-title">
-          <BackArrow /> {t("Add Farm Event")}
+          <BackArrow /> {t("Edit Farm Event")}
         </p>
       </div>
       <div className="panel-content">
@@ -165,6 +169,10 @@ AddFarmEventState> {
         <button className="magenta button-like"
           onClick={() => this.props.save(this.state)}>
           {t("Save")}
+        </button>
+        <button className="red button-like"
+          onClick={this.destroy}>
+          {t("Delete")}
         </button>
       </div>
     </div>;
