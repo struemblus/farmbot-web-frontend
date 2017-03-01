@@ -80,6 +80,7 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
     let b = x.response.status > 399;
     if (a && b) {
       setTimeout(() => {
+        // Explicitly throw error so error reporting tool will save it.
         let msg = "Bad response: " + x.response.status + JSON.stringify(x.response).slice(0, 80);
         throw new Error(msg);
       }, 1);
