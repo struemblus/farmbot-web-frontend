@@ -17,6 +17,7 @@ import { API } from "../api";
 import { prettyPrintApiErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
+import { maybeInvalidateSync } from "../temporary_interceptor";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
   API.setBaseUrl(authState.token.unencoded.iss);
@@ -74,10 +75,10 @@ function loginErr() {
  * have a JSON Web Token attached to their "Authorization" header,
  * thereby granting access to the API. */
 export function loginOk(auth: AuthState): ReduxAction<AuthState> {
-  Axios.interceptors.response.use(x => x, function (x) {
-    console.log(x);
+  Axios.interceptors.response.use(x => maybeInvalidateSync(x), function (x) {
     let a = ![451, 401, 422].includes(x.response.status);
     let b = x.response.status > 399;
+
     if (a && b) {
       setTimeout(() => {
         // Explicitly throw error so error reporting tool will save it.
