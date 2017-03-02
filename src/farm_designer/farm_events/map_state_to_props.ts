@@ -37,15 +37,11 @@ interface CalendarDay {
 
 
 export interface FarmEventProps {
-  /** Sorted list of the first (100?) events due on the calnedar. */
+  /** Sorted list of the first (100?) events due on the calendar. */
   calendarRows: CalendarDay[];
   /** Call this function to navigate to different pages. */
   push: (url: string) => void;
 }
-
-/** Stub object to handle fallback values. If you see this in production,
- * something went wrong. */
-const NULL = { name: "NO NAME@", executable_type: "@NO TYPE" };
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
 export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
@@ -59,12 +55,11 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     .uniq()
     .compact()
     .value() as string[];
-  let sequenceById: Dictionary<Sequence | undefined> = _.indexBy(sequences, "id");
-  let regimenById: Dictionary<Regimen | undefined> = _.indexBy(regimens, "id");
-  let farmEventsByDate = indexByCalendarDate(everyDate, source);
-  // let farmEventsByMMDD = indexByCalendarMMDD(everyDate, source);
+  let sequenceById: Dictionary<Sequence> = _.indexBy(sequences, "id");
+  let regimenById: Dictionary<Regimen> = _.indexBy(regimens, "id");
   let crazyIdea = indexByMMDDandDate(everyDate, source);
-  function indexByMMDDandDate(dates: string[], source: FarmEvent[]): { [mmdd: string]: CalendarOccurrence[] } {
+  function indexByMMDDandDate(dates: string[],
+    source: FarmEvent[]): { [mmdd: string]: CalendarOccurrence[] } {
     let calOccurrByMMDD: { [mmdd: string]: CalendarOccurrence[] } = {};
     dates.map(function (date) {
       let m = moment(date);
@@ -115,47 +110,3 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     .value();
   return { calendarRows, push };
 }
-
-/** I'm really sorry you have to see this. */
-function indexByCalendarDate(dates: string[], source: FarmEvent[]) {
-  let eventsByDate: Dictionary<FarmEvent[]> = {};
-  dates.map(function (date) {
-    source.map(function (farmEvent) {
-      if (eventsByDate[date]) {
-        eventsByDate[date].push(farmEvent);
-      } else {
-        eventsByDate[date] = [farmEvent];
-      }
-    });
-  });
-  return eventsByDate;
-}
-
-function indexByMMDD(dates: string[], source: FarmEvent[]) {
-  let eventsByDate: Dictionary<FarmEvent[]> = {};
-  dates.map(function (date) {
-    let mmdd = moment(date).format("MMDD");
-    source.map(function (farmEvent) {
-      if (eventsByDate[mmdd]) {
-        eventsByDate[mmdd].push(farmEvent);
-      } else {
-        eventsByDate[mmdd] = [farmEvent];
-      }
-    });
-  });
-  return eventsByDate;
-}
-
-// If the .map() implementation is too slow:
-  // for (let i = 0; i < dates.length; i++) {
-  //   let date = dates[i];
-  //   for (let j = 0; j < source.length; j++) {
-  //     let farmEvent = source[j];
-  //     if (eventsByDate[date]) {
-  //       eventsByDate[date].push(farmEvent);
-  //     } else {
-  //       eventsByDate[date] = [farmEvent];
-  //     }
-  //   }
-  // }
-
