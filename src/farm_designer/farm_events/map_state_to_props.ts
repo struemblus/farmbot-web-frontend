@@ -57,49 +57,50 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     .value() as string[];
   let sequenceById: Dictionary<Sequence> = _.indexBy(sequences, "id");
   let regimenById: Dictionary<Regimen> = _.indexBy(regimens, "id");
-  let crazyIdea = indexByMMDDandDate(everyDate, source);
-  function indexByMMDDandDate(dates: string[],
-    source: FarmEvent[]): { [mmdd: string]: CalendarOccurrence[] } {
-    let calOccurrByMMDD: { [mmdd: string]: CalendarOccurrence[] } = {};
-    dates.map(function (date) {
-      let m = moment(date);
-      let mmdd = m.format("MMDD");
-      source.map(function (farmEvent) {
-        let executableId = farmEvent.executable_id;
-        let executableName: string;
-        switch (farmEvent.executable_type) {
-          case "Sequence":
-            let s = sequenceById[executableId];
-            executableName = (s && s.name) || "Unknown sequence";
-            break;
-          case "Regimen":
-            let r = regimenById[executableId];
-            executableName = (r && r.name) || "Unknown regimen";
-            break;
-          default: throw new Error("Never");
-        }
-        let calOccurr = {
-          sortKey: m.unix(),
-          timeStr: m.format("hh:mm a"),
-          id: farmEvent.id || 0,
-          executableName,
-          executableId,
-        };
-        if (calOccurrByMMDD[mmdd]) {
-          calOccurrByMMDD[mmdd].push(calOccurr);
-        } else {
-          calOccurrByMMDD[mmdd] = [calOccurr];
-        }
-      });
+  type MMDDMap = { [mmdd: string]: CalendarOccurrence[] };
+  function idea2(): MMDDMap {
+    let x: MMDDMap = {};
+    source.map(function (farmEvent) {
+      if (farmEvent.calendar) {
+        farmEvent
+          .calendar
+          .map(function (date) {
+            let m = moment(date);
+            let mmdd = m.format("MMDD");
+            let executableId = farmEvent.executable_id;
+            let executableName: string;
+            switch (farmEvent.executable_type) {
+              case "Sequence":
+                let s = sequenceById[executableId];
+                executableName = (s && s.name) || "Unknown sequence";
+                break;
+              case "Regimen":
+                let r = regimenById[executableId];
+                executableName = (r && r.name) || "Unknown regimen";
+                break;
+              default: throw new Error("Never");
+            }
+            let occur = {
+              sortKey: m.unix(),
+              timeStr: m.format("hh:mm a"),
+              executableName,
+              executableId,
+              id: farmEvent.id || 0,
+            };
+            (x[mmdd]) ? x[mmdd].push(occur) : (x[mmdd] = [occur]);
+          });
+      } else {
+        console.warn("No calendar found on FarmEvent?")
+      }
     });
-    return calOccurrByMMDD;
+    return x;
   }
-
+  let x = idea2();
   let calendarRows: CalendarDay[] = _(everyDate)
     .map(x => moment(x).format("MMDD"))
     .uniq()
     .map(function (mmdd) {
-      let items = crazyIdea[mmdd];
+      let items = x[mmdd];
       return {
         sortKey: mmdd,
         month: MONTHS[mmdd.slice(0, 2)] || "???",
