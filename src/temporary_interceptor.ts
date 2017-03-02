@@ -19,7 +19,7 @@ let RESOURCES: ResourceName[] = [
 
 export function maybeInvalidateSync(input: X): X {
   let method = input.config.method;
-  if (method && METHODS.includes(method || "?")) {
+  if (method && METHODS.includes(method)) {
     notifyBotOfChanges(input.config.url, METHOD_MAP[method]);
   };
   return input;

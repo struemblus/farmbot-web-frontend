@@ -50,13 +50,14 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
   </div>;
 };
 
-let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
+let SyncButton = ({ auth, bot, dispatch }: NavButtonProps) => {
   if (!auth) { return <span></span>; }
   let dirty = bot.dirty;
+  let { sync_status } = bot.hardware.informational_settings;
   let color = dirty ? "yellow" : "green";
   return <button className={`nav-sync button-like ${color}`}
     onClick={() => { dispatch(sync()); }}>
-    {dirty ? t("Sync Required") : t("Synced")}
+    {sync_status || "offline"}
   </button>;
 };
 
