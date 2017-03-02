@@ -18,8 +18,11 @@ const MONTHS: Readonly<Dictionary<string>> = {
   "03": "Mar",
   "02": "Feb",
   "01": "Jan"
-}
+};
 
+/** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
+ * that executes every 8 hours will create 3 CalendarOccurrences in a single
+ * CalendarDay */
 interface CalendarOccurrence {
   sortKey: number;
   timeStr: string;
@@ -28,10 +31,13 @@ interface CalendarOccurrence {
   id: number;
 }
 
+/** A group of FarmEvents for a particular day on the calendar. */
 interface CalendarDay {
+  /** Unix timestamp. Used as a unique key in JSX and for sorting. */
   sortKey: string;
   month: string;
   day: number;
+  /** Every event that will execute on that day. */
   items: CalendarOccurrence[];
 }
 
@@ -51,35 +57,35 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
   let push = (state && state.router && state.router.push) || (() => { });
   let sequenceById: Dictionary<Sequence> = _.indexBy(sequences, "id");
   let regimenById: Dictionary<Regimen> = _.indexBy(regimens, "id");
-  let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = {};
-  farmEvents.map(function (farmEvent) {
-    farmEvent.calendar && farmEvent.calendar.map(function (date) {
-      let m = moment(date);
-      let mmdd = m.format("MMDD");
-      let executableId = farmEvent.executable_id;
-      let executableName: string;
-      switch (farmEvent.executable_type) {
-        case "Sequence":
-          let s = sequenceById[executableId];
-          executableName = (s && s.name) || "Unknown sequence";
-          break;
-        case "Regimen":
-          let r = regimenById[executableId];
-          executableName = (r && r.name) || "Unknown regimen";
-          break;
-        default: throw new Error("Never");
-      }
-      let occur = {
-        sortKey: m.unix(),
-        timeStr: m.format("hh:mm a"),
-        executableName,
-        executableId,
-        id: farmEvent.id || 0,
-      };
-      (farmEventByMMDD[mmdd]) ?
-        farmEventByMMDD[mmdd].push(occur) : (farmEventByMMDD[mmdd] = [occur]);
-    });
-  });
+  let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
+    .reduce(function (memo, farmEvent) {
+      farmEvent.calendar && farmEvent.calendar.map(function (date) {
+        let m = moment(date);
+        let mmdd = m.format("MMDD");
+        let executableId = farmEvent.executable_id;
+        let executableName: string;
+        switch (farmEvent.executable_type) {
+          case "Sequence":
+            let s = sequenceById[executableId];
+            executableName = (s && s.name) || "Unknown sequence";
+            break;
+          case "Regimen":
+            let r = regimenById[executableId];
+            executableName = (r && r.name) || "Unknown regimen";
+            break;
+          default: throw new Error("Never");
+        }
+        let occur = {
+          sortKey: m.unix(),
+          timeStr: m.format("hh:mm a"),
+          executableName,
+          executableId,
+          id: farmEvent.id || 0,
+        };
+        (memo[mmdd]) ? memo[mmdd].push(occur) : (memo[mmdd] = [occur]);
+      });
+      return memo;
+    }, ({} as Dictionary<CalendarOccurrence[]>));
 
   let calendarRows: CalendarDay[] = _.chain(farmEvents)
     .map(y => y.calendar || [])
