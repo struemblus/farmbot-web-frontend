@@ -9,15 +9,17 @@ import {
   Row,
   BackArrow
 } from "../../ui";
-import { DropDownItem } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { mapStateToPropsAdd, AddFarmEventProps } from "./map_state_to_props_add";
+import {
+  mapStateToPropsAddEdit,
+  AddEditFarmEventProps
+} from "./map_state_to_props_add_edit";
 
 type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
 
-@connect(mapStateToPropsAdd)
-export class AddFarmEvent extends React.Component<AddFarmEventProps,
+@connect(mapStateToPropsAddEdit)
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps,
 AddFarmEventState> {
   constructor() {
     super();

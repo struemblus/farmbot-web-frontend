@@ -13,6 +13,7 @@ import { t } from "i18next";
 import { Session } from "../session";
 import { Markdown } from "../ui";
 import * as moment from "moment";
+import { Dictionary } from "farmbot/dist";
 
 let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
   if (!auth) { return <span></span>; }
@@ -50,13 +51,23 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
   </div>;
 };
 
-let SyncButton = ({auth, bot, dispatch}: NavButtonProps) => {
+const COLOR_MAPPING: Dictionary<string> = {
+  "synced": "green",
+  "sync now": "yellow",
+  "syncing": "yellow",
+  "sync error": "red",
+  "offline": "red",
+  "unknown": "red"
+};
+
+let SyncButton = ({ auth, bot, dispatch }: NavButtonProps) => {
   if (!auth) { return <span></span>; }
   let dirty = bot.dirty;
-  let color = dirty ? "yellow" : "green";
+  let { sync_status } = bot.hardware.informational_settings;
+  let color = COLOR_MAPPING[sync_status || "offline"] || "red";
   return <button className={`nav-sync button-like ${color}`}
     onClick={() => { dispatch(sync()); }}>
-    {dirty ? t("Sync Required") : t("Synced")}
+    {sync_status || "offline"}
   </button>;
 };
 

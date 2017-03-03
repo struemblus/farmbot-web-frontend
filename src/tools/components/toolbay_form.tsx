@@ -128,6 +128,15 @@ Partial<ToolBayFormState>> {
       let chosenTool = tool_id ?
         _.indexBy(toolOptions, "value")[tool_id].label : undefined;
 
+      let newSlotToolOptions = (this.props.all.tools.all || []).map(tool => {
+        if (tool.id) {
+          return { label: tool.name, value: tool.id };
+        } else {
+          // TODO: Filter out unsave tools in MapStateToProps.
+          throw new Error("Saved tools only.");
+        }
+      });
+
       return <div key={id}>
         <Row>
           <Col xs={1}>
@@ -162,10 +171,9 @@ Partial<ToolBayFormState>> {
           </Col>
           <Col xs={4}>
             <FBSelect
-              onChange={this.updateTool(id)}
-              list={toolOptions}
-              value={chosenTool}
-            />
+              allowEmpty={true}
+              onChange={this.updateNewSlotTool}
+              list={newSlotToolOptions} />
           </Col>
           <Col xs={1}>
             <button

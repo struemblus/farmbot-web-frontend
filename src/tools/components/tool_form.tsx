@@ -26,11 +26,11 @@ export class ToolForm extends React.Component<ListAndFormProps,
     this.props.dispatch(updateTool(parseInt(id), value));
   }
 
-  destroy = (tool_id: number | null) => {
-    if (tool_id === null) {
-      throw new Error("Tool ID could not be found.");
-    } else {
+  destroy = (tool_id: number | undefined) => {
+    if (tool_id) {
       this.props.dispatch(destroyTool(tool_id));
+    } else {
+      throw new Error("Tool ID could not be found.");
     }
   }
 
@@ -84,7 +84,7 @@ export class ToolForm extends React.Component<ListAndFormProps,
                 <td>
                   <button
                     className="button-like red"
-                    onClick={() => this.destroy(tool.id || null)}>
+                    onClick={() => this.destroy(tool.id)}>
                     <i className="fa fa-times"></i>
                   </button>
                 </td>
