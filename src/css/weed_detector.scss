@@ -34,11 +34,15 @@
             font-weight: bold;
             color: $white;
         }
-        .time {
-            float: left;
+        .created-at {
+            display: inline-block;
         }
-        .location {
+        .meta-coordinates {
             float: right;
+            display: flex;
+            .coordinate:not(:last-of-type) {
+                margin-right: 1.8rem;
+            }
         }
     }
 }
