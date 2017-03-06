@@ -201,3 +201,36 @@ export class Progress {
 /** If you're creating a module that publishes Progress state, you can use this
  * to prevent people from directly modifying the progress. */
 export type ProgressCallback = (p: Readonly<Progress>) => void;
+
+
+
+export function smoothScroll() {
+  var body = document.body,
+    html = document.documentElement;
+
+  var height = Math.max(body.scrollHeight, body.offsetHeight,
+    html.clientHeight, html.scrollHeight, html.offsetHeight);
+
+  var startY = window.pageYOffset;
+  var stopY = height;
+  var distance = stopY > startY ? stopY - startY : startY - stopY;
+  if (distance < 100) {
+    scrollTo(0, stopY);
+    return;
+  }
+  var speed = Math.round(distance / 20);
+  if (speed >= 16) speed = 16;
+  var step = Math.round(distance / 25);
+  var leapY = stopY > startY ? startY + step : startY - step;
+  var timer = 0;
+  if (stopY > startY) {
+    for (var i = startY; i < stopY; i += step) {
+      setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+      leapY += step; if (leapY > stopY) leapY = stopY; timer++;
+    } return;
+  }
+  for (var i = startY; i > stopY; i -= step) {
+    setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
+    leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
+  }
+}
