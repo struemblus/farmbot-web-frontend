@@ -110,8 +110,7 @@ AddFarmEventState> {
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
           list={this.props.selectOptions}
-          onChange={this.updateSequenceOrRegimen}
-          value={"0"} />
+          onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
