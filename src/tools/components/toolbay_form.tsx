@@ -170,6 +170,7 @@ Partial<ToolBayFormState>> {
             />
           </Col>
           <Col xs={4}>
+            ...
             <FBSelect
               allowEmpty={true}
               onChange={this.updateNewSlotTool}
