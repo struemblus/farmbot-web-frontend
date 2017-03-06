@@ -18,7 +18,7 @@ export interface SelectProps {
   /** The list of rendered options to select from. */
   list: DropDownItem[];
   /** Determines what label to show in the select box. */
-  value?: string | undefined;
+  initialValue?: DropDownItem;
   /** Determine whether the select list should always be open. */
   isOpen?: boolean;
   /** Custom JSX child rendered instead of a default item. */

@@ -191,7 +191,6 @@ Partial<ToolBayFormState>> {
     let toggleEdit = () => { this.props.dispatch(toggleEditingToolBays()); };
     let { new_slot_x, new_slot_y, new_slot_z } = this.state;
     let { tool_bays, tool_slots } = this.props.all;
-
     let newSlotToolOptions = (this.props.all.tools.all || [])
       .map(tool => {
         if (tool.id) {

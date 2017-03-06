@@ -6,8 +6,8 @@ interface DeprecatedSelectProps extends ReactSelect.ReactSelectProps {
   id?: string;
 }
 
-/** Please do not re-use this UI component, 
- * target for eventual refactor and replacement with React-Select
+/** Please do not re-use this UI component,
+ * target for eventual refactor and replacement with <FbSelect/>
  */
 export function DeprecatedSelect(props: DeprecatedSelectProps) {
   return <div className="select-wrapper">

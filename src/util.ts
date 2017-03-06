@@ -201,3 +201,17 @@ export class Progress {
 /** If you're creating a module that publishes Progress state, you can use this
  * to prevent people from directly modifying the progress. */
 export type ProgressCallback = (p: Readonly<Progress>) => void;
+
+var last = "";
+export function fancyDebug(t: any) {
+  var next = Object
+    .entries(t)
+    .map((x: any) => `${_.padRight(x[0], 24, " ")} => ${x[1]}`)
+    .join("\n");
+  if (last === next) {
+  } else {
+    last = next;
+    console.log(next);
+  }
+  console.log();
+}
