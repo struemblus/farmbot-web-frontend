@@ -19,7 +19,6 @@ export interface TileMoveAbsoluteProps {
 }
 
 export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
-  debugger;
 
   let toolById: Dictionary<Tool | undefined> =
     _.indexBy(props.tools.tools.all, "id");
