@@ -3,7 +3,6 @@ import { t } from "i18next";
 import { FarmEvent } from "../interfaces";
 import {
   FBSelect,
-  Select,
   BlurableInput,
   Col,
   Row,
@@ -99,8 +98,7 @@ AddFarmEventState> {
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
           list={this.props.selectOptions}
-          onChange={this.updateSequenceOrRegimen}
-          value={"0"} />
+          onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
@@ -133,10 +131,8 @@ AddFarmEventState> {
               onCommit={this.updateForm} />
           </Col>
           <Col xs={8}>
-            <Select
-              options={this.props.repeatOptions}
-              name="time_unit"
-              value={this.state.time_unit || "daily"}
+            <FBSelect
+              list={this.props.repeatOptions}
               onChange={this.updateRepeatSelect} />
           </Col>
         </Row>

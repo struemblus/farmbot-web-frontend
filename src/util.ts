@@ -202,8 +202,6 @@ export class Progress {
  * to prevent people from directly modifying the progress. */
 export type ProgressCallback = (p: Readonly<Progress>) => void;
 
-
-
 export function smoothScroll() {
   var body = document.body,
     html = document.documentElement;
@@ -233,4 +231,18 @@ export function smoothScroll() {
     setTimeout("window.scrollTo(0, " + leapY + ")", timer * speed);
     leapY -= step; if (leapY < stopY) leapY = stopY; timer++;
   }
+}
+
+var last = "";
+export function fancyDebug(t: any) {
+  var next = Object
+    .entries(t)
+    .map((x: any) => `${_.padRight(x[0], 24, " ")} => ${x[1]}`)
+    .join("\n");
+  if (last === next) {
+  } else {
+    last = next;
+    console.log(next);
+  }
+  console.log();
 }
