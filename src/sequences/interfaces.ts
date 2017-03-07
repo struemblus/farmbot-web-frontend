@@ -39,15 +39,13 @@ export interface UpdateAbsoluteStepPayl {
     label?: string;
     tool_id: number;
     value: string | number;
-    options: [
-      {
-        label: string;
-        value: string | number;
-        x: number;
-        y: number;
-        z: number;
-      }
-    ],
+    options: {
+      label: string;
+      value: string | number;
+      x: number;
+      y: number;
+      z: number;
+    }[];
     offsetX?: number;
     offsetY?: number;
     offsetZ?: number;

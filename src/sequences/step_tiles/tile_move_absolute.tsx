@@ -36,22 +36,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     let step = this.props.step;
   }
 
-  updateSelect(event: Partial<MoveAbsState>) {
-    let { x, y, z, value } = event;
-    this.setState({ x, y, z, value, options: this.state.options }, () => {
-      this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
-    });
-  }
-
-  update(event: React.SyntheticEvent<HTMLInputElement>) {
-    let { name, value } = event.currentTarget;
-    let state: { [name: string]: string | number } = {};
-    state[name] = parseInt(value);
-    this.setState(state, () => {
-      this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
-    });
-  }
-
   computeDropdownOptions = (): DropDownItem[] => {
     return [];
   }
@@ -109,7 +93,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                     {t("Import coordinates from")}
                   </label>
                   <FBSelect
-                    list={options}
+                    list={this.props.options || []}
                     onChange={updateSelect}
                     initialValue={selectValue}
                   />

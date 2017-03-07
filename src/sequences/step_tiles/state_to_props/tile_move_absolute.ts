@@ -2,6 +2,7 @@ import { Everything } from "../../../interfaces";
 import { MoveAbsolute, Dictionary, Vector3 } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
+import { updateMoveAbsStep } from "../../actions";
 
 interface NamedVector3 extends Vector3 {
   name: string;
@@ -26,20 +27,50 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     _.indexBy(props.tools.tool_slots);
 
   // tools WHERE slot_id NOT NULL
-  let vectorList = props
+  let options = props
     .tools
     .tool_slots
-    .filter(slot => slot.tool_id)
-    .map(function (slot: ToolSlot): NamedVector3 {
+    .filter(slot => slot && slot.tool_id && slot.id)
+    .map(function (slot: ToolSlot): DropDownItem {
       let tool = toolById[slot.tool_id as number];
-      let { x, y, z } = slot;
+      let { id } = slot;
       if (tool) {
         let { name } = tool;
-        return { name, x, y, z };
+        return { label: name, value: (id as number) };
       } else {
         throw new Error("Never will happen.");
       }
     });
+
+  let updateTool = (tool: DropDownItem) => {
+    let coords: Vector3 | undefined = slotById[tool.value];
+    if (coords) {
+      let { x, y, z } = coords;
+      // // this.setState({ x, y, z, tool.value options: this.state.options }, () => {
+      //   this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
+      // });
+      let data = {
+        x, y, z, value: tool.value
+      };
+      props.dispatch(updateMoveAbsStep({}))
+    }
+  };
+
+  //   updateSelect(event: Partial<MoveAbsState>) {
+
+  // }
+
+
+  // update(event: React.SyntheticEvent<HTMLInputElement>) {
+  //   let { name, value } = event.currentTarget;
+  //   let state: { [name: string]: string | number } = {};
+  //   state[name] = parseInt(value);
+  //   this.setState(state, () => {
+  //     this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
+  //   });
+  // }
+
+  // vectorList.map()
   // .map(x => toolById[(x.tool_id as number)])
   // .filter(x => x);
 
@@ -91,7 +122,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   // =========
   return {
-    options: [],
+    options,
     selectValue: { value: "Broke", label: "Change ASAP" },
     dispatch(x: any) { },
     all_tools: [],

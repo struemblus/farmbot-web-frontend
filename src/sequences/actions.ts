@@ -5,7 +5,8 @@ import {
   SequenceOptions,
   Sequence,
   ChanParams,
-  MessageParams
+  MessageParams,
+  UpdateAbsoluteStepPayl
 } from "./interfaces";
 import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
@@ -167,7 +168,7 @@ export function updateSubSequence(
   };
 }
 
-export function updateMoveAbsStep(data: {}, index: number): ReduxAction<{}> {
+export function updateMoveAbsStep(data: UpdateAbsoluteStepPayl, index: number): ReduxAction<{}> {
   return {
     type: "UPDATE_MOVE_ABSOLUTE_STEP",
     payload: { data, index }
