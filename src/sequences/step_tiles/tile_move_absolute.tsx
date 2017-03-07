@@ -5,6 +5,7 @@ import { MoveAbsState } from "../interfaces";
 import { MoveAbsolute } from "farmbot";
 import { mapStateToProps, TileMoveAbsoluteProps } from "./state_to_props/tile_move_absolute";
 import { connect } from "react-redux";
+import { FBSelect, BlurableInput } from "../../ui/index";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
@@ -20,6 +21,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
   }
 
   render() {
+    let todo = () => { console.log("TODO") };
     return (
       <div>
         <div>
@@ -60,58 +62,53 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                     <div className="row">
                       <div className="col-md-12">
                         <label>Import coordinates from</label>
-                        <div className="Select Select--single is-searchable has-value">
-                          <div className="Select-control">
-                            <span className="Select-multi-value-wrapper" id="react-select-6--value">
-                              <div className="Select-value"><span className="Select-value-label" role="option" aria-selected="true" id="react-select-6--value-item">---</span></div>
-                              <div className="Select-input" style={{display: 'inline-block'}}>
-                                <input role="combobox" aria-expanded="false" aria-owns aria-haspopup="false" aria-activedescendant="react-select-6--value" style={{width: 5, boxSizing: 'content-box'}} />
-                                <div style={{position: 'absolute', top: 0, left: 0, visibility: 'hidden', height: 0, overflow: 'scroll', whiteSpace: 'pre', fontSize: 12, fontFamily: 'Roboto, Arial, Helvetica, sans-serif', fontWeight: 'normal', fontStyle: 'normal', letterSpacing: 'normal'}} />
-                              </div>
-                            </span>
-                            <span className="Select-clear-zone" title="Clear value" aria-label="Clear value"><span className="Select-clear">×</span></span><span className="Select-arrow-zone"><span className="Select-arrow" /></span>
-                          </div>
-                        </div>
+                        <FBSelect
+                          list={this.props.dropDownItems}
+                          onChange={todo}
+                          initialValue={this.props.initialDropDownItem}
+                        />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           X (mm)
                         </label>
-                        <input name="x" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           Y (mm)
                         </label>
-                        <input name="y" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           Z (mm)
                         </label>
-                        <input name="z" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           Speed
                         </label>
-                        <input name="speed" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           X-Offset
                         </label>
-                        <input name="offsetX" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
                           Y-Offset
                         </label>
-                        <input name="offsetY" type="number" />
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                       <div className="col-xs-3 col-md-3">
                         <label>
-                          Z-Offset</label><input name="offsetZ" type="number" />
+                          Z-Offset
+                        </label>
+                        <BlurableInput onCommit={todo} value={"TODO"} />
                       </div>
                     </div>
                   </div>
