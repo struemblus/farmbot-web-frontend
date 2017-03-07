@@ -78,8 +78,8 @@ export interface StepParams {
   dispatch: Function;
   step: Step;
   index: number;
-  sequence: Sequence;
-  sequences: Sequence[];
+  current: Sequence;
+  all: Sequence[];
   tools: ToolsState;
 }
 

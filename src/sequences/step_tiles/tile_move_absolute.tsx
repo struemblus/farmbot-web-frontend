@@ -7,14 +7,18 @@ import { copy, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
 import { t } from "i18next";
 import { updateMoveAbsStep } from "../actions";
-import { MoveAbsolute } from "farmbot";
+import { MoveAbsolute, Vector3 } from "farmbot";
+import { mapStateToProps, TileMoveAbsoluteProps } from "./state_to_props/tile_move_absolute";
+import { connect } from "react-redux";
+import { Everything } from "../../interfaces";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
-interface MoveAbsProps extends StepParams {
+interface MoveAbsProps extends TileMoveAbsoluteProps, StepParams {
   step: MoveAbsolute;
 }
 
+@connect(mapStateToProps)
 export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
   constructor() {
     super();
@@ -25,55 +29,11 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
       value: "---", x: 0, y: 0, z: 0, speed: 0
     };
   }
-
+  componentWillMount() {
+    debugger;
+  }
   componentDidMount() {
     let step = this.props.step;
-
-    let location = step.args.location;
-    let currSlot: { x?: number, y?: number, z?: number } = {};
-    this.props.tools.tools.all.map(tool => {
-      this.props.tools.tool_slots.map(slot => {
-        if (tool.id === slot.tool_id && this.state.options) {
-          if (location.kind === "tool" &&
-            location.args.tool_id === slot.tool_id) {
-            currSlot = slot;
-          }
-          this.state.options.push({
-            label: tool.name,
-            value: tool.id,
-            x: slot.x,
-            y: slot.y,
-            z: slot.z
-          });
-        }
-      });
-    });
-
-    let { speed } = step.args;
-    switch (location.kind) {
-      case "tool":
-        this.setState({
-          value: location.args.tool_id,
-          speed,
-          x: currSlot.x,
-          y: currSlot.y,
-          z: currSlot.z
-        });
-        break;
-      case "coordinate":
-        let wow = { ...location.args };
-        let ok = { ...this.state };
-        let probablyTheIssue = {
-          x: wow.x || ok.x,
-          y: wow.y || ok.y,
-          z: wow.z || ok.z,
-          speed
-        };
-        this.setState(probablyTheIssue);
-        break;
-      default:
-        throw new Error("Error getting node kind.");
-    }
   }
 
   updateSelect(event: Partial<MoveAbsState>) {
@@ -92,17 +52,20 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     });
   }
 
+  computeDropdownOptions = (): DropDownItem[] => {
+    return [];
+  }
+
   render() {
     let { update, updateSelect } = this;
-    let { index, dispatch, step } = this.props;
+    let { index, step, dispatch } = this.props;
     let isTool = this.state.value !== "---";
     let x = this.state.x || "0";
     let y = this.state.y || "0";
     let z = this.state.z || "0";
     let speed = this.state.speed || "0";
     let selectValue: DropDownItem = { label: "", value: "" };
-    // TODO: Fix asap.
-    let options = this.state.options as DropDownItem[];
+    let options = this.computeDropdownOptions();
 
     return <div>
       <div className="step-wrapper">

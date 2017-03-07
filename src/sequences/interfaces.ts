@@ -3,14 +3,6 @@ import { SelectOptionsParams } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
 import {
   Sequence as CeleryScriptSequence,
-  MoveAbsolute,
-  MoveRelative,
-  WritePin,
-  ReadPin,
-  Wait,
-  SendMessage,
-  If,
-  Execute,
   SequenceBodyItem
 } from "farmbot";
 export type CHANNEL_NAME = "toast" | "ticker";

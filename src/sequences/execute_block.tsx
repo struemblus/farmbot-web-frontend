@@ -69,7 +69,7 @@ function SequenceSelectBox({ dispatch,
     placeholder="Pick a sequence (or save a new one)" />;
 }
 
-export function ExecuteBlock({ dispatch, step, index, sequence, sequences }:
+export function ExecuteBlock({ dispatch, step, index, current, all }:
   StepParams) {
   return (<div>
     <div className="step-wrapper">
@@ -93,8 +93,8 @@ export function ExecuteBlock({ dispatch, step, index, sequence, sequences }:
                 <label>{t("Sequence")}</label>
                 <SequenceSelectBox dispatch={dispatch}
                   step={step}
-                  sequence={sequence}
-                  sequences={sequences}
+                  sequence={current}
+                  sequences={all}
                   index={index} />
               </div>
             </div>
