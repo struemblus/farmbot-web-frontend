@@ -1,7 +1,11 @@
 import { Everything } from "../../../interfaces";
-import { MoveAbsolute, Dictionary } from "farmbot/dist";
+import { MoveAbsolute, Dictionary, Vector3 } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
+
+interface NamedVector3 extends Vector3 {
+  name: string;
+}
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
@@ -20,7 +24,24 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     _.indexBy(props.tools.tools.all, "id");
   let slotById: Dictionary<ToolSlot | undefined> =
     _.indexBy(props.tools.tool_slots);
-  // debugger;
+
+  // tools WHERE slot_id NOT NULL
+  let vectorList = props
+    .tools
+    .tool_slots
+    .filter(slot => slot.tool_id)
+    .map(function (slot: ToolSlot): NamedVector3 {
+      let tool = toolById[slot.tool_id as number];
+      let { x, y, z } = slot;
+      if (tool) {
+        let { name } = tool;
+        return { name, x, y, z };
+      } else {
+        throw new Error("Never will happen.");
+      }
+    });
+  // .map(x => toolById[(x.tool_id as number)])
+  // .filter(x => x);
 
   // props.tools.tools.all.map(tool => {
   //   props.tools.tool_slots.map(slot => {
