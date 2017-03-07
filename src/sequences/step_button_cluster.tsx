@@ -2,7 +2,7 @@ import * as React from "react";
 import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 import { Farmbot } from "farmbot";
-import { smoothScroll } from "../util"
+import { smoothScrollToBottom } from "../util";
 
 export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
   const ALL_THE_BUTTONS = [
@@ -115,7 +115,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
     </StepButton >
   ];
   return (<div>
-    <div className="widget-wrapper">
+    <div className="widget-wrapper step-button-cluster-widget">
       <div className="row">
         <div className="col-sm-12">
           <div className="widget-header">
@@ -137,10 +137,9 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
             <div className="row">
               {
                 ALL_THE_BUTTONS.map(function (el, inx) {
-
                   return <div key={inx} onClick={
-                    () => { smoothScroll() }
-                  }>
+                    // Follows user down the page as they add sequences.
+                    () => { smoothScrollToBottom(); }}>
                     {el}
                   </div>;
                 })
