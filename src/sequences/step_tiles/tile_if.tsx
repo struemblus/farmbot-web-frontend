@@ -14,7 +14,7 @@ interface IfElseDropDownItem extends DropDownItem {
   type?: string;
 }
 
-export function TileIf({ dispatch, step, index, sequences, sequence }:
+export function TileIf({ dispatch, step, index, all, current }:
   StepParams) {
   step = step as If;
   let args = step.args;
@@ -43,7 +43,7 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
     { value: "z", label: "Z position", field: "lhs" }
   ];
 
-  let thenOptions: IfElseDropDownItem[] = sequences.map(seq => {
+  let thenOptions: IfElseDropDownItem[] = all.map(seq => {
     if (args._then && args._then.kind === "execute") {
       then_optn = { label: seq.name, value: args._then.args.sequence_id };
     }
@@ -55,7 +55,7 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
     };
   });
 
-  let elseOptions: IfElseDropDownItem[] = sequences.map(seq => {
+  let elseOptions: IfElseDropDownItem[] = all.map(seq => {
     if (args._else && args._else.kind === "execute") {
       else_optn = { label: seq.name, value: args._else.args.sequence_id };
     };
@@ -89,8 +89,8 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
   };
 
   // Let user know one of their sub sequences is recursive
-  let isRecursive = (then_optn && then_optn.value === sequence.id)
-    || (else_optn && else_optn.value === sequence.id);
+  let isRecursive = (then_optn && then_optn.value === current.id)
+    || (else_optn && else_optn.value === current.id);
 
   return <div>
     <div className="step-wrapper">

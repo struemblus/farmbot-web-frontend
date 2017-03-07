@@ -14,6 +14,7 @@ import {
   mapStateToPropsAddEdit,
   AddEditFarmEventProps
 } from "./map_state_to_props_add_edit";
+import { fancyDebug } from "../../util";
 
 type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
 
@@ -85,8 +86,8 @@ AddFarmEventState> {
   }
 
   render() {
-    let { formatDate, formatTime } = this.props;
-
+    let { formatDate, formatTime, selectOptions } = this.props;
+    fancyDebug(selectOptions);
     return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
@@ -97,7 +98,7 @@ AddFarmEventState> {
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
-          list={this.props.selectOptions}
+          list={selectOptions}
           onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
         <Row>
