@@ -2,6 +2,7 @@ import { Image } from "./interfaces";
 import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
+import * as moment from "moment";
 
 export interface ImageFlipperProps {
   images: Image[];
@@ -106,7 +107,9 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
         {i ?
           <div className="created-at">
             <label>{t("Created At")}</label>
-            <span>{i.created_at}</span>
+            <span>
+              {moment(i.created_at).format("MMMM Do, YYYY h:mma")}
+            </span>
           </div>
           : ""}
         <div className="meta-coordinates">
