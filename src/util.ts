@@ -206,7 +206,7 @@ var last = "";
 export function fancyDebug(t: any) {
   var next = Object
     .entries(t)
-    .map((x: any) => `${_.padRight(x[0], 24, " ")} => ${x[1]}`)
+    .map((x: any) => `${_.padRight(x[0], 20, " ")} => ${JSON.stringify(x[1]).slice(0, 52)}`)
     .join("\n");
   if (last === next) {
   } else {
