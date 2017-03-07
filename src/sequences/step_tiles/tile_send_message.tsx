@@ -11,7 +11,6 @@ import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
-import { Option } from "react-select";
 
 export function TileSendMessage({ dispatch, step, index }: StepParams) {
   if (step.kind !== "send_message") {
@@ -44,7 +43,7 @@ export function TileSendMessage({ dispatch, step, index }: StepParams) {
     { value: "fun", label: "Fun" }
   ];
 
-  let handleOptionChange = (event: Option) => {
+  let handleOptionChange = (event: DropDownItem) => {
     let { value } = event;
     if (value) {
       dispatch(updateMessageType({ value, index }));
