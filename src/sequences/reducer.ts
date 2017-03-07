@@ -43,29 +43,6 @@ const initialState: SequenceReducerState = {
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
-  .add<UpdateAbsoluteStepPayl>("UPDATE_MOVE_ABSOLUTE_STEP", function (s, a) {
-    let { data, index } = a.payload;
-    let seq = s.all[s.current];
-    seq.dirty = true;
-    let step = (seq.body || [])[index] as MoveAbsolute;
-
-    /** By checking to see if the data is being passed this way,
-     * we're able to keep useful data in Redux alone */
-    if (data.offsetX) { step.args.offset.args.x = data.offsetX; };
-    if (data.offsetY) { step.args.offset.args.y = data.offsetY; };
-    if (data.offsetZ) { step.args.offset.args.z = data.offsetZ; };
-
-    delete step.args.location;
-    if (data.value === "---") {
-      let { x, y, z } = data;
-      step.args.location = { args: { x, y, z }, kind: "coordinate" };
-    } else {
-      let { value } = data;
-      value = parseInt(value.toString(), 10);
-      step.args.location = { args: { tool_id: value }, kind: "tool" };
-    }
-    return s;
-  })
   .add<ChanParams>("ADD_CHANNEL", function (s, a) {
     let { index, channel_name } = a.payload;
     let seq = s.all[s.current];

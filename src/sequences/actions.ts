@@ -168,13 +168,6 @@ export function updateSubSequence(
   };
 }
 
-export function updateMoveAbsStep(data: UpdateAbsoluteStepPayl, index: number): ReduxAction<{}> {
-  return {
-    type: "UPDATE_MOVE_ABSOLUTE_STEP",
-    payload: { data, index }
-  };
-}
-
 export interface RemoveStep {
   type: "REMOVE_STEP";
   payload: {

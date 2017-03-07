@@ -1,8 +1,8 @@
 import { Everything } from "../../../interfaces";
-import { MoveAbsolute, Dictionary, Vector3 } from "farmbot/dist";
+import { Dictionary, Vector3 } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
-import { updateMoveAbsStep } from "../../actions";
+// import { updateMoveAbsStep } from "../../actions";
 
 interface NamedVector3 extends Vector3 {
   name: string;
@@ -42,7 +42,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     });
 
   let updateTool = (tool: DropDownItem) => {
-    let coords: Vector3 | undefined = slotById[tool.value];
+    let coords = slotById[tool.value];
     if (coords) {
       let { x, y, z } = coords;
       // // this.setState({ x, y, z, tool.value options: this.state.options }, () => {
@@ -51,7 +51,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
       let data = {
         x, y, z, value: tool.value
       };
-      props.dispatch(updateMoveAbsStep({}))
+      console.log("This should be a dispatch");
     }
   };
 

@@ -42,13 +42,13 @@ export interface ToolFormState {
 }
 
 export interface ToolSlot {
-  id?: number | undefined;
-  tool_bay_id?: number | undefined;
+  id?: number;
+  tool_bay_id?: number;
   tool_id?: number | undefined;
-  created_at: string | undefined;
-  x: number;
-  y: number;
-  z: number;
+  created_at?: string;
+  x?: number;
+  y?: number;
+  z?: number;
   dirty?: boolean;
 }
 

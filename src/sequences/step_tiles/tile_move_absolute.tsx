@@ -22,7 +22,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
   render() {
     return (
       <div>
-        <div draggable="true">
+        <div>
           <div>
             <div className="step-wrapper">
               <div className="row">
