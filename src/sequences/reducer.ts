@@ -1,4 +1,3 @@
-import * as axios from "axios";
 import {
   SequenceBodyItem as Step,
   LATEST_VERSION
@@ -19,11 +18,10 @@ import {
   SelectPayl
 } from "./actions";
 import { generateReducer } from "../redux/generate_reducer";
-import { move, fancyDebug } from "../util";
+import { move } from "../util";
 import * as _ from "lodash";
-import { Sync, Log } from "../interfaces";
+import { Sync } from "../interfaces";
 import { SequenceBodyItem, uuid } from "farmbot";
-import { API } from "../api/api";
 /** Adds an empty sequence to the front of the list. */
 function populate(s: SequenceReducerState): Sequence {
   // This worries me. What if #current and #all get out of sync?
