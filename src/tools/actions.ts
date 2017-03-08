@@ -38,13 +38,11 @@ export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
     let url = API.current.toolSlotsPath;
     Axios.post<ToolSlot[]>(url, dirtSlots)
       .then(resp => {
-        if (resp instanceof Error) {
-          error(prettyPrintApiErrors(resp));
-          throw resp;
-        }
         success(t("ToolBay saved."));
         updateToolBayAfterSlots();
-        dispatch(saveToolSlotOk(resp.data));
+        resp.data.map(function (toolSlot) {
+          dispatch(saveToolSlotOk(toolSlot));
+        });
       }, (e: Error) => {
         error(prettyPrintApiErrors(e));
       });
