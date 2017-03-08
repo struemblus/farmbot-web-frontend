@@ -7,10 +7,10 @@ import { t } from "i18next";
 import { FBSelect, DropDownItem } from "../ui";
 
 /** Removes un-executable sequences, such as "self" or unsaved ones */
-function filterSequenceList(sequences: Sequence[], sequence: Sequence) {
+function filterSequenceList(sequences: Sequence[] | undefined, sequence: Sequence) {
   let isSaved = (s: Sequence) => !!s.id;
   let notRecursive = (me: Sequence, you: Sequence) => me !== you;
-  return sequences
+  return (sequences || [])
     .filter(function (seq) {
       // Can't function recurseCant use unsaved sequences.
       return isSaved(seq) && notRecursive(sequence, seq);
