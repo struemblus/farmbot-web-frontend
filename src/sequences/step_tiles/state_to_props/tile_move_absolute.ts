@@ -9,6 +9,8 @@ export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
   compute(kind: string, arg: string, step: Step): string;
+  toolById: Dictionary<Tool | undefined>;
+  slotByToolId: Dictionary<ToolSlot | undefined>;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -24,7 +26,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
   /** Get data indexed */
   let toolById: Dictionary<Tool | undefined> =
     _.indexBy(props.tools.tools.all, "id");
-  let slotById: Dictionary<ToolSlot | undefined> =
+  let slotByToolId: Dictionary<ToolSlot | undefined> =
     _.indexBy(props.tools.tool_slots, "tool_id");
 
   /** Create dropdown options */
@@ -33,14 +35,12 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     .tools
     .tool_slots
     .filter(slot => slot && slot.tool_id && slot.id)
-    .map(function (slot: ToolSlot): DropDownItem {
-      let tool = toolById[slot.tool_id as number];
-      if (tool) {
-        let { name, id } = tool;
-        return { label: name, value: (id as number) };
-      } else {
-        throw new Error("Never will happen.");
-      }
+    .map(slot => ({ slot, tool: toolById[slot.tool_id as number] }))
+    .filter(both => (both.slot && both.tool))
+    .map(function (both: { tool: Tool, slot: ToolSlot }): DropDownItem {
+      let { tool } = both;
+      let { name, id } = tool;
+      return { label: name, value: (id as number) };
     });
 
   /** Fires when a DropDownItem is selected */
@@ -76,6 +76,8 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     compute,
     changeToolSelect,
     changeInputValue,
+    toolById,
+    slotByToolId,
     dispatch() { }
   };
 
