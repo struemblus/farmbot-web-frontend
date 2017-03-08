@@ -1,3 +1,4 @@
+import * as axios from "axios";
 import {
   SequenceBodyItem as Step,
   LATEST_VERSION
@@ -18,10 +19,11 @@ import {
   SelectPayl
 } from "./actions";
 import { generateReducer } from "../redux/generate_reducer";
-import { move } from "../util";
+import { move, fancyDebug } from "../util";
 import * as _ from "lodash";
-import { Sync } from "../interfaces";
+import { Sync, Log } from "../interfaces";
 import { SequenceBodyItem, uuid } from "farmbot";
+import { API } from "../api/api";
 /** Adds an empty sequence to the front of the list. */
 function populate(s: SequenceReducerState): Sequence {
   // This worries me. What if #current and #all get out of sync?
@@ -181,11 +183,13 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
   function (s, a) {
     let currentSequence = s.all[s.current];
     let currentStep = (currentSequence.body || [])[a.payload.index];
-    if (currentStep.kind === "move_absolute"
-      && currentStep.args.location.kind === "tool") {
-      let { tool } = a.payload;
-      if (tool.value) {
-        currentStep.args.location.args.tool_id = parseInt(tool.value as string);
+    let choice = a.payload.tool;
+    if (currentStep && currentStep.kind === "move_absolute") {
+      if (_.isNumber(choice.value)) {
+        currentStep.args.location = {
+          kind: "tool",
+          args: { tool_id: choice.value }
+        };
       } else {
         currentStep.args.location = {
           kind: "coordinate",
@@ -193,7 +197,8 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         };
       }
     } else {
-      console.log(`Got ${currentStep.kind}`);
+      throw new Error("Something threw bad data to " +
+        "CHANGE_MOVE_ABS_STEP_SELECT");
     }
     markDirty(s);
     maybeAddMarkers(s);
