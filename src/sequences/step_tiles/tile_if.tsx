@@ -8,8 +8,8 @@ import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { If } from "farmbot";
 
-// This will need to go after consulting an attack plan for testing
-interface IfBlockDropDownItem extends DropDownItem {
+// This will need to go after consulting Rick with plan for testing
+interface IfElseDropDownItem extends DropDownItem {
   field?: string;
   type?: string;
 }
@@ -19,10 +19,10 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
   step = step as If;
   let args = step.args;
   let { lhs, op } = args;
-  let then_optn: IfBlockDropDownItem | undefined;
-  let else_optn: IfBlockDropDownItem | undefined;
+  let then_optn: IfElseDropDownItem | undefined;
+  let else_optn: IfElseDropDownItem | undefined;
 
-  let LHSOptions: IfBlockDropDownItem[] = [
+  let LHSOptions: IfElseDropDownItem[] = [
     { value: "busy", label: "Busy Status (0, 1)", field: "lhs" },
     { value: "pin0", label: "Pin 0", field: "lhs" },
     { value: "pin1", label: "Pin 1", field: "lhs" },
@@ -43,7 +43,7 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
     { value: "z", label: "Z position", field: "lhs" }
   ];
 
-  let thenOptions: IfBlockDropDownItem[] = sequences.map(seq => {
+  let thenOptions: IfElseDropDownItem[] = sequences.map(seq => {
     if (args._then && args._then.kind === "execute") {
       then_optn = { label: seq.name, value: args._then.args.sequence_id };
     }
@@ -55,7 +55,7 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
     };
   });
 
-  let elseOptions: IfBlockDropDownItem[] = sequences.map(seq => {
+  let elseOptions: IfElseDropDownItem[] = sequences.map(seq => {
     if (args._else && args._else.kind === "execute") {
       else_optn = { label: seq.name, value: args._else.args.sequence_id };
     };
@@ -67,21 +67,21 @@ export function TileIf({ dispatch, step, index, sequences, sequence }:
     };
   });
 
-  let operatorOptions: IfBlockDropDownItem[] = [
+  let operatorOptions: IfElseDropDownItem[] = [
     { value: "<", label: "is less than", field: "op" },
     { value: ">", label: "is greater than", field: "op" },
     { value: "is", label: "is equal to", field: "op" },
     { value: "not", label: "is not equal to", field: "op" }
   ];
 
-  let update = (e: IfBlockDropDownItem) => {
+  let update = (e: IfElseDropDownItem) => {
     let { field, value } = e;
     if (value && field) {
       dispatch(changeStepSelect(value, index, field));
     }
   };
 
-  let updateSubSeq = (e: IfBlockDropDownItem) => {
+  let updateSubSeq = (e: IfElseDropDownItem) => {
     let { field, value, type } = e;
     if (value && field && type) {
       dispatch(updateSubSequence(value, index, field, type));

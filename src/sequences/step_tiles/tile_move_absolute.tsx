@@ -100,6 +100,8 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     let y = this.state.y || "0";
     let z = this.state.z || "0";
     let speed = this.state.speed || "0";
+
+
     let selectValue: DropDownItem = { label: "", value: "" };
     // TODO: Fix asap.
     let options = this.state.options as DropDownItem[];
