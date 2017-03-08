@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import { StepParams, copy, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
-import { MoveAbsolute } from "farmbot";
+import { MoveAbsolute, Vector3 } from "farmbot";
 import { mapStateToProps, TileMoveAbsoluteProps } from "./state_to_props/tile_move_absolute";
 import { connect } from "react-redux";
 import { FBSelect, Row, Col, BlurableInput, DropDownItem } from "../../ui";
@@ -28,6 +28,24 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     let { index, dispatch, changeInputValue } = this.props;
     let { value, name } = e.currentTarget;
     changeInputValue(value, name, index, dispatch);
+  }
+
+  coord = (): Vector3 => {
+    let output: Vector3 = { x: 0, y: 0, z: 0 };
+    let { location } = this.props.step.args;
+    switch (location.kind) {
+      case "tool":
+        let tool = this.props.toolById[location.args.tool_id];
+        let slot = tool && this.props.slotByToolId[tool.id || 0];
+        if (slot) {
+          output = { ...output, ...slot }
+        } else {
+          debugger;
+        };
+        break;
+      case "coordinate": output = { ...output, ...location.args }; break;
+    }
+    return output;
   }
 
   render() {
@@ -84,7 +102,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="location-x"
-                  value={compute("location", "x", step)} />
+                  value={this.coord().x.toString()} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -94,7 +112,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="location-y"
-                  value={compute("location", "y", step)} />
+                  value={this.coord().y.toString()} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -104,7 +122,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="location-z"
-                  value={compute("location", "z", step)} />
+                  value={this.coord().z.toString()} />
               </Col>
               <Col xs={3}>
                 <label>

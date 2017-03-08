@@ -9,6 +9,8 @@ export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
   compute(kind: string, arg: string, step: Step): string;
+  toolById: Dictionary<Tool | undefined>;
+  slotByToolId: Dictionary<ToolSlot | undefined>;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -24,7 +26,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
   /** Get data indexed */
   let toolById: Dictionary<Tool | undefined> =
     _.indexBy(props.tools.tools.all, "id");
-  let slotById: Dictionary<ToolSlot | undefined> =
+  let slotByToolId: Dictionary<ToolSlot | undefined> =
     _.indexBy(props.tools.tool_slots, "tool_id");
 
   /** Create dropdown options */
@@ -76,6 +78,8 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     compute,
     changeToolSelect,
     changeInputValue,
+    toolById,
+    slotByToolId,
     dispatch() { }
   };
 
