@@ -32,7 +32,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
 
   render() {
     let { compute, step, dispatch, index } = this.props;
-
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>

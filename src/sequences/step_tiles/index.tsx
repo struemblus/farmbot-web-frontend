@@ -17,7 +17,7 @@ import { ToolsState } from "../../tools/interfaces";
 import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
-import { LegalArgString } from "farmbot";
+import { LegalArgString, CeleryNode } from "farmbot";
 
 interface CopyParams {
   dispatch: Function;
@@ -68,7 +68,7 @@ export function updateStep({ dispatch,
 };
 
 export interface IStepInput {
-  step: Step;
+  step: CeleryNode;
   field: LegalArgString;
   dispatch: Function;
   index: number;
