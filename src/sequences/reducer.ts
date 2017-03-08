@@ -1,10 +1,14 @@
-import { SequenceBodyItem as Step, LATEST_VERSION, MoveAbsolute } from "farmbot";
+import {
+  SequenceBodyItem as Step,
+  LATEST_VERSION
+} from "farmbot";
 import {
   Sequence,
   SequenceReducerState,
   ChanParams,
   MessageParams,
-  UpdateAbsoluteStepPayl
+  ChangeMoveAbsSelect,
+  ChangeMoveAbsInput
 } from "./interfaces";
 import {
   nullSequence,
@@ -172,6 +176,42 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     }
     maybeAddMarkers(s);
     return s;
+  })
+  .add<ChangeMoveAbsSelect>("CHANGE_MOVE_ABS_STEP_SELECT",
+  function (s, a) {
+    let currentSequence = s.all[s.current];
+    let currentStep = (currentSequence.body || [])[a.payload.index];
+    let raw = currentStep.args as any;
+    raw.location.args = a.payload.values;
+    markDirty(s);
+    maybeAddMarkers(s);
+    return s;
+  })
+  .add<ChangeMoveAbsInput>("CHANGE_MOVE_ABS_STEP_VALUE",
+  function (s, a) {
+    let currentSequence = s.all[s.current];
+    let currentStep = (currentSequence.body || [])[a.payload.index];
+    markDirty(s);
+    // TODO: still can't get this figured out
+    let raw = currentStep.args as any;
+
+    // Super lame, but modular? i.e. "offset-x", "location-z"
+    let kind = a.payload.kind.split("-")[0];
+    let arg = a.payload.kind.split("-")[1];
+
+    switch (kind) {
+      case "location":
+        raw.location.args[arg] = parseInt(a.payload.value);
+        maybeAddMarkers(s);
+        return s;
+      case "offset":
+        raw.offset.args[arg] = parseInt(a.payload.value);
+        maybeAddMarkers(s);
+        return s;
+      default:
+        throw new Error(`Something went wrong with the 
+        move_abs input parameters.`);
+    }
   })
   .add<{ index: number }>("REMOVE_STEP", function (s, a) {
     let body = s.all[s.current].body || [];

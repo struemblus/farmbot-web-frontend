@@ -1,30 +1,33 @@
 import { Everything } from "../../../interfaces";
-import { Dictionary, Vector3 } from "farmbot/dist";
+import { Dictionary, MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
-// import { updateMoveAbsStep } from "../../actions";
-
-interface NamedVector3 extends Vector3 {
-  name: string;
-}
+import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
+import { safeStringFetch } from "../../../util";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
-  selectValue: DropDownItem;
   dispatch: Function;
-  all_tools: Tool[];
-  updateSelect(input: DropDownItem): void;
-  copy(): void;
-  remove(): void;
+  compute(kind: string, arg: string, step: Step): string;
+  changeToolSelect(step: Step,
+    index: number,
+    dispatch: Function,
+    tool: DropDownItem): void;
+  changeInputValue(value: string,
+    type: string,
+    index: number,
+    dispatch: Function): void;
 }
 
 export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
+  /** Get data indexed */
   let toolById: Dictionary<Tool | undefined> =
     _.indexBy(props.tools.tools.all, "id");
   let slotById: Dictionary<ToolSlot | undefined> =
-    _.indexBy(props.tools.tool_slots);
+    _.indexBy(props.tools.tool_slots, "tool_id");
 
+  /** Create dropdown options */
   // tools WHERE slot_id NOT NULL
   let options = props
     .tools
@@ -32,101 +35,53 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     .filter(slot => slot && slot.tool_id && slot.id)
     .map(function (slot: ToolSlot): DropDownItem {
       let tool = toolById[slot.tool_id as number];
-      let { id } = slot;
       if (tool) {
-        let { name } = tool;
+        let { name, id } = tool;
         return { label: name, value: (id as number) };
       } else {
         throw new Error("Never will happen.");
       }
     });
 
-  let updateTool = (tool: DropDownItem) => {
+  /** Fires when a DropDownItem is selected */
+  let changeToolSelect = (step: Step,
+    index: number,
+    dispatch: Function,
+    tool: DropDownItem) => {
     let coords = slotById[tool.value];
     if (coords) {
       let { x, y, z } = coords;
-      // // this.setState({ x, y, z, tool.value options: this.state.options }, () => {
-      //   this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
-      // });
-      let data = {
-        x, y, z, value: tool.value
-      };
-      console.log("This should be a dispatch");
+      dispatch(changeMoveAbsStepSelect({ x, y, z }, index, tool, step));
+    } else {
+      throw new Error("Tool doesn't have coordinates (a slot).");
     }
   };
 
-  //   updateSelect(event: Partial<MoveAbsState>) {
+  /** Used to compute the values of the input boxes */
+  function compute(kind: string, arg: string, step: Step) {
+    switch (kind) {
+      case "location":
+        return safeStringFetch(step.args.location.args, arg);
+      case "offset":
+        return safeStringFetch(step.args.offset.args, arg);
+      default:
+        throw new Error("Something went wrong with input value compute fn.");
+    }
+  };
 
-  // }
+  /** Fires whenever a BlurableInput field is blurred */
+  let changeInputValue = (value: string,
+    kind: string,
+    index: number,
+    dispatch: Function) => {
+    dispatch(changeMoveAbsStepValue(value, kind, index));
+  };
 
-
-  // update(event: React.SyntheticEvent<HTMLInputElement>) {
-  //   let { name, value } = event.currentTarget;
-  //   let state: { [name: string]: string | number } = {};
-  //   state[name] = parseInt(value);
-  //   this.setState(state, () => {
-  //     this.props.dispatch(updateMoveAbsStep(this.state, this.props.index));
-  //   });
-  // }
-
-  // vectorList.map()
-  // .map(x => toolById[(x.tool_id as number)])
-  // .filter(x => x);
-
-  // props.tools.tools.all.map(tool => {
-  //   props.tools.tool_slots.map(slot => {
-  //     if (tool.id === slot.tool_id && this.state.options) {
-  //       if (loc.kind === "tool" &&
-  //         loc.args.tool_id === slot.tool_id) {
-  //         currSlot = slot;
-  //       }
-  //       this.state.options.push({
-  //         label: tool.name,
-  //         value: tool.id,
-  //         x: slot.x,
-  //         y: slot.y,
-  //         z: slot.z
-  //       });
-  //     }
-  //   });
-  // });
-  // let loc = step.args.location;
-  // let currSlot: Partial<Vector3> = {};
-
-  // let { speed } = step.args;
-  // switch (loc.kind) {
-  //   case "tool":
-  //     this.setState({
-  //       value: loc.args.tool_id,
-  //       speed,
-  //       x: currSlot.x,
-  //       y: currSlot.y,
-  //       z: currSlot.z
-  //     });
-  //     break;
-  //   case "coordinate":
-  //     let wow = { ...loc.args };
-  //     let ok = { ...this.state };
-  //     let probablyTheIssue = {
-  //       x: wow.x || ok.x,
-  //       y: wow.y || ok.y,
-  //       z: wow.z || ok.z,
-  //       speed
-  //     };
-  //     this.setState(probablyTheIssue);
-  //     break;
-  //   default:
-  //     throw new Error("Error getting node kind.");
-  // }
-
-  // =========
   return {
     options,
-    selectValue: { value: "Broke", label: "Change ASAP" },
-    dispatch(x: any) { },
-    all_tools: [],
-    updateSelect() { },
-    copy() { },
-    remove() { }
+    compute,
+    changeToolSelect,
+    changeInputValue,
+    dispatch() { }
   };
 }

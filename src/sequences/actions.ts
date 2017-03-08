@@ -5,8 +5,7 @@ import {
   SequenceOptions,
   Sequence,
   ChanParams,
-  MessageParams,
-  UpdateAbsoluteStepPayl
+  MessageParams
 } from "./interfaces";
 import { success, error } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
@@ -14,6 +13,7 @@ import { Color } from "../interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as i18next from "i18next";
 import { API } from "../api";
+import { Tool } from "../tools/interfaces";
 
 export function addChan({ channel_name, index }: ChanParams) {
   return {
@@ -155,6 +155,27 @@ export function changeStepSelect(
   return {
     type: "CHANGE_STEP_SELECT",
     payload: { value, index, field }
+  };
+}
+
+export function changeMoveAbsStepSelect(
+  values: { x: number, y: number, z: number },
+  index: number,
+  tool: Partial<Tool>,
+  step: Step) {
+  return {
+    type: "CHANGE_MOVE_ABS_STEP_SELECT",
+    payload: { values, index, tool, step }
+  };
+}
+
+// Would be nice to factor this down to fit with CHANGE_STEP
+export function changeMoveAbsStepValue(value: string,
+  kind: string,
+  index: number) {
+  return {
+    type: "CHANGE_MOVE_ABS_STEP_VALUE",
+    payload: { value, kind, index }
   };
 }
 

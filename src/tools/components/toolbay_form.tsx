@@ -20,9 +20,6 @@ import {
 } from "../actions";
 import { t } from "i18next";
 import { connect } from "react-redux";
-import { indexBy } from "lodash";
-import { API } from "../../api/index";
-import * as Axios from "axios";
 
 @connect((state: Everything) => state)
 export class ToolBayForm extends React.Component<ListAndFormProps,

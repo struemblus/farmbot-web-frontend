@@ -5,12 +5,11 @@ import { API } from "../api";
 import {
   ToolBay,
   ToolSlot,
-  Tool,
-  ErrorPayl
+  Tool
 } from "./interfaces";
 import { success, error } from "../ui";
 import * as _ from "lodash";
-import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
+import { prettyPrintApiErrors } from "../util";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
