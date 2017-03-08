@@ -179,10 +179,18 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
   })
   .add<ChangeMoveAbsSelect>("CHANGE_MOVE_ABS_STEP_SELECT",
   function (s, a) {
+    // TODO: handle allowempty value here
     let currentSequence = s.all[s.current];
     let currentStep = (currentSequence.body || [])[a.payload.index];
-    let raw = currentStep.args as any;
-    raw.location.args = a.payload.values;
+    switch (currentStep.kind === "move_absolute" && currentStep.args.location.kind) {
+      case "tool":
+        // currentStep.args.location.tool_id
+        break;
+      case "coordinate":
+        break;
+      default:
+        throw new Error("This only works for move_absolute.");
+    }
     markDirty(s);
     maybeAddMarkers(s);
     return s;

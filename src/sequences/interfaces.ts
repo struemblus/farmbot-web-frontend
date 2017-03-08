@@ -69,13 +69,8 @@ export interface MoveAbsState {
 
 export interface ChangeMoveAbsSelect {
   index: number;
-  tool: Partial<Tool>;
+  tool: Partial<Tool> | undefined;
   step: MoveAbsolute;
-  values: {
-    x: number;
-    y: number;
-    z: number;
-  };
 }
 
 export interface ChangeMoveAbsInput {
