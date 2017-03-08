@@ -35,14 +35,12 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     .tools
     .tool_slots
     .filter(slot => slot && slot.tool_id && slot.id)
-    .map(function (slot: ToolSlot): DropDownItem {
-      let tool = toolById[slot.tool_id as number];
-      if (tool) {
-        let { name, id } = tool;
-        return { label: name, value: (id as number) };
-      } else {
-        throw new Error("Never will happen.");
-      }
+    .map(slot => ({ slot, tool: toolById[slot.tool_id as number] }))
+    .filter(both => (both.slot && both.tool))
+    .map(function (both: { tool: Tool, slot: ToolSlot }): DropDownItem {
+      let { tool } = both;
+      let { name, id } = tool;
+      return { label: name, value: (id as number) };
     });
 
   /** Fires when a DropDownItem is selected */
