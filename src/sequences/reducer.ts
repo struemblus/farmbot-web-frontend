@@ -181,21 +181,22 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
   function (s, a) {
     let currentSequence = s.all[s.current];
     let currentStep = (currentSequence.body || [])[a.payload.index];
+    if (currentStep.kind === "move_absolute") {
+      switch (currentStep.args.location.kind) {
+        case "tool":
+          if (a.payload.tool.value) {
+            currentStep.args
+            // currentStep.args.location.
+          } else {
+            // currentStep.args
+          }
+          break;
+        case "coordinate":
 
-    switch (currentStep.kind === "move_absolute" && currentStep.args.location.kind) {
-      case "tool":
-        let { tool } = a.payload;
-        if (tool.value) {
-          // currentStep.args.location.
-        } else {
-          // currentStep.args
-        }
-        break;
-      case "coordinate":
-
-        break;
-      default:
-        throw new Error("This only works for move_absolute.");
+          break;
+        default:
+          throw new Error("This only works for move_absolute.");
+      }
     }
     markDirty(s);
     maybeAddMarkers(s);
@@ -223,7 +224,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
         maybeAddMarkers(s);
         return s;
       default:
-        throw new Error(`Something went wrong with the 
+        throw new Error(`Something went wrong with the
         move_abs input parameters.`);
     }
   })
