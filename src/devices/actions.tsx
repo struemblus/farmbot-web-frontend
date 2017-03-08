@@ -95,7 +95,7 @@ export function emergencyUnlock() {
   if (confirm("Are you sure you want to unlock the device?")) {
     devices
       .current
-      .emergencyUnlock()
+      .reboot()
       .then(commandOK(noun), commandErr(noun));
   }
 }
