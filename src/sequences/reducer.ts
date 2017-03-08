@@ -181,22 +181,19 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
   function (s, a) {
     let currentSequence = s.all[s.current];
     let currentStep = (currentSequence.body || [])[a.payload.index];
-    if (currentStep.kind === "move_absolute") {
-      switch (currentStep.args.location.kind) {
-        case "tool":
-          if (a.payload.tool.value) {
-            currentStep.args
-            // currentStep.args.location.
-          } else {
-            // currentStep.args
-          }
-          break;
-        case "coordinate":
-
-          break;
-        default:
-          throw new Error("This only works for move_absolute.");
+    if (currentStep.kind === "move_absolute"
+      && currentStep.args.location.kind === "tool") {
+      let { tool } = a.payload;
+      if (tool.value) {
+        currentStep.args.location.args.tool_id = parseInt(tool.value as string);
+      } else {
+        currentStep.args.location = {
+          kind: "coordinate",
+          args: { x: 0, y: 0, z: 0 }
+        };
       }
+    } else {
+      console.log(`Got ${currentStep.kind}`);
     }
     markDirty(s);
     maybeAddMarkers(s);
