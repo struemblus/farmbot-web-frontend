@@ -7,7 +7,7 @@ import {
   ChanParams,
   MessageParams
 } from "./interfaces";
-import { success, error } from "../ui";
+import { success, error, DropDownItem } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
 import { Color } from "../interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
@@ -159,13 +159,12 @@ export function changeStepSelect(
 }
 
 export function changeMoveAbsStepSelect(
-  values: { x: number, y: number, z: number },
   index: number,
-  tool: Partial<Tool>,
+  tool: DropDownItem,
   step: Step) {
   return {
     type: "CHANGE_MOVE_ABS_STEP_SELECT",
-    payload: { values, index, tool, step }
+    payload: { index, tool, step }
   };
 }
 

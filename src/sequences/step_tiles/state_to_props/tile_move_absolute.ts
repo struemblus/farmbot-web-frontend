@@ -48,13 +48,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     index: number,
     dispatch: Function,
     tool: DropDownItem) => {
-    let coords = slotById[tool.value];
-    if (coords) {
-      let { x, y, z } = coords;
-      dispatch(changeMoveAbsStepSelect({ x, y, z }, index, tool, step));
-    } else {
-      throw new Error("Tool doesn't have coordinates (a slot).");
-    }
+    dispatch(changeMoveAbsStepSelect(index, tool, step));
   };
 
   /** Used to compute the values of the input boxes */

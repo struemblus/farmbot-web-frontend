@@ -72,6 +72,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
               <Col md={12}>
                 <label>Import coordinates from</label>
                 <FBSelect
+                  allowEmpty={true}
                   list={this.props.options}
                   onChange={this.updateToolSelect} />
               </Col>

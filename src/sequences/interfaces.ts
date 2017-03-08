@@ -8,6 +8,7 @@ import {
   Vector3
 } from "farmbot";
 import { Tool } from "../tools/interfaces";
+import { DropDownItem } from "../ui/index";
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
@@ -69,7 +70,7 @@ export interface MoveAbsState {
 
 export interface ChangeMoveAbsSelect {
   index: number;
-  tool: Partial<Tool> | undefined;
+  tool: DropDownItem;
   step: MoveAbsolute;
 }
 
