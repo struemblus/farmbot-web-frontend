@@ -4,11 +4,16 @@ import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent, updateFarmEvent } from "../actions";
+import { Dictionary } from "farmbot/dist";
+import { Sequence } from "../../sequences/interfaces";
+import { Regimen } from "../../regimens/interfaces";
 
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: FarmEvent[];
+  sequenceById: Dictionary<Sequence>;
+  regimenById: Dictionary<Regimen>;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
@@ -18,7 +23,6 @@ export interface AddEditFarmEventProps {
 }
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
-
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
     // Am I really doing this right now? How else?
     let incomingTime = e.currentTarget.value.split(":");
@@ -108,7 +112,8 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   });
 
   let farmEvents = state.sync.farm_events;
-
+  let sequenceById = _.indexBy(state.sequences.all, "id");
+  let regimenById = _.indexBy(state.regimens.all, "id");
   return {
     selectOptions,
     repeatOptions,
@@ -116,6 +121,8 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     formatTime,
     handleTime,
     farmEvents,
+    sequenceById,
+    regimenById,
     save(fe) {
       this.dispatch(saveFarmEvent(fe, () => {
         this.router.push("/app/designer/farm_events");
