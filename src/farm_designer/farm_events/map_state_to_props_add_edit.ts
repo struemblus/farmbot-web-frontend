@@ -122,13 +122,14 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
       }));
     },
     update(fe) {
-      // TODO: make these redirects callbacks in actions
-      this.dispatch(updateFarmEvent(fe));
-      this.router.push("/app/designer/farm_events");
+      this.dispatch(updateFarmEvent(fe, () => {
+        this.router.push("/app/designer/farm_events");
+      }));
     },
     delete(farm_event_id) {
-      this.dispatch(destroyFarmEvent(farm_event_id));
-      this.router.push("/app/designer/farm_events");
+      this.dispatch(destroyFarmEvent(farm_event_id, () => {
+        this.router.push("/app/designer/farm_events");
+      }));
     },
   };
 }

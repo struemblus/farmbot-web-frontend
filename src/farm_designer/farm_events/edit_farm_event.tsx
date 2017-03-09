@@ -6,7 +6,8 @@ import {
   BlurableInput,
   Col,
   Row,
-  BackArrow
+  BackArrow,
+  DropDownItem
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
@@ -104,10 +105,20 @@ AddFarmEventState> {
     }
   }
 
+  pickInitialValue() {
+    let opt = _.findWhere(this.props.selectOptions,
+      { value: this.state.executable_id });
+    debugger;
+    return { label: "Every Node", executable_type: "Sequence", executable_id: 106, value: 106 };
+  }
+
   render() {
     let { formatDate, formatTime, repeatOptions } = this.props;
     let { time_unit } = this.state;
     let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
+    let opt = _.findWhere(this.props.selectOptions,
+      { value: this.state.executable_id });
+    console.log(opt)
 
     return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
@@ -120,7 +131,8 @@ AddFarmEventState> {
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
           list={this.props.selectOptions}
-          onChange={this.updateSequenceOrRegimen} />
+          onChange={this.updateSequenceOrRegimen}
+          initialValue={this.pickInitialValue()} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
