@@ -37,7 +37,6 @@ export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
     //   tool_slots: getState().tools.tool_slots.filter(allSlots => !!allSlots.dirty)
     // };
     let tool_slots = getState().tools.tool_slots;
-    console.log(tool_slots)
     let url = API.current.toolSlotsPath;
     Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {

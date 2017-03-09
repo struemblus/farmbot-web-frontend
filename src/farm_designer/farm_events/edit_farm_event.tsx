@@ -42,11 +42,7 @@ AddFarmEventState> {
     let { farmEvents, router } = this.props;
     let fe = _.findWhere(farmEvents,
       { id: parseInt(router.params.farm_event_id) });
-    console.log(fe);
-
     let newState = _.merge(this.state, fe);
-    console.log(newState);
-
     this.setState(newState);
   }
 
@@ -133,7 +129,6 @@ AddFarmEventState> {
   }
 
   render() {
-    debugger;
     let { formatDate, formatTime, repeatOptions } = this.props;
     let { time_unit } = this.state;
     let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
