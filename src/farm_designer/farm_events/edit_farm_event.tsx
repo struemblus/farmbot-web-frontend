@@ -37,6 +37,14 @@ AddFarmEventState> {
     };
   }
 
+  componentDidMount() {
+    let { farmEvents, router } = this.props;
+    let fe = _.findWhere(farmEvents,
+      { id: parseInt(router.params.farm_event_id) }) || {};
+    let newState = _.merge(this.state, fe);
+    this.setState(newState);
+  }
+
   updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
     let { executable_id, executable_type } = e;
     this.setState({ executable_id, executable_type });
@@ -97,8 +105,9 @@ AddFarmEventState> {
   }
 
   render() {
-    console.log(this.props)
-    let { formatDate, formatTime } = this.props;
+    let { formatDate, formatTime, repeatOptions } = this.props;
+    let { time_unit } = this.state;
+    let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
 
     return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
@@ -146,7 +155,8 @@ AddFarmEventState> {
           <Col xs={8}>
             <FBSelect
               list={this.props.repeatOptions}
-              onChange={this.updateRepeatSelect} />
+              onChange={this.updateRepeatSelect}
+              initialValue={currentTimeUnit} />
           </Col>
         </Row>
         <label>{t("Until")}</label>
@@ -171,7 +181,7 @@ AddFarmEventState> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.state)}>
+          onClick={() => this.props.update(this.state)}>
           {t("Save")}
         </button>
         <button className="red button-like"

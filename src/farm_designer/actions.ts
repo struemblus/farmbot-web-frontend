@@ -28,10 +28,10 @@ export function saveFarmEvent(farm_event: FarmEventForm,
   };
 };
 
-export function updateFarmEvent(farm_event: Partial<FarmEvent>): Thunk {
+export function updateFarmEvent(farm_event: FarmEventForm): Thunk {
   let url = API.current.farmEventsPath + farm_event.id;
   return function (dispatch, getState) {
-    return Axios.patch<Partial<FarmEvent>>(url, farm_event)
+    return Axios.patch<FarmEvent>(url, farm_event)
       .then(resp => {
         let payload = { ...farm_event, ...resp.data };
         dispatch({ type: "UPDATE_FARM_EVENT_OK", payload });
