@@ -64,6 +64,8 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
   }
 
   updateInput = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    console.log("HERE", e);
+
     let { value } = e.currentTarget;
     this.setState({ label: value });
     this.props.onUserTyping && this.props.onUserTyping(value);
@@ -150,7 +152,7 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
   }
 
   componentWillReceiveProps() {
-    console.log("???")
+    console.log(this.props)
     this.forceUpdate();
   }
 
