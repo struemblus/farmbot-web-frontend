@@ -119,7 +119,10 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       { label: "Bottom Left", value: "bottom_left" },
       { label: "Bottom Right", value: "bottom_right" }
     ];
-    return <div className="additional-settings-menu">
+    return <div className="additional-settings-menu"
+      onClick={(e) => e.stopPropagation()}>
+      {/* This menu needs to be nested in the <i> for css purposes. However, 
+        * we do not want events in here to bubble up to the toggle method. */}
       <label htmlFor="invert_hue_selection">
         {t(`Invert Hue Range Selection`)}
       </label>
@@ -162,7 +165,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
           <label htmlFor="coord_scale">
             {t(`Pixel coordinate scale`)}
           </label>
-          <input type="number" id="coord_scale" placeholder="(Number)" />
+          <input type="number" id="coord_scale"
+            placeholder="(Number)" step={0.10} />
         </Col>
         <Col xs={6}>
           <label htmlFor="total_rotation_angle">
