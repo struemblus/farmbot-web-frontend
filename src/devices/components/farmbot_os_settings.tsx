@@ -192,7 +192,7 @@ Factory resetting your FarmBot will destroy all data on the device, revoking you
                       <button type="button"
                         className="button-like red"
                         onClick={factoryReset} >
-                        {t("RESET")}
+                        {t("FACTORY RESET")}
                       </button>
                     </td>
                   </tr>
