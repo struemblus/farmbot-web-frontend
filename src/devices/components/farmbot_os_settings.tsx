@@ -71,7 +71,7 @@ export class FarmbotOsSettings extends React.Component<Props, State> {
       .bot
       .hardware
       .informational_settings,
-      "controller_version",
+      "firmware_version",
       t("Not Connected to bot"));
     return <div className="col-sm-12">
       <form onSubmit={this.saveBot.bind(this)}>

@@ -2,6 +2,8 @@ import * as axios from "axios";
 import { Dictionary } from "farmbot/dist";
 
 const BASE = "https://openfarm.cc/api/v1/crops/";
+const DATA_URI = "data:image/svg+xml;utf8,";
+
 export const DEFAULT_ICON = "/app-resources/img/icons/Sprout-96.png";
 
 let cache: Dictionary<Axios.IPromise<string>> = {
@@ -27,5 +29,6 @@ export function cachedIcon(slug: string): Axios.IPromise<string> {
 
 let cacheTheIcon = (slug: string) =>
   (resp: Axios.AxiosXHR<Crop>) => {
-    return _.get(resp, "data.data.attributes.svg_icon", DEFAULT_ICON);
+    let text = _.get(resp, "data.data.attributes.svg_icon", "");
+    return (text) ? DATA_URI + text : DEFAULT_ICON;
   };
