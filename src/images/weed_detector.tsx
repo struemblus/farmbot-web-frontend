@@ -130,7 +130,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       <input type="number" id="calibration_object_separation"
         placeholder="(Number)" />
       <label htmlFor="calibration_object_separation_axis">
-        {t(`Calibration Object Separation along _ axis`)}
+        {t(`Calibration Object Separation along axis`)}
       </label>
       <FBSelect
         list={calibrationAxes}
@@ -201,8 +201,14 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                 className="red button-like">
                 {this.state.deletionProgress || t("CLEAR WEEDS")}
               </button>
-              <i className="fa fa-cog" onClick={this.toggleSettingsMenu}></i>
-              {this.state.settingsMenuOpen && this.additionalSettingsMenu()}
+              {/* TODO: Hook up calibration */}
+              <button onClick={() => { }}
+                className="green button-like">
+                {t("Calibrate")}
+              </button>
+              <i className="fa fa-cog" onClick={this.toggleSettingsMenu}>
+                {this.state.settingsMenuOpen && this.additionalSettingsMenu()}
+              </i>
               <h5>{t("Weed Detector")}</h5>
               <i className={`fa fa-question-circle
                                             widget-help-icon`}>
