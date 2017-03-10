@@ -33,6 +33,8 @@ export interface SelectProps {
   placeholder?: string;
   /** Allows user to have a non-selected value. */
   allowEmpty?: boolean;
+  /** Id for the input. Used for accessibility and expected ux with labels. */
+  id?: string;
 }
 
 export interface SelectState {
@@ -171,7 +173,8 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
           onFocus={this.open}
           onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
-          value={this.value().label} />
+          value={this.value().label}
+          id={this.props.id || ""} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
         {renderList(this.filterByInput())}
