@@ -46,7 +46,7 @@ const showUrl = (url: string, dirty: boolean) => {
   if (dirty) {
     return <p>Press save to view.</p>;
   } else {
-    if (url.indexOf("placeholder_farmbot") !== -1) {
+    if (url.includes("placeholder_farmbot")) {
       return <div className="webcam-stream-unavailable">
         <img src={url} />
         <text>Camera stream not available.

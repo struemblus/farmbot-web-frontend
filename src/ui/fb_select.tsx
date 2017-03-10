@@ -34,7 +34,7 @@ export interface SelectProps {
   /** Allows user to have a non-selected value. */
   allowEmpty?: boolean;
   /** Id for the input. Used for accessibility and expected ux with labels. */
-  id?: string;
+  id?: string | undefined;
 }
 
 export interface SelectState {
