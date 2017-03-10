@@ -29,8 +29,7 @@ export function responseRejected(x: SafeError | undefined) {
     if (a && b) {
       setTimeout(() => {
         // Explicitly throw error so error reporting tool will save it.
-        let msg = "Bad response: " + x.response.status +
-          JSON.stringify(x.response).slice(0, 80);
+        let msg = `Bad response: ${x.response.status} ${JSON.stringify(x.response)}`;
         throw new Error(msg);
       }, 1);
     }

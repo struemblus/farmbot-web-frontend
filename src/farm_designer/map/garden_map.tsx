@@ -74,7 +74,6 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
 
   handleDrop(e: React.DragEvent<HTMLElement>) {
     e.preventDefault();
-
     let el = document.querySelector("#drop-area > svg");
     if (el) {
       let box = el.getBoundingClientRect();

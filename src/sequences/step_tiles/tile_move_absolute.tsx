@@ -39,8 +39,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
         let slot = tool && this.props.slotByToolId[tool.id || 0];
         if (slot) {
           output = { ...output, ...slot }
-        } else {
-          debugger;
         };
         break;
       case "coordinate": output = { ...output, ...location.args }; break;
