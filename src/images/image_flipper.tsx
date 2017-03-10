@@ -37,7 +37,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
       if (i.attachment_processed_at) {
         url = i.attachment_url;
       } else {
-        url = "/app-resources/img/processing.png";
+        url = "/placeholder_farmbot.jpg";
       }
       return <div>
         {!this.state.isLoaded && (
@@ -45,7 +45,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
             <p>{t(`Loading image...`)}</p>
             <img
               className="image-flipper-image"
-              src={"/app-resources/img/processing.png"} />
+              src={"/placeholder_farmbot.jpg"} />
           </div>)}
         <img
           onLoad={() => this.setState({ isLoaded: true })}
@@ -58,7 +58,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           Once you do, they will show up here.`)}</p>
         <img
           className="image-flipper-image"
-          src={"/app-resources/img/processing.png"} />
+          src={"/placeholder_farmbot.jpg"} />
       </div>;
     }
   }
