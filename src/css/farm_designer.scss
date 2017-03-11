@@ -19,7 +19,9 @@
     background-size: 10px 10px, 10px 10px, 100px 100px, 100px 100px;
     overflow: scroll;
     height: 1502px;
+    max-height: 1502px;
     width: 3002px;
+    max-width: 3002px;
     svg {
         width: 100%;
         height: 99%;
