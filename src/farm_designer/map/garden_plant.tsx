@@ -28,8 +28,8 @@ export class GardenPlant extends React.Component<Props, { icon: string }> {
       return <DraggableSvgImage key={plant.id}
         x={plant.x}
         y={plant.y}
-        height={32}
-        width={32}
+        height={50}
+        width={50}
         id={plant.id}
         onUpdate={onUpdate}
         onDrop={onDrop}
