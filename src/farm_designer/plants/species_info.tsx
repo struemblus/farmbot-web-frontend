@@ -24,7 +24,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   handleDragStart(e: DraggableEvent) {
     let img = document.createElement("img");
     // Stub until we figure out dynamic drag images
-    img.src = "/app-resources/img/icons/Sprout-96.png";
+    img.src = "/app-resources/img/icons/generic-plant.svg";
     e.dataTransfer.setDragImage
       && e.dataTransfer.setDragImage(img, 50, 50);
   }

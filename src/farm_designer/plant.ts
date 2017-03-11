@@ -59,7 +59,7 @@ let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
   "tomato": "/app-resources/img/icons/Tomato-96.png",
   "watermelon": "/app-resources/img/icons/Watermelon-96.png",
   "wheat": "/app-resources/img/icons/Wheat-96.png",
-  "not-set": "/app-resources/img/icons/Sprout-96.png"
+  "not-set": "/app-resources/img/icons/generic-plant.svg"
 };
 
 export type PlantOptions = Partial<Plant>;
