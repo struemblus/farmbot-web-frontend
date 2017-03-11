@@ -4,6 +4,7 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
+import { DATA_URI } from "../../open_farm/index";
 
 interface SpeciesInfoProps extends Everything {
   params: {
@@ -88,15 +89,35 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
           <ul>
             {
               _(result.crop)
-                .omit(["slug", "processing_pictures", "description"])
+                .omit([
+                  "slug",
+                  "processing_pictures",
+                  "description",
+                  "main_image_path"
+                ])
                 .pairs()
                 .map(function (pair, i) {
                   let key = pair[0] as string;
                   let value = pair[1];
+                  if (key === "svg_icon" && value) {
+                    return <li key={i} >
+                      <strong>
+                        {_.startCase(key) + ": "}
+                      </strong>
+                      <svg>
+                        <image href={DATA_URI + value}></image>
+                      </svg>
+                    </li>;
+                  }
                   return <li key={i}>
                     <strong>
                       {_.startCase(key) + ": "}
                     </strong>
+                    {key === "svg_icon" && value && (
+                      <svg>
+                        <image href={DATA_URI + value}></image>
+                      </svg>
+                    )}
                     {value || "Not set"}
                   </li>;
                 }).value()
