@@ -23,7 +23,7 @@ interface Crop {
 export function cachedIcon(slug: string): Axios.IPromise<string> {
   cache[slug] = cache[slug] || (axios
     .get<Crop>(BASE + slug)
-    .then(cacheTheIcon(slug)));
+    .then(cacheTheIcon(slug), cacheTheIcon(slug)));
   return cache[slug] as Axios.IPromise<string>;
 }
 
