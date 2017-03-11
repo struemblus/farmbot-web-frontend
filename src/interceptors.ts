@@ -25,8 +25,10 @@ export function responseRejected(x: SafeError | undefined) {
   if (x && isSafeError(x)) {
     let a = ![451, 401, 422].includes(x.response.status);
     let b = x.response.status > 399;
+    // Openfarm API was sending too many 404's.
+    let c = !_.get(x, "response.config.url", "").includes("openfarm.cc/");
 
-    if (a && b) {
+    if (a && b && c) {
       setTimeout(() => {
         // Explicitly throw error so error reporting tool will save it.
         let msg = `Bad response: ${x.response.status} ${JSON.stringify(x.response)}`;
@@ -34,6 +36,9 @@ export function responseRejected(x: SafeError | undefined) {
       }, 1);
     }
     switch (x.response.status) {
+      case 404:
+        // Log 404's, but don't generate any noise for the user.
+        break;
       case 500:
         error(t("Unexpected error occurred, we've been notified of the problem."));
         break;
