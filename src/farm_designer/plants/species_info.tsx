@@ -22,9 +22,16 @@ interface DraggableEvent {
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   handleDragStart(e: DraggableEvent) {
+    let icon = e.currentTarget.getAttribute("data-icon-url");
     let img = document.createElement("img");
-    // Stub until we figure out dynamic drag images
-    img.src = "/app-resources/img/icons/generic-plant.svg";
+    icon ? img.src = DATA_URI + icon :
+      "/app-resources/img/icons/generic-plant.svg";
+
+    // TODO: Setting these doesn't work by default, needs a fix
+    // https://www.w3.org/TR/2011/WD-html5-20110405/dnd.html#dom-datatransfer-setdragimage
+    img.height = 50;
+    img.width = 50;
+
     e.dataTransfer.setDragImage
       && e.dataTransfer.setDragImage(img, 50, 50);
   }
@@ -43,7 +50,8 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         height: "height",
         processing_pictures: "processing_pictures",
         slug: "slug",
-        sun_requirements: "sun_requirements"
+        sun_requirements: "sun_requirements",
+        svg_icon: "/img/icons/generic-plant.svg"
       },
       image: "http://placehold.it/350x150"
     };
@@ -52,6 +60,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   render() {
     let species = this.props.params.species.toString();
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
+
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
     /** rgba arguments are a more mobile-friendly way apply filters */
@@ -77,7 +86,8 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
           <img className="crop-drag-info-image"
             onDragStart={this.handleDragStart.bind(this)}
             draggable={true}
-            src={result.image} />
+            src={result.image}
+            data-icon-url={result.crop.svg_icon} />
           <div className="crop-info-overlay">
             {t("Drag and drop into map")}
           </div>
@@ -109,9 +119,9 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                      * set". Any other keys receive the default behavior.
                      */}
                     {key === "svg_icon" && value && (
-                      <svg>
-                        <image href={DATA_URI + value} />
-                      </svg>
+                      <div>
+                        <img src={DATA_URI + value} width={100} height={100} />
+                      </div>
                     ) || key === "svg_icon" && !value && ("Not set")}
                     {key !== "svg_icon" && (
                       value || "Not set"
