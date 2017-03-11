@@ -99,26 +99,23 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                 .map(function (pair, i) {
                   let key = pair[0] as string;
                   let value = pair[1];
-                  if (key === "svg_icon" && value) {
-                    return <li key={i} >
-                      <strong>
-                        {_.startCase(key) + ": "}
-                      </strong>
-                      <svg>
-                        <image href={DATA_URI + value}></image>
-                      </svg>
-                    </li>;
-                  }
                   return <li key={i}>
                     <strong>
                       {_.startCase(key) + ": "}
                     </strong>
+                    {/**
+                     * Special use case for svgs here. If the key is the icon
+                     * and has a value, render the elements needed, or "Not 
+                     * set". Any other keys receive the default behavior.
+                     */}
                     {key === "svg_icon" && value && (
                       <svg>
-                        <image href={DATA_URI + value}></image>
+                        <image href={DATA_URI + value} />
                       </svg>
+                    ) || key === "svg_icon" && !value && ("Not set")}
+                    {key !== "svg_icon" && (
+                      value || "Not set"
                     )}
-                    {value || "Not set"}
                   </li>;
                 }).value()
             }

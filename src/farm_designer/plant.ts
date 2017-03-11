@@ -71,7 +71,7 @@ export function Plant(options: PlantOptions): Plant {
   return {
     id: options.id,
     planted_at: (options.planted_at || ""),
-    img_url: (options.img_url || "http://placehold.it/200x150"),
+    img_url: (options.img_url || "/app-resources/img/icons/generic-plant.svg"),
     name: (options.name || "Untitled Plant"),
     x: (options.x || 0),
     y: (options.y || 0),
