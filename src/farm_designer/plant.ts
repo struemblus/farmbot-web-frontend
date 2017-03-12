@@ -75,6 +75,7 @@ export function Plant(options: PlantOptions): Plant {
     name: (options.name || "Untitled Plant"),
     x: (options.x || 0),
     y: (options.y || 0),
+    spread: options.spread,
     planting_area_id: (options.planting_area_id || ""),
     icon_url,
     openfarm_slug

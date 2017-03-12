@@ -11,7 +11,7 @@ export namespace OpenFarm {
     sowing_method: string;
     svg_icon: string;
     // Unsure of this. Def not an object tho.
-    spread?: number | string | undefined;
+    spread?: number | undefined;
     row_spacing?: number;
     height?: number;
     processing_pictures: number;
