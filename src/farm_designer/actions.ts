@@ -116,7 +116,7 @@ export function destroyPlant(plant_id: number): Thunk {
   };
 };
 
-let STUB_IMAGE = "http://placehold.it/200x150";
+let STUB_IMAGE = "/app-resources/img/icons/generic-plant.svg";
 let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
 // If we do a search on keypress, we will DDoS OpenFarm.
 // This function prevents that from happening by pausing X ms
