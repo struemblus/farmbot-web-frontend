@@ -46,6 +46,17 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     return output;
   }
 
+  initialDropDownSequenceValue = () => {
+    let { location } = this.props.step.args;
+    if (location.kind === "tool") {
+      let tool = this.props.toolById[location.args.tool_id];
+      if (tool && tool.id) {
+        return { label: tool.name, value: tool.id }
+      }
+    }
+    return { label: "Nothing", value: 0 };
+  }
+
   render() {
     let { compute, step, dispatch, index } = this.props;
     return <div className="step-wrapper">
@@ -90,6 +101,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                 <FBSelect
                   allowEmpty={true}
                   list={this.props.options}
+                  initialValue={this.initialDropDownSequenceValue()}
                   onChange={this.updateToolSelect} />
               </Col>
               <Col xs={3}>
