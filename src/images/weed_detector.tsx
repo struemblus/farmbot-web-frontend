@@ -38,7 +38,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     return this.props.bot.hardware.user_env[DETECTOR_ENV];
   }
 
-  componentDidMout() {
+  componentDidMount() {
     this.setState(weedDetectorENV(this.env));
   }
 

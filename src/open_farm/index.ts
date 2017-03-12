@@ -2,9 +2,9 @@ import * as axios from "axios";
 import { Dictionary } from "farmbot/dist";
 
 const BASE = "https://openfarm.cc/api/v1/crops/";
-const DATA_URI = "data:image/svg+xml;utf8,";
+export const DATA_URI = "data:image/svg+xml;utf8,";
 
-export const DEFAULT_ICON = "/app-resources/img/icons/Sprout-96.png";
+export const DEFAULT_ICON = "/app-resources/img/icons/generic-plant.svg";
 
 let cache: Dictionary<Axios.IPromise<string>> = {
 };

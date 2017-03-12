@@ -84,6 +84,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.openfarm_slug = OFEntry.crop.slug;
       p.name = OFEntry.crop.name || "Mystery Crop";
       p.planted_at = moment().toISOString();
+      p.spread = OFEntry.crop.spread;
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
       this.props.dispatch(deprecatedSavePlant(plant));

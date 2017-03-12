@@ -42,7 +42,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
       return <div>
         {!this.state.isLoaded && (
           <div className="no-flipper-image-container">
-            <p>{t(`Loading image...`)}</p>
+            <p>{t(`Image loading (try refreshing)`)}</p>
             <img
               className="image-flipper-image"
               src={"/placeholder_farmbot.jpg"} />
