@@ -11,7 +11,7 @@ import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
 import { success, error, FBSelect, Col, Row, DropDownItem } from "../ui";
 import { resetWeedDetection } from "./actions";
-import { weedDetectorENV } from "./weed_detector_env";
+import { weedDetectorENVsafeFetch } from "./weed_detector_env";
 import { Progress } from "../util";
 
 const DETECTOR_ENV = "PLANT_DETECTION_options";
@@ -35,11 +35,15 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
   }
 
   get env() {
-    return this.props.bot.hardware.user_env[DETECTOR_ENV];
+    return weedDetectorENVsafeFetch(this
+      .props
+      .bot
+      .hardware
+      .user_env[DETECTOR_ENV]);
   }
 
   componentDidMount() {
-    this.setState(weedDetectorENV(this.env));
+    this.setState(this.env);
   }
 
   resetWeedDetection() {
@@ -121,7 +125,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     ];
     return <div className="additional-settings-menu"
       onClick={(e) => e.stopPropagation()}>
-      {/* This menu needs to be nested in the <i> for css purposes. However, 
+      {/* This menu needs to be nested in the <i> for css purposes. However,
         * we do not want events in here to bubble up to the toggle method. */}
       <label htmlFor="invert_hue_selection">
         {t(`Invert Hue Range Selection`)}
@@ -230,11 +234,17 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
                         <i>Color Range</i>
                       </h4>
                       <label htmlFor="hue">HUE</label>
-                      <HsvSlider name={"H"} onChange={this.setHSV} />
+                      <HsvSlider name={"H"}
+                        onChange={this.setHSV}
+                        env={this.env} />
                       <label htmlFor="saturation">SATURATION</label>
-                      <HsvSlider name={"S"} onChange={this.setHSV} />
+                      <HsvSlider name={"S"}
+                        onChange={this.setHSV}
+                        env={this.env} />
                       <label htmlFor="value">VALUE</label>
-                      <HsvSlider name={"V"} onChange={this.setHSV} />
+                      <HsvSlider name={"V"}
+                        onChange={this.setHSV}
+                        env={this.env} />
                     </div>
                     <div className="col-md-6 col-sm-12">
                       <FarmbotPicker h={H} s={S} v={V}
