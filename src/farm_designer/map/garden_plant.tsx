@@ -26,13 +26,10 @@ export class GardenPlant extends React.Component<Props, { icon: string }> {
     let { plant, onUpdate, onDrop } = this.props;
     if (plant.id) {
       return <DraggableSvgImage key={plant.id}
-        x={plant.x}
-        y={plant.y}
-        // 1px = 1mm, 1mm = 1cm
-        // height={(plant.spread && plant.spread * 10) || 50}
-        // width={(plant.spread && plant.spread * 10) || 50}
-        height={50}
-        width={50}
+        x={plant.x - plant.radius}
+        y={plant.y - plant.radius}
+        height={plant.radius * 2}
+        width={plant.radius * 2}
         id={plant.id}
         onUpdate={onUpdate}
         onDrop={onDrop}
