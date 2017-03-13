@@ -23,12 +23,16 @@ interface EnvSliderProps {
   onChange?: (key: keyof HSV<{}>, val: [number, number]) => void;
 }
 
-type EnvSliderState = Partial<HiLo>;
+interface EnvSliderState extends Partial<HiLo> {
+  sliding: boolean;
+}
 
 export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      sliding: false
+    };
   }
 
   componentDidMount() {
@@ -38,7 +42,8 @@ export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
   onChange = (range: [number, number]) => {
     this.setState({
       hi: range[1],
-      lo: range[0]
+      lo: range[0],
+      sliding: true
     });
   }
 
@@ -51,6 +56,7 @@ export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
   onRelease = () => {
     let cb = this.props.onChange;
     if (cb) { cb(this.name, [this.lo, this.hi]); }
+    this.setState({ sliding: false });
   }
 
   /** Retrieves the pair of hi/lo values from the remote end (bot).
@@ -64,13 +70,21 @@ export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
   /** The slider's high value */
   get hi() {
     let { hi } = this.state;
-    return hi || this.remoteValues[1] || DEFAULTS[this.name].hi || 0;
+    if (this.state.sliding) {
+      return hi || 1;
+    } else {
+      return this.remoteValues[1] || DEFAULTS[this.name].hi || 0;
+    }
   }
 
   /** The slider's low value */
   get lo() {
     let { lo } = this.state;
-    return lo || this.remoteValues[1] || DEFAULTS[this.name].lo || 0;
+    if (this.state.sliding) {
+      return lo || 1;
+    } else {
+      return this.remoteValues[1] || DEFAULTS[this.name].lo || 0;
+    }
   }
 
   render() {
