@@ -4,21 +4,20 @@ import { ToolsState } from "./interfaces";
 import { Col } from "../ui";
 import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
 import { connect } from "react-redux";
+import { mapStateToProps, Props } from "./state_to_props";
 
-@connect((state: Everything) => state)
-export class Tools extends React.Component<Everything, ToolsState> {
+@connect(mapStateToProps)
+export class Tools extends React.Component<Props, ToolsState> {
   render() {
-    let editing = this.props.tools.editorMode;
-    let isEditingTools = this.props.tools.tools.isEditing;
+    console.log(this.props)
+    let isEditingBays = this.props.editorMode;
+    let isEditingTools = this.props.isEditingTools;
     return <div className="all-content-wrapper tools">
       <Col sm={7}>
-        {!editing && (
-          <ToolBayList
-            all={this.props.tools}
-            dispatch={this.props.dispatch}
-          />
+        {!isEditingBays && (
+          <ToolBayList {...this.props} />
         )}
-        {editing && (
+        {isEditingBays && (
           <ToolBayForm
             all={this.props.tools}
             dispatch={this.props.dispatch}
@@ -27,17 +26,14 @@ export class Tools extends React.Component<Everything, ToolsState> {
       </Col>
       <Col sm={5}>
         {!isEditingTools && (
-          <ToolList
-            all={this.props.tools}
-            dispatch={this.props.dispatch}
-          />
+          <ToolList {...this.props} />
         )}
-        {isEditingTools && (
+        {/*{isEditingTools && (
           <ToolForm
             all={this.props.tools}
             dispatch={this.props.dispatch}
           />
-        )}
+        )}*/}
       </Col>
     </div>;
   }

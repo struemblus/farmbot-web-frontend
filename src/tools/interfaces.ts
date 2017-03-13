@@ -6,7 +6,7 @@ export interface ToolsState {
   tool_bays: ToolBay[];
   tool_slots: ToolSlot[];
   tools: {
-    isEditing?: boolean;
+    isEditing: boolean;
     all: Tool[];
     dirty?: boolean;
   };

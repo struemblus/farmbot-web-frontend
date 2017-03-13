@@ -1,72 +1,48 @@
 import * as React from "react";
 import { ListAndFormProps } from "../interfaces";
-import { Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
+import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingToolBays } from "../actions";
-import * as _ from "lodash";
 import { t } from "i18next";
+import { ToolSlot, Tool } from "../interfaces";
+import { Props } from "../state_to_props";
 
-export class ToolBayList extends React.Component<ListAndFormProps, {}> {
-  renderTool(tool_id: number | undefined) {
-    let { tools } = this.props.all;
-    return tools.all.map((tool, index) => {
-      if (tool_id === tool.id) {
-        return <td key={index}>
-          {tool.name}
-        </td>;
-      }
-    });
-  }
-
-  renderSlots(tool_bay_id: number) {
-    let { tool_slots, tools } = this.props.all;
-    let currentSlots = _.where(tool_slots, { tool_bay_id });
-    return _.sortBy((currentSlots || []), "id").map((slot, index) => {
-      let { x, y, z, tool_id } = slot;
-      return <tr key={index}>
-        <td>{index + 1}</td>
-        <td>{x}</td>
-        <td>{y}</td>
-        <td>{z}</td>
-        {tools.all.length > 0 && (this.renderTool(tool_id))}
-        {tools.all.length === 0 && (<td>---</td>)}
-      </tr>;
-    });
-  }
-
+export class ToolBayList extends React.Component<Props, {}> {
   render() {
-    let onClick = () => { this.props.dispatch(toggleEditingToolBays()); };
-    let { tool_bays } = this.props.all;
+    let toggle = () => { this.props.dispatch(toggleEditingToolBays()); };
     return <Col>
-      {tool_bays.map((bay, index) => {
-        let { id, name } = bay;
-        return <Widget key={index}>
+      {this.props.toolBays.map(bay => {
+        return <Widget key={bay.id}>
           <WidgetHeader
-            helpText={t(`Toolbays are where you store your FarmBot
-                          Tools. Each Toolbay has Slots that you can put your
-                          Tools in, which should be reflective of your real
-                          FarmBot hardware configuration.`)}
-            title={name}>
+            helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
+              Toolbay has Slots that you can put your Tools in, which should be 
+              reflective of your real FarmBot hardware configuration.`)}
+            title={"ToolBay 1"}>
             <button
-              className="gray button-like"
-              onClick={onClick}>
+              className="gray button-like" onClick={toggle}>
               {t("EDIT")}
             </button>
           </WidgetHeader>
           <WidgetBody>
-            <table>
-              <thead>
-                <tr>
-                  <th>{t("SLOT")}</th>
-                  <th>{t("X")}</th>
-                  <th>{t("Y")}</th>
-                  <th>{t("Z")}</th>
-                  <th>{t("TOOL")}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.renderSlots(id)}
-              </tbody>
-            </table>
+            <Row>
+              <Col xs={2}>{t("SLOT")}</Col>
+              <Col xs={2}>{t("X")}</Col>
+              <Col xs={2}>{t("Y")}</Col>
+              <Col xs={2}>{t("Z")}</Col>
+              <Col xs={4}>{t("TOOL")}</Col>
+            </Row>
+            {this.props.getToolSlots(bay.id).map(
+              (slot: ToolSlot, index: number) => {
+                return <Row key={slot.id}>
+                  <Col xs={2}>{index}</Col>
+                  <Col xs={2}>{slot.x}</Col>
+                  <Col xs={2}>{slot.y}</Col>
+                  <Col xs={2}>{slot.z}</Col>
+                  <Col xs={4}>
+                    {/* TODO: Get rid of typecast */}
+                    {(this.props.getChosenTool(slot.id) as Tool).name || ""}
+                  </Col>
+                </Row>;
+              })}
           </WidgetBody>
         </Widget>;
       })}
