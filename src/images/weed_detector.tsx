@@ -15,15 +15,12 @@ import { weedDetectorENVsafeFetch } from "./weed_detector_env";
 import { Progress } from "../util";
 
 const DETECTOR_ENV = "PLANT_DETECTION_options";
+const LAST_CLIENT_CONNECTED = "LAST_CLIENT_CONNECTED";
 
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
   constructor() {
     super();
-    this.setHSV = this.setHSV.bind(this);
-    this.test = this.test.bind(this);
-    this.resetWeedDetection = this.resetWeedDetection.bind(this);
-    this.sendOffConfig = this.sendOffConfig.bind(this);
     this.state = {
       isEditing: true,
       blur: 15,
@@ -43,10 +40,24 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
   }
 
   componentDidMount() {
+    const IS_ONLINE = !!this
+      .props
+      .bot
+      .hardware
+      .user_env[LAST_CLIENT_CONNECTED];
+    const NEEDS_SETUP = !!this
+      .props
+      .bot
+      .hardware
+      .user_env[DETECTOR_ENV];
+    if (IS_ONLINE && NEEDS_SETUP) {
+      // Boot strap newly setup bots.
+      this.sendOffConfig();
+    }
     this.setState(this.env);
   }
 
-  resetWeedDetection() {
+  resetWeedDetection = () => {
     this.props.dispatch(resetWeedDetection(this.progress));
     this.setState({ deletionProgress: "Deleting..." });
   }
@@ -56,14 +67,14 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     this.setState({ deletionProgress: prg });
   }
 
-  sendOffConfig() {
+  sendOffConfig = () => {
     let message = { [DETECTOR_ENV]: JSON.stringify(this.state) };
     devices
       .current
       .setUserEnv(message);
   }
 
-  takePhoto() {
+  takePhoto = () => {
     devices
       .current
       .takePhoto()
@@ -89,11 +100,11 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     };
   }
 
-  setHSV(key: "H" | "S" | "V", val: [number, number]) {
+  setHSV = (key: "H" | "S" | "V", val: [number, number]) => {
     this.setState({ [key]: val });
   }
 
-  test() {
+  test = () => {
     var that = this;
     let pairs = Object
       .keys(this.state)
@@ -191,7 +202,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         <div className="row">
           <div className="col-sm-12">
             <div className="widget-header">
-              <button onClick={this.sendOffConfig.bind(this)}
+              <button onClick={this.sendOffConfig}
                 className="green button-like">
                 {t("SAVE")}
               </button>
@@ -202,7 +213,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
               </button>
               <button
                 className="gray button-like"
-                onClick={this.takePhoto.bind(this)}>
+                onClick={this.takePhoto}>
                 {t("Take Photo")}
               </button>
               <button onClick={this.resetWeedDetection}
