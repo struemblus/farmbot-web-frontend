@@ -55,11 +55,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     // Keeping an eye on it to see if this ever shows up in the error logger
     // in production.
     // DELETE On april 15th if no errors found.
-    throw new Error("Typecasting has failed. Whoops!")
-  }
-
-  watchStuff = () => {
-    throw new Error("Typecasting has failed. Whoops!")
+    throw new Error("Typecasting has failed. Whoops!");
   }
 
   addNewSlot = (toolBayId: number) => {
