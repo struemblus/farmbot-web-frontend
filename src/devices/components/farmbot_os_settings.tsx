@@ -123,26 +123,19 @@ export class FarmbotOsSettings extends React.Component<Props, State> {
                   </tr>
                   <tr>
                     <td>
-                      <label>{t("CONTROLLER")}</label>
+                      <label>{t("FARMBOT OS")}</label>
                     </td>
                     <td className="devices-pad">
                       <p>
-                        {t("Version")} {String(this.props.bot.hardware
-                          .informational_settings.controller_version)
-                          || t("Not Connected to bot")}
+                        {t("Version")}
+                        {this
+                          .props
+                          .bot
+                          .hardware
+                          .informational_settings.controller_version
+                          || t(" unknown (offline)")}
                       </p>
                       <OsUpdateButton { ...this.props } />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("FIRMWARE")}</label>
-                    </td>
-                    <td className="devices-pad">
-                      <p>
-                        {t("Version")} {fwvers}
-                      </p>
-                      <FwUpdateButton { ...this.props } />
                     </td>
                   </tr>
                   <tr>
