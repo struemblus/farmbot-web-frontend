@@ -27,7 +27,6 @@ export function saveToolBay(
   return (dispatch, getState) => {
     let tool_slots = getState().tools.tool_slots;
     let url = API.current.toolSlotsPath;
-    debugger;
     Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {
         success(t("ToolBay saved."));
