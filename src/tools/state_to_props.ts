@@ -61,7 +61,7 @@ export function mapStateToProps(props: Everything): Props {
     getToolOptions,
     getChosenToolOption,
     getChosenTool,
-    dispatch() { },
+    dispatch: Function,
   };
 
 }

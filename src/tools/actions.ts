@@ -46,6 +46,13 @@ export function updateSlot(id: number, name: string, value: number | undefined):
   return { type: "UPDATE_TOOL_SLOT", payload: { id, name, value } };
 }
 
+export function detachTool(tool_id: number) {
+  return {
+    type: "DETACH_TOOL",
+    payload: tool_id
+  }
+}
+
 export function addToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
   return { type: "ADD_TOOL_SLOT_OK", payload: toolSlot };
 }

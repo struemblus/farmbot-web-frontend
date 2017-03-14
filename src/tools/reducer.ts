@@ -50,6 +50,11 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     s.tool_slots.push(a.payload);
     return s;
   })
+  .add<number>("DETACH_TOOL", function (s, a) {
+    let t = _(s.tool_slots).where({ tool_id: a.payload }).first();
+    if (t) { t.tool_id = undefined; }
+    return s;
+  })
   .add<ToolSlot[]>("SAVE_TOOL_SLOTS_OK", function (s, a) {
     /** Keeps erroring out in the console, not sure why */
     // a.payload.map(function (ts) {

@@ -15,6 +15,7 @@ import {
   addSlot,
   destroySlot,
   updateSlot,
+  detachTool,
   saveToolBay
 } from "../actions";
 import { t } from "i18next";
@@ -34,6 +35,10 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     this.props.dispatch(updateSlot(slot_id, fieldName, value));
   }
 
+  detachTool = (slot_id: number) => {
+    this.props.dispatch(detachTool(slot_id));
+  }
+
   updateSlotAxis = (ts_id: number) =>
     (e: React.SyntheticEvent<HTMLInputElement>) => {
       this.updateSlot(ts_id, e.currentTarget.name, parseInt(e.currentTarget.value, 10));
@@ -43,7 +48,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     let { value } = ddi;
     let x = parseInt(JSON.stringify(value));
     if (_.isNaN(x)) {
-      this.updateSlot(ts_id, "tool_id", "");
+      this.updateSlot(ts_id, "tool_id", "null");
     } else {
       this.updateSlot(ts_id, "tool_id", x);
     }
