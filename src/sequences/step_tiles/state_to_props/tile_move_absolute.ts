@@ -35,8 +35,8 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     .tools
     .tool_slots
     .filter(slot => slot && slot.tool_id && slot.id)
-    .map(slot => ({ slot, tool: toolById[slot.tool_id as number] }))
-    .filter(both => (both.slot && both.tool))
+    .map(slot => ({ slot, tool: toolById[slot.tool_id || 0] }))
+    .filter(pair => (pair.slot && pair.tool))
     .map(function (both: { tool: Tool, slot: ToolSlot }): DropDownItem {
       let { tool } = both;
       let { name, id } = tool;

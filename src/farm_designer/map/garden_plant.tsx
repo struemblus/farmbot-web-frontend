@@ -39,7 +39,7 @@ export class GardenPlant extends React.Component<Props, { icon: string }> {
           onUpdate={onUpdate}
           onDrop={onDrop}
           href={this.state.icon} />
-        </g>;
+      </g>;
     } else {
       throw new Error("Save plants before placing them on the map");
     }

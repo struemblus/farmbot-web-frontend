@@ -11,6 +11,7 @@ import * as _ from "lodash";
 import { API } from "../api";
 import { JogButtons } from "./jog_buttons";
 import { AxisInputBoxGroup } from "./axis_input_box_group";
+import { PLACEHOLDER_FARMBOT } from "../images/index";
 
 export class StepSizeSelector extends React.Component<any, any> {
   cssForIndex(num: number) {
@@ -90,7 +91,7 @@ export class Controls extends React.Component<Everything, ControlsState> {
   }
 
   render() {
-    let fallback = "/placeholder_farmbot.jpg";
+    let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
     let url = custom || fallback || "";
     let dirty = !!this.props.bot.account.dirty;
