@@ -26,6 +26,10 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     this.state = { x: 0, y: 0, z: 0 };
   }
 
+  resetDropDownValue = (slot_id: number, fieldName: string, value: number) => {
+    this.props.dispatch(updateSlot(slot_id, fieldName, value));
+  }
+
   updateSlot = (slot_id: number, fieldName: string, value: number) => {
     this.props.dispatch(updateSlot(slot_id, fieldName, value));
   }
@@ -37,7 +41,12 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
 
   updateSlotTool = (ts_id: number) => (ddi: DropDownItem) => {
     let { value } = ddi;
-    this.updateSlot(ts_id, "tool_id", parseInt(JSON.stringify(value)));
+    let x = parseInt(JSON.stringify(value));
+    if (_.isNaN(x)) {
+      this.updateSlot(ts_id, "tool_id", "");
+    } else {
+      this.updateSlot(ts_id, "tool_id", x);
+    }
   }
 
   writeAxis = (e: React.SyntheticEvent<HTMLInputElement>) => {

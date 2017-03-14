@@ -1,7 +1,7 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
 import * as _ from "lodash";
-import { never } from "../util";
+import { NULL_CHOICE } from "../ui/fb_select";
 
 export function mapStateToProps(props: Everything): Props {
   let toolBays = props.tools.tool_bays;
@@ -36,10 +36,10 @@ export function mapStateToProps(props: Everything): Props {
   let getChosenToolOption = (toolSlotId: number) => {
     let currentSlot = _.findWhere(toolSlots, { id: toolSlotId });
     let chosenTool = _.findWhere(tools, { id: currentSlot.tool_id });
-    if (chosenTool) {
+    if (chosenTool && _.isNumber(chosenTool.id)) {
       return { label: chosenTool.name, value: chosenTool.id };
     } else {
-      return { label: "None", value: "", slot_id: toolSlotId };
+      return NULL_CHOICE;
     }
   };
 

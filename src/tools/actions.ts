@@ -41,7 +41,7 @@ export function saveToolBay(
 }
 
 /** ToolSlots */
-export function updateSlot(id: number, name: string, value: number):
+export function updateSlot(id: number, name: string, value: number | undefined):
   ReduxAction<{}> {
   return { type: "UPDATE_TOOL_SLOT", payload: { id, name, value } };
 }

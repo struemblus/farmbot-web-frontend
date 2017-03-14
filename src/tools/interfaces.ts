@@ -1,7 +1,6 @@
 import { AxiosErrorResponse } from "../util";
 import { DropDownItem } from "../ui/fb_select";
 
-/** Main */
 export interface ToolsState {
   editorMode: boolean;
   tool_bays: ToolBay[];
@@ -20,12 +19,11 @@ export interface Props {
   editorMode: boolean;
   isEditingTools: boolean;
   dirtyTools: boolean;
-  // TODO: Add params and return values
-  getSortedTools: Function;
+  getSortedTools(): Tool[];
   getToolSlots(toolBayId: number): ToolSlot[];
   getToolOptions(): DropDownItem[];
-  getChosenToolOption: Function;
-  getChosenTool: Function;
+  getChosenToolOption(toolSlotId: number): DropDownItem;
+  getChosenTool(toolSlotId: number): Tool;
   dispatch: Function;
 }
 
@@ -53,7 +51,7 @@ export interface ToolSlot {
 }
 
 export interface UpdateToolSlotPayl {
-  value: number;
+  value: number | undefined;
   name: string;
   id: number;
 }
@@ -63,10 +61,4 @@ export interface Tool {
   name: string;
   dirty?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
-}
-
-/** Actions */
-export interface ErrorPayl {
-  type: string;
-  payload: AxiosErrorResponse;
 }
