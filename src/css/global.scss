@@ -31,10 +31,6 @@ input[type=time] {
     }
 }
 
-.is-deleted-true {
-    display: none;
-}
-
 body {
     &.freeze {
         height: 100% !important;
@@ -266,6 +262,10 @@ ul {
     position: relative;
     input {
         height: 30px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 3rem !important;
     }
     .select-results-container {
         position: absolute;
