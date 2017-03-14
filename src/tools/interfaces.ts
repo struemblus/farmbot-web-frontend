@@ -27,8 +27,8 @@ export interface Props {
   dirtyTools: boolean;
   // TODO: Add params and return values
   getSortedTools: Function;
-  getToolSlots: Function;
-  getToolOptions: Function;
+  getToolSlots(toolBayId: number): ToolSlot[];
+  getToolOptions(toolSlotId: number): (DropDownItem | SlotChangeEvent)[];
   getChosenToolOption: Function;
   getChosenTool: Function;
   dispatch: Function;
