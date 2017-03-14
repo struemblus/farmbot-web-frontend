@@ -20,6 +20,7 @@ import {
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
+
   constructor() {
     super();
     this.state = { x: 0, y: 0, z: 0 };
@@ -36,22 +37,29 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
 
   updateSlotTool = (ts_id: number) => (ddi: DropDownItem) => {
     let { value } = ddi;
-    if (_.isNumber(value)) {
-      this.updateSlot(ts_id, "tool_id", value);
-    } else {
-      // Keep an eye on this.
-      // Remove after April 15 2017 and just use a type case
-      // if error loggers doesn't throw.
-      throw new Error("This is why I dislike type casting.");
-    }
+    _.isNumber(value) ? this.updateSlot(ts_id, "tool_id", value) : this.whoops();
   }
 
-  setNewSlotValue = (e: DropDownItem) => {
-    if (e.currentTarget) {
-      this.setState({ [e.currentTarget.name]: e.currentTarget.value });
-    } else {
-      this.setState({ tool_id: parseInt(e.value as string) });
-    }
+  writeAxis = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ [e.currentTarget.name]: parseInt(e.currentTarget.value) });
+  }
+
+  writeToolId = (e: DropDownItem) => {
+    let { value } = e;
+    _.isNumber(value) ? this.setState({ tool_id: value }) : this.whoops();
+  }
+
+  whoops = () => {
+    // BACKGROUND:
+    // We had to do a type cast. We were fairly certain it was unwarranted.
+    // Keeping an eye on it to see if this ever shows up in the error logger
+    // in production.
+    // DELETE On april 15th if no errors found.
+    throw new Error("Typecasting has failed. Whoops!")
+  }
+
+  watchStuff = () => {
+    throw new Error("Typecasting has failed. Whoops!")
   }
 
   addNewSlot = (toolBayId: number) => {
@@ -156,7 +164,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
               <Col xs={2}>
                 <BlurableInput
                   value={(this.state.x || 0).toString()}
-                  onCommit={this.updateSlotAxis}
+                  onCommit={this.writeAxis}
                   type="number"
                   name="x"
                 />
@@ -164,7 +172,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
               <Col xs={2}>
                 <BlurableInput
                   value={(this.state.y || 0).toString()}
-                  onCommit={this.setNewSlotValue}
+                  onCommit={this.writeAxis}
                   type="number"
                   name="y"
                 />
@@ -172,7 +180,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
               <Col xs={2}>
                 <BlurableInput
                   value={(this.state.z || 0).toString()}
-                  onCommit={this.setNewSlotValue}
+                  onCommit={this.writeAxis}
                   type="number"
                   name="z"
                 />
@@ -180,7 +188,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
               <Col xs={3}>
                 <FBSelect
                   list={this.props.getToolOptions()}
-                  onChange={this.setNewSlotValue}
+                  onChange={this.writeToolId}
                   allowEmpty={true}
                 />
               </Col>
