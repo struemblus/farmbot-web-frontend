@@ -37,7 +37,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
 
   updateSlotTool = (ts_id: number) => (ddi: DropDownItem) => {
     let { value } = ddi;
-    _.isNumber(value) ? this.updateSlot(ts_id, "tool_id", value) : this.whoops();
+    this.updateSlot(ts_id, "tool_id", parseInt(JSON.stringify(value)));
   }
 
   writeAxis = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -45,17 +45,8 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
   }
 
   writeToolId = (e: DropDownItem) => {
-    let { value } = e;
-    _.isNumber(value) ? this.setState({ tool_id: value }) : this.whoops();
-  }
-
-  whoops = () => {
-    // BACKGROUND:
-    // We had to do a type cast. We were fairly certain it was unwarranted.
-    // Keeping an eye on it to see if this ever shows up in the error logger
-    // in production.
-    // DELETE On april 15th if no errors found.
-    throw new Error("Typecasting has failed. Whoops!");
+    let tool_id = parseInt(JSON.stringify(e.value));
+    this.setState({ tool_id });
   }
 
   addNewSlot = (toolBayId: number) => {
