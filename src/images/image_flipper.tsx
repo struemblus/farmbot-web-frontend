@@ -3,7 +3,7 @@ import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
-
+export const PLACEHOLDER_WEBCAM = "/placeholder_farmbot.jpg";
 export interface ImageFlipperProps {
   images: Image[];
 }
@@ -37,7 +37,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
       if (i.attachment_processed_at) {
         url = i.attachment_url;
       } else {
-        url = "/placeholder_farmbot.jpg";
+        url = PLACEHOLDER_WEBCAM;
       }
       return <div>
         {!this.state.isLoaded && (
@@ -45,7 +45,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
             <p>{t(`Image loading (try refreshing)`)}</p>
             <img
               className="image-flipper-image"
-              src={"/placeholder_farmbot.jpg"} />
+              src={PLACEHOLDER_WEBCAM} />
           </div>)}
         <img
           onLoad={() => this.setState({ isLoaded: true })}
@@ -58,7 +58,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           Once you do, they will show up here.`)}</p>
         <img
           className="image-flipper-image"
-          src={"/placeholder_farmbot.jpg"} />
+          src={PLACEHOLDER_WEBCAM} />
       </div>;
     }
   }
