@@ -151,7 +151,8 @@ export function fakeState(dispatcher?: Function): Everything {
       all: [{
         id: 1,
         name: "tool1"
-      }]
+      }],
+      dirty: false
     }
   };
 
