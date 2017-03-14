@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ListAndFormProps, ToolBayFormState } from "../interfaces";
+import { ListAndFormProps, ToolBayFormState, Tool } from "../interfaces";
 import {
   Widget,
   WidgetBody,
@@ -125,11 +125,12 @@ Partial<ToolBayFormState>> {
     let byId = _.indexBy(this.props.all.tools.all, "id");
     return _.sortBy((this.props.all.tool_slots || []), "id").map((slot, index) => {
       let { x, y, z, tool_id, id } = slot;
-      let dropDownItem: DropDownItem | undefined = undefined;
-      if (tool_id && byId[tool_id]) {
+      let dropDownItem: DropDownItem | undefined;
+      let tool: Tool | undefined = byId[tool_id || 0];
+      if (tool) {
         dropDownItem = {
-          value: byId[tool_id].id || index,
-          label: byId[tool_id].name || "Untitled Tool"
+          value: tool.id || index,
+          label: tool.name || "Untitled Tool"
         };
       }
 

@@ -1,4 +1,5 @@
 import { Plant } from "./interfaces";
+import { DEFAULT_ICON } from "../open_farm/index";
 /** PROBLEM: OpenFarm doesn't do icons yet.
  *  SOLUTION: Temporarily hard code icons on our end as a proof-of-concept
  *  until we work something out with OF.
@@ -59,7 +60,7 @@ let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
   "tomato": "/app-resources/img/icons/Tomato-96.png",
   "watermelon": "/app-resources/img/icons/Watermelon-96.png",
   "wheat": "/app-resources/img/icons/Wheat-96.png",
-  "not-set": "/app-resources/img/icons/generic-plant.svg"
+  "not-set": DEFAULT_ICON
 };
 
 export type PlantOptions = Partial<Plant>;
@@ -71,7 +72,7 @@ export function Plant(options: PlantOptions): Plant {
   return {
     id: options.id,
     planted_at: (options.planted_at || ""),
-    img_url: (options.img_url || "/app-resources/img/icons/generic-plant.svg"),
+    img_url: (options.img_url || DEFAULT_ICON),
     name: (options.name || "Untitled Plant"),
     x: (options.x || 0),
     y: (options.y || 0),

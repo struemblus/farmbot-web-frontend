@@ -4,7 +4,7 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
-import { DATA_URI } from "../../open_farm/index";
+import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
 
 interface SpeciesInfoProps extends Everything {
   params: {
@@ -24,8 +24,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   handleDragStart(e: DraggableEvent) {
     let icon = e.currentTarget.getAttribute("data-icon-url");
     let img = document.createElement("img");
-    icon ? img.src = DATA_URI + icon :
-      "/app-resources/img/icons/generic-plant.svg";
+    icon ? img.src = DATA_URI + icon : DEFAULT_ICON;
 
     // TODO: Setting these doesn't work by default, needs a fix
     // https://www.w3.org/TR/2011/WD-html5-20110405/dnd.html#dom-datatransfer-setdragimage
@@ -51,7 +50,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         processing_pictures: "processing_pictures",
         slug: "slug",
         sun_requirements: "sun_requirements",
-        svg_icon: "/img/icons/generic-plant.svg"
+        svg_icon: DEFAULT_ICON
       },
       image: "http://placehold.it/350x150"
     };
@@ -115,7 +114,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                     </strong>
                     {/**
                      * Special use case for svgs here. If the key is the icon
-                     * and has a value, render the elements needed, or "Not 
+                     * and has a value, render the elements needed, or "Not
                      * set". Any other keys receive the default behavior.
                      */}
                     {key === "svg_icon" && value && (

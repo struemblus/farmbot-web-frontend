@@ -9,6 +9,7 @@ import { API } from "../api";
 import { Everything } from "../interfaces";
 import { findPlantById } from "../sync/reducer";
 import { prettyPrintApiErrors } from "../util";
+import { DEFAULT_ICON } from "../open_farm/index";
 
 export function saveFarmEvent(farm_event: FarmEventForm,
   callback: () => void): Thunk {
@@ -116,7 +117,7 @@ export function destroyPlant(plant_id: number): Thunk {
   };
 };
 
-let STUB_IMAGE = "/app-resources/img/icons/generic-plant.svg";
+let STUB_IMAGE = DEFAULT_ICON;
 let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
 // If we do a search on keypress, we will DDoS OpenFarm.
 // This function prevents that from happening by pausing X ms

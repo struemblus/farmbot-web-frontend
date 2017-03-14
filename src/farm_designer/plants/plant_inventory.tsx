@@ -6,21 +6,18 @@ import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
+import { DEFAULT_ICON } from "../../open_farm/index";
 
 function OptionComponent(plants: Plant[]) {
   let indexedById = _.indexBy(plants, "id");
   return (props: DropDownItem) => {
-    let {
-      icon_url,
-      planted_at,
-    } = indexedById[props.value as number]; // TODO: Remove typecast after refactor.
-
+    let plant = indexedById[props.value || 0];
+    let icon_url = (plant && plant.icon_url) || DEFAULT_ICON;
+    let planted_at = (plant && plant.planted_at) || moment();
     let dayPlanted = moment();
 
-    // !!! TODO: !!! Temporary fix. Currently old plants are referencing
-    // a broken icon containing the word "Natural". Discuss with Rick.
-    let url = icon_url.includes("Natural") ?
-      "/app-resources/img/icons/generic-plant.svg" : icon_url;
+    // TODO Remove this after April 2017 - RC.
+    let url = icon_url.includes("Natural") ? DEFAULT_ICON : icon_url;
 
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
