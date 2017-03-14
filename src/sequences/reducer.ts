@@ -83,7 +83,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     seq.dirty = true;
     let step = (seq.body || [])[index];
     if (step.kind === "send_message") {
-      step.args.message_type = value.toString();
+      step.args.message_type = (value || "info").toString();
     }
     return s;
   })
