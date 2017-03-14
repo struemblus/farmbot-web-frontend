@@ -71,7 +71,11 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     let message = { [DETECTOR_ENV]: JSON.stringify(this.state) };
     devices
       .current
-      .setUserEnv(message);
+      .setUserEnv(message)
+      .then(() => {
+        console.log("Set user ENV: " + JSON.stringify(message));
+      })
+      .catch(() => { console.log("Tried to set user env") });
   }
 
   takePhoto = () => {

@@ -276,6 +276,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
       .connect()
       .then(() => {
         devices.current = bot;
+        (window as any)["current_bot"] = bot;
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
         readStatus();
         bot.on("logs", function (msg: RpcBotLog) {
