@@ -27,6 +27,7 @@ export function saveToolBay(
   return (dispatch, getState) => {
     let tool_slots = getState().tools.tool_slots;
     let url = API.current.toolSlotsPath;
+    debugger;
     Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {
         success(t("ToolBay saved."));
@@ -46,11 +47,11 @@ export function updateSlot(id: number, name: string, value: number | undefined):
   return { type: "UPDATE_TOOL_SLOT", payload: { id, name, value } };
 }
 
-export function detachTool(tool_id: number) {
+export function detachTool(tool_slot_id: number) {
   return {
     type: "DETACH_TOOL",
-    payload: tool_id
-  }
+    payload: tool_slot_id
+  };
 }
 
 export function addToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {

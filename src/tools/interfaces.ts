@@ -51,7 +51,7 @@ export interface ToolSlot {
 }
 
 export interface UpdateToolSlotPayl {
-  value: number | undefined;
+  value: number;
   name: string;
   id: number;
 }

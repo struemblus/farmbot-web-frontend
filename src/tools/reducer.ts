@@ -51,7 +51,7 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     return s;
   })
   .add<number>("DETACH_TOOL", function (s, a) {
-    let t = _(s.tool_slots).where({ tool_id: a.payload }).first();
+    let t = _(s.tool_slots).where({ id: a.payload }).first();
     if (t) { t.tool_id = undefined; }
     return s;
   })

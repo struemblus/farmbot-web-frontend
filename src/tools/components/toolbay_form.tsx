@@ -48,7 +48,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     let { value } = ddi;
     let x = parseInt(JSON.stringify(value));
     if (_.isNaN(x)) {
-      this.updateSlot(ts_id, "tool_id", "null");
+      this.detachTool(ts_id);
     } else {
       this.updateSlot(ts_id, "tool_id", x);
     }
