@@ -15,7 +15,8 @@ let initialState: ToolsState = {
   tool_slots: [],
   tools: {
     isEditing: false,
-    all: []
+    all: [],
+    dirty: false
   }
 };
 
@@ -42,13 +43,6 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     bay.name = name;
     bay.dirty = false;
     s.editorMode = false;
-    return s;
-  })
-  .add<ToolBay>("UPDATE_TOOL_BAY_NAME", function (s, a) {
-    let { id, name } = a.payload;
-    let bay = _.findWhere(s.tool_bays, { id });
-    bay.name = name;
-    bay.dirty = true;
     return s;
   })
   /** ToolSlots */

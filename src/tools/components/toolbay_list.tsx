@@ -1,15 +1,13 @@
 import * as React from "react";
-import { ListAndFormProps } from "../interfaces";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingToolBays } from "../actions";
 import { t } from "i18next";
-import { ToolSlot, Tool } from "../interfaces";
-import { Props } from "../state_to_props";
+import { ToolSlot, Tool, Props } from "../interfaces";
 
 export class ToolBayList extends React.Component<Props, {}> {
   render() {
-    let toggle = () => { this.props.dispatch(toggleEditingToolBays()); };
-    return <Col>
+    let toggle = () => this.props.dispatch(toggleEditingToolBays());
+    return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.id}>
           <WidgetHeader
@@ -19,21 +17,33 @@ export class ToolBayList extends React.Component<Props, {}> {
             title={"ToolBay 1"}>
             <button
               className="gray button-like" onClick={toggle}>
-              {t("EDIT")}
+              {t("Edit")}
             </button>
           </WidgetHeader>
           <WidgetBody>
             <Row>
-              <Col xs={2}>{t("SLOT")}</Col>
-              <Col xs={2}>{t("X")}</Col>
-              <Col xs={2}>{t("Y")}</Col>
-              <Col xs={2}>{t("Z")}</Col>
-              <Col xs={4}>{t("TOOL")}</Col>
+              <Col xs={2}>
+                <label>{t("Slot")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("X")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("Y")}</label>
+              </Col>
+              <Col xs={2}>
+                <label>{t("Z")}</label>
+              </Col>
+              <Col xs={4}>
+                <label>{t("Tool")}</label>
+              </Col>
             </Row>
             {this.props.getToolSlots(bay.id).map(
               (slot: ToolSlot, index: number) => {
                 return <Row key={slot.id}>
-                  <Col xs={2}>{index}</Col>
+                  <Col xs={2}>
+                    <label>{index + 1}</label>
+                  </Col>
                   <Col xs={2}>{slot.x}</Col>
                   <Col xs={2}>{slot.y}</Col>
                   <Col xs={2}>{slot.z}</Col>
@@ -46,6 +56,6 @@ export class ToolBayList extends React.Component<Props, {}> {
           </WidgetBody>
         </Widget>;
       })}
-    </Col>;
+    </div>;
   }
 };

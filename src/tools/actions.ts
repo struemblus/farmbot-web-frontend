@@ -21,10 +21,6 @@ export function toggleEditingTools(): ReduxAction<{}> {
 }
 
 /** ToolBays */
-export function updateToolBayName(id: number, value: number): ReduxAction<{}> {
-  return { type: "UPDATE_TOOL_BAY_NAME", payload: { id, value } };
-}
-
 export function saveToolBayOk(toolBay: ToolBay): ReduxAction<{}> {
   return { type: "SAVE_TOOL_BAY_OK", payload: toolBay };
 }
@@ -84,8 +80,7 @@ export function destroyToolSlotOk(id: number): ReduxAction<{}> {
   return { type: "DESTROY_TOOL_SLOT_OK", payload: { id } };
 }
 
-export function addToolSlot(slot: ToolSlot): Thunk {
-
+export function addSlot(slot: Partial<ToolSlot>): Thunk {
   return (dispatch, getState) => {
     Axios
       .post<ToolSlot>(API.current.toolSlotsPath, slot)
