@@ -2,7 +2,7 @@ import * as React from "react";
 
 interface BIProps {
   value: string;
-  onCommit: Function;
+  onCommit(e: React.SyntheticEvent<HTMLInputElement>): void;
   min?: number;
   max?: number;
   type?: "text" | "number" | "email" | "password" | "time" | "date";

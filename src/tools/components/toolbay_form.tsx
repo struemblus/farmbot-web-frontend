@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ToolSlot, Props, SlotChangeEvent } from "../interfaces";
+import { ToolSlot, Props } from "../interfaces";
 import {
   Widget,
   WidgetBody,
@@ -7,7 +7,8 @@ import {
   FBSelect,
   Col,
   Row,
-  BlurableInput
+  BlurableInput,
+  DropDownItem
 } from "../../ui";
 import {
   toggleEditingToolBays,
@@ -24,24 +25,28 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     this.state = { x: 0, y: 0, z: 0 };
   }
 
-  changeExistingSlotValue = (slot_id: number | undefined) => (e: SlotChangeEvent) => {
-    if (e.currentTarget) {
-      let { id, name, value } = e.currentTarget;
-      this.props.dispatch(
-        updateSlot(parseInt(id), name, parseInt(value as string))
-      );
+  updateSlot = (slot_id: number, fieldName: string, value: number) => {
+    this.props.dispatch(updateSlot(slot_id, fieldName, value));
+  }
+
+  updateSlotAxis = (ts_id: number) =>
+    (e: React.SyntheticEvent<HTMLInputElement>) => {
+      this.updateSlot(ts_id, e.currentTarget.name, parseInt(e.currentTarget.value, 10));
+    }
+
+  updateSlotTool = (ts_id: number) => (ddi: DropDownItem) => {
+    let { value } = ddi;
+    if (_.isNumber(value)) {
+      this.updateSlot(ts_id, "tool_id", value);
     } else {
-      if (slot_id && e.value) {
-        this.props.dispatch(
-          updateSlot(slot_id, "tool_id", parseInt(e.value as string))
-        );
-      } else {
-        throw new Error("Error in an existing slot dropdown.");
-      }
+      // Keep an eye on this.
+      // Remove after April 15 2017 and just use a type case
+      // if error loggers doesn't throw.
+      throw new Error("This is why I dislike type casting.");
     }
   }
 
-  setNewSlotValue = (e: SlotChangeEvent) => {
+  setNewSlotValue = (e: DropDownItem) => {
     if (e.currentTarget) {
       this.setState({ [e.currentTarget.name]: e.currentTarget.value });
     } else {
@@ -103,35 +108,32 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.x || 0).toString()}
-                      onCommit={this.changeExistingSlotValue(slot.id)}
+                      onCommit={this.updateSlotAxis(slot.id)}
                       type="number"
                       name="x"
-                      id={(slot.id).toString()}
                     />
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.y || 0).toString()}
-                      onCommit={this.changeExistingSlotValue}
+                      onCommit={this.updateSlotAxis(slot.id)}
                       type="number"
                       name="y"
-                      id={(slot.id).toString()}
                     />
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.z || 0).toString()}
-                      onCommit={this.changeExistingSlotValue}
+                      onCommit={this.updateSlotAxis(slot.id)}
                       type="number"
                       name="z"
-                      id={(slot.id).toString()}
                     />
                   </Col>
                   <Col xs={3}>
                     <FBSelect
                       list={this.props.getToolOptions(slot.id)}
                       initialValue={this.props.getChosenToolOption(slot.id)}
-                      onChange={this.changeExistingSlotValue(slot.id)}
+                      onChange={this.updateSlotTool(slot.id)}
                       allowEmpty={true}
                     />
                   </Col>
@@ -154,7 +156,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
               <Col xs={2}>
                 <BlurableInput
                   value={(this.state.x || 0).toString()}
-                  onCommit={this.setNewSlotValue}
+                  onCommit={this.updateSlotAxis}
                   type="number"
                   name="x"
                 />

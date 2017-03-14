@@ -13,11 +13,6 @@ export interface ToolsState {
   };
 }
 
-export interface SlotChangeEvent extends DropDownItem {
-  currentTarget?: HTMLInputElement | undefined;
-}
-
-
 export interface Props {
   toolBays: ToolBay[];
   toolSlots: ToolSlot[];
@@ -28,7 +23,7 @@ export interface Props {
   // TODO: Add params and return values
   getSortedTools: Function;
   getToolSlots(toolBayId: number): ToolSlot[];
-  getToolOptions(toolSlotId: number): (DropDownItem | SlotChangeEvent)[];
+  getToolOptions: Function;
   getChosenToolOption: Function;
   getChosenTool: Function;
   dispatch: Function;
