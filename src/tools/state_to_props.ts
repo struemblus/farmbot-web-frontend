@@ -21,16 +21,21 @@ export function mapStateToProps(props: Everything): Props {
     return _.sortBy(currentSlots, "id");
   };
 
-  /** Returns all tools in an <FBSelect /> compatible format. If a 
-   * slot id is passed, it will become available in the callback. */
-  let getToolOptions = (toolSlotId: number) => {
+  /** Returns all tools in an <FBSelect /> compatible format. */
+  let getToolOptions = () => {
     return tools.map(tool => {
-      if (toolSlotId) {
-        return { label: tool.name, value: tool.id, slot_id: toolSlotId };
-      } else {
-        return { label: tool.name, value: tool.id };
-      }
-    });
+      return { label: tool.name, value: tool.id };
+    })
+      .filter(ddi => !!ddi.value)
+      .map(ddi => {
+        if (ddi.value) {
+          return ddi;
+        } else {
+          // Being extra safe for ToolBay form being out of hand.
+          // If no errors, remove after April 15, 2017.
+          throw new Error(".filter failed to filter dropdown item.");
+        }
+      });
   };
 
 	/** Returns the current tool chosen in a slot based off the slot's id 

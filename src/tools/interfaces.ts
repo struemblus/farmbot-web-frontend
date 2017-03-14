@@ -23,7 +23,7 @@ export interface Props {
   // TODO: Add params and return values
   getSortedTools: Function;
   getToolSlots(toolBayId: number): ToolSlot[];
-  getToolOptions: Function;
+  getToolOptions(): DropDownItem[];
   getChosenToolOption: Function;
   getChosenTool: Function;
   dispatch: Function;

@@ -126,7 +126,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
                   </Col>
                   <Col xs={3}>
                     <FBSelect
-                      list={this.props.getToolOptions(slot.id)}
+                      list={this.props.getToolOptions()}
                       initialValue={this.props.getChosenToolOption(slot.id)}
                       onChange={this.updateSlotTool(slot.id)}
                       allowEmpty={true}
