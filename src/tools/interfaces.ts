@@ -1,4 +1,5 @@
 import { AxiosErrorResponse } from "../util";
+import { DropDownItem } from "../ui/fb_select";
 
 /** Main */
 export interface ToolsState {
@@ -12,6 +13,15 @@ export interface ToolsState {
   };
 }
 
+export interface SlotChangeEvent extends DropDownItem {
+  slot_id?: number | undefined;
+  currentTarget?: {
+    value: string | number;
+    name: string;
+    id: string;
+  };
+}
+
 export interface Props {
   toolBays: ToolBay[];
   toolSlots: ToolSlot[];
@@ -19,6 +29,7 @@ export interface Props {
   editorMode: boolean;
   isEditingTools: boolean;
   dirtyTools: boolean;
+  // TODO: Add params and return values
   getSortedTools: Function;
   getToolSlots: Function;
   getToolOptions: Function;
@@ -40,7 +51,7 @@ export interface ToolFormState {
 }
 
 export interface ToolSlot {
-  id?: number;
+  id: number;
   tool_bay_id?: number;
   tool_id?: number | undefined;
   created_at?: string;
@@ -60,8 +71,6 @@ export interface Tool {
   id?: number | undefined;
   name: string;
   dirty?: boolean;
-  isNew?: boolean;
-  isDeleted?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
 }
 

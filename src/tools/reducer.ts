@@ -51,10 +51,12 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     return s;
   })
   .add<ToolSlot[]>("SAVE_TOOL_SLOTS_OK", function (s, a) {
-    a.payload.map(function (ts) {
-      let index = _.findIndex(s.tool_slots, { id: ts.id });
-      s.tool_slots.splice(index, 1, ts);
-    });
+    /** Keeps erroring out in the console, not sure why */
+    // a.payload.map(function (ts) {
+    //   let index = _.findIndex(s.tool_slots, { id: ts.id });
+    //   s.tool_slots.splice(index, 1, ts);
+    // });
+
     // TODO: Find a more elegant solution to this problem: nested resource?
     // Deactivate all.
     s.tools.all.map(t => t.status = "inactive");
@@ -73,13 +75,26 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     return s;
   })
   .add<UpdateToolSlotPayl>("UPDATE_TOOL_SLOT", function (s, a) {
-    let { name, value } = a.payload;
     let slot = _.find(s.tool_slots, { id: a.payload.id });
     let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
     bay.dirty = true;
-    slot.tool_id = value;
     slot.dirty = true;
-    return s;
+    // TODO: Index values instead of a switch()
+    let { name, value } = a.payload;
+    switch (name) {
+      case "x":
+        slot.x = value;
+        return s;
+      case "y":
+        slot.y = value;
+        return s;
+      case "z":
+        slot.z = value;
+        return s;
+      default:
+        slot.tool_id = value;
+        return s;
+    }
   })
   /** Tools */
   .add<Tool[]>("SAVE_TOOLS_OK", function (s, a) {

@@ -2,7 +2,7 @@ import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingToolBays } from "../actions";
 import { t } from "i18next";
-import { ToolSlot, Tool, Props } from "../interfaces";
+import { ToolSlot, Props } from "../interfaces";
 
 export class ToolBayList extends React.Component<Props, {}> {
   render() {
@@ -48,8 +48,8 @@ export class ToolBayList extends React.Component<Props, {}> {
                   <Col xs={2}>{slot.y}</Col>
                   <Col xs={2}>{slot.z}</Col>
                   <Col xs={4}>
-                    {/* TODO: Get rid of typecast */}
-                    {(this.props.getChosenTool(slot.id) as Tool).name || ""}
+                    {(this.props.getChosenTool(slot.id)) &&
+                      (this.props.getChosenTool(slot.id)).name || ""}
                   </Col>
                 </Row>;
               })}
