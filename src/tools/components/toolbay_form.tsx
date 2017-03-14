@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ListAndFormProps, ToolBayFormState, ToolBay, ToolSlot } from "../interfaces";
+import { ListAndFormProps, ToolBayFormState, Tool } from "../interfaces";
 import {
   Widget,
   WidgetBody,
@@ -73,11 +73,6 @@ Partial<ToolBayFormState>> {
     this.resetState();
   }
 
-  updateBayName = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    // let { id, value } = e.currentTarget;
-    // this.props.dispatch(updateToolBayName(parseInt(id), value));
-  }
-
   update = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let { id, name, value } = e.currentTarget;
     this.props.dispatch(updateToolSlot(parseInt(id), name, parseInt(value)));
@@ -110,8 +105,7 @@ Partial<ToolBayFormState>> {
         this.setState({ new_slot_tool_id: id });
       } else {
         // Keeping an eye on this for Rollbar
-        throw new Error(`Should never happen: No Tool ID.
-          tool_id: ${tool.id}`);
+        throw new Error(`Should never happen: No Tool ID. tool_id: ${tool.id}`);
       }
     } else {
       // Handle "none" selection...
@@ -131,23 +125,14 @@ Partial<ToolBayFormState>> {
     let byId = _.indexBy(this.props.all.tools.all, "id");
     return _.sortBy((this.props.all.tool_slots || []), "id").map((slot, index) => {
       let { x, y, z, tool_id, id } = slot;
-      let dropDownItem: DropDownItem | undefined = undefined;
-      if (tool_id && byId[tool_id]) {
+      let dropDownItem: DropDownItem | undefined;
+      let tool: Tool | undefined = byId[tool_id || 0];
+      if (tool) {
         dropDownItem = {
-          value: byId[tool_id].id || index,
-          label: byId[tool_id].name || "Untitled Tool"
+          value: tool.id || index,
+          label: tool.name || "Untitled Tool"
         };
       }
-      let toolOptions = (this.props.all.tools.all || []).map(tool => {
-        if (tool.id && id) {
-          return { label: tool.name, value: tool.id, slot_id: id };
-        } else {
-          throw new Error("Thought tool.id would be there. It was not.");
-        }
-      });
-
-      let chosenTool = tool_id ?
-        _.indexBy(toolOptions, "value")[tool_id].label : undefined;
 
       let newSlotToolOptions = (this.props.all.tools.all || []).map(tool => {
         if (tool.id) {
@@ -194,7 +179,7 @@ Partial<ToolBayFormState>> {
             <FBSelect
               allowEmpty={true}
               initialValue={dropDownItem}
-              onChange={this.updateNewSlotTool}
+              onChange={this.updateTool(id)}
               list={newSlotToolOptions} />
           </Col>
           <Col xs={1}>
@@ -253,7 +238,7 @@ Partial<ToolBayFormState>> {
               <Col xs={9}>
                 <BlurableInput
                   value={tool_bay.name}
-                  onCommit={this.updateBayName}
+                  onCommit={() => { }}
                   id={(tool_bay.id || "").toString()}
                 />
               </Col>

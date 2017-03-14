@@ -55,6 +55,8 @@ export interface Plant {
   name: string;
   x: number;
   y: number;
+  radius: number;
+  spread?: number | undefined;
   planting_area_id: string;
   icon_url: string; // ? Maybe this will change.
   openfarm_slug: string; // ? Maybe this will change.

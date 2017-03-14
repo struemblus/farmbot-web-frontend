@@ -4,6 +4,7 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
+import { DEFAULT_ICON } from "../../open_farm/index";
 
 interface SpeciesInfoProps extends Everything {
   params: {
@@ -35,7 +36,7 @@ DNDSpeciesMobileState> {
     // TODO: Take suggestions from the community about user preference
     let img = document.createElement("img");
     // Stub until we figure out dynamic drag images
-    img.src = "/app-resources/img/icons/Sprout-96.png";
+    img.src = DEFAULT_ICON;
     // Because of MS Edge.
     e.dataTransfer.setDragImage
       && e.dataTransfer.setDragImage(img, 50, 50);
@@ -87,7 +88,7 @@ DNDSpeciesMobileState> {
         <div className="panel-header-description">
           <img alt={t("plant icon")}
             draggable={true}
-            src="/app-resources/img/icons/Sprout-96.png"
+            src={DEFAULT_ICON}
             onTouchStart={this.toggleDesignerView.bind(this)}
             onTouchEnd={this.toggleDesignerView.bind(this)}
             onTouchMove={this.handleDragStart.bind(this)} />

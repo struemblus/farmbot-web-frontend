@@ -4,26 +4,30 @@ import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
 
+export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
+
 export interface ImageFlipperProps {
   images: Image[];
 }
 
 export interface ImageFlipperState {
   currentInx: number;
+  isLoaded: boolean;
 }
 const NO_INDEX = new Error(`
-Attempter getting this.state.currentInx and expected a number.
+Attempted getting this.state.currentInx and expected a number.
 It was not a number.
 `);
 
 export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
   constructor() {
     super();
-    this.state = { currentInx: 0 };
+    this.state = { currentInx: 0, isLoaded: false };
     this.down = this.down.bind(this);
     this.up = this.up.bind(this);
     this.imageJSX = this.imageJSX.bind(this);
   }
+
 
   current(): Image | undefined {
     return this.props.images[this.state.currentInx || 0];
@@ -31,18 +35,31 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
 
   imageJSX() {
     let i = this.current();
-    if (i) {
+    if (i && this.props.images.length > 0) {
       let url: string;
-      if (i.attachment_processed_at) {
-        url = i.attachment_url;
-      } else {
-        url = "/app-resources/img/processing.png";
-      }
-      return <img
-        className="image-flipper-image"
-        src={url} />;
+      url = (i.attachment_processed_at) ?
+        i.attachment_url : PLACEHOLDER_FARMBOT;
+      return <div>
+        {!this.state.isLoaded && (
+          <div className="no-flipper-image-container">
+            <p>{t(`Image loading (try refreshing)`)}</p>
+            <img
+              className="image-flipper-image"
+              src={PLACEHOLDER_FARMBOT} />
+          </div>)}
+        <img
+          onLoad={() => this.setState({ isLoaded: true })}
+          className={`image-flipper-image is-loaded-${this.state.isLoaded}`}
+          src={url} />
+      </div>;
     } else {
-      return <p>Please snap some photos in the sequence editor first.</p>;
+      return <div className="no-flipper-image-container">
+        <p>{t(`You haven't yet taken any photos with your FarmBot.
+          Once you do, they will show up here.`)}</p>
+        <img
+          className="image-flipper-image"
+          src={PLACEHOLDER_FARMBOT} />
+      </div>;
     }
   }
 
@@ -66,14 +83,20 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
   up() {
     if (this.next) {
       let num = this.useIndex(n => n + 1);
-      this.setState({ currentInx: _.min([this.props.images.length - 1, num]) });
+      this.setState({
+        currentInx: _.min([this.props.images.length - 1, num]),
+        isLoaded: false
+      });
     }
   }
 
   down() {
     if (this.prev) {
       let num = this.useIndex(n => n - 1);
-      this.setState({ currentInx: _.max([0, num]) });
+      this.setState({
+        currentInx: _.max([0, num]),
+        isLoaded: false
+      });
     }
   }
 
@@ -116,7 +139,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           {this.metaDatas()}
         </div>
       </div>
-    </div >;
+    </div>;
   }
 }
 
