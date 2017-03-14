@@ -14,13 +14,9 @@ export interface ToolsState {
 }
 
 export interface SlotChangeEvent extends DropDownItem {
-  slot_id?: number | undefined;
-  currentTarget?: {
-    value: string | number;
-    name: string;
-    id: string;
-  };
+  currentTarget?: HTMLInputElement | undefined;
 }
+
 
 export interface Props {
   toolBays: ToolBay[];

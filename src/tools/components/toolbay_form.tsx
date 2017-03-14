@@ -24,16 +24,16 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
     this.state = { x: 0, y: 0, z: 0 };
   }
 
-  changeExistingSlotValue = (e: SlotChangeEvent) => {
+  changeExistingSlotValue = (slot_id: number | undefined) => (e: SlotChangeEvent) => {
     if (e.currentTarget) {
       let { id, name, value } = e.currentTarget;
       this.props.dispatch(
         updateSlot(parseInt(id), name, parseInt(value as string))
       );
     } else {
-      if (e.slot_id && e.value) {
+      if (slot_id && e.value) {
         this.props.dispatch(
-          updateSlot(e.slot_id, "tool_id", parseInt(e.value as string))
+          updateSlot(slot_id, "tool_id", parseInt(e.value as string))
         );
       } else {
         throw new Error("Error in an existing slot dropdown.");
@@ -103,7 +103,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.x || 0).toString()}
-                      onCommit={this.changeExistingSlotValue}
+                      onCommit={this.changeExistingSlotValue(slot.id)}
                       type="number"
                       name="x"
                       id={(slot.id).toString()}
@@ -131,7 +131,7 @@ export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
                     <FBSelect
                       list={this.props.getToolOptions(slot.id)}
                       initialValue={this.props.getChosenToolOption(slot.id)}
-                      onChange={this.changeExistingSlotValue}
+                      onChange={this.changeExistingSlotValue(slot.id)}
                       allowEmpty={true}
                     />
                   </Col>
