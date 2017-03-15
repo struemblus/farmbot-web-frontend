@@ -1,20 +1,13 @@
 import * as React from "react";
 import { Everything } from "../../interfaces";
-import { Plant, PlantOptions } from "../plant";
+import { Plant } from "../plant";
 import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import { Plant as IPlant } from "../interfaces";
+import { GardenMapProps, GardenMapState, PlantOptions } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
-
-interface GardenMapProps extends Everything {
-  params: {
-    species: string;
-    plant_id: string;
-  };
-}
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   /** The offset of 50px is made for the setDragImage to make it in the
@@ -32,12 +25,6 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
   return { x: rawX, y: rawY };
 }
 
-interface GardenMapState {
-  activePlant: IPlant | undefined;
-  tempX: number | undefined;
-  tempY: number | undefined;
-
-}
 @connect((state: Everything) => state)
 export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   state = { activePlant: undefined, tempX: undefined, tempY: undefined };

@@ -5,23 +5,11 @@ import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
 import { DEFAULT_ICON } from "../../open_farm/index";
-
-interface SpeciesInfoProps extends Everything {
-  params: {
-    species: string;
-  };
-}
-
-interface DraggableEvent {
-  currentTarget: HTMLImageElement;
-  dataTransfer: {
-    setDragImage: Function | undefined;
-  };
-}
-
-interface DNDSpeciesMobileState {
-  isDragging: boolean;
-}
+import {
+  SpeciesInfoProps,
+  DNDSpeciesMobileState,
+  DraggableEvent
+} from "../interfaces";
 
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */

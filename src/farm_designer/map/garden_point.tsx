@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Point } from "../interfaces";
+import { GardenPointProps } from "../interfaces";
 import { defensiveClone } from "../../util";
 
 const POINT_STYLES = {
@@ -9,11 +9,7 @@ const POINT_STYLES = {
   fill: "none",
 };
 
-interface Props {
-  point: Point;
-}
-
-export function GardenPoint(props: Props) {
+export function GardenPoint(props: GardenPointProps) {
   let { point } = props;
   let styles = defensiveClone(POINT_STYLES);
   styles.stroke = point.meta.color || "green";
