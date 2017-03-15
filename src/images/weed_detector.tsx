@@ -26,7 +26,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
               settingsMenuOpen={TODO_OPEN} />
             <div className="row">
               <div className="col-sm-12">
-                <WeedDetectorBody images={this.props.images.all}
+                <WeedDetectorBody images={this.props.sync.images}
                   onSliderChange={() => {
                   }}
                   H={3}
