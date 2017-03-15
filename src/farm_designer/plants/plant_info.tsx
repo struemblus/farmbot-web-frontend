@@ -4,14 +4,19 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { PlantInfoProps } from "../interfaces";
+import { PlantInfoProps, Plant } from "../interfaces";
 
 @connect((state: Everything) => state)
 export class PlantInfo extends React.Component<PlantInfoProps, {}> {
   render() {
     let plant_id = parseInt(this.props.params.plant_id);
     let plants = this.props.designer.deprecatedPlants;
-    let currentPlant = _.findWhere(plants, { id: plant_id });
+    let currentPlant: Plant = _.findWhere(plants, { id: plant_id }) || {
+      name: "CAN'T FIND " + plant_id,
+      x: 0,
+      y: 0,
+      planted_at: moment().toISOString()
+    };
 
     let { name, x, y, planted_at } = currentPlant;
 
@@ -19,7 +24,6 @@ export class PlantInfo extends React.Component<PlantInfoProps, {}> {
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
-
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
         <p className="panel-title">
