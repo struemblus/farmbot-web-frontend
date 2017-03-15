@@ -308,7 +308,6 @@ function fetchDeviceErr(err: Error) {
 
 export function changeSettingsBuffer(key: configKey, val: string):
   ReduxAction<ChangeSettingsBuffer> {
-
   return {
     type: "CHANGE_SETTINGS_BUFFER",
     payload: { key, val: parseInt(val, 10) }
@@ -359,13 +358,6 @@ function commitSettingsChangesOk() {
     payload: {}
   };
 }
-
-// export function changeAxisBuffer(key: string, val: number) {
-//     return {
-//         type: "CHANGE_AXIS_BUFFER",
-//         payload: { key, val }
-//     };
-// }
 
 export function clearLogs(): Thunk {
   return function (dispatch, getState) {

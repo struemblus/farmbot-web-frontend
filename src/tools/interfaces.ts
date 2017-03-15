@@ -1,21 +1,29 @@
-import { AxiosErrorResponse } from "../util";
+import { DropDownItem } from "../ui/fb_select";
 
-/** Main */
 export interface ToolsState {
   editorMode: boolean;
   tool_bays: ToolBay[];
   tool_slots: ToolSlot[];
   tools: {
-    isEditing?: boolean;
+    isEditing: boolean;
     all: Tool[];
-    dirty?: boolean;
+    dirty: boolean;
   };
 }
 
-/** Related */
-export interface ListAndFormProps {
+export interface Props {
+  toolBays: ToolBay[];
+  toolSlots: ToolSlot[];
+  tools: Tool[];
+  editorMode: boolean;
+  isEditingTools: boolean;
+  dirtyTools: boolean;
+  getSortedTools(): Tool[];
+  getToolSlots(toolBayId: number): ToolSlot[];
+  getToolOptions(): DropDownItem[];
+  getChosenToolOption(toolSlotId: number): DropDownItem;
+  getChosenTool(toolSlotId: number): Tool;
   dispatch: Function;
-  all: ToolsState;
 }
 
 export interface ToolBay {
@@ -26,23 +34,12 @@ export interface ToolBay {
   created_at?: string | undefined;
 }
 
-export interface ToolBayFormState {
-  tools?: Tool[];
-  tool_slots?: ToolSlot[];
-  tool_bays?: ToolBay[];
-  new_slot_x?: number;
-  new_slot_y?: number;
-  new_slot_z?: number;
-  new_slot_tool_id?: number | undefined;
-}
-
 export interface ToolFormState {
-  tools: Tool[];
   newToolName: string;
 }
 
 export interface ToolSlot {
-  id?: number;
+  id: number;
   tool_bay_id?: number;
   tool_id?: number | undefined;
   created_at?: string;
@@ -62,13 +59,5 @@ export interface Tool {
   id?: number | undefined;
   name: string;
   dirty?: boolean;
-  isNew?: boolean;
-  isDeleted?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
-}
-
-/** Actions */
-export interface ErrorPayl {
-  type: string;
-  payload: AxiosErrorResponse;
 }

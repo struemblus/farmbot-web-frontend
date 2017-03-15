@@ -1,4 +1,4 @@
-import { Image } from "./interfaces";
+import { Image, ImageFlipperProps, ImageFlipperState } from "./interfaces";
 import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
@@ -6,34 +6,22 @@ import * as moment from "moment";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
 
-export interface ImageFlipperProps {
-  images: Image[];
-}
-
-export interface ImageFlipperState {
-  currentInx: number;
-  isLoaded: boolean;
-}
 const NO_INDEX = new Error(`
-Attempted getting this.state.currentInx and expected a number.
-It was not a number.
+  Attempted getting this.state.currentInx and expected a number.
+  It was not a number.
 `);
 
 export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
   constructor() {
     super();
     this.state = { currentInx: 0, isLoaded: false };
-    this.down = this.down.bind(this);
-    this.up = this.up.bind(this);
-    this.imageJSX = this.imageJSX.bind(this);
   }
-
 
   current(): Image | undefined {
     return this.props.images[this.state.currentInx || 0];
   }
 
-  imageJSX() {
+  imageJSX = () => {
     let i = this.current();
     if (i && this.props.images.length > 0) {
       let url: string;
@@ -80,7 +68,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     return this.useIndex(n => this.props.images[n - 1]);
   }
 
-  up() {
+  up = () => {
     if (this.next) {
       let num = this.useIndex(n => n + 1);
       this.setState({
@@ -90,7 +78,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
   }
 
-  down() {
+  down = () => {
     if (this.prev) {
       let num = this.useIndex(n => n - 1);
       this.setState({

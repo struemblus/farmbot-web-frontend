@@ -15,7 +15,8 @@ let initialState: ToolsState = {
   tool_slots: [],
   tools: {
     isEditing: false,
-    all: []
+    all: [],
+    dirty: false
   }
 };
 
@@ -44,23 +45,32 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     s.editorMode = false;
     return s;
   })
-  .add<ToolBay>("UPDATE_TOOL_BAY_NAME", function (s, a) {
-    let { id, name } = a.payload;
-    let bay = _.findWhere(s.tool_bays, { id });
-    bay.name = name;
-    bay.dirty = true;
-    return s;
-  })
   /** ToolSlots */
   .add<ToolSlot>("ADD_TOOL_SLOT_OK", function (s, a) {
     s.tool_slots.push(a.payload);
     return s;
   })
+  .add<number>("DETACH_TOOL", function (s, a) {
+    let t = _(s.tool_slots).where({ id: a.payload }).first();
+    // COMMENTS WELCOME ON THIS ONE! -RC
+    // JSON.stringify strips undefined keys.
+    // We have two options at this point:
+    // * Start using `null` and `undefined`, resulting in sadness.
+    // * Change `undefined` to `null` everywhere in the app, requiring huge
+    //   overhaul.
+    // * Use _.set(t, "tool_id", null) to circumvent typechecking
+    // * Just use `null` instead of `undefined` in this one spot and call it a
+    //   day.
+    if (t) { t.tool_id = null as any; }
+    return s;
+  })
   .add<ToolSlot[]>("SAVE_TOOL_SLOTS_OK", function (s, a) {
-    a.payload.map(function (ts) {
-      let index = _.findIndex(s.tool_slots, { id: ts.id });
-      s.tool_slots.splice(index, 1, ts);
-    });
+    /** Keeps erroring out in the console, not sure why */
+    // a.payload.map(function (ts) {
+    //   let index = _.findIndex(s.tool_slots, { id: ts.id });
+    //   s.tool_slots.splice(index, 1, ts);
+    // });
+
     // TODO: Find a more elegant solution to this problem: nested resource?
     // Deactivate all.
     s.tools.all.map(t => t.status = "inactive");
@@ -79,13 +89,26 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     return s;
   })
   .add<UpdateToolSlotPayl>("UPDATE_TOOL_SLOT", function (s, a) {
-    let { name, value } = a.payload;
     let slot = _.find(s.tool_slots, { id: a.payload.id });
     let bay = _.findWhere(s.tool_bays, { id: slot.tool_bay_id });
     bay.dirty = true;
-    slot.tool_id = value;
     slot.dirty = true;
-    return s;
+    // TODO: Index values instead of a switch()
+    let { name, value } = a.payload;
+    switch (name) {
+      case "x":
+        slot.x = value;
+        return s;
+      case "y":
+        slot.y = value;
+        return s;
+      case "z":
+        slot.z = value;
+        return s;
+      default:
+        slot.tool_id = value;
+        return s;
+    }
   })
   /** Tools */
   .add<Tool[]>("SAVE_TOOLS_OK", function (s, a) {

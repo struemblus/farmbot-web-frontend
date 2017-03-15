@@ -1,23 +1,21 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FarmEvent } from "../interfaces";
+import {
+  FarmEvent,
+  AddFarmEventState,
+  AddEditFarmEventProps
+} from "../interfaces";
 import {
   FBSelect,
   BlurableInput,
   Col,
   Row,
-  BackArrow,
-  DropDownItem
+  BackArrow
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import {
-  mapStateToPropsAddEdit,
-  AddEditFarmEventProps
-} from "./map_state_to_props_add_edit";
+import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 import { hasKey } from "../../util";
-
-type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
 
 // Could not get this to work when putting it in mapStateToProps
 interface PropsWithRouter extends AddEditFarmEventProps {

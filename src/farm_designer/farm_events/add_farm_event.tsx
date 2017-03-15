@@ -1,6 +1,10 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FarmEvent } from "../interfaces";
+import {
+  FarmEvent,
+  AddFarmEventState,
+  AddEditFarmEventProps
+} from "../interfaces";
 import {
   FBSelect,
   BlurableInput,
@@ -10,12 +14,7 @@ import {
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import {
-  mapStateToPropsAddEdit,
-  AddEditFarmEventProps
-} from "./map_state_to_props_add_edit";
-
-type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
+import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
 
 @connect(mapStateToPropsAddEdit)
 export class AddFarmEvent extends React.Component<AddEditFarmEventProps,

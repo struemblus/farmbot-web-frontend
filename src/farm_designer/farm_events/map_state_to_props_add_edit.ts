@@ -1,26 +1,9 @@
-import { FarmEventForm, FarmEvent } from "../interfaces";
+import { AddEditFarmEventProps } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent, updateFarmEvent } from "../actions";
-import { Dictionary } from "farmbot/dist";
-import { Sequence } from "../../sequences/interfaces";
-import { Regimen } from "../../regimens/interfaces";
-
-export interface AddEditFarmEventProps {
-  selectOptions: DropDownItem[];
-  repeatOptions: DropDownItem[];
-  farmEvents: FarmEvent[];
-  sequenceById: Dictionary<Sequence>;
-  regimenById: Dictionary<Regimen>;
-  formatDate(input: string): string;
-  formatTime(input: string): string;
-  handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(fe: FarmEventForm): void;
-  update(fe: FarmEventForm): void;
-  delete(farm_event_id: number): void;
-}
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -70,7 +53,9 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   };
 
   let repeatOptions = [
-    { label: "Do not repeat", value: "never", name: "time_unit" },
+    // Removing this for now until prod. deploy is over.
+    //   - R.C. Mar 2017
+    // { label: "Do not repeat", value: "never", name: "time_unit" },
     { label: "minutes", value: "minutely", name: "time_unit" },
     { label: "hours", value: "hourly", name: "time_unit" },
     { label: "days", value: "daily", name: "time_unit" },

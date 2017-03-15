@@ -1,7 +1,7 @@
 import * as React from "react";
-import { copy, remove, StepParams } from "./step_tiles/index";
+import { copy, remove } from "./step_tiles/index";
 import { SequenceBodyItem as Step, Execute } from "farmbot";
-import { Sequence } from "./interfaces";
+import { Sequence, StepParams } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
 import { FBSelect, DropDownItem } from "../ui";

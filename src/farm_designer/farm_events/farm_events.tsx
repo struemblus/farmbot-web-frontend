@@ -3,8 +3,8 @@ import { Link } from "react-router";
 import { FBSelect, Row, Col } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
-import * as moment from "moment";
-import { mapStateToProps, FarmEventProps } from "./map_state_to_props";
+import { mapStateToProps } from "./map_state_to_props";
+import { FarmEventProps } from "../interfaces";
 
 @connect(mapStateToProps)
 export class FarmEvents extends React.Component<FarmEventProps, {}> {
@@ -29,7 +29,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
                 {farmEvent.timeStr}
               </div>
               <div className="event-title col-xs-8">
-                ({farmEvent.executableId}) {farmEvent.executableName}
+                {farmEvent.executableName}
               </div>
               <Link to={`/app/designer/farm_events/` +
                 (farmEvent.id || "UNSAVED_EVENT").toString()}>
@@ -43,7 +43,6 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
   }
 
   render() {
-
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <div className="panel-tabs">

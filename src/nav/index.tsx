@@ -1,10 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../interfaces";
-import {
-  DropDownProps,
-  NavBarState
-} from "./interfaces";
+import { DropDownProps, NavBarState } from "./interfaces";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import { connect } from "react-redux";
 import { t } from "i18next";

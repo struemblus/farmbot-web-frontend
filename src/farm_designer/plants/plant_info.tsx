@@ -1,14 +1,10 @@
 import * as React from "react";
-import { BackArrow } from "../../ui";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-
-interface PlantInfoProps extends Everything {
-  params: { plant_id: string };
-}
+import { PlantInfoProps } from "../interfaces";
 
 @connect((state: Everything) => state)
 export class PlantInfo extends React.Component<PlantInfoProps, {}> {

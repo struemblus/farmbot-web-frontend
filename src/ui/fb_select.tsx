@@ -45,7 +45,7 @@ export interface SelectState {
 }
 
 /** Used as a placeholder for a selection of "none" when allowEmpty is true. */
-const NULL_CHOICE: Readonly<DropDownItem> = {
+export const NULL_CHOICE: Readonly<DropDownItem> = {
   label: "None",
   value: ""
 };

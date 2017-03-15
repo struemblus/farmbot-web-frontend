@@ -1,21 +1,11 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { BackArrow } from "../../ui";
-import { CropLiveSearchResult } from "../interfaces";
+import { SearchBoxParams } from "../interfaces";
 import { Everything } from "../../interfaces";
 import { openFarmSearchQuery } from "../actions";
 import { connect } from "react-redux";
 import { t } from "i18next";
-
-interface SpeciesCatalogTileProps {
-  result: CropLiveSearchResult;
-  dispatch: Function;
-}
-
-interface SearchBoxParams {
-  query: string;
-  dispatch: Function;
-}
 
 function SearchBox({ query, dispatch }: SearchBoxParams) {
   return <input value={query}

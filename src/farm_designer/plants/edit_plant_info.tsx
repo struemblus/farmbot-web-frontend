@@ -5,12 +5,7 @@ import { connect } from "react-redux";
 import * as moment from "moment";
 import { destroyPlant } from "../actions";
 import { t } from "i18next";
-
-interface EditPlantInfoProps extends Everything {
-  params: {
-    plant_id: string;
-  };
-}
+import { EditPlantInfoProps } from "../interfaces";
 
 @connect((state: Everything) => state)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
@@ -58,7 +53,6 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
           </button>
         </div>
       </div>
-    </div >;
-
+    </div>;
   }
 }

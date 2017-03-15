@@ -1,7 +1,6 @@
 import * as React from "react";
-import { HSV, HiLo } from "./interfaces";
+import { HSV, HiLo, EnvSliderProps, EnvSliderState } from "./interfaces";
 import { RangeSlider } from "@blueprintjs/core/dist/components/slider/rangeSlider";
-import { WeedDetectorENV } from "./index";
 
 /** Max HSV allowed by farmbot weed detector. */
 const RANGE: HSV<HiLo> = {
@@ -16,16 +15,6 @@ const DEFAULTS: HSV<HiLo> = {
   S: { lo: 50, hi: 255 },
   V: { lo: 50, hi: 255 }
 };
-
-interface EnvSliderProps {
-  name: keyof HSV<{}>;
-  env: Partial<WeedDetectorENV>;
-  onChange?: (key: keyof HSV<{}>, val: [number, number]) => void;
-}
-
-interface EnvSliderState extends Partial<HiLo> {
-  sliding: boolean;
-}
 
 export class HsvSlider extends React.Component<EnvSliderProps, EnvSliderState> {
   constructor() {

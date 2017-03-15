@@ -5,19 +5,7 @@ import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
 import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
-
-interface SpeciesInfoProps extends Everything {
-  params: {
-    species: string;
-  };
-}
-
-interface DraggableEvent {
-  currentTarget: HTMLImageElement;
-  dataTransfer: {
-    setDragImage: Function;
-  };
-}
+import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
 
 @connect((state: Everything) => state)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {

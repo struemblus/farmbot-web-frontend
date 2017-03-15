@@ -1,9 +1,9 @@
-import { FarmEvent } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { Sequence } from "../../sequences/interfaces";
 import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
+import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
 
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
@@ -19,35 +19,6 @@ const MONTHS: Readonly<Dictionary<string>> = {
   "02": "Feb",
   "01": "Jan"
 };
-
-/** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
- * that executes every 8 hours will create 3 CalendarOccurrences in a single
- * CalendarDay */
-interface CalendarOccurrence {
-  sortKey: number;
-  timeStr: string;
-  executableName: string;
-  executableId: number;
-  id: number;
-}
-
-/** A group of FarmEvents for a particular day on the calendar. */
-interface CalendarDay {
-  /** Unix timestamp. Used as a unique key in JSX and for sorting. */
-  sortKey: string;
-  month: string;
-  day: number;
-  /** Every event that will execute on that day. */
-  items: CalendarOccurrence[];
-}
-
-
-export interface FarmEventProps {
-  /** Sorted list of the first (100?) events due on the calendar. */
-  calendarRows: CalendarDay[];
-  /** Call this function to navigate to different pages. */
-  push: (url: string) => void;
-}
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
 export function mapStateToProps(state: Partial<Everything>): FarmEventProps {

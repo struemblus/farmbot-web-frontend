@@ -1,12 +1,6 @@
 import * as React from "react";
-import { Everything } from "../interfaces";
 import * as _ from "lodash";
-
-interface MobileSequencesNavProps extends Everything {
-  params: {
-    sequence: string;
-  };
-}
+import { MobileSequencesNavProps } from "./interfaces";
 
 export function MobileSequencesNav(props: MobileSequencesNavProps) {
   return <div className="mobile-only sequences-mobile-nav col-md-3 col-sm-12">

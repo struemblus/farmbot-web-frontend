@@ -17,22 +17,10 @@ input[type=time] {
     border-radius: 0;
 }
 
-.page {
-    padding-top: 2rem;
-}
-
-.page>.row>*>.row {
-    margin-bottom: 20px;
-}
-
 @media (max-width: 830px) {
     .app {
         overflow: hidden !important;
     }
-}
-
-.is-deleted-true {
-    display: none;
 }
 
 body {
@@ -104,6 +92,7 @@ a {
         font-size: 2rem;
         right: 1rem;
         top: 0.2rem;
+        line-height: initial;
     }
 }
 
@@ -197,14 +186,10 @@ fieldset {
     font-size: 1.5rem;
 }
 
-.webcam-widget label {
-    padding: 0.5rem 0 0 0.5rem;
-}
-
 .clear-webcam-url-btn {
     position: absolute;
     left: 2rem;
-    top: 3.2rem;
+    top: 6.2rem;
 }
 
 .webcam-url-input {
@@ -266,6 +251,10 @@ ul {
     position: relative;
     input {
         height: 30px !important;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-right: 3rem !important;
     }
     .select-results-container {
         position: absolute;

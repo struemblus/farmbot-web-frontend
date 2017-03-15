@@ -5,15 +5,22 @@ import {
   SequenceOptions,
   Sequence,
   ChanParams,
-  MessageParams
+  MessageParams,
+  EditCurrentSequence,
+  PushStep,
+  SpliceStepPayl,
+  MoveStepPayl,
+  ChangeStep,
+  ChangeStepSelect,
+  RemoveStep,
+  SelectSequence,
+  SequenceApiResponse
 } from "./interfaces";
 import { success, error, DropDownItem } from "../ui";
 import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
-import { Color } from "../interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as i18next from "i18next";
 import { API } from "../api";
-import { Tool } from "../tools/interfaces";
 
 export function addChan({ channel_name, index }: ChanParams) {
   return {
@@ -56,23 +63,11 @@ export function copySequence(payload: Sequence) {
   };
 }
 
-export interface EditCurrentSequence {
-  name?: string;
-  color?: Color;
-};
-
 export function editCurrentSequence(updates: SequenceOptions):
   ReduxAction<EditCurrentSequence> {
   return {
     type: "EDIT_CURRENT_SEQUENCE",
     payload: updates
-  };
-}
-
-export interface PushStep {
-  type: "PUSH_STEP";
-  payload: {
-    step: Step;
   };
 }
 
@@ -83,23 +78,12 @@ export function pushStep(step: Step): PushStep {
   };
 }
 
-export interface SpliceStepPayl {
-  insertBefore: number;
-  step: Step;
-}
-
 export function spliceStep(step: Step, insertBefore: number):
   ReduxAction<SpliceStepPayl> {
   return {
     type: "SPLICE_STEP",
     payload: { step, insertBefore }
   };
-}
-
-export interface MoveStepPayl {
-  step: Step;
-  from: number;
-  to: number;
 }
 
 export function moveStep(step: Step,
@@ -112,40 +96,11 @@ export function moveStep(step: Step,
   };
 }
 
-type CHANGE_STEP = "CHANGE_STEP";
-export interface ChangeStep {
-  type: CHANGE_STEP;
-  payload: {
-    step: Step;
-    index: number;
-  };
-}
-
 export function changeStep(index: number, step: Step): ChangeStep {
   return {
     type: "CHANGE_STEP",
     payload: { step, index }
   };
-}
-
-type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT" |
-  "UPDATE_SUB_SEQUENCE";
-
-export interface ChangeStepSelect {
-  type: CHANGE_STEP_SELECT;
-  payload: {
-    value: number | string;
-    index: number;
-    field: string;
-    type?: string;
-  };
-}
-
-export interface SelectPayl {
-  value: number | string;
-  index: number;
-  field: string;
-  type?: string;
 }
 
 export function changeStepSelect(
@@ -188,13 +143,6 @@ export function updateSubSequence(
   };
 }
 
-export interface RemoveStep {
-  type: "REMOVE_STEP";
-  payload: {
-    index: number;
-  };
-};
-
 export function removeStep(index: number): RemoveStep {
   return {
     type: "REMOVE_STEP",
@@ -231,10 +179,6 @@ export function saveSequence(sequence: Sequence, notify = true): Thunk {
   };
 };
 
-export interface SaveSequenceOk {
-  type: string;
-  payload: Sequence;
-}
 export function saveSequenceOk(sequence: Sequence) {
   return {
     type: "SAVE_SEQUENCE_OK",
@@ -249,11 +193,6 @@ export function saveSequenceNo(error: AxiosErrorResponse) {
     payload: error
   };
 }
-
-export interface SelectSequence {
-  type: "SELECT_SEQUENCE";
-  payload: number;
-};
 
 export function selectSequence(index: number): SelectSequence {
   return {
@@ -299,9 +238,6 @@ export function deleteSequence(index: number) {
       });
     }
 
-    interface SequenceApiResponse {
-      sequence?: string;
-    }
     function deleteSequenceErr(response:
       Axios.AxiosXHR<SequenceApiResponse>) {
       if (response && response.data) {

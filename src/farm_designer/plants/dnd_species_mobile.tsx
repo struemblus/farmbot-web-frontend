@@ -5,23 +5,11 @@ import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
 import { DEFAULT_ICON } from "../../open_farm/index";
-
-interface SpeciesInfoProps extends Everything {
-  params: {
-    species: string;
-  };
-}
-
-interface DraggableEvent {
-  currentTarget: HTMLImageElement;
-  dataTransfer: {
-    setDragImage: Function | undefined;
-  };
-}
-
-interface DNDSpeciesMobileState {
-  isDragging: boolean;
-}
+import {
+  SpeciesInfoProps,
+  DNDSpeciesMobileState,
+  DraggableEvent
+} from "../interfaces";
 
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */
@@ -37,8 +25,12 @@ DNDSpeciesMobileState> {
     let img = document.createElement("img");
     // Stub until we figure out dynamic drag images
     img.src = DEFAULT_ICON;
-    // Because of MS Edge.
-    e.dataTransfer.setDragImage
+
+    e
+      && e.dataTransfer
+      // Because of Android
+      && e.dataTransfer.setDragImage
+      // Because of MS Edge.
       && e.dataTransfer.setDragImage(img, 50, 50);
   }
 

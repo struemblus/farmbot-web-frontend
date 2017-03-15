@@ -11,8 +11,7 @@ export class EStopButton extends React.Component<Everything, {}> {
     let emergencyLockStatusText = locked ? "UNLOCK" : "E-STOP";
 
     if (this.props.auth) {
-      return <button className={`red widget-control button-like
-                    ${emergencyLockStatusColor}`}
+      return <button className={`red button-like ${emergencyLockStatusColor}`}
         type="button"
         onClick={toggleEmergencyLock}>
         {t(emergencyLockStatusText)}
@@ -20,6 +19,5 @@ export class EStopButton extends React.Component<Everything, {}> {
     } else {
       return <span></span>;
     }
-
   }
 }
