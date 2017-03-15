@@ -118,7 +118,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
               let isActive = parseInt(this.props.params.plant_id) === p.id ?
                 "active" : "";
 
-              return <Link to={`/app/designer/plants/` + p.id.toString()}
+              return <Link to={`/app/designer/plants/${p.id}`}
                 className={`plant-link-wrapper ` + isActive.toString()}
                 key={p.id}>
                 <GardenPlant

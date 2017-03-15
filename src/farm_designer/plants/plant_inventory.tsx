@@ -22,7 +22,7 @@ function OptionComponent(plants: Plant[]) {
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     return <div className="plant-search-item">
-      <img className="plant-search-item-image" src={url} />
+      <img className="plant-search-item-image" src={DEFAULT_ICON} />
       <span className="plant-search-item-name">{props.label}</span>
       <i className="plant-search-item-age">
         {daysOld} days old</i>

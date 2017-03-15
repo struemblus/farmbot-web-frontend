@@ -52,7 +52,16 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
   })
   .add<number>("DETACH_TOOL", function (s, a) {
     let t = _(s.tool_slots).where({ id: a.payload }).first();
-    if (t) { t.tool_id = undefined; }
+    // COMMENTS WELCOME ON THIS ONE! -RC
+    // JSON.stringify strips undefined keys.
+    // We have two options at this point:
+    // * Start using `null` and `undefined`, resulting in sadness.
+    // * Change `undefined` to `null` everywhere in the app, requiring huge
+    //   overhaul.
+    // * Use _.set(t, "tool_id", null) to circumvent typechecking
+    // * Just use `null` instead of `undefined` in this one spot and call it a
+    //   day.
+    if (t) { t.tool_id = null as any; }
     return s;
   })
   .add<ToolSlot[]>("SAVE_TOOL_SLOTS_OK", function (s, a) {

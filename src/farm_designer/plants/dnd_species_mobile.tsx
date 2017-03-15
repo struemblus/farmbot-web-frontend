@@ -37,8 +37,12 @@ DNDSpeciesMobileState> {
     let img = document.createElement("img");
     // Stub until we figure out dynamic drag images
     img.src = DEFAULT_ICON;
-    // Because of MS Edge.
-    e.dataTransfer.setDragImage
+
+    e
+      && e.dataTransfer
+      // Because of Android
+      && e.dataTransfer.setDragImage
+      // Because of MS Edge.
       && e.dataTransfer.setDragImage(img, 50, 50);
   }
 
