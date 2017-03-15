@@ -12,6 +12,7 @@ import * as moment from "moment";
 import { Plant as newPlant } from "../farm_designer/plant";
 
 const initialState: Sync = {
+  loaded: false,
   api_version: "",
   compat_num: 0,
   device: {
@@ -43,6 +44,11 @@ export let syncReducer = generateReducer<Sync>(initialState)
   })
   .add<Sync>("FETCH_SYNC_OK", function (s, a) {
     s = a.payload;
+    s.loaded = false;
+    return s;
+  })
+  .add<{}>("SYNC_TIMEOUT_EXCEEDED", function (s, a) {
+    s.loaded = true;
     return s;
   })
   .add<Plant>("SAVE_PLANT_OK", function (s, a) {
