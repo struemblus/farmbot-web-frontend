@@ -111,7 +111,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                 <BlurableInput
                   onCommit={this.updateInputValue}
                   type="number"
-                  name="location-(x"
+                  name="location-x"
                   value={(this.coord().x || 0).toString()} />
               </Col>
               <Col xs={3}>
