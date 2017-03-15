@@ -12,7 +12,7 @@ let STUB_IMAGE = DEFAULT_ICON;
 let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
 
 let openFarmSearchQuery = _.throttle((q: string) =>
-  Axios.get<CropSearchResult>(url(q)), 1500);
+  Axios.get<CropSearchResult>(url(q)), 800);
 
 @connect((state: Everything) => state)
 export class OpenFarmSearch extends React.Component<OFSearchProps,
@@ -23,7 +23,7 @@ OFSearchState> {
   }
 
   componentWillReceiveProps() {
-    let debounced = _.debounce(this.search, 1500);
+    let debounced = _.debounce(this.search, 800);
     debounced();
   }
 
@@ -50,12 +50,17 @@ OFSearchState> {
         });
 
         this.setState({ results: payload });
+
+        this.props.dispatch({
+          type: "OF_SEARCH_RESULTS_OK",
+          payload
+        });
       });
   }
 
   render() {
     return <div>
-      {this.state.results.map(resp => {
+      {this.state.results.concat(this.props.designer.cropSearchResults).map(resp => {
         let { crop, image } = resp;
         return <Link key={resp.crop.slug}
           draggable={false}
