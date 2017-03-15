@@ -1,15 +1,12 @@
 import * as React from "react";
-import { RegimenProps } from "../interfaces";
+import { RegimenListItemProps } from "../interfaces";
 import { randomColor, isMobile } from "../../util";
 import { selectRegimen } from "../actions";
 import { Link } from "react-router";
 
-interface RegimenListItemProps extends RegimenProps {
-  index: number;
-}
-export function RegimenListItem({regimen,
+export function RegimenListItem({ regimen,
   dispatch,
-  index}: RegimenListItemProps) {
+  index }: RegimenListItemProps) {
   let color = (regimen && regimen.color) || randomColor();
   let style = `block block-wrapper full-width text-left ${color}-block 
         block-header`;

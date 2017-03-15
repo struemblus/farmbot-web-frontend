@@ -1,12 +1,7 @@
 import * as React from "react";
 import { newRegimen } from "../actions";
 import { t } from "i18next";
-
-interface AddRegimenProps {
-  dispatch: Function;
-  className?: string;
-  children?: JSX.Element;
-}
+import { AddRegimenProps } from "../interfaces";
 
 export function AddRegimen(props: AddRegimenProps) {
   props.className ? props.className : "";

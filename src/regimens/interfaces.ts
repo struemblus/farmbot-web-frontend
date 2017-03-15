@@ -3,9 +3,7 @@ import { Sequence } from "../sequences/interfaces";
 import { Color, Everything } from "../interfaces";
 
 export interface RegimenPropsWithParams extends Everything {
-  params: {
-    regimen: string;
-  };
+  params: { regimen: string; };
 }
 
 /** Used by UI widgets that modify a regimen */
@@ -44,4 +42,14 @@ export interface RegimensState {
 export interface RegimensActionHandler {
   [actionName: string]: (state: RegimensState,
     action: ReduxAction<any>) => RegimensState;
+}
+
+export interface AddRegimenProps {
+  dispatch: Function;
+  className?: string;
+  children?: JSX.Element;
+}
+
+export interface RegimenListItemProps extends RegimenProps {
+  index: number;
 }
