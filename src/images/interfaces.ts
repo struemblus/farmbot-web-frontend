@@ -53,8 +53,6 @@ export interface FarmbotPickerProps {
   h: [number, number];
   s: [number, number];
   v: [number, number];
-  hsv: { h: number, s: number, v: number };
-  hsl: { h: number, s: number, l: number };
 }
 
 export interface EnvSliderProps {

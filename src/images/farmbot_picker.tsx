@@ -64,16 +64,22 @@ export class FarmbotPicker extends React.Component<FarmbotPickerProps, {}> {
   }
 
   handleChange() { }
-  CustomPointer() {
-    return <div />;
-  }
-
+  CustomPointer = () => <div />;
   render() {
+    let H_AVG = ((this.props.h[1] * 2 + this.props.h[0] * 2) / 2);
+    /** 💥💥💥SURPRISING CODE AHEAD:
+     * I think the typings for `react-color` might be missing `hsv` and `hsl`.
+     * If you
+     */
+    let dontTouchThis = {
+      hsv: { h: H_AVG, s: 0, v: 0 },
+      hsl: { h: H_AVG, s: 0, l: 0 }
+    };
     return <div>
       <div style={{ width: "100%", paddingBottom: "15%" }} />
       <div style={this.HueCSS()}>
         <Hue
-          {...this.props}
+          {...dontTouchThis}
           pointer={this.CustomPointer}
           onChange={this.handleChange} />
         <div style={this.HueboxCSS()} />
@@ -81,7 +87,7 @@ export class FarmbotPicker extends React.Component<FarmbotPickerProps, {}> {
       <div style={{ width: "100%", paddingBottom: "2%" }} />
       <div style={this.SaturationCSS()}>
         <Saturation
-          {...this.props}
+          {...dontTouchThis}
           pointer={this.CustomPointer}
           onChange={this.handleChange} />
         <div style={this.SaturationboxCSS()} />

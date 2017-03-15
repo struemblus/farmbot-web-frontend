@@ -8,7 +8,7 @@ interface Props {
   onPhotoClick(): void;
   onSettingToggle(): void;
   onDeletionClick(): void;
-  deletionProgress: string | undefined;
+  deletionProgress?: string | undefined;
   settingsMenuOpen: boolean;
 }
 
