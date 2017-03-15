@@ -21,7 +21,6 @@ import {
 import { t } from "i18next";
 
 export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
-
   constructor() {
     super();
     this.state = { x: 0, y: 0, z: 0 };

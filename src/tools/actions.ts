@@ -4,7 +4,6 @@ import { Thunk, ReduxAction } from "../redux/interfaces";
 import { API } from "../api";
 import { ToolBay, ToolSlot, Tool } from "./interfaces";
 import { success, error } from "../ui";
-import * as _ from "lodash";
 import { prettyPrintApiErrors } from "../util";
 
 /** Generic */
