@@ -3,6 +3,7 @@ import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 import { Farmbot } from "farmbot";
 import { smoothScrollToBottom } from "../util";
+import { Widget, WidgetHeader, WidgetBody, Row } from "../ui/index";
 
 export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
   const ALL_THE_BUTTONS = [
@@ -27,23 +28,23 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       }}
       color="blue">
       {t("MOVE ABSOLUTE")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "move_relative",
         args: { x: 0, y: 0, z: 0, speed: Farmbot.defaults.speed }
       }}
-      color="green" >
+      color="green">
       {t("MOVE RELATIVE")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "write_pin",
         args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
       }}
-      color="orange" >
+      color="orange">
       {t("WRITE PIN")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "read_pin",
@@ -53,17 +54,17 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
           label: "---"
         }
       }}
-      color="yellow" >
+      color="yellow">
       {t("READ PIN")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "wait",
         args: { milliseconds: 0 }
       }}
-      color="brown" >
+      color="brown">
       {t("WAIT")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "send_message",
@@ -72,9 +73,9 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
           message_type: "success"
         }
       }}
-      color="red" >
+      color="red">
       {t("SEND MESSAGE")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "_if",
@@ -86,68 +87,53 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
           _else: { kind: "nothing", args: {} }
         }
       }}
-      color="purple" >
+      color="purple">
       {t("IF STATEMENT")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "execute",
         args: { sequence_id: 0 }
       }}
-      color="gray" >
+      color="gray">
       {t("EXECUTE SEQUENCE")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "execute_script",
         args: { label: "plant-detection" }
       }}
-      color="pink" >
+      color="pink">
       {t("Run Farmware")}
-    </StepButton >,
+    </StepButton>,
     <StepButton dispatch={dispatch}
       step={{
         kind: "take_photo",
         args: {}
       }}
-      color="pink" >
+      color="pink">
       {t("TAKE PHOTO")}
-    </StepButton >
+    </StepButton>
   ];
-  return (<div>
-    <div className="widget-wrapper step-button-cluster-widget">
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="widget-header">
-            <h5>{("Commands")}</h5>
-            <i className="fa fa-question-circle widget-help-icon">
-              <div className="widget-help-text">
-                {(`These are the most basic commands FarmBot
-                            can execute. Drag and drop them to create sequences
-                            for watering, planting seeds, measuring soil
-                            properties, and more.`)}
-              </div>
-            </i>
-          </div>
-        </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="widget-content no-bottom-padding">
-            <div className="row">
-              {
-                ALL_THE_BUTTONS.map(function (el, inx) {
-                  return <div key={inx} onClick={
-                    // Follows user down the page as they add sequences.
-                    () => { smoothScrollToBottom(); }}>
-                    {el}
-                  </div>;
-                })
-              }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div >);
+  return <Widget className="widget-wrapper step-button-cluster-widget">
+    <WidgetHeader title="Commands"
+      helpText={`These are the most basic commands FarmBot
+                  can execute. Drag and drop them to create sequences
+                  for watering, planting seeds, measuring soil
+                  properties, and more.`}>
+    </WidgetHeader>
+    <WidgetBody>
+      <Row>
+        {
+          ALL_THE_BUTTONS.map(function (el, inx) {
+            return <div key={inx} onClick={
+              // Follows user down the page as they add sequences.
+              () => { smoothScrollToBottom(); }}>
+              {el}
+            </div>;
+          })
+        }
+      </Row>
+    </WidgetBody>
+  </Widget>;
 }

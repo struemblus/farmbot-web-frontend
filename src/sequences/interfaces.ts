@@ -1,14 +1,18 @@
 import { Color } from "../interfaces";
-import { SelectOptionsParams } from "../interfaces";
+import { SelectOptionsParams, Everything } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
 import {
   Sequence as CeleryScriptSequence,
   SequenceBodyItem,
   MoveAbsolute,
-  Vector3
+  Vector3,
+  CeleryNode,
+  LegalArgString
 } from "farmbot";
-import { Tool } from "../tools/interfaces";
+import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
+import { IStepInput } from "./step_tiles/index";
+import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
@@ -41,6 +45,12 @@ export interface SequencesListProps {
 
 export interface NamedVector3 extends Vector3 {
   name: string;
+}
+
+export interface MobileSequencesNavProps extends Everything {
+  params: {
+    sequence: string;
+  };
 }
 
 /** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */
@@ -79,3 +89,144 @@ export interface ChangeMoveAbsInput {
   index: number;
   value: string;
 }
+
+export type StatelessInput = (p: IStepInput) => JSX.Element;
+
+export type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
+
+export interface StepButtonParams {
+  step: SequenceBodyItem;
+  dispatch: Function;
+  children?: JSX.Element | undefined;
+  color: "blue"
+  | "green"
+  | "orange"
+  | "yellow"
+  | "brown"
+  | "red"
+  | "purple"
+  | "pink"
+  | "gray";
+}
+
+export interface CopyParams {
+  dispatch: Function;
+  step: SequenceBodyItem;
+}
+
+export interface RemoveParams {
+  index: number;
+  dispatch: Function;
+}
+
+export interface UpdateStepParams {
+  dispatch: Function;
+  step: CeleryNode;
+  index: number;
+  field: string;
+}
+
+export interface IStepInput {
+  step: CeleryNode;
+  field: LegalArgString;
+  dispatch: Function;
+  index: number;
+}
+
+export interface StepParams {
+  dispatch: Function;
+  step: SequenceBodyItem;
+  index: number;
+  current: Sequence;
+  all: Sequence[];
+  tools: ToolsState;
+}
+
+export type StepTile = (input: StepParams) => JSX.Element;
+
+export interface StepDictionary {
+  [stepName: string]: StepTile;
+};
+
+export interface StepTitleBarProps {
+  step: SequenceBodyItem;
+  index: number;
+  dispatch: Function;
+}
+
+export interface EditCurrentSequence {
+  name?: string;
+  color?: Color;
+};
+
+export interface PushStep {
+  type: "PUSH_STEP";
+  payload: {
+    step: CeleryNode;
+  };
+}
+
+export interface SpliceStepPayl {
+  insertBefore: number;
+  step: CeleryNode;
+}
+
+export interface MoveStepPayl {
+  step: CeleryNode;
+  from: number;
+  to: number;
+}
+
+export type CHANGE_STEP = "CHANGE_STEP";
+
+export interface ChangeStep {
+  type: CHANGE_STEP;
+  payload: {
+    step: CeleryNode;
+    index: number;
+  };
+}
+
+export type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT" | "UPDATE_SUB_SEQUENCE";
+
+export interface ChangeStepSelect {
+  type: CHANGE_STEP_SELECT;
+  payload: {
+    value: number | string;
+    index: number;
+    field: string;
+    type?: string;
+  };
+}
+
+export interface SelectPayl {
+  value: number | string;
+  index: number;
+  field: string;
+  type?: string;
+}
+
+export interface RemoveStep {
+  type: "REMOVE_STEP";
+  payload: {
+    index: number;
+  };
+};
+
+export interface SaveSequenceOk {
+  type: string;
+  payload: Sequence;
+}
+
+export interface SelectSequence {
+  type: "SELECT_SEQUENCE";
+  payload: number;
+};
+
+export interface SequenceApiResponse {
+  sequence?: string;
+}
+
+export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
+
+export type dispatcher = (a: Function | { type: string }) => DataXferObj;

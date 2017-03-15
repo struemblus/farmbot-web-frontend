@@ -1,9 +1,8 @@
 import * as React from "react";
-import { IStepInput, updateStep } from "../step_tiles/index";
+import { IStepInput } from "../step_tiles/index";
 import { InputUnknown } from "./input_unknown";
 import { InputDefault } from "./input_default";
-type StatelessInput = (p: IStepInput) => JSX.Element;
-type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
+import { InputChoiceDict } from "../interfaces";
 
 const CHOICES: InputChoiceDict = {
   speed: InputDefault,
@@ -26,15 +25,10 @@ const CHOICES: InputChoiceDict = {
   location: SomethingSpecial
 };
 
-export function SomethingSpecial({
-  step,
-  field,
-  dispatch,
-  index
-}: IStepInput) {
+export function SomethingSpecial({ step }: IStepInput) {
   switch (step.kind) {
-    case "tool": return <p> This would be a tool</p>;
-    case "coordinate": return <p> This would be a coordinate</p>;
+    case "tool": return <p>This would be a tool</p>;
+    case "coordinate": return <p>This would be a coordinate</p>;
     default:
       throw new Error("This expects a tool or coordinate only.");
   }

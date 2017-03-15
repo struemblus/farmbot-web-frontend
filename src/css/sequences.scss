@@ -1,4 +1,4 @@
-.widget-wrapper.sequences-widget .fa-plus {
+.widget-wrapper.sequence-list-widget .fa-plus {
     display: none;
 }
 
@@ -9,11 +9,11 @@
         .drag-drop-area {
             display: none;
         }
-        .widget-wrapper.sequences-widget {
+        .widget-wrapper.sequence-list-widget {
             display: none;
         }
     }
-    .widget-wrapper.sequences-widget {
+    .widget-wrapper.sequence-list-widget {
         box-shadow: none;
         .fa-plus {
             display: block;

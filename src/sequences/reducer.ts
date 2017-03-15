@@ -8,15 +8,13 @@ import {
   ChanParams,
   MessageParams,
   ChangeMoveAbsSelect,
-  ChangeMoveAbsInput
-} from "./interfaces";
-import {
-  nullSequence,
+  ChangeMoveAbsInput,
   EditCurrentSequence,
-  SpliceStepPayl,
+  SelectPayl,
   MoveStepPayl,
-  SelectPayl
-} from "./actions";
+  SpliceStepPayl
+} from "./interfaces";
+import { nullSequence } from "./actions";
 import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 import * as _ from "lodash";

@@ -8,7 +8,8 @@
 .account,
 .controls,
 .devices,
-.regimens {
+.regimens,
+.sequences {
     .widget-header {
         >*+* {
             margin-right: 1rem;
@@ -28,7 +29,7 @@
         &.no-bottom-padding {
             padding-bottom: 0px;
         }
-        .row:not(:last-child) {
+        >.row:not(:last-child) {
             margin-bottom: 1rem;
         }
     }
