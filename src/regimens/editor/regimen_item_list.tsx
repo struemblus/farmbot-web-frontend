@@ -28,8 +28,8 @@ export function RegimenItemList({ items, dispatch }: RegimenItemListProps) {
 
 function EmptyList({ }) {
   return <div>
-    <p> {t("This regimen is currently empty.")} </p>
-    <p> <i className="fa fa-arrow-left" />
+    <p>{t("This regimen is currently empty.")}</p>
+    <p><i className="fa fa-arrow-left" />
       {t(`Add sequences to this Regimen by using the "scheduler"`)}</p>
   </div>;
 }

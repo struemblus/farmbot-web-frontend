@@ -16,7 +16,7 @@ function save({ regimen, dispatch, url }: SaveButtonProps) {
 
 export function SaveButton({ regimen, dispatch, url }: SaveButtonProps) {
   if (regimen) {
-    return <button className="green button-like widget-control"
+    return <button className="green button-like"
       onClick={save({ dispatch, regimen, url })}>
       {t("Save") + (regimen.dirty ? "*" : "")}
     </button>;
