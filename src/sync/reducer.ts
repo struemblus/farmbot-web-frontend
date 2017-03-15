@@ -92,7 +92,7 @@ export let syncReducer = generateReducer<Sync>(initialState)
     property: string, value: string, farm_event_id: number
   }>("UPDATE_FARM_EVENT_START",
   function (s, { payload }) {
-    let { value, farm_event_id } = payload;
+    let { farm_event_id } = payload;
     let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
 
     switch (payload.property) {
@@ -135,7 +135,7 @@ export let syncReducer = generateReducer<Sync>(initialState)
     property: string, value: string, farm_event_id: number
   }>("UPDATE_FARM_EVENT_END",
   function (s, { payload }) {
-    let { value, farm_event_id } = payload;
+    let { farm_event_id } = payload;
     let currentEvent = _.findWhere(s.farm_events, { id: farm_event_id });
 
     switch (payload.property) {
