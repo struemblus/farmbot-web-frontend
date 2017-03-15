@@ -70,7 +70,9 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   };
 
   let repeatOptions = [
-    { label: "Do not repeat", value: "never", name: "time_unit" },
+    // Removing this for now until prod. deploy is over.
+    //   - R.C. Mar 2017
+    // { label: "Do not repeat", value: "never", name: "time_unit" },
     { label: "minutes", value: "minutely", name: "time_unit" },
     { label: "hours", value: "hourly", name: "time_unit" },
     { label: "days", value: "daily", name: "time_unit" },
