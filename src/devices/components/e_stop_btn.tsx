@@ -19,6 +19,5 @@ export class EStopButton extends React.Component<Everything, {}> {
     } else {
       return <span></span>;
     }
-
   }
 }

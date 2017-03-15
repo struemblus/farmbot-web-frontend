@@ -1,7 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { BotState } from "../interfaces";
-import { AuthState } from "../../auth/interfaces";
+import { FarmbotOsProps, FarmbotOsState } from "../interfaces";
 import {
   changeDevice,
   addDevice,
@@ -10,36 +9,25 @@ import {
   powerOff,
   factoryReset
 } from "../actions";
-import { FwUpdateButton } from "./fw_update_button";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { FBSelect, DropDownItem } from "../../ui/index";
-import { Dictionary } from "farmbot/dist";
+import { FBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
 ];
 
-interface Props {
-  bot: BotState;
-  auth: AuthState;
-  dispatch: Function;
-}
-
-interface State {
-  cameraStatus: "" | "sending" | "done" | "error";
-}
-
-export class FarmbotOsSettings extends React.Component<Props, State> {
+export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
+  FarmbotOsState> {
   constructor() {
     super();
     this.state = { cameraStatus: "" };
   }
-  changeBot(e: React.MouseEvent<HTMLInputElement>) {
+
+  changeBot = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     console.warn("If you are reading this method, refactor NOW! -RC");
-    let updates =
-      _.object([[e.currentTarget.name, e.currentTarget.value]]);
+    let updates = _.object([[e.currentTarget.name, e.currentTarget.value]]);
     this.props.dispatch(changeDevice(updates));
   }
 
@@ -49,8 +37,7 @@ export class FarmbotOsSettings extends React.Component<Props, State> {
     this.props.dispatch(addDevice(form));
   }
 
-
-  updateBot(e: React.MouseEvent<{}>) {
+  updateBot = (e: React.MouseEvent<{}>) => {
     this.props.dispatch(saveAccountChanges);
   }
 
@@ -73,148 +60,134 @@ export class FarmbotOsSettings extends React.Component<Props, State> {
       .informational_settings,
       "firmware_version",
       t("Not Connected to bot"));
-    return <div className="col-sm-12">
+    return <Widget className="device-widget">
       <form onSubmit={this.saveBot.bind(this)}>
-        <div className="row">
-          <div className="col-sm-12">
-            <button type="submit"
-              className={`button-like green widget-control`}
-              onClick={this.updateBot
-                .bind(this)}>
-              {t("SAVE")} {
-                this.props.bot.account
-                  .dirty ? "*" : ""}
-            </button>
-            <div className="widget-header">
-              <h5>{t("DEVICE")}</h5>
-              <i className={`fa
-                            fa-question-circle widget-help-icon`}>
-                <div className={`widget-help-text`}>
-                  {t(`This widget shows device information.`)}
-                </div>
-              </i>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="widget-content">
-              <table className="plain">
-                <tbody>
-                  <tr>
-                    <td>
-                      <label>
-                        {t("NAME")}
-                      </label>
-                    </td>
-                    <td colSpan={2}>
-                      <input name="name"
-                        onChange={this.changeBot.bind(this)}
-                        value={this.props.bot.account.name} />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("NETWORK")}</label>
-                    </td>
-                    <td colSpan={2}>
-                      <p> {`mqtt://${this.props.auth.token.unencoded.mqtt}`} </p>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("FARMBOT OS")}</label>
-                    </td>
-                    <td className="devices-pad">
-                      <p>
-                        {t("Version")}
-                        {this
-                          .props
-                          .bot
-                          .hardware
-                          .informational_settings.controller_version
-                          || t(" unknown (offline)")}
-                      </p>
-                      <OsUpdateButton { ...this.props } />
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("RESTART FARMBOT")} </label>
-                    </td>
-                    <td>
-                      <p>
-                        {t(`This will restart FarmBot's Raspberry
-                                            Pi and controller software.`)}
-                      </p>
-                    </td>
-                    <td>
-                      <button type="button"
-                        className="button-like yellow"
-                        onClick={reboot}>
-                        {t("RESTART")}
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("SHUTDOWN FARMBOT")}</label>
-                    </td>
-                    <td>
-                      <p>
-                        {t(`This will shutdown FarmBot's Raspberry Pi.
-                                              To turn it back on, unplug FarmBot
-                                              and plug it back in.`)}
-                      </p>
-                    </td>
-                    <td>
-                      <button type="button"
-                        className="button-like red"
-                        onClick={powerOff} >
-                        {t("SHUTDOWN")}
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("Factory Reset")}</label>
-                    </td>
-                    <td>
-                      <p>
-                        {t(`
-Factory resetting your FarmBot will destroy all data on the device, revoking your FarmBot's abilily to connect to your web app account and your home wifi. Upon factory resetting, your device will restart into Conflgurator mode. Factory resetting your FarmBot will not affect any data or settings from your web app account, allowing you to do a complete restore to your device once it is back online and paired with your web app account.`)}
-                      </p>
-                    </td>
-                    <td>
-                      <button type="button"
-                        className="button-like red"
-                        onClick={factoryReset} >
-                        {t("FACTORY RESET")}
-                      </button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label>{t("CAMERA")} </label>
-                    </td>
-                    <td>
-                      <p>
-                        <FBSelect allowEmpty={true}
-                          list={CAMERA_CHOICES}
-                          placeholder="Select a camera..."
-                          onChange={this.sendOffConfig} />
-                      </p>
-                    </td>
-                    <td>
-                      {this.state.cameraStatus}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+        <WidgetHeader title="Device"
+          helpText={`This widget shows device information.`}>
+          <button type="submit"
+            className={`button-like green`}
+            onClick={this.updateBot}>
+            {t("SAVE")} {this.props.bot.account.dirty ? "*" : ""}
+          </button>
+        </WidgetHeader>
+        <WidgetBody>
+          <Row>
+            <Col xs={2}>
+              <label>
+                {t("NAME")}
+              </label>
+            </Col>
+            <Col xs={10}>
+              <input name="name"
+                onChange={this.changeBot}
+                value={this.props.bot.account.name} />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("NETWORK")}</label>
+            </Col>
+            <Col xs={10}>
+              <p>{`mqtt://${this.props.auth.token.unencoded.mqtt}`}</p>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("FARMBOT OS")}</label>
+            </Col>
+            <Col xs={3}>
+              <p>
+                {t("Version")}
+                {this
+                  .props
+                  .bot
+                  .hardware
+                  .informational_settings.controller_version
+                  || t(" unknown (offline)")}
+              </p>
+            </Col>
+            <Col xs={7}>
+              <OsUpdateButton { ...this.props } />
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("RESTART FARMBOT")} </label>
+            </Col>
+            <Col xs={7}>
+              <p>
+                {t(`This will restart FarmBot's Raspberry 
+                    Pi and controller software.`)}
+              </p>
+            </Col>
+            <Col xs={3}>
+              <button type="button"
+                className="button-like yellow"
+                onClick={reboot}>
+                {t("RESTART")}
+              </button>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("SHUTDOWN FARMBOT")}</label>
+            </Col>
+            <Col xs={7}>
+              <p>
+                {t(`This will shutdown FarmBot's Raspberry Pi. To turn it 
+                    back on, unplug FarmBot and plug it back in.`)}
+              </p>
+            </Col>
+            <Col xs={3}>
+              <button type="button"
+                className="button-like red"
+                onClick={powerOff}>
+                {t("SHUTDOWN")}
+              </button>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("Factory Reset")}</label>
+            </Col>
+            <Col xs={7}>
+              <p>
+                {t(`Factory resetting your FarmBot will destroy all data on 
+                    the device, revoking your FarmBot's abilily to connect to 
+                    your web app account and your home wifi. Upon factory 
+                    resetting, your device will restart into Conflgurator 
+                    mode. Factory resetting your FarmBot will not affect any 
+                    data or settings from your web app account, allowing you 
+                    to do a complete restore to your device once it is back 
+                    online and paired with your web app account.`)}
+              </p>
+            </Col>
+            <Col xs={3}>
+              <button type="button"
+                className="button-like red"
+                onClick={factoryReset} >
+                {t("FACTORY RESET")}
+              </button>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={2}>
+              <label>{t("CAMERA")}</label>
+            </Col>
+            <Col xs={7}>
+              <p>
+                <FBSelect allowEmpty={true}
+                  list={CAMERA_CHOICES}
+                  placeholder="Select a camera..."
+                  onChange={this.sendOffConfig} />
+              </p>
+            </Col>
+            <Col xs={3}>
+              {this.state.cameraStatus}
+            </Col>
+          </Row>
+        </WidgetBody>
       </form>
-    </div>;
+    </Widget>;
   }
 }

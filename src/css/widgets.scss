@@ -27,6 +27,9 @@
         &.no-bottom-padding {
             padding-bottom: 0px;
         }
+        .row:not(:last-child) {
+            margin-bottom: 1rem;
+        }
     }
 }
 
