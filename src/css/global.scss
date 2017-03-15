@@ -17,14 +17,6 @@ input[type=time] {
     border-radius: 0;
 }
 
-.page {
-    padding-top: 2rem;
-}
-
-.page>.row>*>.row {
-    margin-bottom: 20px;
-}
-
 @media (max-width: 830px) {
     .app {
         overflow: hidden !important;
@@ -193,14 +185,10 @@ fieldset {
     font-size: 1.5rem;
 }
 
-.webcam-widget label {
-    padding: 0.5rem 0 0 0.5rem;
-}
-
 .clear-webcam-url-btn {
     position: absolute;
     left: 2rem;
-    top: 3.2rem;
+    top: 6.2rem;
 }
 
 .webcam-url-input {
