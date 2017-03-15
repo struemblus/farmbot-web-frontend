@@ -6,7 +6,8 @@ import { ImageFlipper } from "./image_flipper";
 import { Image } from "./interfaces";
 
 interface Props {
-  images: Image[]
+  images: Image[];
+  // onSliderChange(): void;
 }
 
 let TODO: any;
