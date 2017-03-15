@@ -4,6 +4,7 @@ import { Everything } from "../interfaces";
 import { DetectorState } from "./interfaces";
 import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
+import { devices } from "../device";
 
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
@@ -19,10 +20,16 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
         <div className="row">
           <div className="col-sm-12">
             <TitleBar onDeletionClick={() => { console.log("NOT FINISHED") }}
-              onPhotoClick={() => { console.log("NOT FINISHED") }}
-              onSave={() => { console.log("NOT FINISHED") }}
-              onSettingToggle={() => { console.log("NOT FINISHED") }}
-              onTest={() => { console.log("NOT FINISHED") }}
+              onPhotoClick={() => {
+                // TODO: Real handler / toast.
+                devices
+                  .current
+                  .takePhoto()
+                  .then(() => { }, () => { alert("Error taking photo"); });
+              }}
+              onSave={() => { console.log("NOT FINISHED"); }}
+              onSettingToggle={() => { console.log("NOT FINISHED"); }}
+              onTest={() => { console.log("NOT FINISHED"); }}
               settingsMenuOpen={TODO_OPEN} />
             <div className="row">
               <div className="col-sm-12">
