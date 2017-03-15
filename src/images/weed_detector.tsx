@@ -18,20 +18,20 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       <div className="widget-wrapper weed-detector-widget">
         <div className="row">
           <div className="col-sm-12">
-            <TitleBar onDeletionClick={() => {console.log("NOT FINISHED")}}
-              onPhotoClick={() => {console.log("NOT FINISHED")}}
-              onSave={() => {console.log("NOT FINISHED")}}
-              onSettingToggle={() => {console.log("NOT FINISHED")}}
-              onTest={() => {console.log("NOT FINISHED")}}
+            <TitleBar onDeletionClick={() => { console.log("NOT FINISHED") }}
+              onPhotoClick={() => { console.log("NOT FINISHED") }}
+              onSave={() => { console.log("NOT FINISHED") }}
+              onSettingToggle={() => { console.log("NOT FINISHED") }}
+              onTest={() => { console.log("NOT FINISHED") }}
               settingsMenuOpen={TODO_OPEN} />
             <div className="row">
               <div className="col-sm-12">
-                <WeedDetectorBody images={[]}
-                onSliderChange={() => {
-                }}
-                H={3}
-                S={3}
-                V={3}/>
+                <WeedDetectorBody images={this.props.images.all}
+                  onSliderChange={() => {
+                  }}
+                  H={3}
+                  S={3}
+                  V={3} />
               </div>
             </div>
           </div>
