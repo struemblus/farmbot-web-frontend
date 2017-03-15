@@ -5,7 +5,7 @@ import { AddRegimenProps } from "../interfaces";
 
 export function AddRegimen(props: AddRegimenProps) {
   props.className ? props.className : "";
-  let classes = "green button-like widget-control " + props.className;
+  let classes = "green button-like " + props.className;
   return <button className={classes}
     onClick={add(props.dispatch)}>
     {props.children || t("Add")}
