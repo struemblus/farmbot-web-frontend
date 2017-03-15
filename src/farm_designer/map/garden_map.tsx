@@ -100,7 +100,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           return <GardenPoint point={p} key={p.id} />;
         })}
         {
-          this.props.sync.plants.map((p, inx) => {
+          this.props.designer.deprecatedPlants.map((p, inx) => {
             if (p.id) {
               let isActive = parseInt(this.props.params.plant_id) === p.id ?
                 "active" : "";
