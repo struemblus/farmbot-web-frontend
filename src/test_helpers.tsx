@@ -102,6 +102,7 @@ export function fakeState(dispatcher?: Function): Everything {
   };
 
   let sync = {
+    loaded: false,
     api_version: "",
     compat_num: 0,
     device: {
@@ -151,7 +152,8 @@ export function fakeState(dispatcher?: Function): Everything {
       all: [{
         id: 1,
         name: "tool1"
-      }]
+      }],
+      dirty: false
     }
   };
 

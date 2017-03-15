@@ -6,21 +6,23 @@ import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
+import { DEFAULT_ICON } from "../../open_farm/index";
 
 function OptionComponent(plants: Plant[]) {
   let indexedById = _.indexBy(plants, "id");
   return (props: DropDownItem) => {
-    let {
-      img_url,
-      planted_at,
-    } = indexedById[props.value as number]; // TODO: Remove typecast after refactor.
-
+    let plant = indexedById[props.value || 0];
+    let icon_url = (plant && plant.icon_url) || DEFAULT_ICON;
+    let planted_at = (plant && plant.planted_at) || moment();
     let dayPlanted = moment();
+
+    // TODO Remove this after April 2017 - RC.
+    let url = icon_url.includes("Natural") ? DEFAULT_ICON : icon_url;
 
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     return <div className="plant-search-item">
-      <img className="plant-search-item-image" src={img_url} />
+      <img className="plant-search-item-image" src={DEFAULT_ICON} />
       <span className="plant-search-item-name">{props.label}</span>
       <i className="plant-search-item-age">
         {daysOld} days old</i>

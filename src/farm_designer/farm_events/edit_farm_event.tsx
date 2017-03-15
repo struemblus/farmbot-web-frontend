@@ -1,9 +1,12 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FarmEvent } from "../interfaces";
+import {
+  FarmEvent,
+  AddFarmEventState,
+  AddEditFarmEventProps
+} from "../interfaces";
 import {
   FBSelect,
-  Select,
   BlurableInput,
   Col,
   Row,
@@ -11,16 +14,16 @@ import {
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import {
-  mapStateToPropsAddEdit,
-  AddEditFarmEventProps
-} from "./map_state_to_props_add_edit";
+import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 import { hasKey } from "../../util";
 
-type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
+// Could not get this to work when putting it in mapStateToProps
+interface PropsWithRouter extends AddEditFarmEventProps {
+  router: { params: { farm_event_id: string } };
+}
 
 @connect(mapStateToPropsAddEdit)
-export class EditFarmEvent extends React.Component<AddEditFarmEventProps,
+export class EditFarmEvent extends React.Component<PropsWithRouter,
 AddFarmEventState> {
   constructor() {
     super();
@@ -31,6 +34,14 @@ AddFarmEventState> {
       repeat: 0,
       time_unit: "daily"
     };
+  }
+
+  componentDidMount() {
+    let { farmEvents, router } = this.props;
+    let fe = _.findWhere(farmEvents,
+      { id: parseInt(router.params.farm_event_id) });
+    let newState = _.merge(this.state, fe);
+    this.setState(newState);
   }
 
   updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
@@ -92,15 +103,36 @@ AddFarmEventState> {
     }
   }
 
-  destroy = () => {
-
+  initialValue = () => {
+    let iv = { label: "Loading...", value: "Loading..." };
+    if (this.state.executable_id && this.state.executable_type) {
+      switch (this.state.executable_type) {
+        case "Sequence":
+          let seq = this.props.sequenceById[this.state.executable_id];
+          if (seq && seq.id) {
+            iv.label = seq.name;
+            iv.value = JSON.stringify(seq.id);
+          }
+          break;
+        case "Regimen":
+          let reg = this.props.regimenById[this.state.executable_id];
+          if (reg && reg.id) {
+            iv.label = reg.name;
+            iv.value = JSON.stringify(reg.id);
+          }
+          break;
+      }
+    }
+    return iv;
   }
 
   render() {
-    let { formatDate, formatTime } = this.props;
+    let { formatDate, formatTime, repeatOptions } = this.props;
+    let { time_unit } = this.state;
+    let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
 
     return <div className={`panel-container magenta-panel
-            add-farm-event-panel`}>
+      add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
         <p className="panel-title">
           <BackArrow /> {t("Edit Farm Event")}
@@ -111,7 +143,7 @@ AddFarmEventState> {
         <FBSelect
           list={this.props.selectOptions}
           onChange={this.updateSequenceOrRegimen}
-          value={"0"} />
+          initialValue={this.initialValue()} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
@@ -144,11 +176,10 @@ AddFarmEventState> {
               onCommit={this.updateForm} />
           </Col>
           <Col xs={8}>
-            <Select
-              options={this.props.repeatOptions}
-              name="time_unit"
-              value={this.state.time_unit || "daily"}
-              onChange={this.updateRepeatSelect} />
+            <FBSelect
+              list={this.props.repeatOptions}
+              onChange={this.updateRepeatSelect}
+              initialValue={currentTimeUnit} />
           </Col>
         </Row>
         <label>{t("Until")}</label>
@@ -173,11 +204,12 @@ AddFarmEventState> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.state)}>
+          onClick={() => this.props.update(this.state)}>
           {t("Save")}
         </button>
         <button className="red button-like"
-          onClick={this.destroy}>
+          onClick={() => this.props.delete(
+            parseInt(this.props.router.params.farm_event_id))}>
           {t("Delete")}
         </button>
       </div>

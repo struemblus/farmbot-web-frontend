@@ -3,14 +3,14 @@ import { Link } from "react-router";
 import { FBSelect, Row, Col } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
-import * as moment from "moment";
-import { mapStateToProps, FarmEventProps } from "./map_state_to_props";
+import { mapStateToProps } from "./map_state_to_props";
+import { FarmEventProps } from "../interfaces";
 
 @connect(mapStateToProps)
 export class FarmEvents extends React.Component<FarmEventProps, {}> {
   renderCalendarRows() {
     return this.props.calendarRows.map(function (item) {
-      return <div className="farm-event-wrapper col-xs-12" key={item.timestamp}>
+      return <div className="farm-event-wrapper col-xs-12" key={item.sortKey}>
 
         <div className="farm-event-date col-xs-2">
           <div className="farm-event-date-month">
@@ -22,15 +22,14 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
         </div>
 
         <div className="col-xs-10 events">
-          {item.list.map(function (farmEvent) {
-            let start = moment(item.timestamp).format("hh:mma");
+          {item.items.map(function (farmEvent) {
             return <div className={`farm-event col-xs-12`}
-              key={farmEvent.id}>
-              <div className="event-time col-xs-3">
-                {start}
+              key={farmEvent.sortKey}>
+              <div className="event-time col-xs-4">
+                {farmEvent.timeStr}
               </div>
-              <div className="event-title col-xs-9">
-                ({farmEvent.id || 0}) {item.executableName}
+              <div className="event-title col-xs-8">
+                {farmEvent.executableName}
               </div>
               <Link to={`/app/designer/farm_events/` +
                 (farmEvent.id || "UNSAVED_EVENT").toString()}>
@@ -44,7 +43,6 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
   }
 
   render() {
-
     return <div className="panel-container magenta-panel">
       <div className="panel-header magenta-panel">
         <div className="panel-tabs">

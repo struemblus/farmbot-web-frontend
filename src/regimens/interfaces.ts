@@ -3,10 +3,23 @@ import { Sequence } from "../sequences/interfaces";
 import { Color, Everything } from "../interfaces";
 
 export interface RegimenPropsWithParams extends Everything {
-  params: {
-    regimen: string;
-  };
+  params: { regimen: string; };
 }
+
+/** RegimenItem, as presented by the REST API */
+export interface ApiRegimenItem {
+  id?: number;
+  regimen_id?: number;
+  time_offset: number;
+  sequence_id: number;
+};
+
+/** Regimen, as presented by the REST API */
+export interface ApiRegimen {
+  name: string;
+  color: Color;
+  regimen_items: ApiRegimenItem[];
+};
 
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
@@ -44,4 +57,14 @@ export interface RegimensState {
 export interface RegimensActionHandler {
   [actionName: string]: (state: RegimensState,
     action: ReduxAction<any>) => RegimensState;
+}
+
+export interface AddRegimenProps {
+  dispatch: Function;
+  className?: string;
+  children?: JSX.Element;
+}
+
+export interface RegimenListItemProps extends RegimenProps {
+  index: number;
 }

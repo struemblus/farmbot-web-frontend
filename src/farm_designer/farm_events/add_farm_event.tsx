@@ -1,9 +1,12 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FarmEvent } from "../interfaces";
+import {
+  FarmEvent,
+  AddFarmEventState,
+  AddEditFarmEventProps
+} from "../interfaces";
 import {
   FBSelect,
-  Select,
   BlurableInput,
   Col,
   Row,
@@ -11,12 +14,7 @@ import {
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import {
-  mapStateToPropsAddEdit,
-  AddEditFarmEventProps
-} from "./map_state_to_props_add_edit";
-
-type AddFarmEventState = Partial<Record<keyof FarmEvent, string | number>>;
+import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
 
 @connect(mapStateToPropsAddEdit)
 export class AddFarmEvent extends React.Component<AddEditFarmEventProps,
@@ -86,8 +84,7 @@ AddFarmEventState> {
   }
 
   render() {
-    let { formatDate, formatTime } = this.props;
-
+    let { formatDate, formatTime, selectOptions } = this.props;
     return <div className={`panel-container magenta-panel
             add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
@@ -98,9 +95,8 @@ AddFarmEventState> {
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
-          list={this.props.selectOptions}
-          onChange={this.updateSequenceOrRegimen}
-          value={"0"} />
+          list={selectOptions}
+          onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
@@ -133,10 +129,8 @@ AddFarmEventState> {
               onCommit={this.updateForm} />
           </Col>
           <Col xs={8}>
-            <Select
-              options={this.props.repeatOptions}
-              name="time_unit"
-              value={this.state.time_unit || "daily"}
+            <FBSelect
+              list={this.props.repeatOptions}
               onChange={this.updateRepeatSelect} />
           </Col>
         </Row>

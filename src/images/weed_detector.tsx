@@ -9,9 +9,19 @@ import { devices } from "../device";
 import { HsvSlider } from "./hsv_slider";
 import { BlurableInput } from "../ui/blurable_input";
 import { Pair } from "farmbot";
-import { success, error } from "../ui";
+import {
+  success,
+  error,
+  FBSelect,
+  Col,
+  Row,
+  DropDownItem,
+  Widget,
+  WidgetHeader,
+  WidgetBody
+} from "../ui";
 import { resetWeedDetection } from "./actions";
-import { weedDetectorENV } from "./weed_detector_env";
+import { weedDetectorENVsafeFetch } from "./weed_detector_env";
 import { Progress } from "../util";
 
 const DETECTOR_ENV = "PLANT_DETECTION_options";
@@ -29,7 +39,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       blur: 15,
       morph: 6,
       iterations: 4,
-      deletionProgress: ""
+      deletionProgress: "",
+      settingsMenuOpen: false
     };
   }
 
@@ -37,8 +48,8 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     return this.props.bot.hardware.user_env[DETECTOR_ENV];
   }
 
-  componentDidMout() {
-    this.setState(weedDetectorENV(this.env));
+  componentDidMount() {
+    this.setState(weedDetectorENVsafeFetch(this.env));
   }
 
   resetWeedDetection() {
@@ -104,103 +115,170 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       .execScript("plant-detection", pairs);
   }
 
+  toggleSettingsMenu = () => {
+    this.setState({ settingsMenuOpen: !this.state.settingsMenuOpen });
+  }
+
+  additionalSettingsMenu = () => {
+    let calibrationAxes: DropDownItem[] = [
+      { label: "X", value: "x" }, { label: "Y", value: "y" }
+    ];
+
+    let originLocations: DropDownItem[] = [
+      { label: "Top Left", value: "top_left" },
+      { label: "Top Right", value: "top_right" },
+      { label: "Bottom Left", value: "bottom_left" },
+      { label: "Bottom Right", value: "bottom_right" }
+    ];
+
+    return <div className="additional-settings-menu"
+      onClick={(e) => e.stopPropagation()}>
+      {/* This menu needs to be nested in the <i> for css purposes. However,
+        * we do not want events in here to bubble up to the toggle method. */}
+      <label htmlFor="invert_hue_selection">
+        {t(`Invert Hue Range Selection`)}
+      </label>
+      <input type="checkbox" id="invert_hue_selection" />
+      <label htmlFor="calibration_object_separation">
+        {t(`Calibration Object Separation`)}
+      </label>
+      <input type="number" id="calibration_object_separation"
+        placeholder="(Number)" />
+      <label htmlFor="calibration_object_separation_axis">
+        {t(`Calibration Object Separation along axis`)}
+      </label>
+      <FBSelect
+        list={calibrationAxes}
+        placeholder="Select..."
+        id="calibration_object_separation_axis" />
+      <Row>
+        <Col xs={6}>
+          <label htmlFor="camera_offset_x">
+            {t(`Camera Offset X`)}
+          </label>
+          <input type="number" id="camera_offset_x" placeholder="(Number)" />
+        </Col>
+        <Col xs={6}>
+          <label htmlFor="camera_offset_y">
+            {t(`Camera Offset Y`)}
+          </label>
+          <input type="number" id="camera_offset_y" placeholder="(Number)" />
+        </Col>
+      </Row>
+      <label htmlFor="image_bot_origin_location">
+        {t(`Origin Location in Image`)}
+      </label>
+      <FBSelect
+        list={originLocations}
+        placeholder="Select..."
+        id="image_bot_origin_location" />
+      <Row>
+        <Col xs={6}>
+          <label htmlFor="coord_scale">
+            {t(`Pixel coordinate scale`)}
+          </label>
+          <input type="number" id="coord_scale"
+            placeholder="(Number)" step={0.10} />
+        </Col>
+        <Col xs={6}>
+          <label htmlFor="total_rotation_angle">
+            {t(`Camera rotation`)}
+          </label>
+          <input type="number" id="total_rotation_angle" placeholder="(Number)" />
+        </Col>
+      </Row>
+    </div>;
+  };
+
   render() {
     let H = (this.state.H || [0, 0]);
     let S = (this.state.S || [0, 0]);
     let V = (this.state.V || [0, 0]);
-    return <div>
-      <div className="widget-wrapper weed-detector-widget">
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="widget-header">
-              <button onClick={this.sendOffConfig.bind(this)}
-                className="green button-like">
-                {t("SAVE")}
-              </button>
-              <button
-                onClick={this.test}
-                className="yellow button-like">
-                {t("TEST")}
-              </button>
-              <button
-                className="gray button-like"
-                onClick={this.takePhoto.bind(this)}>
-                {t("Take Photo")}
-              </button>
-              <button onClick={this.resetWeedDetection}
-                className="red button-like">
-                {this.state.deletionProgress || t("CLEAR WEEDS")}
-              </button>
-              <h5>{t("Weed Detector")}</h5>
-              <i className={`fa fa-question-circle
-                                            widget-help-icon`}>
-                <div className={`widget-help-text`}>
-                  {t(`Detect Weeds`)}
-                </div>
-              </i>
-            </div>
-            <div className="row">
-              <div className="col-sm-12">
-                <div className="widget-content">
-                  <div className="row">
-                    <div className="col-md-6 col-sm-12">
-                      <h4>
-                        <i>Color Range</i>
-                      </h4>
-                      <label htmlFor="hue">HUE</label>
-                      <HsvSlider name={"H"} onChange={this.setHSV} />
-                      <label htmlFor="saturation">SATURATION</label>
-                      <HsvSlider name={"S"} onChange={this.setHSV} />
-                      <label htmlFor="value">VALUE</label>
-                      <HsvSlider name={"V"} onChange={this.setHSV} />
-                    </div>
-                    <div className="col-md-6 col-sm-12">
-                      <FarmbotPicker h={H} s={S} v={V}
-                        hsv={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, v: 0 }}
-                        hsl={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, l: 0 }} />
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12 col-sm-12">
-                      <h4>
-                        <i>Processing Parameters</i>
-                      </h4>
-                    </div>
 
-                    <div className="col-md-4 col-sm-4">
-                      <label>BLUR</label>
-                      <BlurableInput type="number"
-                        min={0}
-                        max={100}
-                        onCommit={this.onBlur("blur")}
-                        value={(this.state.blur || 0).toString()} />
-                    </div>
+    return <Widget className="weed-detector-widget">
+      <WidgetHeader title="Weed Detector" helpText="Detect Weeds.">
+        <button onClick={this.sendOffConfig.bind(this)}
+          className="green button-like">
+          {t("SAVE")}
+        </button>
+        <button
+          onClick={this.test}
+          className="yellow button-like">
+          {t("TEST")}
+        </button>
+        <button
+          className="gray button-like"
+          onClick={this.takePhoto.bind(this)}>
+          {t("Take Photo")}
+        </button>
+        <button onClick={this.resetWeedDetection}
+          className="red button-like">
+          {this.state.deletionProgress || t("CLEAR WEEDS")}
+        </button>
+        {/* TODO: Hook up calibration */}
+        <button onClick={() => { }}
+          className="green button-like">
+          {t("Calibrate")}
+        </button>
+        <i className="fa fa-cog" onClick={this.toggleSettingsMenu}>
+          {this.state.settingsMenuOpen && this.additionalSettingsMenu()}
+        </i>
+      </WidgetHeader>
+      <WidgetBody>
+        <Row>
+          <Col xs={12} md={6}>
+            <h4>
+              <i>{t("Color Range")}</i>
+            </h4>
+            <label htmlFor="hue">{t("HUE")}</label>
+            <HsvSlider name={"H"} env={this.state} onChange={this.setHSV} />
+            <label htmlFor="saturation">{t("SATURATION")}</label>
+            <HsvSlider name={"S"} env={this.state} onChange={this.setHSV} />
+            <label htmlFor="value">{t("VALUE")}</label>
+            <HsvSlider name={"V"} env={this.state} onChange={this.setHSV} />
+          </Col>
+          <Col xs={12} md={6}>
+            <FarmbotPicker h={H} s={S} v={V}
+              hsv={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, v: 0 }}
+              hsl={{ h: ((H[1] * 2 + H[0] * 2) / 2), s: 0, l: 0 }} />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <h4>
+              <i>{t("Processing Parameters")}</i>
+            </h4>
+          </Col>
 
-                    <div className="col-md-4 col-sm-4">
-                      <label>MORPH</label>
-                      <BlurableInput type="number"
-                        min={0}
-                        max={100}
-                        onCommit={this.onBlur("morph")}
-                        value={(this.state.morph || 0).toString()} />
-                    </div>
+          <Col xs={4}>
+            <label>{t("BLUR")}</label>
+            <BlurableInput type="number"
+              min={0}
+              max={100}
+              onCommit={this.onBlur("blur")}
+              value={(this.state.blur || 0).toString()} />
+          </Col>
 
-                    <div className="col-md-4 col-sm-4">
-                      <label>ITERATION</label>
-                      <BlurableInput type="number"
-                        min={0}
-                        max={100}
-                        onCommit={this.onBlur("iterations")}
-                        value={(this.state.iterations || 0).toString()} />
-                    </div>
-                  </div>
-                  <ImageFlipper images={this.props.sync.images} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>;
+          <Col xs={4}>
+            <label>{t("MORPH")}</label>
+            <BlurableInput type="number"
+              min={0}
+              max={100}
+              onCommit={this.onBlur("morph")}
+              value={(this.state.morph || 0).toString()} />
+          </Col>
+
+          <Col xs={4}>
+            <label>{t("Iteration")}</label>
+            <BlurableInput type="number"
+              min={0}
+              max={100}
+              onCommit={this.onBlur("iterations")}
+              value={(this.state.iterations || 0).toString()} />
+          </Col>
+        </Row>
+        <ImageFlipper images={this.props.sync.images} />
+      </WidgetBody>
+    </Widget>;
   }
 }

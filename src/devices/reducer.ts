@@ -1,10 +1,6 @@
 import { error } from "../ui";
 import * as _ from "lodash";
-import {
-  BotState,
-  DeviceAccountSettings,
-  HardwareState
-} from "./interfaces";
+import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { ReduxAction } from "../redux/interfaces";
 import * as i18next from "i18next";

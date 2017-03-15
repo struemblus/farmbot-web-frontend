@@ -1,26 +1,10 @@
 import * as React from "react";
-
-interface State {
-  isDragging: boolean;
-  mouseX: number;
-  mouseY: number;
-  radius: number;
-}
-
-interface Props {
-  id: number;
-  height: number;
-  width: number;
-  onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (id: number) => void;
-  x: number;
-  y: number;
-  href: string;
-}
+import { DraggableSvgImageProps, DraggableSvgImageState } from "./interfaces";
 
 // THANK YOU!
 // https://github.com/winkerVSbecks/fermat-point/blob/master/src/handle.jsx
-export class DraggableSvgImage extends React.Component<Props, Partial<State>> {
+export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
+  Partial<DraggableSvgImageState>> {
 
   constructor() {
     super();

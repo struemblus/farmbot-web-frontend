@@ -1,12 +1,6 @@
 import * as React from "react";
-import { Everything } from "../interfaces";
 import * as _ from "lodash";
-
-interface MobileSequencesNavProps extends Everything {
-  params: {
-    sequence: string;
-  };
-}
+import { MobileSequencesNavProps } from "./interfaces";
 
 export function MobileSequencesNav(props: MobileSequencesNavProps) {
   return <div className="mobile-only sequences-mobile-nav col-md-3 col-sm-12">
@@ -14,7 +8,7 @@ export function MobileSequencesNav(props: MobileSequencesNavProps) {
       <div className="widget-header">
         <a href="javascript:history.back()" className="back-arrow">
           <i className="fa fa-arrow-left"></i>&nbsp;&nbsp;
-          {_.capitalize(props.params.sequence.toString()) || "Name not found"}
+          {_.capitalize((props.params.sequence || "Name not found").toString())}
         </a>
       </div>
     </div>

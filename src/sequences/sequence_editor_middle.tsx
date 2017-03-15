@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SequenceBodyItem } from "farmbot";
-import { Sequence } from "./interfaces";
+import { Sequence, dispatcher, DataXferObj } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence, saveSequence, deleteSequence, nullSequence
@@ -9,10 +9,16 @@ import { stepTiles, StepTile } from "./step_tiles/index";
 import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
-import { BlurableInput } from "../ui";
+import {
+  BlurableInput,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
-import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
@@ -20,11 +26,9 @@ import { ToolsState } from "../tools/interfaces";
 import { connect } from "react-redux";
 
 let Oops: StepTile = (_) => {
-  return <div> Whoops! Not a valid message_type </div>;
+  return <div>{t("Whoops! Not a valid message_type")}</div>;
 };
 
-type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
-type dispatcher = (a: Function | { type: string }) => DataXferObj;
 function routeIncomingDroppedItems(dispatch: dispatcher,
   key: string,
   dropperId: number) {
@@ -34,10 +38,9 @@ function routeIncomingDroppedItems(dispatch: dispatcher,
     case "step_splice":
       return dispatch(spliceStep(step, dropperId));
     case "step_move":
-      let {draggerId} = dataXferObj;
+      let { draggerId } = dataXferObj;
       return dispatch(moveStep(step, draggerId, dropperId));
     default:
-      console.dir(dataXferObj);
       throw new Error("Got unexpected data transfer object.");
   }
 }
@@ -46,21 +49,22 @@ let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
   routeIncomingDroppedItems(dispatch, key, dropperId);
 };
 
-let StepList = ({sequence, sequences, dispatch, tools}:
+let StepList = ({ sequence, sequences, dispatch, tools }:
   {
     sequence: Sequence,
     sequences: Sequence[],
     dispatch: Function,
     tools: ToolsState
   }) => {
+
   return <div>
-    {(sequence.body || []).map((step: SequenceBodyItem, inx: number) => {
+    {(sequence.body || []).map((step: SequenceBodyItem, inx, arr) => {
       let Step = stepTiles[step.kind] || Oops;
       /** HACK: If we wrote `key={inx}` for this iterator, React's diff
        * algorithm would lose track of which step has changed (and
        * sometimes even mix up the state of completely different steps).
        * To get around this, we add a `uuid` property to Steps that
-       * is guranteed to be unique and allows React to diff the list
+       * is guaranteed to be unique and allows React to diff the list
        * correctly.
        */
       let wow = (step as any).uuid || inx;
@@ -75,7 +79,8 @@ let StepList = ({sequence, sequences, dispatch, tools}:
             index={inx}
             dispatch={dispatch}
             sequence={sequence}
-            sequences={sequences}
+            all={sequences}
+            current={arr[inx]}
             tools={tools} />
         </StepDragger>
       </div>;
@@ -132,74 +137,58 @@ export class SequenceEditorMiddle extends React.Component<Everything, {}> {
       };
     };
 
-    return <div>
-      <div className="widget-wrapper" >
-        <div className="row">
-          <div className="col-sm-12">
-            <button className="green button-like widget-control"
-              onClick={save(dispatch, sequence)}>
-              {t("Save")} {sequence.dirty && ("*")}
-            </button>
-            <button className="orange button-like widget-control"
-              onClick={performSeq(dispatch, sequence)}>
-              {t("Save & Run")}
-            </button>
-            <button className="red button-like widget-control"
-              onClick={destroy(dispatch, sequence, inx)}>
-              {t("Delete")}
-            </button>
-            <button className="yellow button-like widget-control"
-              onClick={copy(dispatch, sequence)}>
-              {t("Copy")}
-            </button>
-            <div className="widget-header">
-              <h5>{t("Sequence Editor")}</h5>
-              <i className={`fa fa-question-circle 
-                                widget-help-icon`}>
-                <div className="widget-help-text">
-                  {t(`Drag and drop commands here to create
-                      sequences for watering, planting seeds,
-                      measuring soil properties, and more. Press the
-                      Test button to immediately try your sequence
-                      with FarmBot. You can also edit, copy, and delete
-                      existing sequences; assign a color; and give
-                      your commands custom names.`)}
-                </div>
-              </i>
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="widget-content">
-              <div className="row">
-                <div className="col-sm-11 col-xs-11">
-                  <BlurableInput value={sequence.name}
-                    onCommit={handleNameUpdate(dispatch)} />
-                </div>
-                <ColorPicker current={sequence.color}
-                  onChange={(color) => {
-                    dispatch(editCurrentSequence(
-                      { color }
-                    ));
-                  }} />
-              </div>
-              {<StepList sequence={sequence}
-                dispatch={dispatch}
-                sequences={sequences.all}
-                tools={tools} />}
-              <div className="row">
-                <div className="col-sm-12">
-                  <DropArea isLocked={true}
-                    callback={fixThisToo}>
-                    {t("DRAG STEP HERE")}
-                  </DropArea>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div >
-    </div >;
+    return <Widget className="sequence-editor-widget">
+      <WidgetHeader title="Sequence Editor"
+        helpText={`Drag and drop commands here to create
+                    sequences for watering, planting seeds,
+                    measuring soil properties, and more. Press the
+                    Test button to immediately try your sequence
+                    with FarmBot. You can also edit, copy, and delete
+                    existing sequences; assign a color; and give
+                    your commands custom names.`}>
+        <button className="green button-like"
+          onClick={save(dispatch, sequence)}>
+          {t("Save")} {sequence.dirty && ("*")}
+        </button>
+        <button className="orange button-like"
+          onClick={performSeq(dispatch, sequence)}>
+          {t("Save & Run")}
+        </button>
+        <button className="red button-like"
+          onClick={destroy(dispatch, sequence, inx)}>
+          {t("Delete")}
+        </button>
+        <button className="yellow button-like"
+          onClick={copy(dispatch, sequence)}>
+          {t("Copy")}
+        </button>
+      </WidgetHeader>
+      <WidgetBody>
+        <Row>
+          <Col xs={11}>
+            <BlurableInput value={sequence.name}
+              onCommit={handleNameUpdate(dispatch)} />
+          </Col>
+          <ColorPicker current={sequence.color}
+            onChange={(color) => {
+              dispatch(editCurrentSequence(
+                { color }
+              ));
+            }} />
+        </Row>
+        {<StepList sequence={sequence}
+          dispatch={dispatch}
+          sequences={sequences.all}
+          tools={tools} />}
+        <Row>
+          <Col xs={12}>
+            <DropArea isLocked={true}
+              callback={fixThisToo}>
+              {t("DRAG STEP HERE")}
+            </DropArea>
+          </Col>
+        </Row>
+      </WidgetBody>
+    </Widget>;
   }
 }

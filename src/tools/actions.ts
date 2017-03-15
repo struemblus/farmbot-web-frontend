@@ -2,15 +2,9 @@ import * as Axios from "axios";
 import { t } from "i18next";
 import { Thunk, ReduxAction } from "../redux/interfaces";
 import { API } from "../api";
-import {
-  ToolBay,
-  ToolSlot,
-  Tool,
-  ErrorPayl
-} from "./interfaces";
+import { ToolBay, ToolSlot, Tool } from "./interfaces";
 import { success, error } from "../ui";
-import * as _ from "lodash";
-import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
+import { prettyPrintApiErrors } from "../util";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
@@ -22,51 +16,40 @@ export function toggleEditingTools(): ReduxAction<{}> {
 }
 
 /** ToolBays */
-export function updateToolBayName(id: number, value: number): ReduxAction<{}> {
-  return { type: "UPDATE_TOOL_BAY_NAME", payload: { id, value } };
-}
-
 export function saveToolBayOk(toolBay: ToolBay): ReduxAction<{}> {
   return { type: "SAVE_TOOL_BAY_OK", payload: toolBay };
 }
 
-export function saveToolBay(id: number, toolBays: ToolBay[]): Thunk {
-
+export function saveToolBay(
+  id: number, toolBays: ToolBay[], callback: Function
+): Thunk {
   return (dispatch, getState) => {
-    let dirtSlots = {
-      tool_slots: getState().tools.tool_slots.filter(allSlots => !!allSlots.dirty)
-    };
+    let tool_slots = getState().tools.tool_slots;
     let url = API.current.toolSlotsPath;
-    Axios.post<ToolSlot[]>(url, dirtSlots)
+    Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {
-        if (resp instanceof Error) {
-          error(prettyPrintApiErrors(resp));
-          throw resp;
-        }
         success(t("ToolBay saved."));
-        updateToolBayAfterSlots();
-        dispatch(saveToolSlotOk(resp.data));
+        callback();
+        resp.data.map(function (toolSlot) {
+          dispatch(saveToolSlotOk(toolSlot));
+        });
       }, (e: Error) => {
         error(prettyPrintApiErrors(e));
       });
-
-    function updateToolBayAfterSlots() {
-      let bay = _.findWhere(toolBays, { id });
-      return Axios
-        .patch<ToolBay>(API.current.toolBaysPath + id, bay)
-        .then(resp => {
-          dispatch(saveToolBayOk(resp.data));
-        }, (e: Error) => {
-          error(prettyPrintApiErrors(e));
-        });
-    };
   };
 }
 
 /** ToolSlots */
-export function updateToolSlot(id: number, name: string, value: number):
+export function updateSlot(id: number, name: string, value: number | undefined):
   ReduxAction<{}> {
   return { type: "UPDATE_TOOL_SLOT", payload: { id, name, value } };
+}
+
+export function detachTool(tool_slot_id: number) {
+  return {
+    type: "DETACH_TOOL",
+    payload: tool_slot_id
+  };
 }
 
 export function addToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
@@ -85,8 +68,8 @@ export function destroyToolSlotOk(id: number): ReduxAction<{}> {
   return { type: "DESTROY_TOOL_SLOT_OK", payload: { id } };
 }
 
-export function addToolSlot(slot: ToolSlot): Thunk {
-
+export function addSlot(slot: Partial<ToolSlot>, toolBayId: number): Thunk {
+  slot.tool_bay_id = toolBayId;
   return (dispatch, getState) => {
     Axios
       .post<ToolSlot>(API.current.toolSlotsPath, slot)
@@ -108,6 +91,7 @@ export function destroySlot(id: number): Thunk {
       .delete<ToolSlot>(API.current.toolSlotsPath + id)
       .then(resp => {
         dispatch(destroyToolSlotOk(id));
+        success("Successfully deleted tool slot.", "Success");
       }, (e: Error) => {
         error(prettyPrintApiErrors(e));
       });

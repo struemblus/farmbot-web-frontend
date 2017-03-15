@@ -92,10 +92,12 @@ export function emergencyLock() {
 
 export function emergencyUnlock() {
   let noun = "Emergency unlock";
-  devices
-    .current
-    .emergencyUnlock()
-    .then(commandOK(noun), commandErr(noun));
+  if (confirm("Are you sure you want to unlock the device?")) {
+    devices
+      .current
+      .reboot()
+      .then(commandOK(noun), commandErr(noun));
+  }
 }
 
 export function sync(): Thunk {
@@ -274,10 +276,10 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
       .connect()
       .then(() => {
         devices.current = bot;
+        (window as any)["current_bot"] = bot;
+        bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
         readStatus();
-        dispatch(sync());
         bot.on("logs", function (msg: RpcBotLog) {
-          eval("msg.source = 'from_bot'");
           dispatch(incomingLog(msg));
         });
         bot.on("status", function (msg: BotStateTree) {
@@ -306,7 +308,6 @@ function fetchDeviceErr(err: Error) {
 
 export function changeSettingsBuffer(key: configKey, val: string):
   ReduxAction<ChangeSettingsBuffer> {
-
   return {
     type: "CHANGE_SETTINGS_BUFFER",
     payload: { key, val: parseInt(val, 10) }
@@ -357,13 +358,6 @@ function commitSettingsChangesOk() {
     payload: {}
   };
 }
-
-// export function changeAxisBuffer(key: string, val: number) {
-//     return {
-//         type: "CHANGE_AXIS_BUFFER",
-//         payload: { key, val }
-//     };
-// }
 
 export function clearLogs(): Thunk {
   return function (dispatch, getState) {
