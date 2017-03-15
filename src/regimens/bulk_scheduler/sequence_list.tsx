@@ -3,12 +3,8 @@ import { Sequence } from "../../sequences/interfaces";
 import { setSequence } from "./actions";
 import { FBSelect, DropDownItem } from "../../ui";
 import * as _ from "lodash";
-
-interface SequenceListProps {
-  sequences: Sequence[];
-  current: Sequence;
-  dispatch: Function;
-}
+import { t } from "i18next";
+import { SequenceListProps } from "./interfaces";
 
 let options: DropDownItem[] = [];
 let selectedSequence: DropDownItem;
@@ -34,7 +30,7 @@ export function SequenceList({ sequences,
     });
 
   return <div>
-    <label>Sequence</label>
+    <label>{t("Sequence")}</label>
     <FBSelect
       allowEmpty={true}
       initialValue={selectedSequence}
