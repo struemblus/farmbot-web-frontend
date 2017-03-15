@@ -6,6 +6,21 @@ export interface RegimenPropsWithParams extends Everything {
   params: { regimen: string; };
 }
 
+/** RegimenItem, as presented by the REST API */
+export interface ApiRegimenItem {
+  id?: number;
+  regimen_id?: number;
+  time_offset: number;
+  sequence_id: number;
+};
+
+/** Regimen, as presented by the REST API */
+export interface ApiRegimen {
+  name: string;
+  color: Color;
+  regimen_items: ApiRegimenItem[];
+};
+
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
   regimen?: Regimen;

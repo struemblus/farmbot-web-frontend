@@ -7,7 +7,7 @@ import { Everything } from "../interfaces";
 import { isMobile } from "../util";
 import { MobileRegimensNav } from "./mobile_nav";
 import { RegimenPropsWithParams } from "./interfaces";
-import { Page } from "../ui/index";
+import { Page, Row, Col } from "../ui/index";
 
 @connect((state: Everything) => state)
 export class Regimens extends React.Component<RegimenPropsWithParams, {}> {
@@ -15,22 +15,22 @@ export class Regimens extends React.Component<RegimenPropsWithParams, {}> {
     let { bulkScheduler } = this.props;
 
     return <Page className="regimens">
-      <div className="row">
-        <div className="col-md-4 col-sm-12">
+      <Row>
+        <Col xs={12} md={4}>
           <BulkSchedulerWidget editor={bulkScheduler}
             sequences={this.props.sequences.all}
             dispatch={this.props.dispatch} />
-        </div>
-        <div className="col-md-4 col-sm-12">
+        </Col>
+        <Col xs={12} md={4}>
           <RegimenEditorWidget { ...this.props } />
-        </div>
+        </Col>
         {isMobile() && (
           <MobileRegimensNav { ...this.props} />
         )}
-        <div className="col-md-4 col-sm-12">
+        <Col xs={12} md={4}>
           <RegimensList { ...this.props } />
-        </div>
-      </div>
+        </Col>
+      </Row>
     </Page>;
   }
 }
