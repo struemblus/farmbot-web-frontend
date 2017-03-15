@@ -3,10 +3,7 @@ import { Component } from "react";
 import { changeStepSize, moveAbs } from "../devices/actions";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
-import {
-  ControlsState,
-  StepSizeSelectorProps
-} from "./interfaces";
+import { ControlsState, StepSizeSelectorProps } from "./interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
