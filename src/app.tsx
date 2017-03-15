@@ -21,8 +21,10 @@ we recommend you try refreshing the page.`;
 export default class App extends React.Component<Everything, {}> {
   componentDidMount() {
     setTimeout(() => {
-      this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
-      alert(TIMEOUT_MESSAGE);
+      if (!this.props.sync.loaded) {
+        this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
+        alert(TIMEOUT_MESSAGE);
+      }
     }, 10000);
   }
 
