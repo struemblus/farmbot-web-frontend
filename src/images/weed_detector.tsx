@@ -56,7 +56,11 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     let nextEnv = {
       "PLANT_DETECTION_options": JSON.stringify(this.farmwareSettings)
     };
-    devices.current.setUserEnv(nextEnv);
+
+    let ok = () => success(t("Settings saved."));
+    let no = () => error(t("Settings NOT saved."));
+
+    devices.current.setUserEnv(nextEnv).then(ok, no);
   }
 
   toggleSettingsMenu = () => {
