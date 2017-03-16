@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { Everything } from "../interfaces";
-import { DetectorState } from "./interfaces";
+import { DetectorState, WeedDetectorENV } from "./interfaces";
 import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
@@ -11,6 +11,7 @@ import { resetWeedDetection } from "./actions";
 import { Progress } from "../util";
 import { Pair } from "farmbot/dist";
 import { HSV } from "./index";
+const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
 @connect((state: Everything) => state)
 export class WeedDetector extends React.Component<Everything, Partial<DetectorState>> {
@@ -19,7 +20,17 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
     this.state = { remoteFarmwareSettings: {} };
   }
 
-  get farmwareSettings() { return this.state.remoteFarmwareSettings || {}; }
+  /** Attempts to deserialize data on the device.
+   * Returns {} as Partial<WeedDetectorENV> if anything goes wrong. */
+  get optionsOnDevice(): Partial<WeedDetectorENV> {
+    let { user_env } = this.props.bot.hardware;
+    let jsonString = user_env[PLANT_DETECTION_OPTIONS_KEY] || "{}";
+    try { return JSON.parse(jsonString) } catch (e) { return {}; }
+  }
+
+  get farmwareSettings() {
+    return { ...this.optionsOnDevice, ...this.state.remoteFarmwareSettings };
+  }
 
   componentDidMount() {
     const IS_ONLINE = !!this
@@ -27,11 +38,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
       .bot
       .hardware
       .user_env["LAST_CLIENT_CONNECTED"];
-    const NEEDS_SETUP = !!this
-      .props
-      .bot
-      .hardware
-      .user_env["PLANT_DETECTION_options"];
+    const NEEDS_SETUP = !!this.optionsOnDevice;
     let remoteFarmwareSettings = this.farmwareSettings;
     (IS_ONLINE && NEEDS_SETUP) ?
       this.saveSettings() : this.setState({ remoteFarmwareSettings });
@@ -54,7 +61,7 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
   saveSettings = () => {
     let nextEnv = {
-      "PLANT_DETECTION_options": JSON.stringify(this.farmwareSettings)
+      [PLANT_DETECTION_OPTIONS_KEY]: JSON.stringify(this.farmwareSettings)
     };
 
     let ok = () => success(t("Settings saved."));
