@@ -69,7 +69,8 @@ export class FarmbotPicker extends React.Component<FarmbotPickerProps, {}> {
     let H_AVG = ((this.props.h[1] * 2 + this.props.h[0] * 2) / 2);
     /** 💥💥💥SURPRISING CODE AHEAD:
      * I think the typings for `react-color` might be missing `hsv` and `hsl`.
-     * If you
+     * I don't have time to send a patch.
+     * TODO: Update `definitely-typed/react-color` typings
      */
     let dontTouchThis = {
       hsv: { h: H_AVG, s: 0, v: 0 },

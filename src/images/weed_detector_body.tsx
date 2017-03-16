@@ -44,34 +44,39 @@ const DEFAULTS = {
 
 interface Props {
   images: Image[];
-  H: number;
-  S: number;
-  V: number;
-  onSliderChange(): void;
+  H: undefined | (number | undefined)[];
+  S: undefined | (number | undefined)[];
+  V: undefined | (number | undefined)[];
+  onSliderChange(key: keyof HSV<"">, values: [number, number]): void;
+  // onSliderChange(key: keyof HSV<"">, values: [number, number]): void;
 }
 
-function onChange(HSV: keyof HSV<"">) {
-  return () => console.log("WEED DETECTOR SLIDER");
-};
-
-function onRelease(HSV: keyof HSV<"">) {
-  return () => console.log("WEED DETECTOR RELEASE");
-}
-
-type BMI = "blur"|"morph"|"iteration";
+type BMI = "blur" | "morph" | "iteration";
 
 function onCommit(BMI: BMI) {
   return () => console.log("ON COMMIT FOR " + BMI);
 }
 
-export function WeedDetectorBody({ images }: Props) {
-  let h_lo = DEFAULTS.H.FALLBACK_LO;
-  let h_hi = DEFAULTS.H.FALLBACK_HI;
-  let s_lo = DEFAULTS.S.FALLBACK_LO;
-  let s_hi = DEFAULTS.S.FALLBACK_HI;
-  let v_lo = DEFAULTS.V.FALLBACK_LO;
-  let v_hi = DEFAULTS.V.FALLBACK_HI;
+export function WeedDetectorBody({
+  images,
+  H,
+  S,
+  V,
+  onSliderChange
+}: Props) {
+  let h_lo = (H || [])[0] || DEFAULTS.H.FALLBACK_LO;
+  let h_hi = (H || [])[1] || DEFAULTS.H.FALLBACK_HI;
+  let s_lo = (S || [])[0] || DEFAULTS.S.FALLBACK_LO;
+  let s_hi = (S || [])[1] || DEFAULTS.S.FALLBACK_HI;
+  let v_lo = (V || [])[0] || DEFAULTS.V.FALLBACK_LO;
+  let v_hi = (V || [])[1] || DEFAULTS.V.FALLBACK_HI;
   let h_avg = ((h_lo * 2 + h_hi * 2) / 2);
+
+  function onChange(HSV: keyof HSV<"">) {
+    return (values: [number, number]) => {
+      onSliderChange && onSliderChange(HSV, values);
+    };
+  };
 
   return <div className="widget-content">
     <div className="row">
@@ -82,7 +87,7 @@ export function WeedDetectorBody({ images }: Props) {
         <label htmlFor="hue">HUE</label>
         <WeedDetectorSlider
           onChange={onChange("H")}
-          onRelease={onRelease("H")}
+          onRelease={_.noop}
           lowest={DEFAULTS.H.LOWEST}
           highest={DEFAULTS.H.HIGHEST}
           lowValue={h_lo}
@@ -90,7 +95,7 @@ export function WeedDetectorBody({ images }: Props) {
         <label htmlFor="saturation">SATURATION</label>
         <WeedDetectorSlider
           onChange={onChange("S")}
-          onRelease={onRelease("S")}
+          onRelease={_.noop}
           lowest={DEFAULTS.S.LOWEST}
           highest={DEFAULTS.S.HIGHEST}
           lowValue={s_lo}
@@ -98,7 +103,7 @@ export function WeedDetectorBody({ images }: Props) {
         <label htmlFor="value">VALUE</label>
         <WeedDetectorSlider
           onChange={onChange("V")}
-          onRelease={onRelease("V")}
+          onRelease={_.noop}
           lowest={DEFAULTS.V.LOWEST}
           highest={DEFAULTS.V.HIGHEST}
           lowValue={v_lo}

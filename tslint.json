@@ -42,7 +42,8 @@
     ],
     "semicolon": [
       true,
-      "always"
+      "ignore-interfaces",
+      "ignore-bound-class-methods"
     ],
     "typedef-whitespace": [
       true,
