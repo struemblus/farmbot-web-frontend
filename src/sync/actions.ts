@@ -68,7 +68,7 @@ function getDevice() {
     .then((resp): DeviceAccountSettings => resp.data);
 };
 
-export function fetchSyncData() {
+function thisHalf() {
   return Promise.all([
     getTools(),
     getToolBays(),
@@ -80,7 +80,7 @@ export function fetchSyncData() {
     getPoints(),
     getPeripherals(),
     getFarmEvents()
-  ]).then((data) => {
+  ]).then((data): Partial<Sync> => {
     let [
       tools,
       toolBays,
@@ -93,31 +93,39 @@ export function fetchSyncData() {
       peripherals,
       farmEvents
     ] = data;
-
-    let fakeSync = {
+    let lolHacks: Partial<Sync> = {
       loaded: true,
-      api_version: "0",
-      compat_num: 0,
-      device: {},
       farm_events: farmEvents,
-      users: [],
       sequences: sequences,
       regimens: regimens,
       peripherals: peripherals,
-      regimen_items: [],
       plants: plants,
       tool_bays: toolBays,
       tool_slots: toolSlots,
       tools: tools,
-      logs: [],
       images: images,
       points: points
-    }
-
-    return fakeSync;
-  }).catch(err => {
-    console.log(err);
+    };
+    return lolHacks;
   });
+}
+
+function thatHalf() {
+  return axios
+    .get<Sync>(API.current.syncPath)
+    .then((resp): Sync => {
+      return resp.data;
+    });
+}
+
+export function fetchSyncData() {
+  return Promise
+    .all([thisHalf(), thatHalf()])
+    .then(function (d) {
+      let partial = d[0];
+      let total = d[1];
+      return _.merge({}, total, partial)
+    });
 }
 
 export function fetchSyncDataOk(sync: Sync) {
