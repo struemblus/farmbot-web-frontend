@@ -4,8 +4,9 @@ import { error } from "../ui";
 import { API } from "../api";
 import { t } from "i18next";
 import * as axios from "axios";
-import { Tool } from "../tools/interfaces";
 import { Sequence } from "../sequences/interfaces";
+import { Tool } from "../tools/interfaces";
+import { IPromise } from "promise";
 
 function getTools() {
   return axios.get<Tool[]>(API.current.toolsPath)
@@ -29,14 +30,10 @@ function getSequences() {
     });
 };
 
-type Stub = [Tool[], Sequence[]];
-
-type ResponseTypes = Tool[]
-
 export function fetchSyncData() {
-  Promise.all<Stub>([getTools(), getSequences()]).then((data: any) => {
-  // let [tools, tools ] = data.map(r => r.data)
-});
+  Promise.all([getTools(), getSequences()]).then((data) => {
+    let [tools, sequences] = data;
+  });
 }
 
 
