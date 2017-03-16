@@ -31,9 +31,11 @@ function getSequences() {
 };
 
 export function fetchSyncData() {
-  Promise.all([getTools(), getSequences()]).then((data) => {
-    let [tools, sequences] = data;
-  });
+  Promise
+    .all([getTools(), getSequences()])
+    .then((data) => {
+      let [tools, sequences] = data;
+    });
 }
 
 
