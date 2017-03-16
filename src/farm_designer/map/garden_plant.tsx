@@ -19,6 +19,16 @@ export class GardenPlant extends React.Component<GardenPlantProps,
     let { plant, onUpdate, onDrop } = this.props;
     if (plant.id) {
       return <g>
+        <g className="selected-plant-indicator">
+          <circle
+            cx={plant.x}
+            cy={plant.y}
+            strokeWidth={3}
+            fill="none"
+            stroke="green"
+            strokeDasharray={8}
+            r={plant.radius} />
+        </g>
         <circle className="map-plant-spread"
           cx={plant.x}
           cy={plant.y}
