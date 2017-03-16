@@ -1,6 +1,6 @@
 import * as React from "react";
 import { HsvSlider } from "./hsv_slider";
-import { FarmbotPicker } from "./farmbot_picker";
+import { FarmbotColorPicker } from "./farmbot_picker";
 import { BlurableInput } from "../ui/index";
 import { ImageFlipper } from "./image_flipper";
 import { Image, HSV } from "./interfaces";
@@ -110,7 +110,10 @@ export function WeedDetectorBody({
           highValue={v_hi} />
       </div>
       <div className="col-md-6 col-sm-12">
-        <FarmbotPicker h={[h_lo, h_hi]} s={[s_lo, s_hi]} v={[v_lo, v_hi]} />
+        <FarmbotColorPicker
+          h={[h_lo, h_hi]}
+          s={[s_lo, s_hi]}
+          v={[v_lo, v_hi]} />
       </div>
     </div>
     <div className="row">
