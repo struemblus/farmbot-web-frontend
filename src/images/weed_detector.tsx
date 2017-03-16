@@ -21,6 +21,22 @@ export class WeedDetector extends React.Component<Everything, Partial<DetectorSt
 
   get farmwareSettings() { return this.state.remoteFarmwareSettings || {}; }
 
+  componentDidMount() {
+    const IS_ONLINE = !!this
+      .props
+      .bot
+      .hardware
+      .user_env["LAST_CLIENT_CONNECTED"];
+    const NEEDS_SETUP = !!this
+      .props
+      .bot
+      .hardware
+      .user_env["PLANT_DETECTION_options"];
+    let remoteFarmwareSettings = this.farmwareSettings;
+    (IS_ONLINE && NEEDS_SETUP) ?
+      this.saveSettings() : this.setState({ remoteFarmwareSettings });
+  }
+
   takePhoto = () => {
     let ok = () => success(t("Processing now. Refresh page to see result."));
     let no = () => error("Error taking photo");

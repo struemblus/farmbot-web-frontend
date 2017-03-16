@@ -70,7 +70,6 @@ export function WeedDetectorBody({
   let s_hi = (S || [])[1] || DEFAULTS.S.FALLBACK_HI;
   let v_lo = (V || [])[0] || DEFAULTS.V.FALLBACK_LO;
   let v_hi = (V || [])[1] || DEFAULTS.V.FALLBACK_HI;
-  let h_avg = ((h_lo * 2 + h_hi * 2) / 2);
 
   function onChange(HSV: keyof HSV<"">) {
     return (values: [number, number]) => {
