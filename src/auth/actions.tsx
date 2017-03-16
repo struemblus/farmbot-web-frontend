@@ -26,11 +26,13 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(loginOk(authState));
 
   fetchSyncData().then((x) => {
-  dispatch(fetchSyncDataOk(x));
+    if (x) {
+      dispatch(fetchSyncDataOk(x));
+    }
   }, (e: Error) => {
-  error(t("Could not download sync data"));
-  dispatch(fetchSyncDataNo(e));
-});
+    error(t("Could not download sync data"));
+    dispatch(fetchSyncDataNo(e));
+  });
 
   // TODO: Make regimens work with sync object
   dispatch(fetchRegimens());

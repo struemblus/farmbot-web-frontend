@@ -11,6 +11,7 @@ import { Regimen } from "../regimens/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
 import { Image } from "../images/interfaces";
+import { DeviceAccountSettings } from "../devices/interfaces";
 
 function getPlants() {
   return axios.get<Plant[]>(API.current.plantsPath)
@@ -60,6 +61,11 @@ function getRegimens() {
 function getTools() {
   return axios.get<Tool[]>(API.current.toolsPath)
     .then((resp): Tool[] => resp.data);
+};
+
+function getDevice() {
+  return axios.get<DeviceAccountSettings>(API.current.devicePath)
+    .then((resp): DeviceAccountSettings => resp.data);
 };
 
 export function fetchSyncData() {
