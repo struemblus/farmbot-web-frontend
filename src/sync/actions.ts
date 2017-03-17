@@ -1,4 +1,4 @@
-import { Sync } from "../interfaces";
+import { Sync, Log } from "../interfaces";
 import { error } from "../ui";
 import { API } from "../api";
 import * as axios from "axios";
@@ -10,120 +10,65 @@ import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
 import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 
-function getPlants() {
-  return axios.get<Plant[]>(API.current.plantsPath)
-    .then((resp): Plant[] => resp.data);
-};
-
-function getPoints() {
-  return axios.get<Point[]>(API.current.pointsPath)
-    .then((resp): Point[] => resp.data);
-};
-
-function getImages() {
-  return axios.get<Image[]>(API.current.imagesPath)
-    .then((resp): Image[] => resp.data);
-};
-
-function getToolSlots() {
-  return axios.get<ToolSlot[]>(API.current.toolSlotsPath)
-    .then((resp): ToolSlot[] => resp.data);
-};
-
-function getToolBays() {
-  return axios.get<ToolBay[]>(API.current.toolBaysPath)
-    .then((resp): ToolBay[] => resp.data);
-};
-
-function getPeripherals() {
-  return axios.get<Peripheral[]>(API.current.peripheralsPath)
-    .then((resp): Peripheral[] => resp.data);
-};
-
-function getFarmEvents() {
-  return axios.get<FarmEvent[]>(API.current.farmEventsPath)
-    .then((resp): FarmEvent[] => resp.data);
-};
-
-function getSequences() {
-  return axios.get<Sequence[]>(API.current.sequencesPath)
-    .then((resp): Sequence[] => resp.data);
-};
-
-function getRegimens() {
-  return axios.get<Regimen[]>(API.current.regimensPath)
-    .then((resp): Regimen[] => resp.data);
-};
-
-function getTools() {
-  return axios.get<Tool[]>(API.current.toolsPath)
-    .then((resp): Tool[] => resp.data);
-};
-
-function getDevice() {
-  return axios.get<DeviceAccountSettings>(API.current.devicePath)
-    .then((resp): DeviceAccountSettings => resp.data);
-};
-
-function thisHalf() {
-  return Promise.all([
-    getTools(),
-    getToolBays(),
-    getToolSlots(),
-    getSequences(),
-    getRegimens(),
-    getPlants(),
-    getImages(),
-    getPoints(),
-    getPeripherals(),
-    getFarmEvents()
-  ]).then((data): Partial<Sync> => {
-    let [
-      tools,
-      toolBays,
-      toolSlots,
-      sequences,
-      regimens,
-      plants,
-      images,
-      points,
-      peripherals,
-      farmEvents
-    ] = data;
-    let lolHacks: Partial<Sync> = {
-      loaded: true,
-      farm_events: farmEvents,
-      sequences: sequences,
-      regimens: regimens,
-      peripherals: peripherals,
-      plants: plants,
-      tool_bays: toolBays,
-      tool_slots: toolSlots,
-      tools: tools,
-      images: images,
-      points: points
-    };
-    return lolHacks;
-  }).catch(err => {
-    error(err, "Error");
-  });
-}
-
-function thatHalf() {
-  return axios
-    .get<Sync>(API.current.syncPath)
-    .then((resp): Sync => {
-      return resp.data;
-    });
-}
 
 export function fetchSyncData() {
   return Promise
-    .all([thisHalf(), thatHalf()])
-    .then(function (d) {
-      let partial = d[0];
-      let total = d[1];
-      return _.merge({}, total, partial)
+    .all([chunk1(), chunk2()])
+    .then(function (d): Sync {
+      return _.merge({}, d[0], d[1]) as Sync;
+    });
+}
+let sync = <T>(url: string) => axios.get<T>(url).then((r): T => r.data);
+
+/** It's theoretically possible to put all 13 resource requests into a single
+ * call to Promise.all.
+ * It seems that typescript stops tracking types after the first 10 requests
+ * though. I prefer having type checks over fewer lines of code, so I had to
+ * put the API requests into chunks of 10.
+ */
+function chunk1() {
+  return Promise
+    .all([
+      sync<DeviceAccountSettings>(API.current.devicePath),
+      sync<FarmEvent[]>(API.current.farmEventsPath),
+      sync<Image[]>(API.current.imagesPath),
+      sync<Log[]>(API.current.logsPath),
+      sync<Peripheral[]>(API.current.peripheralsPath),
+      sync<Plant[]>(API.current.plantsPath),
+      sync<Point[]>(API.current.pointsPath),
+      sync<Regimen[]>(API.current.regimensPath),
+      sync<Sequence[]>(API.current.sequencesPath),
+      sync<ToolBay[]>(API.current.toolBaysPath),
+    ])
+    .then(function (data): Partial<Sync> {
+      return {
+        device: data[0],
+        farm_events: data[1],
+        images: data[2],
+        logs: data[3],
+        peripherals: data[4],
+        plants: data[5],
+        points: data[6],
+        regimens: data[7],
+        sequences: data[8],
+        tool_bays: data[9],
+      };
+    });
+}
+
+function chunk2() {
+  return Promise
+    .all([
+      sync<Tool[]>(API.current.toolsPath),
+      sync<ToolSlot[]>(API.current.toolSlotsPath),
+      sync<Sync>(API.current.syncPath),
+    ])
+    .then(function (data): Partial<Sync> {
+      return {
+        tools: data[0],
+        tool_slots: data[1],
+        ...data[2]
+      }
     });
 }
 
@@ -140,5 +85,3 @@ export function fetchSyncDataNo(err: Error) {
     payload: {}
   };
 }
-
-
