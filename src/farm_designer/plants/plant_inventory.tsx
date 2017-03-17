@@ -36,7 +36,6 @@ export class Plants extends React.Component<Everything, {}> {
 
   render() {
     let plants = selectAll(this.props.resources.plants);
-
     let plantOptions = plants.map(plant => {
       if (plant.id) {
         return { label: plant.name, value: plant.id };
