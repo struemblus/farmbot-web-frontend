@@ -1,12 +1,11 @@
 import * as React from "react";
 import { SequenceBodyItem } from "farmbot";
-import { Sequence, dispatcher, DataXferObj } from "./interfaces";
+import { Sequence, dispatcher, DataXferObj, SequenceEditorMiddleProps } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence, saveSequence, deleteSequence, nullSequence
 } from "./actions";
 import { stepTiles, StepTile } from "./step_tiles/index";
-import { Everything } from "../interfaces";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import {
@@ -23,7 +22,6 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { ToolsState } from "../tools/interfaces";
-import { connect } from "react-redux";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -118,8 +116,7 @@ export let performSeq = (dispatch: Function, s: Sequence) => {
   };
 };
 
-@connect((state: Everything) => state)
-export class SequenceEditorMiddle extends React.Component<Everything, {}> {
+export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddleProps, {}> {
   render() {
     let { sequences, dispatch, tools } = this.props;
     let inx = sequences.current;

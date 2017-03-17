@@ -2,8 +2,6 @@ import * as React from "react";
 import { selectSequence, addSequence } from "./actions";
 import { Sequence, SequencesListProps } from "./interfaces";
 import { t } from "i18next";
-import { connect } from "react-redux";
-import { Everything } from "../interfaces";
 import { isMobile } from "../util";
 import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
@@ -34,7 +32,6 @@ let buttonList = (dispatch: Function) => (seq: Sequence, index: number) => {
   }
 };
 
-@connect((state: Everything) => state)
 export class SequencesList extends React.Component<SequencesListProps, {}> {
   render() {
     let { sequences, dispatch } = this.props;

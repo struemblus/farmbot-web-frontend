@@ -1,5 +1,4 @@
 import { Color } from "../interfaces";
-import { SelectOptionsParams, Everything } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
 import {
   Sequence as CeleryScriptSequence,
@@ -13,6 +12,19 @@ import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
+
+export interface Props {
+  dispatch: Function;
+  sequences: SequenceReducerState;
+  tools: ToolsState;
+  auth: AuthState | undefined;
+}
+
+export interface SequenceEditorMiddleProps {
+  dispatch: Function;
+  sequences: SequenceReducerState;
+  tools: ToolsState;
+}
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
@@ -40,14 +52,14 @@ export interface SequenceReducerState {
 export interface SequencesListProps {
   sequences: SequenceReducerState;
   dispatch: Function;
-  auth: AuthState;
+  auth: AuthState | undefined;
 }
 
 export interface NamedVector3 extends Vector3 {
   name: string;
 }
 
-export interface MobileSequencesNavProps extends Everything {
+export interface MobileSequencesNavProps {
   params: {
     sequence: string;
   };
