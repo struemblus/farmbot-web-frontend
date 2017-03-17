@@ -10,6 +10,7 @@ export interface Props {
   dispatch: Function;
   designer: DesignerState;
   points: Point[];
+  plants: Plant[];
 }
 
 export interface UpdateSequenceOrRegimenProps {

@@ -5,6 +5,7 @@ import { API } from "../api";
 import { ToolBay, ToolSlot, Tool } from "./interfaces";
 import { success, error } from "../ui";
 import { prettyPrintApiErrors } from "../util";
+import { selectAll } from "../resources/util";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
@@ -24,7 +25,7 @@ export function saveToolBay(
   id: number, toolBays: ToolBay[], callback: Function
 ): Thunk {
   return (dispatch, getState) => {
-    let tool_slots = getState().tools.tool_slots;
+    let tool_slots = selectAll(getState().resources.tool_slots);
     let url = API.current.toolSlotsPath;
     Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {

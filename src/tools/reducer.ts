@@ -6,28 +6,17 @@ import {
   ToolSlot,
   UpdateToolSlotPayl
 } from "./interfaces";
-import { Sync } from "../interfaces";
 import * as _ from "lodash";
 
 let initialState: ToolsState = {
   editorMode: false,
-  tool_bays: [],
-  tool_slots: [],
   tools: {
     isEditing: false,
-    all: [],
     dirty: false
   }
 };
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
-  /** Generic */
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-    s.tool_bays = a.payload.tool_bays || [];
-    s.tool_slots = a.payload.tool_slots || [];
-    s.tools.all = a.payload.tools || [];
-    return s;
-  })
   .add<{}>("TOGGLE_EDIT_TOOL_BAYS", function (s, a) {
     s.editorMode = !s.editorMode;
     return s;

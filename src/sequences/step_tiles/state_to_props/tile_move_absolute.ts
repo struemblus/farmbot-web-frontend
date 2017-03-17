@@ -4,6 +4,7 @@ import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
 import { safeStringFetch, CowardlyDictionary } from "../../../util";
+import { selectAll } from "../../../resources/util";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
@@ -29,9 +30,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   /** Create dropdown options */
   // tools WHERE slot_id NOT NULL
-  let options = props
-    .tools
-    .tool_slots
+  let options = selectAll(props.resources.tool_slots)
     .filter(slot => slot && slot.tool_id && slot.id)
     .map(slot => ({ slot, tool: toolById[slot.tool_id || 0] }))
     .filter(pair => (pair.slot && pair.tool))

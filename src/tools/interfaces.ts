@@ -2,11 +2,8 @@ import { DropDownItem } from "../ui/fb_select";
 
 export interface ToolsState {
   editorMode: boolean;
-  tool_bays: ToolBay[];
-  tool_slots: ToolSlot[];
   tools: {
     isEditing: boolean;
-    all: Tool[];
     dirty: boolean;
   };
 }
