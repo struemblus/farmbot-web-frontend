@@ -44,11 +44,13 @@ export class Peripherals extends React.Component<PeripheralsProps, {}> {
   }
   render() {
     return <Widget>
-      <TitleBar {...this.props.peripherals}
+      <TitleBar
+        peripherals={this.props.peripherals}
         dispatch={this.props.dispatch} />
       <WidgetBody>
         {this.peripherals.call(this)}
-        <PeripheralForm dispatch={this.props.dispatch}
+        <PeripheralForm
+          dispatch={this.props.dispatch}
           editorMode={this.props.peripherals.editorMode} />
       </WidgetBody>
     </Widget>;

@@ -107,7 +107,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={7}>
-              <OsUpdateButton { ...this.props } />
+              <OsUpdateButton bot={this.props.bot} />
             </Col>
           </Row>
           <Row>

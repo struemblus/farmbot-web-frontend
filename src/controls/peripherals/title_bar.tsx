@@ -6,15 +6,19 @@ import { WidgetHeader } from "../../ui/index";
 import { TitleBarProps } from "../interfaces";
 
 export function TitleBar(props: TitleBarProps) {
-  if (props.editorMode === "editing") {
-    return <TitleBarEditing {...props} />;
+  if (props.peripherals.editorMode === "editing") {
+    return <TitleBarEditing
+      dispatch={props.dispatch}
+      peripherals={props.peripherals} />;
   } else {
-    return <TitleBarControlling {...props} />;
+    return <TitleBarControlling
+      dispatch={props.dispatch}
+      peripherals={props.peripherals} />;
   };
 }
 
 function TitleBarEditing(props: TitleBarProps) {
-  let dirty = _.where(props.all, { dirty: true }).length;
+  let dirty = _.where(props.peripherals.all, { dirty: true }).length;
 
   return <WidgetHeader title="Peripherals"
     helpText={`Use these toggle switches to control FarmBot's peripherals in 

@@ -65,8 +65,9 @@ export interface StepSizeSelectorProps {
   selector: (num: number) => void;
 }
 
-export interface TitleBarProps extends PeripheralState {
+export interface TitleBarProps {
   dispatch: Function;
+  peripherals: PeripheralState;
 }
 
 export interface JogMovementControlsProps {
