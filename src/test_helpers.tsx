@@ -104,7 +104,6 @@ export function fakeState(dispatcher?: Function): Everything {
   let sync = {
     loaded: false,
     api_version: "",
-    compat_num: 0,
     device: {
       id: 0,
       name: "",

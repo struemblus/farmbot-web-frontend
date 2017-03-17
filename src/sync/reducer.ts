@@ -14,7 +14,6 @@ import { Plant as newPlant } from "../farm_designer/plant";
 const initialState: Sync = {
   loaded: false,
   api_version: "",
-  compat_num: 0,
   device: {
     id: 0,
     name: "",

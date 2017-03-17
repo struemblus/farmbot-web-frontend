@@ -43,6 +43,7 @@ function chunk1() {
     .then(function (data): Partial<Sync> {
       return {
         device: data[0],
+        api_version: "-------",
         farm_events: data[1],
         images: data[2],
         logs: data[3],
@@ -67,6 +68,7 @@ function chunk2() {
       return {
         tools: data[0],
         tool_slots: data[1],
+        loaded: true,
         ...data[2]
       }
     });

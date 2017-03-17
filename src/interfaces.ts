@@ -87,9 +87,6 @@ export interface Sync {
   loaded: boolean;
   /** Git commit hash of the revision that the server is running. */
   api_version: string;
-  /** A number that, when incremented, alerts the bot that
-   * its software is out of date */
-  compat_num: number;
   device: DeviceAccountSettings;
   farm_events: FarmEvent[];
   users: User[];
@@ -106,7 +103,7 @@ export interface Sync {
   points: Point[];
 }
 
-/** React-select does not provide an interface for their CustomOption 
+/** React-select does not provide an interface for their CustomOption
  * component. Since they share similarities, we can go with this one as a base.
  */
 export interface CustomOptionProps {
