@@ -64,7 +64,7 @@ export default class App extends React.Component<FixMePlease, {}> {
   }
 
   render() {
-    let syncLoaded = this.props.sync.loaded;
+    let syncLoaded = this.props.loaded;
     return <div className="app">
       <NavBar
         auth={this.props.auth}
