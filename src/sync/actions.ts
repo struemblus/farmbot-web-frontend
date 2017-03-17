@@ -1,12 +1,9 @@
-import { Thunk } from "../redux/interfaces";
 import { Sync } from "../interfaces";
 import { error } from "../ui";
 import { API } from "../api";
-import { t } from "i18next";
 import * as axios from "axios";
 import { Sequence } from "../sequences/interfaces";
 import { Tool, ToolBay, ToolSlot } from "../tools/interfaces";
-import { IPromise } from "promise";
 import { Regimen } from "../regimens/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
@@ -107,6 +104,8 @@ function thisHalf() {
       points: points
     };
     return lolHacks;
+  }).catch(err => {
+    error(err, "Error");
   });
 }
 
