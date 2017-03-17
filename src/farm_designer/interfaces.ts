@@ -3,13 +3,12 @@ import { DropDownItem } from "../ui/index";
 import { Dictionary } from "farmbot/dist";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
-import { Everything } from "../interfaces";
+import { Everything, Sync } from "../interfaces";
 
-export interface IndexProps extends Everything {
-  params: {
-    species: string;
-    plant_id: string;
-  };
+export interface Props {
+  dispatch: Function;
+  sync: Sync;
+  designer: DesignerState;
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -146,11 +145,12 @@ export interface FarmEventProps {
   push: (url: string) => void;
 }
 
-export interface GardenMapProps extends Everything {
-  params: {
-    species: string;
-    plant_id: string;
-  };
+export interface GardenMapProps {
+  dispatch: Function;
+  designer: DesignerState;
+  sync: Sync;
+  params: { species: string; };
+  location: { pathname: string; };
 }
 
 export interface GardenMapState {

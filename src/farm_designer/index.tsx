@@ -1,14 +1,20 @@
 import * as React from "react";
 import { GardenMap } from "./map/garden_map";
 import { connect } from "react-redux";
-import { Everything } from "../interfaces";
 import { success } from "../ui";
 import { Link } from "react-router";
 import { t } from "i18next";
-import { IndexProps } from "./interfaces";
+import { Props } from "./interfaces";
+import { mapStateToProps } from "./state_to_props";
 
-@connect((state: Everything) => state)
-export class FarmDesigner extends React.Component<IndexProps, {}> {
+// TODO: Need to get `location` and `params` into `state_to_props` somehow...
+interface FixMePlease extends Props {
+  location: { pathname: string; };
+  params: { species: string; }
+}
+
+@connect(mapStateToProps)
+export class FarmDesigner extends React.Component<FixMePlease, {}> {
   componentDidMount() {
     success("Subscribe to the FarmBot.io mailing list for news and updates.",
       "Work in Progress");
@@ -44,7 +50,12 @@ export class FarmDesigner extends React.Component<IndexProps, {}> {
         </div>
 
         <div className="farm-designer-map">
-          <GardenMap {...this.props} />
+          <GardenMap
+            dispatch={this.props.dispatch}
+            designer={this.props.designer}
+            sync={this.props.sync}
+            params={this.props.params}
+            location={this.props.location} />
         </div>
       </div>
     );

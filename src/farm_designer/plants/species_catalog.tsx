@@ -37,7 +37,10 @@ export class SpeciesCatalog extends React.Component<Everything, {}> {
         </div>
         <div className="panel-content">
           <div className="crop-search-result-wrapper row">
-            <OpenFarmSearch {...this.props} query={cropSearchQuery} />
+            <OpenFarmSearch
+              dispatch={this.props.dispatch}
+              query={this.props.designer.cropSearchQuery}
+              designer={this.props.designer} />
           </div>
         </div>
       </div>

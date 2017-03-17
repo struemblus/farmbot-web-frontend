@@ -1,8 +1,6 @@
 import * as React from "react";
-import { Everything } from "../../interfaces";
 import { Plant } from "../plant";
 import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
-import { connect } from "react-redux";
 import * as moment from "moment";
 import { GardenMapProps, GardenMapState, PlantOptions } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
@@ -25,7 +23,6 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
   return { x: rawX, y: rawY };
 }
 
-@connect((state: Everything) => state)
 export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   state = { activePlant: undefined, tempX: undefined, tempY: undefined };
 
