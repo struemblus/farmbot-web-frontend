@@ -87,6 +87,7 @@ export interface BotState {
   };
   configBuffer: Configuration;
   hardware: HardwareState;
+  account: DeviceAccountSettings;
 }
 export interface BotProp {
   bot: BotState;
