@@ -1,12 +1,10 @@
 import * as React from "react";
 import { RegimenListItem } from "./regimen_list_item";
-import { Everything } from "../../interfaces";
 import { AddRegimen } from "./add_button";
-import { connect } from "react-redux";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import { RegimensListProps } from "../interfaces";
 
-@connect((state: Everything) => state)
-export class RegimensList extends React.Component<Everything, {}> {
+export class RegimensList extends React.Component<RegimensListProps, {}> {
   render() {
     return <Widget className="regimen-list-widget">
       <WidgetHeader title="Regimens"

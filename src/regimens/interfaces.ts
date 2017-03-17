@@ -1,8 +1,20 @@
 import { ReduxAction } from "../redux/interfaces";
-import { Sequence } from "../sequences/interfaces";
-import { Color, Everything } from "../interfaces";
+import { Sequence, SequenceReducerState } from "../sequences/interfaces";
+import { Color } from "../interfaces";
+import { BulkSchedulerState } from "./bulk_scheduler/interfaces";
+import { AuthState } from "../auth/interfaces";
+import { BotState } from "../devices/interfaces";
 
-export interface RegimenPropsWithParams extends Everything {
+export interface Props {
+  dispatch: Function;
+  sequences: SequenceReducerState;
+  bulkScheduler: BulkSchedulerState;
+  auth: AuthState | undefined;
+  bot: BotState;
+  regimens: RegimensState;
+}
+
+export interface RegimenPropsWithParams {
   params: { regimen: string; };
 }
 
@@ -67,4 +79,9 @@ export interface AddRegimenProps {
 
 export interface RegimenListItemProps extends RegimenProps {
   index: number;
+}
+
+export interface RegimensListProps {
+  dispatch: Function;
+  regimens: RegimensState;
 }
