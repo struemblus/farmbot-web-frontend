@@ -1,7 +1,3 @@
-export interface ImageState {
-  all: Image[];
-}
-
 export interface Image {
   id: number;
   device_id: number;

@@ -2,13 +2,13 @@ import { Dictionary } from "farmbot/dist";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen, RegimenItem } from "../regimens/interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { Sync, Log } from "../interfaces";
+import { DeprecatedSync, Log } from "../interfaces";
 import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
 import { User } from "../auth/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/interfaces";
-import { indexById, indexRegimenItems } from "./util";
+import { indexById, indexRegimenItems, selectAll } from "./util";
 import { RestResources } from "./interfaces";
 
 /** When you need an empty index because syncing has yet to complete. */
@@ -31,7 +31,7 @@ let initialState: RestResources = {
 
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer<RestResources>(initialState)
-  .add<Sync>("FETCH_SYNC_OK", function (state, action) {
+  .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
     let p = action.payload;
     p.regimens.map(x => x.regimen_items)
     return _.merge(state, {

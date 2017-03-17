@@ -6,12 +6,13 @@ import * as moment from "moment";
 import { t } from "i18next";
 import { PlantInfoProps } from "../interfaces";
 import { error } from "../../ui/index";
+import { selectAll } from "../../resources/util";
 
 @connect((state: Everything) => state)
 export class PlantInfo extends React.Component<PlantInfoProps, {}> {
   findCurrentPlant = () => {
     let plant_id = parseInt(this.props.params.plant_id);
-    let plants = this.props.designer.deprecatedPlants;
+    let plants = selectAll(this.props.resources.plants);
     let currentPlant = _.findWhere(plants, { id: plant_id });
     return currentPlant;
   }
@@ -25,6 +26,7 @@ export class PlantInfo extends React.Component<PlantInfoProps, {}> {
   }
 
   render() {
+    console.log("Hey chris can you write a mapStateToProps fn here?")
     let currentPlant = this.findCurrentPlant() || {
       planted_at: moment().toISOString(),
       name: "Error: No plant name.",

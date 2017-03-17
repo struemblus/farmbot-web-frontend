@@ -17,7 +17,7 @@ import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
-import { ImageState, Image } from "./images";
+import { Image } from "./images";
 import { Regimen } from "./regimens/interfaces";
 import { RestResources } from "./resources/interfaces";
 
@@ -75,7 +75,6 @@ export interface Everything {
   draggable: DragableState;
   peripherals: PeripheralState;
   tools: ToolsState;
-  images: ImageState;
   resources: RestResources;
   router: {
     push(url?: string): void;

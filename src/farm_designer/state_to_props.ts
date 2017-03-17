@@ -6,7 +6,8 @@ export function mapStateToProps(props: Everything): Props {
   return {
     dispatch: props.dispatch,
     designer: props.designer,
-    points: selectAll(props.resources.points)
+    points: selectAll(props.resources.points),
+    plants: selectAll(props.resources.plants)
   };
 }
 

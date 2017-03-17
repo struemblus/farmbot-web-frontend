@@ -8,7 +8,7 @@ import { push } from "../history";
 import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { fetchSyncData, fetchSyncDataNo, fetchSyncDataOk } from "../sync/actions";
+import * as NoNoNo from "../sync/actions";
 import { fetchRegimens } from "../regimens/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
@@ -25,13 +25,13 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
   dispatch(loginOk(authState));
 
-  fetchSyncData().then((x) => {
+  NoNoNo.fetchDeprecatedSyncData().then((x) => {
     if (x) {
-      dispatch(fetchSyncDataOk(x));
+      dispatch(NoNoNo.fetchDeprecatedSyncDataOk(x));
     }
   }, (e: Error) => {
     error(t("Could not download sync data"));
-    dispatch(fetchSyncDataNo(e));
+    dispatch(NoNoNo.fetchDeprecatedSyncDataNo(e));
   });
 
   // TODO: Make regimens work with sync object

@@ -2,11 +2,12 @@ import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
+import { selectAll } from "../resources/util";
 
 export function mapStateToProps(props: Everything): Props {
-  let toolBays = props.tools.tool_bays;
-  let toolSlots = props.tools.tool_slots;
-  let tools = props.tools.tools.all;
+  let toolBays = selectAll(props.resources.tool_bays);
+  let toolSlots = selectAll(props.resources.tool_slots);
+  let tools =  selectAll(props.resources.tools);
   let editorMode = props.tools.editorMode;
   let isEditingTools = props.tools.tools.isEditing;
   let dirtyTools = props.tools.tools.dirty;

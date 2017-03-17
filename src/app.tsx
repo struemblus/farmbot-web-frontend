@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavBar } from "./nav";
-import { Everything, Sync, Log } from "./interfaces";
+import { Everything, Log } from "./interfaces";
 import { init, error } from "./ui";
 import { connect } from "react-redux";
 import { Spinner } from "./spinner";

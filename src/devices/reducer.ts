@@ -8,7 +8,6 @@ import { ChangeSettingsBuffer } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot";
-import { Sync } from "../interfaces";
 
 // TODO: Do we even need this anymore after the ticker overhaul?
 let status = {

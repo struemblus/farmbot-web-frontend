@@ -10,6 +10,7 @@ export interface Props {
   dispatch: Function;
   designer: DesignerState;
   points: Point[];
+  plants: Plant[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -83,10 +84,6 @@ export interface Specimen {
 export interface DesignerState {
   x_size: number;
   y_size: number;
-  /** This causes too much data denormalization-
-   *  let's just use state.sync.plants moving forward.
-   */
-  deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -150,6 +147,7 @@ export interface GardenMapProps {
   dispatch: Function;
   designer: DesignerState;
   points: Point[];
+  plants: Plant[];
   params: { species: string; };
   location: { pathname: string; };
 }

@@ -1,5 +1,4 @@
-import { Sync, Log } from "../interfaces";
-import { error } from "../ui";
+import { DeprecatedSync, Log } from "../interfaces";
 import { API } from "../api";
 import * as axios from "axios";
 import { Sequence } from "../sequences/interfaces";
@@ -11,14 +10,14 @@ import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 
 
-export function fetchSyncData() {
+export function fetchDeprecatedSyncData() {
   return Promise
     .all([chunk1(), chunk2()])
-    .then(function (d): Sync {
-      return _.merge({}, d[0], d[1]) as Sync;
+    .then(function (d): DeprecatedSync {
+      return _.merge({}, d[0], d[1]) as DeprecatedSync;
     });
 }
-let sync = <T>(url: string) => axios.get<T>(url).then((r): T => r.data);
+let fetch = <T>(url: string) => axios.get<T>(url).then((r): T => r.data);
 
 /** It's theoretically possible to put all 13 resource requests into a single
  * call to Promise.all.
@@ -29,18 +28,18 @@ let sync = <T>(url: string) => axios.get<T>(url).then((r): T => r.data);
 function chunk1() {
   return Promise
     .all([
-      sync<DeviceAccountSettings>(API.current.devicePath),
-      sync<FarmEvent[]>(API.current.farmEventsPath),
-      sync<Image[]>(API.current.imagesPath),
-      sync<Log[]>(API.current.logsPath),
-      sync<Peripheral[]>(API.current.peripheralsPath),
-      sync<Plant[]>(API.current.plantsPath),
-      sync<Point[]>(API.current.pointsPath),
-      sync<Regimen[]>(API.current.regimensPath),
-      sync<Sequence[]>(API.current.sequencesPath),
-      sync<ToolBay[]>(API.current.toolBaysPath),
+      fetch<DeviceAccountSettings>(API.current.devicePath),
+      fetch<FarmEvent[]>(API.current.farmEventsPath),
+      fetch<Image[]>(API.current.imagesPath),
+      fetch<Log[]>(API.current.logsPath),
+      fetch<Peripheral[]>(API.current.peripheralsPath),
+      fetch<Plant[]>(API.current.plantsPath),
+      fetch<Point[]>(API.current.pointsPath),
+      fetch<Regimen[]>(API.current.regimensPath),
+      fetch<Sequence[]>(API.current.sequencesPath),
+      fetch<ToolBay[]>(API.current.toolBaysPath),
     ])
-    .then(function (data): Partial<Sync> {
+    .then(function (data): Partial<DeprecatedSync> {
       return {
         device: data[0],
         api_version: "-------",
@@ -60,11 +59,11 @@ function chunk1() {
 function chunk2() {
   return Promise
     .all([
-      sync<Tool[]>(API.current.toolsPath),
-      sync<ToolSlot[]>(API.current.toolSlotsPath),
-      sync<Sync>(API.current.syncPath),
+      fetch<Tool[]>(API.current.toolsPath),
+      fetch<ToolSlot[]>(API.current.toolSlotsPath),
+      fetch<DeprecatedSync>(API.current.syncPath),
     ])
-    .then(function (data): Partial<Sync> {
+    .then(function (data): Partial<DeprecatedSync> {
       return {
         tools: data[0],
         tool_slots: data[1],
@@ -74,14 +73,12 @@ function chunk2() {
     });
 }
 
-export function fetchSyncDataOk(sync: Sync) {
+export function fetchDeprecatedSyncDataOk(payload: DeprecatedSync) {
   return {
-    type: "FETCH_SYNC_OK",
-    payload: sync
-  };
+    type: "FETCH_SYNC_OK", payload };
 }
 
-export function fetchSyncDataNo(err: Error) {
+export function fetchDeprecatedSyncDataNo(err: Error) {
   return {
     type: "FETCH_SYNC_NO",
     payload: {}
