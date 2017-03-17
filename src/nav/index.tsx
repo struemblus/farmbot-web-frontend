@@ -154,8 +154,13 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         </div>
 
         <div className="right-nav-content">
-          <SyncButton { ...this.props } />
-          <EStopButton { ...this.props } />
+          <SyncButton
+            bot={this.props.bot}
+            auth={this.props.auth}
+            dispatch={this.props.dispatch} />
+          <EStopButton
+            bot={this.props.bot}
+            auth={this.props.auth} />
           <DropDown onClick={logout} { ...this.props } />
         </div>
 

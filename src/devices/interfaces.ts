@@ -5,6 +5,7 @@ import {
 } from "farmbot";
 import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
+import { PeripheralState } from "../controls/peripherals/interfaces";
 
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
@@ -135,5 +136,16 @@ export interface ConfigInputBoxProps {
 export interface McuInputBoxProps {
   bot: BotState;
   setting: string;
+  dispatch: Function;
+}
+
+export interface EStopButtonProps {
+  bot: BotState;
+  auth: AuthState | undefined;
+}
+
+export interface PeripheralsProps {
+  bot: BotState;
+  peripherals: PeripheralState;
   dispatch: Function;
 }

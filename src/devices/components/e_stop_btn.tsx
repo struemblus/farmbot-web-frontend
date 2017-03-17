@@ -1,9 +1,9 @@
 import * as React from "react";
 import { t } from "i18next";
 import { emergencyLock, emergencyUnlock } from "../actions";
-import { Everything } from "../../interfaces";
+import { EStopButtonProps } from "../interfaces";
 
-export class EStopButton extends React.Component<Everything, {}> {
+export class EStopButton extends React.Component<EStopButtonProps, {}> {
   render() {
     let { locked } = this.props.bot.hardware.informational_settings;
     let toggleEmergencyLock = locked ? emergencyUnlock : emergencyLock;

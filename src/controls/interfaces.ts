@@ -37,12 +37,12 @@ export interface Vector {
   z: number;
 }
 
-export interface Props {
+export interface AxisInputBoxGroupProps {
   onCommit: (v: Vector) => void;
   bot: BotState;
 }
 
-export interface State {
+export interface AxisInputBoxGroupState {
   x?: number | undefined;
   y?: number | undefined;
   z?: number | undefined;

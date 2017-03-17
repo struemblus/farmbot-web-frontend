@@ -2,77 +2,23 @@ import * as React from "react";
 import { Component } from "react";
 import { changeStepSize, moveAbs } from "../devices/actions";
 import { connect } from "react-redux";
-import { Everything } from "../interfaces";
-import { ControlsState, StepSizeSelectorProps } from "./interfaces";
+import { ControlsState } from "./interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
-import * as _ from "lodash";
 import { API } from "../api";
 import { JogButtons } from "./jog_buttons";
 import { AxisInputBoxGroup } from "./axis_input_box_group";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
 import { Row, Page, Col, Widget, WidgetBody, WidgetHeader } from "../ui";
+import { mapStateToProps, Props } from "./state_to_props";
+import { StepSizeSelector } from "./step_size_selector";
+import { showUrl } from "./show_url";
+import { updateWebcamUrl } from "./update_webcam_url";
 
-export class StepSizeSelector extends Component<StepSizeSelectorProps, {}> {
-  cssForIndex(num: number) {
-    let choices = this.props.choices;
-    let css = "move-amount no-radius ";
-    if (num === _.first(choices)) {
-      css += "leftmost ";
-    }
-    if (num === _.last(choices)) {
-      css += "rightmost ";
-    }
-    if (num === this.props.selected) {
-      css += "move-amount-selected ";
-    }
-    return css;
-  }
-
-  render() {
-    return <div className="move-amount-wrapper">
-      {
-        this.props.choices.map(
-          (item: number, inx: number) => <button
-            className={this.cssForIndex(item)}
-            onClick={() => this.props.selector(item)}
-            key={inx}>
-            {item}
-          </button>
-        )
-      }
-    </div>;
-  }
-}
-
-const showUrl = (url: string, dirty: boolean) => {
-  if (dirty) {
-    return <p>Press save to view.</p>;
-  } else {
-    if (url.includes("placeholder_farmbot")) {
-      return <div className="webcam-stream-unavailable">
-        <img src={url} />
-        <text>Camera stream not available.
-        <br />Press <b>EDIT</b> to add a stream.</text>
-      </div>;
-    } else {
-      return <img className="webcam-stream" src={url} />;
-    };
-  };
-};
-
-const updateWebcamUrl = (dispatch: Function) => (
-  event: React.KeyboardEvent<HTMLInputElement>) => {
-  dispatch({
-    type: "CHANGE_WEBCAM_URL",
-    payload: event.currentTarget.value
-  });
-};
-
-@connect((state: Everything) => state)
-export class Controls extends Component<Everything, ControlsState> {
+@connect(mapStateToProps)
+export class Controls extends Component<Props, ControlsState> {
   constructor() {
     super();
     this.state = { isEditingCameraURL: false };
@@ -108,7 +54,9 @@ export class Controls extends Component<Everything, ControlsState> {
                     new coordinates and press GO for an absolute movement. Tip: 
                     Press the Home button when you are done so FarmBot is ready 
                     to get back to work.`}>
-              <EStopButton {...this.props} />
+              <EStopButton
+                bot={this.props.bot}
+                auth={this.props.auth} />
             </WidgetHeader>
             <WidgetBody>
               <label className="text-center">
@@ -124,7 +72,10 @@ export class Controls extends Component<Everything, ControlsState> {
                 onCommit={(input) => { moveAbs(input); }} />
             </WidgetBody>
           </Widget>
-          <Peripherals {...this.props} />
+          <Peripherals
+            bot={this.props.bot}
+            peripherals={this.props.peripherals}
+            dispatch={this.props.dispatch} />
         </Col>
         <Col xs={12} sm={6}>
           <Widget>

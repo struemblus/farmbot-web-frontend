@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Pin, Pins } from "farmbot";
-import { Everything } from "../../interfaces";
 import { TitleBar } from "./title_bar";
 import { PeripheralItem } from "./peripheral_item";
 import { Peripheral } from "./interfaces";
 import { PeripheralForm } from "./peripheral_form";
 import { Widget, WidgetBody } from "../../ui";
+import { PeripheralsProps } from "../../devices/interfaces";
 
-export class Peripherals extends React.Component<Everything, {}> {
+export class Peripherals extends React.Component<PeripheralsProps, {}> {
   getPin(p: Peripheral, pins: Pins): Pin {
     let pin = pins[p.pin];
     if (pin) {
