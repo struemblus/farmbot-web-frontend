@@ -18,7 +18,6 @@ import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
 import { API } from "../api";
 import { HardwareState } from "../devices/interfaces";
-import { update } from "../api/crud";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;

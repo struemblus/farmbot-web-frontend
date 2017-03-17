@@ -174,10 +174,6 @@ export let botReducer = generateReducer<BotState>(initialState)
     s.account = a.payload;
     return s;
   })
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-    s.account = a.payload.device;
-    return s;
-  })
   .add<string>("CHANGE_WEBCAM_URL", function (s, a) {
     s.account.dirty = true;
     s.account.webcam_url = a.payload;
