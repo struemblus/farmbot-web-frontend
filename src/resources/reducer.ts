@@ -8,28 +8,8 @@ import { User } from "../auth/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/interfaces";
-
-/** Like Dictionary<T>, except more cautious about null values. */
-export type CowardlyDictionary<T> = Dictionary<T | undefined>;
-
-/** A REST resource, indexed by it's `id` attribute. */
-interface IndexedResource<T> { all: number[]; byId: CowardlyDictionary<T>; }
-
-export interface RestResources {
-  /** Tells you if the sync finished yet. */
-  loaded: boolean;
-  sequences: IndexedResource<Sequence>;
-  regimens: IndexedResource<Regimen>;
-  farm_events: IndexedResource<FarmEvent>;
-  plants: IndexedResource<Plant>;
-  tool_bays: IndexedResource<ToolBay>;
-  tool_slots: IndexedResource<ToolSlot>;
-  tools: IndexedResource<Tool>;
-  images: IndexedResource<Image>;
-  points: IndexedResource<Point>;
-  regimen_items: IndexedResource<RegimenItem>;
-  logs: IndexedResource<Log>;
-};
+import { indexById, indexRegimenItems } from "./util";
+import { RestResources } from "./interfaces";
 
 /** When you need an empty index because syncing has yet to complete. */
 let emptyIndex = () => ({ all: [], byId: {} });
@@ -68,19 +48,3 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       loaded: true
     });
   });
-
-function indexRegimenItems(input: Regimen[]) {
-  let byId = _(input)
-    .map(x => x.regimen_items)
-    .flatten()
-    .uniq()
-    .map(x => x)
-    .indexBy("id")
-    .value() as Dictionary<RegimenItem>;
-  let all = Object.keys(byId).map(x => parseInt(x));
-  return { all, byId };
-}
-let indexById = <T>(input: T[]) => ({
-  all: _.pluck(input, "id"),
-  byId: _(input).indexBy("id").sortBy().value()
-});

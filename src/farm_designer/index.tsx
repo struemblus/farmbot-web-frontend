@@ -53,8 +53,8 @@ export class FarmDesigner extends React.Component<FixMePlease, {}> {
           <GardenMap
             dispatch={this.props.dispatch}
             designer={this.props.designer}
-            sync={this.props.sync}
             params={this.props.params}
+            points={this.props.points}
             location={this.props.location} />
         </div>
       </div>

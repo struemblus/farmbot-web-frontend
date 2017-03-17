@@ -3,13 +3,13 @@ import { DropDownItem } from "../ui/index";
 import { Dictionary } from "farmbot/dist";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
-import { Everything, Sync } from "../interfaces";
-import { CowardlyDictionary } from "../resources/reducer";
+import { Everything } from "../interfaces";
+import { CowardlyDictionary } from "../util";
 
 export interface Props {
   dispatch: Function;
-  sync: Sync;
   designer: DesignerState;
+  points: Point[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -149,7 +149,7 @@ export interface FarmEventProps {
 export interface GardenMapProps {
   dispatch: Function;
   designer: DesignerState;
-  sync: Sync;
+  points: Point[];
   params: { species: string; };
   location: { pathname: string; };
 }

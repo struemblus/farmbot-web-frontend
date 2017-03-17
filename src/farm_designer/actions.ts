@@ -2,14 +2,11 @@ import * as Axios from "axios";
 import { error, success } from "../ui";
 import { Plant, MovePlantProps, FarmEvent, FarmEventForm } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
-import { CropSearchResult, OpenFarm } from "./openfarm";
 import { t } from "i18next";
-import * as _ from "lodash";
 import { API } from "../api";
 import { Everything } from "../interfaces";
 import { findPlantById } from "../sync/reducer";
 import { prettyPrintApiErrors } from "../util";
-import { DEFAULT_ICON } from "../open_farm/index";
 
 export function saveFarmEvent(farm_event: FarmEventForm,
   callback: () => void): Thunk {
@@ -84,15 +81,19 @@ export function savePlantById(id: number): Thunk {
   let url = API.current.plantsPath;
   return function (dispatch, getState) {
     let s = getState() as Everything;
-    let plant: Plant = findPlantById(s.sync.plants, id);
-    return Axios.put<Partial<Plant>>(url + `/${id}`, plant)
-      .then(resp => {
-        let payload = { ...plant, ...resp.data };
-        dispatch({ type: "UPDATE_PLANT_OK", payload });
-      })
-      .catch(payload => {
-        error(t("Tried to save plant, but couldn't."));
-      });
+    let plant: Plant | undefined = s.resources.plants.byId[id]
+    if (plant) {
+      return Axios.put<Partial<Plant>>(url + `/${id}`, plant)
+        .then(resp => {
+          let payload = { ...plant, ...resp.data };
+          dispatch({ type: "UPDATE_PLANT_OK", payload });
+        })
+        .catch(payload => {
+          error(t("Tried to save plant, but couldn't."));
+        });
+    } else {
+      throw new Error("Got bad plant ID here.");
+    }
   };
 };
 

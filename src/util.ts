@@ -2,6 +2,7 @@ import * as _ from "lodash";
 import { Color } from "./interfaces";
 import { box } from "boxed_value";
 import { t } from "i18next";
+import { Dictionary } from "farmbot/dist";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -257,3 +258,5 @@ export function fancyDebug(t: any) {
   }
   console.log();
 }
+
+export type CowardlyDictionary<T> = Dictionary<T | undefined>;

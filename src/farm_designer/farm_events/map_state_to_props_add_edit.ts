@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent, updateFarmEvent } from "../actions";
+import { selectAll } from "../../resources/util";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -67,7 +68,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   let selectOptions: DropDownItem[] = [];
 
   selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
-  state.sync.regimens.map((regimen, index) => {
+  selectAll(state.resources.regimens).map((regimen, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (regimen.id) {
@@ -82,7 +83,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   });
 
   selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Sequences" });
-  state.sync.sequences.map((sequence, index) => {
+  selectAll(state.resources.sequences).map((sequence, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (sequence.id) {
@@ -96,7 +97,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
-  let farmEvents = state.sync.farm_events;
+  let farmEvents = selectAll(state.resources.farm_events);
   let sequenceById = state.resources.sequences.byId;
   let regimenById = state.resources.regimens.byId;
   return {

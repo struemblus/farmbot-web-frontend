@@ -161,22 +161,23 @@ export function fakeState(dispatcher?: Function): Everything {
   let router = { push: function () { } };
   // BRB! -RC April 2017.
   let resources = JSON.parse("{}") as any;
-  return {
-    location
-    , auth
-    , designer
-    , dispatch
-    , bot
-    , sequences
-    , regimens
-    , bulkScheduler
-    , config
-    , draggable
-    , peripherals
-    , sync
-    , tools
-    , images
-    , router
-    , resources
-  };
+  return resources;
+  // return {
+  //   location
+  //   , auth
+  //   , designer
+  //   , dispatch
+  //   , bot
+  //   , sequences
+  //   , regimens
+  //   , bulkScheduler
+  //   , config
+  //   , draggable
+  //   , peripherals
+  //   , sync
+  //   , tools
+  //   , images
+  //   , router
+  //   , resources
+  // };
 }

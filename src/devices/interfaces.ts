@@ -7,12 +7,13 @@ import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
 import { Sync } from "../interfaces";
+import { Image } from "../images/index";
 
 export interface Props {
   auth: AuthState | undefined;
   bot: BotState;
+  images: Image[];
   dispatch: Function;
-  sync: Sync;
 }
 
 /** How the device is stored in the API side.
@@ -161,7 +162,7 @@ export interface PeripheralsProps {
 export interface WeedDetectorProps {
   bot: BotState;
   dispatch: Function;
-  sync: Sync;
+  images: Image[];
 }
 
 export interface HardwareSettingsProps {
