@@ -6,7 +6,6 @@ import {
 import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
-import { Sync } from "../interfaces";
 import { Image } from "../images/index";
 
 export interface Props {
@@ -63,7 +62,6 @@ export interface DeviceAccountSettingsUpdate {
 };
 
 export interface BotState {
-  account: DeviceAccountSettings;
   /** Maximum number of messages to cache. Excess is truncated. */
   status: string;
   /** How many steps to move when the user presses a manual movement arrow */

@@ -2,7 +2,6 @@ import { generateReducer } from "../../redux/generate_reducer";
 import { PeripheralState, Peripheral, IndexedPeripheral } from "./interfaces";
 import { UpdatePeripheral } from "./interfaces";
 import * as _ from "lodash";
-import { Sync } from "../../interfaces";
 
 let initialState: PeripheralState = {
   editorMode: "controlling",
@@ -33,11 +32,6 @@ export let peripheralReducer = generateReducer<PeripheralState>(initialState)
   })
   .add<Peripheral[]>("REPLACE_PERIPHERALS", function (state, action) {
     state.all = action.payload;
-    state.editorMode = "controlling";
-    return state;
-  })
-  .add<Sync>("FETCH_SYNC_OK", function (state, action) {
-    state.all = action.payload.peripherals || [];
     state.editorMode = "controlling";
     return state;
   })
