@@ -4,13 +4,14 @@ import { DropDownItem } from "../../../ui/fb_select";
 import { Tool, ToolSlot } from "../../../tools/interfaces";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
 import { safeStringFetch } from "../../../util";
+import { CowardlyDictionary } from "../../../resources/reducer";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
   compute(kind: string, arg: string, step: Step): string;
-  toolById: Dictionary<Tool | undefined>;
-  slotByToolId: Dictionary<ToolSlot | undefined>;
+  toolById: CowardlyDictionary<Tool>;
+  slotByToolId: CowardlyDictionary<ToolSlot>;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,

@@ -8,7 +8,7 @@ import { Markdown } from "../ui";
 import * as moment from "moment";
 import { SyncButton } from "./sync_button";
 
-let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
+let DropDown = ({ auth, onClick }: DropDownProps) => {
   if (!auth) { return <span></span>; }
   let hasName = auth.user && auth.user.name;
   let greeting = hasName ? `${hasName} ▾` : "";
@@ -29,11 +29,6 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
         </li>
       </ul>
       <div className="version-links">
-        <span>API:
-                    <a href="https://github.com/FarmBot/Farmbot-Web-API"
-            target="_blank">{sync.api_version}
-          </a>
-        </span>
         <span>Frontend:
                     <a href="https://github.com/FarmBot/farmbot-web-frontend"
             target="_blank">{process.env.SHORT_REVISION}
@@ -120,11 +115,6 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             </li>
           </ul>
           <div className="version-links mobile-only">
-            <span>API:
-                    <a href="https://github.com/FarmBot/Farmbot-Web-API"
-                target="_blank">{this.props.sync.api_version}
-              </a>
-            </span>
             <span>Frontend:
                     <a href="https://github.com/FarmBot/farmbot-web-frontend"
                 target="_blank">{process.env.SHORT_REVISION}
@@ -134,7 +124,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
         </div>
 
         <div className="ticker-list">
-          {this.props.sync.logs.map((log, index) => {
+          {this.props.logs.map((log, index) => {
             let time = moment.utc(log.created_at).local().format("h:mm a");
             return <div key={index} className="status-ticker-wrapper">
               <div className={`saucer ${log.meta.type}`} />
@@ -160,8 +150,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             auth={this.props.auth} />
           <DropDown
             onClick={logout}
-            auth={this.props.auth}
-            sync={this.props.sync} />
+            auth={this.props.auth} />
         </div>
 
         <div className={`underlay ${mobileMenuClass}`}

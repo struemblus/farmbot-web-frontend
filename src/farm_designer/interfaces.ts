@@ -4,6 +4,7 @@ import { Dictionary } from "farmbot/dist";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Everything, Sync } from "../interfaces";
+import { CowardlyDictionary } from "../resources/reducer";
 
 export interface Props {
   dispatch: Function;
@@ -107,8 +108,8 @@ export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: FarmEvent[];
-  sequenceById: Dictionary<Sequence | undefined>;
-  regimenById: Dictionary<Regimen | undefined>;
+  sequenceById: CowardlyDictionary<Sequence>;
+  regimenById: CowardlyDictionary<Regimen>;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;

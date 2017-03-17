@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavBar } from "./nav";
-import { Everything, Sync } from "./interfaces";
+import { Everything, Sync, Log } from "./interfaces";
 import { init, error } from "./ui";
 import { connect } from "react-redux";
 import { Spinner } from "./spinner";
@@ -21,7 +21,8 @@ we recommend you try refreshing the page.`;
 
 interface AppProps {
   dispatch: Function;
-  sync: Sync;
+  loaded: boolean;
+  logs: Log[];
   auth: AuthState | undefined;
   bot: BotState;
 }
@@ -33,15 +34,21 @@ interface FixMePlease extends AppProps {
 
 function mapStateToProps(props: Everything): AppProps {
   let dispatch = props.dispatch;
-  let sync = props.sync;
-  let auth = props.auth;
-  let bot = props.bot;
-
+  let logs = Object
+    .values(props.resources.logs.byId)
+    .map(L => {
+      if(L) {
+        return L;
+      } else {
+        throw new Error("Never")
+      }
+    });
   return {
     dispatch,
-    sync,
-    auth,
-    bot,
+    auth: props.auth,
+    bot: props.bot,
+    logs,
+    loaded: props.resources.loaded
   };
 }
 
@@ -49,7 +56,7 @@ function mapStateToProps(props: Everything): AppProps {
 export default class App extends React.Component<FixMePlease, {}> {
   componentDidMount() {
     setTimeout(() => {
-      if (!this.props.sync.loaded) {
+      if (!this.props.loaded) {
         this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
         error(TIMEOUT_MESSAGE, "Warning");
       }
@@ -64,7 +71,7 @@ export default class App extends React.Component<FixMePlease, {}> {
         bot={this.props.bot}
         location={this.props.location}
         dispatch={this.props.dispatch}
-        sync={this.props.sync} />
+        logs={this.props.logs} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;
