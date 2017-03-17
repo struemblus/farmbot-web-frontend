@@ -43,14 +43,12 @@ function mapStateToProps(props: Everything): AppProps {
         throw new Error("Never")
       }
     });
-  let auth = props.auth;
-  let bot = props.bot;
-
   return {
     dispatch,
-    auth,
-    bot,
-    logs
+    auth: props.auth,
+    bot: props.bot,
+    logs,
+    loaded: props.resources.loaded
   };
 }
 
@@ -58,7 +56,7 @@ function mapStateToProps(props: Everything): AppProps {
 export default class App extends React.Component<FixMePlease, {}> {
   componentDidMount() {
     setTimeout(() => {
-      if (!this.props.sync.loaded) {
+      if (!this.props.loaded) {
         this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
         error(TIMEOUT_MESSAGE, "Warning");
       }
@@ -72,7 +70,8 @@ export default class App extends React.Component<FixMePlease, {}> {
         auth={this.props.auth}
         bot={this.props.bot}
         location={this.props.location}
-        dispatch={this.props.dispatch} />
+        dispatch={this.props.dispatch}
+        logs={this.props.logs} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;

@@ -16,6 +16,8 @@ export type CowardlyDictionary<T> = Dictionary<T | undefined>;
 interface IndexedResource<T> { all: number[]; byId: CowardlyDictionary<T>; }
 
 export interface RestResources {
+  /** Tells you if the sync finished yet. */
+  loaded: boolean;
   sequences: IndexedResource<Sequence>;
   regimens: IndexedResource<Regimen>;
   farm_events: IndexedResource<FarmEvent>;
@@ -33,6 +35,7 @@ export interface RestResources {
 let emptyIndex = () => ({ all: [], byId: {} });
 
 let initialState: RestResources = {
+  loaded: false,
   sequences: emptyIndex(),
   regimens: emptyIndex(),
   regimen_items: emptyIndex(),
@@ -61,7 +64,8 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       tools: indexById(p.tools),
       images: indexById(p.images),
       points: indexById(p.points),
-      regimen_items: indexRegimenItems(p.regimens)
+      regimen_items: indexRegimenItems(p.regimens),
+      loaded: true
     });
   });
 
