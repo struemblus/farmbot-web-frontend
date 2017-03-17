@@ -97,8 +97,8 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   });
 
   let farmEvents = state.sync.farm_events;
-  let sequenceById = _.indexBy(state.sequences.all, "id");
-  let regimenById = _.indexBy(state.regimens.all, "id");
+  let sequenceById = state.resources.sequences.byId;
+  let regimenById = state.resources.regimens.byId;
   return {
     selectOptions,
     repeatOptions,

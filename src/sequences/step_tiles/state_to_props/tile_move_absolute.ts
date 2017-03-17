@@ -24,10 +24,8 @@ export interface TileMoveAbsoluteProps {
 export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   /** Get data indexed */
-  let toolById: Dictionary<Tool | undefined> =
-    _.indexBy(props.tools.tools.all, "id");
-  let slotByToolId: Dictionary<ToolSlot | undefined> =
-    _.indexBy(props.tools.tool_slots, "tool_id");
+  let toolById = props.resources.tools.byId;
+  let slotByToolId = props.resources.tool_slots.byId;
 
   /** Create dropdown options */
   // tools WHERE slot_id NOT NULL

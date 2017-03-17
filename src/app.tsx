@@ -64,8 +64,7 @@ export default class App extends React.Component<FixMePlease, {}> {
         bot={this.props.bot}
         location={this.props.location}
         dispatch={this.props.dispatch}
-        sync={this.props.sync}
-      />
+        sync={this.props.sync} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;

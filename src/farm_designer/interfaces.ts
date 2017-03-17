@@ -107,8 +107,8 @@ export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: FarmEvent[];
-  sequenceById: Dictionary<Sequence>;
-  regimenById: Dictionary<Regimen>;
+  sequenceById: Dictionary<Sequence | undefined>;
+  regimenById: Dictionary<Regimen | undefined>;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;

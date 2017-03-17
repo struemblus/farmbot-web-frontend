@@ -159,7 +159,8 @@ export function fakeState(dispatcher?: Function): Everything {
   let images = { all: [] };
 
   let router = { push: function () { } };
-
+  // BRB! -RC April 2017.
+  let resources = JSON.parse("{}") as any;
   return {
     location
     , auth
@@ -176,5 +177,6 @@ export function fakeState(dispatcher?: Function): Everything {
     , tools
     , images
     , router
+    , resources
   };
 }
