@@ -18,7 +18,6 @@ import { nullSequence } from "./actions";
 import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 import * as _ from "lodash";
-import { Sync } from "../interfaces";
 import { SequenceBodyItem, uuid } from "farmbot";
 /** Adds an empty sequence to the front of the list. */
 function populate(s: SequenceReducerState): Sequence {
@@ -238,10 +237,11 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     maybeAddMarkers(s);
     return s;
   })
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
+  .add<any>("FETCH_SYNC_OK", function (s, a) {
     // HERE
-    s.all = a.payload.sequences || [];
-    maybeAddMarkers(s);
+    console.log("FIX THIS EVENTUALLY.");
+    // s.all = a.payload.sequences || [];
+    // maybeAddMarkers(s);
     return s;
   })
   .add<number>("SELECT_SEQUENCE", function (s, a) {
