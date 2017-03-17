@@ -7,7 +7,7 @@ import { selectAll } from "../resources/util";
 export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAll(props.resources.tool_bays);
   let toolSlots = selectAll(props.resources.tool_slots);
-  let tools =  selectAll(props.resources.tools);
+  let tools = selectAll(props.resources.tools);
   let editorMode = props.tools.editorMode;
   let isEditingTools = props.tools.tools.isEditing;
   let dirtyTools = props.tools.tools.dirty;
@@ -35,8 +35,9 @@ export function mapStateToProps(props: Everything): Props {
 	/** Returns the current tool chosen in a slot based off the slot's id
 	 * and in an <FBSelect /> compatible format. */
   let getChosenToolOption = (toolSlotId: number) => {
-    let currentSlot = _.findWhere(toolSlots, { id: toolSlotId });
-    let chosenTool = _.findWhere(tools, { id: currentSlot.tool_id });
+    let currentSlot = props.resources.tool_slots.byId[toolSlotId];
+    let chosenTool = props
+      .resources.tools.byId[(currentSlot && currentSlot.tool_id) || 0];
     if (chosenTool && _.isNumber(chosenTool.id)) {
       return { label: chosenTool.name, value: chosenTool.id };
     } else {
