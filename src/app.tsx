@@ -1,6 +1,6 @@
 import * as React from "react";
 import { NavBar } from "./nav";
-import { Everything, Sync } from "./interfaces";
+import { Everything, Sync, Log } from "./interfaces";
 import { init, error } from "./ui";
 import { connect } from "react-redux";
 import { Spinner } from "./spinner";
@@ -21,7 +21,8 @@ we recommend you try refreshing the page.`;
 
 interface AppProps {
   dispatch: Function;
-  sync: Sync;
+  loaded: boolean;
+  logs: Log[];
   auth: AuthState | undefined;
   bot: BotState;
 }
@@ -33,15 +34,23 @@ interface FixMePlease extends AppProps {
 
 function mapStateToProps(props: Everything): AppProps {
   let dispatch = props.dispatch;
-  let sync = props.sync;
+  let logs = Object
+    .values(props.resources.logs.byId)
+    .map(L => {
+      if(L) {
+        return L;
+      } else {
+        throw new Error("Never")
+      }
+    });
   let auth = props.auth;
   let bot = props.bot;
 
   return {
     dispatch,
-    sync,
     auth,
     bot,
+    logs
   };
 }
 
@@ -63,8 +72,7 @@ export default class App extends React.Component<FixMePlease, {}> {
         auth={this.props.auth}
         bot={this.props.bot}
         location={this.props.location}
-        dispatch={this.props.dispatch}
-        sync={this.props.sync} />
+        dispatch={this.props.dispatch} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;
