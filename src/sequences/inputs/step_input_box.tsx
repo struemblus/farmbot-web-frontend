@@ -3,6 +3,8 @@ import { IStepInput } from "../step_tiles/index";
 import { InputUnknown } from "./input_unknown";
 import { InputDefault } from "./input_default";
 import { InputChoiceDict } from "../interfaces";
+import { RestResources } from "../../resources/interfaces";
+import { ToolSlot, Tool } from "../../tools/interfaces";
 
 const CHOICES: InputChoiceDict = {
   speed: InputDefault,
@@ -44,3 +46,12 @@ export function StepInputBox({ step,
     dispatch={dispatch}
     index={index} />;
 };
+
+export function update<T>(resource: keyof RestResources,
+  id: number,
+  body: Tool | ToolSlot) {
+  return {
+    type: "UPDATE_RESOURCE",
+    payload: { resource, id, body }
+  }
+}
