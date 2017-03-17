@@ -16,12 +16,12 @@ export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
   .add<Plant>("SAVE_PLANT_OK", function (s, a) {
     // Exxxttrraaa runtime safety.
     let plant = newPlant(a.payload);
-    s.deprecatedPlants.push(plant);
+    // s.deprecatedPlants.push(plant);
     return s;
   })
   .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
-    let index = _.findIndex(s.deprecatedPlants, { id: payload });
-    s.deprecatedPlants.splice(index, 1);
+    // let index = _.findIndex(s.deprecatedPlants, { id: payload });
+    // s.deprecatedPlants.splice(index, 1);
     return s;
   })
   .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
