@@ -9,7 +9,9 @@ export function PeripheralForm(props: PeripheralFormProps) {
   let Comp: JSX.Element;
 
   if (props.editorMode === "editing") {
-    Comp = <PeripheralFormEdit {...props} />;
+    Comp = <PeripheralFormEdit
+      editorMode={props.editorMode}
+      dispatch={props.dispatch} />;
   } else {
     Comp = <div />;
   }

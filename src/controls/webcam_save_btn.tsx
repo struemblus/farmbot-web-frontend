@@ -1,12 +1,12 @@
 import * as React from "react";
-import { updateDevice } from "../devices/actions";
+import { update } from "../devices/actions";
 import { t } from "i18next";
 import { SaveWebcamParams, WebcamSaveBtnProps } from "./interfaces";
 
-let saveWebcamUrl = ({ dispatch, apiUrl, webcam_url, updateState }:
+let saveWebcamUrl = ({ dispatch, webcam_url, updateState }:
   SaveWebcamParams) => () => {
     updateState();
-    return dispatch(() => updateDevice(apiUrl, { webcam_url }, dispatch));
+    return dispatch(() => update({ webcam_url }));
   };
 
 export function WebcamSaveBtn({ dispatch, webcamUrl, apiUrl, updateState }:
