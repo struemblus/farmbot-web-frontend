@@ -121,4 +121,3 @@ export let toolsReducer = generateReducer<ToolsState>(initialState)
     s.tools.dirty = true;
     return s;
   });
-

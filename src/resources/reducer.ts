@@ -8,7 +8,7 @@ import { User } from "../auth/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/interfaces";
-import { indexById, indexRegimenItems } from "./util";
+import { indexById, indexRegimenItems, selectAll } from "./util";
 import { RestResources } from "./interfaces";
 
 /** When you need an empty index because syncing has yet to complete. */
