@@ -20,9 +20,21 @@ interface PeripheralItemProps {
 
 export function PeripheralItem(props: PeripheralItemProps) {
   if (props.editorMode === "editing") {
-    return <PeripheralItemEdit {...props} />;
+    return <PeripheralItemEdit
+      dispatch={props.dispatch}
+      index={props.index}
+      editorMode={props.editorMode}
+      pin={props.pin}
+      peripheral={props.peripheral}
+    />;
   } else {
-    return <PeripheralItemControl {...props} />;
+    return <PeripheralItemControl
+      dispatch={props.dispatch}
+      index={props.index}
+      editorMode={props.editorMode}
+      pin={props.pin}
+      peripheral={props.peripheral}
+    />;
   };
 };
 
