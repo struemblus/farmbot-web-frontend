@@ -2,8 +2,7 @@ import * as React from "react";
 import { SequenceBodyItem as Step, Dictionary } from "farmbot";
 import { addComment } from "../actions";
 import { t } from "i18next";
-import { CowardlyDictionary } from "../../resources/reducer";
-
+import { CowardlyDictionary } from "../../util";
 
 function translate(input: Step): string {
   // We load translations async. If I put this const outside of the function,

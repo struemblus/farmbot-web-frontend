@@ -106,7 +106,7 @@ export class WeedDetector extends React.Component<WeedDetectorProps,
               settingsMenuOpen={!!this.state.settingsMenuOpen} />
             <div className="row">
               <div className="col-sm-12">
-                <WeedDetectorBody images={this.props.sync.images}
+                <WeedDetectorBody images={this.props.images}
                   onSliderChange={this.sliderChange}
                   H={this.farmwareSettings.H}
                   S={this.farmwareSettings.S}

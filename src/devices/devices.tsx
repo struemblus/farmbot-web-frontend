@@ -24,7 +24,7 @@ export class Devices extends React.Component<Props, {}> {
           <WeedDetector
             dispatch={this.props.dispatch}
             bot={this.props.bot}
-            sync={this.props.sync} />
+            images={this.props.images} />
           <HardwareSettings
             dispatch={this.props.dispatch}
             bot={this.props.bot}

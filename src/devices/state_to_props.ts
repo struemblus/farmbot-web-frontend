@@ -1,17 +1,14 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
+import { selectAll } from "../resources/util";
 
 export function mapStateToProps(props: Everything): Props {
-  let auth = props.auth;
-  let bot = props.bot;
-  let dispatch = props.dispatch;
-  let sync = props.sync;
 
   return {
-    auth,
-    bot,
-    dispatch,
-    sync
+    auth: props.auth,
+    bot: props.bot,
+    dispatch: props.dispatch,
+    images: selectAll(props.resources.images)
   };
 }
 

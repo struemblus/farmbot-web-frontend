@@ -92,7 +92,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
-        {this.props.sync.points.map(function (p) {
+        {this.props.points.map(function (p) {
           return <GardenPoint point={p} key={p.id} />;
         })}
         {

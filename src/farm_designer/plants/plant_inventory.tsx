@@ -7,12 +7,12 @@ import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
 import { DEFAULT_ICON } from "../../open_farm/index";
+import { selectAll } from "../../resources/util";
 
 function OptionComponent(plants: Plant[]) {
   let indexedById = _.indexBy(plants, "id");
   return (props: DropDownItem) => {
     let plant = indexedById[props.value || 0];
-    let icon_url = (plant && plant.icon_url) || DEFAULT_ICON;
     let planted_at = (plant && plant.planted_at) || moment();
     let dayPlanted = moment();
 
@@ -35,7 +35,7 @@ export class Plants extends React.Component<Everything, {}> {
   }
 
   render() {
-    let plants = this.props.designer.deprecatedPlants;
+    let plants = selectAll(this.props.resources.plants);
 
     let plantOptions = plants.map(plant => {
       if (plant.id) {
@@ -65,7 +65,7 @@ export class Plants extends React.Component<Everything, {}> {
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
           <FBSelect list={plantOptions}
-            optionComponent={OptionComponent(this.props.sync.plants)}
+            optionComponent={OptionComponent(plants)}
             onChange={this.handleRedirect}
             isOpen={true}
             placeholder="Search Plants"
