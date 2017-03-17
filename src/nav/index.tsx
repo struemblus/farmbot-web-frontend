@@ -1,9 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Everything } from "../interfaces";
-import { DropDownProps, NavBarState } from "./interfaces";
+import { DropDownProps, NavBarState, NavBarProps } from "./interfaces";
 import { EStopButton } from "../devices/components/e_stop_btn";
-import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";
 import { Markdown } from "../ui";
@@ -55,8 +53,7 @@ let links = [
   { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
-@connect((state: Everything) => state)
-export class NavBar extends React.Component<Everything, NavBarState> {
+export class NavBar extends React.Component<NavBarProps, NavBarState> {
   constructor() {
     super();
     this.state = {
@@ -161,7 +158,10 @@ export class NavBar extends React.Component<Everything, NavBarState> {
           <EStopButton
             bot={this.props.bot}
             auth={this.props.auth} />
-          <DropDown onClick={logout} { ...this.props } />
+          <DropDown
+            onClick={logout}
+            auth={this.props.auth}
+            sync={this.props.sync} />
         </div>
 
         <div className={`underlay ${mobileMenuClass}`}

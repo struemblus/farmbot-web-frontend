@@ -19,3 +19,11 @@ export interface NavBarState {
     mobileNavExpanded?: boolean;
     tickerExpanded?: boolean;
 }
+
+export interface NavBarProps {
+  location: { pathname: string; };
+  sync: Sync;
+  bot: BotState;
+  auth: AuthState | undefined;
+  dispatch: Function;
+}

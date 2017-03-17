@@ -1,39 +1,73 @@
-import * as React from "react";
-import { NavBar } from "./nav";
-import { Everything } from "./interfaces";
-import { init, error } from "./ui";
-import { connect } from "react-redux";
-import { Spinner } from "./spinner";
+import * as React from "react";
+import { NavBar } from "./nav";
+import { Everything, Sync } from "./interfaces";
+import { init, error } from "./ui";
+import { connect } from "react-redux";
+import { Spinner } from "./spinner";
+import { AuthState } from "./auth/interfaces";
+import { BotState } from "./devices/interfaces";
 
-/** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
-let fastClick = require("fastclick");
+/** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
+let fastClick = require("fastclick");
 fastClick.attach(document.body);
 
-/** For the logger module */
+/** For the logger module */
 init();
 
-/** If the sync object takes more than 10s to load, the user will be granted
- * access into the app, but still warned. */
-const TIMEOUT_MESSAGE = `App could not be fully loaded, 
-we recommend you try refreshing the page.`;
+/** If the sync object takes more than 10s to load, the user will be granted
+ * access into the app, but still warned. */
+const TIMEOUT_MESSAGE = `App could not be fully loaded, 
+we recommend you try refreshing the page.`;
 
-@connect((state: Everything) => state)
-export default class App extends React.Component<Everything, {}> {
-  componentDidMount() {
-    setTimeout(() => {
-      if (!this.props.sync.loaded) {
-        this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
-        error(TIMEOUT_MESSAGE, "Warning");
-      }
-    }, 10000);
-  }
+interface AppProps {
+  dispatch: Function;
+  sync: Sync;
+  auth: AuthState | undefined;
+  bot: BotState;
+}
 
-  render() {
-    let syncLoaded = this.props.sync.loaded;
+// TODO: Need to get `location` into `state_to_props` somehow...
+interface FixMePlease extends AppProps {
+  location: { pathname: string; };
+}
+
+function mapStateToProps(props: Everything): AppProps {
+  let dispatch = props.dispatch;
+  let sync = props.sync;
+  let auth = props.auth;
+  let bot = props.bot;
+
+  return {
+    dispatch,
+    sync,
+    auth,
+    bot,
+  };
+}
+
+@connect(mapStateToProps)
+export default class App extends React.Component<FixMePlease, {}> {
+  componentDidMount() {
+    setTimeout(() => {
+      if (!this.props.sync.loaded) {
+        this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
+        error(TIMEOUT_MESSAGE, "Warning");
+      }
+    }, 10000);
+  }
+
+  render() {
+    let syncLoaded = this.props.sync.loaded;
     return <div className="app">
-      <NavBar { ...this.props } />
-      {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
-      {syncLoaded && this.props.children}
-    </div>;
-  }
+      <NavBar
+        auth={this.props.auth}
+        bot={this.props.bot}
+        location={this.props.location}
+        dispatch={this.props.dispatch}
+        sync={this.props.sync}
+      />
+      {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
+      {syncLoaded && this.props.children}
+    </div>;
+  }
 }
