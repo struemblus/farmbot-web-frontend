@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ToolSlot, Props } from "../interfaces";
+import { ToolSlot, ToolBayFormProps } from "../interfaces";
 import {
   Widget,
   WidgetBody,
@@ -20,7 +20,8 @@ import {
 } from "../actions";
 import { t } from "i18next";
 
-export class ToolBayForm extends React.Component<Props, Partial<ToolSlot>> {
+export class ToolBayForm extends React.Component<ToolBayFormProps,
+  Partial<ToolSlot>> {
   constructor() {
     super();
     this.state = { x: 0, y: 0, z: 0 };

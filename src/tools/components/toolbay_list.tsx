@@ -2,9 +2,9 @@ import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingToolBays } from "../actions";
 import { t } from "i18next";
-import { ToolSlot, Props } from "../interfaces";
+import { ToolSlot, ToolBayListProps } from "../interfaces";
 
-export class ToolBayList extends React.Component<Props, {}> {
+export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
     let toggle = () => this.props.dispatch(toggleEditingToolBays());
     return <div>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ToolFormState, Props, Tool } from "../interfaces";
+import { ToolFormState, ToolFormProps, Tool } from "../interfaces";
 import { t } from "i18next";
 import { Row, Col, Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
 import {
@@ -10,7 +10,7 @@ import {
   saveTools
 } from "../actions";
 
-export class ToolForm extends React.Component<Props, ToolFormState> {
+export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
   setNewToolName = (e: React.FormEvent<HTMLInputElement>) => {
     this.setState({ newToolName: e.currentTarget.value });
   }

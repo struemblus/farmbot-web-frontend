@@ -13,12 +13,31 @@ export class Tools extends React.Component<Props, ToolsState> {
     return <Page className="tools">
       <Row>
         <Col sm={7}>
-          {!isEditingBays && <ToolBayList {...this.props} />}
-          {isEditingBays && <ToolBayForm {...this.props} />}
+          {!isEditingBays && <ToolBayList
+            dispatch={this.props.dispatch}
+            toolBays={this.props.toolBays}
+            getChosenTool={this.props.getChosenTool}
+            getToolSlots={this.props.getToolSlots}
+          />}
+          {isEditingBays && <ToolBayForm
+            dispatch={this.props.dispatch}
+            toolBays={this.props.toolBays}
+            getToolSlots={this.props.getToolSlots}
+            getChosenToolOption={this.props.getChosenToolOption}
+            getToolOptions={this.props.getToolOptions}
+          />}
         </Col>
         <Col sm={5}>
-          {!isEditingTools && <ToolList {...this.props} />}
-          {isEditingTools && <ToolForm {...this.props} />}
+          {!isEditingTools && <ToolList
+            dispatch={this.props.dispatch}
+            getSortedTools={this.props.getSortedTools}
+          />}
+          {isEditingTools && <ToolForm
+            dispatch={this.props.dispatch}
+            tools={this.props.tools}
+            dirtyTools={this.props.dirtyTools}
+            getSortedTools={this.props.getSortedTools}
+          />}
         </Col>
       </Row>
     </Page>;

@@ -61,3 +61,30 @@ export interface Tool {
   dirty?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
 }
+
+export interface ToolBayListProps {
+  dispatch: Function;
+  toolBays: ToolBay[];
+  getChosenTool(toolSlotId: number): Tool;
+  getToolSlots(toolBayId: number): ToolSlot[];
+}
+
+export interface ToolBayFormProps {
+  dispatch: Function;
+  toolBays: ToolBay[];
+  getToolOptions(): DropDownItem[];
+  getChosenToolOption(toolSlotId: number): DropDownItem;
+  getToolSlots(toolBayId: number): ToolSlot[];
+}
+
+export interface ToolListProps {
+  dispatch: Function;
+  getSortedTools(): Tool[];
+}
+
+export interface ToolFormProps {
+  dispatch: Function;
+  tools: Tool[];
+  dirtyTools: boolean;
+  getSortedTools(): Tool[];
+}
