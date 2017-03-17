@@ -6,6 +6,14 @@ import {
 import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
+import { Sync } from "../interfaces";
+
+export interface Props {
+  auth: AuthState | undefined;
+  bot: BotState;
+  dispatch: Function;
+  sync: Sync;
+}
 
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
@@ -148,4 +156,15 @@ export interface PeripheralsProps {
   bot: BotState;
   peripherals: PeripheralState;
   dispatch: Function;
+}
+
+export interface WeedDetectorProps {
+  bot: BotState;
+  dispatch: Function;
+  sync: Sync;
+}
+
+export interface HardwareSettingsProps {
+  dispatch: Function;
+  bot: BotState;
 }

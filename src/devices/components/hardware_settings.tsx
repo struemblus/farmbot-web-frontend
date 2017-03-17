@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Everything } from "../../interfaces";
 import { CalibrationButton } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
@@ -7,8 +6,9 @@ import { ConfigInputBox } from "./config_input_box";
 import { settingToggle, commitSettingsChanges } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
+import { HardwareSettingsProps } from "../interfaces";
 
-export class HardwareSettings extends React.Component<Everything, {}> {
+export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware"
@@ -48,50 +48,71 @@ export class HardwareSettings extends React.Component<Everything, {}> {
               <td>
                 <label>{t("Steps per MM")}</label>
               </td>
-              <ConfigInputBox setting="steps_per_mm_x" {...this.props} />
-              <ConfigInputBox setting="steps_per_mm_y" {...this.props} />
-              <ConfigInputBox setting="steps_per_mm_z" {...this.props} />
+              <ConfigInputBox setting="steps_per_mm_x"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <ConfigInputBox setting="steps_per_mm_y"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <ConfigInputBox setting="steps_per_mm_z"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("MAX SPEED (mm/s)")}</label>
               </td>
-              <McuInputBox setting="movement_max_spd_x" {...this.props} />
-              <McuInputBox setting="movement_max_spd_y" {...this.props} />
-              <McuInputBox setting="movement_max_spd_z" {...this.props} />
+              <McuInputBox setting="movement_max_spd_x"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <McuInputBox setting="movement_max_spd_y"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <McuInputBox setting="movement_max_spd_z"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("ACCELERATE FOR (steps)")}</label>
               </td>
               <McuInputBox setting="movement_steps_acc_dec_x"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_steps_acc_dec_y"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_steps_acc_dec_z"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("TIMEOUT AFTER (seconds)")}</label>
               </td>
               <McuInputBox setting="movement_timeout_x"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_timeout_y"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_timeout_z"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("LENGTH (m)")}</label>
               </td>
               <McuInputBox setting="movement_axis_nr_steps_x"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_axis_nr_steps_y"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
               <McuInputBox setting="movement_axis_nr_steps_z"
-                {...this.props} />
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
             </tr>
             <tr>
               <td>
