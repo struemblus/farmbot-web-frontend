@@ -16,9 +16,6 @@ function OptionComponent(plants: Plant[]) {
     let planted_at = (plant && plant.planted_at) || moment();
     let dayPlanted = moment();
 
-    // TODO Remove this after April 2017 - RC.
-    let url = icon_url.includes("Natural") ? DEFAULT_ICON : icon_url;
-
     // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     return <div className="plant-search-item">

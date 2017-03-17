@@ -15,15 +15,15 @@ const DEFAULTS = {
   },
   S: {
     LOWEST: 0,
-    HIGHEST: 179,
-    FALLBACK_LO: 20,
-    FALLBACK_HI: 60
+    HIGHEST: 255,
+    FALLBACK_LO: 50,
+    FALLBACK_HI: 255
   },
   V: {
     LOWEST: 0,
-    HIGHEST: 179,
-    FALLBACK_LO: 20,
-    FALLBACK_HI: 60
+    HIGHEST: 255,
+    FALLBACK_LO: 50,
+    FALLBACK_HI: 255
   },
   BLUR: {
     LOWEST: 0,

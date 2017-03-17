@@ -44,7 +44,7 @@ export class FarmbotColorPicker extends React.Component<FarmbotPickerProps, {}> 
   }
 
   saturationboxCSS = (): React.CSSProperties => {
-    const MAX = 179
+    const MAX = 255
     let [s0, s1] = this.props.s;
     let [v0, v1] = this.props.v;
 

@@ -3,7 +3,7 @@ import * as moment from "moment";
 import { Sequence } from "../../sequences/interfaces";
 import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
-import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
+import { FarmEventProps, CalendarOccurrence, CalendarDay, FarmEvent } from "../interfaces";
 
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
@@ -21,13 +21,17 @@ const MONTHS: Readonly<Dictionary<string>> = {
 };
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
-export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
-  let farmEvents = state && state.sync && state.sync.farm_events || [];
-  let sequences = state && state.sync && state.sync.sequences || [];
-  let regimens = state && state.sync && state.sync.regimens || [];
+export function mapStateToProps(state: Everything): FarmEventProps {
+  let r = state.resources;
+  let farmEvents = r
+    .farm_events
+    .all
+    .map(x => r.farm_events.byId[x])
+    .filter(x => !!x) as FarmEvent[];
+
   let push = (state && state.router && state.router.push) || (() => { });
-  let sequenceById: Dictionary<Sequence> = _.indexBy(sequences, "id");
-  let regimenById: Dictionary<Regimen> = _.indexBy(regimens, "id");
+  let sequenceById = r.sequences.byId;
+  let regimenById = r.regimens.byId;
   let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
     .reduce(function (memo, farmEvent) {
       farmEvent.calendar && farmEvent.calendar.map(function (date) {

@@ -17,6 +17,7 @@ import {
 import { combineReducers } from "redux";
 import { ReduxAction } from "./interfaces";
 import { Session } from "../session";
+import { resourceReducer as resources } from "../resources/reducer"
 
 let reducers = combineReducers({
   auth,
@@ -29,7 +30,8 @@ let reducers = combineReducers({
   draggable,
   peripherals,
   tools,
-  sync
+  sync,
+  resources
 });
 
 /** This is the topmost reducer in the application. If you need to preempt a
