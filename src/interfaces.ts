@@ -83,7 +83,7 @@ export interface Everything {
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */
-export interface Sync {
+export interface DeprecatedSync {
   /** Tells the ui when the sync object has completed. */
   loaded: boolean;
   /** Git commit hash of the revision that the server is running. */
