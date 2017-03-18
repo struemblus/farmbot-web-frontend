@@ -2,6 +2,10 @@ import { Dictionary } from "farmbot/dist";
 import { Regimen, RegimenItem } from "../regimens/interfaces";
 import { IndexedResource } from "./interfaces";
 
+const OH_NO = `Something in the application is referencing a resource ID that no
+longer exists. Make sure that you are cleaning up resource IDs after deletion
+and adding new ones as they are created.`;
+
 export function indexRegimenItems(input: Regimen[]) {
   let byId = _(input)
     .map(x => x.regimen_items)
@@ -23,6 +27,6 @@ export function selectAll<T>(input: IndexedResource<T>): T[] {
   return input
     .all
     .map(id => input.byId[id] as T)
-    .map(t => (t || console.warn("GOT BAD ID SOMEHOW!!!")))
-    .filter(x => _.isUndefined(x));
+    .map(t => (t || console.warn(OH_NO)))
+    .filter(x => !_.isUndefined(x));
 }

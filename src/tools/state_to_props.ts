@@ -8,14 +8,13 @@ export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAll(props.resources.tool_bays);
   let toolSlots = selectAll(props.resources.tool_slots);
   let tools = selectAll(props.resources.tools);
+
   let editorMode = props.tools.editorMode;
   let isEditingTools = props.tools.tools.isEditing;
   let dirtyTools = props.tools.tools.dirty;
 
   /** Returns sorted tool objects. */
-  let getSortedTools = () => {
-    return _.sortBy(tools, "id");
-  };
+  let getSortedTools = () => _.sortBy(tools, "id");
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (toolBayId: number) => {
