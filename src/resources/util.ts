@@ -26,6 +26,7 @@ export let indexById = <T>(input: T[]) => ({
 export function selectAll<T>(input: IndexedResource<T>): T[] {
   return input
     .all
+    .sort()
     .map(id => input.byId[id] as T)
     .map(t => (t || console.warn(OH_NO)))
     .filter(x => !_.isUndefined(x));

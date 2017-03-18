@@ -1,19 +1,18 @@
 import { DropDownItem } from "../ui/fb_select";
 
 export interface ToolsState {
-  editorMode: boolean;
-  tools: {
-    isEditing: boolean;
-    dirty: boolean;
-  };
+  /** Do tools need to be saved? */
+  toolsDirty: boolean;
+  editingTools: boolean;
+  editingBays: boolean;
 }
 
 export interface Props {
   toolBays: ToolBay[];
   toolSlots: ToolSlot[];
   tools: Tool[];
-  editorMode: boolean;
-  isEditingTools: boolean;
+  editingTools: boolean;
+  editingBays: boolean;
   dirtyTools: boolean;
   getSortedTools(): Tool[];
   getToolSlots(toolBayId: number): ToolSlot[];

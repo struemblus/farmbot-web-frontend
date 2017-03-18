@@ -9,13 +9,15 @@ export function mapStateToProps(props: Everything): Props {
   let toolSlots = selectAll(props.resources.tool_slots);
   let tools = selectAll(props.resources.tools);
 
-  let editorMode = props.tools.editorMode;
-  let isEditingTools = props.tools.tools.isEditing;
-  let dirtyTools = props.tools.tools.dirty;
+  let editingBays = props.tools.editingBays;
+  let editingTools = props.tools.editingTools;
+  let dirtyTools = props.tools.toolsDirty;
 
   /** Returns sorted tool objects. */
-  let getSortedTools = () => _.sortBy(tools, "id");
+  let getSortedTools = () => tools;
 
+  // TODO: This can be refactored now that we normalize REST resources and index
+  //       by id. We just need to add a `byToolBayId` to `resources.tool_slots`.
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (toolBayId: number) => {
     let currentSlots = toolSlots.filter(slot => slot.tool_bay_id === toolBayId);
@@ -54,8 +56,8 @@ export function mapStateToProps(props: Everything): Props {
     toolBays,
     toolSlots,
     tools,
-    editorMode,
-    isEditingTools,
+    editingBays,
+    editingTools,
     dirtyTools,
     getSortedTools,
     getToolSlots,
