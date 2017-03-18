@@ -20,10 +20,9 @@ export let indexById = <T>(input: T[]) => ({
 });
 
 export function selectAll<T>(input: IndexedResource<T>): T[] {
-  return Object
-    .keys(input)
-    .map((key) => {
-      return input.byId[key] as T;
-    })
-    .filter(x => !_.isUndefined(x));
+  return input
+    .all
+    .map(id => input.byId[id] as T)
+    .map(t => (t || console.warn("GOT BAD ID SOMEHOW!!!")))
+    .filter(x => _.isUndefined(x));
 }
