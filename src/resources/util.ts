@@ -16,9 +16,7 @@ export function indexRegimenItems(input: Regimen[]) {
 
 export let indexById = <T>(input: T[]) => ({
   all: _.pluck(input, "id"),
-  byId: _(input)
-    .indexBy("id")
-    .value()
+  byId: _.indexBy(input, "id")
 });
 
 export function selectAll<T>(input: IndexedResource<T>): T[] {
