@@ -10,6 +10,7 @@ import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/interfaces";
 import { indexById, indexRegimenItems, selectAll } from "./util";
 import { RestResources } from "./interfaces";
+import { TaggedResource } from "./tagged_resources";
 
 /** When you need an empty index because syncing has yet to complete. */
 let emptyIndex = () => ({ all: [], byId: {} });
@@ -31,6 +32,21 @@ let initialState: RestResources = {
 
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer<RestResources>(initialState)
+  .add<TaggedResource>("CREATE_RESOURCE_OK", function (state, action) {
+    let resource = action.payload;
+    mandateID(resource);
+    switch (resource.kind) {
+      case "tools":
+        let id = resource.body.id as number;
+        state.tools.all.push(id);
+        state.tools.byId[id] = resource.body;
+        break;
+      default:
+        throw new Error("We didn't write a handler for this resource: " +
+          action.payload.kind);
+    }
+    return state;
+  })
   .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
     let p = action.payload;
     p.regimens.map(x => x.regimen_items)
@@ -48,3 +64,9 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       loaded: true
     });
   });
+
+function mandateID(r: TaggedResource) {
+  if (!_.isNumber(r.body.id)) {
+    throw new Error("TRIED TO ADD AN UNSAVED RESOURCE TO STATE TREE!");
+  }
+}

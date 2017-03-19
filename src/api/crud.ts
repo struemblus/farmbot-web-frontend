@@ -6,16 +6,16 @@ import { createOK, createNO, updateOK, updateNO, destroyOK, destroyNO } from "..
 import { UnsafeError } from "../interfaces";
 
 export function create(resource: TaggedResource) {
-  return function (dispatch: Thunk, getState: GetState) {
+  return function (dispatch: Function, getState: GetState) {
     return Axios
       .post<typeof resource.body>(urlFor(resource.kind), resource.body)
       .then(function (resp) {
         let kind = resource.kind as typeof resource.kind;
         let body = resp.data as typeof resource.body;
-        createOK({ kind, body } as TaggedResource);
+        dispatch(createOK({ kind, body } as TaggedResource));
       })
       .catch(function (err: UnsafeError) {
-        createNO(err);
+        dispatch(createNO(err));
       });
   }
 }
@@ -63,10 +63,14 @@ interface Idea {
 }
 
 export function urlFor(tag: ResourceTag) {
-  const OPTIONS: Record<ResourceTag, string> = {
-    "sequence": API.current.sequencesPath,
-    "tool": API.current.toolsPath,
-    "device": API.current.devicePath
+  const OPTIONS: Partial<Record<ResourceTag, string>> = {
+    "sequences": API.current.sequencesPath,
+    "tools": API.current.toolsPath
   }
-  return OPTIONS[tag];
+  let url = OPTIONS[tag];
+  if (url) {
+    return url;
+  } else {
+    throw new Error(`We haven't written a resource/URL handler for ${tag} yet.`);
+  }
 }
