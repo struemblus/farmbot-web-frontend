@@ -259,3 +259,11 @@ export function fancyDebug(t: any) {
 }
 
 export type CowardlyDictionary<T> = Dictionary<T | undefined>;
+/** Sometimes, you are forced to pass a number type even though
+ * the resource has no ID (usually for rendering purposes).
+ * Example:
+ *  farmEvent.id || 0
+ *
+ *  In those cases, you can use this constant to indicate intent.
+ */
+export const NOT_SAVED = -1;

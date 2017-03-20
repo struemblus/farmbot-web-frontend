@@ -1,4 +1,4 @@
-import { AddEditFarmEventProps } from "../interfaces";
+import { AddEditFarmEventProps, FarmEvent, FarmEventForm, TimeUnit } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
@@ -110,7 +110,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     sequenceById,
     regimenById,
     save(fe) {
-      this.dispatch(saveFarmEvent(fe));
+      this.dispatch(saveFarmEvent(deserializeFarmEventForm(fe)));
       this.router.push("/app/designer/farm_events");
     },
     delete(fe) {
