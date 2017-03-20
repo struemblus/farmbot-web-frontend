@@ -52,7 +52,8 @@ function RegimenItemStep({ item, dispatch }: RegimenItemStepProps) {
   </div>;
 }
 
-function RegimenItemDayGroup({ day,
+function RegimenItemDayGroup({
+  day,
   items,
   dispatch }: RegimenItemDayGroupProps) {
   return <div className="regimen-day">

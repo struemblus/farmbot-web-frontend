@@ -11,8 +11,8 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.id}>
           <WidgetHeader
-            helpText={t(`Toolbays are where you store your FarmBot Tools. Each 
-              Toolbay has Slots that you can put your Tools in, which should be 
+            helpText={t(`Toolbays are where you store your FarmBot Tools. Each
+              Toolbay has Slots that you can put your Tools in, which should be
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
@@ -40,6 +40,9 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
             </Row>
             {this.props.getToolSlots(bay.id).map(
               (slot: ToolSlot, index: number) => {
+                let t = this.props.getChosenTool(slot.id) || {
+                  name: "None"
+                }
                 return <Row key={slot.id}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
@@ -48,8 +51,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
                   <Col xs={2}>{slot.y}</Col>
                   <Col xs={2}>{slot.z}</Col>
                   <Col xs={4}>
-                    {(this.props.getChosenTool(slot.id)) &&
-                      (this.props.getChosenTool(slot.id)).name || ""}
+                    {t.name}
                   </Col>
                 </Row>;
               })}

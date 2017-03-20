@@ -1,5 +1,5 @@
 import { Everything } from "../interfaces";
-import { Props } from "./interfaces";
+import { Props, ToolSlot, Tool } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
 import { selectAll } from "../resources/util";
@@ -8,19 +8,21 @@ export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAll(props.resources.tool_bays);
   let toolSlots = selectAll(props.resources.tool_slots);
   let tools = selectAll(props.resources.tools);
-  let editorMode = props.tools.editorMode;
-  let isEditingTools = props.tools.tools.isEditing;
-  let dirtyTools = props.tools.tools.dirty;
+
+  let editingBays = props.tools.editingBays;
+  let editingTools = props.tools.editingTools;
+  let dirtyTools = props.tools.toolsDirty;
 
   /** Returns sorted tool objects. */
-  let getSortedTools = () => {
-    return _.sortBy(tools, "id");
-  };
+  let getSortedTools = () => tools;
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (toolBayId: number) => {
-    let currentSlots = toolSlots.filter(slot => slot.tool_bay_id === toolBayId);
-    return _.sortBy(currentSlots, "id");
+    // TODO: two things:
+    //       1. We don't support multiple bays. Therefore, no need to filter.
+    //       2. If we add an index to this resource, we don't need to perform
+    //          filtering.
+    return toolSlots;
   };
 
   /** Returns all tools in an <FBSelect /> compatible format. */
@@ -46,17 +48,21 @@ export function mapStateToProps(props: Everything): Props {
   };
 
   /** Returns a regular tool object chosen in a slot. */
-  let getChosenTool = (toolSlotId: number) => {
-    let currentSlot = _.findWhere(toolSlots, { id: toolSlotId });
-    return _.findWhere(tools, { id: currentSlot.tool_id });
+  let getChosenTool = (toolSlotId: number): Tool | undefined => {
+    let currentSlot = props.resources.tool_slots.byId[toolSlotId];
+    let tool_id = (currentSlot && currentSlot.tool_id) || 0;
+    let tool = currentSlot && props.resources.tools.byId[tool_id];
+    if (tool && tool.id) {
+      return tool;
+    }
   };
 
   return {
     toolBays,
     toolSlots,
     tools,
-    editorMode,
-    isEditingTools,
+    editingBays,
+    editingTools,
     dirtyTools,
     getSortedTools,
     getToolSlots,

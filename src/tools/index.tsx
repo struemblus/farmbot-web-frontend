@@ -8,8 +8,8 @@ import { mapStateToProps } from "./state_to_props";
 @connect(mapStateToProps)
 export class Tools extends React.Component<Props, ToolsState> {
   render() {
-    let isEditingBays = this.props.editorMode;
-    let isEditingTools = this.props.isEditingTools;
+    let isEditingBays = this.props.editingBays;
+    let isEditingTools = this.props.editingTools;
     return <Page className="tools">
       <Row>
         <Col sm={7}>

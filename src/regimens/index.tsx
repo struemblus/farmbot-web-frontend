@@ -21,7 +21,7 @@ export class Regimens extends React.Component<FixMePlease, {}> {
       <Row>
         <Col xs={12} md={4}>
           <BulkSchedulerWidget editor={this.props.bulkScheduler}
-            sequences={this.props.sequences.all}
+            sequences={this.props.sequences}
             dispatch={this.props.dispatch} />
         </Col>
         <Col xs={12} md={4}>
@@ -29,7 +29,7 @@ export class Regimens extends React.Component<FixMePlease, {}> {
             dispatch={this.props.dispatch}
             auth={this.props.auth}
             bot={this.props.bot}
-            regimens={this.props.regimens} />
+            current={this.props.current} />
         </Col>
         {isMobile() && (
           <MobileRegimensNav

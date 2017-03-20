@@ -51,8 +51,7 @@ export function prettyPrintApiErrors(err: AxiosErrorResponse) {
     .map(str => _.capitalize(str)).join(" ");
 }
 
-/** */
-function safelyFetchErrors(err: AxiosErrorResponse): { [key: string]: string } {
+function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
   // In case the interpreter gives us an oddball error message.
   if (err && err.response && err.response.data) {
     return err.response.data;

@@ -7,6 +7,7 @@ import { prettyPrintApiErrors } from "../util";
 import { t } from "i18next";
 import { API } from "../api";
 import { UnsafeError } from "../interfaces";
+import { destroy } from "../api/crud";
 
 export function copyRegimen(payload: Regimen) {
   return {
@@ -40,43 +41,16 @@ export function saveRegimen(regimen: Regimen, baseUrl: string) {
   };
 }
 
-function saveRegimenOk(regimen: Regimen) {
-  return { type: "SAVE_REGIMEN_OK", payload: regimen };
-}
-
 function saveRegimenErr(err: UnsafeError) {
   error(prettyPrintApiErrors(err),
     t("Unable to save regimen."));
 }
 
 export function deleteRegimen(regimen: Regimen) {
-  return function (dispatch: Function) {
-    if (!confirm(`Delete regimen '${regimen.name}'?`)) {
-      return;
-    }
-
-    if (regimen && regimen.id) {
-      let url = API.current.regimensPath + regimen.id;
-
-      Axios.delete<Regimen>(url)
-        .then(function (resp) {
-          dispatch(deleteRegimenOk(regimen));
-        })
-        .catch(function (error) {
-          deleteRegimenErr(error);
-        });
-    } else {
-      dispatch(deleteRegimenOk(regimen));
-    };
-  };
-}
-
-function deleteRegimenOk(payload: Regimen) {
-  success(t("Regimen deleted."));
-  return {
-    type: "DELETE_REGIMEN_OK",
-    payload
-  };
+  return destroy({
+    kind: "regimens",
+    body: regimen
+  });
 }
 
 function deleteRegimenErr(payload: Error) {
@@ -90,11 +64,8 @@ export function newRegimen(): ReduxAction<{}> {
   };
 }
 
-export function selectRegimen(index: number): ReduxAction<number> {
-  return {
-    type: "SELECT_REGIMEN",
-    payload: index
-  };
+export function selectRegimen(payload: Regimen): ReduxAction<Regimen> {
+  return { type: "SELECT_REGIMEN", payload };
 }
 
 export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
@@ -103,22 +74,4 @@ export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
     payload: item
   };
 }
-
-export function fetchRegimens() {
-  return function (dispatch: Function) {
-    return Axios
-      .get<Regimen[]>(API.current.regimensPath)
-      .then(r => dispatch({
-        type: "FETCH_REGIMENS_OK",
-        payload: r.data
-      }))
-      .catch(e => {
-        warning(t("Could not download regimens."));
-        dispatch({
-          type: "FETCH_REGIMENS_ERR",
-          payload: e
-        });
-      });
-  };
-};
 

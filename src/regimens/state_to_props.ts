@@ -1,21 +1,17 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
+import { selectAll } from "../resources/util";
 
 export function mapStateToProps(props: Everything): Props {
-  let dispatch = props.dispatch;
-  let sequences = props.sequences;
-  let bulkScheduler = props.bulkScheduler;
-  let auth = props.auth;
-  let bot = props.bot;
-  let regimens = props.regimens;
 
   return {
-    dispatch,
-    sequences,
-    bulkScheduler,
-    auth,
-    bot,
-    regimens
+    dispatch: props.dispatch,
+    sequences: selectAll(props.resources.sequences),
+    bulkScheduler: props.bulkScheduler,
+    auth: props.auth,
+    bot: props.bot,
+    current: props.regimens.current,
+    regimens: selectAll(props.resources.regimens)
   };
 }
 

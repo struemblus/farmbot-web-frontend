@@ -8,7 +8,7 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
   render() {
     return <Widget className="regimen-list-widget">
       <WidgetHeader title="Regimens"
-        helpText={`This is a list of all of your regimens. 
+        helpText={`This is a list of all of your regimens.
                    Click one to begin editing it.`}>
         <AddRegimen dispatch={this.props.dispatch} />
       </WidgetHeader>
@@ -18,7 +18,6 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
             {this
               .props
               .regimens
-              .all
               .map((regimen, inx) => <RegimenListItem
                 dispatch={this.props.dispatch}
                 regimen={regimen}

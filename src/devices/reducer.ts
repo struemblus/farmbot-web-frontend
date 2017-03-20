@@ -73,35 +73,6 @@ export let botReducer = generateReducer<BotState>(initialState)
     });
     return nextState;
   })
-  .add<Sequence>("SAVE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Sequence>("DELETE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("SAVE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("DELETE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("BOT_SYNC_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("COMMIT_AXIS_CHANGE_OK", function (oldState, a) {
-    let hardware = Object.assign({}, oldState.hardware, a.payload);
-    let state = Object.assign<{}, BotState>({}, oldState);
-
-    return Object.assign({}, state, {
-      axisBuffer: {},
-      hardware
-    });
-  })
   .add<Configuration>("CHANGE_CONFIG_BUFFER", function (s, a) {
     let old_buffer = s.configBuffer;
     let new_buffer = a.payload;

@@ -18,16 +18,14 @@ export let RESOURCES: ResourceName[] = [
 ];
 
 // PROBLEM:       The bot doesn't know if the user has changed any of the data.
-// SOLUTION:      Create a push notification system on the API.
+// GOOD SOLUTION: Create a push notification system on the API.
 // FAST SOLUTION: Ping the bot every time we push "save" or "update".
 //                Our hope is to eventually move this logic into the API.
 export function notifyBotOfChanges(url: string, action: DataChangeType) {
   (url || "").split("/").filter((chunk: ResourceName) => {
     return RESOURCES.includes(chunk);
-  }).map(function (resource) {
-    devices
-      .current
-      .dataUpdate(action, { [resource]: "*" });
+  }).map(async function (resource) {
+    devices.current.dataUpdate(action, { [resource]: "*" });
   });
 }
 
