@@ -34,18 +34,48 @@ let initialState: RestResources = {
 export let resourceReducer = generateReducer<RestResources>(initialState)
   .add<TaggedResource>("CREATE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
-    mandateID(resource);
-    switch (resource.kind) {
-      case "tools":
-        let id = resource.body.id as number;
-        state.tools.all.push(id);
-        state.tools.byId[id] = resource.body;
-        break;
-      default:
-        throw new Error("We didn't write a handler for this resource: " +
-          action.payload.kind);
+    if (resource
+      && resource.body
+      && resource.body.id) {
+      switch (resource.kind) {
+        case "tools":
+        case "sequences":
+          let id = resource.body.id;
+          state[resource.kind].all.push(id);
+          state[resource.kind].byId[id] = resource.body;
+          break;
+        default:
+          throw new Error("We didn't write a handler for this resource: " +
+            action.payload.kind);
+      }
+    } else {
+      throw new Error("Somehow, a resource was created without an ID?");
     }
     return state;
+  })
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
+    let resource = action.payload;
+    if (resource
+      && resource.body
+      && resource.body.id) {
+      switch (resource.kind) {
+        case "tools":
+        case "sequences":
+          let id = resource.body.id;
+          state[resource.kind].all = state[resource.kind]
+            .all
+            .filter(x => x != id);
+          delete state[resource.kind].byId[id];
+          break;
+        default:
+          throw new Error("We didn't write a handler for this resource: " +
+            action.payload.kind);
+      }
+      return state;
+    } else {
+      // Don't care about unsaved resources.
+      return state;
+    }
   })
   .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
     let p = action.payload;

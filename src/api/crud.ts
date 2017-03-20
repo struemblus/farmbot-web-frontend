@@ -1,5 +1,5 @@
 import { TaggedResource, ResourceTag } from "../resources/tagged_resources";
-import { GetState, Thunk } from "../redux/interfaces";
+import { GetState } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
 import { createOK, createNO, updateOK, updateNO, destroyOK, destroyNO } from "../resources/actions";
@@ -42,17 +42,19 @@ export function update(resource: TaggedResource) {
 export function destroy(resource: TaggedResource) {
   let id = _.get(resource, "body.id", -1);
   if (id < 1) {
-    throw new Error("TRIED TO UPDATE AN UNSAVED RESOURCE");
-  }
-  return function (dispatch: Function, getState: GetState) {
-    return Axios
-      .delete<typeof resource.body>(urlFor(resource.kind) + id)
-      .then(function (resp) {
-        destroyOK(id);
-      })
-      .catch(function (err: UnsafeError) {
-        destroyNO(err);
-      });
+    // Don't need to do anything if it's not saved.
+    return (d: Function, g: GetState) => Promise.resolve("")
+  } else {
+    return function (dispatch: Function, getState: GetState) {
+      return Axios
+        .delete<typeof resource.body>(urlFor(resource.kind) + id)
+        .then(function (resp) {
+          dispatch(destroyOK(resource));
+        })
+        .catch(function (err: UnsafeError) {
+          dispatch(destroyNO(err));
+        });
+    }
   }
 }
 

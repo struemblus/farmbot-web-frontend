@@ -6,7 +6,7 @@ import { ToolBay, ToolSlot, Tool } from "./interfaces";
 import { success, error } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { selectAll } from "../resources/util";
-import { create } from "../api/crud";
+import { create, destroy } from "../api/crud";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
@@ -100,10 +100,6 @@ export function destroySlot(id: number): Thunk {
   };
 }
 
-export function destroyToolOk(id: number): ReduxAction<{}> {
-  return { type: "DESTROY_TOOL_OK", payload: id };
-}
-
 export function saveToolsOk(tools: Tool[]): ReduxAction<{}> {
   return { type: "SAVE_TOOLS_OK", payload: tools };
 }
@@ -134,17 +130,8 @@ export function saveTools(tools: Tool[]): Thunk {
   };
 }
 
-export function destroyTool(id: number): Thunk {
-  return (dispatch, getState) => {
-    Axios
-      .delete<Tool>(API.current.toolsPath + id)
-      .then(resp => {
-        error("Tool has been deleted.", "Deleted");
-        dispatch(destroyToolOk(id));
-      }, (e: Error) => {
-        error(prettyPrintApiErrors(e));
-      });
-  };
+export function destroyTool(body: Tool): Thunk {
+  return destroy({ kind: "tools", body })
 }
 
 export function addTool(name: string): Thunk {
