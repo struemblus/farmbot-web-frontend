@@ -1,4 +1,4 @@
-import { Regimen, RegimenItem, RegimenProps, RegimensState } from "../interfaces";
+import { Regimen, RegimenItem, RegimenProps } from "../interfaces";
 import { AuthState } from "../../auth/interfaces";
 import { BotState } from "../../devices/interfaces";
 

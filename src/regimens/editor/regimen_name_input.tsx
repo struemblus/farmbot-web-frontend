@@ -1,6 +1,6 @@
 import * as React from "react";
 import { editRegimen } from "../actions";
-import { RegimenProps, Regimen } from "../interfaces";
+import { RegimenProps } from "../interfaces";
 import { t } from "i18next";
 import { ColorPicker } from "../../sequences/color_picker";
 import { Color } from "../../interfaces";

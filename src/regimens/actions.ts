@@ -1,10 +1,5 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { error } from "../ui";
-import * as Axios from "axios";
-import { prettyPrintApiErrors } from "../util";
-import { t } from "i18next";
-import { UnsafeError } from "../interfaces";
 import {
   destroy,
   create as _create,
