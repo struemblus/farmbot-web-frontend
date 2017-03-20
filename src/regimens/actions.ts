@@ -7,7 +7,7 @@ import { prettyPrintApiErrors } from "../util";
 import { t } from "i18next";
 import { API } from "../api";
 import { UnsafeError } from "../interfaces";
-import { destroy } from "../api/crud";
+import { destroy, create, update } from "../api/crud";
 
 export function copyRegimen(payload: Regimen) {
   return {
@@ -28,16 +28,10 @@ export function editRegimen(regimen: Regimen,
   };
 }
 
-export function saveRegimen(regimen: Regimen, baseUrl: string) {
+export function saveRegimen(body: Regimen) {
   return function (dispatch: Function) {
-    const action = regimen.id ? Axios.put : Axios.post;
-    let url = API.current.regimensPath + (regimen.id || "");
-    return action<Regimen>(url, regimenSerializer(regimen))
-      .then(function (resp) {
-        success(t("Regimen saved."));
-        dispatch(saveRegimenOk(resp.data));
-      })
-      .catch(error => saveRegimenErr(error));
+    const action = body.id ? create : update;
+    return action({ kind: "regimens", body });
   };
 }
 
