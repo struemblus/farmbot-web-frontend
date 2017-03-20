@@ -7,11 +7,12 @@ import { BotState } from "../devices/interfaces";
 
 export interface Props {
   dispatch: Function;
-  sequences: SequenceReducerState;
+  sequences: Sequence[];
   bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
-  regimens: RegimensState;
+  current: Regimen;
+  regimens: Regimen[];
 }
 
 export interface RegimenPropsWithParams {
@@ -58,11 +59,10 @@ export interface RegimenItem {
   time_offset: number;
 };
 
-/** How Regimen state is stored in the application. 
+/** How Regimen state is stored in the application.
  * Used by Regimen reducer mostly */
 export interface RegimensState {
-  current: number;
-  all: Regimen[];
+  current: Regimen;
 }
 
 /** Used by regimen reducer to route incoming stream of Redux actions */
@@ -83,5 +83,5 @@ export interface RegimenListItemProps extends RegimenProps {
 
 export interface RegimensListProps {
   dispatch: Function;
-  regimens: RegimensState;
+  regimens: Regimen[];
 }

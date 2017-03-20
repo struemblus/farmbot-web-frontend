@@ -1,6 +1,7 @@
 import { Sequence } from "../sequences/interfaces";
 import { Tool, ToolSlot } from "../tools/interfaces";
 import { RestResources } from "./interfaces";
+import { Regimen } from "../regimens/interfaces";
 
 export type ResourceTag = keyof RestResources;
 
@@ -13,7 +14,13 @@ interface TaggedResourceBase {
 
 export type TaggedResource = TaggedTool
   | TaggedSequence
-  | TaggedToolSlot;
+  | TaggedToolSlot
+  | TaggedRegimen;
+
+export interface TaggedRegimen extends TaggedResourceBase {
+  kind: "regimens";
+  body: Regimen;
+}
 
 export interface TaggedTool extends TaggedResourceBase {
   kind: "tools";

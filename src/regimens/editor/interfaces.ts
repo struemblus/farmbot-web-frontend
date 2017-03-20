@@ -28,7 +28,7 @@ export interface SaveButtonProps extends RegimenProps {
 };
 
 export interface RegimenEditorWidgetProps {
-  regimens: RegimensState;
+  current: Regimen;
   dispatch: Function;
   auth: AuthState | undefined;
   bot: BotState;

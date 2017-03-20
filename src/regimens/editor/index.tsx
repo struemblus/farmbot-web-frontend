@@ -7,12 +7,12 @@ import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 
-export function RegimenEditorWidget({ regimens, dispatch, auth }:
+export function RegimenEditorWidget({ current, dispatch, auth }:
   RegimenEditorWidgetProps) {
   if (auth) {
-    let regimen = regimens.all[regimens.current];
+    let regimen = current;
     let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
-    let saveButtenProps = {
+    let saveButtonProps = {
       dispatch,
       regimen,
       token: auth.token,
@@ -33,7 +33,7 @@ export function RegimenEditorWidget({ regimens, dispatch, auth }:
           dispatch={dispatch}
           url={auth.token.unencoded.iss} />
         <CopyButton regimen={regimen} dispatch={dispatch} />
-        <DeleteButton {...saveButtenProps} />
+        <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
       <WidgetBody>
         <DynamicComponent regimen={regimen} dispatch={dispatch} />

@@ -9,7 +9,6 @@ import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as NoNoNo from "../sync/actions";
-import { fetchRegimens } from "../regimens/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
@@ -33,9 +32,6 @@ export function didLogin(authState: AuthState, dispatch: Function) {
     error(t("Could not download sync data"));
     dispatch(NoNoNo.fetchDeprecatedSyncDataNo(e));
   });
-
-  // TODO: Make regimens work with sync object
-  dispatch(fetchRegimens());
   dispatch(connectDevice(authState.token.encoded));
 };
 

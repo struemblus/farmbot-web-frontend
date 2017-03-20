@@ -65,7 +65,7 @@ export function commitBulkEditor(): Thunk {
   return function (dispatch, getState) {
     const state: Everything = getState();
 
-    if (!state.regimens.all[state.regimens.current]) { dispatch(newRegimen()); }
+    if (!state.regimens.current) { dispatch(newRegimen()); }
 
     if (state.bulkScheduler.sequence) {
       let index = getState().regimens.current;
