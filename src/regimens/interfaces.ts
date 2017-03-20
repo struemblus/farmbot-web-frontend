@@ -13,7 +13,6 @@ export interface Props {
   bot: BotState;
   current: Regimen;
   regimens: Regimen[];
-  param: string;
 }
 
 /** RegimenItem, as presented by the REST API */

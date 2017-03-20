@@ -26,10 +26,7 @@ export class Regimens extends React.Component<Props, {}> {
             bot={this.props.bot}
             current={this.props.current} />
         </Col>
-        {isMobile() && (
-          <MobileRegimensNav
-            param={this.props.param} />
-        )}
+        {isMobile() && <MobileRegimensNav />}
         <Col xs={12} md={4}>
           <RegimensList
             dispatch={this.props.dispatch}

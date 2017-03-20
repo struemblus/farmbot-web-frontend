@@ -25,11 +25,7 @@ export class Sequences extends React.Component<Props, {}> {
           tools={this.props.tools}
         />
       </Col>
-      {isMobile() && (
-        <MobileSequencesNav
-          param={this.props.param}
-        />
-      )}
+      {isMobile() && <MobileSequencesNav />}
       <Col xs={12} md={3}>
         <SequencesList
           dispatch={this.props.dispatch}

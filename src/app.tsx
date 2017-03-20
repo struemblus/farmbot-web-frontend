@@ -6,7 +6,6 @@ import { connect } from "react-redux";
 import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
-import { history } from "./history";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -26,7 +25,6 @@ interface AppProps {
   logs: Log[];
   auth: AuthState | undefined;
   bot: BotState;
-  pathname: string;
 }
 
 function mapStateToProps(props: Everything): AppProps {
@@ -42,7 +40,6 @@ function mapStateToProps(props: Everything): AppProps {
     });
   return {
     dispatch,
-    pathname: history.getCurrentLocation().pathname,
     auth: props.auth,
     bot: props.bot,
     logs,
@@ -67,7 +64,6 @@ export default class App extends React.Component<AppProps, {}> {
       <NavBar
         auth={this.props.auth}
         bot={this.props.bot}
-        pathname={this.props.pathname}
         dispatch={this.props.dispatch}
         logs={this.props.logs} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}

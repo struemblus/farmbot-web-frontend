@@ -20,7 +20,6 @@ export interface NavBarState {
 }
 
 export interface NavBarProps {
-  pathname: string;
   logs: Log[];
   bot: BotState;
   auth: AuthState | undefined;

@@ -11,6 +11,7 @@ import {
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
+import { history } from "../../history";
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   /** The offset of 50px is made for the setDragImage to make it in the
@@ -68,7 +69,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       let box = el.getBoundingClientRect();
       let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       // TEMPORARY SOLUTION =======
-      let OFEntry = this.findCrop(this.props.species);
+      // TODO: This is definitely not right, figure out query objects
+      let species = history.getCurrentLocation().pathname.split("/")[5];
+      let OFEntry = this.findCrop(species);
       p.img_url = OFEntry.image;
       p.openfarm_slug = OFEntry.crop.slug;
       p.name = OFEntry.crop.name || "Mystery Crop";
@@ -103,7 +106,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
         })}
         {
           this.props.plants.map((p, inx) => {
-            let { pathname } = this.props;
+            let pathname = history.getCurrentLocation().pathname;
             if (p.id) {
               let isActive = (pathname.includes(p.id.toString()) &&
                 pathname.includes("edit")) ? "active" : "";

@@ -11,8 +11,6 @@ export interface Props {
   designer: DesignerState;
   points: Point[];
   plants: Plant[];
-  pathname: string;
-  species: string;
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -164,8 +162,6 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: Point[];
   plants: Plant[];
-  species: string;
-  pathname: string;
 }
 
 export interface GardenMapState {
