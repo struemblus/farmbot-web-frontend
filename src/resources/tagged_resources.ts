@@ -1,6 +1,5 @@
 import { Sequence } from "../sequences/interfaces";
-import { DeviceAccountSettings } from "../devices/interfaces";
-import { Tool } from "../tools/interfaces";
+import { Tool, ToolSlot } from "../tools/interfaces";
 import { RestResources } from "./interfaces";
 
 export type ResourceTag = keyof RestResources;
@@ -13,11 +12,17 @@ interface TaggedResourceBase {
 }
 
 export type TaggedResource = TaggedTool
-  | TaggedSequence;
+  | TaggedSequence
+  | TaggedToolSlot;
 
 export interface TaggedTool extends TaggedResourceBase {
   kind: "tools";
   body: Tool;
+}
+
+export interface TaggedToolSlot extends TaggedResourceBase {
+  kind: "tool_slots";
+  body: ToolSlot;
 }
 
 export interface TaggedSequence extends TaggedResourceBase {

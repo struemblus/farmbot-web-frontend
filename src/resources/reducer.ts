@@ -40,6 +40,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       switch (resource.kind) {
         case "tools":
         case "sequences":
+        case "tool_slots":
           let id = resource.body.id;
           state[resource.kind].all.push(id);
           state[resource.kind].byId[id] = resource.body;

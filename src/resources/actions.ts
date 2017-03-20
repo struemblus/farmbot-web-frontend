@@ -8,6 +8,7 @@ export function createOK(payload: TaggedResource) {
 }
 
 export function createNO(payload: UnsafeError) {
+  console.dir(payload);
   return { type: "CREATE_RESOURCE_NO", payload };
 }
 

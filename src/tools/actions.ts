@@ -54,9 +54,6 @@ export function detachTool(tool_slot_id: number) {
   };
 }
 
-export function addToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
-  return { type: "ADD_TOOL_SLOT_OK", payload: toolSlot };
-}
 
 export function saveToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
   return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlot };
@@ -72,19 +69,10 @@ export function destroyToolSlotOk(id: number): ReduxAction<{}> {
 
 export function addSlot(slot: Partial<ToolSlot>, toolBayId: number): Thunk {
   slot.tool_bay_id = toolBayId;
-  return (dispatch, getState) => {
-    Axios
-      .post<ToolSlot>(API.current.toolSlotsPath, slot)
-      .then(resp => {
-        if (resp instanceof Error) {
-          error(prettyPrintApiErrors(resp));
-          throw resp;
-        }
-        dispatch(addToolSlotOk(resp.data));
-      }, (e: Error) => {
-        error(prettyPrintApiErrors(e));
-      });
-  };
+  return create({
+    kind: "tool_slots",
+    body: (slot as ToolSlot)
+  });
 }
 
 export function destroySlot(id: number): Thunk {

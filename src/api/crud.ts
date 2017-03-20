@@ -66,13 +66,15 @@ interface Idea {
 
 export function urlFor(tag: ResourceTag) {
   const OPTIONS: Partial<Record<ResourceTag, string>> = {
-    "sequences": API.current.sequencesPath,
-    "tools": API.current.toolsPath
+    sequences: API.current.sequencesPath,
+    tools: API.current.toolsPath,
+    tool_slots: API.current.toolSlotsPath
   }
   let url = OPTIONS[tag];
   if (url) {
     return url;
   } else {
-    throw new Error(`We haven't written a resource/URL handler for ${tag} yet.`);
+    throw new Error(`No resource/URL handler for ${tag} yet.
+    Consider adding one to crud.ts`);
   }
 }
