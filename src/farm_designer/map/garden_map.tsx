@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Plant } from "../plant";
-import { deprecatedSavePlant, movePlant, savePlant } from "../actions";
+import { movePlant, savePlant } from "../actions";
 import * as moment from "moment";
 import {
   GardenMapProps,
@@ -76,7 +76,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.spread = OFEntry.crop.spread;
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
-      this.props.dispatch(deprecatedSavePlant(plant));
+      this.props.dispatch(savePlant(plant));
     } else {
       throw new Error("never");
     }
