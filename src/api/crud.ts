@@ -73,7 +73,8 @@ export function urlFor(tag: ResourceTag) {
     tools: API.current.toolsPath,
     tool_slots: API.current.toolSlotsPath,
     plants: API.current.plantsPath,
-    farm_events: API.current.farmEventsPath
+    farm_events: API.current.farmEventsPath,
+    regimens: API.current.regimensPath
   }
   let url = OPTIONS[tag];
   if (url) {

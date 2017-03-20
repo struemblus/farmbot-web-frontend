@@ -31,7 +31,7 @@ export function editRegimen(regimen: Regimen,
 export function saveRegimen(body: Regimen) {
   return function (dispatch: Function) {
     const action = body.id ? create : update;
-    return action({ kind: "regimens", body });
+    return dispatch(action({ kind: "regimens", body }));
   };
 }
 
