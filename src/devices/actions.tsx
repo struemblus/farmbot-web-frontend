@@ -6,9 +6,8 @@ import {
   GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
 } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { put, get } from "axios";
+import { get } from "axios";
 import {
-  DeviceAccountSettingsUpdate,
   DeviceAccountSettings,
   BotState
 } from "../devices/interfaces";
@@ -16,7 +15,6 @@ import { t } from "i18next";
 import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
-import { API } from "../api";
 import { HardwareState } from "../devices/interfaces";
 
 const ON = 1, OFF = 0;
@@ -185,8 +183,8 @@ export function fetchFWUpdateInfo(url: string) {
   };
 }
 
-export function update(device: any){
-  
+export function update(device: any) {
+
 }
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
