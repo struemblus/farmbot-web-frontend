@@ -68,7 +68,8 @@ export function urlFor(tag: ResourceTag) {
   const OPTIONS: Partial<Record<ResourceTag, string>> = {
     sequences: API.current.sequencesPath,
     tools: API.current.toolsPath,
-    tool_slots: API.current.toolSlotsPath
+    tool_slots: API.current.toolSlotsPath,
+    regimens: API.current.regimensPath
   }
   let url = OPTIONS[tag];
   if (url) {
