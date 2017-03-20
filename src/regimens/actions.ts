@@ -1,13 +1,15 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { warning, success, error } from "../ui";
+import { error } from "../ui";
 import * as Axios from "axios";
-import { regimenSerializer } from "./serializers";
 import { prettyPrintApiErrors } from "../util";
 import { t } from "i18next";
-import { API } from "../api";
 import { UnsafeError } from "../interfaces";
-import { destroy, create, update } from "../api/crud";
+import {
+  destroy,
+  create as _create,
+  update as _update
+} from "../api/crud";
 
 export function copyRegimen(payload: Regimen) {
   return {
@@ -21,23 +23,15 @@ export function editRegimen(regimen: Regimen,
   ReduxAction<{ regimen: Regimen, update: Object }> {
   return {
     type: "EDIT_REGIMEN",
-    payload: {
-      regimen,
-      update
-    }
+    payload: { regimen, update }
   };
 }
 
 export function saveRegimen(body: Regimen) {
   return function (dispatch: Function) {
-    const action = body.id ? create : update;
+    const action = body.id ? _update : _create;
     return dispatch(action({ kind: "regimens", body }));
   };
-}
-
-function saveRegimenErr(err: UnsafeError) {
-  error(prettyPrintApiErrors(err),
-    t("Unable to save regimen."));
 }
 
 export function deleteRegimen(regimen: Regimen) {
@@ -45,10 +39,6 @@ export function deleteRegimen(regimen: Regimen) {
     kind: "regimens",
     body: regimen
   });
-}
-
-function deleteRegimenErr(payload: Error) {
-  error(t("Unable to delete regimen."));
 }
 
 export function newRegimen(): ReduxAction<{}> {

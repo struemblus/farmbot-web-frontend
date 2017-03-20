@@ -10,9 +10,7 @@ export function emptyRegimen(): Regimen {
   };
 }
 
-const initialState: RegimensState = {
-  current: emptyRegimen()
-};
+const initialState: RegimensState = { current: emptyRegimen() };
 
 export let regimensReducer = generateReducer<RegimensState>(initialState)
   .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN",
@@ -34,7 +32,10 @@ export let regimensReducer = generateReducer<RegimensState>(initialState)
     return state;
   })
   .add<Regimen>("COPY_REGIMEN", function (state, action) {
-    state.todo;
+    // DONT COMMIT THIS CODE!!!
+    if (_.isNumber(123)) {
+      throw new Error("Fix this!");
+    }
     // let regi = action.payload;
     // // Unset the ID to avoid accidentally overwriting parent.
     // regi.id = undefined;

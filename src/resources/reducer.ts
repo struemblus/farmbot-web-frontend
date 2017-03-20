@@ -35,13 +35,13 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
         case "tool_slots":
         case "plants":
         case "farm_events":
+        case "regimens":
           let id = resource.body.id;
           state[resource.kind].all.push(id);
           state[resource.kind].byId[id] = resource.body;
           break;
         default:
-          throw new Error("We didn't write a handler for this resource: " +
-            action.payload.kind);
+          whoops("CREATE_RESOURCE_OK", action.payload.kind);
       }
     } else {
       throw new Error("Somehow, a resource was created without an ID?");
@@ -65,8 +65,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
           delete state[resource.kind].byId[id];
           break;
         default:
-          throw new Error("We didn't write a handler for this resource: " +
-            action.payload.kind);
+          whoops("DESTROY_RESOURCE_OK", action.payload.kind);
       }
       return state;
     } else {
@@ -96,4 +95,10 @@ function mandateID(r: TaggedResource) {
   if (!_.isNumber(r.body.id)) {
     throw new Error("TRIED TO ADD AN UNSAVED RESOURCE TO STATE TREE!");
   }
+}
+
+function whoops(origin: string, kind: string) {
+  throw new Error(origin +
+    ": We didn't write a handler for this resource: "
+    + kind);
 }
