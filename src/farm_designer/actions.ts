@@ -1,6 +1,6 @@
 import * as Axios from "axios";
 import { error, success } from "../ui";
-import { Plant, MovePlantProps, FarmEvent, FarmEventForm } from "./interfaces";
+import { Plant, MovePlantProps, FarmEvent } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { t } from "i18next";
 import { API } from "../api";

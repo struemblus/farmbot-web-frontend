@@ -20,8 +20,6 @@ export interface UpdateSequenceOrRegimenProps {
   farm_event_id: number;
 }
 
-export type FarmEventForm = Partial<Record<keyof FarmEvent, string | number>>;
-
 export type TimeUnit = "never"
   | "minutely"
   | "hourly"
@@ -98,8 +96,7 @@ export interface Point {
   meta: { [key: string]: (string | undefined) };
 }
 
-export type AddFarmEventState =
-  Partial<Record<keyof FarmEvent, string | number>>;
+export type AddFarmEventState = Partial<FarmEvent>;
 
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
@@ -110,7 +107,7 @@ export interface AddEditFarmEventProps {
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(fe: FarmEventForm): void;
+  save(fe: FarmEvent): void;
   delete(fe: FarmEvent): void;
 }
 
