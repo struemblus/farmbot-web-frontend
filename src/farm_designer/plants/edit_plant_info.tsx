@@ -26,8 +26,7 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
   }
 
   destroy = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    this.props.dispatch(destroyPlant(plant_id));
+    this.props.dispatch(destroyPlant(this.findCurrentPlant()));
     this.props.router.push("/app/designer/plants");
   }
 

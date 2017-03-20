@@ -14,7 +14,7 @@ import {
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
+import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 
 @connect(mapStateToPropsAddEdit)
 export class AddFarmEvent extends React.Component<AddEditFarmEventProps,

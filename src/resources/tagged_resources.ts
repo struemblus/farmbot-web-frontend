@@ -2,6 +2,7 @@ import { Sequence } from "../sequences/interfaces";
 import { Tool, ToolSlot } from "../tools/interfaces";
 import { RestResources } from "./interfaces";
 import { Regimen } from "../regimens/interfaces";
+import { Plant, FarmEvent } from "../farm_designer/interfaces";
 
 export type ResourceTag = keyof RestResources;
 
@@ -15,6 +16,8 @@ interface TaggedResourceBase {
 export type TaggedResource = TaggedTool
   | TaggedSequence
   | TaggedToolSlot
+  | TaggedPlant
+  | TaggedFarmEvent
   | TaggedRegimen;
 
 export interface TaggedRegimen extends TaggedResourceBase {
@@ -35,5 +38,15 @@ export interface TaggedToolSlot extends TaggedResourceBase {
 export interface TaggedSequence extends TaggedResourceBase {
   kind: "sequences";
   body: Sequence;
+}
+
+export interface TaggedPlant extends TaggedResourceBase {
+  kind: "plants";
+  body: Plant;
+}
+
+export interface TaggedFarmEvent extends TaggedResourceBase {
+  kind: "farm_events";
+  body: FarmEvent;
 }
 

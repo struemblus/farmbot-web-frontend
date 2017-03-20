@@ -111,8 +111,7 @@ export interface AddEditFarmEventProps {
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
   save(fe: FarmEventForm): void;
-  update(fe: FarmEventForm): void;
-  delete(farm_event_id: number): void;
+  delete(fe: FarmEvent): void;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent

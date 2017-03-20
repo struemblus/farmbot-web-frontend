@@ -110,19 +110,12 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     sequenceById,
     regimenById,
     save(fe) {
-      this.dispatch(saveFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
+      this.dispatch(saveFarmEvent(fe));
+      this.router.push("/app/designer/farm_events");
     },
-    update(fe) {
-      this.dispatch(updateFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
-    delete(farm_event_id) {
-      this.dispatch(destroyFarmEvent(farm_event_id, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
+    delete(fe) {
+      this.dispatch(destroyFarmEvent(fe));
+      this.router.push("/app/designer/farm_events");
     },
   };
 }

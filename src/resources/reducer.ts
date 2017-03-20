@@ -1,14 +1,6 @@
-import { Dictionary } from "farmbot/dist";
-import { Sequence } from "../sequences/interfaces";
-import { Regimen, RegimenItem } from "../regimens/interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { DeprecatedSync, Log } from "../interfaces";
-import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
-import { User } from "../auth/interfaces";
-import { Peripheral } from "../controls/peripherals/interfaces";
-import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
-import { Image } from "../images/interfaces";
-import { indexById, indexRegimenItems, selectAll } from "./util";
+import { DeprecatedSync } from "../interfaces";
+import { indexById, indexRegimenItems } from "./util";
 import { RestResources } from "./interfaces";
 import { TaggedResource } from "./tagged_resources";
 
@@ -41,6 +33,8 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
         case "tools":
         case "sequences":
         case "tool_slots":
+        case "plants":
+        case "farm_events":
           let id = resource.body.id;
           state[resource.kind].all.push(id);
           state[resource.kind].byId[id] = resource.body;
@@ -62,6 +56,8 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       switch (resource.kind) {
         case "tools":
         case "sequences":
+        case "plants":
+        case "farm_events":
           let id = resource.body.id;
           state[resource.kind].all = state[resource.kind]
             .all

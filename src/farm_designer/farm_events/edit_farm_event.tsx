@@ -130,6 +130,10 @@ AddFarmEventState> {
     let { formatDate, formatTime, repeatOptions } = this.props;
     let { time_unit } = this.state;
     let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
+    let { farmEvents, router } = this.props;
+    let fe = _.findWhere(farmEvents,
+      { id: parseInt(router.params.farm_event_id) });
+
 
     return <div className={`panel-container magenta-panel
       add-farm-event-panel`}>
@@ -204,12 +208,11 @@ AddFarmEventState> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.update(this.state)}>
+          onClick={() => this.props.save(this.state)}>
           {t("Save")}
         </button>
         <button className="red button-like"
-          onClick={() => this.props.delete(
-            parseInt(this.props.router.params.farm_event_id))}>
+          onClick={() => this.props.delete(fe)}>
           {t("Delete")}
         </button>
       </div>

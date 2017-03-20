@@ -2,7 +2,14 @@ import { TaggedResource, ResourceTag } from "../resources/tagged_resources";
 import { GetState } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
-import { createOK, createNO, updateOK, updateNO, destroyOK, destroyNO } from "../resources/actions";
+import {
+  createOK,
+  createNO,
+  updateOK,
+  updateNO,
+  destroyOK,
+  destroyNO
+} from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 
 export function create(resource: TaggedResource) {
@@ -60,15 +67,13 @@ export function destroy(resource: TaggedResource) {
 
 export function list(resource: TaggedResource) { }
 
-interface Idea {
-  url: string;
-}
-
 export function urlFor(tag: ResourceTag) {
   const OPTIONS: Partial<Record<ResourceTag, string>> = {
     sequences: API.current.sequencesPath,
     tools: API.current.toolsPath,
-    tool_slots: API.current.toolSlotsPath
+    tool_slots: API.current.toolSlotsPath,
+    plants: API.current.plantsPath,
+    farm_events: API.current.farmEventsPath
   }
   let url = OPTIONS[tag];
   if (url) {
