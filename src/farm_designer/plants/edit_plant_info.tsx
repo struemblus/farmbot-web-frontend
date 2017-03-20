@@ -24,6 +24,7 @@ function mapStateToProps(props: EditPlantInfoProps) {
     // This is definitely not right, figure out query objects
     plant_id: parseInt(history.getCurrentLocation().pathname.split("/")[4]),
     push: history.push,
+    dispatch: props.dispatch,
     findCurrentPlant
   }
 }
