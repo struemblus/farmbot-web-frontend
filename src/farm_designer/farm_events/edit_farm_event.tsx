@@ -3,7 +3,8 @@ import { t } from "i18next";
 import {
   FarmEvent,
   AddFarmEventState,
-  AddEditFarmEventProps
+  AddEditFarmEventProps,
+  isTimeUnit
 } from "../interfaces";
 import {
   FBSelect,
@@ -69,9 +70,8 @@ AddFarmEventState> {
     };
   }
 
-  // Waiting until we figure out the fb_select deal before borrowing interfaces
   updateRepeatSelect = (e: { label: string, value: string, name: string }) => {
-    this.setState({ time_unit: e.value });
+    if (isTimeUnit(e.value)) { this.setState({ time_unit: e.value }); }
   }
 
   updateTime = (e: React.SyntheticEvent<HTMLInputElement>) => {

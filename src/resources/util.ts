@@ -1,6 +1,6 @@
 import { Dictionary } from "farmbot/dist";
 import { Regimen, RegimenItem } from "../regimens/interfaces";
-import { IndexedResource } from "./interfaces";
+import { ResourceById } from "./interfaces";
 
 const OH_NO = `Something in the application is referencing a resource ID that no
 longer exists. Make sure that you are cleaning up resource IDs after deletion
@@ -23,7 +23,7 @@ export let indexById = <T>(input: T[]) => ({
   byId: _.indexBy(input, "id")
 });
 
-export function selectAll<T>(input: IndexedResource<T>): T[] {
+export function selectAll<T>(input: ResourceById<T>): T[] {
   return input
     .all
     .sort()

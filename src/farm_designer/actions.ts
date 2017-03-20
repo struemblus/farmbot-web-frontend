@@ -7,9 +7,10 @@ import { API } from "../api";
 import { Everything } from "../interfaces";
 import { destroy, create, update } from "../api/crud";
 
-export function saveFarmEvent(body: FarmEvent) {
+export function saveFarmEvent(body: Partial<FarmEvent>) {
   const action = body.id ? create : update;
-  return action({ kind: "farm_events", body });
+  /** Typecast OK here because API will handle missing properties */
+  return action({ kind: "farm_events", body: (body as FarmEvent) });
 }
 
 export function destroyFarmEvent(body: FarmEvent): Thunk {

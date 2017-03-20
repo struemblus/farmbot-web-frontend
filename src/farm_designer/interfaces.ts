@@ -39,7 +39,7 @@ const TIME_UNITS: TimeUnit[] = [
 ];
 
 export function isTimeUnit(input: TimeUnit | any): input is TimeUnit {
-  if (typeof input === "string" && TIME_UNITS.includes(input)) {
+  if ((typeof input === "string") && TIME_UNITS.includes(input as TimeUnit)) {
     return true;
   } else {
     throw new Error("GOT INVLAID TIME UNIT: " + JSON.stringify(input));
@@ -125,7 +125,7 @@ export interface AddEditFarmEventProps {
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(fe: FarmEvent): void;
+  save(fe: Partial<FarmEvent>): void;
   delete(fe: FarmEvent): void;
 }
 

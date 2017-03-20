@@ -8,7 +8,7 @@ import { Log } from "../interfaces";
 import { CowardlyDictionary } from "../util";
 
 /** A REST resource, indexed by it's `id` attribute. */
-export interface IndexedResource<T> {
+export interface ResourceById<T> {
   all: number[];
   byId: CowardlyDictionary<T>;
 }
@@ -16,15 +16,15 @@ export interface IndexedResource<T> {
 export interface RestResources {
   /** Tells you if the sync finished yet. */
   loaded: boolean;
-  sequences: IndexedResource<Sequence>;
-  regimens: IndexedResource<Regimen>;
-  farm_events: IndexedResource<FarmEvent>;
-  plants: IndexedResource<Plant>;
-  tool_bays: IndexedResource<ToolBay>;
-  tool_slots: IndexedResource<ToolSlot>;
-  tools: IndexedResource<Tool>;
-  images: IndexedResource<Image>;
-  points: IndexedResource<Point>;
-  regimen_items: IndexedResource<RegimenItem>;
-  logs: IndexedResource<Log>;
+  sequences: ResourceById<Sequence>;
+  regimens: ResourceById<Regimen>;
+  farm_events: ResourceById<FarmEvent>;
+  plants: ResourceById<Plant>;
+  tool_bays: ResourceById<ToolBay>;
+  tool_slots: ResourceById<ToolSlot>;
+  tools: ResourceById<Tool>;
+  images: ResourceById<Image>;
+  points: ResourceById<Point>;
+  regimen_items: ResourceById<RegimenItem>;
+  logs: ResourceById<Log>;
 };
