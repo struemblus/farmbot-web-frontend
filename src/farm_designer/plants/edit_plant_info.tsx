@@ -1,45 +1,53 @@
 import * as React from "react";
 import { BackArrow, error } from "../../ui";
-import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { destroyPlant } from "../actions";
 import { t } from "i18next";
 import { EditPlantInfoProps } from "../interfaces";
 import { selectAll } from "../../resources/util";
+import { history } from "../../history";
 
-@connect((state: Everything) => state)
-export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
-  findCurrentPlant = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    let plants = selectAll(this.props.resources.plants);
-    let currentPlant = _.findWhere(plants, { id: plant_id });
-    return currentPlant;
-  }
-
-  componentDidMount() {
-    let currentPlant = this.findCurrentPlant();
-    if (!currentPlant) {
-      this.props.router.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
-  }
-
-  destroy = () => {
-    this.props.dispatch(destroyPlant(this.findCurrentPlant()));
-    this.props.router.push("/app/designer/plants");
-  }
-
-  render() {
-    console.log("Hey Chris, can you write a mapStateToProps fn for this?");
-    let currentPlant = this.findCurrentPlant() || {
+function mapStateToProps(props: EditPlantInfoProps) {
+  let findCurrentPlant = (plantId: number) => {
+    let plants = selectAll(props.resources.plants);
+    let currentPlant = _.findWhere(plants, { id: plantId }) || {
       planted_at: moment().toISOString(),
       name: "Error: No plant name.",
       x: "Error: No x coordinate",
       y: "Error: No y coordinate"
     };
+    return currentPlant;
+  }
 
-    let { name, x, y, planted_at } = currentPlant;
+  return {
+    // This is definitely not right, figure out query objects
+    plant_id: parseInt(history.getCurrentLocation().pathname.split("/")[4]),
+    push: history.push,
+    findCurrentPlant
+  }
+}
+
+@connect(mapStateToProps)
+export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
+  componentDidMount() {
+    let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
+    if (!currentPlant) {
+      this.props.push("/app/designer/plants");
+      error("Couldn't find plant.", "Error");
+    }
+  }
+
+  destroy = () => {
+    this.props.dispatch(destroyPlant(
+      this.props.findCurrentPlant(this.props.plant_id)
+    ));
+    this.props.push("/app/designer/plants");
+  }
+
+  render() {
+    let { name, x, y, planted_at } = this.props
+      .findCurrentPlant(this.props.plant_id);
 
     let dayPlanted = moment();
     // Same day = 1 !0

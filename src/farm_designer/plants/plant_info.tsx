@@ -7,34 +7,41 @@ import { t } from "i18next";
 import { PlantInfoProps } from "../interfaces";
 import { error } from "../../ui/index";
 import { selectAll } from "../../resources/util";
+import { history } from "../../history";
 
-@connect((state: Everything) => state)
-export class PlantInfo extends React.Component<PlantInfoProps, {}> {
-  findCurrentPlant = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    let plants = selectAll(this.props.resources.plants);
-    let currentPlant = _.findWhere(plants, { id: plant_id });
-    return currentPlant;
-  }
-
-  componentDidMount() {
-    let currentPlant = this.findCurrentPlant();
-    if (!currentPlant) {
-      this.props.router.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
-  }
-
-  render() {
-    console.log("Hey chris can you write a mapStateToProps fn here?")
-    let currentPlant = this.findCurrentPlant() || {
+function mapStateToProps(props: PlantInfoProps) {
+  let findCurrentPlant = (plantId: number) => {
+    let plants = selectAll(props.resources.plants);
+    let currentPlant = _.findWhere(plants, { id: plantId }) || {
       planted_at: moment().toISOString(),
       name: "Error: No plant name.",
       x: "Error: No x coordinate",
       y: "Error: No y coordinate"
     };
+    return currentPlant;
+  }
 
-    let { name, x, y, planted_at } = currentPlant;
+  return {
+    // This is definitely not right, figure out query objects
+    plant_id: parseInt(history.getCurrentLocation().pathname.split("/")[4]),
+    push: history.push,
+    findCurrentPlant
+  }
+}
+
+@connect(mapStateToProps)
+export class PlantInfo extends React.Component<PlantInfoProps, {}> {
+  componentDidMount() {
+    let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
+    if (!currentPlant) {
+      this.props.push("/app/designer/plants");
+      error("Couldn't find plant.", "Error");
+    }
+  }
+
+  render() {
+    let { name, x, y, planted_at, id } = this.props
+      .findCurrentPlant(this.props.plant_id);
 
     let dayPlanted = moment();
     // Same day = 1 !0
@@ -47,7 +54,7 @@ export class PlantInfo extends React.Component<PlantInfoProps, {}> {
             <i className="fa fa-arrow-left"></i>
           </Link>
           <span className="title">{name}</span>
-          <Link to={`/app/designer/plants/` + (currentPlant.id || "BROKEN")
+          <Link to={`/app/designer/plants/` + (id || "BROKEN")
             .toString() + `/edit`}
             className="right-button">
             {t("Edit")}

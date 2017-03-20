@@ -5,6 +5,7 @@ import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Everything } from "../interfaces";
 import { CowardlyDictionary } from "../util";
+import { RestResources } from "../resources/interfaces";
 
 export interface Props {
   dispatch: Function;
@@ -188,12 +189,19 @@ export interface SpeciesInfoProps extends Everything {
   params: { species: string; };
 }
 
-export interface EditPlantInfoProps extends Everything {
-  params: { plant_id: string; };
+export interface EditPlantInfoProps {
+  plant_id: number;
+  findCurrentPlant(plant_id: number): Plant;
+  push(url: string): void;
+  dispatch: Function;
+  resources: RestResources;
 }
 
-export interface PlantInfoProps extends Everything {
-  params: { plant_id: string };
+export interface PlantInfoProps {
+  plant_id: number;
+  findCurrentPlant(plant_id: number): Plant;
+  push(url: string): void;
+  resources: RestResources;
 }
 
 export interface DNDSpeciesMobileState {
