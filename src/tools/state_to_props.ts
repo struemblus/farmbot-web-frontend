@@ -1,5 +1,5 @@
 import { Everything } from "../interfaces";
-import { Props } from "./interfaces";
+import { Props, ToolSlot, Tool } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
 import { selectAll } from "../resources/util";
@@ -16,12 +16,13 @@ export function mapStateToProps(props: Everything): Props {
   /** Returns sorted tool objects. */
   let getSortedTools = () => tools;
 
-  // TODO: This can be refactored now that we normalize REST resources and index
-  //       by id. We just need to add a `byToolBayId` to `resources.tool_slots`.
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (toolBayId: number) => {
-    let currentSlots = toolSlots.filter(slot => slot.tool_bay_id === toolBayId);
-    return _.sortBy(currentSlots, "id");
+    // TODO: two things:
+    //       1. We don't support multiple bays. Therefore, no need to filter.
+    //       2. If we add an index to this resource, we don't need to perform
+    //          filtering.
+    return toolSlots;
   };
 
   /** Returns all tools in an <FBSelect /> compatible format. */
@@ -47,9 +48,13 @@ export function mapStateToProps(props: Everything): Props {
   };
 
   /** Returns a regular tool object chosen in a slot. */
-  let getChosenTool = (toolSlotId: number) => {
-    let currentSlot = _.findWhere(toolSlots, { id: toolSlotId });
-    return _.findWhere(tools, { id: currentSlot.tool_id });
+  let getChosenTool = (toolSlotId: number): Tool | undefined => {
+    let currentSlot = props.resources.tool_slots.byId[toolSlotId];
+    let tool_id = (currentSlot && currentSlot.tool_id) || 0;
+    let tool = currentSlot && props.resources.tools.byId[tool_id];
+    if (tool && tool.id) {
+      return tool;
+    }
   };
 
   return {

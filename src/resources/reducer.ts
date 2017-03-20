@@ -87,7 +87,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       farm_events: indexById(p.farm_events),
       plants: indexById(p.plants),
       tool_bays: indexById(p.tool_bays),
-      tool_slots: indexById(p.tool_bays),
+      tool_slots: indexById(p.tool_slots),
       tools: indexById(p.tools),
       images: indexById(p.images),
       points: indexById(p.points),

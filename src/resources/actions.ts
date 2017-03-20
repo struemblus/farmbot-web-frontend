@@ -7,26 +7,24 @@ export function createOK(payload: TaggedResource) {
   return { type: "CREATE_RESOURCE_OK", payload };
 }
 
-export function createNO(payload: UnsafeError) {
-  console.dir(payload);
-  return { type: "CREATE_RESOURCE_NO", payload };
-}
-
 export function updateOK(payload: TaggedResource) {
   return { type: "UPDATE_RESOURCE_OK", payload };
-}
-
-export function updateNO(payload: UnsafeError) {
-  return { type: "UPDATE_RESOURCE_NO", payload };
 }
 
 export function destroyOK(payload: TaggedResource) {
   return { type: "DESTROY_RESOURCE_OK", payload };
 }
 
-export function destroyNO(payload: any) {
+/** Generalized error handler when there are not special error handling
+ * requirements */
+function generalizedError(payload: UnsafeError) {
   error(prettyPrintApiErrors(payload));
-  return { type: "DESTROY_RESOURCE_NO", payload };
-}
+  return {
+    type: "*_RESOURCE_NO",
+    payload: {}
+  };
+};
 
-
+export let destroyNO = generalizedError;
+export let createNO = generalizedError;
+export let updateNO = generalizedError;
