@@ -16,6 +16,6 @@ let initialState: ToolsState = {
 
 export let toolsReducer = generateReducer<ToolsState>(initialState)
   .add<{}>("TOGGLE_EDIT_TOOLS", function (state, action) {
-    state.editingTools = true;
+    state.editingTools = !state.editingTools;
     return state;
   });
