@@ -1,6 +1,5 @@
 import { OpenFarm } from "./openfarm";
 import { DropDownItem } from "../ui/index";
-import { Dictionary } from "farmbot/dist";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Everything } from "../interfaces";
@@ -12,6 +11,8 @@ export interface Props {
   designer: DesignerState;
   points: Point[];
   plants: Plant[];
+  pathname: string;
+  species: string;
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -163,8 +164,8 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: Point[];
   plants: Plant[];
-  params: { species: string; };
-  location: { pathname: string; };
+  species: string;
+  pathname: string;
 }
 
 export interface GardenMapState {

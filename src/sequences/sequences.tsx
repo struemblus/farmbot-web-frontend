@@ -9,13 +9,8 @@ import { Page, Col } from "../ui/index";
 import { Props } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 
-// TODO: Need to get `params` into `state_to_props` somehow...
-interface FixMePlease extends Props {
-  params: { sequence: string; };
-}
-
 @connect(mapStateToProps)
-export class Sequences extends React.Component<FixMePlease, {}> {
+export class Sequences extends React.Component<Props, {}> {
   render() {
     return <Page className="sequences">
       <Col xs={4} md={3}>
@@ -32,7 +27,7 @@ export class Sequences extends React.Component<FixMePlease, {}> {
       </Col>
       {isMobile() && (
         <MobileSequencesNav
-          params={this.props.params}
+          param={this.props.param}
         />
       )}
       <Col xs={12} md={3}>

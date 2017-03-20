@@ -18,6 +18,7 @@ export interface Props {
   sequences: SequenceReducerState;
   tools: ToolsState;
   auth: AuthState | undefined;
+  param: string;
 }
 
 export interface SequenceEditorMiddleProps {
@@ -60,9 +61,7 @@ export interface NamedVector3 extends Vector3 {
 }
 
 export interface MobileSequencesNavProps {
-  params: {
-    sequence: string;
-  };
+  param: string;
 }
 
 /** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */

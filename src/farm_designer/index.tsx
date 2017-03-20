@@ -7,14 +7,8 @@ import { t } from "i18next";
 import { Props } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 
-// TODO: Need to get `location` and `params` into `state_to_props` somehow...
-interface FixMePlease extends Props {
-  location: { pathname: string; };
-  params: { species: string; }
-}
-
 @connect(mapStateToProps)
-export class FarmDesigner extends React.Component<FixMePlease, {}> {
+export class FarmDesigner extends React.Component<Props, {}> {
   componentDidMount() {
     success("Subscribe to the FarmBot.io mailing list for news and updates.",
       "Work in Progress");
@@ -24,7 +18,7 @@ export class FarmDesigner extends React.Component<FixMePlease, {}> {
     // Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
     // This one just makes sure the designer can click it's panel tabs without
     // the other headers getting in the way. There's more re-usability in this.
-    if (this.props.location.pathname === "/app/designer") {
+    if (this.props.pathname === "/app/designer") {
       document.body.classList.add("designer-tab");
     } else {
       document.body.classList.remove("designer-tab");
@@ -53,10 +47,10 @@ export class FarmDesigner extends React.Component<FixMePlease, {}> {
           <GardenMap
             dispatch={this.props.dispatch}
             designer={this.props.designer}
-            params={this.props.params}
+            species={this.props.species}
             plants={this.props.plants}
             points={this.props.points}
-            location={this.props.location} />
+            pathname={this.props.pathname} />
         </div>
       </div>
     );

@@ -9,13 +9,8 @@ import { Props } from "./interfaces";
 import { Page, Row, Col } from "../ui/index";
 import { mapStateToProps } from "./state_to_props";
 
-// TODO: Need to get `params` into `state_to_props` somehow...
-interface FixMePlease extends Props {
-  params: { regimen: string; }
-}
-
 @connect(mapStateToProps)
-export class Regimens extends React.Component<FixMePlease, {}> {
+export class Regimens extends React.Component<Props, {}> {
   render() {
     return <Page className="regimens">
       <Row>
@@ -33,7 +28,7 @@ export class Regimens extends React.Component<FixMePlease, {}> {
         </Col>
         {isMobile() && (
           <MobileRegimensNav
-            params={this.props.params} />
+            param={this.props.param} />
         )}
         <Col xs={12} md={4}>
           <RegimensList

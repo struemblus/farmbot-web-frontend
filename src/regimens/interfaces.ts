@@ -1,5 +1,5 @@
 import { ReduxAction } from "../redux/interfaces";
-import { Sequence, SequenceReducerState } from "../sequences/interfaces";
+import { Sequence } from "../sequences/interfaces";
 import { Color } from "../interfaces";
 import { BulkSchedulerState } from "./bulk_scheduler/interfaces";
 import { AuthState } from "../auth/interfaces";
@@ -13,10 +13,7 @@ export interface Props {
   bot: BotState;
   current: Regimen;
   regimens: Regimen[];
-}
-
-export interface RegimenPropsWithParams {
-  params: { regimen: string; };
+  param: string;
 }
 
 /** RegimenItem, as presented by the REST API */

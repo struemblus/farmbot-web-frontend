@@ -74,7 +74,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
   render() {
     let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
     // The way our app is laid out, we'll pretty much always want this bit.
-    let pageName = this.props.location.pathname.split("/")[2] || "";
+    let pageName = this.props.pathname.split("/")[2] || "";
     let { toggleNav, logout } = this;
 
     return <div className="nav-wrapper">

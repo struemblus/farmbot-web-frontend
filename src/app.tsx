@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
+import { history } from "./history";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -25,11 +26,7 @@ interface AppProps {
   logs: Log[];
   auth: AuthState | undefined;
   bot: BotState;
-}
-
-// TODO: Need to get `location` into `state_to_props` somehow...
-interface FixMePlease extends AppProps {
-  location: { pathname: string; };
+  pathname: string;
 }
 
 function mapStateToProps(props: Everything): AppProps {
@@ -45,6 +42,7 @@ function mapStateToProps(props: Everything): AppProps {
     });
   return {
     dispatch,
+    pathname: history.getCurrentLocation().pathname,
     auth: props.auth,
     bot: props.bot,
     logs,
@@ -53,7 +51,7 @@ function mapStateToProps(props: Everything): AppProps {
 }
 
 @connect(mapStateToProps)
-export default class App extends React.Component<FixMePlease, {}> {
+export default class App extends React.Component<AppProps, {}> {
   componentDidMount() {
     setTimeout(() => {
       if (!this.props.loaded) {
@@ -69,7 +67,7 @@ export default class App extends React.Component<FixMePlease, {}> {
       <NavBar
         auth={this.props.auth}
         bot={this.props.bot}
-        location={this.props.location}
+        pathname={this.props.pathname}
         dispatch={this.props.dispatch}
         logs={this.props.logs} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
