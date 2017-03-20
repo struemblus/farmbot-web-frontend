@@ -34,6 +34,7 @@ export class GardenPlant extends React.Component<GardenPlantProps,
           cy={plant.y}
           r={(plant.spread || 0) * 10 / 2} />
         <DraggableSvgImage key={plant.id}
+          plant={plant}
           x={plant.x - plant.radius}
           y={plant.y - plant.radius}
           height={plant.radius * 2}

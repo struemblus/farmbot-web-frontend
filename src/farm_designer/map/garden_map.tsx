@@ -1,8 +1,13 @@
 import * as React from "react";
 import { Plant } from "../plant";
-import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
+import { deprecatedSavePlant, movePlant, savePlant } from "../actions";
 import * as moment from "moment";
-import { GardenMapProps, GardenMapState, PlantOptions } from "../interfaces";
+import {
+  GardenMapProps,
+  GardenMapState,
+  PlantOptions,
+  Plant as PlantInterface
+} from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
@@ -83,8 +88,8 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       dispatch(movePlant({ deltaX, deltaY, plantId }));
     };
 
-    let dropper = (id: number) => {
-      dispatch(savePlantById(id));
+    let dropper = (plant: PlantInterface) => {
+      dispatch(savePlant(plant));
     };
 
     return <div className="drop-area"

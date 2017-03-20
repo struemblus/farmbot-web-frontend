@@ -1,5 +1,4 @@
-import { Plant, CropLiveSearchResult } from "./interfaces";
-import { Plant as newPlant } from "./plant";
+import { CropLiveSearchResult } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { DesignerState } from "./interfaces";
 import { cloneDeep } from "lodash";
@@ -13,17 +12,6 @@ let DEFAULT_STATE: DesignerState = {
 };
 
 export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
-  .add<Plant>("SAVE_PLANT_OK", function (s, a) {
-    // Exxxttrraaa runtime safety.
-    let plant = newPlant(a.payload);
-    // s.deprecatedPlants.push(plant);
-    return s;
-  })
-  .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
-    // let index = _.findIndex(s.deprecatedPlants, { id: payload });
-    // s.deprecatedPlants.splice(index, 1);
-    return s;
-  })
   .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
     let state = cloneDeep(s);
     let [x, y] = [

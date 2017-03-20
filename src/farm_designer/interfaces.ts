@@ -175,7 +175,7 @@ export interface GardenMapState {
 export interface GardenPlantProps {
   plant: Plant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (id: number) => void;
+  onDrop: (plant: Plant) => void;
 }
 
 export interface GardenPointProps {
@@ -223,11 +223,12 @@ export interface DraggableSvgImageState {
 }
 
 export interface DraggableSvgImageProps {
+  plant: Plant;
   id: number;
   height: number;
   width: number;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (id: number) => void;
+  onDrop: (plant: Plant) => void;
   x: number;
   y: number;
   href: string;

@@ -1,10 +1,9 @@
 import * as Axios from "axios";
-import { error, success } from "../ui";
+import { error } from "../ui";
 import { Plant, MovePlantProps, FarmEvent } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
 import { t } from "i18next";
 import { API } from "../api";
-import { Everything } from "../interfaces";
 import { destroy, create, update } from "../api/crud";
 
 export function saveFarmEvent(body: Partial<FarmEvent>) {
@@ -17,9 +16,18 @@ export function destroyFarmEvent(body: FarmEvent): Thunk {
   return destroy({ kind: "farm_events", body })
 }
 
+export function savePlant(body: Plant): Thunk {
+  const action = body.id ? create : update;
+  return action({ kind: "plants", body });
+}
+
 export function destroyPlant(body: Plant): Thunk {
   return destroy({ kind: "plants", body });
 }
+
+export function movePlant(payload: MovePlantProps) {
+  return { type: "MOVE_PLANT", payload };
+};
 
 /** Deprecating this in favor of the new savePlant() method which users
  * sync object rather than duplicating state.
@@ -50,28 +58,4 @@ export function deprecatedSavePlant(plant: Plant): Thunk {
         error(t("Tried to save plant, but couldn't."));
       });
   };
-};
-
-export function savePlantById(id: number): Thunk {
-  let url = API.current.plantsPath;
-  return function (dispatch, getState) {
-    let s = getState() as Everything;
-    let plant: Plant | undefined = s.resources.plants.byId[id]
-    if (plant) {
-      return Axios.put<Partial<Plant>>(url + `/${id}`, plant)
-        .then(resp => {
-          let payload = { ...plant, ...resp.data };
-          dispatch({ type: "UPDATE_PLANT_OK", payload });
-        })
-        .catch(payload => {
-          error(t("Tried to save plant, but couldn't."));
-        });
-    } else {
-      throw new Error("Got bad plant ID here.");
-    }
-  };
-};
-
-export function movePlant(payload: MovePlantProps) {
-  return { type: "MOVE_PLANT", payload };
 };
