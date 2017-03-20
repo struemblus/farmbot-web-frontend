@@ -28,6 +28,24 @@ export type TimeUnit = "never"
   | "monthly"
   | "yearly";
 
+const TIME_UNITS: TimeUnit[] = [
+  "never",
+  "minutely",
+  "hourly",
+  "daily",
+  "weekly",
+  "monthly",
+  "yearly"
+];
+
+export function isTimeUnit(input: TimeUnit | any): input is TimeUnit {
+  if (typeof input === "string" && TIME_UNITS.includes(input)) {
+    return true;
+  } else {
+    throw new Error("GOT INVLAID TIME UNIT: " + JSON.stringify(input));
+  }
+}
+
 export interface FarmEvent {
   id?: number | undefined;
   start_time: string;
