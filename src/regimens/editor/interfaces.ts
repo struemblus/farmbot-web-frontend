@@ -23,10 +23,6 @@ export interface RegimenItemDayGroupProps {
   dispatch: Function;
 }
 
-export interface SaveButtonProps extends RegimenProps {
-  url: string;
-};
-
 export interface RegimenEditorWidgetProps {
   current: Regimen;
   dispatch: Function;

@@ -29,9 +29,7 @@ export function RegimenEditorWidget({ current, dispatch, auth }:
                 plants from the farm designer (coming soon) and can be
                 re-used on many plants growing at the same or different
                 times. Multiple regimens can be applied to any one plant.`}>
-        <SaveButton regimen={regimen}
-          dispatch={dispatch}
-          url={auth.token.unencoded.iss} />
+        <SaveButton regimen={regimen} dispatch={dispatch} />
         <CopyButton regimen={regimen} dispatch={dispatch} />
         <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
