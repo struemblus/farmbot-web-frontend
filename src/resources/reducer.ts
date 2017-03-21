@@ -1,7 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName } from "./tagged_resources";
+import { TaggedResource, ResourceName, isTaggedResource } from "./tagged_resources";
 import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 
@@ -94,8 +94,12 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
   });
 
 function addAllToIndex<T>(i: ResourceIndex, kind: ResourceName, all: T[]) {
-  all.map(tr => addToIndex(i, kind, tr, (kind + _.get(tr, "body.id", 0) + uuid())));
+  all.map(function (tr) {
+    let descriptiveUUID = (kind + _.get(tr, "id", 0) + uuid());
+    return addToIndex(i, kind, tr, descriptiveUUID);
+  });
 }
+
 
 function addToIndex<T>(index: ResourceIndex,
   kind: ResourceName,
