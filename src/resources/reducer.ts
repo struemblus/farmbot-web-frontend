@@ -93,9 +93,9 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
   });
 
 function addAllToIndex<T>(i: ResourceIndex, kind: ResourceName, all: T[]) {
-  all.map(tr => addToIndex(i, kind, tr, uuid()));
+  all.map(tr => addToIndex(i, kind, tr, (kind + _.get(tr, "body.id", 0) + uuid())));
 }
-let x = uuid()
+
 function addToIndex<T>(index: ResourceIndex,
   kind: ResourceName,
   body: T,
