@@ -1,5 +1,6 @@
 import { RegimensState, Regimen, RegimenItem } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
+import { ReduxAction } from "../redux/interfaces";
 
 export function emptyRegimen(): Regimen {
   return {
@@ -28,6 +29,7 @@ export let regimensReducer = generateReducer<RegimensState>(initialState)
     return state;
   })
   .add<Regimen>("SELECT_REGIMEN", function (state, action) {
+    delete state.current.dirty; // ???
     state.current = action.payload;
     return state;
   })

@@ -13,6 +13,7 @@ export interface Props {
   bot: BotState;
   current: Regimen;
   regimens: Regimen[];
+  unsavedChanges: boolean;
 }
 
 /** RegimenItem, as presented by the REST API */
@@ -73,11 +74,15 @@ export interface AddRegimenProps {
   children?: JSX.Element;
 }
 
-export interface RegimenListItemProps extends RegimenProps {
+export interface RegimenListItemProps {
+  regimen?: Regimen;
+  dispatch: Function;
+  unsavedChanges: boolean;
   index: number;
 }
 
 export interface RegimensListProps {
   dispatch: Function;
+  unsavedChanges: boolean;
   regimens: Regimen[];
 }
