@@ -267,3 +267,7 @@ export type CowardlyDictionary<T> = Dictionary<T | undefined>;
  *  In those cases, you can use this constant to indicate intent.
  */
 export const NOT_SAVED = -1;
+
+export function isUndefined(x: any): x is undefined {
+  return _.isUndefined(x);
+}
