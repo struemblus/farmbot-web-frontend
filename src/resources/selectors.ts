@@ -13,7 +13,9 @@ import {
   TaggedSequence,
   isTaggedSequence,
   isTaggedRegimen,
-  TaggedToolBay
+  TaggedToolBay,
+  isTaggedTool,
+  isTaggedToolSlot
 } from "./tagged_resources";
 import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
@@ -35,6 +37,8 @@ export let isKind = (name: ResourceName) =>
   (tr: TaggedResource) => tr.kind === name;
 
 function findAll(index: ResourceIndex, name: ResourceName) {
+  // TODO Use reduce() or forEach instead. this forces us to do type coercion.
+  //      Not much time now. - RC Mar 17
   return selectAll(index, name).filter(isKind(name));
 }
 
@@ -110,12 +114,38 @@ export function indexBySequenceId(index: ResourceIndex) {
 
 export function indexByRegimenId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedRegimen> = {};
-  let uuids = index.byKind.sequences;
+  let uuids = index.byKind.regimens;
   uuids.map(uuid => {
     assertUuid("regimens", uuid);
     let regimen = index.references[uuid];
     if (isTaggedRegimen(regimen) && regimen.body.id) {
       output[regimen.body.id] = regimen;
+    }
+  });
+  return output;
+}
+
+export function indexByToolId(index: ResourceIndex) {
+  let output: CowardlyDictionary<TaggedTool> = {};
+  let uuids = index.byKind.tools;
+  uuids.map(uuid => {
+    assertUuid("tools", uuid);
+    let Tool = index.references[uuid];
+    if (isTaggedTool(Tool) && Tool.body.id) {
+      output[Tool.body.id] = Tool;
+    }
+  });
+  return output;
+}
+
+export function indexBySlotId(index: ResourceIndex) {
+  let output: CowardlyDictionary<TaggedToolSlot> = {};
+  let uuids = index.byKind.tool_slots;
+  uuids.map(uuid => {
+    assertUuid("tool_slots", uuid);
+    let tool_slot = index.references[uuid];
+    if (isTaggedToolSlot(tool_slot) && tool_slot.body.id) {
+      output[tool_slot.body.id] = tool_slot;
     }
   });
   return output;

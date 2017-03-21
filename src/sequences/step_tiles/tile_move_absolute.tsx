@@ -30,6 +30,17 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     changeInputValue(value, name, index, dispatch);
   }
 
+  initialDropDownSequenceValue = () => {
+    let { location } = this.props.step.args;
+    if (location.kind === "tool") {
+      let tool = this.props.toolById[location.args.tool_id];
+      if (tool && tool.id) {
+        return { label: tool.name, value: tool.id }
+      }
+    }
+    return { label: "Nothing", value: 0 };
+  }
+
   coord = (): Vector3 => {
     let output: Vector3 = { x: 0, y: 0, z: 0 };
     let { location } = this.props.step.args;
@@ -46,19 +57,8 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     return output;
   }
 
-  initialDropDownSequenceValue = () => {
-    let { location } = this.props.step.args;
-    if (location.kind === "tool") {
-      let tool = this.props.toolById[location.args.tool_id];
-      if (tool && tool.id) {
-        return { label: tool.name, value: tool.id }
-      }
-    }
-    return { label: "Nothing", value: 0 };
-  }
-
   render() {
-    let { compute, step, dispatch, index } = this.props;
+    let { computeInputValue, step, dispatch, index } = this.props;
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
@@ -152,7 +152,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-x"
-                  value={compute("offset", "x", step)} />
+                  value={computeInputValue("offset", "x", step)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -162,7 +162,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-y"
-                  value={compute("offset", "y", step)} />
+                  value={computeInputValue("offset", "y", step)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -172,7 +172,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-z"
-                  value={compute("offset", "z", step)} />
+                  value={computeInputValue("offset", "z", step)} />
               </Col>
             </Row>
           </div>

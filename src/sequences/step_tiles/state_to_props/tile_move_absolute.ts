@@ -2,15 +2,15 @@ import { Everything } from "../../../interfaces";
 import { MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
-import { safeStringFetch } from "../../../util";
-import { selectAllTools } from "../../../resources/selectors";
+import { safeStringFetch, CowardlyDictionary } from "../../../util";
+import { selectAllTools, indexByToolId, indexBySlotId } from "../../../resources/selectors";
+import { TaggedTool } from "../../../resources/tagged_resources";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
-  compute(kind: string, arg: string, step: Step): string;
-  // toolById: CowardlyDictionary<Tool>;
-  // slotByToolId: CowardlyDictionary<ToolSlot>;
+  computeInputValue(kind: string, arg: string, step: Step): string;
+  toolById: CowardlyDictionary<TaggedTool>;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -43,7 +43,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
   };
 
   /** Used to compute the values of the input boxes */
-  function compute(kind: string, arg: string, step: Step) {
+  function computeInputValue(kind: string, arg: string, step: Step) {
     switch (kind) {
       case "location":
         return safeStringFetch(step.args.location.args, arg);
@@ -61,14 +61,13 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     dispatch: Function) => {
     dispatch(changeMoveAbsStepValue(value, kind, index));
   };
-
+  let toolById = indexByToolId(props.resources.index);
   return {
     options,
-    compute,
+    computeInputValue,
     changeToolSelect,
     changeInputValue,
-    // toolById,
-    // slotByToolId,
+    toolById,
     dispatch: props.dispatch
   };
 

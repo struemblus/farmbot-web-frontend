@@ -123,13 +123,27 @@ export function isTaggedResource(x: any): x is TaggedResource {
 }
 
 export function isTaggedRegimen(x: any): x is TaggedRegimen {
-  return (isTaggedResource(x) && x.kind == "regimens");
+  return (isTaggedResource(x) && x.kind == "regimens")
+    || whoops(x, "regimens");
 }
 
 export function isTaggedSequence(x: any): x is TaggedSequence {
-  return (isTaggedResource(x) && x.kind == "sequences");
+  return (isTaggedResource(x) && x.kind == "sequences")
+    || whoops(x, "sequences");
 }
 
 export function isTaggedTool(x: any): x is TaggedTool {
-  return (isTaggedResource(x) && x.kind == "tools");
+  return (isTaggedResource(x) && x.kind == "tools")
+    || whoops(x, "tools");
+}
+
+export function isTaggedToolSlot(x: any): x is TaggedToolSlot {
+  return (isTaggedResource(x) && x.kind == "tool_slots")
+    || whoops(x, "tool_slots");
+}
+
+/** Warn the developer that bad data was encountered. */
+function whoops(x: any, expected: ResourceName) {
+  console.warn(`THATS NOT ${expected} : ${JSON.stringify(x)}`);
+  return false;
 }
