@@ -60,7 +60,7 @@ export interface RegimenItem {
 /** How Regimen state is stored in the application.
  * Used by Regimen reducer mostly */
 export interface RegimensState {
-  current: TaggedRegimen;
+  current: string;
 }
 
 /** Used by regimen reducer to route incoming stream of Redux actions */
