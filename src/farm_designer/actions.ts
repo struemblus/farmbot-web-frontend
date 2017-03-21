@@ -1,35 +1,21 @@
-import { Plant, MovePlantProps, FarmEvent } from "./interfaces";
+import { MovePlantProps } from "./interfaces";
 import { Thunk } from "../redux/interfaces";
-import { destroy, create, update, createOrUpdate } from "../api/crud";
-import { uuid } from "farmbot/dist";
+import { destroy, save } from "../api/crud";
 
-export function saveFarmEvent(body: Partial<FarmEvent>) {
-  if (!body.id) {
-    console.warn("This may duplicate data in the state tree. Double check. RC");
-  }
-  /** Typecast OK here because API will handle missing properties */
-  return createOrUpdate({
-    kind: "farm_events",
-    uuid: uuid(),
-    body: (body as FarmEvent)
-  });
+export function saveFarmEvent(uuid: string) {
+  return save(uuid);
 }
 
-export function destroyFarmEvent(body: FarmEvent): Thunk {
-  return destroy({ kind: "farm_events", uuid: uuid(), body })
+export function destroyFarmEvent(uuid: string) {
+  return destroy(uuid)
 }
 
-export function savePlant(body: Plant): Thunk {
-  console.warn("This is going to leak references and denormalize data.")
-  return createOrUpdate({
-    kind: "plants",
-    uuid: uuid(),
-    body
-  });
+export function savePlant(uuid: string) {
+  return save(uuid);
 }
 
-export function destroyPlant(body: Plant): Thunk {
-  return destroy({ kind: "plants", uuid: uuid(), body });
+export function destroyPlant(uuid: string): Thunk {
+  return destroy(uuid);
 }
 
 export function movePlant(payload: MovePlantProps) {
