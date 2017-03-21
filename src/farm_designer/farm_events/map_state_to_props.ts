@@ -4,8 +4,8 @@ import { Dictionary } from "farmbot";
 import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
 import {
   selectAllFarmEvents,
-  indexBySequenceId,
-  indexByRegimenId
+  indexSequenceById,
+  indexRegimenById
 } from "../../resources/selectors";
 
 const MONTHS: Readonly<Dictionary<string>> = {
@@ -30,8 +30,8 @@ export function mapStateToProps(state: Everything): FarmEventProps {
 
   let push = (state && state.router && state.router.push) || (() => { });
 
-  let sequenceById = indexBySequenceId(state.resources.index);
-  let regimenById = indexByRegimenId(state.resources.index);
+  let sequenceById = indexSequenceById(state.resources.index);
+  let regimenById = indexRegimenById(state.resources.index);
 
   let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
     .reduce(function (memo, farmEvent) {
