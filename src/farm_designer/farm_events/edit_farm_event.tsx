@@ -115,8 +115,8 @@ AddFarmEventState> {
           }
           break;
         case "Regimen":
-          // let reg = this.props.indexRegimenById[this.state.executable_id];
-          let reg = this.props.indexRegimenById();
+          let reg = this.props.indexRegimenById[this.state.executable_id];
+          // let reg = this.props.indexRegimenById();
           if (reg && reg.id) {
             iv.label = reg.name;
             iv.value = JSON.stringify(reg.id);
