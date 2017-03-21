@@ -6,25 +6,18 @@ import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/index";
 import { Log } from "../interfaces";
 import { CowardlyDictionary } from "../util";
+import { TaggedResource, ResourceName } from "./tagged_resources";
 
-/** A REST resource, indexed by it's `id` attribute. */
-export interface ResourceById<T> {
-  all: number[];
-  byId: CowardlyDictionary<T>;
+type UUID = string;
+
+export interface ResourceIndex {
+  all: UUID[];
+  byKind: Record<ResourceName, UUID[]>;
+  byKindAndId: CowardlyDictionary<UUID>;
+  references: CowardlyDictionary<TaggedResource>;
 }
-
 export interface RestResources {
   /** Tells you if the sync finished yet. */
   loaded: boolean;
-  sequences: ResourceById<Sequence>;
-  regimens: ResourceById<Regimen>;
-  farm_events: ResourceById<FarmEvent>;
-  plants: ResourceById<Plant>;
-  tool_bays: ResourceById<ToolBay>;
-  tool_slots: ResourceById<ToolSlot>;
-  tools: ResourceById<Tool>;
-  images: ResourceById<Image>;
-  points: ResourceById<Point>;
-  regimen_items: ResourceById<RegimenItem>;
-  logs: ResourceById<Log>;
+  index: ResourceIndex
 };

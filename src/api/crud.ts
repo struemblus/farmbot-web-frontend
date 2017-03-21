@@ -12,7 +12,11 @@ import {
 } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 
-export function create(resource: TaggedResource) {
+export function save(r: string) {
+  return r.body.id ? create(r) : update(r);
+}
+
+export function create(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     return Axios
       .post<typeof resource.body>(urlFor(resource.kind), resource.body)
@@ -27,26 +31,27 @@ export function create(resource: TaggedResource) {
   }
 }
 
-export function update(resource: TaggedResource) {
-  let id = _.get(resource, "body.id", -1);
-  if (id < 1) {
+export function update(uuid: string) {
+  let { body, kind } = resource
+  if (body.id) {
+    return function (dispatch: Function, getState: GetState) {
+      return Axios
+        .patch<typeof resource.body>(urlFor(kind) + body.id, body)
+        .then(function (resp) {
+          kind = resource.kind as typeof resource.kind;
+          body = resp.data as typeof resource.body;
+          updateOK({ kind, body } as TaggedResource);
+        })
+        .catch(function (err: UnsafeError) {
+          updateNO(err);
+        });
+    }
+  } else {
     throw new Error("TRIED TO UPDATE AN UNSAVED RESOURCE");
-  }
-  return function (dispatch: Function, getState: GetState) {
-    return Axios
-      .patch<typeof resource.body>(urlFor(resource.kind) + id, resource.body)
-      .then(function (resp) {
-        let kind = resource.kind as typeof resource.kind;
-        let body = resp.data as typeof resource.body;
-        updateOK({ kind, body } as TaggedResource);
-      })
-      .catch(function (err: UnsafeError) {
-        updateNO(err);
-      });
   }
 }
 
-export function destroy(resource: TaggedResource) {
+export function destroy(uuid: string) {
   let id = _.get(resource, "body.id", -1);
   if (id < 1) {
     // Don't need to do anything if it's not saved.
@@ -65,7 +70,7 @@ export function destroy(resource: TaggedResource) {
   }
 }
 
-export function list(resource: TaggedResource) { }
+export function list(uuid: string) { }
 
 export function urlFor(tag: ResourceTag) {
   const OPTIONS: Partial<Record<ResourceTag, string>> = {
