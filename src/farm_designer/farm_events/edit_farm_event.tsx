@@ -108,18 +108,17 @@ AddFarmEventState> {
     if (this.state.executable_id && this.state.executable_type) {
       switch (this.state.executable_type) {
         case "Sequence":
-          let seq = this.props.sequenceById[this.state.executable_id];
-          if (seq && seq.id) {
-            iv.label = seq.name;
-            iv.value = JSON.stringify(seq.id);
+          let seq = this.props.sequencesById[this.state.executable_id];
+          if (seq && seq.body.id) {
+            iv.label = seq.body.name;
+            iv.value = JSON.stringify(seq.body.id);
           }
           break;
         case "Regimen":
-          let reg = this.props.indexRegimenById[this.state.executable_id];
-          // let reg = this.props.indexRegimenById();
-          if (reg && reg.id) {
-            iv.label = reg.name;
-            iv.value = JSON.stringify(reg.id);
+          let reg = this.props.regimensById[this.state.executable_id];
+          if (reg && reg.body.id) {
+            iv.label = reg.body.name;
+            iv.value = JSON.stringify(reg.body.id);
           }
           break;
       }

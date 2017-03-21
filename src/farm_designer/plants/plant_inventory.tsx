@@ -1,19 +1,19 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { Plant } from "../interfaces";
 import { FBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
 import { DEFAULT_ICON } from "../../open_farm/index";
-import { selectAll } from "../../resources/util";
+import { selectAllPlants } from "../../resources/selectors";
+import { TaggedPlant } from "../../resources/tagged_resources";
 
-function OptionComponent(plants: Plant[]) {
+function OptionComponent(plants: TaggedPlant[]) {
   let indexedById = _.indexBy(plants, "id");
   return (props: DropDownItem) => {
     let plant = indexedById[props.value || 0];
-    let planted_at = (plant && plant.planted_at) || moment();
+    let planted_at = (plant && plant.body.planted_at) || moment();
     let dayPlanted = moment();
 
     // Same day = 1 !0
@@ -35,10 +35,10 @@ export class Plants extends React.Component<Everything, {}> {
   }
 
   render() {
-    let plants = selectAll(this.props.resources.plants);
+    let plants = selectAllPlants(this.props.resources.index);
     let plantOptions = plants.map(plant => {
-      if (plant.id) {
-        return { label: plant.name, value: plant.id };
+      if (plant.body.id) {
+        return { label: plant.body.name, value: plant.body.id };
       } else {
         throw new Error("Thought plants would have an ID here.");
       }

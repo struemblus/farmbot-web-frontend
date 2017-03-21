@@ -3,7 +3,7 @@ import { MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
 import { safeStringFetch, CowardlyDictionary } from "../../../util";
-import { selectAllTools, indexByToolId, indexBySlotId } from "../../../resources/selectors";
+import { selectAllTools, indexByToolId } from "../../../resources/selectors";
 import { TaggedTool } from "../../../resources/tagged_resources";
 
 export interface TileMoveAbsoluteProps {

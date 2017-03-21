@@ -183,13 +183,13 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
-  plant: Plant;
+  plant: TaggedPlant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (plant: Plant) => void;
+  onDrop: (uuid: string) => void;
 }
 
 export interface GardenPointProps {
-  point: Point;
+  point: TaggedPoint;
 }
 
 export type PlantOptions = Partial<Plant>;
@@ -240,12 +240,12 @@ export interface DraggableSvgImageState {
 }
 
 export interface DraggableSvgImageProps {
-  plant: Plant;
+  plant: TaggedPlant;
   id: number;
   height: number;
   width: number;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (plant: Plant) => void;
+  onDrop: (plant: TaggedPlant) => void;
   x: number;
   y: number;
   href: string;
