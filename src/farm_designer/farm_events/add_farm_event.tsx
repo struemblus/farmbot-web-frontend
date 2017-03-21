@@ -156,7 +156,7 @@ AddFarmEventState> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.state)}>
+          onClick={() => this.props.save(this.props.currentUuid)}>
           {t("Save")}
         </button>
       </div>

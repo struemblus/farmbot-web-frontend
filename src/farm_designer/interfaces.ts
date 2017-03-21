@@ -131,6 +131,11 @@ export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
+  currentUuid: string;
+  regimensById: TaggedRegimen[];
+  sequencesById: TaggedSequence[];
+  indexRegimenById(index: ResourceIndex): TaggedRegimen[];
+  indexSequenceById(index: ResourceIndex): TaggedSequence[];
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;

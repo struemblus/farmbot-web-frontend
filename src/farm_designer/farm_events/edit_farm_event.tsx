@@ -115,7 +115,8 @@ AddFarmEventState> {
           }
           break;
         case "Regimen":
-          let reg = this.props.regimenById[this.state.executable_id];
+          // let reg = this.props.indexRegimenById[this.state.executable_id];
+          let reg = this.props.indexRegimenById();
           if (reg && reg.id) {
             iv.label = reg.name;
             iv.value = JSON.stringify(reg.id);
@@ -208,11 +209,11 @@ AddFarmEventState> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.state)}>
+          onClick={() => this.props.save(this.props.currentUuid)}>
           {t("Save")}
         </button>
         <button className="red button-like"
-          onClick={() => this.props.delete(fe)}>
+          onClick={() => this.props.delete(this.props.currentUuid)}>
           {t("Delete")}
         </button>
       </div>

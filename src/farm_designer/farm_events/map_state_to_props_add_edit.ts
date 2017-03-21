@@ -5,7 +5,7 @@ import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
-import { selectAllFarmEvents } from "../../resources/selectors";
+import { selectAllFarmEvents, indexRegimenById, indexSequenceById } from "../../resources/selectors";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -98,9 +98,18 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
+  let regimensById = indexRegimenById(state.resources.index);
+  let sequencesById = indexSequenceById(state.resources.index);
+
   let farmEvents = selectAllFarmEvents(state.resources.index);
 
+  let currentUuid = "TODO: UUID STUB";
+  console.log("HEY! Fix this! ^");
+
   return {
+    regimensById,
+    sequencesById,
+    currentUuid,
     selectOptions,
     repeatOptions,
     formatDate,

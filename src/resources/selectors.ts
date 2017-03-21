@@ -99,7 +99,7 @@ export function selectAllSequences(index: ResourceIndex) {
   return findAll(index, "sequences") as TaggedSequence[];
 }
 
-export function indexBySequenceId(index: ResourceIndex) {
+export function indexSequenceById(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedSequence> = {};
   let uuids = index.byKind.sequences;
   uuids.map(uuid => {
@@ -112,7 +112,7 @@ export function indexBySequenceId(index: ResourceIndex) {
   return output;
 }
 
-export function indexByRegimenId(index: ResourceIndex) {
+export function indexRegimenById(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedRegimen> = {};
   let uuids = index.byKind.regimens;
   uuids.map(uuid => {
