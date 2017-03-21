@@ -16,10 +16,11 @@ import {
 } from "./interfaces";
 import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { destroy, createOrUpdate } from "../api/crud";
+import { destroy } from "../api/crud";
+import { saveResource } from "../resources/actions";
 
 export function saveSequence(body: Sequence): Thunk {
-  return createOrUpdate({ kind: "sequences", uuid: uuid(), body });
+  return saveResource({ uuid: uuid() });
 }
 
 export function deleteSequence(body: Sequence): Thunk {
