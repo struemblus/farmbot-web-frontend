@@ -30,8 +30,8 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   /** Create dropdown options */
   // tools WHERE slot_id NOT NULL
-  let options = selectAll(props.resources.tool_slots)
-    .filter(slot => slot && slot.tool_id && slot.id)
+  let options = selectAll(props.resources.index, "tools")
+    .filter(slot => slot.kind === "tool_slots" && slot.tool_id && slot.id)
     .map(slot => ({ slot, tool: toolById[slot.tool_id || 0] }))
     .filter(pair => (pair.slot && pair.tool))
     .map(function (both: { tool: Tool, slot: ToolSlot }): DropDownItem {

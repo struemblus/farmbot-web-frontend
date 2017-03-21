@@ -6,6 +6,8 @@ import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { findResourceById } from "../../resources/selectors";
+import { ResourceIndex } from "../../resources/interfaces";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -98,23 +100,20 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
-  let farmEvents = selectAll(state.resources.index, "farm_events")
-                   .filter(fe => fe.kind === "farm_events") as TaggedFarmEvent[];
-
-
   return {
+    // findResourceById,
     selectOptions,
     repeatOptions,
     formatDate,
     formatTime,
     handleTime,
     farmEvents,
-    save(fe) {
-      this.dispatch(saveFarmEvent(fe));
+    save(uuid) {
+      this.dispatch(saveFarmEvent(uuid));
       this.router.push("/app/designer/farm_events");
     },
-    delete(fe) {
-      this.dispatch(destroyFarmEvent(fe));
+    delete(uuid) {
+      this.dispatch(destroyFarmEvent(uuid));
       this.router.push("/app/designer/farm_events");
     },
   };

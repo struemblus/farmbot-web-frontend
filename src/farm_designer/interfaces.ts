@@ -4,8 +4,14 @@ import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Everything } from "../interfaces";
 import { CowardlyDictionary } from "../util";
-import { RestResources } from "../resources/interfaces";
-import { TaggedFarmEvent, TaggedSequence, TaggedRegimen } from "../resources/tagged_resources";
+import { RestResources, ResourceIndex } from "../resources/interfaces";
+import {
+  TaggedFarmEvent,
+  TaggedSequence,
+  TaggedRegimen,
+  ResourceName,
+  TaggedResource
+} from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
@@ -117,17 +123,18 @@ export interface Point {
 
 export type AddFarmEventState = Partial<FarmEvent>;
 
+type TaggedResourceById = TaggedResource | undefined;
+
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
-  sequenceById(id: number): TaggedSequence;
-  regimenById(id: number): TaggedRegimen;
+  // findResourceById(index: ResourceIndex, kind: ResourceName, id: number): TaggedResourceById;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(fe: Partial<FarmEvent>): void;
-  delete(fe: FarmEvent): void;
+  save(uuid: string): void;
+  delete(uuid: string): void;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
