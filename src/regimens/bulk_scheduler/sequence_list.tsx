@@ -17,13 +17,13 @@ export function SequenceList({ sequences,
     .filter(x => !!x.id) // Don't show unsaved.
     .map((sequence, index) => {
       // Need for initialValue to match DropDownItem interface.
-      if (sequence.id === current.id) {
-        selectedSequence = { label: sequence.name, value: index };
+      if (sequence.body.id === current.body.id) {
+        selectedSequence = { label: sequence.body.name, value: index };
       }
-      let target = { label: sequence.name, value: index.toString() };
+      let target = { label: sequence.body.name, value: index.toString() };
       if (!_.some(options, target)) {
         options.push({
-          label: sequence.name,
+          label: sequence.body.name,
           value: index.toString()
         });
       }

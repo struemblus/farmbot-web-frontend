@@ -11,8 +11,8 @@ import {
   TaggedRegimen,
   ResourceName,
   TaggedResource,
-TaggedPoint,
-TaggedPlant
+  TaggedPoint,
+  TaggedPlant
 } from "../resources/tagged_resources";
 
 export interface Props {
@@ -169,8 +169,8 @@ export interface FarmEventProps {
 export interface GardenMapProps {
   dispatch: Function;
   designer: DesignerState;
-  points: Point[];
-  plants: Plant[];
+  points: TaggedPoint[];
+  plants: TaggedPlant[];
 }
 
 export interface GardenMapState {

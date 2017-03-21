@@ -15,7 +15,7 @@ export function SaveButton({ regimen, dispatch }: RegimenProps) {
   if (regimen) {
     return <button className="green button-like"
       onClick={save({ dispatch, regimen })}>
-      {t("Save") + (regimen.dirty ? "*" : "")}
+      {t("Save") + (regimen.body.dirty ? "*" : "")}
     </button>;
   } else {
     return <span />;

@@ -33,7 +33,7 @@ export interface ApiRegimen {
 
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
-  regimen?: Regimen;
+  regimen?: TaggedRegimen;
   dispatch: Function;
 };
 
