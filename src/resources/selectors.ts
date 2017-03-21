@@ -65,8 +65,8 @@ export function findToolSlot(index: ResourceIndex, toolSlotId: string) {
   return index.references[toolSlotId];
 }
 
-export function selectCurrentToolSlot(index: ResourceIndex, toolSlotId: number) {
-  return index.references[toolSlotId];
+export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
+  return index.references[uuid];
 }
 
 export function selectAllToolBays(index: ResourceIndex) {
@@ -79,6 +79,16 @@ export function selectAllImages(index: ResourceIndex) {
 
 export function selectAllRegimens(index: ResourceIndex) {
   return findAll(index, "regimens") as TaggedRegimen[];
+}
+
+export function getRegimenByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
+  assertUuid(kind, uuid);
+  return index.references[uuid];
+}
+
+export function getToolByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
+  assertUuid(kind, uuid);
+  return index.references[uuid];
 }
 
 export function selectAllSequences(index: ResourceIndex) {
@@ -116,12 +126,15 @@ export function indexByRegimenId(index: ResourceIndex) {
  * tagged_resources
  *   -- RC, 21 MAR 17
  */
-export function assertUuid(kind: ResourceName, uuid: string | undefined) {
-  if (uuid && !uuid.startsWith(kind)) {
+export function assertUuid(expected: ResourceName, actual: string | undefined) {
+  if (actual && !actual.startsWith(expected)) {
     console.warn(`
-    BAD NEWS!!! You thought this was a ${kind} UUID, but here's what it
+    BAD NEWS!!! You thought this was a ${expected} UUID, but here's what it
     actually was:
-      ${uuid}
+      ${actual}
     `)
+    return false;
+  } else {
+    return true;
   }
 }

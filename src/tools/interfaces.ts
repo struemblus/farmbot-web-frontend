@@ -1,4 +1,5 @@
 import { DropDownItem } from "../ui/fb_select";
+import { TaggedTool } from "../resources/tagged_resources";
 
 export interface ToolsState {
   /** Do tools need to be saved? */
@@ -61,7 +62,7 @@ export interface Tool {
 export interface ToolBayListProps {
   dispatch: Function;
   toolBays: ToolBay[];
-  getChosenTool(toolSlotId: number): Tool | undefined;
+  getChosenTool(uuid: string): TaggedTool | undefined;
   getToolSlots(toolBayId: number): ToolSlot[];
 }
 
