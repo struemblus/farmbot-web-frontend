@@ -13,7 +13,14 @@ import {
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 
-export function create(uuid: string) {
+export function save(uuid: string) {
+  return function (dispatch: Function, getState: GetState) {
+    let resource = findByUuid(getState().resources.index, uuid);
+    dispatch(((resource.body.id) ? update : create)(uuid));
+  }
+}
+
+function create(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);
     if (resource) {
@@ -33,7 +40,7 @@ export function create(uuid: string) {
   }
 }
 
-export function update(uuid: string) {
+function update(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     return Axios
       .patch<typeof resource.body>(urlFor(kind) + body.id, body)
