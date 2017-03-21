@@ -1,7 +1,7 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
 import { selectAll } from "../resources/util";
-import { selectAllSequences, selectAllRegimens } from "../resources/selectors";
+import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
 
@@ -11,7 +11,7 @@ export function mapStateToProps(props: Everything): Props {
     bulkScheduler: props.bulkScheduler,
     auth: props.auth,
     bot: props.bot,
-    current: props.regimens.current,
+    current: getRegimenByUUID(props.resources.index, "regimens", props.regimens.current),
     regimens: selectAllRegimens(props.resources.index),
     unsavedChanges: !!(!props.regimens.current.id ||
       props.regimens.current.dirty)

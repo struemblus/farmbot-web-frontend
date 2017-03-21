@@ -12,7 +12,7 @@ export interface Props {
   bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
-  current: TaggedRegimen;
+  current: TaggedRegimen | undefined;
   regimens: TaggedRegimen[];
   unsavedChanges: boolean;
 }
@@ -60,7 +60,7 @@ export interface RegimenItem {
 /** How Regimen state is stored in the application.
  * Used by Regimen reducer mostly */
 export interface RegimensState {
-  current: Regimen;
+  current: TaggedRegimen;
 }
 
 /** Used by regimen reducer to route incoming stream of Redux actions */
