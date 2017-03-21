@@ -30,7 +30,8 @@ export class Regimens extends React.Component<Props, {}> {
         <Col xs={12} md={4}>
           <RegimensList
             dispatch={this.props.dispatch}
-            regimens={this.props.regimens} />
+            regimens={this.props.regimens}
+            unsavedChanges={this.props.unsavedChanges} />
         </Col>
       </Row>
     </Page>;

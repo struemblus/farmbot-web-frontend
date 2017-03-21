@@ -3,17 +3,20 @@ import { RegimenListItemProps, Regimen } from "../interfaces";
 import { randomColor, isMobile } from "../../util";
 import { selectRegimen } from "../actions";
 import { Link } from "react-router";
+import { error } from "../../ui/logger";
+import { t } from "i18next";
 
 export function RegimenListItem({ regimen,
   dispatch,
-  index }: RegimenListItemProps) {
+  index,
+  unsavedChanges }: RegimenListItemProps) {
   let color = (regimen && regimen.color) || randomColor();
   let style = `block block-wrapper full-width text-left ${color}-block
         block-header`;
 
   if (!isMobile() && regimen) {
     return <button className={style}
-      onClick={select(dispatch, regimen)}>
+      onClick={select(dispatch, regimen, unsavedChanges)}>
       {(regimen && regimen.name) || "??"}{
         (regimen && regimen.dirty) ? "*" : ""}
       <i className="fa fa-pencil block-control" />
@@ -28,13 +31,15 @@ export function RegimenListItem({ regimen,
     return <Link
       to={`/app/regimens/${link}`}
       key={key}
-      onClick={regimen && select(dispatch, regimen)}
+      onClick={regimen && select(dispatch, regimen, unsavedChanges)}
       className={style}>
       {name}
     </Link>;
   }
 }
 
-function select(dispatch: Function, regimen: Regimen) {
-  return (event: React.MouseEvent<{}>) => dispatch(selectRegimen(regimen));
+function select(dispatch: Function, regimen: Regimen, unsavedChanges: boolean) {
+  return function (event: React.MouseEvent<{}>) {
+    dispatch(selectRegimen(regimen));
+  };
 }

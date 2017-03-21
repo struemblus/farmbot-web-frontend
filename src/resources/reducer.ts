@@ -30,12 +30,12 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       && resource.body
       && resource.body.id) {
       switch (resource.kind) {
-        case "tools":
+        case "farm_events":
+        case "plants":
+        case "regimens":
         case "sequences":
         case "tool_slots":
-        case "plants":
-        case "farm_events":
-        case "regimens":
+        case "tools":
           let id = resource.body.id;
           state[resource.kind].all.push(id);
           state[resource.kind].byId[id] = resource.body;
@@ -54,10 +54,11 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       && resource.body
       && resource.body.id) {
       switch (resource.kind) {
-        case "tools":
-        case "sequences":
-        case "plants":
         case "farm_events":
+        case "plants":
+        case "regimens":
+        case "sequences":
+        case "tools":
           let id = resource.body.id;
           state[resource.kind].all = state[resource.kind]
             .all
@@ -98,7 +99,6 @@ function mandateID(r: TaggedResource) {
 }
 
 function whoops(origin: string, kind: string) {
-  throw new Error(origin +
-    ": We didn't write a handler for this resource: "
-    + kind);
+  let msg = `${origin}/${kind}: No handler written for this one yet.`
+  throw new Error(msg);
 }
