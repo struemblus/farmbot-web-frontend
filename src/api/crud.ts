@@ -11,43 +11,40 @@ import {
   destroyNO
 } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
-
-export function save(r: string) {
-  return r.body.id ? create(r) : update(r);
-}
+import { findByUuid } from "../resources/reducer";
 
 export function create(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
-    return Axios
-      .post<typeof resource.body>(urlFor(resource.kind), resource.body)
-      .then(function (resp) {
-        let kind = resource.kind as typeof resource.kind;
-        let body = resp.data as typeof resource.body;
-        dispatch(createOK({ kind, body } as TaggedResource));
-      })
-      .catch(function (err: UnsafeError) {
-        dispatch(createNO(err));
-      });
+    let resource = findByUuid(getState().resources.index, uuid);
+    if (resource) {
+      return Axios
+        .post<typeof resource.body>(urlFor(resource.kind), resource.body)
+        .then(function (resp) {
+          let kind = resource.kind;
+          let body = resp.data;
+          dispatch(createOK({ kind, body } as TaggedResource));
+        })
+        .catch(function (err: UnsafeError) {
+          dispatch(createNO(err));
+        });
+    } else {
+      throw new Error("GOT A BAD UUID: " + uuid)
+    }
   }
 }
 
 export function update(uuid: string) {
-  let { body, kind } = resource
-  if (body.id) {
-    return function (dispatch: Function, getState: GetState) {
-      return Axios
-        .patch<typeof resource.body>(urlFor(kind) + body.id, body)
-        .then(function (resp) {
-          kind = resource.kind as typeof resource.kind;
-          body = resp.data as typeof resource.body;
-          updateOK({ kind, body } as TaggedResource);
-        })
-        .catch(function (err: UnsafeError) {
-          updateNO(err);
-        });
-    }
-  } else {
-    throw new Error("TRIED TO UPDATE AN UNSAVED RESOURCE");
+  return function (dispatch: Function, getState: GetState) {
+    return Axios
+      .patch<typeof resource.body>(urlFor(kind) + body.id, body)
+      .then(function (resp) {
+        kind = resource.kind as typeof resource.kind;
+        body = resp.data as typeof resource.body;
+        updateOK({ kind, body } as TaggedResource);
+      })
+      .catch(function (err: UnsafeError) {
+        updateNO(err);
+      });
   }
 }
 

@@ -7,6 +7,7 @@ import { Image } from "../images/index";
 import { Log } from "../interfaces";
 import { CowardlyDictionary } from "../util";
 import { TaggedResource, ResourceName } from "./tagged_resources";
+import { Dictionary } from "farmbot/dist";
 
 type UUID = string;
 
@@ -14,7 +15,7 @@ export interface ResourceIndex {
   all: UUID[];
   byKind: Record<ResourceName, UUID[]>;
   byKindAndId: CowardlyDictionary<UUID>;
-  references: CowardlyDictionary<TaggedResource>;
+  references: Dictionary<TaggedResource | undefined>;
 }
 export interface RestResources {
   /** Tells you if the sync finished yet. */

@@ -120,3 +120,12 @@ function whoops(origin: string, kind: string) {
   let msg = `${origin}/${kind}: No handler written for this one yet.`
   throw new Error(msg);
 }
+
+export function findByUuid(index: ResourceIndex, uuid: string): TaggedResource {
+  let x = index.references[uuid];
+  if (_.isUndefined(x)) {
+    throw new Error("BAD UUID- CANT FIND RESOURCE: " + uuid);
+  } else {
+    return x as TaggedResource;
+  }
+}
