@@ -1,4 +1,3 @@
-import * as axios from "axios";
 import { CeleryNode as Step, LATEST_VERSION, uuid } from "farmbot";
 import {
   SequenceOptions,
@@ -16,15 +15,14 @@ import {
 } from "./interfaces";
 import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { destroy } from "../api/crud";
-import { saveResource } from "../resources/actions";
+import { destroy, save } from "../api/crud";
 
 export function saveSequence(body: Sequence): Thunk {
-  return saveResource({ uuid: uuid() });
+  return save(uuid());
 }
 
 export function deleteSequence(body: Sequence): Thunk {
-  return destroy({ kind: "sequences", uuid: uuid(), body });
+  return destroy(uuid());
 }
 
 export function addChan({ channel_name, index }: ChanParams) {

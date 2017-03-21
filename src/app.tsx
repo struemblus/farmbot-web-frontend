@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
+import * as _ from "lodash";
+import { selectAll } from "./resources/util";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -29,15 +31,10 @@ interface AppProps {
 
 function mapStateToProps(props: Everything): AppProps {
   let dispatch = props.dispatch;
-  let logs = Object
-    .values(props.resources.logs.byId)
-    .map(L => {
-      if(L) {
-        return L;
-      } else {
-        throw new Error("Never")
-      }
-    });
+  let logs = selectAll(props.resources.index, "logs")
+    .filter(log => log.kind === "logs")
+    .map(x => x.body as Log);
+
   return {
     dispatch,
     auth: props.auth,
