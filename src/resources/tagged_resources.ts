@@ -11,6 +11,11 @@ export type ResourceTag = keyof RestResources;
  * change. */
 interface TaggedResourceBase {
   kind: ResourceTag;
+  /** Unique identifier and index key.
+   * We can't use the object's `id` attribute as a local index key because
+   * unsaved objects don't have one.
+   */
+  uuid: string;
 }
 
 export type TaggedResource = TaggedTool

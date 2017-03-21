@@ -1,5 +1,5 @@
 import * as axios from "axios";
-import { CeleryNode as Step, LATEST_VERSION } from "farmbot";
+import { CeleryNode as Step, LATEST_VERSION, uuid } from "farmbot";
 import {
   SequenceOptions,
   Sequence,
@@ -20,11 +20,11 @@ import { update, create, destroy } from "../api/crud";
 
 export function saveSequence(body: Sequence): Thunk {
   const action = body.id ? update : create;
-  return action({ kind: "sequences", body });
+  return action({ kind: "sequences", uuid: uuid(), body });
 }
 
 export function deleteSequence(body: Sequence): Thunk {
-  return destroy({ kind: "sequences", body });
+  return destroy({ kind: "sequences", uuid: uuid(), body });
 }
 
 export function addChan({ channel_name, index }: ChanParams) {

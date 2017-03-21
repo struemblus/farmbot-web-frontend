@@ -7,6 +7,7 @@ import { success, error } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { selectAll } from "../resources/util";
 import { create, destroy } from "../api/crud";
+import { uuid } from "farmbot/dist";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
@@ -71,6 +72,7 @@ export function addSlot(slot: Partial<ToolSlot>, toolBayId: number): Thunk {
   slot.tool_bay_id = toolBayId;
   return create({
     kind: "tool_slots",
+    uuid: uuid(),
     body: (slot as ToolSlot)
   });
 }
@@ -119,13 +121,13 @@ export function saveTools(tools: Tool[]): Thunk {
 }
 
 export function destroyTool(body: Tool): Thunk {
-  return destroy({ kind: "tools", body })
+  return destroy({ kind: "tools", uuid: uuid(), body })
 }
 
 export function addTool(name: string): Thunk {
   return create({
     kind: "tools",
+    uuid: uuid(),
     body: { name }
   });
 }
-
