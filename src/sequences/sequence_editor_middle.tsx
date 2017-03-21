@@ -103,15 +103,13 @@ let copy = function (dispatch: Function, sequence: Sequence) {
     dispatch(copySequence(sequence));
 };
 
-let destroy = function (dispatch: Function,
-  sequence: Sequence,
-  inx: number) {
-  return () => dispatch(deleteSequence(inx));
+let destroy = function (dispatch: Function, sequence: Sequence) {
+  return () => dispatch(deleteSequence(sequence));
 };
 
 export let performSeq = (dispatch: Function, s: Sequence) => {
   return () => {
-    dispatch(saveSequence(s, false))
+    dispatch(saveSequence(s))
       .then(() => execSequence(s));
   };
 };
@@ -152,7 +150,7 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
           {t("Save & Run")}
         </button>
         <button className="red button-like"
-          onClick={destroy(dispatch, sequence, inx)}>
+          onClick={destroy(dispatch, sequence)}>
           {t("Delete")}
         </button>
         <button className="yellow button-like"

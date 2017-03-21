@@ -1,5 +1,4 @@
 import * as axios from "axios";
-import { Everything } from "../interfaces";
 import { CeleryNode as Step, LATEST_VERSION } from "farmbot";
 import {
   SequenceOptions,
@@ -13,14 +12,20 @@ import {
   ChangeStep,
   ChangeStepSelect,
   RemoveStep,
-  SelectSequence,
-  SequenceApiResponse
+  SelectSequence
 } from "./interfaces";
-import { success, error, DropDownItem } from "../ui";
-import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
+import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import * as i18next from "i18next";
-import { API } from "../api";
+import { update, create, destroy } from "../api/crud";
+
+export function saveSequence(body: Sequence): Thunk {
+  const action = body.id ? update : create;
+  return action({ kind: "sequences", body });
+}
+
+export function deleteSequence(body: Sequence): Thunk {
+  return destroy({ kind: "sequences", body });
+}
 
 export function addChan({ channel_name, index }: ChanParams) {
   return {
@@ -150,50 +155,6 @@ export function removeStep(index: number): RemoveStep {
   };
 }
 
-export function saveSequence(sequence: Sequence, notify = true): Thunk {
-  return function (dispatch) {
-    let url = API.current.sequencesPath;
-    let p: Axios.IPromise<Axios.AxiosXHR<Sequence>>;
-    if (sequence.id) {
-      url += sequence.id;
-      p = axios.put<Sequence>(url, sequence);
-    } else {
-      p = axios.post<Sequence>(url, sequence);
-    };
-    return p.then(function (resp) {
-      if (notify) {
-        success(i18next.t("Saved '{{SequenceName}}'",
-          { SequenceName: (sequence.name || "sequence") }));
-      }
-      dispatch(saveSequenceOk(resp.data));
-      return resp.data;
-    })
-      .catch(function (err: {}) {
-        let template = "Unable to save '{{SequenceName}}'";
-        let context = { SequenceName: (sequence.name || "sequence") };
-        error(prettyPrintApiErrors(err),
-          i18next.t(template, context));
-        dispatch(saveSequenceNo(err));
-        return Promise.reject(err);
-      });
-  };
-};
-
-export function saveSequenceOk(sequence: Sequence) {
-  return {
-    type: "SAVE_SEQUENCE_OK",
-    payload: sequence
-  };
-}
-
-export function saveSequenceNo(error: AxiosErrorResponse) {
-  prettyPrintApiErrors(error);
-  return {
-    type: "SAVE_SEQUENCE_NO",
-    payload: error
-  };
-}
-
 export function selectSequence(index: number): SelectSequence {
   return {
     type: "SELECT_SEQUENCE",
@@ -212,47 +173,5 @@ export function addComment(step: Step, index: number, comment: string) {
   return {
     type: "ADD_COMMENT",
     payload: { comment, index }
-  };
-}
-
-export function deleteSequence(index: number) {
-  // use cases:
-  // unsaved sequence. (in state)
-  // saved sequence  (http DELETE)
-  // misc errors
-  // dependency error.
-
-  return function (dispatch: Function, getState: Function) {
-    let state: Everything = getState();
-
-    let sequence: Sequence = state.sequences.all[index];
-
-    if (!confirm(`Delete sequence '${sequence.name}'?`)) {
-      return;
-    }
-
-    function deleteSequenceOK() {
-      dispatch({
-        type: "DELETE_SEQUENCE_OK",
-        payload: sequence
-      });
-    }
-
-    function deleteSequenceErr(response:
-      Axios.AxiosXHR<SequenceApiResponse>) {
-      if (response && response.data) {
-        error((response.data.sequence) ||
-          i18next.t("Unable to delete sequence"));
-      }
-    }
-
-    if (sequence && sequence.id) {
-      let url = API.current.sequencesPath + sequence.id;
-      axios.delete(url)
-        .then(() => deleteSequenceOK())
-        .catch((error) => deleteSequenceErr(error.response));
-    } else {
-      deleteSequenceOK();
-    }
   };
 }

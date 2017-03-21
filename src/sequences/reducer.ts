@@ -19,6 +19,8 @@ import { generateReducer } from "../redux/generate_reducer";
 import { move } from "../util";
 import * as _ from "lodash";
 import { SequenceBodyItem, uuid } from "farmbot";
+import { success } from "../ui/index";
+import { TaggedResource } from "../resources/tagged_resources";
 /** Adds an empty sequence to the front of the list. */
 function populate(s: SequenceReducerState): Sequence {
   // This worries me. What if #current and #all get out of sync?
@@ -44,6 +46,11 @@ const initialState: SequenceReducerState = {
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
+  .add<TaggedResource>("CREATE_RESOURCE_OK", function (s, a) {
+    s.all.map((seq: Sequence) => { seq.dirty = false; });
+    success("Successfully saved Sequences.", "Saved");
+    return s;
+  })
   .add<ChanParams>("ADD_CHANNEL", function (s, a) {
     let { index, channel_name } = a.payload;
     let seq = s.all[s.current];
