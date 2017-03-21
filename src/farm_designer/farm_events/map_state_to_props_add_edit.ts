@@ -97,7 +97,9 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
-  let farmEvents = selectAll(state.resources.index, "farm_events");
+  let farmEvents = selectAll(state.resources.index, "farm_events")
+                   .filter(fe => fe.kind === "farm_events")
+                   .map(fe => fe.body as FarmEvent);
   let sequenceById = state.resources.index.byKindAndId["sequences"];
   let regimenById = state.resources.index.byKindAndId["regimens"];
 
