@@ -162,7 +162,7 @@ export interface PeripheralsProps {
 export interface WeedDetectorProps {
   bot: BotState;
   dispatch: Function;
-  images: Image[];
+  images: TaggedImage[];
 }
 
 export interface HardwareSettingsProps {

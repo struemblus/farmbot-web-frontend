@@ -1,3 +1,5 @@
+import { TaggedImage } from "../resources/tagged_resources";
+
 export interface Image {
   id: number;
   device_id: number;
@@ -64,7 +66,7 @@ export interface EnvSliderState extends Partial<HiLo> {
 }
 
 export interface ImageFlipperProps {
-  images: Image[];
+  images: TaggedImage[];
 }
 
 export interface ImageFlipperState {

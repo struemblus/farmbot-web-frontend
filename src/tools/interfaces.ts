@@ -61,7 +61,7 @@ export interface Tool {
 
 export interface ToolBayListProps {
   dispatch: Function;
-  toolBays: ToolBay[];
+  toolBays: TaggedToolBay[];
   getToolById(id: number): TaggedTool | undefined;
   getToolSlots(toolBayId: number): ToolSlot[];
 }

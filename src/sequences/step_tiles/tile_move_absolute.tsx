@@ -34,8 +34,8 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     let { location } = this.props.step.args;
     if (location.kind === "tool") {
       let tool = this.props.toolById[location.args.tool_id];
-      if (tool && tool.id) {
-        return { label: tool.name, value: tool.id }
+      if (tool && tool.body.id) {
+        return { label: tool.body.name, value: tool.body.id }
       }
     }
     return { label: "Nothing", value: 0 };
@@ -47,7 +47,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     switch (location.kind) {
       case "tool":
         let tool = this.props.toolById[location.args.tool_id];
-        let slot = tool && this.props.slotByToolId[tool.id || 0];
+        let slot = tool && this.props.slotByToolId[tool.body.id || 0];
         if (slot) {
           output = { ...output, ...slot }
         };
