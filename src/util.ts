@@ -271,3 +271,12 @@ export const NOT_SAVED = -1;
 export function isUndefined(x: any): x is undefined {
   return _.isUndefined(x);
 }
+
+/** Better than Array.proto.filter and _.compact() because the type checker
+ * knows what's going on.
+ */
+export function betterCompact<T>(input: (T | undefined)[]): T[] {
+  let output: T[] = [];
+  input.forEach(x => x ? output.push(x) : "")
+  return [];
+};
