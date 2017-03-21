@@ -1,15 +1,10 @@
 import { ResourceIndex } from "./interfaces";
 import { joinKindAndId } from "./reducer";
-import { ResourceName } from "./tagged_resources";
+import { ResourceName, TaggedFarmEvent, TaggedResource } from "./tagged_resources";
+import { selectAll } from "./util";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
-  let result = index
-    .byKindAndId[joinKindAndId(kind, id)];
-  if (result) {
-    return result;
-  } else {
-    throw new Error("Could not find " + kind + " with id " + id + "in indexes.");
-  }
+    return index.byKindAndId[joinKindAndId(kind, id)];
 }
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
@@ -18,7 +13,13 @@ export function findResourceById(index: ResourceIndex, kind: ResourceName,
   return uuid && index.references[uuid];
 }
 
+export let isKind = (name: ResourceName) =>
+(tr: TaggedResource) => tr.kind === name;
+
+function findAll(index: ResourceIndex, name: ResourceName) {
+  return selectAll(index, name).filter(isKind(name));
+}
+
 export function selectAllFarmEvents(index: ResourceIndex) {
-    return selectAll(state.resources.index, "farm_events")
-              .filter(fe => fe.kind === "farm_events") as TaggedFarmEvent[];
+    return findAll(index, "farm_events") as TaggedFarmEvent[];
 }
