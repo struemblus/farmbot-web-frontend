@@ -109,11 +109,16 @@ function addToIndex<T>(index: ResourceIndex,
 }
 
 let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid === tr.uuid;
-
+export function joinKindAndId(kind: ResourceName, id: number) {
+  return kind + "." + id;
+}
 function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
   index.all = index.all.filter(removeUUID(tr));
   index.byKind[tr.kind].filter(removeUUID(tr));
-  if (tr.body.id) { delete index.byKindAndId[tr.kind + "." + tr.body.id] }
+  if (tr.body.id) {
+    let key = joinKindAndId(tr.kind, tr.body.id)
+    delete index.byKindAndId[key]
+  }
   delete index.references[tr.uuid];
 }
 
