@@ -5,9 +5,17 @@ import {
   TaggedFarmEvent,
   TaggedResource,
   TaggedPoint,
-  TaggedPlant, TaggedTool, TaggedToolSlot, TaggedImage, TaggedRegimen, TaggedSequence
+  TaggedPlant,
+  TaggedTool,
+  TaggedToolSlot,
+  TaggedImage,
+  TaggedRegimen,
+  TaggedSequence,
+  isTaggedSequence,
+  isTaggedRegimen
 } from "./tagged_resources";
 import { selectAll } from "./util";
+import { CowardlyDictionary } from "../util";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
   return index.byKindAndId[joinKindAndId(kind, id)];
@@ -56,4 +64,28 @@ export function selectAllRegimens(index: ResourceIndex) {
 
 export function selectAllSequences(index: ResourceIndex) {
   return findAll(index, "sequences") as TaggedSequence[];
+}
+
+export function indexBySequenceId(index: ResourceIndex) {
+  let output: CowardlyDictionary<TaggedSequence> = {};
+  let uuids = index.byKind.sequences;
+  uuids.map(uuid => {
+    let sequence = index.references[uuid];
+    if (isTaggedSequence(sequence) && sequence.body.id) {
+      output[sequence.body.id] = sequence;
+    }
+  });
+  return output;
+}
+
+export function indexByRegimenId(index: ResourceIndex) {
+  let output: CowardlyDictionary<TaggedRegimen> = {};
+  let uuids = index.byKind.sequences;
+  uuids.map(uuid => {
+    let regimen = index.references[uuid];
+    if (isTaggedRegimen(regimen) && regimen.body.id) {
+      output[regimen.body.id] = regimen;
+    }
+  });
+  return output;
 }

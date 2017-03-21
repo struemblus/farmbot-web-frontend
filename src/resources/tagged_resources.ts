@@ -114,3 +114,18 @@ export interface TaggedUser extends TaggedResourceBase {
   kind: "users";
   body: User;
 }
+
+export function isTaggedResource(x: any): x is TaggedResource {
+  return (_.isObject(x)
+    && _.isString(x.kind)
+    && _.isString(x.uuid)
+    && _.isObject(x.body))
+}
+
+export function isTaggedRegimen(x: any): x is TaggedRegimen {
+  return (isTaggedResource(x) && x.kind == "regimens");
+}
+
+export function isTaggedSequence(x: any): x is TaggedSequence {
+  return (isTaggedResource(x) && x.kind == "sequences");
+}
