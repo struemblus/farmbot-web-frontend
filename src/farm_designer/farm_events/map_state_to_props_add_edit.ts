@@ -71,12 +71,12 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   selectAll(state.resources.index, "regimens").map((regimen, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (regimen.id) {
+    if (regimen.kind === "regimens" && regimen.body.id) {
       let item = {
-        label: regimen.name,
+        label: regimen.body.name,
         executable_type: "Regimen",
-        executable_id: regimen.id,
-        value: regimen.id
+        executable_id: regimen.body.id,
+        value: regimen.body.id
       };
       selectOptions.push(item);
     }
@@ -86,7 +86,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   selectAll(state.resources.index, "sequences").map((sequence, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (sequence.body.id && sequence.kind === "sequences") {
+    if (sequence.kind === "sequences" && sequence.body.id) {
       let item = {
         label: sequence.body.name,
         executable_type: "Sequence",
@@ -100,6 +100,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   let farmEvents = selectAll(state.resources.index, "farm_events");
   let sequenceById = state.resources.index.byKindAndId["sequences"];
   let regimenById = state.resources.index.byKindAndId["regimens"];
+
   return {
     selectOptions,
     repeatOptions,

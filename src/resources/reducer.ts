@@ -3,6 +3,7 @@ import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
 import { TaggedResource, ResourceName } from "./tagged_resources";
 import { uuid } from "farmbot/dist";
+import { isUndefined } from "util";
 
 let initialState: RestResources = {
   loaded: false,
@@ -123,7 +124,7 @@ function whoops(origin: string, kind: string) {
 
 export function findByUuid(index: ResourceIndex, uuid: string): TaggedResource {
   let x = index.references[uuid];
-  if (_.isUndefined(x)) {
+  if (isUndefined(x)) {
     throw new Error("BAD UUID- CANT FIND RESOURCE: " + uuid);
   } else {
     return x as TaggedResource;
