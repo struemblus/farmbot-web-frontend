@@ -1,10 +1,11 @@
-import { AddEditFarmEventProps, FarmEvent, TimeUnit } from "../interfaces";
+import { AddEditFarmEventProps } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
+import { TaggedFarmEvent } from "../../resources/tagged_resources";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -98,10 +99,11 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   });
 
   let farmEvents = selectAll(state.resources.index, "farm_events")
-                   .filter(fe => fe.kind === "farm_events")
-                   .map(fe => fe.body as FarmEvent);
-  let sequenceById = state.resources.index.byKindAndId["sequences"];
-  let regimenById = state.resources.index.byKindAndId["regimens"];
+                   .filter(fe => fe.kind === "farm_events") as TaggedFarmEvent[];
+
+  let sequenceById = (id: number) => {
+    
+  }
 
   return {
     selectOptions,
@@ -110,8 +112,6 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     formatTime,
     handleTime,
     farmEvents,
-    sequenceById,
-    regimenById,
     save(fe) {
       this.dispatch(saveFarmEvent(fe));
       this.router.push("/app/designer/farm_events");

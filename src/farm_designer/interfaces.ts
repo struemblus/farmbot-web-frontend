@@ -5,6 +5,7 @@ import { Regimen } from "../regimens/interfaces";
 import { Everything } from "../interfaces";
 import { CowardlyDictionary } from "../util";
 import { RestResources } from "../resources/interfaces";
+import { TaggedFarmEvent, TaggedSequence, TaggedRegimen } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
@@ -119,9 +120,9 @@ export type AddFarmEventState = Partial<FarmEvent>;
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
-  farmEvents: FarmEvent[];
-  sequenceById: CowardlyDictionary<Sequence>;
-  regimenById: CowardlyDictionary<Regimen>;
+  farmEvents: TaggedFarmEvent[];
+  sequenceById(id: number): TaggedSequence;
+  regimenById(id: number): TaggedRegimen;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
