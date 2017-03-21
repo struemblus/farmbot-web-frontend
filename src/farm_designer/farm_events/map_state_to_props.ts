@@ -1,9 +1,8 @@
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
-import { Sequence } from "../../sequences/interfaces";
-import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
-import { FarmEventProps, CalendarOccurrence, CalendarDay, FarmEvent } from "../interfaces";
+import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
+import { selectAllFarmEvents } from "../../resources/selectors";
 
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
@@ -23,23 +22,21 @@ const MONTHS: Readonly<Dictionary<string>> = {
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
 export function mapStateToProps(state: Everything): FarmEventProps {
   let r = state.resources;
-  let farmEvents = r
-    .farm_events
-    .all
-    .map(x => r.farm_events.byId[x])
-    .filter(x => !!x) as FarmEvent[];
+  let farmEvents = selectAllFarmEvents(state.resources.index);
 
   let push = (state && state.router && state.router.push) || (() => { });
+
   let sequenceById = r.sequences.byId;
   let regimenById = r.regimens.byId;
+
   let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
     .reduce(function (memo, farmEvent) {
-      farmEvent.calendar && farmEvent.calendar.map(function (date) {
+      farmEvent.body.calendar && farmEvent.body.calendar.map(function (date) {
         let m = moment(date);
         let mmdd = m.format("MMDD");
-        let executableId = farmEvent.executable_id;
+        let executableId = farmEvent.body.executable_id;
         let executableName: string;
-        switch (farmEvent.executable_type) {
+        switch (farmEvent.body.executable_type) {
           case "Sequence":
             let s = sequenceById[executableId];
             executableName = (s && s.name) || "Unknown sequence";

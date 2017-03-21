@@ -10,14 +10,16 @@ import {
   TaggedSequence,
   TaggedRegimen,
   ResourceName,
-  TaggedResource
+  TaggedResource,
+TaggedPoint,
+TaggedPlant
 } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
   designer: DesignerState;
-  points: Point[];
-  plants: Plant[];
+  points: TaggedPoint[];
+  plants: TaggedPlant[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -129,7 +131,6 @@ export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
-  // findResourceById(index: ResourceIndex, kind: ResourceName, id: number): TaggedResourceById;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;

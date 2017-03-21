@@ -1,13 +1,13 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
-import { selectAll } from "../resources/util";
+import { selectAllPoints, selectAllPlants } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
   return {
     dispatch: props.dispatch,
     designer: props.designer,
-    points: selectAll(props.resources.points),
-    plants: selectAll(props.resources.plants)
+    points: selectAllPoints(props.resources.index),
+    plants: selectAllPlants(props.resources.index)
   };
 }
 

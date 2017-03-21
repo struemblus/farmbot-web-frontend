@@ -1,6 +1,7 @@
 import { Everything } from "../interfaces";
+
 import { Props } from "./interfaces";
-import { selectAll } from "../resources/util";
+import { selectAllImages } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
 
@@ -8,7 +9,7 @@ export function mapStateToProps(props: Everything): Props {
     auth: props.auth,
     bot: props.bot,
     dispatch: props.dispatch,
-    images: selectAll(props.resources.images)
+    images: selectAllImages(props.resources.index)
   };
 }
 

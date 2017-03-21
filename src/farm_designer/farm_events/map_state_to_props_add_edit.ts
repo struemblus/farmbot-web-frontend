@@ -5,9 +5,7 @@ import { DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
-import { TaggedFarmEvent } from "../../resources/tagged_resources";
-import { findResourceById } from "../../resources/selectors";
-import { ResourceIndex } from "../../resources/interfaces";
+import { selectAllFarmEvents } from "../../resources/selectors";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -100,8 +98,9 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
+  let farmEvents = selectAllFarmEvents(state.resources.index);
+
   return {
-    // findResourceById,
     selectOptions,
     repeatOptions,
     formatDate,

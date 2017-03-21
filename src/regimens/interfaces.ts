@@ -4,15 +4,16 @@ import { Color } from "../interfaces";
 import { BulkSchedulerState } from "./bulk_scheduler/interfaces";
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
+import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
-  sequences: Sequence[];
+  sequences: TaggedSequence[];
   bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
-  current: Regimen;
-  regimens: Regimen[];
+  current: TaggedRegimen;
+  regimens: TaggedRegimen[];
   unsavedChanges: boolean;
 }
 

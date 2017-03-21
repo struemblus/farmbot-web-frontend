@@ -5,9 +5,8 @@ import { API } from "../api";
 import { ToolBay, ToolSlot, Tool } from "./interfaces";
 import { success, error } from "../ui";
 import { prettyPrintApiErrors } from "../util";
-import { selectAll } from "../resources/util";
-import { create, destroy } from "../api/crud";
-import { uuid } from "farmbot/dist";
+import { destroy, save } from "../api/crud";
+import { selectAllToolSlots } from "../resources/selectors";
 
 /** Generic */
 export function toggleEditingToolBays(): ReduxAction<{}> {
@@ -27,7 +26,7 @@ export function saveToolBay(
   id: number, toolBays: ToolBay[], callback: Function
 ): Thunk {
   return (dispatch, getState) => {
-    let tool_slots = selectAll(getState().resources.tool_slots);
+    let tool_slots = selectAllToolSlots(getState().resources.index);
     let url = API.current.toolSlotsPath;
     Axios.post<ToolSlot[]>(url, { tool_slots })
       .then(resp => {
@@ -68,13 +67,8 @@ export function destroyToolSlotOk(id: number): ReduxAction<{}> {
   return { type: "DESTROY_TOOL_SLOT_OK", payload: { id } };
 }
 
-export function addSlot(slot: Partial<ToolSlot>, toolBayId: number): Thunk {
-  slot.tool_bay_id = toolBayId;
-  return create({
-    kind: "tool_slots",
-    uuid: uuid(),
-    body: (slot as ToolSlot)
-  });
+export function addSlot(uuid: string) {
+  return save(uuid)
 }
 
 export function destroySlot(id: number): Thunk {
@@ -120,14 +114,10 @@ export function saveTools(tools: Tool[]): Thunk {
   };
 }
 
-export function destroyTool(body: Tool): Thunk {
-  return destroy({ kind: "tools", uuid: uuid(), body })
+export function destroyTool(uuid: string) {
+  return destroy(uuid)
 }
 
-export function addTool(name: string): Thunk {
-  return create({
-    kind: "tools",
-    uuid: uuid(),
-    body: { name }
-  });
+export function addTool(uuid: string) {
+  return save(uuid);
 }

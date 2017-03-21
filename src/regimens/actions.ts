@@ -1,13 +1,6 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import {
-  destroy,
-  create as _create,
-  update as _update
-} from "../api/crud";
-import { warning } from "../ui/logger";
-import { t } from "i18next";
-import { uuid } from "farmbot/dist";
+import { destroy, save } from "../api/crud";
 export function copyRegimen(payload: Regimen) {
   return {
     type: "COPY_REGIMEN",
@@ -24,19 +17,12 @@ export function editRegimen(regimen: Regimen,
   };
 }
 
-export function saveRegimen(body: Regimen) {
-  return function (dispatch: Function) {
-    const action = body.id ? _update : _create;
-    return dispatch(action({ kind: "regimens", uuid: uuid(), body }));
-  };
+export function saveRegimen(uuid: string) {
+  return save(uuid);
 }
 
-export function deleteRegimen(regimen: Regimen) {
-  return destroy({
-    kind: "regimens",
-    uuid: uuid(),
-    body: regimen
-  });
+export function deleteRegimen(uuid: string) {
+  return destroy(uuid);
 }
 
 export function newRegimen(): ReduxAction<{}> {

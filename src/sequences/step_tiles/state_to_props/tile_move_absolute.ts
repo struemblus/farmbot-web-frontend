@@ -1,17 +1,16 @@
 import { Everything } from "../../../interfaces";
-import { Dictionary, MoveAbsolute as Step } from "farmbot/dist";
+import { MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
-import { Tool, ToolSlot } from "../../../tools/interfaces";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
-import { safeStringFetch, CowardlyDictionary } from "../../../util";
-import { selectAll } from "../../../resources/util";
+import { safeStringFetch } from "../../../util";
+import { selectAllTools } from "../../../resources/selectors";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
   compute(kind: string, arg: string, step: Step): string;
-  toolById: CowardlyDictionary<Tool>;
-  slotByToolId: CowardlyDictionary<ToolSlot>;
+  // toolById: CowardlyDictionary<Tool>;
+  // slotByToolId: CowardlyDictionary<ToolSlot>;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -25,19 +24,14 @@ export interface TileMoveAbsoluteProps {
 export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   /** Get data indexed */
-  let toolById = props.resources.tools.byId;
-  let slotByToolId = props.resources.tool_slots.byId;
+  // let toolById = props.resources.tools.byId;
+  // let slotByToolId = props.resources.tool_slots.byId;
 
   /** Create dropdown options */
   // tools WHERE slot_id NOT NULL
-  let options = selectAll(props.resources.index, "tools")
-    .filter(slot => slot.kind === "tool_slots" && slot.tool_id && slot.id)
-    .map(slot => ({ slot, tool: toolById[slot.tool_id || 0] }))
-    .filter(pair => (pair.slot && pair.tool))
-    .map(function (both: { tool: Tool, slot: ToolSlot }): DropDownItem {
-      let { tool } = both;
-      let { name, id } = tool;
-      return { label: name, value: (id as number) };
+  let options = selectAllTools(props.resources.index)
+    .map(tool => {
+      return { label: tool.body.name, value: tool.uuid };
     });
 
   /** Fires when a DropDownItem is selected */
@@ -73,9 +67,9 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     compute,
     changeToolSelect,
     changeInputValue,
-    toolById,
-    slotByToolId,
-    dispatch() { }
+    // toolById,
+    // slotByToolId,
+    dispatch: props.dispatch
   };
 
 }
