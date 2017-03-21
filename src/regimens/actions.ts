@@ -1,6 +1,7 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
 import { destroy, save } from "../api/crud";
+import { TaggedRegimen } from "../resources/tagged_resources";
 export function copyRegimen(payload: Regimen) {
   return {
     type: "COPY_REGIMEN",
@@ -32,7 +33,7 @@ export function newRegimen(): ReduxAction<{}> {
   };
 }
 
-export function selectRegimen(payload: Regimen): ReduxAction<Regimen> {
+export function selectRegimen(payload: TaggedRegimen): ReduxAction<Regimen> {
   return { type: "SELECT_REGIMEN", payload };
 }
 

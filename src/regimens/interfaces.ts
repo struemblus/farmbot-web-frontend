@@ -14,7 +14,6 @@ export interface Props {
   bot: BotState;
   current: TaggedRegimen | undefined;
   regimens: TaggedRegimen[];
-  unsavedChanges: boolean;
 }
 
 /** RegimenItem, as presented by the REST API */
@@ -76,14 +75,12 @@ export interface AddRegimenProps {
 }
 
 export interface RegimenListItemProps {
-  regimen?: Regimen;
+  regimen?: TaggedRegimen;
   dispatch: Function;
-  unsavedChanges: boolean;
   index: number;
 }
 
 export interface RegimensListProps {
   dispatch: Function;
-  unsavedChanges: boolean;
-  regimens: Regimen[];
+  regimens: TaggedRegimen[];
 }

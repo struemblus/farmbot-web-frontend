@@ -22,8 +22,7 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
                 dispatch={this.props.dispatch}
                 regimen={regimen}
                 index={inx}
-                key={inx}
-                unsavedChanges={this.props.unsavedChanges} />)
+                key={inx} />)
             }
           </Col>
         </Row>

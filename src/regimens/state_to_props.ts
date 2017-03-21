@@ -23,8 +23,7 @@ export function mapStateToProps(props: Everything): Props {
     auth: props.auth,
     bot: props.bot,
     current,
-    regimens: selectAllRegimens(props.resources.index),
-    unsavedChanges
+    regimens: selectAllRegimens(props.resources.index)
   };
 }
 

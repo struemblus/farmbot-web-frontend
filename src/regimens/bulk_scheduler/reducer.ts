@@ -1,7 +1,7 @@
 import { BulkSchedulerState } from "./interfaces";
 import { Sequence } from "../../sequences/interfaces";
 import { generateReducer } from "../../redux/generate_reducer";
-import { Regimen } from "../interfaces";
+import { TaggedRegimen } from "../../resources/tagged_resources";
 
 function newWeek() {
   return {
@@ -30,7 +30,7 @@ let initialState: BulkSchedulerState = newState();
 
 export let BulkSchedulerReducer = generateReducer<BulkSchedulerState>
   (initialState)
-  .add<Regimen>("SELECT_REGIMEN", function (state, action) {
+  .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
     return newState();
   })
   .add<void>("PUSH_WEEK", function (state, action) {

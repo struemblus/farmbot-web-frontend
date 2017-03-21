@@ -5,40 +5,40 @@ import { selectRegimen } from "../actions";
 import { Link } from "react-router";
 import { error } from "../../ui/logger";
 import { t } from "i18next";
+import { TaggedRegimen } from "../../resources/tagged_resources";
 
 export function RegimenListItem({ regimen,
   dispatch,
-  index,
-  unsavedChanges }: RegimenListItemProps) {
-  let color = (regimen && regimen.color) || randomColor();
+  index }: RegimenListItemProps) {
+  let color = (regimen && regimen.body.color) || randomColor();
   let style = `block block-wrapper full-width text-left ${color}-block
         block-header`;
 
   if (!isMobile() && regimen) {
     return <button className={style}
-      onClick={select(dispatch, regimen, unsavedChanges)}>
-      {(regimen && regimen.name) || "??"}{
-        (regimen && regimen.dirty) ? "*" : ""}
+      onClick={select(dispatch, regimen)}>
+      {(regimen && regimen.body.name) || "??"}{
+        (regimen && regimen.body.dirty) ? "*" : ""}
       <i className="fa fa-pencil block-control" />
     </button>;
   } else {
-    let link = (regimen && regimen.name) ?
-      regimen.name.replace(/ /g, "_").toLowerCase() : "SomethingWentWrong";
-    let name = (regimen && regimen.name) ?
-      regimen.name + (regimen.dirty ? "*" : "") : "SomethingWentWrong";
-    let key = (regimen && regimen.id) ? regimen.id : index;
+    let link = (regimen && regimen.body.name) ?
+      regimen.body.name.replace(/ /g, "_").toLowerCase() : "SomethingWentWrong";
+    let name = (regimen && regimen.body.name) ?
+      regimen.body.name + (regimen.body.dirty ? "*" : "") : "SomethingWentWrong";
+    let key = (regimen && regimen.body.id) ? regimen.body.id : index;
 
     return <Link
       to={`/app/regimens/${link}`}
       key={key}
-      onClick={regimen && select(dispatch, regimen, unsavedChanges)}
+      onClick={regimen && select(dispatch, regimen)}
       className={style}>
       {name}
     </Link>;
   }
 }
 
-function select(dispatch: Function, regimen: Regimen, unsavedChanges: boolean) {
+function select(dispatch: Function, regimen: TaggedRegimen) {
   return function (event: React.MouseEvent<{}>) {
     dispatch(selectRegimen(regimen));
   };
