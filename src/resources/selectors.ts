@@ -12,7 +12,8 @@ import {
   TaggedRegimen,
   TaggedSequence,
   isTaggedSequence,
-  isTaggedRegimen
+  isTaggedRegimen,
+  TaggedToolBay
 } from "./tagged_resources";
 import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
@@ -52,6 +53,21 @@ export function selectAllTools(index: ResourceIndex) {
 
 export function selectAllToolSlots(index: ResourceIndex) {
   return findAll(index, "tool_slots") as TaggedToolSlot[];
+}
+
+export function findToolSlot(index: ResourceIndex, toolSlotId: string) {
+  if (!toolSlotId.startsWith("tool_slot")) {
+    console.log("This is bad news. - March 21st");
+  }
+  return index.references[toolSlotId];
+}
+
+export function selectCurrentToolSlot(index: ResourceIndex, toolSlotId: number) {
+  return index.references[toolSlotId];
+}
+
+export function selectAllToolBays(index: ResourceIndex) {
+  return findAll(index, "tool_bays") as TaggedToolBay[];
 }
 
 export function selectAllImages(index: ResourceIndex) {

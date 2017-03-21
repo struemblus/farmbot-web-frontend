@@ -2,7 +2,11 @@ import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { Dictionary } from "farmbot";
 import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
-import { selectAllFarmEvents } from "../../resources/selectors";
+import {
+  selectAllFarmEvents,
+  indexBySequenceId,
+  indexByRegimenId
+} from "../../resources/selectors";
 
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
@@ -26,8 +30,8 @@ export function mapStateToProps(state: Everything): FarmEventProps {
 
   let push = (state && state.router && state.router.push) || (() => { });
 
-  let sequenceById = r.sequences.byId;
-  let regimenById = r.regimens.byId;
+  let sequenceById = indexBySequenceId(state.resources.index);
+  let regimenById = indexByRegimenId(state.resources.index);
 
   let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
     .reduce(function (memo, farmEvent) {
@@ -39,11 +43,11 @@ export function mapStateToProps(state: Everything): FarmEventProps {
         switch (farmEvent.body.executable_type) {
           case "Sequence":
             let s = sequenceById[executableId];
-            executableName = (s && s.name) || "Unknown sequence";
+            executableName = (s && s.body.name) || "Unknown sequence";
             break;
           case "Regimen":
             let r = regimenById[executableId];
-            executableName = (r && r.name) || "Unknown regimen";
+            executableName = (r && r.body.name) || "Unknown regimen";
             break;
           default: throw new Error("Never");
         }
@@ -52,7 +56,7 @@ export function mapStateToProps(state: Everything): FarmEventProps {
           timeStr: m.format("hh:mm a"),
           executableName,
           executableId,
-          id: farmEvent.id || 0,
+          id: farmEvent.body.id || 0,
         };
         (memo[mmdd]) ? memo[mmdd].push(occur) : (memo[mmdd] = [occur]);
       });
@@ -60,7 +64,7 @@ export function mapStateToProps(state: Everything): FarmEventProps {
     }, ({} as Dictionary<CalendarOccurrence[]>));
 
   let calendarRows: CalendarDay[] = _.chain(farmEvents)
-    .map(y => y.calendar || [])
+    .map(y => y.body.calendar || [])
     .flatten()
     .uniq()
     .compact()

@@ -1,13 +1,18 @@
 import { Everything } from "../interfaces";
-import { Props, ToolSlot, Tool } from "./interfaces";
+import { Props, Tool } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
-import { selectAll } from "../resources/util";
+import {
+  selectAllToolSlots,
+  selectAllTools,
+  selectAllToolBays,
+  selectCurrentToolSlot
+} from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
-  let toolBays = selectAll(props.resources.tool_bays);
-  let toolSlots = selectAll(props.resources.tool_slots);
-  let tools = selectAll(props.resources.tools);
+  let toolBays = selectAllToolBays(props.resources.index);
+  let toolSlots = selectAllToolSlots(props.resources.index);
+  let tools = selectAllTools(props.resources.index);
 
   let editingBays = props.tools.editingBays;
   let editingTools = props.tools.editingTools;
@@ -28,7 +33,7 @@ export function mapStateToProps(props: Everything): Props {
   /** Returns all tools in an <FBSelect /> compatible format. */
   let getToolOptions = () => {
     return _(tools)
-      .map(tool => ({ label: tool.name, value: (tool.id as number) }))
+      .map(tool => ({ label: tool.body.name, value: (tool.body.id as number) }))
       .filter(ddi => _.isNumber(ddi.value))
       .compact()
       .value();
@@ -37,7 +42,7 @@ export function mapStateToProps(props: Everything): Props {
 	/** Returns the current tool chosen in a slot based off the slot's id
 	 * and in an <FBSelect /> compatible format. */
   let getChosenToolOption = (toolSlotId: number) => {
-    let currentSlot = props.resources.tool_slots.byId[toolSlotId];
+    let currentSlot = selectCurrentToolSlot(props.resources.index, toolSlotId)
     let chosenTool = props
       .resources.tools.byId[(currentSlot && currentSlot.tool_id) || 0];
     if (chosenTool && _.isNumber(chosenTool.id)) {
