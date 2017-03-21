@@ -53,7 +53,7 @@ export interface UpdateToolSlotPayl {
 }
 
 export interface Tool {
-  id?: number | undefined;
+  id: number | undefined;
   name: string;
   dirty?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
