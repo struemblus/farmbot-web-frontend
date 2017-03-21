@@ -19,13 +19,16 @@ import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
-  return index.byKindAndId[joinKindAndId(kind, id)];
+  let uuid = index.byKindAndId[joinKindAndId(kind, id)];
+  assertUuid(kind, uuid);
+  return uuid;
 }
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
   id: number) {
   let uuid = findUuid(index, kind, id);
-  return uuid && index.references[uuid];
+  assertUuid(kind, uuid);
+  return uuid;
 }
 
 export let isKind = (name: ResourceName) =>
@@ -86,6 +89,7 @@ export function indexBySequenceId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedSequence> = {};
   let uuids = index.byKind.sequences;
   uuids.map(uuid => {
+    assertUuid("sequences", uuid);
     let sequence = index.references[uuid];
     if (isTaggedSequence(sequence) && sequence.body.id) {
       output[sequence.body.id] = sequence;
@@ -98,10 +102,26 @@ export function indexByRegimenId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedRegimen> = {};
   let uuids = index.byKind.sequences;
   uuids.map(uuid => {
+    assertUuid("regimens", uuid);
     let regimen = index.references[uuid];
     if (isTaggedRegimen(regimen) && regimen.body.id) {
       output[regimen.body.id] = regimen;
     }
   });
   return output;
+}
+
+/** Concerned about all the run-time stuff going on.
+ * Leaving this function here to aid in debugging as we make the switch to
+ * tagged_resources
+ *   -- RC, 21 MAR 17
+ */
+export function assertUuid(kind: ResourceName, uuid: string | undefined) {
+  if (uuid && !uuid.startsWith(kind)) {
+    console.warn(`
+    BAD NEWS!!! You thought this was a ${kind} UUID, but here's what it
+    actually was:
+      ${uuid}
+    `)
+  }
 }
