@@ -40,9 +40,8 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
             </Row>
             {this.props.getToolSlots(bay.id).map(
               (slot: ToolSlot, index: number) => {
-                let t = this.props.getChosenTool(slot.id) || {
-                  name: "None"
-                }
+                let tool = this.props.getToolById(slot.id);
+                let name = (tool && tool.body.name) || "None";
                 return <Row key={slot.id}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
@@ -51,7 +50,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
                   <Col xs={2}>{slot.y}</Col>
                   <Col xs={2}>{slot.z}</Col>
                   <Col xs={4}>
-                    {t.name}
+                    {name}
                   </Col>
                 </Row>;
               })}

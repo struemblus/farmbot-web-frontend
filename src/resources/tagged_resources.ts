@@ -129,3 +129,7 @@ export function isTaggedRegimen(x: any): x is TaggedRegimen {
 export function isTaggedSequence(x: any): x is TaggedSequence {
   return (isTaggedResource(x) && x.kind == "sequences");
 }
+
+export function isTaggedTool(x: any): x is TaggedTool {
+  return (isTaggedResource(x) && x.kind == "tools");
+}

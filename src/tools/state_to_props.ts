@@ -9,6 +9,7 @@ import {
   selectCurrentToolSlot,
   getToolByUUID
 } from "../resources/selectors";
+import { TaggedTool, isTaggedTool } from "../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAllToolBays(props.resources.index);
@@ -43,22 +44,20 @@ export function mapStateToProps(props: Everything): Props {
 	/** Returns the current tool chosen in a slot based off the slot's id
 	 * and in an <FBSelect /> compatible format. */
   let getChosenToolOption = (uuid: string) => {
-    let currentSlot = selectCurrentToolSlot(props.resources.index, uuid);
     let chosenTool = getToolByUUID(props.resources.index, "tools", uuid);
-    if (chosenTool && chosenTool.body.id && chosenTool.kind === "tools") {
-      return { label: chosenTool.body.name, value: chosenTool.body.id };
+    if (isTaggedTool(chosenTool) && chosenTool.body.id) {
+      return { label: chosenTool.body.name, value: chosenTool.uuid };
     } else {
       return NULL_CHOICE;
     }
   };
 
   /** Returns a regular tool object chosen in a slot. */
-  let getChosenTool = (toolSlotId: number): Tool | undefined => {
-    let currentSlot = selectCurrentToolSlot(props.resources.index, toolSlotId);
+  let getToolById = (uuid: string): TaggedTool | undefined => {
+    let currentSlot = selectCurrentToolSlot(props.resources.index, uuid);
     if (currentSlot && currentSlot.kind === "tool_slots") {
-      let tool_id = (currentSlot && currentSlot.body.tool_id) || 0;
-      let tool = getToolByUUID(props.resources.index, "tools", tool_id);
-      if (tool && tool.body.id) {
+      let tool = getToolByUUID(props.resources.index, "tools", currentSlot.uuid);
+      if (isTaggedTool(tool)) {
         return tool;
       }
     }
@@ -75,8 +74,8 @@ export function mapStateToProps(props: Everything): Props {
     getToolSlots,
     getToolOptions,
     getChosenToolOption,
-    getChosenTool,
-    dispatch: Function,
+    getToolById,
+    dispatch: props.dispatch,
   };
 
 }

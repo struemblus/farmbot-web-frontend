@@ -1,5 +1,5 @@
 import { DropDownItem } from "../ui/fb_select";
-import { TaggedTool } from "../resources/tagged_resources";
+import { TaggedTool, TaggedToolSlot, TaggedToolBay } from "../resources/tagged_resources";
 
 export interface ToolsState {
   /** Do tools need to be saved? */
@@ -9,17 +9,17 @@ export interface ToolsState {
 }
 
 export interface Props {
-  toolBays: ToolBay[];
-  toolSlots: ToolSlot[];
-  tools: Tool[];
+  toolBays: TaggedToolBay[];
+  toolSlots: TaggedToolSlot[];
+  tools: TaggedTool[];
   editingTools: boolean;
   editingBays: boolean;
   dirtyTools: boolean;
-  getSortedTools(): Tool[];
-  getToolSlots(toolBayId: number): ToolSlot[];
+  getSortedTools(): TaggedTool[];
   getToolOptions(): DropDownItem[];
-  getChosenToolOption(toolSlotId: number): DropDownItem;
-  getChosenTool(toolSlotId: number): Tool | undefined;
+  getChosenToolOption(toolSlotUuid: string): DropDownItem;
+  getToolById(uuid: string): TaggedTool | undefined;
+  getToolSlots(toolBayId: number): TaggedToolSlot[];
   dispatch: Function;
 }
 
@@ -62,7 +62,7 @@ export interface Tool {
 export interface ToolBayListProps {
   dispatch: Function;
   toolBays: ToolBay[];
-  getChosenTool(uuid: string): TaggedTool | undefined;
+  getToolById(id: number): TaggedTool | undefined;
   getToolSlots(toolBayId: number): ToolSlot[];
 }
 
