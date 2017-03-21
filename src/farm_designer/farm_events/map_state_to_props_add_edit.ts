@@ -6,7 +6,6 @@ import { t } from "i18next";
 import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
-import { joinKindAndId } from "../../resources/reducer";
 
 export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -102,17 +101,6 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   let farmEvents = selectAll(state.resources.index, "farm_events")
                    .filter(fe => fe.kind === "farm_events") as TaggedFarmEvent[];
 
-  let findSequenceUUID = (id: number) => {
-    let result = state
-      .resources
-      .index
-      .byKindAndId[joinKindAndId("sequences", id)];
-    if (result) {
-      return result;
-    } else {
-      throw new Error("Could not find sequence with id " + id + "in indexes.");
-    }
-  }
 
   return {
     selectOptions,
