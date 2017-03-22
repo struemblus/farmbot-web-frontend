@@ -3,7 +3,12 @@ import { MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
 import { safeStringFetch, CowardlyDictionary } from "../../../util";
-import { selectAllTools, indexByToolId, findResourceById } from "../../../resources/selectors";
+import {
+  selectAllTools,
+  indexByToolId,
+  findResourceById,
+  findWhere
+} from "../../../resources/selectors";
 import { TaggedTool, isTaggedToolSlot, TaggedToolSlot } from "../../../resources/tagged_resources";
 import { ToolSlot } from "../../../tools/interfaces";
 
@@ -64,12 +69,10 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     dispatch(changeMoveAbsStepValue(value, kind, index));
   };
   let toolById = indexByToolId(props.resources.index);
-  let slotById = (tool_slot_id: number) => {
-    let uuid = findResourceById(props.resources.index,
-      "tool_slots",
-      tool_slot_id);
-    let result = uuid && props.resources.index.references[uuid];
+  let findSlotByToolId = (tool_id: number) => {
+    let result = findWhere(props.resources.index, "tool_id", tool_id)[0];
     if (result && isTaggedToolSlot(result)) {
+      result.body.tool_id
       return result;
     } else {
       debugger;

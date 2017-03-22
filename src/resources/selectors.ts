@@ -26,7 +26,11 @@ import { error } from "../ui/logger";
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
   let uuid = index.byKindAndId[joinKindAndId(kind, id)];
   assertUuid(kind, uuid);
-  return uuid;
+  if (uuid) {
+    return uuid;
+  } else {
+    throw new Error("UUID not found for id " + id)
+  }
 }
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
@@ -191,4 +195,23 @@ export function assertUuid(expected: ResourceName, actual: string | undefined) {
   } else {
     return true;
   }
+}
+
+/** Search for matching key/value pairs in the body of a resource. */
+export function findWhere(index: ResourceIndex,
+  key: string,
+  desiredValue: string | number | boolean) {
+  let results: (TaggedResource | undefined)[] = [];
+  let uuids = index.all;
+  uuids.map(function (uuid) {
+    let item = index.references[uuid];
+
+    if (item) {
+      let actual = _.get(item.body, key);
+      if (desiredValue === actual) { results.push(item); }
+    } else {
+      throw new Error("Stale UUID reference: " + uuid)
+    }
+  });
+  return results;
 }
