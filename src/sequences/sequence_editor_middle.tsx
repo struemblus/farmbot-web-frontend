@@ -3,7 +3,7 @@ import { SequenceBodyItem } from "farmbot";
 import { Sequence, dispatcher, DataXferObj, SequenceEditorMiddleProps } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
-  editCurrentSequence, saveSequence, deleteSequence, nullSequence
+  editCurrentSequence, saveSequence, deleteSequence
 } from "./actions";
 import { stepTiles, StepTile } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
@@ -22,6 +22,7 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { ToolsState } from "../tools/interfaces";
+import { TaggedSequence } from "../resources/tagged_resources";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -56,7 +57,7 @@ let StepList = ({ sequence, sequences, dispatch, tools }:
   }) => {
 
   return <div>
-    {(sequence.body || []).map((step: SequenceBodyItem, inx, arr) => {
+    {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
       let Step = stepTiles[step.kind] || Oops;
       /** HACK: If we wrote `key={inx}` for this iterator, React's diff
        * algorithm would lose track of which step has changed (and
@@ -103,8 +104,12 @@ let copy = function (dispatch: Function, sequence: Sequence) {
     dispatch(copySequence(sequence));
 };
 
-let destroy = function (dispatch: Function, sequence: Sequence) {
-  return () => dispatch(deleteSequence(sequence));
+let destroy = function (dispatch: Function, sequence: TaggedSequence | undefined) {
+  if (sequence) {
+    return () => dispatch(deleteSequence(sequence.body.uuid));
+  } else {
+    return _.noop;
+  }
 };
 
 export let performSeq = (dispatch: Function, s: Sequence) => {
@@ -116,9 +121,7 @@ export let performSeq = (dispatch: Function, s: Sequence) => {
 
 export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddleProps, {}> {
   render() {
-    let { sequences, dispatch, tools } = this.props;
-    let inx = sequences.current;
-    let sequence: Sequence = sequences.all[inx] || nullSequence();
+    let { sequences, dispatch, tools, sequence } = this.props;
     let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
       if (xfer.draggerId === NULL_DRAGGER_ID) {
@@ -143,7 +146,7 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
                     your commands custom names.`}>
         <button className="green button-like"
           onClick={save(dispatch, sequence)}>
-          {t("Save")} {sequence.dirty && ("*")}
+          {t("Save")} {sequence && sequence.body.dirty && "*")}
         </button>
         <button className="orange button-like"
           onClick={performSeq(dispatch, sequence)}>
@@ -161,10 +164,10 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
       <WidgetBody>
         <Row>
           <Col xs={11}>
-            <BlurableInput value={sequence.name}
+            <BlurableInput value={sequence.body.name}
               onCommit={handleNameUpdate(dispatch)} />
           </Col>
-          <ColorPicker current={sequence.color}
+          <ColorPicker current={sequence.body.color}
             onChange={(color) => {
               dispatch(editCurrentSequence(
                 { color }

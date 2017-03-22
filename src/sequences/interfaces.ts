@@ -12,6 +12,7 @@ import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
+import { TaggedSequence } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
@@ -22,6 +23,7 @@ export interface Props {
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
+  sequence: TaggedSequence | undefined
   sequences: SequenceReducerState;
   tools: ToolsState;
 }
@@ -45,8 +47,7 @@ export interface Sequence extends CeleryScriptSequence {
 export type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };
 
 export interface SequenceReducerState {
-  all: Array<Sequence>;
-  current: number;
+  current: string;
 };
 
 export interface SequencesListProps {

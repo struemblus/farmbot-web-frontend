@@ -16,13 +16,15 @@ import {
 import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { destroy, save } from "../api/crud";
+import { assertUuid } from "../resources/selectors";
 
 export function saveSequence(body: Sequence): Thunk {
   return save(uuid());
 }
 
-export function deleteSequence(body: Sequence): Thunk {
-  return destroy(uuid());
+export function deleteSequence(uuid: string): Thunk {
+  assertUuid("sequences", uuid);
+  return destroy(uuid);
 }
 
 export function addChan({ channel_name, index }: ChanParams) {
