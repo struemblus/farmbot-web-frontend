@@ -16,7 +16,6 @@ import {
   TaggedToolBay,
   isTaggedTool,
   isTaggedToolSlot,
-  TaggedResourceBase,
   isTaggedResource,
   sanityCheck
 } from "./tagged_resources";

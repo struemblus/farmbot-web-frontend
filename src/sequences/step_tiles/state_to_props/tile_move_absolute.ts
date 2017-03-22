@@ -3,14 +3,16 @@ import { MoveAbsolute as Step } from "farmbot/dist";
 import { DropDownItem } from "../../../ui/fb_select";
 import { changeMoveAbsStepSelect, changeMoveAbsStepValue } from "../../actions";
 import { safeStringFetch, CowardlyDictionary } from "../../../util";
-import { selectAllTools, indexByToolId } from "../../../resources/selectors";
-import { TaggedTool } from "../../../resources/tagged_resources";
+import { selectAllTools, indexByToolId, findResourceById } from "../../../resources/selectors";
+import { TaggedTool, isTaggedToolSlot, TaggedToolSlot } from "../../../resources/tagged_resources";
+import { ToolSlot } from "../../../tools/interfaces";
 
 export interface TileMoveAbsoluteProps {
   options: DropDownItem[];
   dispatch: Function;
   computeInputValue(kind: string, arg: string, step: Step): string;
   toolById: CowardlyDictionary<TaggedTool>;
+  slotById: (id: number) => TaggedToolSlot;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -62,12 +64,22 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     dispatch(changeMoveAbsStepValue(value, kind, index));
   };
   let toolById = indexByToolId(props.resources.index);
+  let slotById = (id: number) => {
+    let uuid = findResourceById(props.resources.index, "tool_slots", id);
+    let result = uuid && props.resources.index.references[uuid];
+    if (result && isTaggedToolSlot(result)) {
+      return result;
+    } else {
+      throw new Error("Indexing of tool slots went wrong!");
+    }
+  }
   return {
     options,
     computeInputValue,
     changeToolSelect,
     changeInputValue,
     toolById,
+    slotById,
     dispatch: props.dispatch
   };
 
