@@ -22,7 +22,7 @@ export function BulkSchedulerWidget({ sequences, dispatch, editor }:
       <Row>
         <Col xs={6}>
           <SequenceList sequences={sequences}
-            current={editor.sequence || nullSequence()}
+            current={editor.sequence}
             dispatch={dispatch} />
         </Col>
         <Col xs={6}>

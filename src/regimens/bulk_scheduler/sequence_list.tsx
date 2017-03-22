@@ -5,6 +5,7 @@ import { FBSelect, DropDownItem } from "../../ui";
 import * as _ from "lodash";
 import { t } from "i18next";
 import { SequenceListProps } from "./interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
 
 let options: DropDownItem[] = [];
 let selectedSequence: DropDownItem;
@@ -14,7 +15,7 @@ export function SequenceList({ sequences,
   dispatch }: SequenceListProps) {
 
   sequences
-    .filter(x => !!x.id) // Don't show unsaved.
+    .filter(x => !!x.body.id) // Don't show unsaved.
     .map((sequence, index) => {
       // Need for initialValue to match DropDownItem interface.
       if (sequence.body.id === current.body.id) {
@@ -40,7 +41,7 @@ export function SequenceList({ sequences,
   </div>;
 }
 
-function change(dispatch: Function, sequences: Sequence[]) {
+function change(dispatch: Function, sequences: TaggedSequence[]) {
   // TODO: Solve react-select types issue. Everything breaks.
   return (event: DropDownItem) => {
     let i = _.parseInt((event.value || "-999").toString());

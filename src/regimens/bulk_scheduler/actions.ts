@@ -6,6 +6,7 @@ import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
 import { t } from "i18next";
 import { newRegimen } from "../actions";
 import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
 
 export function pushWeek() {
   return {
@@ -53,7 +54,7 @@ export function toggleDay({ week, day }: ToggleDayParams) {
   };
 }
 
-export function setSequence(sequence: Sequence): ReduxAction<Sequence> {
+export function setSequence(sequence: TaggedSequence): ReduxAction<Sequence> {
   return {
     type: "SET_SEQUENCE",
     payload: sequence
@@ -72,7 +73,7 @@ export function commitBulkEditor(): Thunk {
       const regimenItems = groupRegimenItemsByWeek(
         state.bulkScheduler.form.weeks,
         state.bulkScheduler.form.dailyOffsetMs,
-        state.bulkScheduler.sequence);
+        state.bulkScheduler.sequence.body);
       dispatch({
         type: "COMMIT_BULK_EDITOR",
         payload: { regimenItems, index }

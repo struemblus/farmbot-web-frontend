@@ -46,19 +46,6 @@ export function updateMessageType({ value, index }: MessageParams) {
   };
 }
 
-export function nullSequence(): Sequence {
-  return {
-    color: "gray",
-    name: "New Sequence",
-    kind: "sequence",
-    args: {
-      version: LATEST_VERSION
-    },
-    body: [],
-    dirty: false
-  };
-}
-
 export function copySequence(payload: Sequence) {
   return {
     type: "COPY_SEQUENCE",

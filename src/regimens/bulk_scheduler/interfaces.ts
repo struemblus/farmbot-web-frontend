@@ -53,7 +53,7 @@ export interface AddButtonProps {
 
 export interface SequenceListProps {
   sequences: TaggedSequence[];
-  current: TaggedSequence;
+  current: TaggedSequence | undefined;
   dispatch: Function;
 }
 
