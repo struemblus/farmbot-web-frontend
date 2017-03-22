@@ -64,7 +64,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
   }
 
   addNewSlot = (toolBayId: number) => {
-    this.props.dispatch(addSlot(this.state, toolBayId));
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
+    this.props.dispatch(addSlot(uuid));
     this.setState({ x: 0, y: 0, z: 0, tool_id: undefined });
   }
 

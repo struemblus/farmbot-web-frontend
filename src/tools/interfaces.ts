@@ -63,12 +63,12 @@ export interface ToolBayListProps {
   dispatch: Function;
   toolBays: TaggedToolBay[];
   getToolById(id: number): TaggedTool | undefined;
-  getToolSlots(toolBayId: number): ToolSlot[];
+  getToolSlots(toolBayId: number): TaggedToolSlot[];
 }
 
 export interface ToolBayFormProps {
   dispatch: Function;
-  toolBays: ToolBay[];
+  toolBays: TaggedToolBay[];
   getToolOptions(): DropDownItem[];
   getChosenToolOption(toolSlotId: number): DropDownItem;
   getToolSlots(toolBayId: number): ToolSlot[];
@@ -76,12 +76,12 @@ export interface ToolBayFormProps {
 
 export interface ToolListProps {
   dispatch: Function;
-  getSortedTools(): Tool[];
+  getSortedTools(): TaggedTool[];
 }
 
 export interface ToolFormProps {
   dispatch: Function;
-  tools: Tool[];
+  tools: TaggedTool[];
   dirtyTools: boolean;
-  getSortedTools(): Tool[];
+  getSortedTools(): TaggedTool[];
 }

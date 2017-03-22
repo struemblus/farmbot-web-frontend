@@ -25,8 +25,8 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
     this.setState({ newToolName: "" });
   }
 
-  destroy = (tool: Tool) => {
-    this.props.dispatch(destroyTool(tool));
+  destroy = (uuid: string) => {
+    this.props.dispatch(destroyTool(uuid));
   }
 
   render() {
@@ -66,7 +66,11 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
             <Col xs={2}>
               <button
                 className="button-like red"
-                onClick={() => this.destroy(tool)}>
+                onClick={() => {
+                  let uuid = "TODO: FIX ME";
+                  console.warn("HEY!! FIX!! ^");
+                  this.destroy(uuid)
+                }}>
                 <i className="fa fa-times"></i>
               </button>
             </Col>
