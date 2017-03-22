@@ -5,6 +5,7 @@ import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./t
 import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
+import { EditResourceParams } from "../api/crud";
 
 function emptyState() {
   return {
@@ -77,6 +78,13 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
         whoops("DESTROY_RESOURCE_OK", action.payload.kind);
     }
     return state;
+  })
+  .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
+    let uuid = a.payload.uuid;
+    let tr = _.merge(findByUuid(s.index, uuid), a.payload.update);
+    tr.dirty = true;
+    sanityCheck(tr);
+    return s;
   })
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;
