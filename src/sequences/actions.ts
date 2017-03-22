@@ -146,13 +146,6 @@ export function selectSequence(uuid: string): SelectSequence {
   };
 }
 
-export function addSequence() {
-  return {
-    type: "ADD_SEQUENCE",
-    payload: {}
-  };
-}
-
 export function addComment(step: Step, index: number, comment: string) {
   return {
     type: "ADD_COMMENT",

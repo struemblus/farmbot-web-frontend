@@ -1,5 +1,5 @@
 import { TaggedResource, ResourceName } from "../resources/tagged_resources";
-import { GetState } from "../redux/interfaces";
+import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
 import {
@@ -12,7 +12,18 @@ import {
 } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
+import { descriptiveUUID } from "../resources/util";
 
+/** Initialize (but don't save) an indexed / tagged resource. */
+export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
+  resource.dirty = true;
+  /** Technically, this happens in the reducer, but I like to be extra safe. */
+  resource.uuid = descriptiveUUID(resource.body.id, resource.kind);
+  return {
+    type: "INIT_RESOURCE",
+    payload: resource
+  }
+}
 export function save(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);
@@ -73,7 +84,7 @@ export function destroy(uuid: string) {
 
 export function list(uuid: string) { }
 
-export function urlFor(tag: ResourceName) {
+function urlFor(tag: ResourceName) {
   const OPTIONS: Partial<Record<ResourceName, string>> = {
     sequences: API.current.sequencesPath,
     tools: API.current.toolsPath,
