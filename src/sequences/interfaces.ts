@@ -47,11 +47,10 @@ export type SequenceBodyMember = SequenceBodyItem;
 export interface Sequence extends CeleryScriptSequence {
   color: Color;
   name: string;
-  dirty?: boolean;
   id?: number;
 }
 
-export type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };
+export type SequenceOptions = Partial<Sequence>;
 
 export interface SequenceReducerState {
   current: string | undefined;

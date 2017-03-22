@@ -18,7 +18,6 @@ const initialState: DeprecatedSync = {
     id: 0,
     name: "",
     webcam_url: "",
-    dirty: false
   },
   users: [],
   sequences: [],

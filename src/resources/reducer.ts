@@ -4,6 +4,7 @@ import { RestResources, ResourceIndex } from "./interfaces";
 import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./tagged_resources";
 import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
+import { descriptiveUUID } from "./util";
 
 function emptyState() {
   return {
@@ -77,6 +78,13 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
     }
     return state;
   })
+  .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
+    let tr = a.payload;
+    let uuid = descriptiveUUID(tr.body.id, tr.kind)
+    addToIndex(s.index, tr.kind, tr.body, uuid);
+    findByUuid(s.index, uuid).dirty = true;
+    return s;
+  })
   .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
     let p = action.payload;
     state = emptyState();
@@ -104,9 +112,7 @@ interface HasID {
 }
 function addAllToIndex<T extends HasID>(i: ResourceIndex, kind: ResourceName, all: T[]) {
   all.map(function (tr) {
-    let descriptiveUUID =
-      `${kind}.${tr.id || 0}.${uuid()}`;
-    return addToIndex(i, kind, tr, descriptiveUUID);
+    return addToIndex(i, kind, tr, descriptiveUUID(tr.id, kind));
   });
 }
 

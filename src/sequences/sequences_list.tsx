@@ -1,37 +1,53 @@
 import * as React from "react";
-import { selectSequence, addSequence } from "./actions";
+import { selectSequence } from "./actions";
 import { Sequence, SequencesListProps } from "./interfaces";
 import { t } from "i18next";
-import { isMobile } from "../util";
+import { isMobile, randomColor } from "../util";
 import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
+import { init } from "../api/crud";
+let count = 1;
 
+function emptySequence(): TaggedSequence {
+  return {
+    kind: "sequences",
+    uuid: "REDUCER_MUST_CHANGE_THIS",
+    body: {
+      name: "new sequence " + (count++),
+      args: { version: -999 },
+      color: randomColor(),
+      kind: "sequence",
+      body: []
+    }
+  }
+}
 let buttonList = (dispatch: Function) =>
   (ts: TaggedSequence, index: number) => {
-    let seq = ts.body;
     let css = ["block-wrapper",
       "block",
       "full-width",
       "text-left",
-      `${seq.color || "purple"}-block`,
-      "block-header"];
+      `${ts.body.color || "purple"}-block`,
+      "block-header"].join(" ");
     let click = () => { dispatch(selectSequence(ts.uuid)); };
-    if (!isMobile()) {
-      return <button key={seq.id || index}
+    let name = ts.body.name + (ts.dirty ? "*" : "");
+    let { uuid } = ts;
+    if (isMobile()) {
+      return <Link
+        to={`/app/sequences/${ts.body.name.replace(" ", "_").toLowerCase()}`}
+        key={uuid}
         onClick={click}
-        className={css.join(" ")}>
-        {seq.name + (seq.dirty ? "*" : "")}
+        className={css}>
+        {name}
+      </Link>;
+    } else {
+      return <button key={uuid}
+        onClick={click}
+        className={css}>
+        {name}
         <i className="fa fa-pencil block-control" />
       </button>;
-    } else {
-      return <Link
-        to={`/app/sequences/${seq.name.replace(" ", "_").toLowerCase()}`}
-        key={seq.id || index}
-        onClick={click}
-        className={css.join(" ")}>
-        {seq.name + (seq.dirty ? "*" : "")}
-      </Link>;
     }
   };
 
@@ -43,7 +59,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
         helpText={`Here is the list of all of your sequences.
                    Click one to edit.`}>
         <button className="green button-like"
-          onClick={() => dispatch(addSequence())}>
+          onClick={() => dispatch(init(emptySequence()))}>
           {t("Add")}
         </button>
       </WidgetHeader>
@@ -55,7 +71,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
         </Row>
       </WidgetBody>
       <i className="fa fa-plus plus-button"
-        onClick={() => dispatch(addSequence())}></i>
+        onClick={() => console.log("TODO: dispatch(addSequence())")}></i>
     </Widget>;
   }
 }
