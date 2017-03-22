@@ -6,10 +6,9 @@ import { safeStringFetch, CowardlyDictionary } from "../../../util";
 import {
   selectAllTools,
   indexByToolId,
-  findResourceById,
   findWhere
 } from "../../../resources/selectors";
-import { TaggedTool, isTaggedToolSlot, TaggedToolSlot } from "../../../resources/tagged_resources";
+import { TaggedTool, isTaggedToolSlot, TaggedToolSlot, ResourceName } from "../../../resources/tagged_resources";
 import { ToolSlot } from "../../../tools/interfaces";
 
 export interface TileMoveAbsoluteProps {
@@ -70,7 +69,8 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
   };
   let toolById = indexByToolId(props.resources.index);
   let findSlotByToolId = (tool_id: number) => {
-    let result = findWhere(props.resources.index, "tool_id", tool_id)[0];
+    let query: Partial<ToolSlot> = { tool_id };
+    let result = findWhere(props.resources.index, query);
     if (result && isTaggedToolSlot(result)) {
       result.body.tool_id
       return result;

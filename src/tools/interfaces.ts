@@ -36,7 +36,7 @@ export interface ToolFormState {
 }
 
 export interface ToolSlot {
-  id: number;
+  id?: number | undefined;
   tool_bay_id?: number;
   tool_id?: number | undefined;
   created_at?: string;

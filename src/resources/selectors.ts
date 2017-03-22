@@ -197,21 +197,25 @@ export function assertUuid(expected: ResourceName, actual: string | undefined) {
   }
 }
 
-/** Search for matching key/value pairs in the body of a resource. */
-export function findWhere(index: ResourceIndex,
-  key: string,
-  desiredValue: string | number | boolean) {
-  let results: (TaggedResource | undefined)[] = [];
-  let uuids = index.all;
-  uuids.map(function (uuid) {
-    let item = index.references[uuid];
-
-    if (item) {
-      let actual = _.get(item.body, key);
-      if (desiredValue === actual) { results.push(item); }
+export function toArray(index: ResourceIndex) {
+  return index.all.map(function (uuid) {
+    let tr = index.references[uuid];
+    if (tr) {
+      return tr;
     } else {
-      throw new Error("Stale UUID reference: " + uuid)
+      throw new Error("Fund bad index UUID: " + uuid);
     }
   });
-  return results;
+}
+
+/** Search for matching key/value pairs in the body of a resource. */
+export function where(index: ResourceIndex,
+  query: object): (TaggedResource | undefined)[] {
+  return _.where(toArray(index), query);
+}
+
+/** Search for matching key/value pairs in the body of a resource. */
+export function findWhere(index: ResourceIndex,
+  query: object): TaggedResource | undefined {
+  return _.findWhere(toArray(index), query);
 }
