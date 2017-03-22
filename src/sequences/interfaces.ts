@@ -12,12 +12,13 @@ import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { TaggedSequence } from "../resources/tagged_resources";
+import { TaggedSequence, TaggedTool } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
-  sequences: SequenceReducerState;
-  tools: ToolsState;
+  sequences: TaggedSequence[];
+  tools: TaggedTool[];
+  sequence: TaggedSequence;
   auth: AuthState | undefined;
 }
 
@@ -25,7 +26,7 @@ export interface SequenceEditorMiddleProps {
   dispatch: Function;
   sequence: TaggedSequence;
   sequences: TaggedSequence[];
-  tools: ToolsState;
+  tools: TaggedTool[];
 }
 
 export type CHANNEL_NAME = "toast" | "ticker";
@@ -51,7 +52,7 @@ export interface SequenceReducerState {
 };
 
 export interface SequencesListProps {
-  sequences: SequenceReducerState;
+  sequences: TaggedSequence[];
   dispatch: Function;
   auth: AuthState | undefined;
 }
@@ -241,6 +242,6 @@ export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 export interface StepListProps {
   sequence: TaggedSequence;
   sequences: TaggedSequence[];
+  tools: TaggedTool[];
   dispatch: Function;
-  tools: ToolsState;
 }

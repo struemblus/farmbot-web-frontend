@@ -27,13 +27,14 @@ export type ResourceName =
 /** This interface is here mostly for safety reasons.
  * If you add a TaggedResource, the type checker will notify you when tag names
  * change. */
-interface TaggedResourceBase {
+export interface TaggedResourceBase {
   kind: ResourceName;
   /** Unique identifier and index key.
    * We can't use the object's `id` attribute as a local index key because
    * unsaved objects don't have one.
    */
   uuid: string;
+  body: object;
 }
 
 export type TaggedResource = TaggedFarmEvent

@@ -15,7 +15,10 @@ import {
   isTaggedRegimen,
   TaggedToolBay,
   isTaggedTool,
-  isTaggedToolSlot
+  isTaggedToolSlot,
+  TaggedResourceBase,
+  isTaggedResource,
+  sanityCheck
 } from "./tagged_resources";
 import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
@@ -62,12 +65,29 @@ export function selectAllToolSlots(index: ResourceIndex) {
   return findAll(index, "tool_slots") as TaggedToolSlot[];
 }
 
-export function findToolSlot(index: ResourceIndex, toolSlotId: string) {
-  if (!toolSlotId.startsWith("tool_slot")) {
-    console.log("This is bad news. - March 21st");
-  }
-  return index.references[toolSlotId];
+interface Finder<T> {
+  (i: ResourceIndex, u: string): T;
 }
+/** Generalized way to stamp out "finder" functions.
+ * Pass in a `ResourceName` and it will add all the relevant checks.
+ * WARNING: WILL THROW ERRORS IF RESOURCE NOT FOUND!
+ */
+let find = (r: ResourceName) =>
+  function findResource(i: ResourceIndex, u: string) {
+    assertUuid(r, u);
+    let result = i.references[u];
+    if (result && isTaggedResource(result) && sanityCheck(result)) {
+      return result as TaggedResource;
+    } else {
+      throw new Error(`Tagged resource ${r} was not found or malformed: ` +
+        JSON.stringify(result))
+    }
+
+  }
+
+export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
+export let findTool = find("tools") as Finder<TaggedTool>;
+export let findSequence = find("sequences") as Finder<TaggedSequence>;
 
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
   return index.references[uuid];

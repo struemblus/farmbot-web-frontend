@@ -5,32 +5,35 @@ import { t } from "i18next";
 import { isMobile } from "../util";
 import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
+import { TaggedSequence } from "../resources/tagged_resources";
 
-let buttonList = (dispatch: Function) => (seq: Sequence, index: number) => {
-  let css = ["block-wrapper",
-    "block",
-    "full-width",
-    "text-left",
-    `${seq.color || "purple"}-block`,
-    "block-header"];
-  let click = () => { dispatch(selectSequence(index)); };
-  if (!isMobile()) {
-    return <button key={seq.id || index}
-      onClick={click}
-      className={css.join(" ")}>
-      {seq.name + (seq.dirty ? "*" : "")}
-      <i className="fa fa-pencil block-control" />
-    </button>;
-  } else {
-    return <Link
-      to={`/app/sequences/${seq.name.replace(" ", "_").toLowerCase()}`}
-      key={seq.id || index}
-      onClick={click}
-      className={css.join(" ")}>
-      {seq.name + (seq.dirty ? "*" : "")}
-    </Link>;
-  }
-};
+let buttonList = (dispatch: Function) =>
+  (ts: TaggedSequence, index: number) => {
+    let seq = ts.body;
+    let css = ["block-wrapper",
+      "block",
+      "full-width",
+      "text-left",
+      `${seq.color || "purple"}-block`,
+      "block-header"];
+    let click = () => { dispatch(selectSequence(index)); };
+    if (!isMobile()) {
+      return <button key={seq.id || index}
+        onClick={click}
+        className={css.join(" ")}>
+        {seq.name + (seq.dirty ? "*" : "")}
+        <i className="fa fa-pencil block-control" />
+      </button>;
+    } else {
+      return <Link
+        to={`/app/sequences/${seq.name.replace(" ", "_").toLowerCase()}`}
+        key={seq.id || index}
+        onClick={click}
+        className={css.join(" ")}>
+        {seq.name + (seq.dirty ? "*" : "")}
+      </Link>;
+    }
+  };
 
 export class SequencesList extends React.Component<SequencesListProps, {}> {
   render() {
@@ -47,7 +50,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
       <WidgetBody>
         <Row>
           <Col xs={12}>
-            {sequences.all.map(buttonList(dispatch))}
+            {sequences.map(buttonList(dispatch))}
           </Col>
         </Row>
       </WidgetBody>

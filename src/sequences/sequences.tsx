@@ -22,6 +22,7 @@ export class Sequences extends React.Component<Props, {}> {
         <SequenceEditorMiddle
           dispatch={this.props.dispatch}
           sequences={this.props.sequences}
+          sequence={this.props.sequence}
           tools={this.props.tools}
         />
       </Col>
