@@ -15,7 +15,7 @@ export class Tools extends React.Component<Props, ToolsState> {
         <Col sm={7}>
           {!isEditingBays && <ToolBayList
             dispatch={this.props.dispatch}
-            getToolById={this.props.getToolById}
+            getToolByToolSlotUUID={this.props.getToolByToolSlotUUID}
             toolBays={this.props.toolBays}
             getToolSlots={this.props.getToolSlots}
           />}

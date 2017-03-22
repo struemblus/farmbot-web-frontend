@@ -7,7 +7,8 @@ import {
   selectAllTools,
   selectAllToolBays,
   selectCurrentToolSlot,
-  getToolByUUID
+  getToolByUUID,
+  findTool
 } from "../resources/selectors";
 import { TaggedTool, isTaggedTool } from "../resources/tagged_resources";
 
@@ -53,10 +54,11 @@ export function mapStateToProps(props: Everything): Props {
   };
 
   /** Returns a regular tool object chosen in a slot. */
-  let getToolById = (uuid: string): TaggedTool | undefined => {
-    let currentSlot = selectCurrentToolSlot(props.resources.index, uuid);
+  let getToolByToolSlotUUID = (toolSlotUUID: string): TaggedTool | undefined => {
+    let currentSlot = selectCurrentToolSlot(props.resources.index, toolSlotUUID);
     if (currentSlot && currentSlot.kind === "tool_slots") {
-      let tool = getToolByUUID(props.resources.index, "tools", currentSlot.uuid);
+      // let tool = findTool(props.resources.index, ;
+      console.log(tool);
       if (tool && isTaggedTool(tool)) {
         return tool;
       }
@@ -74,7 +76,7 @@ export function mapStateToProps(props: Everything): Props {
     getToolSlots,
     getToolOptions,
     getChosenToolOption,
-    getToolById,
+    getToolByToolSlotUUID,
     dispatch: props.dispatch,
   };
 
