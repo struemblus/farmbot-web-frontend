@@ -15,9 +15,15 @@ import {
 } from "./interfaces";
 import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { destroy, save } from "../api/crud";
+import { destroy, save, edit } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
 import { TaggedSequence } from "../resources/tagged_resources";
+
+export function editCurrentSequence(dispatch: Function,
+  seq: TaggedSequence,
+  update: Partial<typeof seq.body>) {
+  dispatch(edit(seq, update));
+}
 
 export function deleteSequence(uuid: string): Thunk {
   assertUuid("sequences", uuid);

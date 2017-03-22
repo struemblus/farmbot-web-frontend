@@ -4,7 +4,8 @@ import {
   dispatcher,
   DataXferObj,
   StepListProps,
-  ActiveMiddleProps
+  ActiveMiddleProps,
+  Sequence
 } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
@@ -30,7 +31,7 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
-import { save } from "../api/crud";
+import { save, edit } from "../api/crud";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -56,10 +57,11 @@ let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
   routeIncomingDroppedItems(dispatch, key, dropperId);
 };
 
-let handleNameUpdate = (dispatch: Function) =>
+let handleNameUpdate = (dispatch: Function, seq: TaggedSequence) =>
   (event: React.SyntheticEvent<HTMLInputElement>) => {
     let name: string = (event.currentTarget).value || "";
-    dispatch(editCurrentSequence({ name }));
+    let x: Partial<Sequence> = { name: name };
+    dispatch(editCurrentSequence(dispatch, seq, x));
   };
 
 let copy = function (dispatch: Function, sequence: TaggedSequence) {
@@ -128,10 +130,12 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
         <Row>
           <Col xs={11}>
             <BlurableInput value={sequence.body.name}
-              onCommit={handleNameUpdate(dispatch)} />
+              onCommit={(e) => {
+                dispatch(edit(sequence, { name: e.currentTarget.value }))
+              }} />
           </Col>
           <ColorPicker current={sequence.body.color}
-            onChange={color => dispatch(editCurrentSequence({ color }))} />
+            onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
         </Row>
         {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
           let Step = stepTiles[step.kind] || Oops;
