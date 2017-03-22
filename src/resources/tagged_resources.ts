@@ -34,6 +34,7 @@ export interface TaggedResourceBase {
    * unsaved objects don't have one.
    */
   uuid: string;
+  dirty?: boolean | undefined;
   body: object;
 }
 

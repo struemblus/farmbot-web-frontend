@@ -7,7 +7,6 @@ export function emptyRegimen(): Regimen {
     name: "Untitled Regimen",
     color: "gray",
     regimen_items: [],
-    dirty: true
   };
 }
 
