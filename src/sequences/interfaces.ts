@@ -24,10 +24,16 @@ export interface Props {
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
-  sequence: TaggedSequence | undefined;
+  sequence: TaggedSequence;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
 }
+
+export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
+  sequence: TaggedSequence;
+}
+
+
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
