@@ -56,6 +56,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
         case "tool_slots":
         case "tools":
           state.index.references[resource.uuid] = resource;
+          break;
         default:
           whoops("CREATE_RESOURCE_OK", action.payload.kind);
       }
@@ -79,9 +80,16 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
     }
     return state;
   })
+  .add<TaggedResource>("UPDATE_RESOURCE_OK", function (s, a) {
+    let uuid = a.payload.uuid;
+    let tr = _.merge(findByUuid(s.index, uuid), a.payload);
+    tr.dirty = false;
+    sanityCheck(tr);
+    return s;
+  })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
-    let tr = _.merge(findByUuid(s.index, uuid), a.payload.update);
+    let tr = _.merge(findByUuid(s.index, uuid), { body: a.payload.body });
     tr.dirty = true;
     sanityCheck(tr);
     return s;

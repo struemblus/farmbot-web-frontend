@@ -1,4 +1,4 @@
-import { TaggedResource, ResourceName, TaggedSequence } from "../resources/tagged_resources";
+import { TaggedResource, ResourceName, TaggedSequence, isTaggedResource } from "../resources/tagged_resources";
 import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
@@ -13,16 +13,18 @@ import {
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 import { descriptiveUUID } from "../resources/util";
+import { defensiveClone } from "../util";
 
 export interface EditResourceParams {
   uuid: string;
-  update: object;
+  body: object;
 }
 
-export function edit(tr: TaggedResource, update: Partial<typeof tr.body>) {
+export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
+  ReduxAction<EditResourceParams> {
   return {
     type: "EDIT_RESOURCE",
-    payload: { uuid: tr.uuid, update }
+    payload: { uuid: tr.uuid, body: update }
   }
 }
 
@@ -49,9 +51,14 @@ function create(uuid: string) {
     return Axios
       .post<typeof resource.body>(urlFor(resource.kind), resource.body)
       .then(function (resp) {
-        let kind = resource.kind;
-        let body = resp.data;
-        dispatch(createOK({ kind, body } as TaggedResource));
+        let r1 = defensiveClone(resource);
+        let r2 = { body: defensiveClone(resp.data) };
+        let newTR = _.merge({}, r1, r2);
+        if (isTaggedResource(newTR)) {
+          dispatch(createOK(newTR));
+        } else {
+          throw new Error("Just saved a malformed TR.");
+        }
       })
       .catch(function (err: UnsafeError) {
         dispatch(createNO(err));
@@ -66,9 +73,14 @@ function update(uuid: string) {
     return Axios
       .patch<typeof resource.body>(urlFor(kind) + body.id, body)
       .then(function (resp) {
-        kind = resource.kind as typeof resource.kind;
-        body = resp.data as typeof resource.body;
-        dispatch(updateOK({ kind, body } as TaggedResource));
+        let r1 = defensiveClone(resource);
+        let r2 = { body: defensiveClone(resp.data) };
+        let newTR = _.merge({}, r1, r2);
+        if (isTaggedResource(newTR)) {
+          dispatch(updateOK(newTR));
+        } else {
+          throw new Error("Just saved a malformed TR.");
+        }
       })
       .catch(function (err: UnsafeError) {
         dispatch(updateNO(err));
