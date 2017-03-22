@@ -88,7 +88,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
   })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
-    let tr = _.merge(findByUuid(s.index, uuid), a.payload.update);
+    let tr = _.merge(findByUuid(s.index, uuid), { body: a.payload.body });
     tr.dirty = true;
     sanityCheck(tr);
     return s;
