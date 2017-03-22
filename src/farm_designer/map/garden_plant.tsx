@@ -21,8 +21,8 @@ export class GardenPlant extends React.Component<GardenPlantProps,
       return <g>
         <g className="selected-plant-indicator">
           <circle
-            cx={plant.x}
-            cy={plant.y}
+            cx={plant.body.x}
+            cy={plant.body.y}
             strokeWidth={3}
             fill="none"
             stroke="green"

@@ -245,7 +245,7 @@ export interface DraggableSvgImageProps {
   height: number;
   width: number;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (plant: TaggedPlant) => void;
+  onDrop: (uuid: string) => void;
   x: number;
   y: number;
   href: string;

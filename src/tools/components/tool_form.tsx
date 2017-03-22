@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ToolFormState, ToolFormProps, Tool } from "../interfaces";
+import { ToolFormState, ToolFormProps } from "../interfaces";
 import { t } from "i18next";
 import { Row, Col, Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
 import {
@@ -9,6 +9,7 @@ import {
   updateTool,
   saveTools
 } from "../actions";
+import { TaggedTool } from "../../resources/tagged_resources";
 
 export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
   setNewToolName = (e: React.FormEvent<HTMLInputElement>) => {
@@ -30,6 +31,8 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
   }
 
   render() {
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
     let toggle = () => this.props.dispatch(toggleEditingTools());
     return <Widget>
       <WidgetHeader
@@ -43,7 +46,7 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
         </button>
         <button
           className="green button-like"
-          onClick={() => this.props.dispatch(saveTools(this.props.tools))}>
+          onClick={() => this.props.dispatch(saveTools(uuid))}>
           {t("Save")}
           {this.props.dirtyTools && ("*")}
         </button>
@@ -54,23 +57,19 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
             <label>{t("Tool Name")}</label>
           </Col>
         </Row>
-        {this.props.getSortedTools().map((tool: Tool) => {
-          return <Row key={tool.id}>
+        {this.props.getSortedTools().map((tool: TaggedTool) => {
+          return <Row key={tool.body.id}>
             <Col xs={10}>
               <BlurableInput
-                id={(tool.id || "Error getting ID").toString()}
-                value={tool.name || "Error getting Name"}
+                id={(tool.body.id || "Error getting ID").toString()}
+                value={tool.body.name || "Error getting Name"}
                 onCommit={this.update}
               />
             </Col>
             <Col xs={2}>
               <button
                 className="button-like red"
-                onClick={() => {
-                  let uuid = "TODO: FIX ME";
-                  console.warn("HEY!! FIX!! ^");
-                  this.destroy(uuid)
-                }}>
+                onClick={() => this.destroy(uuid)}>
                 <i className="fa fa-times"></i>
               </button>
             </Col>

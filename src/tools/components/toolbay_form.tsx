@@ -63,19 +63,19 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
     this.setState({ tool_id });
   }
 
-  addNewSlot = (toolBayId: number) => {
-    let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
+  addNewSlot = (uuid: string) => {
     this.props.dispatch(addSlot(uuid));
     this.setState({ x: 0, y: 0, z: 0, tool_id: undefined });
   }
 
   render() {
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
     let { dispatch, toolBays } = this.props;
     let toggle = () => dispatch(toggleEditingToolBays());
     return <div>
       {toolBays.map(bay => {
-        return <Widget key={bay.id}>
+        return <Widget key={bay.body.id}>
           <WidgetHeader
             helpText={t(`Toolbays are where you store your FarmBot Tools. Each
               Toolbay has Slots that you can put your Tools in, which should be
@@ -87,7 +87,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
             </button>
             <button
               className="green button-like"
-              onClick={() => dispatch(saveToolBay(bay.id, toolBays, toggle))}>
+              onClick={() => dispatch(saveToolBay(uuid))}>
               {t("Save")}
             </button>
           </WidgetHeader>
@@ -109,7 +109,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots(bay.id).map(
+            {this.props.getToolSlots(bay.body.id).map(
               (slot: ToolSlot, index: number) => {
                 /** Existing tool slots form */
                 return <Row key={slot.id}>
@@ -151,7 +151,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={1}>
                     <button
                       className="red button-like"
-                      onClick={() => dispatch(destroySlot(slot.id))}>
+                      onClick={() => dispatch(destroySlot(uuid))}>
                       <i className="fa fa-times" />
                     </button>
                   </Col>
@@ -161,7 +161,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
             <Row>
               <Col xs={2}>
                 <label>
-                  {(this.props.getToolSlots(bay.id).length + 1) || ""}
+                  {(this.props.getToolSlots(bay.body.id).length + 1) || ""}
                 </label>
               </Col>
               <Col xs={2}>
@@ -198,7 +198,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
               <Col xs={1}>
                 <button
                   className="green button-like"
-                  onClick={() => this.addNewSlot(bay.id)}>
+                  onClick={() => this.addNewSlot(uuid)}>
                   <i className="fa fa-plus" />
                 </button>
               </Col>
