@@ -73,8 +73,7 @@ export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
 export type TaggedUser = Resource<"users", User>;
 
 /** Spot check to be certain a TaggedResource is what it says it is. */
-export function sanityCheck(x: any, allowUndefined = false) {
-  if (allowUndefined && _.isUndefined(x)) { return true; }
+export function sanityCheck(x: object) {
   if (isTaggedResource(x)) {
     assertUuid(x.kind, x.uuid);
     return true;
@@ -83,14 +82,14 @@ export function sanityCheck(x: any, allowUndefined = false) {
   }
 }
 
-export function isTaggedResource(x: any): x is TaggedResource {
+export function isTaggedResource(x: object): x is TaggedResource {
   return (_.isObject(x)
-    && _.isString(x.kind)
-    && _.isString(x.uuid)
-    && _.isObject(x.body))
+    && _.isString(_.get(x, "kind"))
+    && _.isString(_.get(x, "uuid"))
+    && _.isObject(_.get(x, "body")))
 }
 
-let is = (r: ResourceName) => function isOfTag(x: any) {
+let is = (r: ResourceName) => function isOfTag(x: object) {
   let safe = (sanityCheck(x) && isTaggedResource(x) && x.kind == r);
   if (!safe) {
     console.warn("RUNTIME TYPE CHECK OF " + r + " failed!")
@@ -99,10 +98,10 @@ let is = (r: ResourceName) => function isOfTag(x: any) {
 };
 
 export let isTaggedRegimen =
-  (x: any): x is TaggedRegimen => is("regimens")(x);
+  (x: object): x is TaggedRegimen => is("regimens")(x);
 export let isTaggedSequence =
-  (x: any): x is TaggedSequence => is("sequences")(x);
+  (x: object): x is TaggedSequence => is("sequences")(x);
 export let isTaggedTool =
-  (x: any): x is TaggedTool => is("tools")(x);
+  (x: object): x is TaggedTool => is("tools")(x);
 export let isTaggedToolSlot =
-  (x: any): x is TaggedToolSlot => is("tool_slots")(x);
+  (x: object): x is TaggedToolSlot => is("tool_slots")(x);
