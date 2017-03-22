@@ -45,7 +45,7 @@ export function mapStateToProps(props: Everything): Props {
 	 * and in an <FBSelect /> compatible format. */
   let getChosenToolOption = (uuid: string) => {
     let chosenTool = getToolByUUID(props.resources.index, "tools", uuid);
-    if (isTaggedTool(chosenTool) && chosenTool.body.id) {
+    if (chosenTool && isTaggedTool(chosenTool) && chosenTool.body.id) {
       return { label: chosenTool.body.name, value: chosenTool.uuid };
     } else {
       return NULL_CHOICE;
@@ -57,7 +57,7 @@ export function mapStateToProps(props: Everything): Props {
     let currentSlot = selectCurrentToolSlot(props.resources.index, uuid);
     if (currentSlot && currentSlot.kind === "tool_slots") {
       let tool = getToolByUUID(props.resources.index, "tools", currentSlot.uuid);
-      if (isTaggedTool(tool)) {
+      if (tool && isTaggedTool(tool)) {
         return tool;
       }
     }

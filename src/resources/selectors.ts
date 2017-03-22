@@ -80,7 +80,6 @@ let find = (r: ResourceName) =>
       return result as TaggedResource;
     } else {
       error("Resource error");
-      debugger;
       throw new Error(`Tagged resource ${r} was not found or malformed: ` +
         JSON.stringify(result))
     }
@@ -127,7 +126,7 @@ export function indexSequenceById(index: ResourceIndex) {
   uuids.map(uuid => {
     assertUuid("sequences", uuid);
     let sequence = index.references[uuid];
-    if (isTaggedSequence(sequence) && sequence.body.id) {
+    if (sequence && isTaggedSequence(sequence) && sequence.body.id) {
       output[sequence.body.id] = sequence;
     }
   });
@@ -140,7 +139,7 @@ export function indexRegimenById(index: ResourceIndex) {
   uuids.map(uuid => {
     assertUuid("regimens", uuid);
     let regimen = index.references[uuid];
-    if (isTaggedRegimen(regimen) && regimen.body.id) {
+    if (regimen && isTaggedRegimen(regimen) && regimen.body.id) {
       output[regimen.body.id] = regimen;
     }
   });
@@ -153,7 +152,7 @@ export function indexByToolId(index: ResourceIndex) {
   uuids.map(uuid => {
     assertUuid("tools", uuid);
     let Tool = index.references[uuid];
-    if (isTaggedTool(Tool) && Tool.body.id) {
+    if (Tool && isTaggedTool(Tool) && Tool.body.id) {
       output[Tool.body.id] = Tool;
     }
   });
@@ -166,7 +165,7 @@ export function indexBySlotId(index: ResourceIndex) {
   uuids.map(uuid => {
     assertUuid("tool_slots", uuid);
     let tool_slot = index.references[uuid];
-    if (isTaggedToolSlot(tool_slot) && tool_slot.body.id) {
+    if (tool_slot && isTaggedToolSlot(tool_slot) && tool_slot.body.id) {
       output[tool_slot.body.id] = tool_slot;
     }
   });
@@ -185,7 +184,6 @@ export function assertUuid(expected: ResourceName, actual: string | undefined) {
     actually was:
       ${actual}
     `)
-    debugger;
     return false;
   } else {
     return true;
