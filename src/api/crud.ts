@@ -14,10 +14,15 @@ import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 import { descriptiveUUID } from "../resources/util";
 
+export interface EditResourceParams {
+  uuid: string;
+  update: object;
+}
+
 export function edit(tr: TaggedResource, update: Partial<typeof tr.body>) {
   return {
     type: "EDIT_RESOURCE",
-    payload: update // TODO: IS there a more typesafe
+    payload: { uuid: tr.uuid, update }
   }
 }
 
