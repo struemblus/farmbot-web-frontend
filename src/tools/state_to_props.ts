@@ -1,5 +1,5 @@
 import { Everything } from "../interfaces";
-import { Props, Tool } from "./interfaces";
+import { Props } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
 import {
