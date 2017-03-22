@@ -1,12 +1,11 @@
 import { warning, error } from "../../ui";
 import { Everything } from "../../interfaces";
 import { ReduxAction, Thunk } from "../../redux/interfaces";
-import { Sequence } from "../../sequences/interfaces";
 import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
 import { t } from "i18next";
 import { newRegimen } from "../actions";
 import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
-import { TaggedSequence } from "../../resources/tagged_resources";
+import { assertUuid } from "../../resources/selectors";
 
 export function pushWeek() {
   return {
@@ -54,10 +53,11 @@ export function toggleDay({ week, day }: ToggleDayParams) {
   };
 }
 
-export function setSequence(sequence: TaggedSequence): ReduxAction<Sequence> {
+export function setSequence(uuid: string): ReduxAction<string> {
+  assertUuid("sequences", uuid);
   return {
     type: "SET_SEQUENCE",
-    payload: sequence
+    payload: uuid
   };
 };
 

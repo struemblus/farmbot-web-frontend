@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Sequence } from "../../sequences/interfaces";
 import { setSequence } from "./actions";
 import { FBSelect, DropDownItem } from "../../ui";
 import * as _ from "lodash";
@@ -18,7 +17,7 @@ export function SequenceList({ sequences,
     .filter(x => !!x.body.id) // Don't show unsaved.
     .map((sequence, index) => {
       // Need for initialValue to match DropDownItem interface.
-      if (sequence.body.id === current.body.id) {
+      if (current && (sequence.body.id === current.body.id)) {
         selectedSequence = { label: sequence.body.name, value: index };
       }
       let target = { label: sequence.body.name, value: index.toString() };
@@ -45,6 +44,6 @@ function change(dispatch: Function, sequences: TaggedSequence[]) {
   // TODO: Solve react-select types issue. Everything breaks.
   return (event: DropDownItem) => {
     let i = _.parseInt((event.value || "-999").toString());
-    dispatch(setSequence(sequences[i]));
+    dispatch(setSequence(sequences[i].uuid));
   };
 }

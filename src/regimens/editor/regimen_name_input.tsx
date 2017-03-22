@@ -29,7 +29,7 @@ function updateColor({ dispatch, regimen }: RegimenProps) {
 };
 
 export function RegimenNameInput({ regimen, dispatch }: RegimenProps) {
-  let value = (regimen && regimen.name) || "";
+  let value = (regimen && regimen.body.name) || "";
   return <Row>
     <Col xs={10}>
       <input id="right-label"
@@ -38,7 +38,7 @@ export function RegimenNameInput({ regimen, dispatch }: RegimenProps) {
         onChange={write({ dispatch, regimen })}
         value={value} />
     </Col>
-    <ColorPicker current={(regimen && regimen.color) || "gray"}
+    <ColorPicker current={(regimen && regimen.body.color) || "gray"}
       onChange={updateColor({ dispatch, regimen })} />
   </Row>;
 }

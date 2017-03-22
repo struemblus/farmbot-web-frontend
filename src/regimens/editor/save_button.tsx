@@ -5,7 +5,7 @@ import { RegimenProps } from "../interfaces";
 
 function save({ regimen, dispatch }: RegimenProps) {
   if (regimen) {
-    return (event: React.FormEvent<{}>) => { dispatch(saveRegimen(regimen)); };
+    return (event: React.FormEvent<{}>) => { dispatch(saveRegimen(regimen.uuid)); };
   } else {
     throw new Error("Tried to save regimen, but there was no regimen.");
   };
