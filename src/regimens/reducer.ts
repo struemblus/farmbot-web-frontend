@@ -11,7 +11,7 @@ export function emptyRegimen(): Regimen {
   };
 }
 
-const initialState: RegimensState = { current: "FIX THIS" };
+const initialState: RegimensState = { current: undefined };
 
 export let regimensReducer = generateReducer<RegimensState>(initialState)
   // .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN",

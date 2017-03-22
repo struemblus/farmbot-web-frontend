@@ -4,16 +4,16 @@ import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../reso
 import { isTaggedRegimen, TaggedRegimen } from "../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): Props {
-  let query = getRegimenByUUID(props.resources.index,
-    "regimens",
-    props.regimens.current);
+  let uuid = props.regimens.current;
+  let query = uuid ?
+    getRegimenByUUID(props.resources.index, "regimens", uuid) : undefined;
   let current: TaggedRegimen | undefined;
   let unsavedChanges = false;
-  if (isTaggedRegimen(query)) {
+  if (query && isTaggedRegimen(query)) {
     current = query;
     unsavedChanges = !!(!current.body.id || current.body.dirty);
   } else {
-    console.warn("THAT WAS NOT A REGIMEN!!!");
+    if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
   }
   return {
     dispatch: props.dispatch,

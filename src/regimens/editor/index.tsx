@@ -8,11 +8,24 @@ import { RegimenEditorWidgetProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { isTaggedRegimen, TaggedRegimen } from "../../resources/tagged_resources";
 
+interface MiddleSectionProps {
+  regimen: TaggedRegimen | undefined;
+  dispatch: Function;
+}
+function MiddleSection({
+  regimen,
+  dispatch
+}: MiddleSectionProps) {
+  if (regimen && isTaggedRegimen(regimen)) {
+    return <ActiveEditor dispatch={dispatch} regimen={regimen} />;
+  } else {
+    return <EmptyEditor />;
+  }
+}
 export function RegimenEditorWidget({ current, dispatch, auth }:
   RegimenEditorWidgetProps) {
   if (auth) {
     let regimen = current;
-    let DynamicComponent = isTaggedRegimen(regimen) ? ActiveEditor : EmptyEditor;
     let saveButtonProps = {
       dispatch,
       regimen,
@@ -35,7 +48,7 @@ export function RegimenEditorWidget({ current, dispatch, auth }:
         <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
       <WidgetBody>
-        <DynamicComponent regimen={regimen as TaggedRegimen} dispatch={dispatch} />
+        <MiddleSection regimen={regimen} dispatch={dispatch} />
       </WidgetBody>
     </Widget>;
   } else {

@@ -94,9 +94,13 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
     return state;
   });
 
-function addAllToIndex<T>(i: ResourceIndex, kind: ResourceName, all: T[]) {
+interface HasID {
+  id?: number | undefined;
+}
+function addAllToIndex<T extends HasID>(i: ResourceIndex, kind: ResourceName, all: T[]) {
   all.map(function (tr) {
-    let descriptiveUUID = (kind + _.get(tr, "id", 0) + uuid());
+    let descriptiveUUID =
+      `${kind}.${tr.id || 0}.${uuid()}`;
     return addToIndex(i, kind, tr, descriptiveUUID);
   });
 }

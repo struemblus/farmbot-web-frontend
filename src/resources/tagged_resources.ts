@@ -73,10 +73,10 @@ export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
 export type TaggedUser = Resource<"users", User>;
 
 /** Spot check to be certain a TaggedResource is what it says it is. */
-export function sanityCheck(x: any) {
+export function sanityCheck(x: any, allowUndefined = false) {
+  if (allowUndefined && _.isUndefined(x)) { return true; }
   if (isTaggedResource(x)) {
     assertUuid(x.kind, x.uuid);
-    console.log("We should add more type checks here later.");
     return true;
   } else {
     throw new Error("Bad kind, uuid, or body: " + JSON.stringify(x));
@@ -92,12 +92,14 @@ export function isTaggedResource(x: any): x is TaggedResource {
 
 let is = (r: ResourceName) => function isOfTag(x: any) {
   let safe = (sanityCheck(x) && isTaggedResource(x) && x.kind == r);
-  if (!safe) { debugger; }
+  if (!safe) {
+    console.warn("RUNTIME TYPE CHECK OF " + r + " failed!")
+  }
   return safe;
 };
 
 export let isTaggedRegimen =
-  (x: any): x is TaggedRegimen => is("tool_bays")(x);
+  (x: any): x is TaggedRegimen => is("regimens")(x);
 export let isTaggedSequence =
   (x: any): x is TaggedSequence => is("sequences")(x);
 export let isTaggedTool =
