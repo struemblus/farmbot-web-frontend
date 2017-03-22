@@ -2,10 +2,13 @@ import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingToolBays } from "../actions";
 import { t } from "i18next";
-import { ToolSlot, ToolBayListProps } from "../interfaces";
+import { ToolBayListProps } from "../interfaces";
+import { TaggedToolSlot } from "../../resources/tagged_resources";
 
 export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
     let toggle = () => this.props.dispatch(toggleEditingToolBays());
     return <div>
       {this.props.toolBays.map(bay => {
@@ -38,17 +41,17 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots(bay.body.id).map(
-              (slot: ToolSlot, index: number) => {
-                let tool = this.props.getToolById(slot.id);
+            {this.props.getToolSlots(uuid).map(
+              (slot: TaggedToolSlot, index: number) => {
+                let tool = this.props.getToolById(uuid);
                 let name = (tool && tool.body.name) || "None";
-                return <Row key={slot.id}>
+                return <Row key={slot.body.id}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
                   </Col>
-                  <Col xs={2}>{slot.x}</Col>
-                  <Col xs={2}>{slot.y}</Col>
-                  <Col xs={2}>{slot.z}</Col>
+                  <Col xs={2}>{slot.body.x}</Col>
+                  <Col xs={2}>{slot.body.y}</Col>
+                  <Col xs={2}>{slot.body.z}</Col>
                   <Col xs={4}>
                     {name}
                   </Col>

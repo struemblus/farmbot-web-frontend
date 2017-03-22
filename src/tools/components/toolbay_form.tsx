@@ -19,6 +19,7 @@ import {
   saveToolBay
 } from "../actions";
 import { t } from "i18next";
+import { TaggedToolSlot } from "../../resources/tagged_resources";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps,
   Partial<ToolSlot>> {
@@ -63,19 +64,19 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
     this.setState({ tool_id });
   }
 
-  addNewSlot = (toolBayId: number) => {
-    let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
+  addNewSlot = (uuid: string) => {
     this.props.dispatch(addSlot(uuid));
     this.setState({ x: 0, y: 0, z: 0, tool_id: undefined });
   }
 
   render() {
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
     let { dispatch, toolBays } = this.props;
     let toggle = () => dispatch(toggleEditingToolBays());
     return <div>
       {toolBays.map(bay => {
-        return <Widget key={bay.id}>
+        return <Widget key={bay.body.id}>
           <WidgetHeader
             helpText={t(`Toolbays are where you store your FarmBot Tools. Each
               Toolbay has Slots that you can put your Tools in, which should be
@@ -87,7 +88,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
             </button>
             <button
               className="green button-like"
-              onClick={() => dispatch(saveToolBay(bay.id, toolBays, toggle))}>
+              onClick={() => dispatch(saveToolBay(uuid))}>
               {t("Save")}
             </button>
           </WidgetHeader>
@@ -109,33 +110,33 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots(bay.id).map(
-              (slot: ToolSlot, index: number) => {
+            {this.props.getToolSlots(uuid).map(
+              (slot: TaggedToolSlot, index: number) => {
                 /** Existing tool slots form */
-                return <Row key={slot.id}>
+                return <Row key={slot.body.id}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
-                      value={(slot.x || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.id)}
+                      value={(slot.body.x || 0).toString()}
+                      onCommit={this.updateSlotAxis(slot.body.id)}
                       type="number"
                       name="x"
                     />
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
-                      value={(slot.y || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.id)}
+                      value={(slot.body.y || 0).toString()}
+                      onCommit={this.updateSlotAxis(slot.body.id)}
                       type="number"
                       name="y"
                     />
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
-                      value={(slot.z || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.id)}
+                      value={(slot.body.z || 0).toString()}
+                      onCommit={this.updateSlotAxis(slot.body.id)}
                       type="number"
                       name="z"
                     />
@@ -143,15 +144,15 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={3}>
                     <FBSelect
                       list={this.props.getToolOptions()}
-                      initialValue={this.props.getChosenToolOption(slot.id)}
-                      onChange={this.updateSlotTool(slot.id)}
+                      initialValue={this.props.getChosenToolOption(uuid)}
+                      onChange={this.updateSlotTool(slot.body.id)}
                       allowEmpty={true}
                     />
                   </Col>
                   <Col xs={1}>
                     <button
                       className="red button-like"
-                      onClick={() => dispatch(destroySlot(slot.id))}>
+                      onClick={() => dispatch(destroySlot(uuid))}>
                       <i className="fa fa-times" />
                     </button>
                   </Col>
@@ -161,7 +162,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
             <Row>
               <Col xs={2}>
                 <label>
-                  {(this.props.getToolSlots(bay.id).length + 1) || ""}
+                  {(this.props.getToolSlots(uuid).length + 1) || ""}
                 </label>
               </Col>
               <Col xs={2}>
@@ -198,7 +199,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
               <Col xs={1}>
                 <button
                   className="green button-like"
-                  onClick={() => this.addNewSlot(bay.id)}>
+                  onClick={() => this.addNewSlot(uuid)}>
                   <i className="fa fa-plus" />
                 </button>
               </Col>

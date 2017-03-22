@@ -3,6 +3,7 @@ import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { toggleEditingTools } from "../actions";
 import { t } from "i18next";
 import { ToolListProps, Tool } from "../interfaces";
+import { TaggedTool } from "../../resources/tagged_resources";
 
 export class ToolList extends React.Component<ToolListProps, {}> {
   render() {
@@ -27,10 +28,10 @@ export class ToolList extends React.Component<ToolListProps, {}> {
             <label>{t("Status")}</label>
           </Col>
         </Row>
-        {this.props.getSortedTools().map((tool: Tool) => {
-          return <Row key={tool.id}>
-            <Col xs={8}>{tool.name || "Name not found"}</Col>
-            <Col xs={4}>{tool.status || "Status not found"}</Col>
+        {this.props.getSortedTools().map((tool: TaggedTool) => {
+          return <Row key={tool.body.id}>
+            <Col xs={8}>{tool.body.name || "Name not found"}</Col>
+            <Col xs={4}>{tool.body.status || "Status not found"}</Col>
           </Row>;
         })}
       </WidgetBody>
