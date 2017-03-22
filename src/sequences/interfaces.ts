@@ -24,7 +24,7 @@ export interface Props {
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
-  sequence: TaggedSequence;
+  sequence: TaggedSequence | undefined;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
 }
