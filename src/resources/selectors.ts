@@ -118,11 +118,6 @@ export function getRegimenByUUID(index: ResourceIndex, kind: ResourceName, uuid:
   return index.references[uuid];
 }
 
-export function getToolByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
-  assertUuid(kind, uuid);
-  return index.references[uuid];
-}
-
 export function selectAllSequences(index: ResourceIndex) {
   return findAll(index, "sequences") as TaggedSequence[];
 }

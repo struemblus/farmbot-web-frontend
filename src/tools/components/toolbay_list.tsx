@@ -40,7 +40,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots(uuid).map(
+            {this.props.getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
                 let tool = this.props.getToolByToolSlotUUID(slot.uuid);
                 let name = (tool && tool.body.name) || "None";

@@ -71,7 +71,6 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
 
   render() {
     let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
     let { dispatch, toolBays } = this.props;
     let toggle = () => dispatch(toggleEditingToolBays());
     return <div>
@@ -110,7 +109,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots(uuid).map(
+            {this.props.getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
                 /** Existing tool slots form */
                 return <Row key={slot.body.id}>
@@ -150,7 +149,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={3}>
                     <FBSelect
                       list={this.props.getToolOptions()}
-                      initialValue={this.props.getChosenToolOption(uuid)}
+                      initialValue={this.props.getChosenToolOption(slot.uuid)}
                       onChange={() => {
                         // uuid will go here
                       }}
@@ -170,7 +169,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
             <Row>
               <Col xs={2}>
                 <label>
-                  {(this.props.getToolSlots(uuid).length + 1) || ""}
+                  {(this.props.getToolSlots().length + 1) || ""}
                 </label>
               </Col>
               <Col xs={2}>

@@ -7,7 +7,6 @@ import {
   selectAllTools,
   selectAllToolBays,
   selectCurrentToolSlot,
-  getToolByUUID,
   findWhere
 } from "../resources/selectors";
 import { TaggedTool, isTaggedTool } from "../resources/tagged_resources";
@@ -24,11 +23,12 @@ export function mapStateToProps(props: Everything): Props {
   let getSortedTools = () => tools;
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
-  let getToolSlots = (uuid: string) => {
-    // TODO: two things:
+  let getToolSlots = (/** uuid: string */) => {
+    // TODO: three things:
     //       1. We don't support multiple bays. Therefore, no need to filter.
     //       2. If we add an index to this resource, we don't need to perform
     //          filtering.
+    //       3. Once we do support multiple bays, re-add the slot's UUID param.
     return toolSlots;
   };
 
@@ -43,8 +43,8 @@ export function mapStateToProps(props: Everything): Props {
 
 	/** Returns the current tool chosen in a slot based off the slot's id
 	 * and in an <FBSelect /> compatible format. */
-  let getChosenToolOption = (uuid: string) => {
-    let chosenTool = getToolByUUID(props.resources.index, "tools", uuid);
+  let getChosenToolOption = (toolSlotUUID: string) => {
+    let chosenTool = getToolByToolSlotUUID(toolSlotUUID);
     if (chosenTool && isTaggedTool(chosenTool) && chosenTool.body.id) {
       return { label: chosenTool.body.name, value: chosenTool.uuid };
     } else {
