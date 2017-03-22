@@ -37,6 +37,13 @@ export interface TaggedResourceBase {
   body: object;
 }
 
+export interface Resource<T extends ResourceName, U extends object>
+  extends TaggedResourceBase {
+  kind: T;
+  body: U;
+}
+
+
 export type TaggedResource = TaggedFarmEvent
   | TaggedImage
   | TaggedLog
@@ -51,70 +58,19 @@ export type TaggedResource = TaggedFarmEvent
   | TaggedToolSlot
   | TaggedUser;
 
-export interface TaggedRegimen extends TaggedResourceBase {
-  kind: "regimens";
-  body: Regimen;
-}
-
-export interface TaggedTool extends TaggedResourceBase {
-  kind: "tools";
-  body: Tool;
-}
-
-export interface TaggedToolSlot extends TaggedResourceBase {
-  kind: "tool_slots";
-  body: ToolSlot;
-}
-
-export interface TaggedSequence extends TaggedResourceBase {
-  kind: "sequences";
-  body: Sequence;
-}
-
-export interface TaggedPlant extends TaggedResourceBase {
-  kind: "plants";
-  body: Plant;
-}
-
-export interface TaggedFarmEvent extends TaggedResourceBase {
-  kind: "farm_events";
-  body: FarmEvent;
-}
-
-export interface TaggedImage extends TaggedResourceBase {
-  kind: "images";
-  body: Image;
-}
-
-export interface TaggedLog extends TaggedResourceBase {
-  kind: "logs";
-  body: Log;
-}
-
-export interface TaggedPeripheral extends TaggedResourceBase {
-  kind: "peripherals";
-  body: Peripheral;
-}
-
-export interface TaggedPoint extends TaggedResourceBase {
-  kind: "points";
-  body: Point;
-}
-
-export interface TaggedRegimenItem extends TaggedResourceBase {
-  kind: "regimen_items";
-  body: RegimenItem;
-}
-
-export interface TaggedToolBay extends TaggedResourceBase {
-  kind: "tool_bays";
-  body: ToolBay;
-}
-
-export interface TaggedUser extends TaggedResourceBase {
-  kind: "users";
-  body: User;
-}
+export type TaggedRegimen = Resource<"regimens", Regimen>;
+export type TaggedTool = Resource<"tools", Tool>;
+export type TaggedToolSlot = Resource<"tool_slots", ToolSlot>;
+export type TaggedSequence = Resource<"sequences", Sequence>;
+export type TaggedPlant = Resource<"plants", Plant>;
+export type TaggedFarmEvent = Resource<"farm_events", FarmEvent>;
+export type TaggedImage = Resource<"images", Image>;
+export type TaggedLog = Resource<"logs", Log>;
+export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
+export type TaggedPoint = Resource<"points", Point>;
+export type TaggedRegimenItem = Resource<"regimen_items", RegimenItem>;
+export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
+export type TaggedUser = Resource<"users", User>;
 
 /** Spot check to be certain a TaggedResource is what it says it is. */
 export function sanityCheck(x: any) {
