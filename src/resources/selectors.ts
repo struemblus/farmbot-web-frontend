@@ -217,5 +217,8 @@ export function where(index: ResourceIndex,
 /** Search for matching key/value pairs in the body of a resource. */
 export function findWhere(index: ResourceIndex,
   body: object): TaggedResource | undefined {
+  /** TODO: Find a way to add type safety.
+   *        currently, this method will accept any old object, which might be
+   *        unsafe. */
   return _.findWhere(toArray(index), { body });
 }

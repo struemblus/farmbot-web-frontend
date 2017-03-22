@@ -52,14 +52,6 @@ export function copySequence(payload: Sequence) {
   };
 }
 
-export function editCurrentSequence(updates: SequenceOptions):
-  ReduxAction<EditCurrentSequence> {
-  return {
-    type: "EDIT_CURRENT_SEQUENCE",
-    payload: updates
-  };
-}
-
 export function pushStep(step: Step): PushStep {
   return {
     type: "PUSH_STEP",

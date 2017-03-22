@@ -1,4 +1,4 @@
-import { TaggedResource, ResourceName } from "../resources/tagged_resources";
+import { TaggedResource, ResourceName, TaggedSequence } from "../resources/tagged_resources";
 import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
@@ -13,6 +13,13 @@ import {
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 import { descriptiveUUID } from "../resources/util";
+
+export function edit(tr: TaggedResource, update: Partial<typeof tr.body>) {
+  return {
+    type: "EDIT_RESOURCE",
+    payload: update // TODO: IS there a more typesafe
+  }
+}
 
 /** Initialize (but don't save) an indexed / tagged resource. */
 export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
