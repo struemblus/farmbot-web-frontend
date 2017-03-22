@@ -24,7 +24,7 @@ export interface Props {
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
-  sequence: TaggedSequence;
+  sequence: TaggedSequence | undefined;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
 }
@@ -239,8 +239,15 @@ export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 
-export interface StepListProps {
+export interface DynamicStepListProps {
   sequence: TaggedSequence | undefined;
+  sequences: TaggedSequence[];
+  tools: TaggedTool[];
+  dispatch: Function;
+}
+
+export interface StepListProps {
+  sequence: TaggedSequence;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
   dispatch: Function;

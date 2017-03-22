@@ -1,6 +1,13 @@
 import * as React from "react";
 import { SequenceBodyItem } from "farmbot";
-import { Sequence, dispatcher, DataXferObj, SequenceEditorMiddleProps, StepListProps } from "./interfaces";
+import {
+  Sequence,
+  dispatcher,
+  DataXferObj,
+  SequenceEditorMiddleProps,
+  StepListProps,
+  DynamicStepListProps
+} from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence, saveSequence, deleteSequence
@@ -21,8 +28,7 @@ import { stepGet } from "../draggable/actions";
 import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
-import { ToolsState } from "../tools/interfaces";
-import { TaggedSequence } from "../resources/tagged_resources";
+import { TaggedSequence, isTaggedSequence } from "../resources/tagged_resources";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -48,8 +54,24 @@ let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
   routeIncomingDroppedItems(dispatch, key, dropperId);
 };
 
-let StepList = ({ sequence, sequences, dispatch, tools }:
-  StepListProps) => {
+function DynamicallyLoadedStepList({
+  sequence,
+  sequences,
+  dispatch,
+  tools
+}: DynamicStepListProps) {
+  if (sequence && isTaggedSequence(sequence)) {
+    return <StepList
+      sequence={sequence}
+      sequences={sequences}
+      dispatch={dispatch}
+      tools={tools} />;
+  } else {
+    return <p>Please select a sequence</p>
+  }
+}
+
+let StepList = ({ sequence, sequences, dispatch, tools }: StepListProps) => {
 
   return <div>
     {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
@@ -169,10 +191,7 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
               ));
             }} />
         </Row>
-        {<StepList sequence={sequence}
-          dispatch={dispatch}
-          sequences={sequences}
-          tools={tools} />}
+        {<DynamicallyLoadedStepList />}
         <Row>
           <Col xs={12}>
             <DropArea isLocked={true}
