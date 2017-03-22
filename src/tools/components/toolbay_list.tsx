@@ -1,14 +1,13 @@
 import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { toggleEditingToolBays } from "../actions";
 import { t } from "i18next";
 import { ToolBayListProps } from "../interfaces";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
 
 export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
-    let uuid = "TODO: FIX ME";
-    let toggle = () => this.props.dispatch(toggleEditingToolBays());
+    let toggle = () => this.props.toggle();
+    let { getToolSlots, getToolByToolSlotUUID } = this.props;
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -40,9 +39,9 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
                 <label>{t("Tool")}</label>
               </Col>
             </Row>
-            {this.props.getToolSlots().map(
+            {getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
-                let tool = this.props.getToolByToolSlotUUID(slot.uuid);
+                let tool = getToolByToolSlotUUID(slot.uuid);
                 let name = (tool && tool.body.name) || "None";
                 return <Row key={slot.body.id}>
                   <Col xs={2}>

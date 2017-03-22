@@ -1,5 +1,9 @@
 import { DropDownItem } from "../ui/fb_select";
-import { TaggedTool, TaggedToolSlot, TaggedToolBay } from "../resources/tagged_resources";
+import {
+  TaggedTool,
+  TaggedToolSlot,
+  TaggedToolBay
+} from "../resources/tagged_resources";
 
 export interface ToolsState {
   editingTools: boolean;
@@ -10,8 +14,6 @@ export interface Props {
   toolBays: TaggedToolBay[];
   toolSlots: TaggedToolSlot[];
   tools: TaggedTool[];
-  editingTools: boolean;
-  editingBays: boolean;
   getSortedTools(): TaggedTool[];
   getToolOptions(): DropDownItem[];
   getChosenToolOption(toolSlotUuid: string): DropDownItem;
@@ -27,10 +29,6 @@ export interface ToolBay {
   created_at?: string | undefined;
 }
 
-export interface ToolFormState {
-  newToolName: string;
-}
-
 export interface ToolSlot {
   id?: number | undefined;
   tool_bay_id?: number;
@@ -39,12 +37,6 @@ export interface ToolSlot {
   x: number;
   y: number;
   z: number;
-}
-
-export interface UpdateToolSlotPayl {
-  value: number;
-  name: string;
-  id: number;
 }
 
 export interface Tool {
@@ -56,6 +48,7 @@ export interface Tool {
 export interface ToolBayListProps {
   dispatch: Function;
   toolBays: TaggedToolBay[];
+  toggle(): void;
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
   getToolSlots(): TaggedToolSlot[];
 }
@@ -63,6 +56,7 @@ export interface ToolBayListProps {
 export interface ToolBayFormProps {
   dispatch: Function;
   toolBays: TaggedToolBay[];
+  toggle(): void;
   getToolOptions(): DropDownItem[];
   getChosenToolOption(uuid: string): DropDownItem;
   getToolSlots(): TaggedToolSlot[];
@@ -70,11 +64,13 @@ export interface ToolBayFormProps {
 
 export interface ToolListProps {
   dispatch: Function;
+  toggle(): void;
   getSortedTools(): TaggedTool[];
 }
 
 export interface ToolFormProps {
   dispatch: Function;
   tools: TaggedTool[];
+  toggle(): void;
   getSortedTools(): TaggedTool[];
 }

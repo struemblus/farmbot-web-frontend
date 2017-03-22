@@ -16,9 +16,6 @@ export function mapStateToProps(props: Everything): Props {
   let toolSlots = selectAllToolSlots(props.resources.index);
   let tools = selectAllTools(props.resources.index);
 
-  let editingBays = props.tools.editingBays;
-  let editingTools = props.tools.editingTools;
-
   /** Returns sorted tool objects. */
   let getSortedTools = () => tools;
 
@@ -68,8 +65,6 @@ export function mapStateToProps(props: Everything): Props {
     toolBays,
     toolSlots,
     tools,
-    editingBays,
-    editingTools,
     getSortedTools,
     getToolSlots,
     getToolOptions,
