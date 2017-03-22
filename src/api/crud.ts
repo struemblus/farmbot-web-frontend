@@ -38,6 +38,17 @@ export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
     payload: resource
   }
 }
+
+export function initSave(resource: TaggedResource) {
+  return function (dispatch: Function, getState: GetState) {
+    let action = init(resource);
+    dispatch(action);
+    let nextState = getState().resources.index;
+    let tr = findByUuid(nextState, action.payload.uuid);
+    dispatch(save(tr.uuid));
+  }
+}
+
 export function save(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);

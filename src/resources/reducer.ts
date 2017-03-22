@@ -96,9 +96,10 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
   })
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;
-    let uuid = descriptiveUUID(tr.body.id, tr.kind)
+    let uuid = tr.uuid;
     addToIndex(s.index, tr.kind, tr.body, uuid);
     findByUuid(s.index, uuid).dirty = true;
+    sanityCheck(tr);
     return s;
   })
   .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
