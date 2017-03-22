@@ -35,7 +35,6 @@ export class Tools extends React.Component<Props, ToolsState> {
           {isEditingTools && <ToolForm
             dispatch={this.props.dispatch}
             tools={this.props.tools}
-            dirtyTools={this.props.dirtyTools}
             getSortedTools={this.props.getSortedTools}
           />}
         </Col>
