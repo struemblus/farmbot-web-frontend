@@ -24,7 +24,7 @@ export function mapStateToProps(props: Everything): Props {
   let getSortedTools = () => tools;
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
-  let getToolSlots = (toolBayId: number) => {
+  let getToolSlots = (uuid: string) => {
     // TODO: two things:
     //       1. We don't support multiple bays. Therefore, no need to filter.
     //       2. If we add an index to this resource, we don't need to perform
