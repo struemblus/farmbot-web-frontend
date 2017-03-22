@@ -210,12 +210,12 @@ export function toArray(index: ResourceIndex) {
 
 /** Search for matching key/value pairs in the body of a resource. */
 export function where(index: ResourceIndex,
-  query: object): (TaggedResource | undefined)[] {
-  return _.where(toArray(index), query);
+  body: object): (TaggedResource | undefined)[] {
+  return _.where(toArray(index), { body });
 }
 
 /** Search for matching key/value pairs in the body of a resource. */
 export function findWhere(index: ResourceIndex,
-  query: object): TaggedResource | undefined {
-  return _.findWhere(toArray(index), query);
+  body: object): TaggedResource | undefined {
+  return _.findWhere(toArray(index), { body });
 }
