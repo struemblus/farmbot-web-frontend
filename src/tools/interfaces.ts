@@ -2,8 +2,6 @@ import { DropDownItem } from "../ui/fb_select";
 import { TaggedTool, TaggedToolSlot, TaggedToolBay } from "../resources/tagged_resources";
 
 export interface ToolsState {
-  /** Do tools need to be saved? */
-  toolsDirty: boolean;
   editingTools: boolean;
   editingBays: boolean;
 }
@@ -14,7 +12,6 @@ export interface Props {
   tools: TaggedTool[];
   editingTools: boolean;
   editingBays: boolean;
-  dirtyTools: boolean;
   getSortedTools(): TaggedTool[];
   getToolOptions(): DropDownItem[];
   getChosenToolOption(toolSlotUuid: string): DropDownItem;
@@ -27,7 +24,6 @@ export interface ToolBay {
   id: number;
   name: string;
   isEditing?: boolean;
-  dirty?: boolean;
   created_at?: string | undefined;
 }
 
@@ -43,7 +39,6 @@ export interface ToolSlot {
   x: number;
   y: number;
   z: number;
-  dirty?: boolean;
 }
 
 export interface UpdateToolSlotPayl {
@@ -55,7 +50,6 @@ export interface UpdateToolSlotPayl {
 export interface Tool {
   id: number | undefined;
   name: string;
-  dirty?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
 }
 
@@ -82,6 +76,5 @@ export interface ToolListProps {
 export interface ToolFormProps {
   dispatch: Function;
   tools: TaggedTool[];
-  dirtyTools: boolean;
   getSortedTools(): TaggedTool[];
 }

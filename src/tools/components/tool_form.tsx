@@ -47,7 +47,6 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
           className="green button-like"
           onClick={() => this.props.dispatch(saveTools(uuid))}>
           {t("Save")}
-          {this.props.dirtyTools && ("*")}
         </button>
       </WidgetHeader>
       <WidgetBody>
