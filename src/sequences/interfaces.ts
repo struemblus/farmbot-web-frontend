@@ -18,7 +18,7 @@ export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
-  sequence: TaggedSequence;
+  sequence: TaggedSequence | undefined;
   auth: AuthState | undefined;
 }
 
@@ -240,7 +240,7 @@ export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 
 export interface StepListProps {
-  sequence: TaggedSequence;
+  sequence: TaggedSequence | undefined;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
   dispatch: Function;

@@ -80,6 +80,7 @@ let find = (r: ResourceName) =>
       return result as TaggedResource;
     } else {
       error("Resource error");
+      debugger;
       throw new Error(`Tagged resource ${r} was not found or malformed: ` +
         JSON.stringify(result))
     }
