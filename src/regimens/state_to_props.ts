@@ -1,6 +1,5 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
-import { selectAll } from "../resources/util";
 import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../resources/selectors";
 import { isTaggedRegimen, TaggedRegimen } from "../resources/tagged_resources";
 

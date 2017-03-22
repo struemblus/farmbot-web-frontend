@@ -1,7 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, isTaggedResource } from "./tagged_resources";
+import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./tagged_resources";
 import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 
@@ -100,12 +100,12 @@ function addAllToIndex<T>(i: ResourceIndex, kind: ResourceName, all: T[]) {
   });
 }
 
-
 function addToIndex<T>(index: ResourceIndex,
   kind: ResourceName,
   body: T,
   uuid: string) {
   let tr: TaggedResource = { kind, body, uuid } as any; // TODO: Fix this :(
+  sanityCheck(tr);
   index.all.push(tr.uuid);
   index.byKind[tr.kind].push(tr.uuid);
   if (tr.body.id) { index.byKindAndId[tr.kind + "." + tr.body.id] = tr.uuid; }

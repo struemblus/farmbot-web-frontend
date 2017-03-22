@@ -6,7 +6,7 @@ import { Image } from "../images/index";
 import { Log } from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
-
+import { assertUuid } from "./selectors";
 
 export type ResourceName =
   | "device"
@@ -113,6 +113,16 @@ export interface TaggedToolBay extends TaggedResourceBase {
 export interface TaggedUser extends TaggedResourceBase {
   kind: "users";
   body: User;
+}
+
+/** SPot check to be certain a TaggedResource is what it says it is. */
+export function sanityCheck(x: any) {
+  if (isTaggedResource(x)) {
+    assertUuid(x.kind, x.uuid);
+    console.log("We should add more type checks here later.")
+  } else {
+    throw new Error("Bad kind, uuid, or body: " + JSON.stringify(x));
+  }
 }
 
 export function isTaggedResource(x: any): x is TaggedResource {
