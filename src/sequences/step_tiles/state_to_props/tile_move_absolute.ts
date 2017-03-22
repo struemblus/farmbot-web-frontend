@@ -75,7 +75,6 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
       result.body.tool_id
       return result;
     } else {
-      debugger;
       throw new Error("Indexing of tool slots went wrong!");
     }
   }

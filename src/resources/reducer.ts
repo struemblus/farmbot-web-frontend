@@ -79,6 +79,13 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
     }
     return state;
   })
+  .add<TaggedResource>("UPDATE_RESOURCE_OK", function (s, a) {
+    let uuid = a.payload.uuid;
+    let tr = _.merge(findByUuid(s.index, uuid), a.payload);
+    tr.dirty = false;
+    sanityCheck(tr);
+    return s;
+  })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
     let tr = _.merge(findByUuid(s.index, uuid), a.payload.update);
