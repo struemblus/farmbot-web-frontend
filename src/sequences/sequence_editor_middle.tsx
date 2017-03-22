@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SequenceBodyItem } from "farmbot";
-import { Sequence, dispatcher, DataXferObj, SequenceEditorMiddleProps } from "./interfaces";
+import { Sequence, dispatcher, DataXferObj, SequenceEditorMiddleProps, StepListProps } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence, saveSequence, deleteSequence
@@ -49,12 +49,7 @@ let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
 };
 
 let StepList = ({ sequence, sequences, dispatch, tools }:
-  {
-    sequence: Sequence,
-    sequences: Sequence[],
-    dispatch: Function,
-    tools: ToolsState
-  }) => {
+  StepListProps) => {
 
   return <div>
     {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
@@ -93,29 +88,29 @@ let handleNameUpdate = (dispatch: Function) =>
     dispatch(editCurrentSequence({ name }));
   };
 
-let save = function (dispatch: Function, sequence: Sequence) {
+let save = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) => {
     dispatch(saveSequence(sequence));
   };
 };
 
-let copy = function (dispatch: Function, sequence: Sequence) {
+let copy = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) =>
-    dispatch(copySequence(sequence));
+    dispatch(copySequence(sequence.body));
 };
 
-let destroy = function (dispatch: Function, sequence: TaggedSequence | undefined) {
+let destroy = function (dispatch: Function, sequence: TaggedSequence) {
   if (sequence) {
-    return () => dispatch(deleteSequence(sequence.body.uuid));
+    return () => dispatch(deleteSequence(sequence.uuid));
   } else {
     return _.noop;
   }
 };
 
-export let performSeq = (dispatch: Function, s: Sequence) => {
+export let performSeq = (dispatch: Function, s: TaggedSequence) => {
   return () => {
     dispatch(saveSequence(s))
-      .then(() => execSequence(s));
+      .then(() => execSequence(s.body));
   };
 };
 
@@ -146,7 +141,7 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
                     your commands custom names.`}>
         <button className="green button-like"
           onClick={save(dispatch, sequence)}>
-          {t("Save")} {sequence && sequence.body.dirty && "*")}
+          {t("Save")} {sequence && sequence.body.dirty && "*"}
         </button>
         <button className="orange button-like"
           onClick={performSeq(dispatch, sequence)}>
@@ -176,7 +171,7 @@ export class SequenceEditorMiddle extends React.Component<SequenceEditorMiddlePr
         </Row>
         {<StepList sequence={sequence}
           dispatch={dispatch}
-          sequences={sequences.all}
+          sequences={sequences}
           tools={tools} />}
         <Row>
           <Col xs={12}>

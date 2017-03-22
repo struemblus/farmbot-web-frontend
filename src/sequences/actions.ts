@@ -17,8 +17,9 @@ import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import { destroy, save } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
+import { TaggedSequence } from "../resources/tagged_resources";
 
-export function saveSequence(body: Sequence): Thunk {
+export function saveSequence(body: TaggedSequence): Thunk {
   return save(uuid());
 }
 
