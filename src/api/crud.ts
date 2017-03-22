@@ -45,10 +45,10 @@ function update(uuid: string) {
       .then(function (resp) {
         kind = resource.kind as typeof resource.kind;
         body = resp.data as typeof resource.body;
-        updateOK({ kind, body } as TaggedResource);
+        dispatch(updateOK({ kind, body } as TaggedResource));
       })
       .catch(function (err: UnsafeError) {
-        updateNO(err);
+        dispatch(updateNO(err));
       });
   }
 }

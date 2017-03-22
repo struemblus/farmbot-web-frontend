@@ -8,7 +8,7 @@ import {
 } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
-  editCurrentSequence, saveSequence, deleteSequence
+  editCurrentSequence, deleteSequence
 } from "./actions";
 import {
   stepTiles,
@@ -30,6 +30,7 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
+import { save } from "../api/crud";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -61,12 +62,6 @@ let handleNameUpdate = (dispatch: Function) =>
     dispatch(editCurrentSequence({ name }));
   };
 
-let save = function (dispatch: Function, sequence: TaggedSequence) {
-  return (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    dispatch(saveSequence(sequence));
-  };
-};
-
 let copy = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) =>
     dispatch(copySequence(sequence.body));
@@ -78,10 +73,11 @@ let destroy = function (dispatch: Function, sequence: TaggedSequence) {
 };
 
 export let performSeq = (dispatch: Function, s: TaggedSequence) => {
-  return () => {
-    dispatch(saveSequence(s))
-      .then(() => execSequence(s.body));
-  };
+  console.log("FIX THIS!")
+  // return () => {
+  //   dispatch(saveSequence(s))
+  //     .then(() => execSequence(s.body));
+  // };
 };
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
@@ -110,11 +106,13 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
                    existing sequences; assign a color; and give
                    your commands custom names.`}>
         <button className="green button-like"
-          onClick={save(dispatch, sequence)}>
+          onClick={() => {
+            dispatch(save(sequence.uuid));
+          }}>
           {t("Save")} {sequence && sequence.body.dirty && "*"}
         </button>
         <button className="orange button-like"
-          onClick={performSeq(dispatch, sequence)}>
+          onClick={_.noop /*performSeq(dispatch, sequence)*/}>
           {t("Save & Run")}
         </button>
         <button className="red button-like"
