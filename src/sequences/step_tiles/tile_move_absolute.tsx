@@ -47,7 +47,8 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
     switch (location.kind) {
       case "tool":
         let tool = this.props.toolById[location.args.tool_id];
-        let slot = tool && tool.body.id && this.props.slotById(tool.body.id);
+        let id = tool && tool.body.id;
+        let slot = tool && id && this.props.findSlotByToolId(id);
         if (slot) {
           output = { ...output, ...slot }
         };

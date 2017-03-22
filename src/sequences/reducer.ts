@@ -9,7 +9,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import * as _ from "lodash";
 
 const initialState: SequenceReducerState = {
-  current: ""
+  current: undefined
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)

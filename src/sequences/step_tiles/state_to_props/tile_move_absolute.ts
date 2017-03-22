@@ -12,7 +12,7 @@ export interface TileMoveAbsoluteProps {
   dispatch: Function;
   computeInputValue(kind: string, arg: string, step: Step): string;
   toolById: CowardlyDictionary<TaggedTool>;
-  slotById: (id: number) => TaggedToolSlot;
+  findSlotByToolId: (tool_id: number) => TaggedToolSlot | undefined;
   changeToolSelect(step: Step,
     index: number,
     dispatch: Function,
@@ -64,12 +64,15 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     dispatch(changeMoveAbsStepValue(value, kind, index));
   };
   let toolById = indexByToolId(props.resources.index);
-  let slotById = (id: number) => {
-    let uuid = findResourceById(props.resources.index, "tool_slots", id);
+  let slotById = (tool_slot_id: number) => {
+    let uuid = findResourceById(props.resources.index,
+      "tool_slots",
+      tool_slot_id);
     let result = uuid && props.resources.index.references[uuid];
     if (result && isTaggedToolSlot(result)) {
       return result;
     } else {
+      debugger;
       throw new Error("Indexing of tool slots went wrong!");
     }
   }
@@ -79,7 +82,7 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     changeToolSelect,
     changeInputValue,
     toolById,
-    slotById,
+    findSlotByToolId,
     dispatch: props.dispatch
   };
 
