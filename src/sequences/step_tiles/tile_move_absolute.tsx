@@ -44,7 +44,6 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
   coord = (): Vector3 => {
     let output: Vector3 = { x: 0, y: 0, z: 0 };
     let { location } = this.props.step.args;
-    if (_.isNumber(0)) { throw new Error("FIX THIS!"); }
     switch (location.kind) {
       case "tool":
         let tool = this.props.toolById[location.args.tool_id];

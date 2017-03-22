@@ -234,7 +234,7 @@ export interface SaveSequenceOk {
 
 export interface SelectSequence {
   type: "SELECT_SEQUENCE";
-  payload: number;
+  payload: string;
 };
 
 export interface SequenceApiResponse {

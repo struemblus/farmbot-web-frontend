@@ -143,10 +143,10 @@ export function removeStep(index: number): RemoveStep {
   };
 }
 
-export function selectSequence(index: number): SelectSequence {
+export function selectSequence(uuid: string): SelectSequence {
   return {
     type: "SELECT_SEQUENCE",
-    payload: index
+    payload: uuid
   };
 }
 

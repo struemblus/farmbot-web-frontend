@@ -3,29 +3,24 @@ import {
   LATEST_VERSION
 } from "farmbot";
 import {
-  Sequence,
   SequenceReducerState,
-  ChanParams,
-  MessageParams,
-  ChangeMoveAbsSelect,
-  ChangeMoveAbsInput,
-  EditCurrentSequence,
-  SelectPayl,
-  MoveStepPayl,
-  SpliceStepPayl
 } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { move } from "../util";
 import * as _ from "lodash";
-import { SequenceBodyItem, uuid } from "farmbot";
-import { success } from "../ui/index";
-import { TaggedResource } from "../resources/tagged_resources";
 
 const initialState: SequenceReducerState = {
   current: ""
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
+  .add<string>("SELECT_SEQUENCE", function (s, a) {
+    s.current = a.payload;
+    return s;
+  })
+  .add<void>("FETCH_SYNC_OK", function (s, a) {
+    s.current = undefined;
+    return s;
+  })
 // .add<TaggedResource>("CREATE_RESOURCE_OK", function (s, a) {
 //   // s.all.map((seq: Sequence) => { seq.dirty = false; });
 //   // success("Successfully saved Sequences.", "Saved");
@@ -229,12 +224,6 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
 //   console.log("FIX THIS EVENTUALLY.");
 //   // s.all = a.payload.sequences || [];
 //   // maybeAddMarkers(s);
-//   return s;
-// })
-// .add<number>("SELECT_SEQUENCE", function (s, a) {
-//   let inx = a.payload;
-//   if (s.all[inx]) { s.current = inx; }
-//   maybeAddMarkers(s);
 //   return s;
 // })
 // .add<Sequence>("DELETE_SEQUENCE_OK", function (s, a) {
