@@ -79,7 +79,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.spread = OFEntry.crop.spread;
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
-      this.props.dispatch(savePlant(plant));
+      let uuid = "TODO: FIX ME";
+      console.warn("HEY!! FIX!! ^");
+      this.props.dispatch(savePlant(uuid));
     } else {
       throw new Error("never");
     }
@@ -91,8 +93,8 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       dispatch(movePlant({ deltaX, deltaY, plantId }));
     };
 
-    let dropper = (plant: PlantInterface) => {
-      dispatch(savePlant(plant));
+    let dropper = (uuid: string) => {
+      dispatch(savePlant(uuid));
     };
 
     return <div className="drop-area"
@@ -102,18 +104,18 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
         {this.props.points.map(function (p) {
-          return <GardenPoint point={p} key={p.id} />;
+          return <GardenPoint point={p} key={p.body.id} />;
         })}
         {
           this.props.plants.map((p, inx) => {
             let pathname = history.getCurrentLocation().pathname;
-            if (p.id) {
-              let isActive = (pathname.includes(p.id.toString()) &&
+            if (p.body.id) {
+              let isActive = (pathname.includes(p.body.id.toString()) &&
                 pathname.includes("edit")) ? "active" : "";
 
-              return <Link to={`/app/designer/plants/${p.id}`}
+              return <Link to={`/app/designer/plants/${p.body.id}`}
                 className={`plant-link-wrapper ` + isActive.toString()}
-                key={p.id}>
+                key={p.body.id}>
                 <GardenPlant
                   plant={p}
                   onUpdate={updater}

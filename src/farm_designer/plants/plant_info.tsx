@@ -6,12 +6,12 @@ import * as moment from "moment";
 import { t } from "i18next";
 import { PlantInfoProps } from "../interfaces";
 import { error } from "../../ui/index";
-import { selectAll } from "../../resources/util";
 import { history } from "../../history";
+import { selectAllPlants } from "../../resources/selectors";
 
-function mapStateToProps(props: PlantInfoProps) {
+function mapStateToProps(props: Everything) {
   let findCurrentPlant = (plantId: number) => {
-    let plants = selectAll(props.resources.plants);
+    let plants = selectAllPlants(props.resources.index);
     let currentPlant = _.findWhere(plants, { id: plantId }) || {
       planted_at: moment().toISOString(),
       name: "Error: No plant name.",

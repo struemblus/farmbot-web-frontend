@@ -5,12 +5,13 @@ import * as moment from "moment";
 import { destroyPlant } from "../actions";
 import { t } from "i18next";
 import { EditPlantInfoProps } from "../interfaces";
-import { selectAll } from "../../resources/util";
 import { history } from "../../history";
+import { Everything } from "../../interfaces";
+import { selectAllPlants } from "../../resources/selectors";
 
-function mapStateToProps(props: EditPlantInfoProps) {
+function mapStateToProps(props: Everything) {
   let findCurrentPlant = (plantId: number) => {
-    let plants = selectAll(props.resources.plants);
+    let plants = selectAllPlants(props.resources.index);
     let currentPlant = _.findWhere(plants, { id: plantId }) || {
       planted_at: moment().toISOString(),
       name: "Error: No plant name.",
@@ -40,9 +41,9 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
   }
 
   destroy = () => {
-    this.props.dispatch(destroyPlant(
-      this.props.findCurrentPlant(this.props.plant_id)
-    ));
+    let uuid = "TODO: FIX ME";
+    console.warn("HEY!! FIX!! ^");
+    this.props.dispatch(destroyPlant(uuid));
     this.props.push("/app/designer/plants");
   }
 
