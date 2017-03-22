@@ -8,7 +8,6 @@ import { TaggedToolSlot } from "../../resources/tagged_resources";
 export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
     let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
     let toggle = () => this.props.dispatch(toggleEditingToolBays());
     return <div>
       {this.props.toolBays.map(bay => {

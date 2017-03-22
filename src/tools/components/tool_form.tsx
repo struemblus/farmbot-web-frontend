@@ -32,7 +32,6 @@ export class ToolForm extends React.Component<ToolFormProps, ToolFormState> {
 
   render() {
     let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
     let toggle = () => this.props.dispatch(toggleEditingTools());
     return <Widget>
       <WidgetHeader

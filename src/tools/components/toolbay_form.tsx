@@ -120,7 +120,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.x || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.body.id)}
+                      onCommit={() => {
+                        // uuid will go here
+                      }}
                       type="number"
                       name="x"
                     />
@@ -128,7 +130,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.y || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.body.id)}
+                      onCommit={() => {
+                        // uuid will go here
+                      }}
                       type="number"
                       name="y"
                     />
@@ -136,7 +140,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.z || 0).toString()}
-                      onCommit={this.updateSlotAxis(slot.body.id)}
+                      onCommit={() => {
+                        // uuid will go here
+                      }}
                       type="number"
                       name="z"
                     />
@@ -145,7 +151,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps,
                     <FBSelect
                       list={this.props.getToolOptions()}
                       initialValue={this.props.getChosenToolOption(uuid)}
-                      onChange={this.updateSlotTool(slot.body.id)}
+                      onChange={() => {
+                        // uuid will go here
+                      }}
                       allowEmpty={true}
                     />
                   </Col>
