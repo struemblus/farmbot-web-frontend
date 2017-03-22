@@ -54,7 +54,7 @@ export interface Sequence extends CeleryScriptSequence {
 export type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };
 
 export interface SequenceReducerState {
-  current: string;
+  current: string | undefined;
 };
 
 export interface SequencesListProps {

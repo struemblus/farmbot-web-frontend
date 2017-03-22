@@ -5,30 +5,34 @@ import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./t
 import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 
-let initialState: RestResources = {
-  loaded: false,
-  index: {
-    all: [],
-    byKind: {
-      device: [],
-      farm_events: [],
-      images: [],
-      logs: [],
-      peripherals: [],
-      plants: [],
-      points: [],
-      regimen_items: [],
-      regimens: [],
-      sequences: [],
-      tool_bays: [],
-      tool_slots: [],
-      tools: [],
-      users: []
-    },
-    byKindAndId: {},
-    references: {}
-  }
+function emptyState() {
+  return {
+    loaded: false,
+    index: {
+      all: [],
+      byKind: {
+        device: [],
+        farm_events: [],
+        images: [],
+        logs: [],
+        peripherals: [],
+        plants: [],
+        points: [],
+        regimen_items: [],
+        regimens: [],
+        sequences: [],
+        tool_bays: [],
+        tool_slots: [],
+        tools: [],
+        users: []
+      },
+      byKindAndId: {},
+      references: {}
+    }
+  };
 }
+
+let initialState: RestResources = emptyState();
 
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer<RestResources>(initialState)
@@ -75,6 +79,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
   })
   .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
     let p = action.payload;
+    state = emptyState();
     let { index } = state;
     // TODO: Try doing something fancier.
     addAllToIndex(index, "farm_events", p["farm_events"]);

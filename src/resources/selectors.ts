@@ -40,9 +40,12 @@ export let isKind = (name: ResourceName) =>
   (tr: TaggedResource) => tr.kind === name;
 
 function findAll(index: ResourceIndex, name: ResourceName) {
-  // TODO Use reduce() or forEach instead. this forces us to do type coercion.
-  //      Not much time now. - RC Mar 17
-  return selectAll(index, name).filter(isKind(name));
+  let results: TaggedResource[] = [];
+  index.byKind[name].map(function (uuid) {
+    let item = index.references[uuid];
+    (item && isTaggedResource(item) && results.push(item));
+  })
+  return results;
 }
 
 export function selectAllFarmEvents(index: ResourceIndex) {
@@ -80,7 +83,6 @@ let find = (r: ResourceName) =>
       return result as TaggedResource;
     } else {
       error("Resource error");
-      debugger;
       throw new Error(`Tagged resource ${r} was not found or malformed: ` +
         JSON.stringify(result))
     }
