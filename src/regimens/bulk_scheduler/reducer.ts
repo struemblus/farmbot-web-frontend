@@ -56,7 +56,8 @@ export let BulkSchedulerReducer = generateReducer<BulkSchedulerState>
     return newState();
   })
   .add<Sequence>("SET_SEQUENCE", function (state, action) {
-    state.sequence = action.payload;
+    // state.sequence = action.payload;
+    console.log("FIXME");
     return state;
   });
 

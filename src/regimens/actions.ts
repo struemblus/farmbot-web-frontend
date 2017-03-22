@@ -9,12 +9,13 @@ export function copyRegimen(payload: TaggedRegimen) {
   };
 }
 
-export function editRegimen(regimen: Regimen,
+export function editRegimen(regimen: TaggedRegimen,
   update: Object):
-  ReduxAction<{ regimen: Regimen, update: Object }> {
+  ReduxAction<undefined> {
+  console.log("Lets fix this one later.")
   return {
     type: "EDIT_REGIMEN",
-    payload: { regimen, update }
+    payload: undefined
   };
 }
 

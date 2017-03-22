@@ -6,12 +6,13 @@ import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
+import { isTaggedRegimen, TaggedRegimen } from "../../resources/tagged_resources";
 
 export function RegimenEditorWidget({ current, dispatch, auth }:
   RegimenEditorWidgetProps) {
   if (auth) {
     let regimen = current;
-    let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
+    let DynamicComponent = isTaggedRegimen(regimen) ? ActiveEditor : EmptyEditor;
     let saveButtonProps = {
       dispatch,
       regimen,
@@ -34,7 +35,7 @@ export function RegimenEditorWidget({ current, dispatch, auth }:
         <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
       <WidgetBody>
-        <DynamicComponent regimen={regimen} dispatch={dispatch} />
+        <DynamicComponent regimen={regimen as TaggedRegimen} dispatch={dispatch} />
       </WidgetBody>
     </Widget>;
   } else {

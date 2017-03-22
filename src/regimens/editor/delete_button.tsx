@@ -6,7 +6,7 @@ import { DeleteButtonProps } from "./interfaces";
 function remove({ regimen, dispatch }: DeleteButtonProps) {
   if (regimen) {
     return (event: React.FormEvent<{}>) =>
-      regimen && dispatch(deleteRegimen(regimen));
+      regimen && dispatch(deleteRegimen(regimen.uuid));
   } else {
     // Technically unreachable, but I'll keep TS happy...
     throw new Error("Tried to delete non-existant regimen");
