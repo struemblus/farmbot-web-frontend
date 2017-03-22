@@ -54,7 +54,6 @@ export function detachTool(tool_slot_id: number) {
   };
 }
 
-
 export function saveToolSlotOk(toolSlot: ToolSlot): ReduxAction<{}> {
   return { type: "SAVE_TOOL_SLOTS_OK", payload: toolSlot };
 }
@@ -68,7 +67,7 @@ export function destroyToolSlotOk(id: number): ReduxAction<{}> {
 }
 
 export function addSlot(uuid: string) {
-  return save(uuid)
+  return save(uuid);
 }
 
 export function destroySlot(id: number): Thunk {
