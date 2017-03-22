@@ -134,22 +134,17 @@ export function isTaggedResource(x: any): x is TaggedResource {
     && _.isObject(x.body))
 }
 
-let is = (r: ResourceName) => function isTaggedRegimen(x: any): x is TaggedRegimen {
-  return (sanityCheck(x) && isTaggedResource(x) && x.kind == "regimens");
+let is = (r: ResourceName) => function isOfTag(x: any) {
+  let safe = (sanityCheck(x) && isTaggedResource(x) && x.kind == r);
+  if (!safe) { debugger; }
+  return safe;
 };
 
-export function isTaggedRegimen(x: any): x is TaggedRegimen {
-  return (isTaggedResource(x) && x.kind == "regimens");
-}
-
-export function isTaggedSequence(x: any): x is TaggedSequence {
-  return (isTaggedResource(x) && x.kind == "sequences");
-}
-
-export function isTaggedTool(x: any): x is TaggedTool {
-  return (isTaggedResource(x) && x.kind == "tools");
-}
-
-export function isTaggedToolSlot(x: any): x is TaggedToolSlot {
-  return (isTaggedResource(x) && x.kind == "tool_slots");
-}
+export let isTaggedRegimen =
+  (x: any): x is TaggedRegimen => is("tool_bays")(x);
+export let isTaggedSequence =
+  (x: any): x is TaggedSequence => is("sequences")(x);
+export let isTaggedTool =
+  (x: any): x is TaggedTool => is("tools")(x);
+export let isTaggedToolSlot =
+  (x: any): x is TaggedToolSlot => is("tool_slots")(x);
