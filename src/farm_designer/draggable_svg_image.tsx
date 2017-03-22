@@ -33,7 +33,7 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
 
   deSelectElement(e: React.MouseEvent<SVGElement>) {
     if (this.state.isDragging) {
-      this.props.onDrop(this.props.plant);
+      this.props.onDrop(this.props.plant.uuid);
     }
     this.setState({
       isDragging: false,
