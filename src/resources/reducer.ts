@@ -56,6 +56,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
         case "tool_slots":
         case "tools":
           state.index.references[resource.uuid] = resource;
+          break;
         default:
           whoops("CREATE_RESOURCE_OK", action.payload.kind);
       }
