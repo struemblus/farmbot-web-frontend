@@ -31,7 +31,7 @@ let buttonList = (dispatch: Function) =>
       "text-left",
       `${seq.color || "purple"}-block`,
       "block-header"];
-    let click = () => { dispatch(init(emptySequence())); };
+    let click = () => { dispatch(selectSequence(ts.uuid)); };
     if (!isMobile()) {
       return <button key={seq.id || index}
         onClick={click}
