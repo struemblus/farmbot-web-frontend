@@ -109,7 +109,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           onClick={() => {
             dispatch(save(sequence.uuid));
           }}>
-          {t("Save")} {sequence && sequence.body.dirty && "*"}
+          {t("Save")} {sequence && sequence.dirty && "*"}
         </button>
         <button className="orange button-like"
           onClick={_.noop /*performSeq(dispatch, sequence)*/}>
