@@ -3,7 +3,7 @@ import { ToolFormProps } from "../interfaces";
 import { t } from "i18next";
 import { Row, Col, Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
 import { TaggedTool } from "../../resources/tagged_resources";
-import { edit } from "../../api/crud";
+import { edit, destroy } from "../../api/crud";
 
 export class ToolForm extends React.Component<ToolFormProps, {}> {
   render() {
@@ -45,7 +45,7 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
             <Col xs={2}>
               <button
                 className="button-like red"
-                onClick={() => { /** destroy */ }}>
+                onClick={() => { dispatch(destroy(tool.uuid)); }}>
                 <i className="fa fa-times"></i>
               </button>
             </Col>

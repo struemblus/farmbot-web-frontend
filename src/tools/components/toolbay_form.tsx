@@ -11,10 +11,12 @@ import {
 } from "../../ui";
 import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
+import { edit, destroy } from "../../api/crud";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
   render() {
     let toggle = () => this.props.toggle();
+    let { dispatch } = this.props;
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -29,7 +31,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             </button>
             <button
               className="green button-like"
-              onClick={() => { /** do stuff */ }}>
+              onClick={() => { /** save */ }}>
               {t("Save")}
             </button>
           </WidgetHeader>
@@ -53,7 +55,6 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             </Row>
             {this.props.getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
-                /** Existing tool slots form */
                 return <Row key={slot.body.id}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
@@ -61,15 +62,18 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.x || 0).toString()}
-                      onCommit={() => { /** edit */ }}
+                      onCommit={(e) => {
+                        dispatch(edit(slot, { x: e.currentTarget.value }));
+                      }}
                       type="number"
-                      name="x"
                     />
                   </Col>
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.y || 0).toString()}
-                      onCommit={() => { /** edit */ }}
+                      onCommit={(e) => {
+                        dispatch(edit(slot, { y: e.currentTarget.value }));
+                      }}
                       type="number"
                       name="y"
                     />
@@ -77,7 +81,9 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                   <Col xs={2}>
                     <BlurableInput
                       value={(slot.body.z || 0).toString()}
-                      onCommit={() => { /** edit */ }}
+                      onCommit={(e) => {
+                        dispatch(edit(slot, { z: e.currentTarget.value }));
+                      }}
                       type="number"
                     />
                   </Col>
@@ -85,14 +91,16 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                     <FBSelect
                       list={this.props.getToolOptions()}
                       initialValue={this.props.getChosenToolOption(slot.uuid)}
-                      onChange={() => { /** do stuff */ }}
+                      onChange={(e) => {
+                        dispatch(edit(slot, { x: e.value }));
+                      }}
                       allowEmpty={true}
                     />
                   </Col>
                   <Col xs={1}>
                     <button
                       className="red button-like"
-                      onClick={() => { /** do stuff */ }}>
+                      onClick={() => dispatch(destroy(slot.uuid))}>
                       <i className="fa fa-times" />
                     </button>
                   </Col>
