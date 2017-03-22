@@ -116,11 +116,12 @@ export interface TaggedUser extends TaggedResourceBase {
   body: User;
 }
 
-/** SPot check to be certain a TaggedResource is what it says it is. */
+/** Spot check to be certain a TaggedResource is what it says it is. */
 export function sanityCheck(x: any) {
   if (isTaggedResource(x)) {
     assertUuid(x.kind, x.uuid);
-    console.log("We should add more type checks here later.")
+    console.log("We should add more type checks here later.");
+    return true;
   } else {
     throw new Error("Bad kind, uuid, or body: " + JSON.stringify(x));
   }
@@ -133,28 +134,22 @@ export function isTaggedResource(x: any): x is TaggedResource {
     && _.isObject(x.body))
 }
 
+let is = (r: ResourceName) => function isTaggedRegimen(x: any): x is TaggedRegimen {
+  return (sanityCheck(x) && isTaggedResource(x) && x.kind == "regimens");
+};
+
 export function isTaggedRegimen(x: any): x is TaggedRegimen {
-  return (isTaggedResource(x) && x.kind == "regimens")
-    || whoops(x, "regimens");
+  return (isTaggedResource(x) && x.kind == "regimens");
 }
 
 export function isTaggedSequence(x: any): x is TaggedSequence {
-  return (isTaggedResource(x) && x.kind == "sequences")
-    || whoops(x, "sequences");
+  return (isTaggedResource(x) && x.kind == "sequences");
 }
 
 export function isTaggedTool(x: any): x is TaggedTool {
-  return (isTaggedResource(x) && x.kind == "tools")
-    || whoops(x, "tools");
+  return (isTaggedResource(x) && x.kind == "tools");
 }
 
 export function isTaggedToolSlot(x: any): x is TaggedToolSlot {
-  return (isTaggedResource(x) && x.kind == "tool_slots")
-    || whoops(x, "tool_slots");
-}
-
-/** Warn the developer that bad data was encountered. */
-function whoops(x: any, expected: ResourceName) {
-  console.warn(`THATS NOT ${expected} : ${JSON.stringify(x)}`);
-  return false;
+  return (isTaggedResource(x) && x.kind == "tool_slots");
 }

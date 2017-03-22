@@ -21,6 +21,7 @@ import {
 } from "./tagged_resources";
 import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
+import { error } from "../ui/logger";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
   let uuid = index.byKindAndId[joinKindAndId(kind, id)];
@@ -78,6 +79,8 @@ let find = (r: ResourceName) =>
     if (result && isTaggedResource(result) && sanityCheck(result)) {
       return result as TaggedResource;
     } else {
+      error("Resource error");
+      debugger;
       throw new Error(`Tagged resource ${r} was not found or malformed: ` +
         JSON.stringify(result))
     }

@@ -90,6 +90,7 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
     addAllToIndex(index, "tool_slots", p["tool_slots"]);
     addAllToIndex(index, "tools", p["tools"]);
     addAllToIndex(index, "users", p["users"]);
+    state.loaded = true;
     return state;
   });
 
