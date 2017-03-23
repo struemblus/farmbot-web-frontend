@@ -1,4 +1,8 @@
-import { TaggedResource, ResourceName, TaggedSequence, isTaggedResource, TaggedToolSlot } from "../resources/tagged_resources";
+import {
+  TaggedResource,
+  ResourceName,
+  isTaggedResource,
+} from "../resources/tagged_resources";
 import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
@@ -112,15 +116,18 @@ export function destroy(uuid: string) {
           dispatch(destroyNO(err));
         });
     } else {
-      return (d: Function, g: GetState) => Promise.resolve("")
+      return (d: Function, g: GetState) => Promise.resolve("");
     }
   }
 }
 
-export function saveAll(input: TaggedResource[]) {
+export function saveAll(input: TaggedResource[],
+  callback: () => void = _.noop,
+  errBack: (err: UnsafeError) => void = _.noop) {
   return function (dispatch: Function, getState: GetState) {
     /** Perf issues maybe? RC - Mar 2017 */
-    input.filter(x => x.dirty).map(tts => dispatch(save(tts.uuid)));
+    let p = input.filter(x => x.dirty).map(tts => dispatch(save(tts.uuid)));
+    Promise.all(p).then(callback, errBack);
   }
 }
 

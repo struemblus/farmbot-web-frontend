@@ -73,6 +73,8 @@ export let resourceReducer = generateReducer<RestResources>(initialState)
       case "regimens":
       case "sequences":
       case "tools":
+      case "tool_slots":
+      case "tool_bays":
         removeFromIndex(state.index, resource);
         break;
       default:
