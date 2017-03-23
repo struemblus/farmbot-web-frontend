@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BackArrow, error, success } from "../../ui";
+import { BackArrow, error, success, info } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
@@ -11,26 +11,26 @@ import { isTaggedPlant, TaggedPlant } from "../../resources/tagged_resources";
 import { destroy } from "../../api/crud";
 
 function mapStateToProps(props: Everything): EditPlantInfoProps {
+
+  // TODO: This is definitely not right, figure out query objects
+  let plant_id = parseInt(history.getCurrentLocation().pathname.split("/")[4]);
+
   let findCurrentPlant = (plant_id: number) => {
     let query: Partial<Plant> = { id: plant_id };
     let currentPlant = findWhere(props.resources.index, query);
-    let q = isTaggedPlant;
-    debugger;
-    if (currentPlant && isTaggedPlant(currentPlant)) {
-      return currentPlant;
-    } else {
-      // success("Plant deleted. I Hope.")
-      // history.push("/app/designer")
-      // throw new Error("ERROR: Plant not found using plant id.");
-    }
-  }
 
-  return {
-    // TODO: This is definitely not right, figure out query objects
-    plant_id: parseInt(history.getCurrentLocation().pathname.split("/")[4]),
-    push: history.push,
-    dispatch: props.dispatch,
-    findCurrentPlant
+    // let plantInfo = {
+    //   dayPlanted: moment(),
+    //   days: dayPlanted.diff(moment(planted_at), "days") + 1,
+    //   plantedAt: moment(planted_at).format("MMMM Do YYYY, h:mma")
+    // };
+
+    return {
+      plant_id,
+      push: history.push,
+      dispatch: props.dispatch,
+      findCurrentPlant
+    }
   }
 }
 
@@ -43,27 +43,15 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
   }
 
   render() {
-    if (!isTaggedPlant(this.props.findCurrentPlant(this.props.plant_id))) {
+    let plant = this.props.findCurrentPlant(this.props.plant_id);
+    if (_.isUndefined(plant)) {
       history.push("/app/designer/plants");
       error("Couldn't find plant.", "Error");
-      throw new Error(`VERY BAD!! Plant could not be found by id,
-        possible stale data!`);
     }
+
     let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
 
-    // try {
-    //   let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
-    // } catch (e) {
-    //   error("Could not find plant.", "Error");
-    //   return <p>BRBLOL</p>
-    // }
-
     let { name, x, y, planted_at } = currentPlant.body;
-
-    let dayPlanted = moment();
-    // Same day = 1 !0
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
 
     return <div className="panel-container green-panel">
       <div className="panel-header green-panel">
