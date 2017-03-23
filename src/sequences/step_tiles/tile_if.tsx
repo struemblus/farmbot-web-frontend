@@ -47,7 +47,7 @@ export function TileIf({ dispatch, step, index, all, current }:
   let else_optn: DropDownItem | undefined;
   switch (step.args._else.kind) {
     case "execute":
-      let seq = byId[step.args._else.args.sequence_id];
+      let seq = byId[step.args._else.args.sequence_id].body;
       if (seq && seq.id && _.isString(seq.name)) {
         else_optn = { value: seq.id, label: seq.name };
       }
@@ -58,7 +58,7 @@ export function TileIf({ dispatch, step, index, all, current }:
   let then_optn: DropDownItem | undefined;
   switch (step.args._then.kind) {
     case "execute":
-      let seq = byId[step.args._then.args.sequence_id];
+      let seq = byId[step.args._then.args.sequence_id].body;
       if (seq && seq.id && _.isString(seq.name)) {
         then_optn = { value: seq.id, label: seq.name };
       }
@@ -85,10 +85,10 @@ export function TileIf({ dispatch, step, index, all, current }:
     .filter(function (seq) {
       // filter out id-less sequences so I can safely type cast
       // in the next call to .map();
-      return seq.id;
+      return seq.body.id;
     })
     .map(function (seq) {
-      return { value: (seq.id as number), label: seq.name };
+      return { value: (seq.body.id as number), label: seq.body.name };
     })
     .tap(list => list.push(NOTHING))
     .value();
