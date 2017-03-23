@@ -78,7 +78,7 @@ export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
     case "execute": return <ExecuteBlock {...props} />;
     case "_if": return <TileIf {...props} />;
     case "move_relative": return <TileMoveRelative {...props} />;
-    // case "move_absolute": return <TileMoveAbsolute {...props} />;
+    case "move_absolute": return <TileMoveAbsolute {...props} />;
     case "write_pin": return <TileWritePin {...props} />;
     case "wait": return <TileWait {...props} />;
     case "send_message": return <TileSendMessage {...props} />;

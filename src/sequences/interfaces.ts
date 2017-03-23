@@ -12,6 +12,7 @@ import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { TaggedSequence, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
 
 export interface Props {
   dispatch: Function;
@@ -20,14 +21,19 @@ export interface Props {
   slots: TaggedToolSlot[];
   sequence: TaggedSequence | undefined;
   auth: AuthState | undefined;
+  resources: ResourceIndex;
 }
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
   sequence: TaggedSequence | undefined;
+  /** @deprecated Use props.resources now. */
   sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
+  /** @deprecated Use props.resources now. */
   slots: TaggedToolSlot[];
+  resources: ResourceIndex;
 }
 
 export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
@@ -228,7 +234,11 @@ export interface StepParams {
   currentStep: SequenceBodyItem;
   dispatch: Function;
   index: number;
+  /** @deprecated Use props.resources now. */
   sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
+  /** @deprecated Use props.resources now. */
   slots: TaggedToolSlot[];
+  resources: ResourceIndex;
 }

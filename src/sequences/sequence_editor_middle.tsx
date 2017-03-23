@@ -12,7 +12,8 @@ export class SequenceEditorMiddle extends React
       sequence,
       sequences,
       tools,
-      slots
+      slots,
+      resources
     } = this.props;
     if (sequence && isTaggedSequence(sequence)) {
       return <SequenceEditorMiddleActive
@@ -20,7 +21,8 @@ export class SequenceEditorMiddle extends React
         dispatch={dispatch}
         sequence={sequence}
         sequences={sequences}
-        tools={tools} />;
+        tools={tools}
+        resources={resources} />;
     } else {
       return <SequenceEditorMiddleInactive />;
     }

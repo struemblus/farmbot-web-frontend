@@ -11,23 +11,27 @@ import {
   Coordinate,
   LegalSequenceKind
 } from "farmbot";
-import { FBSelect, Row, Col, BlurableInput, DropDownItem } from "../../ui";
+import { FBSelect, Row, Col, BlurableInput, DropDownItem, NULL_CHOICE } from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
 import { isTaggedSequence, TaggedTool, TaggedToolSlot } from "../../resources/tagged_resources";
-
+import { slottedTools } from "../../resources/selectors";
 
 export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
 
-  get location(): Tool | Coordinate {
+  get args() {
     // Incase we rename it later:
     const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
     if (this.props.currentStep.kind === MOVE_ABSOLUTE) {
-      return this.props.currentStep.args.location;
+      return this.props.currentStep.args;
     } else {
       throw new Error("Impossible celery node detected.")
     }
+  }
+
+  get location(): Tool | Coordinate {
+    return this.args.location;
   }
 
   updateToolSelect = (tool: DropDownItem) => {
@@ -75,7 +79,13 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   };
 
   get options(): DropDownItem[] {
-    throw new Error("!!!")
+    let choices: DropDownItem[] = [NULL_CHOICE];
+    slottedTools(this.props.resources).map(x => {
+      if (_.isNumber(x.body.id)) {
+        choices.push({ value: x.body.id, label: x.body.name })
+      }
+    })
+    return choices;
   };
 
   get toolById(): Dictionary<TaggedTool> {
@@ -102,7 +112,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   render() {
     let { currentStep, dispatch, index, currentSequence } = this.props;
     if (currentSequence && !isTaggedSequence(currentSequence)) {
-      throw new Error("HAZCON")
+      throw new Error("WHOOPS!")
     }
     return <div className="step-wrapper">
       <Row>

@@ -15,6 +15,7 @@ export function mapStateToProps(props: Everything): Props {
     tools: selectAllTools(props.resources.index),
     slots: selectAllToolSlots(props.resources.index),
     sequence: (uuid) ? findSequence(props.resources.index, uuid) : undefined,
-    auth: props.auth
+    auth: props.auth,
+    resources: props.resources.index
   };
 }

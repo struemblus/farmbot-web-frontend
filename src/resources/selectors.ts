@@ -19,7 +19,7 @@ import {
   isTaggedResource,
   sanityCheck
 } from "./tagged_resources";
-import { CowardlyDictionary } from "../util";
+import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
@@ -215,4 +215,30 @@ export function findWhere(index: ResourceIndex,
    *        currently, this method will accept any old object, which might be
    *        unsafe. */
   return _.findWhere(toArray(index), { body });
+}
+
+/** GIVEN: a slot UUID.
+ *  FINDS: Tool in that slot (if any) */
+export let currentToolInSlot = (index: ResourceIndex) =>
+  (toolSlotUUID: string): TaggedTool | undefined => {
+    let currentSlot = selectCurrentToolSlot(index, toolSlotUUID);
+    if (currentSlot && currentSlot.kind === "tool_slots") {
+      let tool = findWhere(index, { id: currentSlot.body.tool_id });
+      if (tool && isTaggedTool(tool)) {
+        return tool;
+      }
+    }
+  };
+
+/** FINDS: all tagged resources with ID */
+export function findAllById(i: ResourceIndex, ids: number[], k: ResourceName) {
+  let output: TaggedResource[] = [];
+  findAll(i, k).map(x => x.kind === k ? output.push(x) : "")
+  return output;
+}
+
+/** FINDS: All tools that are in use. */
+export function slottedTools(index: ResourceIndex): TaggedTool[] {
+  let ids = betterCompact(selectAllToolSlots(index).map(ts => ts.body.tool_id));
+  return findAllById(index, ids, "tools") as TaggedTool[];
 }
