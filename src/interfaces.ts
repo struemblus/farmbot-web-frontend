@@ -68,13 +68,9 @@ export interface Everything {
   designer: DesignerState;
   dispatch: Function;
   bot: BotState;
-  sequences: SequenceReducerState;
-  regimens: RegimensState;
-  bulkScheduler: BulkSchedulerState;
   location: Location;
   draggable: DragableState;
   peripherals: PeripheralState;
-  tools: ToolsState;
   resources: RestResources;
   router: {
     push(url?: string): void;

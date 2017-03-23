@@ -8,7 +8,7 @@ import {
 import { generateReducer } from "../redux/generate_reducer";
 import * as _ from "lodash";
 
-const initialState: SequenceReducerState = {
+export const initialState: SequenceReducerState = {
   current: undefined
 };
 

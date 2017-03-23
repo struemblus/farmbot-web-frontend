@@ -19,21 +19,16 @@ import { ReduxAction } from "./interfaces";
 import { Session } from "../session";
 import { resourceReducer as resources } from "../resources/reducer"
 
-let reducers = combineReducers({
+export let reducers = combineReducers({
   auth,
   bot,
-  sequences,
-  regimens,
-  bulkScheduler,
   config,
   designer,
   draggable,
   peripherals,
-  tools,
   sync,
   resources
 });
-
 /** This is the topmost reducer in the application. If you need to preempt a
  * "normal" reducer this is the place to do it */
 export function rootReducer(
