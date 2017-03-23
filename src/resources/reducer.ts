@@ -1,4 +1,4 @@
-import { generateReducer } from "../redux/generate_reducer";
+import { generateReducer, AFTER } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
 import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./tagged_resources";
@@ -6,8 +6,21 @@ import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";
-import { initialState as sequenceState } from "../sequences/reducer";
-import { initialState as regimenState } from "../regimens/reducer";
+import {
+  initialState as sequenceState,
+  sequenceReducer as sequences,
+} from "../sequences/reducer";
+import {
+  initialState as regimenState,
+  regimensReducer as regimens
+} from "../regimens/reducer";
+import { combineReducers } from "redux";
+import { ReduxAction } from "../redux/interfaces";
+
+let consumerReducer = combineReducers({
+  regimens,
+  sequences
+});
 
 function emptyState(): RestResources {
   return {
@@ -41,14 +54,16 @@ function emptyState(): RestResources {
 }
 
 let initialState: RestResources = emptyState();
+let afterEach = (state: RestResources, a: ReduxAction<any>) => {
+  state.consumers = consumerReducer({
+    sequences: state.consumers.sequences,
+    regimens: state.consumers.regimens
+  }, a) as any;
+  return state;
+};
 
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer<RestResources>(initialState)
-  .add<TaggedResource>("INITIALIZE_RESOURCE", function (s, a) {
-    let tr = a.payload;
-    addToIndex(s.index, tr.kind, tr.body, tr.uuid)
-    return s;
-  })
   .add<TaggedResource>("CREATE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     if (resource
