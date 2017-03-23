@@ -61,7 +61,6 @@ DNDSpeciesMobileState> {
 
   render() {
     let species = history.getCurrentLocation().pathname.split("/")[5];
-    console.log(species);
 
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
 
