@@ -30,6 +30,7 @@ export function copy({ dispatch, step, sequence }: CopyParams) {
   let copy = defensiveClone(step);
   let next = defensiveClone(sequence);
   let seq = next.body;
+  debugger;
   seq.body = seq.body || [];
   seq.body.splice(_.indexOf(seq.body, copy), 0, copy);
   dispatch(edit(sequence, next));
@@ -85,9 +86,10 @@ export interface StepParams {
   step: Step;
   index: number;
   current: TaggedSequence;
-  all: Sequence[];
+  all: TaggedSequence[];
   tools: ToolsState;
 }
+console.log("👆 Change ToolState to `TaggedTool[]`");
 
 export type StepTile = (input: StepParams) => JSX.Element;
 
