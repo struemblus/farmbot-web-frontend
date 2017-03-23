@@ -85,6 +85,6 @@ export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
     case "read_pin": return <TileReadPin {...props} />;
     case "execute_script": return <TileExecuteScript {...props} />;
     case "take_photo": return <TileTakePhoto {...props} />;
-    default: return <p>Unknown step</p>;
+    default: return <div><hr /> ? Unknown step ? <hr /></div>;
   }
 };

@@ -6,9 +6,23 @@ import { changeStepSelect, updateSubSequence } from "../actions";
 import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { If } from "farmbot";
-import { StepParams } from "../interfaces";
+import { StepParams, CopyParams } from "../interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
+import { CowardlyDictionary } from "../../util";
 const NOTHING = { label: "Nothing", value: 0 };
 
+
+/**
+ *   HEY YOU!!!!!!
+ *
+ *     REFACTOR THIS !!!!!
+ *
+ *       This component needs some love.
+         I am currently doing the "Great Redux Refactor of Mar 2017" and can't
+ *       Right now.
+ *
+ *          - RC
+ */
 let LHSOptions: DropDownItem[] = [
   { value: "busy", label: "Busy Status (0, 1)" },
   { value: "pin0", label: "Pin 0" },
@@ -36,62 +50,115 @@ let operatorOptions: DropDownItem[] = [
   { value: "is", label: "is equal to" },
   { value: "not", label: "is not equal to" }
 ];
+
+/** Convert a list of TaggedSequences into a list of DropDownItems */
+function toDropdownList(sequences: TaggedSequence[]): DropDownItem[] {
+  let choices: DropDownItem[] = [];
+  sequences.map((seq) => {
+    (_.isNumber(seq.body.id)) ?
+      choices.push({ value: (seq.body.id), label: seq.body.name }) : undefined;
+  });
+  choices.push(NOTHING);
+  return choices;
+}
+
 export function TileIf({ dispatch, currentStep, index, sequences, currentSequence }:
   StepParams) {
-  let byId = _.indexBy(sequences, "id");
-  currentStep = currentStep as If;
-  type ArgName = keyof typeof currentStep.args;
-  type FieldName = "sequence_id";
-  let args = currentStep.args;
-  let { lhs, op } = args;
-  let else_optn: DropDownItem | undefined;
-  switch (currentStep.args._else.kind) {
-    case "execute":
-      let seq = byId[currentStep.args._else.args.sequence_id].body;
-      if (seq && seq.id && _.isString(seq.name)) {
-        else_optn = { value: seq.id, label: seq.name };
-      }
-      break;
-    case "nothing": else_optn = NOTHING;
-  }
-  else_optn = else_optn || NOTHING;
-  let then_optn: DropDownItem | undefined;
-  switch (currentStep.args._then.kind) {
-    case "execute":
-      let seq = byId[currentStep.args._then.args.sequence_id].body;
-      if (seq && seq.id && _.isString(seq.name)) {
-        then_optn = { value: seq.id, label: seq.name };
-      }
-      break;
-    case "nothing": then_optn = NOTHING;
-  }
-  then_optn = then_optn || NOTHING;
-  let update = (field: ArgName) => (e: DropDownItem) => {
-    let { value } = e;
-    if (value) { dispatch(changeStepSelect(value, index, field)); }
-  };
-
-  let updateSubSeq = (field: FieldName, type: ArgName) => (e: DropDownItem) => {
-    let { value } = e;
-    if (value && field && type) {
-      dispatch(updateSubSequence(value, index, field, type));
+  if (currentStep.kind === "_if") {
+    let byId: CowardlyDictionary<TaggedSequence> = _.indexBy(sequences, "id");
+    type ArgName = keyof typeof currentStep.args;
+    type FieldName = "sequence_id";
+    let args = currentStep.args;
+    let { lhs, op } = args;
+    let else_optn: DropDownItem | undefined;
+    switch (currentStep.args._else.kind) {
+      case "execute":
+        let ts = byId[currentStep.args._else.args.sequence_id];
+        let seq = ts && ts.body;
+        if (seq && seq.id) { else_optn = { value: seq.id, label: seq.name }; }
+        break;
+      case "nothing": else_optn = NOTHING;
     }
-  };
+    else_optn = else_optn || NOTHING;
+    let then_optn: DropDownItem | undefined;
+    switch (currentStep.args._then.kind) {
+      case "execute":
+        let ts = byId[currentStep.args._then.args.sequence_id];
+        let seq = ts && ts.body;
+        if (seq && seq.id) {
+          then_optn = { value: seq.id, label: seq.name };
+        }
+        break;
+      case "nothing": then_optn = NOTHING;
+    }
+    then_optn = then_optn || NOTHING;
+    let update = (field: ArgName) => (e: DropDownItem) => {
+      let { value } = e;
+      if (value) { dispatch(changeStepSelect(value, index, field)); }
+    };
 
-  var isRecursive = (then_optn && then_optn.value === currentSequence.body.id)
-    || (else_optn && else_optn.value === currentSequence.body.id);
+    let updateSubSeq = (field: FieldName, type: ArgName) => (e: DropDownItem) => {
+      let { value } = e;
+      if (value && field && type) {
+        dispatch(updateSubSequence(value, index, field, type));
+      }
+    };
 
-  let seqDropDown = _(sequences)
-    .filter(function (seq) {
-      // filter out id-less sequences so I can safely type cast
-      // in the next call to .map();
-      return seq.body.id;
-    })
-    .map(function (seq) {
-      return { value: (seq.body.id as number), label: seq.body.name };
-    })
-    .tap(list => list.push(NOTHING))
-    .value();
+    var isRecursive = (then_optn && then_optn.value === currentSequence.body.id)
+      || (else_optn && else_optn.value === currentSequence.body.id);
+    let p: InnerIfParams = {
+      else_optn,
+      seqDropDown: toDropdownList(sequences),
+      updateSubSeq,
+      then_optn,
+      isRecursive,
+      currentStep,
+      copy,
+      index,
+      dispatch,
+      sequence: currentSequence,
+      update,
+      lhs,
+      op
+    }
+    return <InnerIf {...p} />;
+  } else {
+    return <p> Expected "_if" node</p>;
+  }
+}
+
+type Brb = "lhs" | "op" | "rhs" | "_then" | "_else";
+interface InnerIfParams {
+  else_optn: DropDownItem;
+  seqDropDown: DropDownItem[];
+  updateSubSeq(field: "sequence_id", type: Brb): (e: DropDownItem) => void
+  update(field: "lhs" | "op" | "rhs" | "_then" | "_else"): (e: DropDownItem) => void
+  then_optn: DropDownItem;
+  isRecursive: boolean;
+  currentStep: If;
+  copy(i: CopyParams): void
+  index: number;
+  dispatch: Function;
+  sequence: TaggedSequence;
+  lhs: string;
+  op: string;
+}
+
+function InnerIf({
+  else_optn,
+  seqDropDown,
+  updateSubSeq,
+  then_optn,
+  isRecursive,
+  currentStep,
+  copy,
+  index,
+  dispatch,
+  sequence,
+  update,
+  lhs,
+  op
+}: InnerIfParams) {
   return <div>
     <div className="step-wrapper">
       <div className="row">
@@ -102,7 +169,7 @@ export function TileIf({ dispatch, currentStep, index, sequences, currentSequenc
               step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
+              onClick={() => copy({ dispatch, step: currentStep })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`Detailed documentation coming soon`)} />
