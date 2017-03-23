@@ -7,21 +7,7 @@ import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { init } from "../api/crud";
-let count = 1;
 
-function emptySequence(): TaggedSequence {
-  return {
-    kind: "sequences",
-    uuid: "REDUCER_MUST_CHANGE_THIS",
-    body: {
-      name: "new sequence " + (count++),
-      args: { version: -999 },
-      color: randomColor(),
-      kind: "sequence",
-      body: []
-    }
-  }
-}
 let buttonList = (dispatch: Function) =>
   (ts: TaggedSequence, index: number) => {
     let css = ["block-wrapper",
@@ -52,6 +38,20 @@ let buttonList = (dispatch: Function) =>
   };
 
 export class SequencesList extends React.Component<SequencesListProps, {}> {
+  emptySequence = (): TaggedSequence => {
+    return {
+      kind: "sequences",
+      uuid: "REDUCER_MUST_CHANGE_THIS",
+      body: {
+        name: "new sequence " + (this.props.sequences.length + 1),
+        args: { version: -999 },
+        color: randomColor(),
+        kind: "sequence",
+        body: []
+      }
+    }
+  }
+
   render() {
     let { sequences, dispatch } = this.props;
     return <Widget className="sequence-list-widget">
@@ -59,7 +59,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
         helpText={`Here is the list of all of your sequences.
                    Click one to edit.`}>
         <button className="green button-like"
-          onClick={() => dispatch(init(emptySequence()))}>
+          onClick={() => dispatch(init(this.emptySequence()))}>
           {t("Add")}
         </button>
       </WidgetHeader>
