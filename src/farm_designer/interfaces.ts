@@ -200,7 +200,7 @@ export interface SpeciesInfoProps extends Everything {
 
 export interface EditPlantInfoProps {
   plant_id: number;
-  findCurrentPlant(plant_id: number): TaggedPlant;
+  findCurrentPlant(plant_id: number): TaggedPlant | undefined;
   push(url: string): void;
   dispatch: Function;
 }

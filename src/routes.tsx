@@ -16,40 +16,40 @@ interface RootComponentProps {
 
 declare const System: any;
 let errorLoading = (cb: any) => function handleError(err: any) {
-  console.error("Dynamic page loading failed", err);
-  var container = document.getElementById("root");
-  if (container) {
-    container.innerHTML = (`
-    <div>
-      <h1> Something went wrong! </h1>
-      <p>We hit an internal error while rendering this page.</p>
-      <p>We have been notified of the issue and will investigate a solution shortly.</p>
-      <hr/>
-      <p>In the mean time, you can try the following:</P>
-      <ul>
-        <li> Refresh the page and log in again.</li>
-        <li> Send the error information (below) to our developer team via the
-        <a href="http://forum.farmbot.org/c/software">FarmBot software forum</a>. Including additional information (such as steps leading up to the error) help us identify solutions more quickly. </li>
-      <hr/>
-      <pre>
-      ${JSON.stringify({
-        message: _.get(err, "message", "No message available."),
-        stack: _.get(err, "stack", ["No stack."])
-      }, null, "  ")}
-    </pre>
-    </div>
-  `);
-  }
-  if (!location.hostname.includes("localhost")) {
-    // Clear cache for end users, but not developers.
-    localStorage.clear();
-    sessionStorage.clear();
-  }
-  let y = document.querySelectorAll("link");
-  for (var x = 0; x < y.length; x++) {
-    var element = y[x];
-    element.remove();
-  }
+  // console.error("Dynamic page loading failed", err);
+  // var container = document.getElementById("root");
+  // if (container) {
+  //   container.innerHTML = (`
+  //   <div>
+  //     <h1> Something went wrong! </h1>
+  //     <p>We hit an internal error while rendering this page.</p>
+  //     <p>We have been notified of the issue and will investigate a solution shortly.</p>
+  //     <hr/>
+  //     <p>In the mean time, you can try the following:</P>
+  //     <ul>
+  //       <li> Refresh the page and log in again.</li>
+  //       <li> Send the error information (below) to our developer team via the
+  //       <a href="http://forum.farmbot.org/c/software">FarmBot software forum</a>. Including additional information (such as steps leading up to the error) help us identify solutions more quickly. </li>
+  //     <hr/>
+  //     <pre>
+  //     ${JSON.stringify({
+  //       message: _.get(err, "message", "No message available."),
+  //       stack: _.get(err, "stack", ["No stack."])
+  //     }, null, "  ")}
+  //   </pre>
+  //   </div>
+  // `);
+  // }
+  // if (!location.hostname.includes("localhost")) {
+  //   // Clear cache for end users, but not developers.
+  //   localStorage.clear();
+  //   sessionStorage.clear();
+  // }
+  // let y = document.querySelectorAll("link");
+  // for (var x = 0; x < y.length; x++) {
+  //   var element = y[x];
+  //   element.remove();
+  // }
 }
 
 export class RootComponent extends React.Component<RootComponentProps, {}> {

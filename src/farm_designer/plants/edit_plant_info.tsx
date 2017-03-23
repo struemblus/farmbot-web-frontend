@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BackArrow, error } from "../../ui";
+import { BackArrow, error, success } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
@@ -7,17 +7,21 @@ import { EditPlantInfoProps, Plant } from "../interfaces";
 import { history } from "../../history";
 import { Everything } from "../../interfaces";
 import { findWhere } from "../../resources/selectors";
-import { isTaggedPlant } from "../../resources/tagged_resources";
+import { isTaggedPlant, TaggedPlant } from "../../resources/tagged_resources";
 import { destroy } from "../../api/crud";
 
 function mapStateToProps(props: Everything): EditPlantInfoProps {
   let findCurrentPlant = (plant_id: number) => {
     let query: Partial<Plant> = { id: plant_id };
     let currentPlant = findWhere(props.resources.index, query);
+    let q = isTaggedPlant;
+    debugger;
     if (currentPlant && isTaggedPlant(currentPlant)) {
       return currentPlant;
     } else {
-      throw new Error("ERROR: Plant not found using plant id.");
+      // success("Plant deleted. I Hope.")
+      // history.push("/app/designer")
+      // throw new Error("ERROR: Plant not found using plant id.");
     }
   }
 
@@ -42,7 +46,7 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
     if (!isTaggedPlant(this.props.findCurrentPlant(this.props.plant_id))) {
       history.push("/app/designer/plants");
       error("Couldn't find plant.", "Error");
-      throw new Error(`VERY BAD!! Plant could not be found by id, 
+      throw new Error(`VERY BAD!! Plant could not be found by id,
         possible stale data!`);
     }
     let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
