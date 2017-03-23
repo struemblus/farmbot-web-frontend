@@ -1,15 +1,11 @@
 import { OpenFarm } from "./openfarm";
 import { DropDownItem } from "../ui/index";
-import { Sequence } from "../sequences/interfaces";
-import { Regimen } from "../regimens/interfaces";
-import { Everything } from "../interfaces";
 import { CowardlyDictionary } from "../util";
-import { RestResources, ResourceIndex } from "../resources/interfaces";
+import { RestResources } from "../resources/interfaces";
 import {
   TaggedFarmEvent,
   TaggedSequence,
   TaggedRegimen,
-  ResourceName,
   TaggedResource,
   TaggedPoint,
   TaggedPlant
@@ -194,8 +190,8 @@ export interface GardenPointProps {
 
 export type PlantOptions = Partial<Plant>;
 
-export interface SpeciesInfoProps extends Everything {
-  params: { species: string; };
+export interface SpeciesInfoProps {
+  cropSearchResults: CropLiveSearchResult[];
 }
 
 export interface PlantData {
@@ -258,7 +254,7 @@ export interface DraggableSvgImageProps {
 
 export interface OFSearchProps {
   dispatch: Function;
-  designer: DesignerState;
+  cropSearchResults: CropLiveSearchResult[];
   query: string;
 }
 

@@ -16,7 +16,6 @@ function OptionComponent(plants: TaggedPlant[]) {
     let planted_at = (plant && plant.body.planted_at) || moment();
     let dayPlanted = moment();
 
-    // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     return <div className="plant-search-item">
       <img className="plant-search-item-image" src={DEFAULT_ICON} />
