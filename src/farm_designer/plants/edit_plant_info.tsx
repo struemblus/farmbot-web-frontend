@@ -12,25 +12,18 @@ import { destroy } from "../../api/crud";
 
 function mapStateToProps(props: Everything): EditPlantInfoProps {
 
-  // TODO: This is definitely not right, figure out query objects
   let plant_id = parseInt(history.getCurrentLocation().pathname.split("/")[4]);
+  let query: Partial<Plant> = { id: plant_id };
+  let currentPlant = findWhere(props.resources.index, query);
+  let plant_info: undefined | {} = undefined;
+  if (currentPlant && isTaggedPlant(currentPlant)) {
+    plant_info = {}
+  }
 
-  let findCurrentPlant = (plant_id: number) => {
-    let query: Partial<Plant> = { id: plant_id };
-    let currentPlant = findWhere(props.resources.index, query);
-
-    // let plantInfo = {
-    //   dayPlanted: moment(),
-    //   days: dayPlanted.diff(moment(planted_at), "days") + 1,
-    //   plantedAt: moment(planted_at).format("MMMM Do YYYY, h:mma")
-    // };
-
-    return {
-      plant_id,
-      push: history.push,
-      dispatch: props.dispatch,
-      findCurrentPlant
-    }
+  return {
+    plant_info: undefined,
+    push: history.push,
+    dispatch: props.dispatch
   }
 }
 
