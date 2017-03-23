@@ -147,15 +147,6 @@ export interface IStepInput {
   index: number;
 }
 
-export interface StepParams {
-  dispatch: Function;
-  step: SequenceBodyItem;
-  index: number;
-  current: TaggedSequence;
-  all: TaggedSequence[];
-  tools: ToolsState;
-}
-
 export type StepTile = (input: StepParams) => JSX.Element;
 
 export interface StepDictionary {
@@ -238,16 +229,11 @@ export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 
-export interface DynamicStepListProps {
-  sequence: TaggedSequence | undefined;
-  sequences: TaggedSequence[];
-  tools: TaggedTool[];
+export interface StepParams {
   dispatch: Function;
-}
-
-export interface StepListProps {
-  sequence: TaggedSequence;
-  sequences: TaggedSequence[];
-  tools: TaggedTool[];
-  dispatch: Function;
+  step: SequenceBodyItem;
+  index: number;
+  current: TaggedSequence;
+  all: TaggedSequence[];
+  tools: ToolsState;
 }

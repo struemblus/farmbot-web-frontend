@@ -11,14 +11,7 @@ import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
 import { isTaggedSequence } from "../../resources/tagged_resources";
 
-/** Adds more specificity to the `StepParams` interface, since we only deal with
- *  MoveAbsolute nodes. */
-interface MoveAbsProps extends TileMoveAbsoluteProps, StepParams {
-  step: MoveAbsolute;
-}
-
-@connect(mapStateToProps)
-export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
+export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
 
   updateToolSelect = (tool: DropDownItem) => {
     let { step, index, dispatch, changeToolSelect } = this.props;

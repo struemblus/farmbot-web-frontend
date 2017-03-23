@@ -15,22 +15,6 @@ import {
 } from "../../../resources/tagged_resources";
 import { ToolSlot } from "../../../tools/interfaces";
 
-export interface TileMoveAbsoluteProps {
-  options: DropDownItem[];
-  dispatch: Function;
-  computeInputValue(kind: string, arg: string, step: Step): string;
-  toolById: CowardlyDictionary<TaggedTool>;
-  findSlotByToolId: (tool_id: number) => TaggedToolSlot | undefined;
-  changeToolSelect(step: Step,
-    index: number,
-    dispatch: Function,
-    tool: DropDownItem): void;
-  changeInputValue(value: string,
-    type: string,
-    index: number,
-    dispatch: Function): void;
-}
-
 export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
 
   /** Get data indexed */

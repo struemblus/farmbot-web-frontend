@@ -139,7 +139,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
             onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
         </Row>
         {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
-          let Step = stepTiles[step.kind] || Oops;
+          let Step = stepTiles(step.kind);
           /** HACK: If we wrote `key={inx}` for this iterator, React's diff
            * algorithm would lose track of which step has changed (and
            * sometimes even mix up the state of completely different steps).
