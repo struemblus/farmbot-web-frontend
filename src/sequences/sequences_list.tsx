@@ -1,6 +1,6 @@
 import * as React from "react";
 import { selectSequence } from "./actions";
-import { Sequence, SequencesListProps } from "./interfaces";
+import { SequencesListProps } from "./interfaces";
 import { t } from "i18next";
 import { isMobile, randomColor } from "../util";
 import { Link } from "react-router";

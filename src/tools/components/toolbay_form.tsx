@@ -26,6 +26,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
       }
     }
   }
+
   render() {
     let toggle = () => this.props.toggle();
     let { dispatch } = this.props;
