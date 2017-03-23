@@ -8,7 +8,9 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
     this.state = { isDragging: false, transX: 0, transY: 0 };
   }
 
-  toggle = () => this.setState({isDragging: !this.state.isDragging});
+  select = () => this.setState({isDragging: true});
+
+  deSelect = () => this.setState({isDragging: false});
 
   snap = (value: number, gridSize: number) => {
     let snapped = gridSize * Math.round(value / gridSize);
@@ -65,8 +67,8 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
         height={this.props.height}
         width={this.props.width}
         transform={translation}
-        onMouseDown={() => this.toggle()}
-        onMouseUp={() => this.toggle()}
+        onMouseDown={() => this.select()}
+        onMouseUp={() => this.deSelect()}
         onMouseMove={(e) => this.drag(e)} />
 
     </g>;
