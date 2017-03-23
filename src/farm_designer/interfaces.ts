@@ -234,9 +234,8 @@ export interface SearchBoxParams {
 
 export interface DraggableSvgImageState {
   isDragging: boolean;
-  mouseX: number;
-  mouseY: number;
-  radius: number;
+  transX: number;
+  transY: number;
 }
 
 export interface DraggableSvgImageProps {
