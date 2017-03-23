@@ -12,14 +12,14 @@ import { SendMessage } from "farmbot";
 import * as _ from "lodash";
 import { StepParams } from "../interfaces";
 
-export function TileSendMessage({ dispatch, step, index, current }: StepParams) {
-  if (step.kind !== "send_message") {
+export function TileSendMessage({ dispatch, currentStep, index, currentSequence }: StepParams) {
+  if (currentStep.kind !== "send_message") {
     throw new Error("TileSendMessage expects send_message");
   } else {
 
   }
-  step = step as SendMessage;
-  let args = step.args;
+  currentStep = currentStep as SendMessage;
+  let args = currentStep.args;
   let message = args.message;
 
   let channels = _.pairs<{}, string>({
@@ -60,8 +60,8 @@ export function TileSendMessage({ dispatch, step, index, current }: StepParams) 
   };
 
   let choices = channels.map(function (pair, key) {
-    let name_list = (step.kind === "send_message") ?
-      (step.body || []).map(x => x.args.channel_name) : [];
+    let name_list = (currentStep.kind === "send_message") ?
+      (currentStep.body || []).map(x => x.args.channel_name) : [];
     let [name, label] = pair;
     let isChecked = name_list.includes(name);
 
@@ -88,10 +88,10 @@ export function TileSendMessage({ dispatch, step, index, current }: StepParams) 
           <div className="step-header send-message-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`The Send Message step instructs
@@ -113,7 +113,7 @@ export function TileSendMessage({ dispatch, step, index, current }: StepParams) 
                   {message.length}/300
                 </span>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="message"
                 />

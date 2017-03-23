@@ -23,16 +23,16 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   get location(): Tool | Coordinate {
     // Incase we rename it later:
     const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
-    if (this.props.step.kind === MOVE_ABSOLUTE) {
-      return this.props.step.args.location;
+    if (this.props.currentStep.kind === MOVE_ABSOLUTE) {
+      return this.props.currentStep.args.location;
     } else {
       throw new Error("Impossible celery node detected.")
     }
   }
 
   updateToolSelect = (tool: DropDownItem) => {
-    let { step, index, dispatch } = this.props;
-    this.changeToolSelect(step, index, dispatch, tool);
+    let { currentStep, index, dispatch } = this.props;
+    this.changeToolSelect(currentStep, index, dispatch, tool);
   }
 
   updateInputValue = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -100,18 +100,18 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   }
 
   render() {
-    let { step, dispatch, index, current } = this.props;
-    if (current && !isTaggedSequence(current)) {
+    let { currentStep, dispatch, index, currentSequence } = this.props;
+    if (currentSequence && !isTaggedSequence(currentSequence)) {
       throw new Error("HAZCON")
     }
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
           <div className="step-header move-absolute-step">
-            <StepTitleBar index={index} dispatch={dispatch} step={step} />
+            <StepTitleBar index={index} dispatch={dispatch} step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <div className="help">
@@ -186,7 +186,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <StepInputBox
                   index={this.props.index}
                   field={"speed"}
-                  step={this.props.step}
+                  step={this.props.currentStep}
                   dispatch={this.props.dispatch} />
               </Col>
               <Col xs={3}>
@@ -197,7 +197,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-x"
-                  value={this.computeInputValue("offset", "x", step)} />
+                  value={this.computeInputValue("offset", "x", currentStep)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -207,7 +207,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-y"
-                  value={this.computeInputValue("offset", "y", step)} />
+                  value={this.computeInputValue("offset", "y", currentStep)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -217,7 +217,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-z"
-                  value={this.computeInputValue("offset", "z", step)} />
+                  value={this.computeInputValue("offset", "z", currentStep)} />
               </Col>
             </Row>
           </div>

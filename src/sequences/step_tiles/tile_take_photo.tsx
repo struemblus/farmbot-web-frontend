@@ -7,7 +7,7 @@ import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { Link } from "react-router";
 
-export function TileTakePhoto({ dispatch, step, index, current }: StepParams) {
+export function TileTakePhoto({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
     <div className="step-wrapper">
       <div className="row">
@@ -15,10 +15,10 @@ export function TileTakePhoto({ dispatch, step, index, current }: StepParams) {
           <div className="step-header wait-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`Snaps a photo from the boroscope.`)} />

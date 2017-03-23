@@ -76,7 +76,7 @@ export let performSeq = (dispatch: Function, s: TaggedSequence) => {
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
   render() {
-    let { sequences, dispatch, tools, sequence } = this.props;
+    let { sequences, dispatch, tools, sequence, slots } = this.props;
     let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
       if (xfer.draggerId === NULL_DRAGGER_ID) {
@@ -129,30 +129,31 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           <ColorPicker current={sequence.body.color}
             onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
         </Row>
-        {(sequence.body.body || []).map((step: SequenceBodyItem, index, arr) => {
+        {(sequence.body.body || []).map((currentStep: SequenceBodyItem, index, arr) => {
           /** HACK: If we wrote `key={index}` for this iterator, React's diff
-           * algorithm would lose track of which step has changed (and
+           * algorithm (probably?) loses track of which step has changed (and
            * sometimes even mix up the state of completely different steps).
            * To get around this, we add a `uuid` property to Steps that
            * is guaranteed to be unique and allows React to diff the list
            * correctly.
            */
-          let wow = (step as any).uuid || index;
-          let current = sequence;
+          let wow = (currentStep as any).uuid || index;
+          let currentSequence = sequence;
           return <div key={wow}>
             <DropArea callback={onDrop(dispatch as dispatcher, index)} />
             <StepDragger dispatch={dispatch}
-              step={step}
+              step={currentStep}
               ghostCss="step-drag-ghost-image-big"
               intent="step_move"
               draggerId={index}>
-              {renderCeleryNode(step.kind as LegalSequenceKind, {
-                step,
+              {renderCeleryNode(currentStep.kind as LegalSequenceKind, {
+                currentStep,
                 index,
                 dispatch: dispatch,
                 sequences: sequences,
-                current,
-                tools: tools
+                currentSequence,
+                slots,
+                tools
               })}
             </StepDragger>
           </div>;

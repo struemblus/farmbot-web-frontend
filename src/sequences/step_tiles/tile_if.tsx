@@ -36,18 +36,18 @@ let operatorOptions: DropDownItem[] = [
   { value: "is", label: "is equal to" },
   { value: "not", label: "is not equal to" }
 ];
-export function TileIf({ dispatch, step, index, sequences, current }:
+export function TileIf({ dispatch, currentStep, index, sequences, currentSequence }:
   StepParams) {
   let byId = _.indexBy(sequences, "id");
-  step = step as If;
-  type ArgName = keyof typeof step.args;
+  currentStep = currentStep as If;
+  type ArgName = keyof typeof currentStep.args;
   type FieldName = "sequence_id";
-  let args = step.args;
+  let args = currentStep.args;
   let { lhs, op } = args;
   let else_optn: DropDownItem | undefined;
-  switch (step.args._else.kind) {
+  switch (currentStep.args._else.kind) {
     case "execute":
-      let seq = byId[step.args._else.args.sequence_id].body;
+      let seq = byId[currentStep.args._else.args.sequence_id].body;
       if (seq && seq.id && _.isString(seq.name)) {
         else_optn = { value: seq.id, label: seq.name };
       }
@@ -56,9 +56,9 @@ export function TileIf({ dispatch, step, index, sequences, current }:
   }
   else_optn = else_optn || NOTHING;
   let then_optn: DropDownItem | undefined;
-  switch (step.args._then.kind) {
+  switch (currentStep.args._then.kind) {
     case "execute":
-      let seq = byId[step.args._then.args.sequence_id].body;
+      let seq = byId[currentStep.args._then.args.sequence_id].body;
       if (seq && seq.id && _.isString(seq.name)) {
         then_optn = { value: seq.id, label: seq.name };
       }
@@ -78,8 +78,8 @@ export function TileIf({ dispatch, step, index, sequences, current }:
     }
   };
 
-  var isRecursive = (then_optn && then_optn.value === current.body.id)
-    || (else_optn && else_optn.value === current.body.id);
+  var isRecursive = (then_optn && then_optn.value === currentSequence.body.id)
+    || (else_optn && else_optn.value === currentSequence.body.id);
 
   let seqDropDown = _(sequences)
     .filter(function (seq) {
@@ -99,10 +99,10 @@ export function TileIf({ dispatch, step, index, sequences, current }:
           <div className="step-header if-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`Detailed documentation coming soon`)} />
@@ -143,7 +143,7 @@ export function TileIf({ dispatch, step, index, sequences, current }:
               <div className="col-xs-4 col-md-4">
                 <label>{t("Right hand side")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="rhs" />
               </div>

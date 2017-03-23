@@ -6,7 +6,7 @@ import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { StepParams } from "../interfaces";
 
-export function TileReadPin({ dispatch, step, index, current }: StepParams) {
+export function TileReadPin({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
     <div className="step-wrapper">
       <div className="row">
@@ -14,10 +14,10 @@ export function TileReadPin({ dispatch, step, index, current }: StepParams) {
           <div className="step-header read-pin-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`The Read Pin step instructs FarmBot to
@@ -34,21 +34,21 @@ export function TileReadPin({ dispatch, step, index, current }: StepParams) {
               <div className="col-xs-6 col-md-3">
                 <label>{t("Pin Number")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="pin_number" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Data Label")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="label" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Pin Mode")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="pin_mode" />
               </div>

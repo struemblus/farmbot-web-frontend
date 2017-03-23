@@ -11,12 +11,13 @@ import {
 import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { TaggedSequence, TaggedTool } from "../resources/tagged_resources";
+import { TaggedSequence, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
+  slots: TaggedToolSlot[];
   sequence: TaggedSequence | undefined;
   auth: AuthState | undefined;
 }
@@ -26,6 +27,7 @@ export interface SequenceEditorMiddleProps {
   sequence: TaggedSequence | undefined;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
+  slots: TaggedToolSlot[];
 }
 
 export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
@@ -222,10 +224,11 @@ export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 
 export interface StepParams {
+  currentSequence: TaggedSequence;
+  currentStep: SequenceBodyItem;
   dispatch: Function;
-  step: SequenceBodyItem;
   index: number;
-  current: TaggedSequence;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
+  slots: TaggedToolSlot[];
 }

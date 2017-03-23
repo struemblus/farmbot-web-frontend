@@ -6,7 +6,7 @@ import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { StepParams } from "../interfaces";
 
-export function TileWait({ dispatch, step, index, current }: StepParams) {
+export function TileWait({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
     <div className="step-wrapper">
       <div className="row">
@@ -14,10 +14,10 @@ export function TileWait({ dispatch, step, index, current }: StepParams) {
           <div className="step-header wait-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`The Wait step instructs FarmBot to wait
@@ -34,7 +34,7 @@ export function TileWait({ dispatch, step, index, current }: StepParams) {
               <div className="col-xs-6 col-md-3">
                 <label>{t("Time in milliseconds")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="milliseconds" />
               </div>

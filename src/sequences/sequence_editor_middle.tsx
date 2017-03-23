@@ -11,10 +11,12 @@ export class SequenceEditorMiddle extends React
       dispatch,
       sequence,
       sequences,
-      tools
+      tools,
+      slots
     } = this.props;
     if (sequence && isTaggedSequence(sequence)) {
       return <SequenceEditorMiddleActive
+        slots={slots}
         dispatch={dispatch}
         sequence={sequence}
         sequences={sequences}
