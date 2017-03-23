@@ -3,7 +3,6 @@ import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
-import { saveFarmEvent, destroyFarmEvent } from "../actions";
 import { selectAll } from "../../resources/util";
 import {
   selectAllFarmEvents,
@@ -121,11 +120,11 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     handleTime,
     farmEvents,
     save(uuid) {
-      this.dispatch(saveFarmEvent(uuid));
+      // this.dispatch(saveFarmEvent(uuid));
       this.router.push("/app/designer/farm_events");
     },
     delete(uuid) {
-      this.dispatch(destroyFarmEvent(uuid));
+      // this.dispatch(destroyFarmEvent(uuid));
       this.router.push("/app/designer/farm_events");
     },
   };

@@ -4,44 +4,38 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { PlantInfoProps } from "../interfaces";
+import { PlantInfoProps, Plant } from "../interfaces";
 import { error } from "../../ui/index";
 import { history } from "../../history";
-import { selectAllPlants } from "../../resources/selectors";
+import { findWhere } from "../../resources/selectors";
+import { isTaggedPlant } from "../../resources/tagged_resources";
 
 function mapStateToProps(props: Everything) {
-  let findCurrentPlant = (plantId: number) => {
-    let plants = selectAllPlants(props.resources.index);
-    let currentPlant = _.findWhere(plants, { id: plantId }) || {
-      planted_at: moment().toISOString(),
-      name: "Error: No plant name.",
-      x: "Error: No x coordinate",
-      y: "Error: No y coordinate"
-    };
+  let findCurrentPlant = (plant_id: number) => {
+    let query: Partial<Plant> = { id: plant_id };
+    let currentPlant = findWhere(props.resources.index, query);
     return currentPlant;
   }
 
   return {
     // TODO: This is definitely not right, figure out query objects
     plant_id: parseInt(history.getCurrentLocation().pathname.split("/")[4]),
-    push: history.push,
     findCurrentPlant
   }
 }
 
 @connect(mapStateToProps)
 export class PlantInfo extends React.Component<PlantInfoProps, {}> {
-  componentDidMount() {
-    let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
-    if (!currentPlant) {
-      this.props.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
-  }
-
   render() {
+    if (!isTaggedPlant(this.props.findCurrentPlant(this.props.plant_id))) {
+      history.push("/app/designer/plants");
+      error("Couldn't find plant.", "Error");
+      throw new Error(`VERY BAD!! Plant could not be found by id, 
+        possible stale data!`);
+    }
+
     let { name, x, y, planted_at, id } = this.props
-      .findCurrentPlant(this.props.plant_id);
+      .findCurrentPlant(this.props.plant_id).body;
 
     let dayPlanted = moment();
     // Same day = 1 !0

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Plant } from "../plant";
-import { movePlant, savePlant } from "../actions";
+import { movePlant } from "../actions";
 import * as moment from "moment";
 import {
   GardenMapProps,
@@ -81,7 +81,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       let plant = Plant(p);
       let uuid = "TODO: FIX ME";
       console.warn("HEY!! FIX!! ^");
-      this.props.dispatch(savePlant(uuid));
+      // this.props.dispatch(savePlant(uuid));
     } else {
       throw new Error("never");
     }
@@ -94,7 +94,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     };
 
     let dropper = (uuid: string) => {
-      dispatch(savePlant(uuid));
+      // dispatch(savePlant(uuid));
     };
 
     return <div className="drop-area"

@@ -44,7 +44,6 @@ export interface Resource<T extends ResourceName, U extends object>
   body: U;
 }
 
-
 export type TaggedResource = TaggedFarmEvent
   | TaggedImage
   | TaggedLog
@@ -106,3 +105,11 @@ export let isTaggedTool =
   (x: object): x is TaggedTool => is("tools")(x);
 export let isTaggedToolSlot =
   (x: object): x is TaggedToolSlot => is("tool_slots")(x);
+export let isTaggedToolBay =
+  (x: object): x is TaggedToolBay => is("tool_bays")(x);
+export let isTaggedPlant =
+  (x: object): x is TaggedPlant => is("plants")(x);
+export let isTaggedPoint =
+  (x: object): x is TaggedPoint => is("points")(x);
+export let isTaggedFarmEvent =
+  (x: object): x is TaggedFarmEvent => is("farm_events")(x);

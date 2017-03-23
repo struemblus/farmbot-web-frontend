@@ -19,7 +19,6 @@ import {
   isTaggedResource,
   sanityCheck
 } from "./tagged_resources";
-import { selectAll } from "./util";
 import { CowardlyDictionary } from "../util";
 import { error } from "../ui/logger";
 

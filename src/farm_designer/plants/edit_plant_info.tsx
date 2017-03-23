@@ -2,22 +2,18 @@ import * as React from "react";
 import { BackArrow, error } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import { destroyPlant } from "../actions";
 import { t } from "i18next";
-import { EditPlantInfoProps } from "../interfaces";
+import { EditPlantInfoProps, Plant } from "../interfaces";
 import { history } from "../../history";
 import { Everything } from "../../interfaces";
-import { selectAllPlants } from "../../resources/selectors";
+import { findWhere } from "../../resources/selectors";
+import { isTaggedPlant } from "../../resources/tagged_resources";
+import { destroy } from "../../api/crud";
 
 function mapStateToProps(props: Everything) {
-  let findCurrentPlant = (plantId: number) => {
-    let plants = selectAllPlants(props.resources.index);
-    let currentPlant = _.findWhere(plants, { id: plantId }) || {
-      planted_at: moment().toISOString(),
-      name: "Error: No plant name.",
-      x: "Error: No x coordinate",
-      y: "Error: No y coordinate"
-    };
+  let findCurrentPlant = (plant_id: number) => {
+    let query: Partial<Plant> = { id: plant_id };
+    let currentPlant = findWhere(props.resources.index, query);
     return currentPlant;
   }
 
@@ -32,24 +28,21 @@ function mapStateToProps(props: Everything) {
 
 @connect(mapStateToProps)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
-  componentDidMount() {
-    let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
-    if (!currentPlant) {
-      this.props.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
-  }
-
-  destroy = () => {
-    let uuid = "TODO: FIX ME";
-    console.warn("HEY!! FIX!! ^");
-    this.props.dispatch(destroyPlant(uuid));
-    this.props.push("/app/designer/plants");
+  destroy = (plantUUID: string) => {
+    this.props.dispatch(destroy(plantUUID));
   }
 
   render() {
-    let { name, x, y, planted_at } = this.props
-      .findCurrentPlant(this.props.plant_id);
+    if (!isTaggedPlant(this.props.findCurrentPlant(this.props.plant_id))) {
+      history.push("/app/designer/plants");
+      error("Couldn't find plant.", "Error");
+      throw new Error(`VERY BAD!! Plant could not be found by id, 
+        possible stale data!`);
+    }
+
+    let currentPlant = this.props.findCurrentPlant(this.props.plant_id);
+
+    let { name, x, y, planted_at } = currentPlant.body;
 
     let dayPlanted = moment();
     // Same day = 1 !0
@@ -77,7 +70,7 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
         <label>{t("Delete this plant")}</label>
         <div>
           <button className="red button-like left"
-            onClick={this.destroy}>
+            onClick={() => this.destroy(currentPlant.uuid)}>
             {t("Delete")}
           </button>
         </div>
