@@ -5,7 +5,7 @@ import { Help } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 
-export function TileExecuteScript({ dispatch, step, index }: StepParams) {
+export function TileExecuteScript({ dispatch, step, index, current }: StepParams) {
   if (step.kind === "execute_script") {
     return (<div>
       <div className="step-wrapper">
@@ -17,7 +17,7 @@ export function TileExecuteScript({ dispatch, step, index }: StepParams) {
                 step={step} />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => copy({ dispatch, step })} />
+                onClick={() => copy({ dispatch, step, sequence: current })} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index })} />
               <Help text={(`The 'Run Farmware' block runs a

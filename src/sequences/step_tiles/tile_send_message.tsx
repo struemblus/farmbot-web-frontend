@@ -12,7 +12,7 @@ import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
 
-export function TileSendMessage({ dispatch, step, index }: StepParams) {
+export function TileSendMessage({ dispatch, step, index, current }: StepParams) {
   if (step.kind !== "send_message") {
     throw new Error("TileSendMessage expects send_message");
   } else {
@@ -91,7 +91,7 @@ export function TileSendMessage({ dispatch, step, index }: StepParams) {
               step={step} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
+              onClick={() => copy({ dispatch, step, sequence: current })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`The Send Message step instructs

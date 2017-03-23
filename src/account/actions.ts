@@ -6,7 +6,7 @@ import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
 import { State, DeletionRequest } from "./interfaces";
-import { prettyPrintApiErrors, AxiosErrorResponse } from "../util";
+import { prettyPrintApiErrors, AxiosErrorResponse, toastErrors } from "../util";
 import { Session } from "../session";
 
 function updateUserSuccess(payload: User): ReduxAction<User> {
@@ -40,9 +40,7 @@ export function deleteUser(payload: DeletionRequest): Thunk {
           alert("We're sorry to see you go. :(");
           Session.clear(true);
         })
-        .catch((e: AxiosErrorResponse) => {
-          error(prettyPrintApiErrors(e));
-        });
+        .catch(toastErrors);
     } else {
       throw new Error("Impossible");
     }

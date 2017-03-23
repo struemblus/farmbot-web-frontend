@@ -13,7 +13,7 @@ import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
-import { prettyPrintApiErrors } from "../util";
+import { prettyPrintApiErrors, toastErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
 import { responseFulfilled, responseRejected, requestFulfilled } from "../interceptors";
@@ -109,7 +109,7 @@ export function register(name: string,
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
   return (err: UnsafeError) => {
-    error(prettyPrintApiErrors(err));
+    toastErrors(err);
     dispatch({
       type: "REGISTRATION_ERROR",
       payload: err

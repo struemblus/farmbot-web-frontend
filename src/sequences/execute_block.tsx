@@ -5,23 +5,24 @@ import { Sequence, StepParams } from "./interfaces";
 import { changeStep } from "./actions";
 import { t } from "i18next";
 import { FBSelect, DropDownItem } from "../ui";
+import { TaggedSequence } from "../resources/tagged_resources";
 
 /** Removes un-executable sequences, such as "self" or unsaved ones */
-function filterSequenceList(sequences: Sequence[] | undefined, sequence: Sequence) {
+function filterSequenceList(sequences: TaggedSequence[] | undefined, sequence: TaggedSequence) {
   let isSaved = (s: Sequence) => !!s.id;
   let notRecursive = (me: Sequence, you: Sequence) => me !== you;
   return (sequences || [])
     .filter(function (seq) {
       // Can't function recurseCant use unsaved sequences.
-      return isSaved(seq) && notRecursive(sequence, seq);
+      return isSaved(seq.body) && notRecursive(sequence.body, seq.body);
     });
 }
 
 interface SequenceSelectBoxParams {
   dispatch: Function;
   step: Step;
-  sequence: Sequence;
-  sequences: Sequence[];
+  sequence: TaggedSequence;
+  sequences: TaggedSequence[];
   index: number;
 }
 
@@ -31,13 +32,14 @@ function SequenceSelectBox({ dispatch,
   sequences,
   index }: SequenceSelectBoxParams) {
 
-  let eligibleSequences: Sequence[] = filterSequenceList(sequences, sequence);
+  let eligibleSequences: TaggedSequence[] = filterSequenceList(sequences, sequence);
   let finalOptions: DropDownItem[] = [];
   let selectedSequence: DropDownItem = { label: "", value: "" };
 
   let ssid = (step as Execute).args.sequence_id;
 
-  eligibleSequences.map((seq: Sequence) => {
+  eligibleSequences.map((ts: TaggedSequence) => {
+    let seq = ts.body
     if (seq.id === ssid) {
       selectedSequence = { label: seq.name, value: seq.id };
     }
@@ -79,7 +81,7 @@ export function ExecuteBlock({ dispatch, step, index, current, all }:
             <input className="step-label" placeholder="Execute" />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
+              onClick={() => copy({ dispatch, step, sequence: current })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
           </div>

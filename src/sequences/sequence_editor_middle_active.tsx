@@ -32,6 +32,8 @@ import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { save, edit } from "../api/crud";
+import { toastErrors } from "../util";
+import { UnsafeError } from "../interfaces";
 
 let Oops: StepTile = (_) => {
   return <div>{t("Whoops! Not a valid message_type")}</div>;
@@ -70,8 +72,7 @@ let copy = function (dispatch: Function, sequence: TaggedSequence) {
 };
 
 let destroy = function (dispatch: Function, sequence: TaggedSequence) {
-  return (sequence) ?
-    () => dispatch(deleteSequence(sequence.uuid)) : _.noop;
+  return () => dispatch(deleteSequence(sequence.uuid)).then(null, toastErrors);
 };
 
 export let performSeq = (dispatch: Function, s: TaggedSequence) => {
