@@ -18,7 +18,7 @@ export function mapStateToProps(props: Everything): Props {
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
-    bulkScheduler: props.bulkScheduler,
+    // bulkScheduler: props.bulkScheduler,
     auth: props.auth,
     bot: props.bot,
     current,

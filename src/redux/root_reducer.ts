@@ -8,7 +8,6 @@ import {
 import { configReducer as config } from "../config/reducer";
 import { regimensReducer as regimens } from "../regimens/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
-import { toolsReducer as tools } from "../tools/reducer";
 import { syncReducer as sync } from "../sync/reducer";
 import { designer } from "../farm_designer/reducer";
 import {

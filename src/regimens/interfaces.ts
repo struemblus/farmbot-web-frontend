@@ -9,7 +9,7 @@ import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
-  bulkScheduler: BulkSchedulerState;
+  // bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
   current: TaggedRegimen | undefined;
