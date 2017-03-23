@@ -4,7 +4,7 @@ import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../reso
 import { isTaggedRegimen, TaggedRegimen } from "../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): Props {
-  let uuid = props.regimens.current;
+  let uuid = props.resources.consumers.regimens.current;
   let query = uuid ?
     getRegimenByUUID(props.resources.index, "regimens", uuid) : undefined;
   let current: TaggedRegimen | undefined;

@@ -3,7 +3,7 @@ import { Props } from "./interfaces";
 import { selectAllSequences, selectAllTools, findSequence } from "../resources/selectors";
 eval("window.HELP = true");
 export function mapStateToProps(props: Everything): Props {
-  let uuid = props.sequences.current;
+  let uuid = props.resources.consumers.sequences.current;
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
