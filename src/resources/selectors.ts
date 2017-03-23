@@ -230,7 +230,7 @@ export let currentToolInSlot = (index: ResourceIndex) =>
     }
   };
 
-/** FINDS: all tagged resources with ID */
+/** FINDS: all tagged resources with particular ID */
 export function findAllById(i: ResourceIndex, ids: number[], k: ResourceName) {
   let output: TaggedResource[] = [];
   findAll(i, k).map(x => x.kind === k ? output.push(x) : "")
@@ -241,4 +241,32 @@ export function findAllById(i: ResourceIndex, ids: number[], k: ResourceName) {
 export function slottedTools(index: ResourceIndex): TaggedTool[] {
   let ids = betterCompact(selectAllToolSlots(index).map(ts => ts.body.tool_id));
   return findAllById(index, ids, "tools") as TaggedTool[];
+}
+
+export let byId = <T extends TaggedResource>(name: ResourceName) =>
+  (index: ResourceIndex, id: number): T | undefined => {
+    let tools = findAll(index, name);
+    let f = (x: TaggedResource) => (x.kind === name) && (x.body.id === id)
+    // Maybe we should add a throw here?
+    return tools.filter(f)[0] as T | undefined;
+  }
+
+export let findToolById = (ri: ResourceIndex, tool_id: number) => {
+  let tool = byId("tools")(ri, tool_id);
+  if (tool && isTaggedTool(tool) && sanityCheck(tool)) {
+    return tool;
+  } else {
+    throw new Error("Bad tool id: " + tool_id);
+  }
+};
+export let findSlotById = byId<TaggedToolSlot>("tool_slots");
+/** Find a Tool's corresponding Slot. */
+export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
+  let tool = findToolById(this.resources, tool_id);
+  let tts = slottedTools(index).filter(x => x.body.id === tool_id)[0];
+  if (tts && isTaggedToolSlot(tts) && sanityCheck(tts)) {
+    return tts;
+  } else {
+    throw new Error("No tool slot with tool-id of " + tool_id);
+  }
 }
