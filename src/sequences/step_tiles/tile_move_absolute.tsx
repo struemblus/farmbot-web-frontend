@@ -1,33 +1,50 @@
 import * as React from "react";
 import { Component } from "react";
-import { StepParams, copy, remove } from "./index";
+import { StepParams } from "../interfaces";
+import { copy, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
-import { MoveAbsolute, Vector3 } from "farmbot";
-import { mapStateToProps, TileMoveAbsoluteProps } from "./state_to_props/tile_move_absolute";
-import { connect } from "react-redux";
+import {
+  Vector3,
+  Dictionary,
+  SequenceBodyItem,
+  Tool,
+  Coordinate,
+  LegalSequenceKind
+} from "farmbot";
 import { FBSelect, Row, Col, BlurableInput, DropDownItem } from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
-import { isTaggedSequence } from "../../resources/tagged_resources";
+import { isTaggedSequence, TaggedTool, TaggedToolSlot } from "../../resources/tagged_resources";
+
 
 export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
 
+  get location(): Tool | Coordinate {
+    // Incase we rename it later:
+    const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
+    if (this.props.step.kind === MOVE_ABSOLUTE) {
+      return this.props.step.args.location;
+    } else {
+      throw new Error("Impossible celery node detected.")
+    }
+  }
+
   updateToolSelect = (tool: DropDownItem) => {
-    let { step, index, dispatch, changeToolSelect } = this.props;
-    changeToolSelect(step, index, dispatch, tool);
+    let { step, index, dispatch } = this.props;
+    this.changeToolSelect(step, index, dispatch, tool);
   }
 
   updateInputValue = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let { index, dispatch, changeInputValue } = this.props;
+    let { index, dispatch } = this.props;
     let { value, name } = e.currentTarget;
-    changeInputValue(value, name, index, dispatch);
+    this.changeInputValue(value, name, index, dispatch);
   }
 
   initialDropDownSequenceValue = () => {
-    let { location } = this.props.step.args;
+    let location = this.location;
     if (location.kind === "tool") {
-      let tool = this.props.toolById[location.args.tool_id];
+      let tool = this.toolById[location.args.tool_id];
       if (tool && tool.body.id) {
         return { label: tool.body.name, value: tool.body.id }
       }
@@ -35,14 +52,44 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     return { label: "Nothing", value: 0 };
   }
 
+  changeInputValue(value: string,
+    kind: string,
+    index: number,
+    dispatch: Function): void {
+    throw new Error("!!!");
+  };
+
+  changeToolSelect(step: SequenceBodyItem,
+    index: number,
+    dispatch: Function,
+    tool: DropDownItem): void {
+    throw new Error("!!!");
+  };
+
+  computeInputValue(kind: string, arg: string, step: SequenceBodyItem): string {
+    throw new Error("!!!");
+  };
+
+  findSlotByToolId(tool_id: number): TaggedToolSlot {
+    throw new Error("WOW");
+  };
+
+  get options(): DropDownItem[] {
+    throw new Error("!!!")
+  };
+
+  get toolById(): Dictionary<TaggedTool> {
+    throw new Error("!!!")
+  };
+
   coord = (): Vector3 => {
     let output: Vector3 = { x: 0, y: 0, z: 0 };
-    let { location } = this.props.step.args;
+    let location = this.location;
     switch (location.kind) {
       case "tool":
-        let tool = this.props.toolById[location.args.tool_id];
+        let tool = this.toolById[location.args.tool_id];
         let id = tool && tool.body.id;
-        let slot = tool && id && this.props.findSlotByToolId(id);
+        let slot = tool && id && this.findSlotByToolId(id);
         if (slot) {
           output = { ...output, ...slot }
         };
@@ -53,9 +100,9 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   }
 
   render() {
-    let { computeInputValue, step, dispatch, index, current } = this.props;
+    let { step, dispatch, index, current } = this.props;
     if (current && !isTaggedSequence(current)) {
-      throw new Error("!!!")
+      throw new Error("HAZCON")
     }
     return <div className="step-wrapper">
       <Row>
@@ -98,7 +145,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <label>Import coordinates from</label>
                 <FBSelect
                   allowEmpty={true}
-                  list={this.props.options}
+                  list={this.options}
                   initialValue={this.initialDropDownSequenceValue()}
                   onChange={this.updateToolSelect} />
               </Col>
@@ -150,7 +197,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-x"
-                  value={computeInputValue("offset", "x", step)} />
+                  value={this.computeInputValue("offset", "x", step)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -160,7 +207,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-y"
-                  value={computeInputValue("offset", "y", step)} />
+                  value={this.computeInputValue("offset", "y", step)} />
               </Col>
               <Col xs={3}>
                 <label>
@@ -170,7 +217,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue}
                   type="number"
                   name="offset-z"
-                  value={computeInputValue("offset", "z", step)} />
+                  value={this.computeInputValue("offset", "z", step)} />
               </Col>
             </Row>
           </div>

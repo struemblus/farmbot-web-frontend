@@ -1,10 +1,10 @@
 import * as React from "react";
-import { StepParams } from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
+import { StepParams } from "../interfaces";
 
 
 export function TileMoveRelative({ dispatch, step, index, current }: StepParams) {

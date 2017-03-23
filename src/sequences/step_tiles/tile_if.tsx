@@ -1,5 +1,4 @@
 import * as React from "react";
-import { StepParams } from "./index";
 import { Help, FBSelect, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { copy, remove } from "./index";
@@ -7,6 +6,7 @@ import { changeStepSelect, updateSubSequence } from "../actions";
 import { StepTitleBar } from "./step_title_bar";
 import { StepInputBox } from "../inputs/step_input_box";
 import { If } from "farmbot";
+import { StepParams } from "../interfaces";
 const NOTHING = { label: "Nothing", value: 0 };
 
 let LHSOptions: DropDownItem[] = [
@@ -36,9 +36,9 @@ let operatorOptions: DropDownItem[] = [
   { value: "is", label: "is equal to" },
   { value: "not", label: "is not equal to" }
 ];
-export function TileIf({ dispatch, step, index, all, current }:
+export function TileIf({ dispatch, step, index, sequences, current }:
   StepParams) {
-  let byId = _.indexBy(all, "id");
+  let byId = _.indexBy(sequences, "id");
   step = step as If;
   type ArgName = keyof typeof step.args;
   type FieldName = "sequence_id";
@@ -81,7 +81,7 @@ export function TileIf({ dispatch, step, index, all, current }:
   var isRecursive = (then_optn && then_optn.value === current.body.id)
     || (else_optn && else_optn.value === current.body.id);
 
-  let seqDropDown = _(all)
+  let seqDropDown = _(sequences)
     .filter(function (seq) {
       // filter out id-less sequences so I can safely type cast
       // in the next call to .map();

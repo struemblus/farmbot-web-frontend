@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StepParams } from "./index";
+import { StepParams } from "../interfaces";
 import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
 import { copy, remove } from "./index";

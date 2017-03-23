@@ -10,7 +10,6 @@ import {
 } from "farmbot";
 import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
-import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import { TaggedSequence, TaggedTool } from "../resources/tagged_resources";
 
@@ -197,13 +196,6 @@ export interface ChangeStepSelect {
   };
 }
 
-export interface SelectPayl {
-  value: number | string;
-  index: number;
-  field: string;
-  type?: string;
-}
-
 export interface RemoveStep {
   type: "REMOVE_STEP";
   payload: {
@@ -234,6 +226,6 @@ export interface StepParams {
   step: SequenceBodyItem;
   index: number;
   current: TaggedSequence;
-  all: TaggedSequence[];
-  tools: ToolsState;
+  sequences: TaggedSequence[];
+  tools: TaggedTool[];
 }

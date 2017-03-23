@@ -1,6 +1,5 @@
 import * as React from "react";
 import {
-  StepParams,
   copy,
   remove
 } from "./index";
@@ -11,6 +10,7 @@ import { StepInputBox } from "../inputs/step_input_box";
 import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
+import { StepParams } from "../interfaces";
 
 export function TileSendMessage({ dispatch, step, index, current }: StepParams) {
   if (step.kind !== "send_message") {

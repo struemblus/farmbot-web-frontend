@@ -15,7 +15,7 @@ import {
 } from "../../../resources/tagged_resources";
 import { ToolSlot } from "../../../tools/interfaces";
 
-export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
+export function mapStateToProps(props: Everything) {
 
   /** Get data indexed */
   // let toolById = props.resources.tools.byId;
@@ -75,5 +75,4 @@ export function mapStateToProps(props: Everything): TileMoveAbsoluteProps {
     findSlotByToolId,
     dispatch: props.dispatch
   };
-
 }

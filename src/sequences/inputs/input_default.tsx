@@ -1,7 +1,7 @@
 import * as React from "react";
-import { IStepInput } from "../step_tiles/index";
 import { updateStep } from "../step_tiles/index";
 import * as _ from "lodash";
+import { IStepInput } from "../interfaces";
 
 export function InputDefault({
   step,

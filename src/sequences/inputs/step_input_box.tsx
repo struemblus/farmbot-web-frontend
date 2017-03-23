@@ -1,8 +1,7 @@
 import * as React from "react";
-import { IStepInput } from "../step_tiles/index";
 import { InputUnknown } from "./input_unknown";
 import { InputDefault } from "./input_default";
-import { InputChoiceDict } from "../interfaces";
+import { InputChoiceDict, IStepInput } from "../interfaces";
 import { RestResources } from "../../resources/interfaces";
 import { ToolSlot, Tool } from "../../tools/interfaces";
 
