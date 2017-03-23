@@ -203,7 +203,6 @@ export interface EditPlantInfoProps {
   findCurrentPlant(plant_id: number): TaggedPlant;
   push(url: string): void;
   dispatch: Function;
-  resources: RestResources;
 }
 
 export interface PlantInfoProps {

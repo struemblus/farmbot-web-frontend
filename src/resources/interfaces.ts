@@ -1,7 +1,7 @@
 /** Like Dictionary<T>, except more cautious about null values. */
 import { Sequence, SequenceReducerState } from "../sequences/interfaces";
 import { Regimen, RegimenItem, RegimensState } from "../regimens/interfaces";
-import { Plant, Point, FarmEvent } from "../farm_designer/interfaces";
+import { Plant, Point, FarmEvent, DesignerState } from "../farm_designer/interfaces";
 import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
 import { Image } from "../images/index";
 import { Log } from "../interfaces";
@@ -25,5 +25,6 @@ export interface RestResources {
   consumers: {
     sequences: SequenceReducerState;
     regimens: RegimensState;
+    farm_designer: DesignerState;
   }
 };

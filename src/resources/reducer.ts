@@ -1,8 +1,7 @@
-import { generateReducer, AFTER } from "../redux/generate_reducer";
+import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, isTaggedResource, sanityCheck } from "./tagged_resources";
-import { uuid } from "farmbot/dist";
+import { TaggedResource, ResourceName, sanityCheck } from "./tagged_resources";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";
@@ -16,17 +15,23 @@ import {
 } from "../regimens/reducer";
 import { combineReducers } from "redux";
 import { ReduxAction } from "../redux/interfaces";
+import {
+  designer as farm_designer,
+  initialState as designerState
+} from "../farm_designer/reducer";
 
 let consumerReducer = combineReducers({
   regimens,
-  sequences
+  sequences,
+  farm_designer
 });
 
 function emptyState(): RestResources {
   return {
     consumers: {
       sequences: sequenceState,
-      regimens: regimenState
+      regimens: regimenState,
+      farm_designer: designerState
     },
     loaded: false,
     index: {
@@ -57,7 +62,8 @@ let initialState: RestResources = emptyState();
 let afterEach = (state: RestResources, a: ReduxAction<any>) => {
   state.consumers = consumerReducer({
     sequences: state.consumers.sequences,
-    regimens: state.consumers.regimens
+    regimens: state.consumers.regimens,
+    farm_designer: state.consumers.farm_designer
   }, a) as any;
   return state;
 };
@@ -169,17 +175,16 @@ function addToIndex<T>(index: ResourceIndex,
   index.references[tr.uuid] = tr;
 }
 
-let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid === tr.uuid;
-export function joinKindAndId(kind: ResourceName, id: number) {
-  return kind + "." + id;
+let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
+export function joinKindAndId(kind: ResourceName, id: number | undefined) {
+  return descriptiveUUID(id, kind);
 }
+
 function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
   index.all = index.all.filter(removeUUID(tr));
   index.byKind[tr.kind].filter(removeUUID(tr));
-  if (tr.body.id) {
-    let key = joinKindAndId(tr.kind, tr.body.id)
-    delete index.byKindAndId[key]
-  }
+  let key = joinKindAndId(tr.kind, tr.body.id)
+  delete index.byKindAndId[key]
   delete index.references[tr.uuid];
 }
 

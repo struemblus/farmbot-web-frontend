@@ -2,7 +2,6 @@ import { ReduxAction } from "./interfaces";
 import { defensiveClone } from "../util";
 
 const NOOP = (s: any, a: ReduxAction<{}>) => s;
-export const AFTER = "AFTER";
 
 export function generateReducer<State>(initialState: State,
   /** For passing state down to children. */

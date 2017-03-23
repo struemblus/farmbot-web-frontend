@@ -4,14 +4,14 @@ import { DesignerState } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
 
-let DEFAULT_STATE: DesignerState = {
+export let initialState: DesignerState = {
   x_size: 0,
   y_size: 0,
   cropSearchQuery: "",
   cropSearchResults: []
 };
 
-export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
+export let designer = generateReducer<DesignerState>(initialState)
   .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
     let state = cloneDeep(s);
     let [x, y] = [
