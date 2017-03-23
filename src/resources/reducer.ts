@@ -63,7 +63,8 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 };
 
 /** Responsible for all RESTful resources. */
-export let resourceReducer = generateReducer<RestResources>(initialState)
+export let resourceReducer = generateReducer
+  <RestResources>(initialState, afterEach)
   .add<TaggedResource>("CREATE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     if (resource
