@@ -8,7 +8,11 @@ import {
   indexByToolId,
   findWhere
 } from "../../../resources/selectors";
-import { TaggedTool, isTaggedToolSlot, TaggedToolSlot, ResourceName } from "../../../resources/tagged_resources";
+import {
+  TaggedTool,
+  isTaggedToolSlot,
+  TaggedToolSlot,
+} from "../../../resources/tagged_resources";
 import { ToolSlot } from "../../../tools/interfaces";
 
 export interface TileMoveAbsoluteProps {

@@ -9,6 +9,7 @@ import { FBSelect, Row, Col, BlurableInput, DropDownItem } from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
+import { isTaggedSequence } from "../../resources/tagged_resources";
 
 /** Adds more specificity to the `StepParams` interface, since we only deal with
  *  MoveAbsolute nodes. */
@@ -60,6 +61,9 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
 
   render() {
     let { computeInputValue, step, dispatch, index, current } = this.props;
+    if (current && !isTaggedSequence(current)) {
+      throw new Error("!!!")
+    }
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
