@@ -6,9 +6,15 @@ import { uuid } from "farmbot/dist";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";
+import { initialState as sequenceState } from "../sequences/reducer";
+import { initialState as regimenState } from "../regimens/reducer";
 
-function emptyState() {
+function emptyState(): RestResources {
   return {
+    consumers: {
+      sequences: sequenceState,
+      regimens: regimenState
+    },
     loaded: false,
     index: {
       all: [],
