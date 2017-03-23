@@ -198,12 +198,19 @@ export interface SpeciesInfoProps extends Everything {
   params: { species: string; };
 }
 
+export interface PlantData {
+  name: string;
+  x: number;
+  y: number;
+  planted_at: string;
+  uuid: string;
+  id?: number;
+}
+
 export interface EditPlantInfoProps {
-  // plant_id: number;
-  // findCurrentPlant(plant_id: number): TaggedPlant | undefined;
   push(url: string): void;
   dispatch: Function;
-  plant_info: undefined | {}
+  plant_info: undefined | PlantData;
 }
 
 export interface PlantInfoProps {
