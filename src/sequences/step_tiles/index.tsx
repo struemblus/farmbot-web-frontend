@@ -1,6 +1,5 @@
 import * as React from "react";
-import { changeStep, removeStep, pushStep } from "../actions";
-import { assign } from "lodash";
+import { changeStep, removeStep } from "../actions";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "../execute_block";
@@ -19,6 +18,7 @@ import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
 import { LegalArgString, CeleryNode } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
+import { edit } from "../../api/crud";
 
 interface CopyParams {
   dispatch: Function;
@@ -26,9 +26,13 @@ interface CopyParams {
   sequence: TaggedSequence
 }
 
-export function copy({ dispatch, step }: CopyParams) {
-  let copy = assign<{}, Step>({}, step);
-  dispatch(pushStep(copy));
+export function copy({ dispatch, step, sequence }: CopyParams) {
+  let copy = defensiveClone(step);
+  let next = defensiveClone(sequence);
+  let seq = next.body;
+  seq.body = seq.body || [];
+  seq.body.splice(_.indexOf(seq.body, copy), 0, copy);
+  dispatch(edit(sequence, next));
 };
 
 interface RemoveParams {

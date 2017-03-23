@@ -1,11 +1,10 @@
-import { CeleryNode as Step } from "farmbot";
+import { CeleryNode as Step, SequenceBodyItem } from "farmbot";
 import {
   SequenceOptions,
   Sequence,
   ChanParams,
   MessageParams,
   EditCurrentSequence,
-  PushStep,
   SpliceStepPayl,
   MoveStepPayl,
   ChangeStep,
@@ -18,7 +17,16 @@ import { ReduxAction, Thunk } from "../redux/interfaces";
 import { destroy, save, edit } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
 import { TaggedSequence } from "../resources/tagged_resources";
+import { defensiveClone } from "../util";
 
+export function pushStep(step: SequenceBodyItem,
+  dispatch: Function,
+  sequence: TaggedSequence) {
+  let next = defensiveClone(sequence);
+  next.body.body = next.body.body || [];
+  next.body.body.push(defensiveClone(step))
+  dispatch(edit(sequence, next));
+}
 export function editCurrentSequence(dispatch: Function,
   seq: TaggedSequence,
   update: Partial<typeof seq.body>) {
@@ -55,13 +63,6 @@ export function copySequence(payload: Sequence) {
   return {
     type: "COPY_SEQUENCE",
     payload
-  };
-}
-
-export function pushStep(step: Step): PushStep {
-  return {
-    type: "PUSH_STEP",
-    payload: { step }
   };
 }
 

@@ -108,6 +108,7 @@ export type StatelessInput = (p: IStepInput) => JSX.Element;
 export type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
 
 export interface StepButtonParams {
+  current: TaggedSequence | undefined;
   step: SequenceBodyItem;
   dispatch: Function;
   children?: JSX.Element | undefined;
@@ -171,13 +172,6 @@ export interface EditCurrentSequence {
   name?: string;
   color?: Color;
 };
-
-export interface PushStep {
-  type: "PUSH_STEP";
-  payload: {
-    step: CeleryNode;
-  };
-}
 
 export interface SpliceStepPayl {
   insertBefore: number;

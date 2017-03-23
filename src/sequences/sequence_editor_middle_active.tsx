@@ -88,15 +88,15 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
     let { sequences, dispatch, tools, sequence } = this.props;
     let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
-      if (xfer.draggerId === NULL_DRAGGER_ID) {
-        dispatch(pushStep(xfer.value));
-      } else {
-        let from = xfer.draggerId;
-        // Remove it from where it was.
-        dispatch(removeStep(from));
-        // Push it to the end.
-        dispatch(pushStep(xfer.value));
-      };
+      // if (xfer.draggerId === NULL_DRAGGER_ID) {
+      //   dispatch(pushStep(xfer.value));
+      // } else {
+      //   let from = xfer.draggerId;
+      //   // Remove it from where it was.
+      //   dispatch(removeStep(from));
+      //   // Push it to the end.
+      //   dispatch(pushStep(xfer.value));
+      // };
     };
 
     return <Widget className="sequence-editor-widget">
