@@ -1,6 +1,6 @@
 import { TaggedResource } from "./tagged_resources";
 import { UnsafeError } from "../interfaces";
-import { prettyPrintApiErrors } from "../util";
+import { prettyPrintApiErrors, toastErrors } from "../util";
 import { error } from "../ui/logger";
 
 export function createOK(payload: TaggedResource) {
@@ -18,7 +18,7 @@ export function destroyOK(payload: TaggedResource) {
 /** Generalized error handler when there are not special error handling
  * requirements */
 function generalizedError(payload: UnsafeError) {
-  error(prettyPrintApiErrors(payload));
+  toastErrors(payload);
   return {
     type: "*_RESOURCE_NO",
     payload: {}

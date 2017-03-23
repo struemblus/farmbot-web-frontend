@@ -78,8 +78,8 @@ export function TileIf({ dispatch, step, index, all, current }:
     }
   };
 
-  var isRecursive = (then_optn && then_optn.value === current.id)
-    || (else_optn && else_optn.value === current.id);
+  var isRecursive = (then_optn && then_optn.value === current.body.id)
+    || (else_optn && else_optn.value === current.body.id);
 
   let seqDropDown = _(all)
     .filter(function (seq) {
@@ -102,7 +102,7 @@ export function TileIf({ dispatch, step, index, all, current }:
               step={step} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
+              onClick={() => copy({ dispatch, step, sequence: current })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`Detailed documentation coming soon`)} />

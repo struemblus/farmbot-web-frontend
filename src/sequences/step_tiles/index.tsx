@@ -18,10 +18,12 @@ import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
 import { LegalArgString, CeleryNode } from "farmbot";
+import { TaggedSequence } from "../../resources/tagged_resources";
 
 interface CopyParams {
   dispatch: Function;
   step: Step;
+  sequence: TaggedSequence
 }
 
 export function copy({ dispatch, step }: CopyParams) {
@@ -78,7 +80,7 @@ export interface StepParams {
   dispatch: Function;
   step: Step;
   index: number;
-  current: Sequence;
+  current: TaggedSequence;
   all: Sequence[];
   tools: ToolsState;
 }

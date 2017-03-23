@@ -59,7 +59,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
   }
 
   render() {
-    let { computeInputValue, step, dispatch, index } = this.props;
+    let { computeInputValue, step, dispatch, index, current } = this.props;
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
@@ -67,7 +67,7 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
             <StepTitleBar index={index} dispatch={dispatch} step={step} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
+              onClick={() => copy({ dispatch, step, sequence: current })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <div className="help">

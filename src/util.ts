@@ -1,8 +1,9 @@
 import * as _ from "lodash";
-import { Color } from "./interfaces";
+import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
 import { t } from "i18next";
 import { Dictionary } from "farmbot/dist";
+import { error } from "./ui/index";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -42,6 +43,10 @@ export interface AxiosErrorResponse {
     };
   };
 };
+
+export function toastErrors(err: UnsafeError) {
+  return error(prettyPrintApiErrors(err));
+}
 
 /** Concats and capitalizes all of the error key/value
  *  pairs returned by the /api/xyz endpoint. */
