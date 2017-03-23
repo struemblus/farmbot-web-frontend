@@ -15,8 +15,8 @@ export class Sequences extends React.Component<Props, {}> {
     return <Page className="sequences">
       <Col xs={4} md={3}>
         <StepButtonCluster
-          dispatch={this.props.dispatch}
-        />
+          current={this.props.sequence}
+          dispatch={this.props.dispatch} />
       </Col>
       <Col xs={8} md={6}>
         <SequenceEditorMiddle
