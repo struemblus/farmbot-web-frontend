@@ -10,23 +10,30 @@ import {
 } from "farmbot";
 import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
-import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { TaggedSequence, TaggedTool } from "../resources/tagged_resources";
+import { TaggedSequence, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
 
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
+  slots: TaggedToolSlot[];
   sequence: TaggedSequence | undefined;
   auth: AuthState | undefined;
+  resources: ResourceIndex;
 }
 
 export interface SequenceEditorMiddleProps {
   dispatch: Function;
   sequence: TaggedSequence | undefined;
+  /** @deprecated Use props.resources now. */
   sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
+  /** @deprecated Use props.resources now. */
+  slots: TaggedToolSlot[];
+  resources: ResourceIndex;
 }
 
 export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
@@ -147,15 +154,6 @@ export interface IStepInput {
   index: number;
 }
 
-export interface StepParams {
-  dispatch: Function;
-  step: SequenceBodyItem;
-  index: number;
-  current: TaggedSequence;
-  all: TaggedSequence[];
-  tools: ToolsState;
-}
-
 export type StepTile = (input: StepParams) => JSX.Element;
 
 export interface StepDictionary {
@@ -206,13 +204,6 @@ export interface ChangeStepSelect {
   };
 }
 
-export interface SelectPayl {
-  value: number | string;
-  index: number;
-  field: string;
-  type?: string;
-}
-
 export interface RemoveStep {
   type: "REMOVE_STEP";
   payload: {
@@ -238,16 +229,16 @@ export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
 
-export interface DynamicStepListProps {
-  sequence: TaggedSequence | undefined;
-  sequences: TaggedSequence[];
-  tools: TaggedTool[];
+export interface StepParams {
+  currentSequence: TaggedSequence;
+  currentStep: SequenceBodyItem;
   dispatch: Function;
-}
-
-export interface StepListProps {
-  sequence: TaggedSequence;
+  index: number;
+  /** @deprecated Use props.resources now. */
   sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
-  dispatch: Function;
+  /** @deprecated Use props.resources now. */
+  slots: TaggedToolSlot[];
+  resources: ResourceIndex;
 }

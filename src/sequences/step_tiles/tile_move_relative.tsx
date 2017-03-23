@@ -1,13 +1,13 @@
 import * as React from "react";
-import { StepParams } from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
 import { copy, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
+import { StepParams } from "../interfaces";
 
 
-export function TileMoveRelative({ dispatch, step, index, current }: StepParams) {
+export function TileMoveRelative({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
     <div className="step-wrapper">
       <div className="row">
@@ -15,10 +15,10 @@ export function TileMoveRelative({ dispatch, step, index, current }: StepParams)
           <div className="step-header move-relative-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
-              step={step} />
+              step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
             <Help text={(`The Move Relative step instructs FarmBot \
@@ -42,28 +42,28 @@ export function TileMoveRelative({ dispatch, step, index, current }: StepParams)
               <div className="col-xs-6 col-md-3">
                 <label>{t("X (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="x" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Y (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="y" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Z (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="z" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Speed")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={step}
+                  step={currentStep}
                   index={index}
                   field="speed" />
               </div>

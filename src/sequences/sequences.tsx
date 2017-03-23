@@ -23,7 +23,9 @@ export class Sequences extends React.Component<Props, {}> {
           dispatch={this.props.dispatch}
           sequences={this.props.sequences}
           sequence={this.props.sequence}
+          slots={this.props.slots}
           tools={this.props.tools}
+          resources={this.props.resources}
         />
       </Col>
       {isMobile() && <MobileSequencesNav />}

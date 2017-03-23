@@ -1,9 +1,8 @@
 import * as React from "react";
-import { SequenceBodyItem } from "farmbot";
+import { SequenceBodyItem, LegalSequenceKind } from "farmbot";
 import {
   dispatcher,
   DataXferObj,
-  StepListProps,
   ActiveMiddleProps,
   Sequence
 } from "./interfaces";
@@ -11,10 +10,7 @@ import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence, deleteSequence
 } from "./actions";
-import {
-  stepTiles,
-  StepTile
-} from "./step_tiles/index";
+import { renderCeleryNode } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import {
@@ -33,11 +29,6 @@ import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { save, edit } from "../api/crud";
 import { toastErrors } from "../util";
-import { UnsafeError } from "../interfaces";
-
-let Oops: StepTile = (_) => {
-  return <div>{t("Whoops! Not a valid message_type")}</div>;
-};
 
 function routeIncomingDroppedItems(dispatch: dispatcher,
   key: string,
@@ -85,7 +76,7 @@ export let performSeq = (dispatch: Function, s: TaggedSequence) => {
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
   render() {
-    let { sequences, dispatch, tools, sequence } = this.props;
+    let { sequences, dispatch, tools, sequence, slots, resources } = this.props;
     let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
       if (xfer.draggerId === NULL_DRAGGER_ID) {
@@ -138,30 +129,33 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           <ColorPicker current={sequence.body.color}
             onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
         </Row>
-        {(sequence.body.body || []).map((step: SequenceBodyItem, inx, arr) => {
-          let Step = stepTiles[step.kind] || Oops;
-          /** HACK: If we wrote `key={inx}` for this iterator, React's diff
-           * algorithm would lose track of which step has changed (and
+        {(sequence.body.body || []).map((currentStep: SequenceBodyItem, index, arr) => {
+          /** HACK: If we wrote `key={index}` for this iterator, React's diff
+           * algorithm (probably?) loses track of which step has changed (and
            * sometimes even mix up the state of completely different steps).
            * To get around this, we add a `uuid` property to Steps that
            * is guaranteed to be unique and allows React to diff the list
            * correctly.
            */
-          let wow = (step as any).uuid || inx;
+          let wow = (currentStep as any).uuid || index;
+          let currentSequence = sequence;
           return <div key={wow}>
-            <DropArea callback={onDrop(dispatch as dispatcher, inx)} />
+            <DropArea callback={onDrop(dispatch as dispatcher, index)} />
             <StepDragger dispatch={dispatch}
-              step={step}
+              step={currentStep}
               ghostCss="step-drag-ghost-image-big"
               intent="step_move"
-              draggerId={inx}>
-              <Step step={step}
-                index={inx}
-                dispatch={dispatch}
-                sequence={sequence}
-                all={sequences}
-                current={arr[inx]}
-                tools={tools} />
+              draggerId={index}>
+              {renderCeleryNode(currentStep.kind as LegalSequenceKind, {
+                currentStep,
+                index,
+                dispatch: dispatch,
+                sequences: sequences,
+                currentSequence,
+                slots,
+                tools,
+                resources
+              })}
             </StepDragger>
           </div>;
         })}

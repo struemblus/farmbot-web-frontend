@@ -71,7 +71,7 @@ function SequenceSelectBox({ dispatch,
     placeholder="Pick a sequence (or save a new one)" />;
 }
 
-export function ExecuteBlock({ dispatch, step, index, current, all }:
+export function ExecuteBlock({ dispatch, currentStep, index, currentSequence, sequences }:
   StepParams) {
   return (<div>
     <div className="step-wrapper">
@@ -81,7 +81,11 @@ export function ExecuteBlock({ dispatch, step, index, current, all }:
             <input className="step-label" placeholder="Execute" />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step, sequence: current })} />
+              onClick={() => copy({
+                dispatch,
+                step: currentStep,
+                sequence: currentSequence
+              })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index })} />
           </div>
@@ -94,9 +98,9 @@ export function ExecuteBlock({ dispatch, step, index, current, all }:
               <div className="col-xs-12">
                 <label>{t("Sequence")}</label>
                 <SequenceSelectBox dispatch={dispatch}
-                  step={step}
-                  sequence={current}
-                  sequences={all}
+                  step={currentStep}
+                  sequence={currentSequence}
+                  sequences={sequences}
                   index={index} />
               </div>
             </div>

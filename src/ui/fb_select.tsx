@@ -45,10 +45,10 @@ export interface SelectState {
 }
 
 /** Used as a placeholder for a selection of "none" when allowEmpty is true. */
-export const NULL_CHOICE: Readonly<DropDownItem> = {
+export const NULL_CHOICE: DropDownItem = Object.freeze({
   label: "None",
   value: ""
-};
+});
 
 export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
   constructor() {

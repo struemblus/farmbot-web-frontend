@@ -3,7 +3,7 @@ import { changeStep, removeStep } from "../actions";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "../execute_block";
-import { Sequence } from "../interfaces";
+import { Sequence, StepParams } from "../interfaces";
 import { defensiveClone } from "../../util";
 import { TileIf } from "./tile_if";
 import { TileWait } from "./tile_wait";
@@ -16,8 +16,8 @@ import { ToolsState } from "../../tools/interfaces";
 import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
-import { LegalArgString, CeleryNode } from "farmbot";
-import { TaggedSequence } from "../../resources/tagged_resources";
+import { LegalArgString, CeleryNode, LegalKindString, LegalSequenceKind } from "farmbot";
+import { TaggedSequence, TaggedTool } from "../../resources/tagged_resources";
 import { edit } from "../../api/crud";
 
 interface CopyParams {
@@ -30,7 +30,6 @@ export function copy({ dispatch, step, sequence }: CopyParams) {
   let copy = defensiveClone(step);
   let next = defensiveClone(sequence);
   let seq = next.body;
-  debugger;
   seq.body = seq.body || [];
   seq.body.splice(_.indexOf(seq.body, copy), 0, copy);
   dispatch(edit(sequence, next));
@@ -74,38 +73,18 @@ export function updateStep({ dispatch,
   };
 };
 
-export interface IStepInput {
-  step: CeleryNode;
-  field: LegalArgString;
-  dispatch: Function;
-  index: number;
-}
-
-export interface StepParams {
-  dispatch: Function;
-  step: Step;
-  index: number;
-  current: TaggedSequence;
-  all: TaggedSequence[];
-  tools: ToolsState;
-}
-console.log("👆 Change ToolState to `TaggedTool[]`");
-
-export type StepTile = (input: StepParams) => JSX.Element;
-
-interface StepDictionary {
-  [stepName: string]: StepTile;
-};
-
-export let stepTiles: { [name: string]: React.ReactType | undefined } = {
-  execute: ExecuteBlock,
-  _if: TileIf,
-  move_relative: TileMoveRelative,
-  move_absolute: TileMoveAbsolute,
-  write_pin: TileWritePin,
-  wait: TileWait,
-  send_message: TileSendMessage,
-  read_pin: TileReadPin,
-  execute_script: TileExecuteScript,
-  take_photo: TileTakePhoto
+export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
+  switch (kind) {
+    case "execute": return <ExecuteBlock {...props} />;
+    case "_if": return <TileIf {...props} />;
+    case "move_relative": return <TileMoveRelative {...props} />;
+    case "move_absolute": return <TileMoveAbsolute {...props} />;
+    case "write_pin": return <TileWritePin {...props} />;
+    case "wait": return <TileWait {...props} />;
+    case "send_message": return <TileSendMessage {...props} />;
+    case "read_pin": return <TileReadPin {...props} />;
+    case "execute_script": return <TileExecuteScript {...props} />;
+    case "take_photo": return <TileTakePhoto {...props} />;
+    default: return <div><hr /> ? Unknown step ? <hr /></div>;
+  }
 };

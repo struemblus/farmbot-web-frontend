@@ -1,5 +1,5 @@
 import * as React from "react";
-import { IStepInput } from "../step_tiles/index";
+import { IStepInput } from "../interfaces";
 
 export function InputUnknown({ field }: IStepInput) {
   return <input type="text"
