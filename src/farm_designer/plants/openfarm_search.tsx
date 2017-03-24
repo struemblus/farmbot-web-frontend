@@ -1,7 +1,5 @@
 import * as React from "react";
 import * as Axios from "axios";
-import { Everything } from "../../interfaces";
-import { connect } from "react-redux";
 import { Link } from "react-router";
 import { DEFAULT_ICON } from "../../open_farm/index";
 import { OpenFarm, CropSearchResult } from "../openfarm";
@@ -14,9 +12,8 @@ let url = (q: string) => `${OpenFarm.cropUrl}?include=pictures&filter=${q}`;
 let openFarmSearchQuery = _.throttle((q: string) =>
   Axios.get<CropSearchResult>(url(q)), 800);
 
-@connect((state: Everything) => state)
 export class OpenFarmSearch extends React.Component<OFSearchProps,
-OFSearchState> {
+  OFSearchState> {
   constructor() {
     super();
     this.state = { results: [] };
@@ -60,7 +57,7 @@ OFSearchState> {
 
   render() {
     return <div>
-      {this.state.results.concat(this.props.designer.cropSearchResults).map(resp => {
+      {this.state.results.concat(this.props.cropSearchResults).map(resp => {
         let { crop, image } = resp;
         return <Link key={resp.crop.slug}
           draggable={false}

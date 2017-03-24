@@ -1,13 +1,20 @@
 import * as React from "react";
 import { BackArrow } from "../../ui";
-import { Everything } from "../../interfaces";
-import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
 import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
 import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
+import { history } from "../../history";
+import { connect } from "react-redux";
+import { Everything } from "../../interfaces";
 
-@connect((state: Everything) => state)
+function mapStateToProps(props: Everything): SpeciesInfoProps {
+  return {
+    cropSearchResults: props.resources.consumers.farm_designer.cropSearchResults
+  }
+}
+
+@connect(mapStateToProps)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   handleDragStart(e: DraggableEvent) {
     let icon = e.currentTarget.getAttribute("data-icon-url");
@@ -24,7 +31,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
+    let crops = this.props.cropSearchResults;
     let crop = _(crops).find((result) => result.crop.slug === slug);
 
     return crop || {
@@ -46,7 +53,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   }
 
   render() {
-    let species = this.props.params.species.toString();
+    let species = history.getCurrentLocation().pathname.split("/")[5];
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
 
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
@@ -61,7 +68,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
           <a className="right-button mobile-only"
-            onClick={() => this.props.router.push(addSpeciesPath)}>
+            onClick={() => history.push(addSpeciesPath)}>
             {t("Add to map")}
           </a>
         </p>

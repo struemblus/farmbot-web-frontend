@@ -10,7 +10,7 @@ import {
   indexSequenceById
 } from "../../resources/selectors";
 
-export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
+export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
     // Am I really doing this right now? How else?
     let incomingTime = e.currentTarget.value.split(":");
@@ -72,7 +72,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   let selectOptions: DropDownItem[] = [];
 
   selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
-  selectAll(state.resources.index, "regimens").map((regimen, index) => {
+  selectAll(props.resources.index, "regimens").map((regimen, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (regimen.kind === "regimens" && regimen.body.id) {
@@ -87,7 +87,7 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   });
 
   selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Sequences" });
-  selectAll(state.resources.index, "sequences").map((sequence, index) => {
+  selectAll(props.resources.index, "sequences").map((sequence, index) => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (sequence.kind === "sequences" && sequence.body.id) {
@@ -101,10 +101,10 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   });
 
-  let regimensById = indexRegimenById(state.resources.index);
-  let sequencesById = indexSequenceById(state.resources.index);
+  let regimensById = indexRegimenById(props.resources.index);
+  let sequencesById = indexSequenceById(props.resources.index);
 
-  let farmEvents = selectAllFarmEvents(state.resources.index);
+  let farmEvents = selectAllFarmEvents(props.resources.index);
 
   let currentUuid = "TODO: UUID STUB";
   console.log("HEY! Fix this! ^");

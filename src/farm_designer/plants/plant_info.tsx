@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BackArrow, error } from "../../ui";
+import { error } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
@@ -43,9 +43,7 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
       .catch(() => error("Could not delete plant.", "Error"))
   }
 
-  fallback = () => {
-    return <span>Redirecting...</span>
-  }
+  fallback = () => <span>Redirecting...</span>
 
   default = (plant_info: PlantData) => {
     let { planted_at, name, x, y, id } = plant_info;
@@ -56,7 +54,9 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
     return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <BackArrow />
+          <Link to="/app/designer/plants" className="back-arrow">
+            <i className="fa fa-arrow-left" />
+          </Link>
           <span className="title">{t("Edit")} {name}</span>
           <Link to={`/app/designer/plants/` + (id || "BROKEN")
             .toString() + `/edit`}
@@ -77,7 +77,7 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
           <li>Soil Acidifier</li>
         </ul>
       </div>
-    </div >;
+    </div>;
   }
 
   render() {
