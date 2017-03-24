@@ -1,78 +1,34 @@
 import * as React from "react";
 import { copy, remove } from "./step_tiles/index";
-import { SequenceBodyItem as Step, Execute } from "farmbot";
-import { Sequence, StepParams } from "./interfaces";
+import { StepParams } from "./interfaces";
 import { t } from "i18next";
 import { FBSelect, DropDownItem } from "../ui";
+import { selectAllSequences } from "../resources/selectors";
+import { Execute } from "farmbot/dist";
 import { TaggedSequence } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
 
-/** Removes un-executable sequences, such as "self" or unsaved ones */
-function filterSequenceList(sequences: TaggedSequence[] | undefined, sequence: TaggedSequence) {
-  let isSaved = (s: Sequence) => !!s.id;
-  let notRecursive = (me: Sequence, you: Sequence) => me !== you;
-  return (sequences || [])
-    .filter(function (seq) {
-      // Can't function recurseCant use unsaved sequences.
-      return isSaved(seq.body) && notRecursive(sequence.body, seq.body);
-    });
+export function ExecuteBlock(p: StepParams) {
+  if (p.currentStep.kind === "execute") {
+    return <RefactoredExecuteBlock currentStep={p.currentStep}
+      currentSequence={p.currentSequence}
+      index={p.index}
+      dispatch={p.dispatch}
+      resources={p.resources} />;
+  } else {
+    throw new Error("Thats not an execute block!");
+  }
 }
 
-interface SequenceSelectBoxParams {
+interface ExecBlockParams {
+  currentStep: Execute;
+  currentSequence: TaggedSequence;
   dispatch: Function;
-  step: Step;
-  sequence: TaggedSequence;
-  sequences: TaggedSequence[];
   index: number;
+  resources: ResourceIndex;
 }
-
-function SequenceSelectBox({ dispatch,
-  step,
-  sequence,
-  sequences,
-  index }: SequenceSelectBoxParams) {
-
-  let eligibleSequences: TaggedSequence[] = filterSequenceList(sequences, sequence);
-  let finalOptions: DropDownItem[] = [];
-  let selectedSequence: DropDownItem = { label: "", value: "" };
-
-  let ssid = (step as Execute).args.sequence_id;
-
-  eligibleSequences.map((ts: TaggedSequence) => {
-    let seq = ts.body
-    if (seq.id === ssid) {
-      selectedSequence = { label: seq.name, value: seq.id };
-    }
-    if (seq.id) {
-      finalOptions.push({
-        label: seq.name,
-        value: seq.id.toString()
-      });
-    } else {
-      throw new Error("Sequence must have ID.");
-    }
-  });
-
-  function change(e: DropDownItem) {
-    let val = e.value;
-    if (val) {
-      let sequence_id = parseInt(val.toString(), 10);
-      let update = { args: { sequence_id } };
-      let newStep = Object.assign({}, step, update);
-      throw new Error("TODO!");
-      // dispatch(changeStep(index, newStep));
-    } else {
-      throw new Error("Tried to set a non-existant sequence_id");
-    }
-  };
-
-  return <FBSelect onChange={change}
-    initialValue={selectedSequence}
-    list={finalOptions}
-    placeholder="Pick a sequence (or save a new one)" />;
-}
-
-export function ExecuteBlock({ dispatch, currentStep, index, currentSequence, sequences }:
-  StepParams) {
+export function RefactoredExecuteBlock(props: ExecBlockParams) {
+  let { dispatch, currentStep, index, currentSequence } = props;
   return (<div>
     <div className="step-wrapper">
       <div className="row">
@@ -97,11 +53,7 @@ export function ExecuteBlock({ dispatch, currentStep, index, currentSequence, se
             <div className="row">
               <div className="col-xs-12">
                 <label>{t("Sequence")}</label>
-                <SequenceSelectBox dispatch={dispatch}
-                  step={currentStep}
-                  sequence={currentSequence}
-                  sequences={sequences}
-                  index={index} />
+                <SequenceSelectBox {...props} />
               </div>
             </div>
           </div>
@@ -109,4 +61,40 @@ export function ExecuteBlock({ dispatch, currentStep, index, currentSequence, se
       </div>
     </div>
   </div>);
+}
+
+export function SequenceSelectBox(props: ExecBlockParams) {
+  return <FBSelect onChange={changeSelection(props)}
+    initialValue={selectedSequence(props)}
+    list={sequenceDropDownList(props)}
+    placeholder="Pick a sequence (or save a new one)" />
+}
+
+let changeSelection = (props: ExecBlockParams) => (input: DropDownItem) => {
+}
+
+function sequenceDropDownList(p: ExecBlockParams) {
+  let output: DropDownItem[] = [];
+  selectAllSequences(p.resources)
+    .map(function (x) {
+      let { id, name } = x.body;
+      if (_.isNumber(id) && (id !== p.currentStep.args.sequence_id)) {
+        output.push({ label: name, value: id })
+      }
+    })
+  return output;
+}
+
+function selectedSequence(p: ExecBlockParams) {
+  let all = sequenceDropDownList(p)
+  let output = all[0] || { label: "Please select a sequence.", value: 0 };
+  all.map(function (ddi) {
+    let step = p.currentStep;
+    let id = ddi.value;
+    if (step.args.sequence_id === id) {
+      output.value = ddi.value;
+      output.label = ddi.label;
+    }
+  })
+  return output;
 }

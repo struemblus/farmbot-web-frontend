@@ -75,7 +75,7 @@ function numericNonsense(val: string, copy: CeleryNode, field: LegalArgString) {
 }
 
 export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
-  switch (kind) {
+  switch (props.currentStep.kind) {
     case "execute": return <ExecuteBlock {...props} />;
     case "_if": return <TileIf {...props} />;
     case "move_relative": return <TileMoveRelative {...props} />;
