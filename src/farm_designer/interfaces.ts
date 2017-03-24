@@ -125,14 +125,15 @@ export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
-  currentUuid: string;
   regimensById: CowardlyDictionary<TaggedRegimen>;
   sequencesById: CowardlyDictionary<TaggedSequence>;
+  farmEventsById: CowardlyDictionary<TaggedFarmEvent>;
+  getFarmEvent(url: string): TaggedFarmEvent;
+  getInitalizedFarmEvent(): TaggedFarmEvent | undefined;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(uuid: string): void;
-  delete(uuid: string): void;
+  dispatch: Function;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent

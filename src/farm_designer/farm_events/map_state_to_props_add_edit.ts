@@ -1,4 +1,4 @@
-import { AddEditFarmEventProps } from "../interfaces";
+import { AddEditFarmEventProps, FarmEvent } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
@@ -7,8 +7,15 @@ import { selectAll } from "../../resources/util";
 import {
   selectAllFarmEvents,
   indexRegimenById,
-  indexSequenceById
+  indexSequenceById,
+  indexFarmEventById,
+  findWhere,
+  findResourceById,
+  findUuid,
+  findFarmEvent,
+  findFarmEventById
 } from "../../resources/selectors";
+import { TaggedFarmEvent, isTaggedFarmEvent } from "../../resources/tagged_resources";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -103,29 +110,37 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
 
   let regimensById = indexRegimenById(props.resources.index);
   let sequencesById = indexSequenceById(props.resources.index);
+  let farmEventsById = indexFarmEventById(props.resources.index);
 
   let farmEvents = selectAllFarmEvents(props.resources.index);
 
-  let currentUuid = "TODO: UUID STUB";
-  console.log("HEY! Fix this! ^");
+  let getInitalizedFarmEvent = (): TaggedFarmEvent | undefined => {
+    let uuid = props.resources.index.byKind.farm_events.pop();
+    if (uuid) {
+      let fe = props.resources.index.references[uuid];
+      if (fe && fe.kind === "farm_events" && !fe.body.id) { return fe; }
+    } else {
+      throw new Error("Tried to retrive an uninitialized farm event.");
+    }
+  }
+
+  let getFarmEvent = (url: string): TaggedFarmEvent => {
+    let id = parseInt(url.split("/")[4]);
+    return findFarmEventById(props.resources.index, id);
+  }
 
   return {
+    dispatch: props.dispatch,
     regimensById,
     sequencesById,
-    currentUuid,
+    farmEventsById,
     selectOptions,
     repeatOptions,
     formatDate,
     formatTime,
     handleTime,
     farmEvents,
-    save(uuid) {
-      // this.dispatch(saveFarmEvent(uuid));
-      this.router.push("/app/designer/farm_events");
-    },
-    delete(uuid) {
-      // this.dispatch(destroyFarmEvent(uuid));
-      this.router.push("/app/designer/farm_events");
-    },
+    getFarmEvent,
+    getInitalizedFarmEvent
   };
 }

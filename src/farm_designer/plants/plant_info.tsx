@@ -57,7 +57,7 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
           <Link to="/app/designer/plants" className="back-arrow">
             <i className="fa fa-arrow-left" />
           </Link>
-          <span className="title">{t("Edit")} {name}</span>
+          <span className="title">{name}</span>
           <Link to={`/app/designer/plants/` + (id || "BROKEN")
             .toString() + `/edit`}
             className="right-button">

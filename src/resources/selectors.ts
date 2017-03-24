@@ -17,7 +17,8 @@ import {
   isTaggedTool,
   isTaggedToolSlot,
   isTaggedResource,
-  sanityCheck
+  sanityCheck,
+  isTaggedFarmEvent
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
@@ -96,6 +97,7 @@ let find = (r: ResourceName) =>
 export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
 export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
+export let findFarmEvent = find("farm_events") as Finder<TaggedFarmEvent>;
 
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
   return index.references[uuid];
@@ -144,6 +146,20 @@ export function indexRegimenById(index: ResourceIndex) {
     let regimen = index.references[uuid];
     if (regimen && isTaggedRegimen(regimen) && regimen.body.id) {
       output[regimen.body.id] = regimen;
+    }
+  });
+  return output;
+}
+
+export function indexFarmEventById(index: ResourceIndex) {
+  let output: CowardlyDictionary<TaggedFarmEvent> = {};
+
+  let uuids = index.byKind.farm_events;
+  uuids.map(uuid => {
+    assertUuid("farm_events", uuid);
+    let farmEvent = index.references[uuid];
+    if (farmEvent && isTaggedFarmEvent(farmEvent) && farmEvent.body.id) {
+      output[farmEvent.body.id] = farmEvent;
     }
   });
   return output;
@@ -255,6 +271,15 @@ export let byId = <T extends TaggedResource>(name: ResourceName) =>
     return tools.filter(f)[0] as T | undefined;
   }
 
+export let findFarmEventById = (ri: ResourceIndex, fe_id: number) => {
+  let fe = byId("farm_events")(ri, fe_id);
+  if (fe && isTaggedFarmEvent(fe) && sanityCheck(fe)) {
+    return fe;
+  } else {
+    throw new Error("Bad tool id: " + fe_id);
+  }
+};
+
 export let findToolById = (ri: ResourceIndex, tool_id: number) => {
   let tool = byId("tools")(ri, tool_id);
   if (tool && isTaggedTool(tool) && sanityCheck(tool)) {
@@ -263,6 +288,7 @@ export let findToolById = (ri: ResourceIndex, tool_id: number) => {
     throw new Error("Bad tool id: " + tool_id);
   }
 };
+
 export let findSlotById = byId<TaggedToolSlot>("tool_slots");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {

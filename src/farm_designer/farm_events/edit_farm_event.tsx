@@ -18,6 +18,8 @@ import { connect } from "react-redux";
 import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 import { hasKey } from "../../util";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { history } from "../../history";
+import { edit, save, destroy } from "../../api/crud";
 
 @connect(mapStateToPropsAddEdit)
 export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
@@ -35,12 +37,9 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
     }
   }
 
-  modify = (e: DropDownItem | React.SyntheticEvent<HTMLInputElement>) => {
-    console.log(e);
-  }
-
   render() {
-    let { formatDate, formatTime, selectOptions } = this.props;
+    let fe = this.props.getFarmEvent(history.getCurrentLocation().pathname);
+    let { formatDate, formatTime, selectOptions, dispatch } = this.props;
     return <div className={`panel-container magenta-panel
       add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
@@ -52,7 +51,9 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
           list={this.props.selectOptions}
-          onChange={(e) => this.modify(e)}
+          onChange={(e) => {
+            console.log(e); // TODO
+          }}
           initialValue={{ label: "TO", value: "DO" }} />
         <label>{t("Starts")}</label>
         <Row>
@@ -61,15 +62,19 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               type="date"
               className="add-event-start-date"
               name="start_date"
-              value={formatDate((new Date()).toString())}
-              onCommit={(e) => this.modify(e)} />
+              value={formatDate((fe.body.start_time || new Date()).toString())}
+              onCommit={(e) => {
+                dispatch(edit(fe, { start_time: e.currentTarget.value }))
+              }} />
           </Col>
           <Col xs={6}>
             <BlurableInput type="time"
               className="add-event-start-time"
               name="start_time"
-              value={formatTime((new Date()).toString())}
-              onCommit={(e) => this.modify(e)} />
+              value={formatTime((fe.body.start_time || new Date()).toString())}
+              onCommit={(e) => {
+                dispatch(edit(fe, { start_time: e.currentTarget.value }))
+              }} />
           </Col>
         </Row>
         <label>{t("Repeats Every")}</label>
@@ -81,12 +86,16 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               className="add-event-repeat-frequency"
               name="repeat"
               value={(0).toString()}
-              onCommit={(e) => this.modify(e)} />
+              onCommit={(e) => {
+                dispatch(edit(fe, { repeat: e.currentTarget.value }));
+              }} />
           </Col>
           <Col xs={8}>
             <FBSelect
               list={this.props.repeatOptions}
-              onChange={(e) => this.modify(e)}
+              onChange={(e) => {
+                dispatch(edit(fe, { time_unit: e.value }));
+              }}
               initialValue={{ label: "TO", value: "DO" }} />
           </Col>
         </Row>
@@ -97,24 +106,28 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               type="date"
               className="add-event-end-date"
               name="end_date"
-              value={formatDate((new Date()).toString())}
-              onCommit={(e) => this.modify(e)} />
+              value={formatDate((fe.body.end_time || new Date()).toString())}
+              onCommit={(e) => {
+                dispatch(edit(fe, { end_time: e.currentTarget.value }));
+              }} />
           </Col>
           <Col xs={6}>
             <BlurableInput
               type="time"
               name="end_time"
               className="add-event-end-time"
-              value={formatTime((new Date()).toString())}
-              onCommit={(e) => this.modify(e)} />
+              value={formatTime((fe.body.end_time || new Date()).toString())}
+              onCommit={(e) => {
+                dispatch(edit(fe, { end_time: e.currentTarget.value }));
+              }} />
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.props.currentUuid)}>
+          onClick={() => { dispatch(save(fe.uuid)) }}>
           {t("Save")}
         </button>
         <button className="red button-like"
-          onClick={() => this.props.delete(this.props.currentUuid)}>
+          onClick={() => { dispatch(destroy(fe.uuid)) }}>
           {t("Delete")}
         </button>
       </div>

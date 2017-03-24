@@ -13,9 +13,17 @@ import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { init } from "../../api/crud";
+import { findWhere } from "../../resources/selectors";
 
 @connect(mapStateToPropsAddEdit)
-export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps,
+{ hasInitialized: boolean }> {
+  constructor() {
+    super();
+    this.state = { hasInitialized: false };
+  }
+
   emptyFarmEvent = (): TaggedFarmEvent => {
     return {
       uuid: "REDUCER_MUST_CHANGE_THIS",
@@ -24,14 +32,18 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
         start_time: moment().toISOString(),
         time_unit: "daily",
         next_time: moment().toISOString(),
-        executable_id: -999,
-        executable_type: "Regimen"
+        executable_id: 0,
+        executable_type: ""
       }
     }
   }
 
+  componentWillUnmount() {
+    // cleanup
+  }
+
   modify = (e: DropDownItem | React.SyntheticEvent<HTMLInputElement>) => {
-    console.log(e);
+    // init here?
   }
 
   render() {
@@ -104,10 +116,10 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.props.currentUuid)}>
+          onClick={() => { }}>
           {t("Save")}
         </button>
       </div>
-    </div>;
+    </div >;
   }
 }
