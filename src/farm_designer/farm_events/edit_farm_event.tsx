@@ -43,12 +43,12 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
     let { handleTime } = this.props;
     switch (e.currentTarget.name) {
       case "start_time":
-        let newStart = handleTime(e, (this.state.start_time || "").toString());
-        this.setState({ start_time: newStart });
+        // let newStart = handleTime(e, (this.state.start_time || "").toString());
+        // this.setState({ start_time: newStart });
         break;
       case "end_time":
-        let newEnd = handleTime(e, (this.state.end_time || "").toString());
-        this.setState({ end_time: newEnd });
+        // let newEnd = handleTime(e, (this.state.end_time || "").toString());
+        // this.setState({ end_time: newEnd });
         break;
     }
   }
@@ -142,7 +142,7 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => this.props.save(this.state)}>
+          onClick={() => { }}>
           {t("Save")}
         </button>
       </div>
