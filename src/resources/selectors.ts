@@ -289,6 +289,15 @@ export let findToolById = (ri: ResourceIndex, tool_id: number) => {
   }
 };
 
+export let findSequenceById = (ri: ResourceIndex, sequence_id: number) => {
+  let sequence = byId("sequences")(ri, sequence_id);
+  if (sequence && isTaggedSequence(sequence) && sanityCheck(sequence)) {
+    return sequence;
+  } else {
+    throw new Error("Bad sequence id: " + sequence_id);
+  }
+};
+
 export let findSlotById = byId<TaggedToolSlot>("tool_slots");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {

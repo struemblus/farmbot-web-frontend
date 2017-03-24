@@ -155,8 +155,10 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
 
   value = () => {
     if (!this.state.touched && this.props.initialValue) {
+      console.log("PROPS: " + JSON.stringify(this.props))
       return this.props.initialValue;
     } else {
+      console.log("STATE: " + JSON.stringify(this.state))
       return this.state;
     }
   }
