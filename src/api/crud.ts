@@ -49,7 +49,7 @@ export function initSave(resource: TaggedResource) {
     dispatch(action);
     let nextState = getState().resources.index;
     let tr = findByUuid(nextState, action.payload.uuid);
-    dispatch(save(tr.uuid));
+    return dispatch(save(tr.uuid));
   }
 }
 

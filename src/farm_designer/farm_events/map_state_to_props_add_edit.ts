@@ -13,8 +13,11 @@ import {
   findResourceById,
   findUuid,
   findFarmEvent,
-  findFarmEventById
+  findFarmEventById,
+  selectAllRegimens,
+  selectAllSequences
 } from "../../resources/selectors";
+import { hasKey } from "../../util";
 import { TaggedFarmEvent, isTaggedFarmEvent } from "../../resources/tagged_resources";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
@@ -79,7 +82,7 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
   let selectOptions: DropDownItem[] = [];
 
   selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
-  selectAll(props.resources.index, "regimens").map((regimen, index) => {
+  selectAllRegimens(props.resources.index).map(regimen => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (regimen.kind === "regimens" && regimen.body.id) {
@@ -94,7 +97,7 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
   });
 
   selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Sequences" });
-  selectAll(props.resources.index, "sequences").map((sequence, index) => {
+  selectAllSequences(props.resources.index).map(sequence => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
     if (sequence.kind === "sequences" && sequence.body.id) {

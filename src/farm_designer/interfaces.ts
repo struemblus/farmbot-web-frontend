@@ -25,7 +25,8 @@ export interface UpdateSequenceOrRegimenProps {
   farm_event_id: number;
 }
 
-export type TimeUnit = "never"
+export type TimeUnit =
+  | "never"
   | "minutely"
   | "hourly"
   | "daily"
