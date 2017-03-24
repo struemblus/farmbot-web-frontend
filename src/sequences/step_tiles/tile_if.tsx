@@ -171,7 +171,7 @@ function InnerIf({
             <i className="fa fa-clone step-control"
               onClick={() => copy({ dispatch, step: currentStep })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence })} />
             <Help text={(`Detailed documentation coming soon`)} />
             {isRecursive && (
               <span>

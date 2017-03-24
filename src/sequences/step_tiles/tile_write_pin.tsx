@@ -19,7 +19,7 @@ export function TileWritePin({ dispatch, currentStep, index, currentSequence }: 
             <i className="fa fa-clone step-control"
               onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Write Pin step instructs FarmBot to
                       set the specified pin on the Arduino to the specified mode
                       and value. A Pin Mode of 0 is for on/off control, while

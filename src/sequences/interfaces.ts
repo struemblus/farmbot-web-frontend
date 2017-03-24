@@ -204,13 +204,6 @@ export interface ChangeStepSelect {
   };
 }
 
-export interface RemoveStep {
-  type: "REMOVE_STEP";
-  payload: {
-    index: number;
-  };
-};
-
 export interface SaveSequenceOk {
   type: string;
   payload: Sequence;

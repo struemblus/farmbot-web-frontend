@@ -1,9 +1,9 @@
 import * as React from "react";
-import { changeStep, removeStep } from "../actions";
+import { changeStep } from "../actions";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "../execute_block";
-import { Sequence, StepParams } from "../interfaces";
+import { StepParams } from "../interfaces";
 import { defensiveClone } from "../../util";
 import { TileIf } from "./tile_if";
 import { TileWait } from "./tile_wait";
@@ -12,12 +12,11 @@ import { TileMoveRelative } from "./tile_move_relative";
 import { TileReadPin } from "./tile_read_pin";
 import { TileSendMessage } from "./tile_send_message";
 import { TileWritePin } from "./tile_write_pin";
-import { ToolsState } from "../../tools/interfaces";
 import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
-import { LegalArgString, CeleryNode, LegalKindString, LegalSequenceKind } from "farmbot";
-import { TaggedSequence, TaggedTool } from "../../resources/tagged_resources";
+import { CeleryNode, LegalSequenceKind } from "farmbot";
+import { TaggedSequence } from "../../resources/tagged_resources";
 import { edit } from "../../api/crud";
 
 interface CopyParams {
@@ -38,10 +37,16 @@ export function copy({ dispatch, step, sequence }: CopyParams) {
 interface RemoveParams {
   index: number;
   dispatch: Function;
+  sequence: TaggedSequence;
 }
 
-export function remove({ dispatch, index }: RemoveParams) {
-  dispatch(removeStep(index));
+export function remove({ dispatch, index, sequence }: RemoveParams) {
+  let original = sequence;
+  let update = defensiveClone(original);
+  update.body.body = (update.body.body || []);
+  delete update.body.body[index];
+  update.body.body = _.compact(update.body.body);
+  dispatch(edit(original, update));
 }
 
 interface UpdateStepParams {

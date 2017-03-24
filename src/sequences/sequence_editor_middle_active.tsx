@@ -23,7 +23,7 @@ import {
 } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
-import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
+import { pushStep, spliceStep, moveStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
@@ -63,25 +63,24 @@ let copy = function (dispatch: Function, sequence: TaggedSequence) {
 };
 
 export let performSeq = (dispatch: Function, s: TaggedSequence) => {
-  console.log("FIX THIS!")
-  // return () => {
-  //   dispatch(saveSequence(s))
-  //     .then(() => execSequence(s.body));
-  // };
+  return () => {
+    dispatch(save(s.uuid)).then(() => execSequence(s.body));
+  };
 };
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
 
   render() {
     let { sequences, dispatch, tools, sequence, slots, resources } = this.props;
-      let fixThisToo = function (key: string) {
+    let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
       if (xfer.draggerId === NULL_DRAGGER_ID) {
         pushStep(xfer.value, dispatch, sequence);
       } else {
         let from = xfer.draggerId;
         // Remove it from where it was.
-        dispatch(removeStep(from));
+        // dispatch(removeStep(from));
+        console.log("FIX THIS!")
         // Push it to the end.
         pushStep(xfer.value, dispatch, sequence);
       };
@@ -103,7 +102,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           {t("Save")} {sequence && sequence.dirty && "*"}
         </button>
         <button className="orange button-like"
-          onClick={_.noop /*performSeq(dispatch, sequence)*/}>
+          onClick={performSeq(dispatch, sequence)}>
           {t("Save & Run")}
         </button>
         <button className="red button-like"

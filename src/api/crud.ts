@@ -24,7 +24,7 @@ export interface EditResourceParams {
   update: object;
 }
 
-export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
+export function edit(tr: TaggedResource, update: typeof tr.body):
   ReduxAction<EditResourceParams> {
   return {
     type: "EDIT_RESOURCE",
@@ -56,7 +56,7 @@ export function initSave(resource: TaggedResource) {
 export function save(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);
-    dispatch(((resource.body.id) ? update : create)(uuid));
+    return dispatch(((resource.body.id) ? update : create)(uuid));
   }
 }
 

@@ -9,7 +9,6 @@ import {
   MoveStepPayl,
   ChangeStep,
   ChangeStepSelect,
-  RemoveStep,
   SelectSequence
 } from "./interfaces";
 import { DropDownItem } from "../ui";
@@ -27,8 +26,7 @@ export function pushStep(step: SequenceBodyItem,
   next.body.body.push(defensiveClone(step))
   dispatch(edit(sequence, next));
 }
-export function editCurrentSequence(dispatch: Function,
-  seq: TaggedSequence,
+export function editCurrentSequence(dispatch: Function, seq: TaggedSequence,
   update: Partial<typeof seq.body>) {
   dispatch(edit(seq, update));
 }
@@ -127,13 +125,6 @@ export function updateSubSequence(
   return {
     type: "UPDATE_SUB_SEQUENCE",
     payload: { value, index, field, type }
-  };
-}
-
-export function removeStep(index: number): RemoveStep {
-  return {
-    type: "REMOVE_STEP",
-    payload: { index }
   };
 }
 

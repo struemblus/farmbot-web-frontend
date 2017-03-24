@@ -87,7 +87,7 @@ export function ExecuteBlock({ dispatch, currentStep, index, currentSequence, se
                 sequence: currentSequence
               })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
           </div>
         </div>
       </div>

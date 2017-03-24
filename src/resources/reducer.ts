@@ -119,17 +119,12 @@ export let resourceReducer = generateReducer
   })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
-    if (_.isString(uuid)) {
-      let { update } = a.payload;
-      let source = _.merge<TaggedResource>(findByUuid(s.index, uuid),
-        update,
-        { dirty: true });
-      sanityCheck(source);
-      a && isTaggedResource(source);
-      return s;
-    } else {
-      throw new Error("IMPOSSIBLE UNDEFINED STRING")
-    }
+    let original = findByUuid(s.index, uuid);
+    original.body = a.payload.update;
+    original.dirty = true;
+    sanityCheck(source);
+    a && isTaggedResource(source);
+    return s;
   })
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;

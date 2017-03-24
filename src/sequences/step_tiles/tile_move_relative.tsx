@@ -20,7 +20,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
             <i className="fa fa-clone step-control"
               onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Move Relative step instructs FarmBot \
                         to move the specified distance from its current \
                         location. For example, if FarmBot is currently at \

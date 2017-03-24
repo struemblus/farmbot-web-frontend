@@ -19,7 +19,7 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
             <i className="fa fa-clone step-control"
               onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Read Pin step instructs FarmBot to
                       read the current value of the specified pin.
                       A Pin Mode of 0 is for on/off control, while

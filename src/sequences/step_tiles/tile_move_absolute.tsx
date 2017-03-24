@@ -121,7 +121,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <i className="fa fa-clone step-control"
               onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <div className="help">
               <i className="fa fa-question-circle help-icon" />
               <div className="help-text">

@@ -19,7 +19,7 @@ export function TileExecuteScript({ dispatch, currentStep, index, currentSequenc
               <i className="fa fa-clone step-control"
                 onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
               <i className="fa fa-trash step-control"
-                onClick={() => remove({ dispatch, index })} />
+                onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
               <Help text={(`The 'Run Farmware' block runs a
                                 FarmWare package. The weed detection script is
                                 the only script supported at the moment, but user
