@@ -32,6 +32,16 @@ export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   };
 }
 
+/** Rather than update (patch) a TaggedResource, this method will overwrite
+ * everything within the `.body` property. */
+export function overwrite(tr: TaggedResource, update: typeof tr.body):
+  ReduxAction<EditResourceParams> {
+  return {
+    type: "OVERWRITE_RESOURCE",
+    payload: { uuid: tr.uuid, update: update }
+  };
+}
+
 /** Initialize (but don't save) an indexed / tagged resource. */
 export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
   resource.dirty = true;

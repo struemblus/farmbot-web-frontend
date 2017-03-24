@@ -127,7 +127,7 @@ export let resourceReducer = generateReducer
     a && isTaggedResource(source);
     return s;
   })
-  .add<EditResourceParams>("REPLACE_RESOURCE", function (s, a) {
+  .add<EditResourceParams>("OVERWRITE_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
     let original = findByUuid(s.index, uuid);
     original.body = a.payload.update as typeof original.body;

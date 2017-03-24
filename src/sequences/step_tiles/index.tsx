@@ -17,7 +17,7 @@ import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
 import { CeleryNode, LegalSequenceKind } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
-import { edit } from "../../api/crud";
+import { edit, overwrite } from "../../api/crud";
 
 interface CopyParams {
   dispatch: Function;
@@ -46,7 +46,7 @@ export function remove({ dispatch, index, sequence }: RemoveParams) {
   update.body.body = (update.body.body || []);
   delete update.body.body[index];
   update.body.body = _.compact(update.body.body);
-  dispatch(edit(original, update));
+  dispatch(overwrite(original, update.body));
 }
 
 interface UpdateStepParams {
