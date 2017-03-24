@@ -120,10 +120,10 @@ export let resourceReducer = generateReducer
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
     let original = findByUuid(s.index, uuid);
-    original.body = a.payload.update;
+    original.body = a.payload.update as typeof original.body;
     original.dirty = true;
-    sanityCheck(source);
-    a && isTaggedResource(source);
+    sanityCheck(original);
+    a && isTaggedResource(original);
     return s;
   })
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
