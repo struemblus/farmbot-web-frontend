@@ -43,6 +43,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
                 <label>{t("X (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="x" />
               </div>
@@ -50,6 +51,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
                 <label>{t("Y (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="y" />
               </div>
@@ -57,6 +59,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
                 <label>{t("Z (mm)")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="z" />
               </div>
@@ -64,6 +67,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
                 <label>{t("Speed")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="speed" />
               </div>

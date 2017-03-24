@@ -120,7 +120,8 @@ export interface MoveRelProps {
   speed?: number | undefined;
 }
 
-export type Axis = "x" | "y" | "z" | "all";
+export type Xyz = "x" | "y" | "z";
+export type Axis = Xyz | "all";
 
 export interface CalibrationButtonProps {
   axis: Axis;

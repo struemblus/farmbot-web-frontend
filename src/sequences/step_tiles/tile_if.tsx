@@ -211,6 +211,7 @@ function InnerIf({
                 <label>{t("Right hand side")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={sequence}
                   index={index}
                   field="rhs" />
               </div>

@@ -35,14 +35,16 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
                 <label>{t("Pin Number")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="pin_number" />
               </div>
               <div className="col-xs-6 col-md-3">
                 <label>{t("Data Label")}</label>
                 <StepInputBox dispatch={dispatch}
-                  step={currentStep}
                   index={index}
+                  step={currentStep}
+                  sequence={currentSequence}
                   field="label" />
               </div>
               <div className="col-xs-6 col-md-3">
@@ -50,6 +52,7 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
                   index={index}
+                  sequence={currentSequence}
                   field="pin_mode" />
               </div>
             </div>

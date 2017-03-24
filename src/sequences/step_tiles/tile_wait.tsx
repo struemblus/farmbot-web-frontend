@@ -35,6 +35,7 @@ export function TileWait({ dispatch, currentStep, index, currentSequence }: Step
                 <label>{t("Time in milliseconds")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="milliseconds" />
               </div>

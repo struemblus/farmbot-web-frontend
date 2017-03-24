@@ -22,17 +22,38 @@ import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
 import {
-  isTaggedSequence
+  isTaggedSequence,
+  TaggedTool,
+  TaggedToolSlot
 } from "../../resources/tagged_resources";
 import {
   toolsInUse,
   findToolById,
   findSlotByToolId
 } from "../../resources/selectors";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
+import { Xyz } from "../../devices/interfaces";
+
+interface Args {
+  location: Tool | Coordinate;
+  speed: number;
+  offset: Coordinate;
+}
+type LocationArg = "location" | "offset";
 
 export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   get resources() { return this.props.resources; }
   get step() { return this.props.currentStep; }
+  get tool(): TaggedTool | undefined {
+    return (this.args.location.kind === "tool") ?
+      findToolById(this.resources, this.args.location.args.tool_id) : undefined;
+  }
+  get tool_id() { return this.tool && this.tool.body.id; }
+  get slot(): TaggedToolSlot | undefined {
+    return (this.tool_id) ?
+      findSlotByToolId(this.resources, this.tool_id) : undefined;
+  }
   get args() {
     // Incase we rename it later:
     const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
@@ -42,50 +63,68 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
       throw new Error("Impossible celery node detected.");
     }
   }
+  get location(): Tool | Coordinate { return this.args.location; }
+  getOffsetValue = (val: Xyz) => {
+    return (this.args.offset.args[val] || 0).toString();
+  }
 
-  get location(): Tool | Coordinate {
-    return this.args.location;
+  updateArgs = (update: Partial<Args>) => {
+    let copy = defensiveClone(this.props.currentSequence).body;
+    let step = (copy.body || [])[this.props.index];
+    if (step && step.kind === "move_absolute") {
+      step.args = { ...step.args, ...update };
+      this.props.dispatch(overwrite(this.props.currentSequence, copy));
+    } else {
+      throw new Error("Impossible condition.");
+    }
+  }
+
+  getAxisValue = (axis: Xyz): string => {
+    let number: number | undefined;
+    switch (this.args.location.kind) {
+      case "coordinate": number = this.args.location.args[axis];
+        break;
+      case "tool": number = (this.slot) ? this.slot.body[axis] : undefined;
+        break;
+    }
+    return (number || 0).toString();
+  }
+
+  clearTool = () => {
+    this.updateArgs({
+      location: { kind: "coordinate", args: { x: 0, y: 0, z: 0 } }
+    });
+  }
+
+  selectTool = (tool: DropDownItem) => {
+    let tool_id = tool.value;
+    if (_.isNumber(tool_id)) {
+      this.updateArgs({ location: { kind: "tool", args: { tool_id } } });
+    } else {
+      console.log("BAD NUMBER!")
+    }
   }
 
   updateToolSelect = (tool: DropDownItem) => {
-    console.log("You should call edit() here, probably.");
+    (Object.is(NULL_CHOICE, tool)) ? this.clearTool() : this.selectTool(tool);
   }
 
-  updateInputValue = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    console.log("You should call edit() here, probably.");
-  }
+  updateInputValue = (axis: Xyz, place: LocationArg) =>
+    (e: React.SyntheticEvent<HTMLInputElement>) => {
+      let num = parseInt(e.currentTarget.value, 10);
+      let update = { [place]: { args: { [axis]: num } } };
+      this.updateArgs(_.merge({}, this.args, update));
+    }
 
   initialDropDownSequenceValue = () => {
-    let location = this.location;
-    if (location.kind === "tool") {
-      let tool = findToolById(this.resources, location.args.tool_id);
-      if (tool.body.id) {
-        return { label: tool.body.name, value: tool.body.id }
-      }
+    if (this.tool && this.tool_id) {
+      return { label: this.tool.body.name, value: this.tool_id }
     }
     return { label: "Nothing", value: 0 };
   }
 
-  changeInputValue(value: string,
-    kind: string,
-    index: number,
-    dispatch: Function): void {
-    console.log("!!!");
-  };
-
-  changeToolSelect(step: SequenceBodyItem,
-    index: number,
-    dispatch: Function,
-    tool: DropDownItem): void {
-    console.log("!!!");
-  };
-
-  computeInputValue(kind: string, arg: string, step: SequenceBodyItem): string {
-    return "-999";
-  };
-
   get options(): DropDownItem[] {
-    let choices: DropDownItem[] = [NULL_CHOICE];
+    let choices: DropDownItem[] = [];
     toolsInUse(this.props.resources).map(x => {
       if (_.isNumber(x.body.id)) {
         choices.push({ value: x.body.id, label: x.body.name })
@@ -93,25 +132,12 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     })
     return choices;
   };
-  coord = (): Vector3 => {
-    let output: Vector3 = { x: 0, y: 0, z: 0 };
-    let location = this.location;
-    switch (location.kind) {
-      case "tool":
-        let slot = findSlotByToolId(this.props.resources, location.args.tool_id)
-        output = { ...output, ...slot }
-        break;
-      case "coordinate": output = { ...output, ...location.args }; break;
-    }
-    return output;
-  }
 
   render() {
     let { currentStep, dispatch, index, currentSequence } = this.props;
     if (currentSequence && !isTaggedSequence(currentSequence)) {
       throw new Error("WHOOPS!");
     }
-    if (!this.props.resources) { debugger; }
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
@@ -162,70 +188,71 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   {t("X (mm)")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("x", "location")}
                   type="number"
                   name="location-x"
-                  value={(this.coord().x || 0).toString()} />
+                  value={this.getAxisValue("x")} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("Y (mm)")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("y", "location")}
                   type="number"
                   name="location-y"
-                  value={(this.coord().y || 0).toString()} />
+                  value={this.getAxisValue("y")} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("Z (mm)")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("z", "location")}
                   type="number"
                   name="location-z"
-                  value={(this.coord().z || 0).toString()} />
+                  value={this.getAxisValue("z")} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("Speed")}
                 </label>
                 <StepInputBox
-                  index={this.props.index}
                   field={"speed"}
                   step={this.step}
-                  dispatch={this.props.dispatch} />
+                  index={index}
+                  dispatch={this.props.dispatch}
+                  sequence={this.props.currentSequence} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("X-Offset")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("x", "offset")}
                   type="number"
                   name="offset-x"
-                  value={this.computeInputValue("offset", "x", currentStep)} />
+                  value={this.getOffsetValue("x")} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("Y-Offset")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("y", "offset")}
                   type="number"
                   name="offset-y"
-                  value={this.computeInputValue("offset", "y", currentStep)} />
+                  value={this.getOffsetValue("y")} />
               </Col>
               <Col xs={3}>
                 <label>
                   {t("Z-Offset")}
                 </label>
                 <BlurableInput
-                  onCommit={this.updateInputValue}
+                  onCommit={this.updateInputValue("z", "offset")}
                   type="number"
                   name="offset-z"
-                  value={this.computeInputValue("offset", "z", currentStep)} />
+                  value={this.getOffsetValue("z")} />
               </Col>
             </Row>
           </div>

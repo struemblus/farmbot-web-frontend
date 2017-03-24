@@ -3,7 +3,7 @@ import { changeStep } from "../actions";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "../execute_block";
-import { StepParams } from "../interfaces";
+import { StepParams, StepInputProps } from "../interfaces";
 import { defensiveClone } from "../../util";
 import { TileIf } from "./tile_if";
 import { TileWait } from "./tile_wait";
@@ -49,23 +49,17 @@ export function remove({ dispatch, index, sequence }: RemoveParams) {
   dispatch(overwrite(original, update.body));
 }
 
-interface UpdateStepParams {
-  dispatch: Function;
-  step: CeleryNode;
-  index: number;
-  field: string;
-}
-
 export function updateStep({ dispatch,
   step,
   index,
+  sequence,
   field
-}: UpdateStepParams) {
+}: StepInputProps) {
   return (e: React.FormEvent<HTMLInputElement>) => {
     let copy = defensiveClone(step);
     let val = e.currentTarget.value;
 
-    if (NUMERIC_FIELDS.indexOf(field) !== -1) {
+    if (NUMERIC_FIELDS.includes(field)) {
       if (val == "-") { // Fix negative number issues.
         _.assign(copy.args, { [field]: "-" });
       } else {

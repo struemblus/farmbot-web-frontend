@@ -35,6 +35,7 @@ export function TileWritePin({ dispatch, currentStep, index, currentSequence }: 
                 <label>{t("Pin Number")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="pin_number" />
               </div>
@@ -42,6 +43,7 @@ export function TileWritePin({ dispatch, currentStep, index, currentSequence }: 
                 <label>{t("Value")}</label>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="pin_value" />
               </div>
@@ -50,6 +52,7 @@ export function TileWritePin({ dispatch, currentStep, index, currentSequence }: 
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
                   index={index}
+                  sequence={currentSequence}
                   field="pin_mode" />
               </div>
             </div>

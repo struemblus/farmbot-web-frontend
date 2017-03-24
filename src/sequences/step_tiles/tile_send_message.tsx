@@ -114,6 +114,7 @@ export function TileSendMessage({ dispatch, currentStep, index, currentSequence 
                 </span>
                 <StepInputBox dispatch={dispatch}
                   step={currentStep}
+                  sequence={currentSequence}
                   index={index}
                   field="message"
                 />

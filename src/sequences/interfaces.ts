@@ -44,9 +44,8 @@ export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
-export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
-  "pin_value", "pin_mode", "milliseconds",
-  "sequence_id", "rhs", "sequence_id"];
+export const NUMERIC_FIELDS = ["milliseconds", "pin_mode", "pin_number",
+  "pin_value", "rhs", "sequence_id", "speed", "x", "y", "z"];
 
 /** CeleryScript nodes allowed within a Sequence node's `body` attr. */
 export type SequenceBodyMember = SequenceBodyItem;
@@ -110,7 +109,7 @@ export interface ChangeMoveAbsInput {
   value: string;
 }
 
-export type StatelessInput = (p: IStepInput) => JSX.Element;
+export type StatelessInput = (p: StepInputProps) => JSX.Element;
 
 export type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
 
@@ -147,8 +146,9 @@ export interface UpdateStepParams {
   field: string;
 }
 
-export interface IStepInput {
+export interface StepInputProps {
   step: CeleryNode;
+  sequence: TaggedSequence;
   field: LegalArgString;
   dispatch: Function;
   index: number;
