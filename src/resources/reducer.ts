@@ -1,7 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, sanityCheck } from "./tagged_resources";
+import { TaggedResource, ResourceName, sanityCheck, isTaggedResource } from "./tagged_resources";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";
@@ -119,10 +119,17 @@ export let resourceReducer = generateReducer
   })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
-    let tr = _.merge(findByUuid(s.index, uuid), { body: a.payload.body });
-    tr.dirty = true;
-    sanityCheck(tr);
-    return s;
+    if (_.isString(uuid)) {
+      let { update } = a.payload;
+      let source = _.merge<TaggedResource>(findByUuid(s.index, uuid),
+        update,
+        { dirty: true });
+      sanityCheck(source);
+      a && isTaggedResource(source);
+      return s;
+    } else {
+      throw new Error("IMPOSSIBLE UNDEFINED STRING")
+    }
   })
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;

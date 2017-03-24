@@ -71,9 +71,10 @@ export let performSeq = (dispatch: Function, s: TaggedSequence) => {
 };
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
+
   render() {
     let { sequences, dispatch, tools, sequence, slots, resources } = this.props;
-    let fixThisToo = function (key: string) {
+      let fixThisToo = function (key: string) {
       let xfer = dispatch(stepGet(key)) as DataXferObj;
       if (xfer.draggerId === NULL_DRAGGER_ID) {
         pushStep(xfer.value, dispatch, sequence);

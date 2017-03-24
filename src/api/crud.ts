@@ -21,14 +21,14 @@ import { defensiveClone } from "../util";
 
 export interface EditResourceParams {
   uuid: string;
-  body: object;
+  update: object;
 }
 
 export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   ReduxAction<EditResourceParams> {
   return {
     type: "EDIT_RESOURCE",
-    payload: { uuid: tr.uuid, body: update }
+    payload: { uuid: tr.uuid, update: update }
   }
 }
 
