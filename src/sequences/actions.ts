@@ -24,7 +24,7 @@ export function pushStep(step: SequenceBodyItem,
   let next = defensiveClone(sequence);
   next.body.body = next.body.body || [];
   next.body.body.push(defensiveClone(step))
-  dispatch(edit(sequence, next));
+  dispatch(edit(sequence, next.body));
 }
 export function editCurrentSequence(dispatch: Function, seq: TaggedSequence,
   update: Partial<typeof seq.body>) {

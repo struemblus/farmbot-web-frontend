@@ -11,7 +11,7 @@ import {
 import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { TaggedSequence, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
+import { TaggedSequence, TaggedTool, TaggedToolSlot, TaggedPlant } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 
 export interface Props {
@@ -155,10 +155,6 @@ export interface IStepInput {
 }
 
 export type StepTile = (input: StepParams) => JSX.Element;
-
-export interface StepDictionary {
-  [stepName: string]: StepTile;
-};
 
 export interface StepTitleBarProps {
   step: SequenceBodyItem;
