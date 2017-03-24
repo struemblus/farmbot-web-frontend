@@ -31,7 +31,7 @@ export function copy({ dispatch, step, sequence }: CopyParams) {
   let seq = next.body;
   seq.body = seq.body || [];
   seq.body.splice(_.indexOf(seq.body, copy), 0, copy);
-  dispatch(edit(sequence, next));
+  dispatch(overwrite(sequence, next.body));
 };
 
 interface RemoveParams {
