@@ -119,8 +119,6 @@ export interface Point {
   meta: { [key: string]: (string | undefined) };
 }
 
-export type AddFarmEventState = Partial<FarmEvent>;
-
 type TaggedResourceById = TaggedResource | undefined;
 
 export interface AddEditFarmEventProps {
