@@ -13,7 +13,7 @@ import {
 } from "./interfaces";
 import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
-import { destroy, save, edit, init } from "../api/crud";
+import { destroy, save, edit, init, overwrite } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
 import { TaggedSequence, isTaggedSequence } from "../resources/tagged_resources";
 import { defensiveClone } from "../util";
@@ -24,7 +24,7 @@ export function pushStep(step: SequenceBodyItem,
   let next = defensiveClone(sequence);
   next.body.body = next.body.body || [];
   next.body.body.push(defensiveClone(step))
-  dispatch(edit(sequence, next));
+  dispatch(overwrite(sequence, next.body));
 }
 export function editCurrentSequence(dispatch: Function, seq: TaggedSequence,
   update: Partial<typeof seq.body>) {
