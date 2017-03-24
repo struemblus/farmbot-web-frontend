@@ -120,7 +120,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     if (this.tool && this.tool_id) {
       return { label: this.tool.body.name, value: this.tool_id }
     }
-    return { label: "Nothing", value: 0 };
+    return { label: "---", value: 0 };
   }
 
   get options(): DropDownItem[] {
@@ -189,6 +189,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 </label>
                 <BlurableInput
                   onCommit={this.updateInputValue("x", "location")}
+                  disabled={!!this.tool}
                   type="number"
                   name="location-x"
                   value={this.getAxisValue("x")} />
@@ -200,6 +201,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <BlurableInput
                   onCommit={this.updateInputValue("y", "location")}
                   type="number"
+                  disabled={!!this.tool}
                   name="location-y"
                   value={this.getAxisValue("y")} />
               </Col>
@@ -211,6 +213,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue("z", "location")}
                   type="number"
                   name="location-z"
+                  disabled={!!this.tool}
                   value={this.getAxisValue("z")} />
               </Col>
               <Col xs={3}>

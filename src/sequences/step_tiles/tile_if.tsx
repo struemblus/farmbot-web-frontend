@@ -9,8 +9,7 @@ import { If } from "farmbot";
 import { StepParams, CopyParams } from "../interfaces";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { CowardlyDictionary } from "../../util";
-const NOTHING = { label: "Nothing", value: 0 };
-
+const NOTHING = { label: "None", value: 0 };
 
 /**
  *   HEY YOU!!!!!!
