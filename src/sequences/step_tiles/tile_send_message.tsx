@@ -7,13 +7,18 @@ import { StepTitleBar } from "./step_title_bar";
 import { Help, FBSelect, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
-import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
-import { StepParams } from "../interfaces";
-import { MESSAGE_STATUSES, ChannelChoices } from "./tile_send_message_support";
+import { StepParams, Sequence } from "../interfaces";
+import {
+  MESSAGE_STATUSES,
+  ChannelChoices,
+  THE_ONLY_CHANNEL
+} from "./tile_send_message_support";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
 
 export function TileSendMessage(props: StepParams) {
   if (props.currentStep.kind === "send_message") {
@@ -38,24 +43,52 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   get args() { return this.props.currentStep.args; }
   get message() { return this.args.message };
   get message_type() { return this.args.message_type }
+  get label() { return _.capitalize(this.message_type) }
+  get step() { return this.props.currentStep; }
+  get dispatch() { return this.props.dispatch }
+  get sequence() { return this.props.currentSequence; }
+  get index() { return this.props.index }
   get initialSelection(): DropDownItem {
-    return {
-      label: _.capitalize(this.message_type),
-      value: this.message_type
-    };
-  };
-  handleOptionChange = (event: DropDownItem) => {
-    let { value } = event;
-    let action = updateMessageType({ value, index: this.props.index })
-    this.props.dispatch(action);
+    return { label: this.label, value: this.message_type };
   };
 
-  handleChannelChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let el = e.currentTarget;
-    let channel_name = el.id;
-    let action = (el.checked) ? addChan : removeChan;
-    this.props.dispatch(action({ channel_name, index: this.props.index }));
-  };
+  /** Clone the sequence and step in preparation for dispatch. */
+  freshCopy = () => {
+    return {
+      stepCpy: defensiveClone(this.step),
+      seqCpy: defensiveClone(this.sequence).body
+    }
+  }
+
+  overwriteSequence = (seqCpy: Sequence) =>
+    this.dispatch(overwrite(this.sequence, seqCpy));
+
+  setMessageType = (newValue: DropDownItem) => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    let { value } = newValue;
+    if (_.isString(value)) { stepCpy.args.message_type = value; }
+    seqCpy.body = seqCpy.body || []
+    seqCpy.body[this.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
+
+  removeChan = () => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    stepCpy.body = [];
+    (seqCpy.body || [])[this.props.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
+
+  addChan = () => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    stepCpy.body = [THE_ONLY_CHANNEL]; // We only support "toast" today.
+    (seqCpy.body || [])[this.props.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
+
+  toggleToastChan = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    ((e.currentTarget.checked) ? this.addChan : this.removeChan)();
+  }
 
   render() {
     let { dispatch, index, currentStep, currentSequence } = this.props;
@@ -100,7 +133,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                   <div className="bottom-content">
                     <div className="channel-options">
                       <FBSelect
-                        onChange={this.handleOptionChange}
+                        onChange={this.setMessageType}
                         initialValue={this.initialSelection}
                         list={MESSAGE_STATUSES}
                         allowEmpty={true}
@@ -119,7 +152,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                       </fieldset>
                       <ChannelChoices
                         currentStep={this.props.currentStep}
-                        onChange={this.handleChannelChange} />
+                        onChange={this.toggleToastChan} />
                     </div>
                   </div>
                 </div>

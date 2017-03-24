@@ -1,6 +1,20 @@
-import { SendMessage } from "farmbot/dist";
+import { SendMessage, Channel } from "farmbot/dist";
 import * as React from "react";
 
+/** Communication channels that we hope to support one day, but don't today. */
+export const DISABLED = ["email", "sms", "twitter"]
+export const THE_ONLY_CHANNEL: Channel = {
+  kind: "channel",
+  args: {
+    channel_name: "toast"
+  }
+};
+export const CHANNELS = _.pairs<{}, string>({
+  "toast": "Toast Notification",
+  "email": "Email",
+  "sms": "SMS",
+  "twitter": "Twitter"
+});
 export const MESSAGE_STATUSES = [
   { value: "success", label: "Success" },
   { value: "busy", label: "Busy" },
@@ -9,17 +23,6 @@ export const MESSAGE_STATUSES = [
   { value: "info", label: "Info" },
   { value: "fun", label: "Fun" }
 ];
-
-
-export const CHANNELS = _.pairs<{}, string>({
-  "toast": "Toast Notification",
-  "email": "Email",
-  "sms": "SMS",
-  "twitter": "Twitter"
-});
-
-/** Communication channels that we hope to support one day, but don't today. */
-export const DISABLED = ["email", "sms", "twitter"]
 
 interface ChoiceProps {
   currentStep: SendMessage;

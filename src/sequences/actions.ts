@@ -31,27 +31,6 @@ export function editCurrentSequence(dispatch: Function, seq: TaggedSequence,
   dispatch(edit(seq, update));
 }
 
-export function addChan({ channel_name, index }: ChanParams) {
-  return {
-    type: "ADD_CHANNEL",
-    payload: { channel_name, index }
-  };
-}
-
-export function removeChan({ channel_name, index }: ChanParams) {
-  return {
-    type: "REMOVE_CHANNEL",
-    payload: { channel_name, index }
-  };
-}
-
-export function updateMessageType({ value, index }: MessageParams) {
-  return {
-    type: "UPDATE_MESSAGE_TYPE",
-    payload: { value, index }
-  };
-}
-
 let count = 1;
 export function copySequence(payload: TaggedSequence) {
   return function (dispatch: Function, getState: GetState) {
