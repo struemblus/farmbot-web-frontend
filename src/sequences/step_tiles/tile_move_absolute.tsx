@@ -5,28 +5,41 @@ import { copy, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
 import {
   Vector3,
-  Dictionary,
   SequenceBodyItem,
   Tool,
   Coordinate,
   LegalSequenceKind
 } from "farmbot";
-import { FBSelect, Row, Col, BlurableInput, DropDownItem, NULL_CHOICE } from "../../ui";
+import {
+  FBSelect,
+  Row,
+  Col,
+  BlurableInput,
+  DropDownItem,
+  NULL_CHOICE
+} from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
-import { isTaggedSequence, TaggedTool, TaggedToolSlot } from "../../resources/tagged_resources";
-import { slottedTools } from "../../resources/selectors";
+import {
+  isTaggedSequence
+} from "../../resources/tagged_resources";
+import {
+  toolsInUse,
+  findToolById,
+  findSlotByToolId
+} from "../../resources/selectors";
 
 export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
-
+  get resources() { return this.props.resources; }
+  get step() { return this.props.currentStep; }
   get args() {
     // Incase we rename it later:
     const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
-    if (this.props.currentStep.kind === MOVE_ABSOLUTE) {
-      return this.props.currentStep.args;
+    if (this.step.kind === MOVE_ABSOLUTE) {
+      return this.step.args;
     } else {
-      throw new Error("Impossible celery node detected.")
+      throw new Error("Impossible celery node detected.");
     }
   }
 
@@ -35,21 +48,18 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   }
 
   updateToolSelect = (tool: DropDownItem) => {
-    let { currentStep, index, dispatch } = this.props;
-    this.changeToolSelect(currentStep, index, dispatch, tool);
+    console.log("You should call edit() here, probably.");
   }
 
   updateInputValue = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let { index, dispatch } = this.props;
-    let { value, name } = e.currentTarget;
-    this.changeInputValue(value, name, index, dispatch);
+    console.log("You should call edit() here, probably.");
   }
 
   initialDropDownSequenceValue = () => {
     let location = this.location;
     if (location.kind === "tool") {
-      let tool = this.toolById[location.args.tool_id];
-      if (tool && tool.body.id) {
+      let tool = findToolById(this.resources, location.args.tool_id);
+      if (tool.body.id) {
         return { label: tool.body.name, value: tool.body.id }
       }
     }
@@ -60,49 +70,36 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     kind: string,
     index: number,
     dispatch: Function): void {
-    throw new Error("!!!");
+    console.log("!!!");
   };
 
   changeToolSelect(step: SequenceBodyItem,
     index: number,
     dispatch: Function,
     tool: DropDownItem): void {
-    throw new Error("!!!");
+    console.log("!!!");
   };
 
   computeInputValue(kind: string, arg: string, step: SequenceBodyItem): string {
-    throw new Error("!!!");
-  };
-
-  findSlotByToolId(tool_id: number): TaggedToolSlot {
-    throw new Error("WOW");
+    return "-999";
   };
 
   get options(): DropDownItem[] {
     let choices: DropDownItem[] = [NULL_CHOICE];
-    slottedTools(this.props.resources).map(x => {
+    toolsInUse(this.props.resources).map(x => {
       if (_.isNumber(x.body.id)) {
         choices.push({ value: x.body.id, label: x.body.name })
       }
     })
     return choices;
   };
-
-  get toolById(): Dictionary<TaggedTool> {
-    throw new Error("!!!")
-  };
-
   coord = (): Vector3 => {
     let output: Vector3 = { x: 0, y: 0, z: 0 };
     let location = this.location;
     switch (location.kind) {
       case "tool":
-        let tool = this.toolById[location.args.tool_id];
-        let id = tool && tool.body.id;
-        let slot = tool && id && this.findSlotByToolId(id);
-        if (slot) {
-          output = { ...output, ...slot }
-        };
+        let slot = findSlotByToolId(this.props.resources, location.args.tool_id)
+        output = { ...output, ...slot }
         break;
       case "coordinate": output = { ...output, ...location.args }; break;
     }
@@ -112,8 +109,9 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   render() {
     let { currentStep, dispatch, index, currentSequence } = this.props;
     if (currentSequence && !isTaggedSequence(currentSequence)) {
-      throw new Error("WHOOPS!")
+      throw new Error("WHOOPS!");
     }
+    if (!this.props.resources) { debugger; }
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
@@ -196,7 +194,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <StepInputBox
                   index={this.props.index}
                   field={"speed"}
-                  step={this.props.currentStep}
+                  step={this.step}
                   dispatch={this.props.dispatch} />
               </Col>
               <Col xs={3}>
