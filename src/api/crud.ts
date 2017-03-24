@@ -24,12 +24,12 @@ export interface EditResourceParams {
   update: object;
 }
 
-export function edit(tr: TaggedResource, update: typeof tr.body):
+export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   ReduxAction<EditResourceParams> {
   return {
     type: "EDIT_RESOURCE",
     payload: { uuid: tr.uuid, update: update }
-  }
+  };
 }
 
 /** Initialize (but don't save) an indexed / tagged resource. */

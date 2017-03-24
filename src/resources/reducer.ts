@@ -119,6 +119,16 @@ export let resourceReducer = generateReducer
   })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
+    let { update } = a.payload;
+    let source = _.merge<TaggedResource>(findByUuid(s.index, uuid),
+      update,
+      { dirty: true });
+    sanityCheck(source);
+    a && isTaggedResource(source);
+    return s;
+  })
+  .add<EditResourceParams>("REPLACE_RESOURCE", function (s, a) {
+    let uuid = a.payload.uuid;
     let original = findByUuid(s.index, uuid);
     original.body = a.payload.update as typeof original.body;
     original.dirty = true;
