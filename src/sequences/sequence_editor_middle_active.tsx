@@ -8,7 +8,7 @@ import {
 } from "./interfaces";
 import { execSequence } from "../devices/actions";
 import {
-  editCurrentSequence, deleteSequence
+  editCurrentSequence
 } from "./actions";
 import { renderCeleryNode } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
@@ -27,7 +27,7 @@ import { pushStep, spliceStep, moveStep, removeStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
-import { save, edit } from "../api/crud";
+import { save, edit, destroy } from "../api/crud";
 import { toastErrors } from "../util";
 
 function routeIncomingDroppedItems(dispatch: dispatcher,
@@ -60,10 +60,6 @@ let handleNameUpdate = (dispatch: Function, seq: TaggedSequence) =>
 let copy = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) =>
     dispatch(copySequence(sequence));
-};
-
-let destroy = function (dispatch: Function, sequence: TaggedSequence) {
-  return () => dispatch(deleteSequence(sequence.uuid)).then(null, toastErrors);
 };
 
 export let performSeq = (dispatch: Function, s: TaggedSequence) => {
@@ -110,7 +106,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           {t("Save & Run")}
         </button>
         <button className="red button-like"
-          onClick={destroy(dispatch, sequence)}>
+          onClick={() => dispatch(destroy(sequence.uuid)).then(null, toastErrors)}>
           {t("Delete")}
         </button>
         <button className="yellow button-like"

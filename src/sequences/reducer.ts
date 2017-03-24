@@ -7,12 +7,17 @@ import {
 } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import * as _ from "lodash";
+import { TaggedResource } from "../resources/tagged_resources";
 
 export const initialState: SequenceReducerState = {
   current: undefined
 };
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
+    state.current = undefined;
+    return state;
+  })
   .add<string>("SELECT_SEQUENCE", function (s, a) {
     s.current = a.payload;
     return s;

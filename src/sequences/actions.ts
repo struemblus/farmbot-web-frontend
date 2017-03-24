@@ -16,7 +16,7 @@ import { DropDownItem } from "../ui";
 import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
 import { destroy, save, edit, init } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
-import { TaggedSequence } from "../resources/tagged_resources";
+import { TaggedSequence, isTaggedSequence } from "../resources/tagged_resources";
 import { defensiveClone } from "../util";
 
 export function pushStep(step: SequenceBodyItem,
@@ -31,11 +31,6 @@ export function editCurrentSequence(dispatch: Function,
   seq: TaggedSequence,
   update: Partial<typeof seq.body>) {
   dispatch(edit(seq, update));
-}
-
-export function deleteSequence(uuid: string): Thunk {
-  assertUuid("sequences", uuid);
-  return destroy(uuid);
 }
 
 export function addChan({ channel_name, index }: ChanParams) {
@@ -66,8 +61,7 @@ export function copySequence(payload: TaggedSequence) {
     copy.body.id = undefined;
     copy.body.name = copy.body.name + ` copy ${count++}`;
     copy.uuid = "HEY REDUCER! Set this!";
-    debugger; // NEXT: Add select() correctly.
-    dispatch(selectSequence(dispatch(init(copy))));
+    dispatch(init(copy));
   }
 }
 
