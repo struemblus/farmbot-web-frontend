@@ -1,60 +1,88 @@
 import * as React from "react";
 import { t } from "i18next";
-import {
-  FarmEvent,
-  AddEditFarmEventProps,
-  isTimeUnit
-} from "../interfaces";
+import { FarmEvent, AddEditFarmEventProps } from "../interfaces";
 import {
   FBSelect,
   BlurableInput,
   Col,
   Row,
-  BackArrow,
-  DropDownItem
+  BackArrow
 } from "../../ui";
 import * as moment from "moment";
 import { connect } from "react-redux";
-import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
-import { hasKey } from "../../util";
-import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
 import { history } from "../../history";
-import { edit, save, destroy } from "../../api/crud";
 
 @connect(mapStateToPropsAddEdit)
-export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
-  emptyFarmEvent = (): TaggedFarmEvent => {
-    return {
-      uuid: "REDUCER_MUST_CHANGE_THIS",
-      kind: "farm_events",
-      body: {
-        start_time: moment().toISOString(),
-        time_unit: "daily",
-        next_time: moment().toISOString(),
-        executable_id: -999,
-        executable_type: "Regimen"
-      }
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
+  updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
+    let { executable_id, executable_type } = e;
+    this.setState({ executable_id, executable_type });
+  }
+
+  updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    switch (e.currentTarget.name) {
+      case "start_time":
+      case "end_time":
+      case "repeat":
+      case "time_unit":
+      case "next_time":
+        let { name, value } = e.currentTarget;
+        return this.setState({ [name]: value });
+      default:
+        throw new Error("Tried to match field name but couldn't.");
+    }
+  }
+
+  // Waiting until we figure out the fb_select deal before borrowing interfaces
+  updateRepeatSelect = (e: { label: string, value: string, name: string }) => {
+    this.setState({ time_unit: e.value });
+  }
+
+  updateTime = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let { handleTime } = this.props;
+    switch (e.currentTarget.name) {
+      case "start_time":
+        let newStart = handleTime(e, (this.state.start_time || "").toString());
+        this.setState({ start_time: newStart });
+        break;
+      case "end_time":
+        let newEnd = handleTime(e, (this.state.end_time || "").toString());
+        this.setState({ end_time: newEnd });
+        break;
+    }
+  }
+
+  handleDate = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    switch (e.currentTarget.name) {
+      case "start_date":
+        let newStartDate = moment(e.currentTarget.value || "").toISOString();
+        this.setState({ start_time: newStartDate });
+        break;
+      case "end_date":
+        let newEndDate = moment(e.currentTarget.value || "").toISOString();
+        this.setState({ end_time: newEndDate });
+        break;
+      default:
+        throw new Error("Expected a name attribute from date field.");
     }
   }
 
   render() {
     let fe = this.props.getFarmEvent(history.getCurrentLocation().pathname);
-    let { formatDate, formatTime, selectOptions, dispatch } = this.props;
+    let { formatDate, formatTime, selectOptions } = this.props;
     return <div className={`panel-container magenta-panel
-      add-farm-event-panel`}>
+            add-farm-event-panel`}>
       <div className="panel-header magenta-panel">
         <p className="panel-title">
-          <BackArrow /> {t("Edit Farm Event")}
+          <BackArrow /> {t("Add Farm Event")}
         </p>
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
         <FBSelect
-          list={this.props.selectOptions}
-          onChange={(e) => {
-            console.log(e); // TODO
-          }}
-          initialValue={{ label: "TO", value: "DO" }} />
+          list={selectOptions}
+          onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
@@ -62,19 +90,17 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               type="date"
               className="add-event-start-date"
               name="start_date"
-              value={formatDate((fe.body.start_time || new Date()).toString())}
-              onCommit={(e) => {
-                dispatch(edit(fe, { start_time: e.currentTarget.value }))
-              }} />
+              value={formatDate((fe.body.start_time ||
+                new Date()).toString())}
+              onCommit={this.handleDate} />
           </Col>
           <Col xs={6}>
             <BlurableInput type="time"
               className="add-event-start-time"
               name="start_time"
-              value={formatTime((fe.body.start_time || new Date()).toString())}
-              onCommit={(e) => {
-                dispatch(edit(fe, { start_time: e.currentTarget.value }))
-              }} />
+              value={formatTime((fe.body.start_time ||
+                new Date()).toString())}
+              onCommit={this.updateTime} />
           </Col>
         </Row>
         <label>{t("Repeats Every")}</label>
@@ -85,18 +111,13 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               type="number"
               className="add-event-repeat-frequency"
               name="repeat"
-              value={(0).toString()}
-              onCommit={(e) => {
-                dispatch(edit(fe, { repeat: e.currentTarget.value }));
-              }} />
+              value={(fe.body.repeat || 0).toString()}
+              onCommit={this.updateForm} />
           </Col>
           <Col xs={8}>
             <FBSelect
               list={this.props.repeatOptions}
-              onChange={(e) => {
-                dispatch(edit(fe, { time_unit: e.value }));
-              }}
-              initialValue={{ label: "TO", value: "DO" }} />
+              onChange={this.updateRepeatSelect} />
           </Col>
         </Row>
         <label>{t("Until")}</label>
@@ -106,29 +127,23 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               type="date"
               className="add-event-end-date"
               name="end_date"
-              value={formatDate((fe.body.end_time || new Date()).toString())}
-              onCommit={(e) => {
-                dispatch(edit(fe, { end_time: e.currentTarget.value }));
-              }} />
+              value={formatDate((fe.body.end_time ||
+                new Date()).toString())}
+              onCommit={this.handleDate} />
           </Col>
           <Col xs={6}>
             <BlurableInput
               type="time"
               name="end_time"
               className="add-event-end-time"
-              value={formatTime((fe.body.end_time || new Date()).toString())}
-              onCommit={(e) => {
-                dispatch(edit(fe, { end_time: e.currentTarget.value }));
-              }} />
+              value={formatTime((fe.body.end_time ||
+                new Date()).toString())}
+              onCommit={this.updateTime} />
           </Col>
         </Row>
         <button className="magenta button-like"
-          onClick={() => { dispatch(save(fe.uuid)) }}>
+          onClick={() => this.props.save(this.state)}>
           {t("Save")}
-        </button>
-        <button className="red button-like"
-          onClick={() => { dispatch(destroy(fe.uuid)) }}>
-          {t("Delete")}
         </button>
       </div>
     </div>;
