@@ -111,8 +111,6 @@ export interface ChangeMoveAbsInput {
 
 export type StatelessInput = (p: StepInputProps) => JSX.Element;
 
-export type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
-
 export interface StepButtonParams {
   current: TaggedSequence | undefined;
   step: SequenceBodyItem;
@@ -147,7 +145,7 @@ export interface UpdateStepParams {
 }
 
 export interface StepInputProps {
-  step: CeleryNode;
+  step: SequenceBodyItem;
   sequence: TaggedSequence;
   field: LegalArgString;
   dispatch: Function;

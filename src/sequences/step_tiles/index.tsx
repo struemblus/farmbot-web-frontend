@@ -1,5 +1,4 @@
 import * as React from "react";
-import { changeStep } from "../actions";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "../execute_block";
@@ -15,7 +14,7 @@ import { TileWritePin } from "./tile_write_pin";
 import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
-import { CeleryNode, LegalSequenceKind } from "farmbot";
+import { CeleryNode, LegalSequenceKind, LegalArgString } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { edit, overwrite } from "../../api/crud";
 
@@ -49,28 +48,31 @@ export function remove({ dispatch, index, sequence }: RemoveParams) {
   dispatch(overwrite(original, update.body));
 }
 
-export function updateStep({ dispatch,
-  step,
-  index,
-  sequence,
-  field
-}: StepInputProps) {
+export function updateStep(props: StepInputProps) {
   return (e: React.FormEvent<HTMLInputElement>) => {
-    let copy = defensiveClone(step);
+    let { dispatch, step, index, sequence, field } = props;
+    let stepCopy = defensiveClone(step);
+    let seqCopy = defensiveClone(sequence).body;
     let val = e.currentTarget.value;
+    let isNumeric = NUMERIC_FIELDS.includes(field);
+    seqCopy.body = seqCopy.body || [];
 
-    if (NUMERIC_FIELDS.includes(field)) {
-      if (val == "-") { // Fix negative number issues.
-        _.assign(copy.args, { [field]: "-" });
-      } else {
-        _.assign(copy.args, { [field]: parseInt(val, 10) });
-      }
+    if (isNumeric) {
+      numericNonsense(val, stepCopy, field);
     } else {
-      _.assign(copy.args, { [field]: val });
+      _.assign(stepCopy.args, { [field]: val });
     };
-    dispatch(changeStep(index, copy));
+
+    seqCopy.body[index] = stepCopy;
+    dispatch(overwrite(sequence, seqCopy));
   };
 };
+
+function numericNonsense(val: string, copy: CeleryNode, field: LegalArgString) {
+  // Fix negative number issues.
+  let num = (val == "-") ? "-" : parseInt(val, 10);
+  return _.assign(copy.args, { [field]: num });
+}
 
 export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
   switch (kind) {

@@ -81,13 +81,6 @@ export function moveStep(step: Step,
   };
 }
 
-export function changeStep(index: number, step: Step): ChangeStep {
-  return {
-    type: "CHANGE_STEP",
-    payload: { step, index }
-  };
-}
-
 export function changeStepSelect(
   value: string | number,
   index: number,

@@ -2,7 +2,6 @@ import * as React from "react";
 import { copy, remove } from "./step_tiles/index";
 import { SequenceBodyItem as Step, Execute } from "farmbot";
 import { Sequence, StepParams } from "./interfaces";
-import { changeStep } from "./actions";
 import { t } from "i18next";
 import { FBSelect, DropDownItem } from "../ui";
 import { TaggedSequence } from "../resources/tagged_resources";
@@ -59,7 +58,8 @@ function SequenceSelectBox({ dispatch,
       let sequence_id = parseInt(val.toString(), 10);
       let update = { args: { sequence_id } };
       let newStep = Object.assign({}, step, update);
-      dispatch(changeStep(index, newStep));
+      throw new Error("TODO!");
+      // dispatch(changeStep(index, newStep));
     } else {
       throw new Error("Tried to set a non-existant sequence_id");
     }
