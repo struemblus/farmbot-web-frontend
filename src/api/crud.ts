@@ -116,7 +116,8 @@ export function destroy(uuid: string) {
           dispatch(destroyNO(err));
         });
     } else {
-      return (d: Function, g: GetState) => Promise.resolve("");
+      dispatch(destroyOK(resource))
+      return Promise.resolve("");
     }
   }
 }
