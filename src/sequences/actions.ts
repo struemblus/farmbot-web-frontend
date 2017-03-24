@@ -13,8 +13,8 @@ import {
   SelectSequence
 } from "./interfaces";
 import { DropDownItem } from "../ui";
-import { ReduxAction, Thunk } from "../redux/interfaces";
-import { destroy, save, edit } from "../api/crud";
+import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
+import { destroy, save, edit, init } from "../api/crud";
 import { assertUuid } from "../resources/selectors";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { defensiveClone } from "../util";
@@ -59,11 +59,16 @@ export function updateMessageType({ value, index }: MessageParams) {
   };
 }
 
-export function copySequence(payload: Sequence) {
-  return {
-    type: "COPY_SEQUENCE",
-    payload
-  };
+let count = 1;
+export function copySequence(payload: TaggedSequence) {
+  return function (dispatch: Function, getState: GetState) {
+    let copy = defensiveClone(payload);
+    copy.body.id = undefined;
+    copy.body.name = copy.body.name + ` copy ${count++}`;
+    copy.uuid = "HEY REDUCER! Set this!";
+    debugger; // NEXT: Add select() correctly.
+    dispatch(selectSequence(dispatch(init(copy))));
+  }
 }
 
 export function spliceStep(step: Step, insertBefore: number):

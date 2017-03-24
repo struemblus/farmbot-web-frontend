@@ -59,7 +59,7 @@ let handleNameUpdate = (dispatch: Function, seq: TaggedSequence) =>
 
 let copy = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) =>
-    dispatch(copySequence(sequence.body));
+    dispatch(copySequence(sequence));
 };
 
 let destroy = function (dispatch: Function, sequence: TaggedSequence) {
