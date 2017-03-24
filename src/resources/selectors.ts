@@ -23,6 +23,7 @@ import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
 
 export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
+
   let uuid = index.byKindAndId[joinKindAndId(kind, id)];
   assertUuid(kind, uuid);
   if (uuid) {
@@ -39,11 +40,11 @@ export function findResourceById(index: ResourceIndex, kind: ResourceName,
   return uuid;
 }
 
-export let isKind = (name: ResourceName) =>
-  (tr: TaggedResource) => tr.kind === name;
+export let isKind = (name: ResourceName) => (tr: TaggedResource) => tr.kind === name;
 
 function findAll(index: ResourceIndex, name: ResourceName) {
   let results: TaggedResource[] = [];
+
   index.byKind[name].map(function (uuid) {
     let item = index.references[uuid];
     (item && isTaggedResource(item) && results.push(item));
@@ -136,6 +137,7 @@ export function indexSequenceById(index: ResourceIndex) {
 
 export function indexRegimenById(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedRegimen> = {};
+
   let uuids = index.byKind.regimens;
   uuids.map(uuid => {
     assertUuid("regimens", uuid);
@@ -149,6 +151,7 @@ export function indexRegimenById(index: ResourceIndex) {
 
 export function indexByToolId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedTool> = {};
+
   let uuids = index.byKind.tools;
   uuids.map(uuid => {
     assertUuid("tools", uuid);
@@ -162,6 +165,7 @@ export function indexByToolId(index: ResourceIndex) {
 
 export function indexBySlotId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedToolSlot> = {};
+
   let uuids = index.byKind.tool_slots;
   uuids.map(uuid => {
     assertUuid("tool_slots", uuid);
@@ -238,7 +242,7 @@ export function findAllById(i: ResourceIndex, ids: number[], k: ResourceName) {
 }
 
 /** FINDS: All tools that are in use. */
-export function slottedTools(index: ResourceIndex): TaggedTool[] {
+export function toolsInUse(index: ResourceIndex): TaggedTool[] {
   let ids = betterCompact(selectAllToolSlots(index).map(ts => ts.body.tool_id));
   return findAllById(index, ids, "tools") as TaggedTool[];
 }
@@ -262,11 +266,16 @@ export let findToolById = (ri: ResourceIndex, tool_id: number) => {
 export let findSlotById = byId<TaggedToolSlot>("tool_slots");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
-  let tool = findToolById(this.resources, tool_id);
-  let tts = slottedTools(index).filter(x => x.body.id === tool_id)[0];
+  let tool = findToolById(index, tool_id);
+  let filter = (x: TaggedResource) => {
+    if (x && isTaggedToolSlot(x)) {
+      return x.body.tool_id === tool_id;
+    }
+  }
+  let tts = where(index, { tool_id: tool.body.id }).filter(filter)[0];
   if (tts && isTaggedToolSlot(tts) && sanityCheck(tts)) {
     return tts;
   } else {
-    throw new Error("No tool slot with tool-id of " + tool_id);
+    return undefined;
   }
 }
