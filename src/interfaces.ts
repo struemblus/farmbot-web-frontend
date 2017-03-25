@@ -1,12 +1,8 @@
 import { AuthState, User } from "./auth/interfaces";
 import { ConfigState } from "./config/interfaces";
 import { BotState, DeviceAccountSettings } from "./devices/interfaces";
-import { BulkSchedulerState } from "./regimens/bulk_scheduler/interfaces";
-import {
-  RegimensState,
-  RegimenItem
-} from "./regimens/interfaces";
-import { SequenceReducerState, Sequence } from "./sequences/interfaces";
+import { RegimenItem } from "./regimens/interfaces";
+import { Sequence } from "./sequences/interfaces";
 import {
   DesignerState,
   Plant,
@@ -16,7 +12,7 @@ import {
 import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
-import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
+import { ToolBay, Tool, ToolSlot } from "./tools/interfaces";
 import { Image } from "./images";
 import { Regimen } from "./regimens/interfaces";
 import { RestResources } from "./resources/interfaces";

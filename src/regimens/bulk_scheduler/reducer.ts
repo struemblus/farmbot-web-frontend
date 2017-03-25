@@ -1,7 +1,11 @@
-import { BulkSchedulerState } from "./interfaces";
-import { Sequence } from "../../sequences/interfaces";
 import { generateReducer } from "../../redux/generate_reducer";
-import { TaggedRegimen } from "../../resources/tagged_resources";
+import { Week } from "./interfaces";
+
+interface BulkSchedulerState {
+  dailyOffsetMs: number;
+  weeks: Week[];
+  selectedSequenceUUID: string | undefined;
+}
 
 function newWeek() {
   return {
@@ -19,10 +23,9 @@ function newWeek() {
 
 function newState(): BulkSchedulerState {
   return {
-    form: {
-      dailyOffsetMs: 300000,
-      weeks: _.times(10, newWeek)
-    }
+    dailyOffsetMs: 300000,
+    weeks: _.times(10, newWeek),
+    selectedSequenceUUID: undefined
   };
 }
 
@@ -30,34 +33,34 @@ let initialState: BulkSchedulerState = newState();
 
 export let BulkSchedulerReducer = generateReducer<BulkSchedulerState>
   (initialState)
-  .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
-    return newState();
-  })
-  .add<void>("PUSH_WEEK", function (state, action) {
-    state.form.weeks.push(newWeek());
-    return state;
-  })
-  .add<void>("POP_WEEK", function (state, action) {
-    state.form.weeks.pop();
-    return state;
-  })
-  .add<number>("SET_TIME_OFFSET", function (state, action) {
-    state.form.dailyOffsetMs = action.payload;
-    return state;
-  })
-  .add<{ week: number, day: number }>("TOGGLE_DAY", function (state, action) {
-    let week = state.form.weeks[action.payload.week];
-    let day = `day${action.payload.day}`;
-    let days = (week.days as { [day: string]: boolean });
-    days[day] = !days[day];
-    return state;
-  })
-  .add<void>("COMMIT_BULK_EDITOR", function (state, action) {
-    return newState();
-  })
-  .add<Sequence>("SET_SEQUENCE", function (state, action) {
-    // state.sequence = action.payload;
-    console.log("FIXME");
-    return state;
-  });
+  // .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
+  //   return newState();
+  // })
+  // .add<void>("PUSH_WEEK", function (state, action) {
+  //   state.form.weeks.push(newWeek());
+  //   return state;
+  // })
+  // .add<void>("POP_WEEK", function (state, action) {
+  //   state.form.weeks.pop();
+  //   return state;
+  // })
+  // .add<number>("SET_TIME_OFFSET", function (state, action) {
+  //   state.form.dailyOffsetMs = action.payload;
+  //   return state;
+  // })
+  // .add<{ week: number, day: number }>("TOGGLE_DAY", function (state, action) {
+  //   let week = state.form.weeks[action.payload.week];
+  //   let day = `day${action.payload.day}`;
+  //   let days = (week.days as { [day: string]: boolean });
+  //   days[day] = !days[day];
+  //   return state;
+  // })
+  // .add<void>("COMMIT_BULK_EDITOR", function (state, action) {
+  //   return newState();
+  // })
+  // .add<Sequence>("SET_SEQUENCE", function (state, action) {
+  //   // state.sequence = action.payload;
+  //   console.log("FIXME");
+  //   return state;
+  // });
 

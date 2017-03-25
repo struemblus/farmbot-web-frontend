@@ -1,27 +1,21 @@
 import { RegimenItem } from "../interfaces";
-import { Sequence } from "../../sequences/interfaces";
 import { TaggedSequence } from "../../resources/tagged_resources";
+import { ResourceIndex } from "../../resources/interfaces";
 
 export interface BulkSchedulerOutput {
   index: number;
   regimenItems: RegimenItem[];
 }
 
-export interface BulkSchedulerState {
-  sequence?: TaggedSequence;
-  form: BulkScheduleForm;
-}
-
+console.log("Hey Rick: Do you really need to pass in the whole " +
+  "resource object here?")
 export interface BulkEditorProps {
-  sequences: TaggedSequence[];
-  editor: BulkSchedulerState;
-  dispatch: Function;
-}
-
-export interface BulkScheduleForm {
-  /** Time in ms to offset each action at the start of the day. */
+  selectedSequence?: TaggedSequence;
   dailyOffsetMs: number;
   weeks: Week[];
+  resources: ResourceIndex;
+  sequences: TaggedSequence[];
+  dispatch: Function;
 }
 
 export interface Week {

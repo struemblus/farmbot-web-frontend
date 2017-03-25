@@ -1,19 +1,23 @@
 import { ReduxAction } from "../redux/interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Color } from "../interfaces";
-import { BulkSchedulerState } from "./bulk_scheduler/interfaces";
+import { Week } from "./bulk_scheduler/interfaces";
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
 import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
 
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
-  // bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
   current: TaggedRegimen | undefined;
   regimens: TaggedRegimen[];
+  resources: ResourceIndex;
+  selectedSequence: TaggedSequence | undefined;
+  dailyOffsetMs: number;
+  weeks: Week[];
 }
 
 /** RegimenItem, as presented by the REST API */

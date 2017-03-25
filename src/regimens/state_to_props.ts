@@ -15,14 +15,17 @@ export function mapStateToProps(props: Everything): Props {
   } else {
     if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
   }
+  console.warn("Dont pass entire bot state to child component here: ")
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
-    // bulkScheduler: props.bulkScheduler,
+    resources: props.resources.index,
     auth: props.auth,
-    bot: props.bot,
     current,
-    regimens: selectAllRegimens(props.resources.index)
+    regimens: selectAllRegimens(props.resources.index),
+    selectedSequence: undefined,
+    dailyOffsetMs: 100,
+    weeks: [],
+    bot: props.bot
   };
 }
-

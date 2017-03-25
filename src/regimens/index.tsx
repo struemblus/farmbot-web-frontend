@@ -14,11 +14,15 @@ export class Regimens extends React.Component<Props, {}> {
   render() {
     return <Page className="regimens">
       <Row>
-        {/*<Col xs={12} md={4}>
-          <BulkSchedulerWidget editor={this.props.bulkScheduler}
+        <Col xs={12} md={4}>
+          <BulkSchedulerWidget
+            selectedSequence={this.props.selectedSequence}
+            dailyOffsetMs={this.props.dailyOffsetMs}
+            weeks={this.props.weeks}
             sequences={this.props.sequences}
+            resources={this.props.resources}
             dispatch={this.props.dispatch} />
-        </Col>*/}
+        </Col>
         <Col xs={12} md={4}>
           <RegimenEditorWidget
             dispatch={this.props.dispatch}
