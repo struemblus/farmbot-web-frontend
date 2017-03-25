@@ -1,26 +1,27 @@
 import { Everything } from "../interfaces";
 import { BotState } from "../devices/interfaces";
 import { AuthState } from "../auth/interfaces";
-import { PeripheralState } from "./peripherals/interfaces";
-// import { Props } from "./interfaces";
+import { TaggedPeripheral } from "../resources/tagged_resources";
+import { selectAllPeripherals } from "../resources/selectors";
+import { RestResources } from "../resources/interfaces";
 
 export interface Props {
   dispatch: Function;
   bot: BotState;
   auth: AuthState | undefined;
-  peripherals: PeripheralState;
+  peripherals: TaggedPeripheral[];
+  resources: RestResources;
 }
 
 export function mapStateToProps(props: Everything): Props {
-  let auth = props.auth;
-  let dispatch = props.dispatch;
-  let bot = props.bot;
-  let peripherals = props.peripherals;
+  let peripherals = selectAllPeripherals(props.resources.index);
+  let resources = props.resources;
 
   return {
-    dispatch,
-    bot,
-    auth,
+    dispatch: props.dispatch,
+    bot: props.bot,
+    auth: props.auth,
+    resources,
     peripherals
   };
 }

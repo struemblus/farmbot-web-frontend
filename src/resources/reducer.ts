@@ -1,7 +1,7 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, sanityCheck, isTaggedResource } from "./tagged_resources";
+import { TaggedResource, ResourceName, sanityCheck, isTaggedResource, TaggedPeripheral } from "./tagged_resources";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";
@@ -77,6 +77,9 @@ export let resourceReducer = generateReducer
       && resource.body
       && resource.body.id) {
       switch (resource.kind) {
+        case "peripherals":
+        // console.log("Handle peripherals in resource reducer.");
+        // break;
         case "farm_events":
         case "plants":
         case "regimens":
@@ -96,6 +99,9 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     switch (resource.kind) {
+      case "peripherals":
+      // console.log("Handle peripherals in resource reducer.");
+      // break;
       case "farm_events":
       case "plants":
       case "regimens":
@@ -164,7 +170,11 @@ export let resourceReducer = generateReducer
     addAllToIndex(index, "users", p["users"]);
     state.loaded = true;
     return state;
-  });
+  })
+// .add<TaggedPeripheral>("PUSH_PERIPHERAL", function (s, a) {
+//   sanityCheck(tr);
+//   return s;
+// })
 
 interface HasID {
   id?: number | undefined;

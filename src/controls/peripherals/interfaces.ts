@@ -1,8 +1,7 @@
-export type EditorMode = "editing" | "controlling";
+import { TaggedPeripheral } from "../../resources/tagged_resources";
 
 export interface PeripheralState {
-  editorMode: EditorMode;
-  all: Peripheral[];
+  isEditing: boolean;
 }
 
 export interface Peripheral {
@@ -13,24 +12,12 @@ export interface Peripheral {
   label: string;
 }
 
-/** A combination of a peripheral object,
- * plus its index within state.peripheral.all */
-export interface IndexedPeripheral {
-  index: number;
-  peripheral: Peripheral;
-}
-
 export interface PeripheralFormProps {
   dispatch: Function;
-  editorMode: EditorMode;
+  peripherals: TaggedPeripheral[];
 }
 
-export interface UpdatePeripheral {
-  index: number;
-  peripheral: {
-    // Typescript 2.1 will introduce subset types.
-    // TODO: Change this to a subset type when that feature lands.
-    label?: string;
-    pin?: number;
-  };
+export interface PeripheralListProps {
+  dispatch: Function;
+  peripherals: TaggedPeripheral[];
 }

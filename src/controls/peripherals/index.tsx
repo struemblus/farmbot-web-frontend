@@ -1,57 +1,74 @@
 import * as React from "react";
-import { Pin, Pins } from "farmbot";
-import { TitleBar } from "./title_bar";
-import { PeripheralItem } from "./peripheral_item";
-import { Peripheral } from "./interfaces";
+import { PeripheralList } from "./peripheral_list";
 import { PeripheralForm } from "./peripheral_form";
-import { Widget, WidgetBody } from "../../ui";
+import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { PeripheralsProps } from "../../devices/interfaces";
+import { PeripheralState, Peripheral } from "./interfaces";
+import { t } from "i18next";
+import { TaggedPeripheral } from "../../resources/tagged_resources";
+import { initSave, saveAll } from "../../api/crud";
+import { uniquePeripheralsCreate } from "./actions";
+import { selectAllPeripherals } from "../../resources/selectors";
 
-export class Peripherals extends React.Component<PeripheralsProps, {}> {
-  getPin(p: Peripheral, pins: Pins): Pin {
-    let pin = pins[p.pin];
-    if (pin) {
-      return pin;
-    } else {
-      return {
-        mode: 0,
-        value: -1
-      };
+export class Peripherals extends React.Component<PeripheralsProps, PeripheralState> {
+  constructor() {
+    super();
+    this.state = { isEditing: false };
+  }
+
+  getPinNumber = () => {
+    return _(selectAllPeripherals(this.props.resources.index))
+      .map(tr => tr.body.pin)
+      .max() + 1
+  }
+
+  emptyPeripheral = (): TaggedPeripheral => {
+    return {
+      uuid: "WILL_BE_CHANGED_BY_REDUCER",
+      kind: "peripherals",
+      body: {
+        pin: this.getPinNumber(),
+        label: "Peripheral " + (this.props.peripherals.length + 1)
+      }
     }
   }
 
-  peripherals() {
-    let { peripherals } = this.props;
-    let pins = this.props.bot.hardware.pins;
-    let all = this
-      .props
-      .peripherals
-      .all;
-    if (!all.length && peripherals.editorMode === "controlling") {
-      return [
-        <p key="foo">Click "Edit" to add new peripherals.</p>
-      ];
-    };
-    return all
-      .map((p, i) => {
-        return <PeripheralItem key={i}
-          dispatch={this.props.dispatch}
-          index={i}
-          pin={this.getPin(p, pins)}
-          peripheral={p}
-          editorMode={this.props.peripherals.editorMode} />;
-      });
-  }
   render() {
+    let { dispatch, peripherals } = this.props;
+    let { isEditing } = this.state;
     return <Widget>
-      <TitleBar
-        peripherals={this.props.peripherals}
-        dispatch={this.props.dispatch} />
+      <WidgetHeader title={"Peripherals"}
+        helpText={`Use these toggle switches to control FarmBot's peripherals in 
+      realtime. To edit and create new peripherals, press the EDIT button. Make 
+      sure to turn things off when you're done!`}>
+        <button
+          className="gray button-like"
+          type="button"
+          onClick={() => this.setState({ isEditing: !isEditing })}>
+          {isEditing ? t("Back") : t("Edit")}
+        </button>
+        <button
+          hidden={!isEditing}
+          className="green button-like"
+          type="button"
+          onClick={() => dispatch(saveAll(peripherals))}>
+          {t("Save")}
+        </button>
+        <button
+          hidden={!isEditing}
+          className="green button-like"
+          type="button"
+          onClick={() => { dispatch(initSave(this.emptyPeripheral())) }}>
+          <i className="fa fa-plus" />
+        </button>
+      </WidgetHeader>
       <WidgetBody>
-        {this.peripherals.call(this)}
-        <PeripheralForm
-          dispatch={this.props.dispatch}
-          editorMode={this.props.peripherals.editorMode} />
+        {isEditing &&
+          <PeripheralForm peripherals={peripherals} dispatch={dispatch} />
+        }
+        {!isEditing &&
+          <PeripheralList peripherals={peripherals} dispatch={dispatch} />
+        }
       </WidgetBody>
     </Widget>;
   };

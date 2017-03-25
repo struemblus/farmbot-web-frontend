@@ -75,7 +75,8 @@ export class Controls extends Component<Props, ControlsState> {
           <Peripherals
             bot={this.props.bot}
             peripherals={this.props.peripherals}
-            dispatch={this.props.dispatch} />
+            dispatch={this.props.dispatch}
+            resources={this.props.resources} />
         </Col>
         <Col xs={12} sm={6}>
           <Widget>
