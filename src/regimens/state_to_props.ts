@@ -1,7 +1,8 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
-import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../resources/selectors";
-import { isTaggedRegimen, TaggedRegimen } from "../resources/tagged_resources";
+import { selectAllSequences, selectAllRegimens, getRegimenByUUID, findId, getSequenceByUUID } from "../resources/selectors";
+import { isTaggedRegimen, TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
 
 export function mapStateToProps(props: Everything): Props {
   let uuid = props.resources.consumers.regimens.selectedSequenceUUID;
@@ -15,7 +16,9 @@ export function mapStateToProps(props: Everything): Props {
   } else {
     if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
   }
-  console.warn("Dont pass entire bot state to child component here: ");
+  let regimenState = props.resources.consumers.regimens;
+  let selectedSequence = maybeGetSequence(props.resources.index
+    , regimenState.selectedSequenceUUID);
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
@@ -23,9 +26,18 @@ export function mapStateToProps(props: Everything): Props {
     auth: props.auth,
     current,
     regimens: selectAllRegimens(props.resources.index),
-    selectedSequence: undefined,
-    dailyOffsetMs: 100,
-    weeks: [],
+    selectedSequence,
+    dailyOffsetMs: regimenState.dailyOffsetMs,
+    weeks: regimenState.weeks,
     bot: props.bot
   };
+}
+
+function maybeGetSequence(index: ResourceIndex,
+  uuid: string | undefined): TaggedSequence | undefined {
+  if (uuid) {
+    return getSequenceByUUID(index, uuid);
+  } else {
+    return undefined;
+  }
 }

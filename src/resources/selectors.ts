@@ -24,7 +24,7 @@ import {
 import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
 
-export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
+export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
   let uuid = index.byKindAndId[joinKindAndId(kind, id)];
   assertUuid(kind, uuid);
@@ -37,7 +37,7 @@ export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => 
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
   id: number) {
-  let uuid = findUuid(index, kind, id);
+  let uuid = findId(index, kind, id);
   assertUuid(kind, uuid);
   return uuid;
 }
@@ -123,6 +123,16 @@ export function selectAllRegimens(index: ResourceIndex) {
 export function getRegimenByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
   assertUuid(kind, uuid);
   return index.references[uuid];
+}
+export function getSequenceByUUID(index: ResourceIndex,
+  uuid: string): TaggedSequence {
+  assertUuid("sequences", uuid);
+  let result = index.references[uuid];
+  if (result && isTaggedSequence(result)) {
+    return result;
+  } else {
+    throw new Error("BAD Sequence UUID;");
+  }
 }
 
 export function selectAllSequences(index: ResourceIndex) {
