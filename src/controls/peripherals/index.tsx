@@ -17,7 +17,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
 
   getPinNumber = () => {
     return _(selectAllPeripherals(this.props.resources.index))
-      .map(tr => tr.body.pin)
+      .map(tr => tr.body.pin || 0)
       .max() + 1
   }
 

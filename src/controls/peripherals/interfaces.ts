@@ -6,9 +6,7 @@ export interface PeripheralState {
 
 export interface Peripheral {
   id?: number;
-  dirty?: boolean;
-  mode?: number;
-  pin: number;
+  pin: number | undefined;
   label: string;
 }
 

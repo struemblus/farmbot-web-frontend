@@ -43,7 +43,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
+    let crops = this.props.designer.cropSearchResults || [];
     let crop = _(crops).find((result) => result.crop.slug === slug);
     return crop || {
       crop: {

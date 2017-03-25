@@ -18,7 +18,11 @@ function mapStateToProps(props: Everything): SpeciesCatalogProps {
     cropSearchQuery: props.resources.consumers.farm_designer.cropSearchQuery,
     dispatch: props.dispatch,
     designer: props.resources.consumers.farm_designer,
-    cropSearchResults: props.resources.consumers.farm_designer.cropSearchResults
+    cropSearchResults: props
+      .resources
+      .consumers
+      .farm_designer
+      .cropSearchResults || []
   }
 }
 
