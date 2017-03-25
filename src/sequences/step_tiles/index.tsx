@@ -14,9 +14,10 @@ import { TileWritePin } from "./tile_write_pin";
 import { TileExecuteScript } from "./tile_execute_script";
 import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
-import { CeleryNode, LegalSequenceKind, LegalArgString } from "farmbot";
+import { CeleryNode, LegalSequenceKind, LegalArgString, If, Execute, Nothing } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { edit, overwrite } from "../../api/crud";
+import { DropDownItem } from "../../ui/index";
 
 interface CopyParams {
   dispatch: Function;
@@ -75,7 +76,7 @@ function numericNonsense(val: string, copy: CeleryNode, field: LegalArgString) {
 }
 
 export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
-  switch (kind) {
+  switch (props.currentStep.kind) {
     case "execute": return <ExecuteBlock {...props} />;
     case "_if": return <TileIf {...props} />;
     case "move_relative": return <TileMoveRelative {...props} />;
@@ -89,3 +90,14 @@ export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
     default: return <div><hr /> ? Unknown step ? <hr /></div>;
   }
 };
+
+let checkBranch = (branch: Execute | Nothing,
+  step: If,
+  sequence: TaggedSequence) => {
+  return (branch.kind === "execute")
+    && (branch.args.sequence_id === sequence.body.id);
+}
+export function isRecursive(step: If, sequence: TaggedSequence) {
+  return checkBranch(step.args._else, step, sequence)
+    || checkBranch(step.args._then, step, sequence);
+}
