@@ -1,5 +1,5 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { Sync } from "../interfaces";
+import { DeprecatedSync } from "../interfaces";
 import { Log } from "../interfaces";
 import {
   Plant,
@@ -11,14 +11,13 @@ import {
 import * as moment from "moment";
 import { Plant as newPlant } from "../farm_designer/plant";
 
-const initialState: Sync = {
+const initialState: DeprecatedSync = {
   loaded: false,
   api_version: "",
   device: {
     id: 0,
     name: "",
     webcam_url: "",
-    dirty: false
   },
   users: [],
   sequences: [],
@@ -35,13 +34,13 @@ const initialState: Sync = {
   images: []
 };
 
-export let syncReducer = generateReducer<Sync>(initialState)
+export let syncReducer = generateReducer<DeprecatedSync>(initialState)
   .add<Log>("BOT_LOG", function (state, { payload }) {
     state.logs.unshift(payload);
     state.logs = _.take(_.uniq(state.logs, JSON.stringify), 50);
     return state;
   })
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
+  .add<DeprecatedSync>("FETCH_SYNC_OK", function (s, a) {
     s = a.payload;
     s.loaded = true;
     return s;

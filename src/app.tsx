@@ -1,11 +1,13 @@
 import * as React from "react";
 import { NavBar } from "./nav";
-import { Everything, Sync, Log } from "./interfaces";
+import { Everything, Log } from "./interfaces";
 import { init, error } from "./ui";
 import { connect } from "react-redux";
 import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
+import * as _ from "lodash";
+import { selectAll } from "./resources/util";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -27,38 +29,26 @@ interface AppProps {
   bot: BotState;
 }
 
-// TODO: Need to get `location` into `state_to_props` somehow...
-interface FixMePlease extends AppProps {
-  location: { pathname: string; };
-}
-
 function mapStateToProps(props: Everything): AppProps {
   let dispatch = props.dispatch;
-  let logs = Object
-    .values(props.resources.logs.byId)
-    .map(L => {
-      if(L) {
-        return L;
-      } else {
-        throw new Error("Never")
-      }
-    });
-  let auth = props.auth;
-  let bot = props.bot;
+  let logs = selectAll(props.resources.index, "logs")
+    .filter(log => log.kind === "logs")
+    .map(x => x.body as Log);
 
   return {
     dispatch,
-    auth,
-    bot,
-    logs
+    auth: props.auth,
+    bot: props.bot,
+    logs,
+    loaded: props.resources.loaded
   };
 }
 
 @connect(mapStateToProps)
-export default class App extends React.Component<FixMePlease, {}> {
+export default class App extends React.Component<AppProps, {}> {
   componentDidMount() {
     setTimeout(() => {
-      if (!this.props.sync.loaded) {
+      if (!this.props.loaded) {
         this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
         error(TIMEOUT_MESSAGE, "Warning");
       }
@@ -66,13 +56,13 @@ export default class App extends React.Component<FixMePlease, {}> {
   }
 
   render() {
-    let syncLoaded = this.props.sync.loaded;
+    let syncLoaded = this.props.loaded;
     return <div className="app">
       <NavBar
         auth={this.props.auth}
         bot={this.props.bot}
-        location={this.props.location}
-        dispatch={this.props.dispatch} />
+        dispatch={this.props.dispatch}
+        logs={this.props.logs} />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;

@@ -17,9 +17,9 @@ import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
 import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
 import { ToolsState, ToolBay, Tool, ToolSlot } from "./tools/interfaces";
-import { ImageState, Image } from "./images";
+import { Image } from "./images";
 import { Regimen } from "./regimens/interfaces";
-import { RestResources } from "./resources/reducer";
+import { RestResources } from "./resources/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks
     in the UI. Only certain colors are valid. */
@@ -68,15 +68,9 @@ export interface Everything {
   designer: DesignerState;
   dispatch: Function;
   bot: BotState;
-  sequences: SequenceReducerState;
-  regimens: RegimensState;
-  bulkScheduler: BulkSchedulerState;
   location: Location;
   draggable: DragableState;
   peripherals: PeripheralState;
-  tools: ToolsState;
-  sync: Sync;
-  images: ImageState;
   resources: RestResources;
   router: {
     push(url?: string): void;
@@ -84,7 +78,7 @@ export interface Everything {
 };
 
 /** A sync object, as returned by a GET request to `/api/sync` */
-export interface Sync {
+export interface DeprecatedSync {
   /** Tells the ui when the sync object has completed. */
   loaded: boolean;
   /** Git commit hash of the revision that the server is running. */

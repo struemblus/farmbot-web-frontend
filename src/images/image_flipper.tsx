@@ -3,6 +3,7 @@ import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
+import { TaggedImage } from "../resources/tagged_resources";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
 
@@ -17,7 +18,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     this.state = { currentInx: 0, isLoaded: false };
   }
 
-  current(): Image | undefined {
+  current(): TaggedImage | undefined {
     return this.props.images[this.state.currentInx || 0];
   }
 
@@ -25,8 +26,8 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     let i = this.current();
     if (i && this.props.images.length > 0) {
       let url: string;
-      url = (i.attachment_processed_at) ?
-        i.attachment_url : PLACEHOLDER_FARMBOT;
+      url = (i.body.attachment_processed_at) ?
+        i.body.attachment_url : PLACEHOLDER_FARMBOT;
       return <div>
         {!this.state.isLoaded && (
           <div className="no-flipper-image-container">
@@ -91,7 +92,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
   metaDatas() {
     let i = this.current();
     if (i) {
-      let { meta, id } = i;
+      let { meta, id } = i.body;
       return Object.keys(meta).sort().map(function (key, index) {
         return <MetaInfo key={id} attr={key} obj={meta} />;
       });
@@ -119,7 +120,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           <div className="created-at">
             <label>{t("Created At")}</label>
             <span>
-              {moment(i.created_at).format("MMMM Do, YYYY h:mma")}
+              {moment(i.body.created_at).format("MMMM Do, YYYY h:mma")}
             </span>
           </div>
           : ""}

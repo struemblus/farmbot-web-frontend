@@ -1,9 +1,10 @@
-import { Regimen, RegimenItem, RegimenProps, RegimensState } from "../interfaces";
+import { Regimen, RegimenItem, RegimenProps } from "../interfaces";
 import { AuthState } from "../../auth/interfaces";
 import { BotState } from "../../devices/interfaces";
+import { TaggedRegimen } from "../../resources/tagged_resources";
 
 export interface ActiveEditorProps {
-  regimen: Regimen;
+  regimen: TaggedRegimen;
   dispatch: Function;
 }
 
@@ -23,12 +24,8 @@ export interface RegimenItemDayGroupProps {
   dispatch: Function;
 }
 
-export interface SaveButtonProps extends RegimenProps {
-  url: string;
-};
-
 export interface RegimenEditorWidgetProps {
-  regimens: RegimensState;
+  current: TaggedRegimen | undefined;
   dispatch: Function;
   auth: AuthState | undefined;
   bot: BotState;
@@ -36,7 +33,7 @@ export interface RegimenEditorWidgetProps {
 
 export interface CopyButtnProps {
   dispatch: Function;
-  regimen?: Regimen;
+  regimen?: TaggedRegimen;
 }
 
 export interface DeleteButtonProps extends RegimenProps {

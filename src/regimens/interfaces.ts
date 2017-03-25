@@ -1,21 +1,19 @@
 import { ReduxAction } from "../redux/interfaces";
-import { Sequence, SequenceReducerState } from "../sequences/interfaces";
+import { Sequence } from "../sequences/interfaces";
 import { Color } from "../interfaces";
 import { BulkSchedulerState } from "./bulk_scheduler/interfaces";
 import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
+import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
-  sequences: SequenceReducerState;
-  bulkScheduler: BulkSchedulerState;
+  sequences: TaggedSequence[];
+  // bulkScheduler: BulkSchedulerState;
   auth: AuthState | undefined;
   bot: BotState;
-  regimens: RegimensState;
-}
-
-export interface RegimenPropsWithParams {
-  params: { regimen: string; };
+  current: TaggedRegimen | undefined;
+  regimens: TaggedRegimen[];
 }
 
 /** RegimenItem, as presented by the REST API */
@@ -35,7 +33,7 @@ export interface ApiRegimen {
 
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
-  regimen?: Regimen;
+  regimen?: TaggedRegimen;
   dispatch: Function;
 };
 
@@ -58,11 +56,10 @@ export interface RegimenItem {
   time_offset: number;
 };
 
-/** How Regimen state is stored in the application. 
+/** How Regimen state is stored in the application.
  * Used by Regimen reducer mostly */
 export interface RegimensState {
-  current: number;
-  all: Regimen[];
+  current: string | undefined;
 }
 
 /** Used by regimen reducer to route incoming stream of Redux actions */
@@ -77,11 +74,13 @@ export interface AddRegimenProps {
   children?: JSX.Element;
 }
 
-export interface RegimenListItemProps extends RegimenProps {
+export interface RegimenListItemProps {
+  regimen?: TaggedRegimen;
+  dispatch: Function;
   index: number;
 }
 
 export interface RegimensListProps {
   dispatch: Function;
-  regimens: RegimensState;
+  regimens: TaggedRegimen[];
 }

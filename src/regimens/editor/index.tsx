@@ -6,13 +6,27 @@ import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
+import { isTaggedRegimen, TaggedRegimen } from "../../resources/tagged_resources";
 
-export function RegimenEditorWidget({ regimens, dispatch, auth }:
+interface MiddleSectionProps {
+  regimen: TaggedRegimen | undefined;
+  dispatch: Function;
+}
+function MiddleSection({
+  regimen,
+  dispatch
+}: MiddleSectionProps) {
+  if (regimen && isTaggedRegimen(regimen)) {
+    return <ActiveEditor dispatch={dispatch} regimen={regimen} />;
+  } else {
+    return <EmptyEditor />;
+  }
+}
+export function RegimenEditorWidget({ current, dispatch, auth }:
   RegimenEditorWidgetProps) {
   if (auth) {
-    let regimen = regimens.all[regimens.current];
-    let DynamicComponent = regimen ? ActiveEditor : EmptyEditor;
-    let saveButtenProps = {
+    let regimen = current;
+    let saveButtonProps = {
       dispatch,
       regimen,
       token: auth.token,
@@ -29,14 +43,12 @@ export function RegimenEditorWidget({ regimens, dispatch, auth }:
                 plants from the farm designer (coming soon) and can be
                 re-used on many plants growing at the same or different
                 times. Multiple regimens can be applied to any one plant.`}>
-        <SaveButton regimen={regimen}
-          dispatch={dispatch}
-          url={auth.token.unencoded.iss} />
+        <SaveButton regimen={regimen} dispatch={dispatch} />
         <CopyButton regimen={regimen} dispatch={dispatch} />
-        <DeleteButton {...saveButtenProps} />
+        <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
       <WidgetBody>
-        <DynamicComponent regimen={regimen} dispatch={dispatch} />
+        <MiddleSection regimen={regimen} dispatch={dispatch} />
       </WidgetBody>
     </Widget>;
   } else {

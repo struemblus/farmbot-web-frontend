@@ -1,51 +1,58 @@
 import * as React from "react";
 import { BackArrow, error } from "../../ui";
-import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import * as moment from "moment";
-import { destroyPlant } from "../actions";
 import { t } from "i18next";
-import { EditPlantInfoProps } from "../interfaces";
+import { EditPlantInfoProps, Plant, PlantData } from "../interfaces";
+import { history } from "../../history";
+import { Everything } from "../../interfaces";
+import { findWhere } from "../../resources/selectors";
+import { isTaggedPlant } from "../../resources/tagged_resources";
+import { destroy } from "../../api/crud";
 
-@connect((state: Everything) => state)
+function mapStateToProps(props: Everything): EditPlantInfoProps {
+  // TODO: Handle this better with query params
+  let plant_id = parseInt(history.getCurrentLocation().pathname.split("/")[4]);
+  let query: Partial<Plant> = { id: plant_id };
+  let currentPlant = findWhere(props.resources.index, query);
+
+  let plant_info: undefined | PlantData = undefined;
+  if (currentPlant && isTaggedPlant(currentPlant)) {
+    let { name, x, y, planted_at, id } = currentPlant.body;
+    plant_info = { name, x, y, planted_at, id, uuid: currentPlant.uuid };
+  }
+
+  if (!plant_info) {
+    history.push("/app/designer/plants");
+    error("Plant could not be found.", "Error");
+  }
+
+  return {
+    plant_info,
+    push: history.push,
+    dispatch: props.dispatch,
+  }
+}
+
+@connect(mapStateToProps)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
-  findCurrentPlant = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    let plants = this.props.designer.deprecatedPlants;
-    let currentPlant = _.findWhere(plants, { id: plant_id });
-    return currentPlant;
+  destroy = (plantUUID: string) => {
+    this.props.dispatch(destroy(plantUUID))
+      .then(() => history.push("/app/designer/plants"))
+      .catch(() => error("Could not delete plant.", "Error"))
   }
 
-  componentDidMount() {
-    let currentPlant = this.findCurrentPlant();
-    if (!currentPlant) {
-      this.props.router.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
+  fallback = () => {
+    return <span>Redirecting...</span>
   }
 
-  destroy = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    this.props.dispatch(destroyPlant(plant_id));
-    this.props.router.push("/app/designer/plants");
-  }
-
-  render() {
-    let currentPlant = this.findCurrentPlant() || {
-      planted_at: moment().toISOString(),
-      name: "Error: No plant name.",
-      x: "Error: No x coordinate",
-      y: "Error: No y coordinate"
-    };
-
-    let { name, x, y, planted_at } = currentPlant;
-
+  default = (plant_info: PlantData) => {
+    let { planted_at, name, x, y, uuid } = plant_info;
     let dayPlanted = moment();
-    // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
 
-    return <div className="panel-container green-panel">
+    return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
           <BackArrow />
@@ -66,11 +73,16 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
         <label>{t("Delete this plant")}</label>
         <div>
           <button className="red button-like left"
-            onClick={this.destroy}>
+            onClick={() => this.destroy(uuid)}>
             {t("Delete")}
           </button>
         </div>
       </div>
-    </div>;
+    </div >;
+  }
+
+  render() {
+    let { plant_info } = this.props;
+    return plant_info ? this.default(plant_info) : this.fallback();
   }
 }

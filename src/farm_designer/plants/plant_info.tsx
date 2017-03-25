@@ -1,51 +1,64 @@
 import * as React from "react";
-import { Link } from "react-router";
-import { Everything } from "../../interfaces";
+import { error } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { PlantInfoProps } from "../interfaces";
-import { error } from "../../ui/index";
+import { EditPlantInfoProps, Plant, PlantData } from "../interfaces";
+import { history } from "../../history";
+import { Everything } from "../../interfaces";
+import { findWhere } from "../../resources/selectors";
+import { isTaggedPlant } from "../../resources/tagged_resources";
+import { destroy } from "../../api/crud";
+import { Link } from "react-router";
 
-@connect((state: Everything) => state)
-export class PlantInfo extends React.Component<PlantInfoProps, {}> {
-  findCurrentPlant = () => {
-    let plant_id = parseInt(this.props.params.plant_id);
-    let plants = this.props.designer.deprecatedPlants;
-    let currentPlant = _.findWhere(plants, { id: plant_id });
-    return currentPlant;
+function mapStateToProps(props: Everything): EditPlantInfoProps {
+  // TODO: Handle this better with query params
+  let plant_id = parseInt(history.getCurrentLocation().pathname.split("/")[4]);
+  let query: Partial<Plant> = { id: plant_id };
+  let currentPlant = findWhere(props.resources.index, query);
+
+  let plant_info: undefined | PlantData = undefined;
+  if (currentPlant && currentPlant.body.id && isTaggedPlant(currentPlant)) {
+    let { name, x, y, planted_at, id } = currentPlant.body;
+    plant_info = { name, x, y, planted_at, id, uuid: currentPlant.uuid };
   }
 
-  componentDidMount() {
-    let currentPlant = this.findCurrentPlant();
-    if (!currentPlant) {
-      this.props.router.push("/app/designer/plants");
-      error("Couldn't find plant.", "Error");
-    }
+  if (!plant_info) {
+    history.push("/app/designer/plants");
+    error("Plant could not be found.", "Error");
   }
 
-  render() {
-    let currentPlant = this.findCurrentPlant() || {
-      planted_at: moment().toISOString(),
-      name: "Error: No plant name.",
-      x: "Error: No x coordinate",
-      y: "Error: No y coordinate"
-    };
+  return {
+    plant_info,
+    push: history.push,
+    dispatch: props.dispatch,
+  }
+}
 
-    let { name, x, y, planted_at } = currentPlant;
+@connect(mapStateToProps)
+export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
+  destroy = (plantUUID: string) => {
+    this.props.dispatch(destroy(plantUUID))
+      .then(() => history.push("/app/designer/plants"))
+      .catch(() => error("Could not delete plant.", "Error"))
+  }
 
+  fallback = () => <span>Redirecting...</span>
+
+  default = (plant_info: PlantData) => {
+    let { planted_at, name, x, y, id } = plant_info;
     let dayPlanted = moment();
-    // Same day = 1 !0
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
-    return <div className="panel-container green-panel">
+
+    return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <Link to={`/app/designer/plants`} className="back-arrow">
-            <i className="fa fa-arrow-left"></i>
+          <Link to="/app/designer/plants" className="back-arrow">
+            <i className="fa fa-arrow-left" />
           </Link>
           <span className="title">{name}</span>
-          <Link to={`/app/designer/plants/` + (currentPlant.id || "BROKEN")
+          <Link to={`/app/designer/plants/` + (id || "BROKEN")
             .toString() + `/edit`}
             className="right-button">
             {t("Edit")}
@@ -65,5 +78,10 @@ export class PlantInfo extends React.Component<PlantInfoProps, {}> {
         </ul>
       </div>
     </div>;
+  }
+
+  render() {
+    let { plant_info } = this.props;
+    return plant_info ? this.default(plant_info) : this.fallback();
   }
 }

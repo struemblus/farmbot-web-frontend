@@ -1,0 +1,30 @@
+import { TaggedResource } from "./tagged_resources";
+import { UnsafeError } from "../interfaces";
+import { prettyPrintApiErrors, toastErrors } from "../util";
+import { error } from "../ui/logger";
+
+export function createOK(payload: TaggedResource) {
+  return { type: "CREATE_RESOURCE_OK", payload };
+}
+
+export function updateOK(payload: TaggedResource) {
+  return { type: "UPDATE_RESOURCE_OK", payload };
+}
+
+export function destroyOK(payload: TaggedResource) {
+  return { type: "DESTROY_RESOURCE_OK", payload };
+}
+
+/** Generalized error handler when there are not special error handling
+ * requirements */
+function generalizedError(payload: UnsafeError) {
+  toastErrors(payload);
+  return {
+    type: "*_RESOURCE_NO",
+    payload: {}
+  };
+};
+
+export let destroyNO = generalizedError;
+export let createNO = generalizedError;
+export let updateNO = generalizedError;

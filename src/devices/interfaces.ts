@@ -6,13 +6,15 @@ import {
 import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
-import { Sync } from "../interfaces";
+import { Image } from "../images/index";
+import { TaggedImage, TaggedPeripheral } from "../resources/tagged_resources";
+import { ResourceIndex, RestResources } from "../resources/interfaces";
 
 export interface Props {
   auth: AuthState | undefined;
   bot: BotState;
+  images: TaggedImage[];
   dispatch: Function;
-  sync: Sync;
 }
 
 /** How the device is stored in the API side.
@@ -62,7 +64,6 @@ export interface DeviceAccountSettingsUpdate {
 };
 
 export interface BotState {
-  account: DeviceAccountSettings;
   /** Maximum number of messages to cache. Excess is truncated. */
   status: string;
   /** How many steps to move when the user presses a manual movement arrow */
@@ -88,6 +89,7 @@ export interface BotState {
   };
   configBuffer: Configuration;
   hardware: HardwareState;
+  account: DeviceAccountSettings;
 }
 export interface BotProp {
   bot: BotState;
@@ -119,7 +121,8 @@ export interface MoveRelProps {
   speed?: number | undefined;
 }
 
-export type Axis = "x" | "y" | "z" | "all";
+export type Xyz = "x" | "y" | "z";
+export type Axis = Xyz | "all";
 
 export interface CalibrationButtonProps {
   axis: Axis;
@@ -153,15 +156,16 @@ export interface EStopButtonProps {
 }
 
 export interface PeripheralsProps {
+  resources: RestResources;
   bot: BotState;
-  peripherals: PeripheralState;
+  peripherals: TaggedPeripheral[];
   dispatch: Function;
 }
 
 export interface WeedDetectorProps {
   bot: BotState;
   dispatch: Function;
-  sync: Sync;
+  images: TaggedImage[];
 }
 
 export interface HardwareSettingsProps {

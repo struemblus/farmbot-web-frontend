@@ -1,11 +1,17 @@
 import * as React from "react";
 import { Plant } from "../plant";
-import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
+import { movePlant } from "../actions";
 import * as moment from "moment";
-import { GardenMapProps, GardenMapState, PlantOptions } from "../interfaces";
+import {
+  GardenMapProps,
+  GardenMapState,
+  PlantOptions,
+  Plant as PlantInterface
+} from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
+import { history } from "../../history";
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   /** The offset of 50px is made for the setDragImage to make it in the
@@ -63,7 +69,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       let box = el.getBoundingClientRect();
       let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       // TEMPORARY SOLUTION =======
-      let OFEntry = this.findCrop(this.props.params.species);
+      // TODO: This is definitely not right, figure out query objects
+      let species = history.getCurrentLocation().pathname.split("/")[5];
+      let OFEntry = this.findCrop(species);
       p.img_url = OFEntry.image;
       p.openfarm_slug = OFEntry.crop.slug;
       p.name = OFEntry.crop.name || "Mystery Crop";
@@ -71,7 +79,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       p.spread = OFEntry.crop.spread;
       // END TEMPORARY SOLUTION =======
       let plant = Plant(p);
-      this.props.dispatch(deprecatedSavePlant(plant));
+      let uuid = "TODO: FIX ME";
+      console.warn("HEY!! FIX!! ^");
+      // this.props.dispatch(savePlant(uuid));
     } else {
       throw new Error("never");
     }
@@ -83,28 +93,29 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       dispatch(movePlant({ deltaX, deltaY, plantId }));
     };
 
-    let dropper = (id: number) => {
-      dispatch(savePlantById(id));
+    let dropper = (uuid: string) => {
+      // dispatch(savePlant(uuid));
     };
+
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop.bind(this)}
       onDragEnter={this.handleDragEnter.bind(this)}
       onDragOver={this.handleDragOver.bind(this)}>
       <svg id="svg">
-        {this.props.sync.points.map(function (p) {
-          return <GardenPoint point={p} key={p.id} />;
+        {this.props.points.map(function (p) {
+          return <GardenPoint point={p} key={p.body.id} />;
         })}
         {
-          this.props.designer.deprecatedPlants.map((p, inx) => {
-            let { pathname } = this.props.location;
-            if (p.id) {
-              let isActive = (pathname.includes(p.id.toString()) &&
+          this.props.plants.map((p, inx) => {
+            let pathname = history.getCurrentLocation().pathname;
+            if (p.body.id) {
+              let isActive = (pathname.includes(p.body.id.toString()) &&
                 pathname.includes("edit")) ? "active" : "";
 
-              return <Link to={`/app/designer/plants/${p.id}`}
+              return <Link to={`/app/designer/plants/${p.body.id}`}
                 className={`plant-link-wrapper ` + isActive.toString()}
-                key={p.id}>
+                key={p.body.id}>
                 <GardenPlant
                   plant={p}
                   onUpdate={updater}

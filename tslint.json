@@ -10,6 +10,10 @@
       true,
       "check-space"
     ],
+    "cyclomatic-complexity": [
+      true,
+      21
+    ],
     "indent": [
       true,
       "spaces"

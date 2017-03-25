@@ -1,7 +1,9 @@
 import * as _ from "lodash";
-import { Color } from "./interfaces";
+import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
 import { t } from "i18next";
+import { Dictionary } from "farmbot/dist";
+import { error } from "./ui/index";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -42,6 +44,10 @@ export interface AxiosErrorResponse {
   };
 };
 
+export function toastErrors(err: UnsafeError) {
+  return error(prettyPrintApiErrors(err));
+}
+
 /** Concats and capitalizes all of the error key/value
  *  pairs returned by the /api/xyz endpoint. */
 export function prettyPrintApiErrors(err: AxiosErrorResponse) {
@@ -50,8 +56,7 @@ export function prettyPrintApiErrors(err: AxiosErrorResponse) {
     .map(str => _.capitalize(str)).join(" ");
 }
 
-/** */
-function safelyFetchErrors(err: AxiosErrorResponse): { [key: string]: string } {
+function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
   // In case the interpreter gives us an oddball error message.
   if (err && err.response && err.response.data) {
     return err.response.data;
@@ -166,13 +171,6 @@ export function pick<T, K extends keyof T>(target: T, key: K): T[K] {
 
 /** _Safely_ check a value at runtime to know if it can be used for square
  * bracket access.
- * ```
- *   if (oneOf<User>(["email"], myVar1)) {
- *     // Safe to use `myVar1` with square bracket access.
- *   } else {
- *     // Handle errors / failures.
- *   }
- * ```
  */
 export function hasKey<T>(base: (keyof T)[]) {
   return (target: T | any): target is keyof T => {
@@ -257,3 +255,26 @@ export function fancyDebug(t: any) {
   }
   console.log();
 }
+
+export type CowardlyDictionary<T> = Dictionary<T | undefined>;
+/** Sometimes, you are forced to pass a number type even though
+ * the resource has no ID (usually for rendering purposes).
+ * Example:
+ *  farmEvent.id || 0
+ *
+ *  In those cases, you can use this constant to indicate intent.
+ */
+export const NOT_SAVED = -1;
+
+export function isUndefined(x: any): x is undefined {
+  return _.isUndefined(x);
+}
+
+/** Better than Array.proto.filter and _.compact() because the type checker
+ * knows what's going on.
+ */
+export function betterCompact<T>(input: (T | undefined)[]): T[] {
+  let output: T[] = [];
+  input.forEach(x => x ? output.push(x) : "")
+  return [];
+};

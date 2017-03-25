@@ -8,7 +8,6 @@ import { ChangeSettingsBuffer } from "./interfaces";
 import { Sequence } from "../sequences/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot";
-import { Sync } from "../interfaces";
 
 // TODO: Do we even need this anymore after the ticker overhaul?
 let status = {
@@ -73,35 +72,6 @@ export let botReducer = generateReducer<BotState>(initialState)
       settingsBuffer: {}
     });
     return nextState;
-  })
-  .add<Sequence>("SAVE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Sequence>("DELETE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("SAVE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("DELETE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("BOT_SYNC_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("COMMIT_AXIS_CHANGE_OK", function (oldState, a) {
-    let hardware = Object.assign({}, oldState.hardware, a.payload);
-    let state = Object.assign<{}, BotState>({}, oldState);
-
-    return Object.assign({}, state, {
-      axisBuffer: {},
-      hardware
-    });
   })
   .add<Configuration>("CHANGE_CONFIG_BUFFER", function (s, a) {
     let old_buffer = s.configBuffer;
@@ -173,10 +143,6 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<DeviceAccountSettings>("REPLACE_DEVICE_ACCOUNT_INFO", function (s, a) {
     s.account = a.payload;
-    return s;
-  })
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-    s.account = a.payload.device;
     return s;
   })
   .add<string>("CHANGE_WEBCAM_URL", function (s, a) {

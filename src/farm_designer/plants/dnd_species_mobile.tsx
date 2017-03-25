@@ -4,6 +4,7 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
+import { history } from "../../history";
 import { DEFAULT_ICON } from "../../open_farm/index";
 import {
   SpeciesInfoProps,
@@ -39,7 +40,7 @@ DNDSpeciesMobileState> {
   }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
+    let crops = this.props.cropSearchResults;
     let crop = _(crops).find((result) => result.crop.slug === slug);
     return crop || {
       crop: {
@@ -59,7 +60,8 @@ DNDSpeciesMobileState> {
   }
 
   render() {
-    let species = this.props.params.species.toString();
+    let species = history.getCurrentLocation().pathname.split("/")[5];
+
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
 
     /** rgba arguments are a more mobile-friendly way apply filters */

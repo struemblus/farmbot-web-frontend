@@ -5,6 +5,7 @@ import { BlurableInput } from "../ui/index";
 import { ImageFlipper } from "./image_flipper";
 import { Image, HSV } from "./interfaces";
 import { WeedDetectorSlider } from "./weed_detector_slider";
+import { TaggedImage } from "../resources/tagged_resources";
 
 const DEFAULTS = {
   H: {
@@ -43,7 +44,7 @@ const DEFAULTS = {
 };
 
 interface Props {
-  images: Image[];
+  images: TaggedImage[];
   H: undefined | (number | undefined)[];
   S: undefined | (number | undefined)[];
   V: undefined | (number | undefined)[];

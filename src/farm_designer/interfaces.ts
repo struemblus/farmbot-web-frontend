@@ -1,15 +1,21 @@
 import { OpenFarm } from "./openfarm";
 import { DropDownItem } from "../ui/index";
-import { Dictionary } from "farmbot/dist";
-import { Sequence } from "../sequences/interfaces";
-import { Regimen } from "../regimens/interfaces";
-import { Everything, Sync } from "../interfaces";
-import { CowardlyDictionary } from "../resources/reducer";
+import { CowardlyDictionary } from "../util";
+import { RestResources } from "../resources/interfaces";
+import {
+  TaggedFarmEvent,
+  TaggedSequence,
+  TaggedRegimen,
+  TaggedResource,
+  TaggedPoint,
+  TaggedPlant
+} from "../resources/tagged_resources";
 
 export interface Props {
   dispatch: Function;
-  sync: Sync;
   designer: DesignerState;
+  points: TaggedPoint[];
+  plants: TaggedPlant[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -19,15 +25,32 @@ export interface UpdateSequenceOrRegimenProps {
   farm_event_id: number;
 }
 
-export type FarmEventForm = Partial<Record<keyof FarmEvent, string | number>>;
-
-export type TimeUnit = "never"
+export type TimeUnit =
+  | "never"
   | "minutely"
   | "hourly"
   | "daily"
   | "weekly"
   | "monthly"
   | "yearly";
+
+const TIME_UNITS: TimeUnit[] = [
+  "never",
+  "minutely",
+  "hourly",
+  "daily",
+  "weekly",
+  "monthly",
+  "yearly"
+];
+
+export function isTimeUnit(input: TimeUnit | any): input is TimeUnit {
+  if ((typeof input === "string") && TIME_UNITS.includes(input as TimeUnit)) {
+    return true;
+  } else {
+    throw new Error("GOT INVLAID TIME UNIT: " + JSON.stringify(input));
+  }
+}
 
 export interface FarmEvent {
   id?: number | undefined;
@@ -83,10 +106,6 @@ export interface Specimen {
 export interface DesignerState {
   x_size: number;
   y_size: number;
-  /** This causes too much data denormalization-
-   *  let's just use state.sync.plants moving forward.
-   */
-  deprecatedPlants: Plant[];
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -101,21 +120,21 @@ export interface Point {
   meta: { [key: string]: (string | undefined) };
 }
 
-export type AddFarmEventState =
-  Partial<Record<keyof FarmEvent, string | number>>;
+type TaggedResourceById = TaggedResource | undefined;
 
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
   repeatOptions: DropDownItem[];
-  farmEvents: FarmEvent[];
-  sequenceById: CowardlyDictionary<Sequence>;
-  regimenById: CowardlyDictionary<Regimen>;
+  farmEvents: TaggedFarmEvent[];
+  regimensById: CowardlyDictionary<TaggedRegimen>;
+  sequencesById: CowardlyDictionary<TaggedSequence>;
+  farmEventsById: CowardlyDictionary<TaggedFarmEvent>;
+  getFarmEvent(url: string): TaggedFarmEvent;
+  getInitalizedFarmEvent(): TaggedFarmEvent | undefined;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
-  save(fe: FarmEventForm): void;
-  update(fe: FarmEventForm): void;
-  delete(farm_event_id: number): void;
+  dispatch: Function;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
@@ -149,9 +168,8 @@ export interface FarmEventProps {
 export interface GardenMapProps {
   dispatch: Function;
   designer: DesignerState;
-  sync: Sync;
-  params: { species: string; };
-  location: { pathname: string; };
+  points: TaggedPoint[];
+  plants: TaggedPlant[];
 }
 
 export interface GardenMapState {
@@ -161,27 +179,40 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
-  plant: Plant;
+  plant: TaggedPlant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (id: number) => void;
+  onDrop: (uuid: string) => void;
 }
 
 export interface GardenPointProps {
-  point: Point;
+  point: TaggedPoint;
 }
 
 export type PlantOptions = Partial<Plant>;
 
-export interface SpeciesInfoProps extends Everything {
-  params: { species: string; };
+export interface SpeciesInfoProps {
+  cropSearchResults: CropLiveSearchResult[];
 }
 
-export interface EditPlantInfoProps extends Everything {
-  params: { plant_id: string; };
+export interface PlantData {
+  name: string;
+  x: number;
+  y: number;
+  planted_at: string;
+  uuid: string;
+  id?: number;
 }
 
-export interface PlantInfoProps extends Everything {
-  params: { plant_id: string };
+export interface EditPlantInfoProps {
+  push(url: string): void;
+  dispatch: Function;
+  plant_info: undefined | PlantData;
+}
+
+export interface PlantInfoProps {
+  plant_id: number;
+  findCurrentPlant(plant_id: number): TaggedPlant;
+  resources: RestResources;
 }
 
 export interface DNDSpeciesMobileState {
@@ -205,17 +236,17 @@ export interface SearchBoxParams {
 
 export interface DraggableSvgImageState {
   isDragging: boolean;
-  mouseX: number;
-  mouseY: number;
-  radius: number;
+  transX: number;
+  transY: number;
 }
 
 export interface DraggableSvgImageProps {
+  plant: TaggedPlant;
   id: number;
   height: number;
   width: number;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (id: number) => void;
+  onDrop: (uuid: string) => void;
   x: number;
   y: number;
   href: string;
@@ -223,7 +254,7 @@ export interface DraggableSvgImageProps {
 
 export interface OFSearchProps {
   dispatch: Function;
-  designer: DesignerState;
+  cropSearchResults: CropLiveSearchResult[];
   query: string;
 }
 

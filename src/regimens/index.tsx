@@ -9,32 +9,24 @@ import { Props } from "./interfaces";
 import { Page, Row, Col } from "../ui/index";
 import { mapStateToProps } from "./state_to_props";
 
-// TODO: Need to get `params` into `state_to_props` somehow...
-interface FixMePlease extends Props {
-  params: { regimen: string; }
-}
-
 @connect(mapStateToProps)
-export class Regimens extends React.Component<FixMePlease, {}> {
+export class Regimens extends React.Component<Props, {}> {
   render() {
     return <Page className="regimens">
       <Row>
-        <Col xs={12} md={4}>
+        {/*<Col xs={12} md={4}>
           <BulkSchedulerWidget editor={this.props.bulkScheduler}
-            sequences={this.props.sequences.all}
+            sequences={this.props.sequences}
             dispatch={this.props.dispatch} />
-        </Col>
+        </Col>*/}
         <Col xs={12} md={4}>
           <RegimenEditorWidget
             dispatch={this.props.dispatch}
             auth={this.props.auth}
             bot={this.props.bot}
-            regimens={this.props.regimens} />
+            current={this.props.current} />
         </Col>
-        {isMobile() && (
-          <MobileRegimensNav
-            params={this.props.params} />
-        )}
+        {isMobile() && <MobileRegimensNav />}
         <Col xs={12} md={4}>
           <RegimensList
             dispatch={this.props.dispatch}

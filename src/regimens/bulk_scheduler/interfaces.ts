@@ -1,5 +1,6 @@
 import { RegimenItem } from "../interfaces";
 import { Sequence } from "../../sequences/interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
 
 export interface BulkSchedulerOutput {
   index: number;
@@ -7,12 +8,12 @@ export interface BulkSchedulerOutput {
 }
 
 export interface BulkSchedulerState {
-  sequence?: Sequence;
+  sequence?: TaggedSequence;
   form: BulkScheduleForm;
 }
 
 export interface BulkEditorProps {
-  sequences: Sequence[];
+  sequences: TaggedSequence[];
   editor: BulkSchedulerState;
   dispatch: Function;
 }
@@ -51,8 +52,8 @@ export interface AddButtonProps {
 }
 
 export interface SequenceListProps {
-  sequences: Sequence[];
-  current: Sequence;
+  sequences: TaggedSequence[];
+  current: TaggedSequence | undefined;
   dispatch: Function;
 }
 

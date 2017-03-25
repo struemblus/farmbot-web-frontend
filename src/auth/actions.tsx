@@ -8,13 +8,12 @@ import { push } from "../history";
 import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { fetchSyncData, fetchSyncDataNo, fetchSyncDataOk } from "../sync/actions";
-import { fetchRegimens } from "../regimens/actions";
+import * as NoNoNo from "../sync/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
-import { prettyPrintApiErrors } from "../util";
+import { prettyPrintApiErrors, toastErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
 import { responseFulfilled, responseRejected, requestFulfilled } from "../interceptors";
@@ -25,17 +24,14 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
   dispatch(loginOk(authState));
 
-  fetchSyncData().then((x) => {
+  NoNoNo.fetchDeprecatedSyncData().then((x) => {
     if (x) {
-      dispatch(fetchSyncDataOk(x));
+      dispatch(NoNoNo.fetchDeprecatedSyncDataOk(x));
     }
   }, (e: Error) => {
     error(t("Could not download sync data"));
-    dispatch(fetchSyncDataNo(e));
+    dispatch(NoNoNo.fetchDeprecatedSyncDataNo(e));
   });
-
-  // TODO: Make regimens work with sync object
-  dispatch(fetchRegimens());
   dispatch(connectDevice(authState.token.encoded));
 };
 
@@ -113,7 +109,7 @@ export function register(name: string,
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
   return (err: UnsafeError) => {
-    error(prettyPrintApiErrors(err));
+    toastErrors(err);
     dispatch({
       type: "REGISTRATION_ERROR",
       payload: err

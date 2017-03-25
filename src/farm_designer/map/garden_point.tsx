@@ -12,14 +12,14 @@ const POINT_STYLES = {
 export function GardenPoint(props: GardenPointProps) {
   let { point } = props;
   let styles = defensiveClone(POINT_STYLES);
-  styles.stroke = point.meta.color || "green";
+  styles.stroke = point.body.meta.color || "green";
   return <g>
-    <circle cx={point.x}
-      cy={point.y}
-      r={point.radius}
+    <circle cx={point.body.x}
+      cy={point.body.y}
+      r={point.body.radius}
       {...styles} />
-    <circle cx={point.x}
-      cy={point.y}
+    <circle cx={point.body.x}
+      cy={point.body.y}
       r={2}
       {...styles} />
   </g>;

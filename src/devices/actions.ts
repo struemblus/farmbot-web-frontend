@@ -6,9 +6,8 @@ import {
   GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
 } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { put, get } from "axios";
+import { get } from "axios";
 import {
-  DeviceAccountSettingsUpdate,
   DeviceAccountSettings,
   BotState
 } from "../devices/interfaces";
@@ -16,7 +15,6 @@ import { t } from "i18next";
 import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
-import { API } from "../api";
 import { HardwareState } from "../devices/interfaces";
 
 const ON = 1, OFF = 0;
@@ -130,8 +128,7 @@ export function execSequence(sequence: Sequence) {
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
   let state = getState();
   let bot = getState().bot.account;
-  let url = API.current.baseUrl;
-  return updateDevice(url, bot, dispatch);
+  return update(bot);
 };
 
 let commandErr = (noun = "Command") => () => {
@@ -186,16 +183,8 @@ export function fetchFWUpdateInfo(url: string) {
   };
 }
 
-export function updateDevice(apiUrl: string,
-  optns: DeviceAccountSettingsUpdate, dispatch: Function) {
-  let url = API.current.devicePath;
-  return put<DeviceAccountSettingsUpdate>(url, optns)
-    .then(res => dispatch({
-      type: "REPLACE_DEVICE_ACCOUNT_INFO",
-      payload: res.data
-    }))
-    .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
-  ;
+export function update(device: any) {
+
 }
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
@@ -208,7 +197,7 @@ export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
 
 export function addDevice(deviceAttrs: DeviceAccountSettings): Thunk {
   return (dispatch, getState) => {
-    updateDevice(API.current.baseUrl, deviceAttrs, dispatch);
+    update(deviceAttrs);
   };
 }
 
