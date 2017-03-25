@@ -81,11 +81,10 @@ export function initialValue(input: Execute | Nothing, index: ResourceIndex) {
   }
 }
 
-export let updateSubSeq = (branch: Execute | Nothing) =>
+export let updateSubSeq = (branch: Execute | Nothing,
+  dispatch: Function,
+  sequence: TaggedSequence,
+  step: If) =>
   (x: DropDownItem) => {
-    console.log("CHANGE!")
-    if (branch.kind === "execute") {
-    } else {
-      return
-    }
+    console.log("CHANGE!");
   }

@@ -5,6 +5,10 @@ import { t } from "i18next";
 
 export function Then(props: IfParams) {
   let { args } = props.currentStep;
+  let step = props.currentStep;
+  let seq = props.currentSequence;
+  let { dispatch } = props;
+  let onChange = updateSubSeq(args._then, dispatch, seq, step);
   return <div>
     <div className="col-xs-12 col-md-12">
       <h4>THEN...</h4>
@@ -14,7 +18,7 @@ export function Then(props: IfParams) {
       <FBSelect
         list={seqDropDown(props.resources)}
         placeholder="Sequence..."
-        onChange={updateSubSeq(args._then)}
+        onChange={onChange}
         initialValue={initialValue(props.currentStep.args._then, props.resources)}
       />
     </div>
