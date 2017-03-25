@@ -18,7 +18,8 @@ import {
   isTaggedToolSlot,
   isTaggedResource,
   sanityCheck,
-  isTaggedFarmEvent
+  isTaggedFarmEvent,
+  TaggedPeripheral
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
@@ -71,6 +72,10 @@ export function selectAllTools(index: ResourceIndex) {
 
 export function selectAllToolSlots(index: ResourceIndex) {
   return findAll(index, "tool_slots") as TaggedToolSlot[];
+}
+
+export function selectAllPeripherals(index: ResourceIndex) {
+  return findAll(index, "peripherals") as TaggedPeripheral[];
 }
 
 interface Finder<T> {

@@ -7,7 +7,8 @@ import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
 import { Image } from "../images/index";
-import { TaggedImage } from "../resources/tagged_resources";
+import { TaggedImage, TaggedPeripheral } from "../resources/tagged_resources";
+import { ResourceIndex, RestResources } from "../resources/interfaces";
 
 export interface Props {
   auth: AuthState | undefined;
@@ -155,8 +156,9 @@ export interface EStopButtonProps {
 }
 
 export interface PeripheralsProps {
+  resources: RestResources;
   bot: BotState;
-  peripherals: PeripheralState;
+  peripherals: TaggedPeripheral[];
   dispatch: Function;
 }
 
