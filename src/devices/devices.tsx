@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { WeedDetector } from "../images";
 import { HardwareSettings } from "./components/hardware_settings";
 import { FarmbotOsSettings } from "./components/farmbot_os_settings";
-import { Farmware } from "../farmware";
+import { Farmware } from "../farmware/farmware_panel";
 import { Page, Col } from "../ui/index";
 import { mapStateToProps } from "./state_to_props";
 import { Props } from "./interfaces";
