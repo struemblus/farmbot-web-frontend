@@ -3,22 +3,16 @@ import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
-import { selectAll } from "../../resources/util";
 import {
   selectAllFarmEvents,
   indexRegimenById,
   indexSequenceById,
   indexFarmEventById,
-  findWhere,
-  findResourceById,
-  findUuid,
-  findFarmEvent,
   findFarmEventById,
   selectAllRegimens,
   selectAllSequences
 } from "../../resources/selectors";
-import { hasKey } from "../../util";
-import { TaggedFarmEvent, isTaggedFarmEvent } from "../../resources/tagged_resources";
+import { TaggedFarmEvent } from "../../resources/tagged_resources";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {

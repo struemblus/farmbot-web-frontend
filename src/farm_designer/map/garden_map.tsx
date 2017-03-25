@@ -6,7 +6,6 @@ import {
   GardenMapProps,
   GardenMapState,
   PlantOptions,
-  Plant as PlantInterface
 } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";

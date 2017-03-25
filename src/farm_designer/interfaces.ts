@@ -44,14 +44,6 @@ const TIME_UNITS: TimeUnit[] = [
   "yearly"
 ];
 
-export function isTimeUnit(input: TimeUnit | any): input is TimeUnit {
-  if ((typeof input === "string") && TIME_UNITS.includes(input as TimeUnit)) {
-    return true;
-  } else {
-    throw new Error("GOT INVLAID TIME UNIT: " + JSON.stringify(input));
-  }
-}
-
 export interface FarmEvent {
   id?: number | undefined;
   start_time: string;
@@ -69,12 +61,6 @@ export interface MovePlantProps {
   deltaY: number;
   plantId: number;
 }
-
-export interface ScheduledEvent {
-  time: Date;
-  desc: string;
-  icon: string;
-};
 
 /** OFCrop bundled with corresponding profile image from OpenFarm API. */
 export interface CropLiveSearchResult {
@@ -97,12 +83,6 @@ export interface Plant {
   openfarm_slug: string; // ? Maybe this will change.
 }
 
-export interface Specimen {
-  id: number;
-  name: string;
-  imgUrl: string;
-}
-
 export interface DesignerState {
   x_size: number;
   y_size: number;
@@ -119,8 +99,6 @@ export interface Point {
   created_at: string;
   meta: { [key: string]: (string | undefined) };
 }
-
-type TaggedResourceById = TaggedResource | undefined;
 
 export interface AddEditFarmEventProps {
   selectOptions: DropDownItem[];
@@ -209,12 +187,6 @@ export interface EditPlantInfoProps {
   plant_info: undefined | PlantData;
 }
 
-export interface PlantInfoProps {
-  plant_id: number;
-  findCurrentPlant(plant_id: number): TaggedPlant;
-  resources: RestResources;
-}
-
 export interface DNDSpeciesMobileState {
   isDragging: boolean;
 }
@@ -222,16 +194,6 @@ export interface DNDSpeciesMobileState {
 export interface DraggableEvent {
   currentTarget: HTMLImageElement;
   dataTransfer: { setDragImage: Function; };
-}
-
-export interface SpeciesCatalogTileProps {
-  result: CropLiveSearchResult;
-  dispatch: Function;
-}
-
-export interface SearchBoxParams {
-  query: string;
-  dispatch: Function;
 }
 
 export interface DraggableSvgImageState {

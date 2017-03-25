@@ -12,7 +12,7 @@ import {
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
-import { save, initSave } from "../../api/crud";
+import { initSave } from "../../api/crud";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
 import { history } from "../../history";
 
