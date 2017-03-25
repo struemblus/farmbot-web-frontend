@@ -7,7 +7,7 @@ export function Else(props: IfParams) {
   let step = props.currentStep;
   let seq = props.currentSequence;
   let { dispatch } = props;
-  let onChange = updateSubSeq(step.args._then, dispatch, seq, step);
+  let onChange = updateSubSeq("_else", dispatch, seq, step);
   return <div>
     <div className="col-xs-12 col-md-12">
       <h4>ELSE...</h4>

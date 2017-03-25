@@ -1,9 +1,14 @@
 import * as React from "react";
-import { DropDownItem } from "../../../ui";
+import { DropDownItem, Help } from "../../../ui";
 import { TaggedSequence } from "../../../resources/tagged_resources";
 import { If, Execute, Nothing } from "farmbot/dist";
 import { ResourceIndex } from "../../../resources/interfaces";
 import { selectAllSequences, findSequenceById } from "../../../resources/selectors";
+import { copy, remove, isRecursive } from "../index";
+import { StepTitleBar } from "../step_title_bar";
+import { If_ } from "./if";
+import { Then } from "./then";
+import { Else } from "./else";
 
 export interface IfParams {
   currentSequence: TaggedSequence;
@@ -81,10 +86,57 @@ export function initialValue(input: Execute | Nothing, index: ResourceIndex) {
   }
 }
 
-export let updateSubSeq = (branch: Execute | Nothing,
+export let updateSubSeq = (branch: "_then" | "_else",
   dispatch: Function,
   sequence: TaggedSequence,
   step: If) =>
   (x: DropDownItem) => {
     console.log("CHANGE!");
   }
+
+export function InnerIf(props: IfParams) {
+  let {
+    index,
+    dispatch,
+    currentStep,
+    currentSequence
+  } = props;
+  let stuff = { dispatch, step: currentStep, sequence: currentSequence, index };
+  let recursive = isRecursive(currentStep, currentSequence);
+  return <div>
+    <div className="step-wrapper">
+      <div className="row">
+        <div className="col-sm-12">
+          <div className="step-header if-step">
+            <StepTitleBar index={index}
+              dispatch={dispatch}
+              step={currentStep} />
+            <i className="fa fa-arrows-v step-control" />
+            <i className="fa fa-clone step-control"
+              onClick={() => copy(stuff)} />
+            <i className="fa fa-trash step-control"
+              onClick={() => remove(stuff)} />
+            <Help text={(`Detailed documentation coming soon`)} />
+            {recursive && (
+              <span>
+                <i className="fa fa-exclamation-triangle"></i>
+                &nbsp;Recursive condition.
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-sm-12">
+          <div className="step-content if-step">
+            <div className="row">
+              <If_ {...props} />
+              <Then {...props} />
+              <Else {...props} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>;
+}

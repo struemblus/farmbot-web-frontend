@@ -8,7 +8,7 @@ export function Then(props: IfParams) {
   let step = props.currentStep;
   let seq = props.currentSequence;
   let { dispatch } = props;
-  let onChange = updateSubSeq(args._then, dispatch, seq, step);
+  let onChange = updateSubSeq("_then", dispatch, seq, step);
   return <div>
     <div className="col-xs-12 col-md-12">
       <h4>THEN...</h4>
