@@ -6,6 +6,7 @@ import { AuthState } from "../auth/interfaces";
 import { BotState } from "../devices/interfaces";
 import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
+import { RegimenState } from "./reducer";
 
 export interface Props {
   dispatch: Function;
@@ -60,16 +61,10 @@ export interface RegimenItem {
   time_offset: number;
 };
 
-/** How Regimen state is stored in the application.
- * Used by Regimen reducer mostly */
-export interface RegimensState {
-  current: string | undefined;
-}
-
 /** Used by regimen reducer to route incoming stream of Redux actions */
 export interface RegimensActionHandler {
-  [actionName: string]: (state: RegimensState,
-    action: ReduxAction<any>) => RegimensState;
+  [actionName: string]: (state: RegimenState,
+    action: ReduxAction<any>) => RegimenState;
 }
 
 export interface AddRegimenProps {

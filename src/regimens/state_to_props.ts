@@ -4,7 +4,7 @@ import { selectAllSequences, selectAllRegimens, getRegimenByUUID } from "../reso
 import { isTaggedRegimen, TaggedRegimen } from "../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): Props {
-  let uuid = props.resources.consumers.regimens.current;
+  let uuid = props.resources.consumers.regimens.selectedSequenceUUID;
   let query = uuid ?
     getRegimenByUUID(props.resources.index, "regimens", uuid) : undefined;
   let current: TaggedRegimen | undefined;
@@ -15,7 +15,7 @@ export function mapStateToProps(props: Everything): Props {
   } else {
     if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
   }
-  console.warn("Dont pass entire bot state to child component here: ")
+  console.warn("Dont pass entire bot state to child component here: ");
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),

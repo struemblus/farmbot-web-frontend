@@ -1,7 +1,12 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, sanityCheck, isTaggedResource, TaggedPeripheral } from "./tagged_resources";
+import {
+  TaggedResource,
+  ResourceName,
+  sanityCheck,
+  isTaggedResource
+} from "./tagged_resources";
 import { isUndefined } from "util";
 import { descriptiveUUID } from "./util";
 import { EditResourceParams } from "../api/crud";

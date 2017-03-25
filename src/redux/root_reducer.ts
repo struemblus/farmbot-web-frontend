@@ -1,13 +1,8 @@
 import { authReducer as auth } from "../auth/reducer";
-import { sequenceReducer as sequences } from "../sequences/reducer";
 import { botReducer as bot } from "../devices/reducer";
 import { configReducer as config } from "../config/reducer";
-import { regimensReducer as regimens } from "../regimens/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
 import { syncReducer as sync } from "../sync/reducer";
-import {
-  BulkSchedulerReducer as bulkScheduler
-} from "../regimens/bulk_scheduler/reducer";
 import { combineReducers } from "redux";
 import { ReduxAction } from "./interfaces";
 import { Session } from "../session";
