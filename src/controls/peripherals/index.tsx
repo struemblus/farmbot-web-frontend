@@ -7,7 +7,6 @@ import { PeripheralState, Peripheral } from "./interfaces";
 import { t } from "i18next";
 import { TaggedPeripheral } from "../../resources/tagged_resources";
 import { initSave, saveAll } from "../../api/crud";
-import { uniquePeripheralsCreate } from "./actions";
 import { selectAllPeripherals } from "../../resources/selectors";
 
 export class Peripherals extends React.Component<PeripheralsProps, PeripheralState> {
