@@ -9,6 +9,9 @@ import { StepTitleBar } from "../step_title_bar";
 import { If_ } from "./if";
 import { Then } from "./then";
 import { Else } from "./else";
+import { defensiveClone } from "../../../util";
+import { overwrite } from "../../../api/crud";
+import { NULL_CHOICE } from "../../../ui/fb_select";
 
 export interface IfParams {
   currentSequence: TaggedSequence;
@@ -89,9 +92,29 @@ export function initialValue(input: Execute | Nothing, index: ResourceIndex) {
 export let updateSubSeq = (branch: "_then" | "_else",
   dispatch: Function,
   sequence: TaggedSequence,
+  index: number,
   step: If) =>
   (x: DropDownItem) => {
-    console.log("CHANGE!");
+    let seqCpy = defensiveClone(sequence).body;
+    let stepCpy = defensiveClone(step);
+    seqCpy.body = seqCpy.body || [];
+    seqCpy.body[index] = stepCpy;
+    if (Object.is(NULL_CHOICE, x)) {
+      stepCpy.args[branch] = {
+        kind: "nothing",
+        args: {}
+      }
+    } else {
+      if (_.isNumber(sequence.body.id)) {
+        stepCpy.args[branch] = {
+          kind: "execute",
+          args: { sequence_id: sequence.body.id }
+        }
+      } else {
+        throw new Error("Bad seq id...");
+      }
+    }
+    dispatch(overwrite(sequence, seqCpy));
   }
 
 export function InnerIf(props: IfParams) {
