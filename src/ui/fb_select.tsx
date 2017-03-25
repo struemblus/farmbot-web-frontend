@@ -161,6 +161,10 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
     }
   }
 
+  componentWillReceiveProps() {
+    setTimeout(() => this.forceUpdate(), 3)
+  }
+
   render() {
     let { className, optionComponent, placeholder } = this.props;
     let { isOpen } = this.state;
