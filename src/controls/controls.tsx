@@ -39,6 +39,11 @@ export class Controls extends Component<Props, ControlsState> {
   }
 
   render() {
+    console.warn(`
+    PROBLEMS IN THIS FILE:
+     * Imperative DOM manipulation
+     * Dispatching without an action creator.
+    `);
     let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
     let url = custom || fallback || "";
@@ -49,10 +54,10 @@ export class Controls extends Component<Props, ControlsState> {
         <Col xs={12} sm={6} md={4} mdOffset={1}>
           <Widget>
             <WidgetHeader title="Move"
-              helpText={`Use these manual control buttons to move FarmBot in 
-                    realtime. Press the arrows for relative movements or type in 
-                    new coordinates and press GO for an absolute movement. Tip: 
-                    Press the Home button when you are done so FarmBot is ready 
+              helpText={`Use these manual control buttons to move FarmBot in
+                    realtime. Press the arrows for relative movements or type in
+                    new coordinates and press GO for an absolute movement. Tip:
+                    Press the Home button when you are done so FarmBot is ready
                     to get back to work.`}>
               <EStopButton
                 bot={this.props.bot}
@@ -81,7 +86,7 @@ export class Controls extends Component<Props, ControlsState> {
         <Col xs={12} sm={6}>
           <Widget>
             <WidgetHeader title="Camera"
-              helpText={`Press the edit button to update and save 
+              helpText={`Press the edit button to update and save
                 your webcam URL.`}>
               {isEditingCameraURL ?
                 <WebcamSaveBtn dispatch={this.props.dispatch}

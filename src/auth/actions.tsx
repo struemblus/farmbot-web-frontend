@@ -13,7 +13,7 @@ import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
-import { prettyPrintApiErrors, toastErrors } from "../util";
+import { toastErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
 import { responseFulfilled, responseRejected, requestFulfilled } from "../interceptors";
@@ -35,23 +35,8 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(connectDevice(authState.token.encoded));
 };
 
-export function downloadDeviceData(): Thunk {
-  return function (dispatch, getState) {
-    Axios
-      .get<DeviceAccountSettings>(API.current.devicePath)
-      .then(res => dispatch({
-        type: "REPLACE_DEVICE_ACCOUNT_INFO",
-        payload: res.data
-      }))
-      .catch(payload => dispatch({
-        type: "DEVICE_ACCOUNT_ERR",
-        payload
-      }));
-  };
-};
-
 // We need to handle OK logins for numerous use cases (Ex: login & registration)
-export function onLogin(dispatch: Function) {
+function onLogin(dispatch: Function) {
   return (response: Axios.AxiosXHR<AuthState>) => {
     let { data } = response;
     Session.put(data);

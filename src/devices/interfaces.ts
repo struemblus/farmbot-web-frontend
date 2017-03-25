@@ -64,8 +64,6 @@ export interface DeviceAccountSettingsUpdate {
 };
 
 export interface BotState {
-  /** Maximum number of messages to cache. Excess is truncated. */
-  status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
   /** The current os version on the github release api */
@@ -108,9 +106,8 @@ export interface GithubRelease {
   tag_name: string;
 }
 
-type configKey = keyof McuParams;
 export interface ChangeSettingsBuffer {
-  key: configKey;
+  key: keyof McuParams;
   val: number;
 }
 

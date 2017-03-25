@@ -5,35 +5,10 @@ import { generateReducer } from "../redux/generate_reducer";
 import { ReduxAction } from "../redux/interfaces";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./interfaces";
-import { Sequence } from "../sequences/interfaces";
-import { Regimen } from "../regimens/interfaces";
 import { Configuration } from "farmbot";
-
-// TODO: Do we even need this anymore after the ticker overhaul?
-let status = {
-  NOT_READY: (): string => { return i18next.t("never connected to device"); },
-  CONNECTING: (): string => { return i18next.t("initiating connection"); },
-  AWAITING_API: (): string => {
-    return i18next.t("downloading device credentials");
-  },
-  API_ERROR: (): string => {
-    return i18next.t("Unable to download device credentials");
-  },
-  AWAITING_WEBSOCKET: (): string => {
-    return i18next.t("calling FarmBot with credentials");
-  },
-  WEBSOCKET_ERR: (): string => {
-    return i18next.t("Error establishing socket connection");
-  },
-  CONNECTED: (): string => {
-    return i18next.t("Socket Connection Established");
-  },
-  READY: (): string => { return i18next.t("Bot ready"); }
-};
 
 let initialState: BotState = {
   account: { id: 0, name: "" },
-  status: status.NOT_READY(),
   stepSize: 100,
   hardware: {
     mcu_params: {},
@@ -63,8 +38,6 @@ export let botReducer = generateReducer<BotState>(initialState)
     return Object.assign({},
       s, {
         hardware: hardware
-      }, {
-        status: status.READY()
       });
   })
   .add<{}>("COMMIT_SETTINGS_OK", function (s, a) {
@@ -112,16 +85,10 @@ export let botReducer = generateReducer<BotState>(initialState)
   .add<any>("FETCH_DEVICE_OK", function (s, { payload }) {
     return Object.assign({},
       s,
-      payload, {
-        status: status.AWAITING_WEBSOCKET
-      });
+      payload);
   })
   .add<any>("FETCH_DEVICE_ERR", function (s, a) {
-    // TODO: Toast messages do not belong in a reducer.
-    return Object.assign({},
-      s, {
-        status: status.API_ERROR
-      });
+    return Object.assign({}, s);
   })
   .add<any>("SAVE_DEVICE_ERR", function (s, a) {
     switch (a.payload.status) {

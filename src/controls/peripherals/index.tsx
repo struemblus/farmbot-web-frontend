@@ -3,7 +3,7 @@ import { PeripheralList } from "./peripheral_list";
 import { PeripheralForm } from "./peripheral_form";
 import { Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { PeripheralsProps } from "../../devices/interfaces";
-import { PeripheralState, Peripheral } from "./interfaces";
+import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
 import { TaggedPeripheral } from "../../resources/tagged_resources";
 import { initSave, saveAll } from "../../api/crud";

@@ -20,11 +20,11 @@ import { HardwareState } from "../devices/interfaces";
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
 
-export function incomingStatus(statusMessage: HardwareState) {
+function incomingStatus(statusMessage: HardwareState) {
   return { type: "BOT_CHANGE", payload: statusMessage };
 }
 
-export function incomingLog(botLog: RpcBotLog) {
+function incomingLog(botLog: RpcBotLog) {
   return { type: "BOT_LOG", payload: botLog };
 };
 
@@ -183,9 +183,8 @@ export function fetchFWUpdateInfo(url: string) {
   };
 }
 
-export function update(device: any) {
-
-}
+export let update = _.noop;
+export let addDevice = _.noop
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
   // Flips the "dirty" flag to true.
@@ -195,11 +194,6 @@ export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
   };
 }
 
-export function addDevice(deviceAttrs: DeviceAccountSettings): Thunk {
-  return (dispatch, getState) => {
-    update(deviceAttrs);
-  };
-}
 
 export function settingToggle(name: configKey, bot: BotState) {
   // TODO : This should be an atomic operation handled at the bot level
@@ -245,7 +239,7 @@ export function homeAll(speed: number) {
     .then(commandOK(noun), commandErr(noun));
 }
 
-export function readStatus() {
+function readStatus() {
   let noun = "'Read Status' command";
   return devices
     .current
@@ -345,11 +339,5 @@ function commitSettingsChangesOk() {
   return {
     type: "COMMIT_SETTINGS_OK",
     payload: {}
-  };
-}
-
-export function clearLogs(): Thunk {
-  return function (dispatch, getState) {
-    dispatch({ type: "CLEAR_BOT_LOG", payload: {} });
   };
 }

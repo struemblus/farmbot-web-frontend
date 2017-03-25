@@ -36,4 +36,3 @@ export class Devices extends React.Component<Props, {}> {
     }
   }
 };
-
