@@ -1,6 +1,6 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
-import { selectAllSequences, selectAllRegimens, getRegimenByUUID, findId, getSequenceByUUID } from "../resources/selectors";
+import { selectAllSequences, selectAllRegimens, getRegimenByUUID, findId, getSequenceByUUID, maybeGetSequence } from "../resources/selectors";
 import { isTaggedRegimen, TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 
@@ -17,8 +17,8 @@ export function mapStateToProps(props: Everything): Props {
     if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
   }
   let regimenState = props.resources.consumers.regimens;
-  let selectedSequence = maybeGetSequence(props.resources.index
-    , regimenState.selectedSequenceUUID);
+  let selectedSequence = maybeGetSequence(props.resources.index,
+    regimenState.selectedSequenceUUID);
   return {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
@@ -31,13 +31,4 @@ export function mapStateToProps(props: Everything): Props {
     weeks: regimenState.weeks,
     bot: props.bot
   };
-}
-
-function maybeGetSequence(index: ResourceIndex,
-  uuid: string | undefined): TaggedSequence | undefined {
-  if (uuid) {
-    return getSequenceByUUID(index, uuid);
-  } else {
-    return undefined;
-  }
 }

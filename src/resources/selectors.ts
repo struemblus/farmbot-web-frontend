@@ -329,3 +329,12 @@ export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
     return undefined;
   }
 }
+
+export function maybeGetSequence(index: ResourceIndex,
+  uuid: string | undefined): TaggedSequence | undefined {
+  if (uuid) {
+    return getSequenceByUUID(index, uuid);
+  } else {
+    return undefined;
+  }
+}

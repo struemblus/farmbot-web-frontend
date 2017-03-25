@@ -1,7 +1,7 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { destroy, save } from "../api/crud";
-import { TaggedRegimen } from "../resources/tagged_resources";
+import { destroy, save, init } from "../api/crud";
+import { TaggedRegimen, isTaggedRegimen } from "../resources/tagged_resources";
 export function copyRegimen(payload: TaggedRegimen) {
   return {
     type: "COPY_REGIMEN",
@@ -34,8 +34,17 @@ export function newRegimen(): ReduxAction<{}> {
   };
 }
 
-export function selectRegimen(payload: TaggedRegimen): ReduxAction<TaggedRegimen> {
-  return { type: "SELECT_REGIMEN", payload };
+export function selectRegimen(payload: TaggedRegimen) {
+  if (isTaggedRegimen(payload)) {
+    console.log("How/why is this mutation state?")
+    return({
+      type: "FIXME",
+      payload: {}
+    })
+    // return init(payload);
+  } else {
+    throw new Error("Not a regimen.")
+  }
 }
 
 export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
