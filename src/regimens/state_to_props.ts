@@ -43,25 +43,27 @@ export function mapStateToProps(props: Everything): Props {
 function generateCalendar(regimen: TaggedRegimen,
   index: ResourceIndex,
   dispatch: Function): CalendarRow[] {
-  let rows = regimen.body.regimen_items.map(createRows(index, dispatch));
+  let mapper = createRows(index, dispatch, regimen);
+  let rows = regimen.body.regimen_items.map(mapper);
   let dict = _.groupBy(rows, "day");
+  let makeRows = (day: string): CalendarRow => ({ day: day, items: dict[day] });
   let days = Object.keys(dict).sort();
-  let mapper = (day: string): CalendarRow => ({ day: day, items: dict[day] });
-  return days.map(mapper);
+  return days.map(makeRows);
 }
 
 /** Formatting of calendar row dates. */
 const FMT = "h:mm a";
 
-let createRows = (index: ResourceIndex, dispatch: Function) =>
+let createRows = (index: ResourceIndex, dispatch: Function, regimen: TaggedRegimen) =>
   (item: RegimenItem): RegimenItemCalendarRow => {
     let uuid = findId(index, "sequences", item.sequence_id);
     let sequence = findSequence(index, uuid);
     let { time_offset } = item;
     let d = duration(time_offset);
-    let { name, color } = sequence.body;
+    let { name } = sequence.body;
+    let color = sequence.body.color || randomColor()
     let hhmm = moment({ hour: d.hours(), minute: d.minutes() }).format(FMT);
     let day = Math.round(duration(time_offset).asDays());
-    return { name, hhmm, color: color || randomColor(), day, dispatch };
+    return { name, hhmm, color, day, dispatch, regimen };
   }
 

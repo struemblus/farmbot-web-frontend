@@ -48,7 +48,7 @@ function RegimenItemStep({ item, dispatch }: RegimenItemStepProps) {
   let klass = `gray-block block-header regimen-event`;
 
   return <div className={klass}>
-    <span className="regimen-event-title">{item.sequence.name}</span>
+    <span className="regimen-event-title">"ADD THIS"</span>
     <span className="regimen-event-time">{time}</span>
     <i className="fa fa-trash regimen-control"
       onClick={() => dispatch(removeRegimenItem(item))} />

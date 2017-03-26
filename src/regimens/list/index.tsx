@@ -12,7 +12,7 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
         .calendar
         .map(function (props, inx) {
           return <div>
-            <h1>(FIX) Day {props.day} </h4>
+            <h1>(FIX) Day {props.day} </h1>
             {props.items.map(function (x, y) {
               return <RegimenListItem {...x} key={y} />
             })}

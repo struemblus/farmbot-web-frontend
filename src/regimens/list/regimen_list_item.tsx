@@ -6,7 +6,7 @@ import { TaggedRegimen, isTaggedRegimen } from "../../resources/tagged_resources
 import { RegimenItemCalendarRow, CalendarRow } from "../interfaces";
 
 export function RegimenListItem(props: RegimenItemCalendarRow) {
-  let { color, dispatch, name, dirty } = props;
+  /*let { color, dispatch, name, dirty } = props;
   let style = `block block-wrapper full-width
     text-left ${color}-block block-header`;
 
@@ -29,7 +29,8 @@ export function RegimenListItem(props: RegimenItemCalendarRow) {
       className={style}>
       {name}
     </Link>;
-  }
+  }*/
+  return <p> Where is this?</p>;
 }
 
 function select(dispatch: Function, regimen: TaggedRegimen | undefined) {

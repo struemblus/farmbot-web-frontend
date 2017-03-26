@@ -26,6 +26,7 @@ export interface Props {
 }
 
 export interface RegimenItemCalendarRow {
+  regimen: TaggedRegimen; // Want to remove this.
   name: string;
   hhmm: string;
   color: string;
