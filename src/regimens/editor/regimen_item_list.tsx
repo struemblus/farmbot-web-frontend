@@ -5,7 +5,11 @@ import { duration } from "moment";
 import { removeRegimenItem } from "../actions";
 import { t } from "i18next";
 import * as _ from "lodash";
-import { RegimenItemListProps, RegimenItemStepProps, RegimenItemDayGroupProps } from "./interfaces";
+import {
+  RegimenItemListProps,
+  RegimenItemStepProps,
+  RegimenItemDayGroupProps
+} from "./interfaces";
 
 export function RegimenItemList({ items, dispatch }: RegimenItemListProps) {
   let groups = _.groupBy<RegimenItem>(items, function (item: RegimenItem) {
@@ -41,8 +45,7 @@ function RegimenItemStep({ item, dispatch }: RegimenItemStepProps) {
     minute: d.minutes()
   }).format("h:mm a");
 
-  let klass = `${item.sequence.color || "gray"}-block block-header
-    regimen-event`;
+  let klass = `gray-block block-header regimen-event`;
 
   return <div className={klass}>
     <span className="regimen-event-title">{item.sequence.name}</span>

@@ -37,9 +37,7 @@ export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
   id: number) {
-  let uuid = findId(index, kind, id);
-  assertUuid(kind, uuid);
-  return uuid;
+  return findId(index, kind, id);
 }
 
 export let isKind = (name: ResourceName) => (tr: TaggedResource) => tr.kind === name;

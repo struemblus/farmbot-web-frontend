@@ -158,8 +158,7 @@ export function urlFor(tag: ResourceName) {
     users: API.current.usersPath,
     device: API.current.devicePath,
     images: API.current.imagesPath,
-    logs: API.current.logsPath,
-    regimen_items: API.current.regimensPath
+    logs: API.current.logsPath
   }
   let url = OPTIONS[tag];
   if (url) {

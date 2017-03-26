@@ -34,7 +34,7 @@ export class Regimens extends React.Component<Props, {}> {
         <Col xs={12} md={4}>
           <RegimensList
             dispatch={this.props.dispatch}
-            regimens={this.props.regimens} />
+            calendar={this.props.calendar} />
         </Col>
       </Row>
     </Page>;

@@ -49,7 +49,6 @@ function emptyState(): RestResources {
         peripherals: [],
         plants: [],
         points: [],
-        regimen_items: [],
         regimens: [],
         sequences: [],
         tool_bays: [],
@@ -166,7 +165,6 @@ export let resourceReducer = generateReducer
     addAllToIndex(index, "peripherals", p["peripherals"]);
     addAllToIndex(index, "plants", p["plants"]);
     addAllToIndex(index, "points", p["points"]);
-    addAllToIndex(index, "regimen_items", p["regimen_items"]);
     addAllToIndex(index, "regimens", p["regimens"]);
     addAllToIndex(index, "sequences", p["sequences"]);
     addAllToIndex(index, "tool_bays", p["tool_bays"]);

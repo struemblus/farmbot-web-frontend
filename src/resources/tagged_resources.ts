@@ -16,7 +16,6 @@ export type ResourceName =
   | "peripherals"
   | "plants"
   | "points"
-  | "regimen_items"
   | "regimens"
   | "sequences"
   | "tool_bays"
@@ -51,7 +50,6 @@ export type TaggedResource = TaggedFarmEvent
   | TaggedPlant
   | TaggedPoint
   | TaggedRegimen
-  | TaggedRegimenItem
   | TaggedSequence
   | TaggedTool
   | TaggedToolBay
@@ -68,7 +66,6 @@ export type TaggedImage = Resource<"images", Image>;
 export type TaggedLog = Resource<"logs", Log>;
 export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
 export type TaggedPoint = Resource<"points", Point>;
-export type TaggedRegimenItem = Resource<"regimen_items", RegimenItem>;
 export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
 export type TaggedUser = Resource<"users", User>;
 

@@ -1,5 +1,4 @@
 import { ReduxAction } from "../redux/interfaces";
-import { Sequence } from "../sequences/interfaces";
 import { Color } from "../interfaces";
 import { Week } from "./bulk_scheduler/interfaces";
 import { AuthState } from "../auth/interfaces";
@@ -7,7 +6,11 @@ import { BotState } from "../devices/interfaces";
 import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 import { RegimenState } from "./reducer";
-
+import { Dictionary } from "farmbot/dist";
+export interface CalendarRow {
+  day: string;
+  items: RegimenItemCalendarRow[];
+};
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
@@ -19,22 +22,16 @@ export interface Props {
   selectedSequence: TaggedSequence | undefined;
   dailyOffsetMs: number;
   weeks: Week[];
+  calendar: CalendarRow[];
 }
 
-/** RegimenItem, as presented by the REST API */
-export interface ApiRegimenItem {
-  id?: number;
-  regimen_id?: number;
-  time_offset: number;
-  sequence_id: number;
-};
-
-/** Regimen, as presented by the REST API */
-export interface ApiRegimen {
+export interface RegimenItemCalendarRow {
   name: string;
-  color: Color;
-  regimen_items: ApiRegimenItem[];
-};
+  hhmm: string;
+  color: string;
+  day: number;
+  dispatch: Function;
+}
 
 /** Used by UI widgets that modify a regimen */
 export interface RegimenProps {
@@ -55,8 +52,8 @@ export interface Regimen {
 /** Individual step that a regimen will execute at a point in time. */
 export interface RegimenItem {
   id?: number;
+  sequence_id: number;
   regimen_id?: number;
-  sequence: Sequence;
   /** Time (in milliseconds) to wait before executing the sequence */
   time_offset: number;
 };
@@ -73,13 +70,7 @@ export interface AddRegimenProps {
   children?: JSX.Element;
 }
 
-export interface RegimenListItemProps {
-  regimen?: TaggedRegimen;
-  dispatch: Function;
-  index: number;
-}
-
 export interface RegimensListProps {
   dispatch: Function;
-  regimens: TaggedRegimen[];
+  calendar: CalendarRow[];
 }
