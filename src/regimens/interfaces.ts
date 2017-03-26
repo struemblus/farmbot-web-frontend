@@ -50,6 +50,12 @@ export interface Regimen {
   dirty?: boolean;
 };
 
+export interface RegimenListItemProps {
+  regimen: TaggedRegimen;
+  dispatch: Function;
+  index: number;
+}
+
 /** Individual step that a regimen will execute at a point in time. */
 export interface RegimenItem {
   id?: number;

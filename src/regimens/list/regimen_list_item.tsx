@@ -1,26 +1,30 @@
 import * as React from "react";
-import { isMobile } from "../../util";
+import { RegimenListItemProps, Regimen } from "../interfaces";
+import { randomColor, isMobile } from "../../util";
 import { selectRegimen } from "../actions";
 import { Link } from "react-router";
 import { TaggedRegimen, isTaggedRegimen } from "../../resources/tagged_resources";
-import { RegimenItemCalendarRow, CalendarRow } from "../interfaces";
 
-export function RegimenListItem(props: RegimenItemCalendarRow) {
-  let { color, dispatch, name, regimen } = props;
-  let style = `block block-wrapper full-width
-    text-left ${color}-block block-header`;
+export function RegimenListItem({ regimen,
+  dispatch,
+  index }: RegimenListItemProps) {
+  let color = (regimen.body.color) || randomColor();
+  let style = `block block-wrapper full-width text-left ${color}-block
+        block-header`;
 
-  if (!isMobile()) {
+  if (!isMobile() && regimen) {
     return <button className={style}
-      onClick={select(dispatch, regimen)}> {name || "??"}{(regimen.dirty) ? "*" : ""}
+      onClick={select(dispatch, regimen)}>
+      {(regimen.body.name) || "??"}{
+        (regimen.body.dirty) ? "*" : ""}
       <i className="fa fa-pencil block-control" />
     </button>;
   } else {
-    let link = (regimen && regimen.body.name) ?
+    let link = (regimen.body.name) ?
       regimen.body.name.replace(/ /g, "_").toLowerCase() : "SomethingWentWrong";
-    let name = (regimen && regimen.body.name) ?
+    let name = (regimen.body.name) ?
       regimen.body.name + (regimen.body.dirty ? "*" : "") : "SomethingWentWrong";
-    let key = regimen.uuid;
+    let key = (regimen.body.id) ? regimen.body.id : index;
 
     return <Link
       to={`/app/regimens/${link}`}
@@ -32,7 +36,7 @@ export function RegimenListItem(props: RegimenItemCalendarRow) {
   }
 }
 
-function select(dispatch: Function, regimen: TaggedRegimen | undefined) {
+function select(dispatch: Function, regimen: TaggedRegimen) {
   return function (event: React.MouseEvent<{}>) {
     if (regimen && isTaggedRegimen(regimen)) {
       dispatch(selectRegimen(regimen));

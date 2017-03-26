@@ -6,18 +6,19 @@ import { RegimensListProps } from "../interfaces";
 
 export class RegimensList extends React.Component<RegimensListProps, {}> {
   rows = () => {
-    <Col xs={12}>
+    return <Col xs={12}>
       {this
         .props
         .regimens
-        .map(function (props, inx) {
-          return <div>
-            {props.body.name}
-            {/*<RegimenListItem {...x} key={y} />*/}
-          </div>
+        .map((regimen, index) => {
+          return <RegimenListItem index={index}
+            key={index}
+            regimen={regimen}
+            dispatch={this.props.dispatch} />;
         })}
     </Col>
   }
+
   render() {
     return <Widget className="regimen-list-widget">
       <WidgetHeader title="Regimens"

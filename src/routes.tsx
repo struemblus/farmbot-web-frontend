@@ -18,6 +18,8 @@ declare const System: any;
 let errorLoading = (cb: any) => function handleError(err: any) {
   console.error("Dynamic page loading failed", err);
   var container = document.getElementById("root");
+  let stack = _.get(err, "stack", "No stack.")
+  console.dir(stack)
   if (container) {
     container.innerHTML = (`
     <div>
@@ -29,12 +31,15 @@ let errorLoading = (cb: any) => function handleError(err: any) {
       <ul>
         <li> Refresh the page and log in again.</li>
         <li> Send the error information (below) to our developer team via the
-        <a href="http://forum.farmbot.org/c/software">FarmBot software forum</a>. Including additional information (such as steps leading up to the error) help us identify solutions more quickly. </li>
+        <a href="http://forum.farmbot.org/c/software">FarmBot software
+        forum</a>. Including additional information (such as steps leading up
+        to the error) help us identify solutions more quickly. </li>
       <hr/>
       <pre>
+      <br/>
       ${JSON.stringify({
         message: _.get(err, "message", "No message available."),
-        stack: _.get(err, "stack", ["No stack."])
+        stack: stack.split("\n").join("<br/>")
       }, null, "  ")}
     </pre>
     </div>
