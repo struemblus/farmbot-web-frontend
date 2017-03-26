@@ -73,5 +73,5 @@ export interface AddRegimenProps {
 
 export interface RegimensListProps {
   dispatch: Function;
-  calendar: CalendarRow[];
+  regimens: TaggedRegimen[];
 }

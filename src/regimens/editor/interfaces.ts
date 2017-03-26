@@ -1,4 +1,4 @@
-import { Regimen, RegimenItem, RegimenProps } from "../interfaces";
+import { Regimen, RegimenItem, RegimenProps, CalendarRow } from "../interfaces";
 import { AuthState } from "../../auth/interfaces";
 import { BotState } from "../../devices/interfaces";
 import { TaggedRegimen } from "../../resources/tagged_resources";
@@ -28,6 +28,7 @@ export interface RegimenEditorWidgetProps {
   current: TaggedRegimen | undefined;
   dispatch: Function;
   auth: AuthState | undefined;
+  calendar: CalendarRow[];
   bot: BotState;
 }
 

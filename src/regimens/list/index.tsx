@@ -9,13 +9,11 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
     <Col xs={12}>
       {this
         .props
-        .calendar
+        .regimens
         .map(function (props, inx) {
           return <div>
-            <h1> This is 'sposedtabe a list of links to regimens. </h1>
-            {props.items.map(function (x, y) {
-              return <RegimenListItem {...x} key={y} />
-            })}
+            {props.body.name}
+            {/*<RegimenListItem {...x} key={y} />*/}
           </div>
         })}
     </Col>

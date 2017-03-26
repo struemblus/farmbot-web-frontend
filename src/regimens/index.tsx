@@ -28,13 +28,14 @@ export class Regimens extends React.Component<Props, {}> {
             dispatch={this.props.dispatch}
             auth={this.props.auth}
             bot={this.props.bot}
+            calendar={this.props.calendar}
             current={this.props.current} />
         </Col>
         {isMobile() && <MobileRegimensNav />}
         <Col xs={12} md={4}>
           <RegimensList
             dispatch={this.props.dispatch}
-            calendar={this.props.calendar} />
+            regimens={this.props.regimens} />
         </Col>
       </Row>
     </Page>;

@@ -7,11 +7,14 @@ import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { isTaggedRegimen, TaggedRegimen } from "../../resources/tagged_resources";
+import { CalendarRow } from "../interfaces";
 
 interface MiddleSectionProps {
   regimen: TaggedRegimen | undefined;
+  calendar: CalendarRow[];
   dispatch: Function;
 }
+
 function MiddleSection({
   regimen,
   dispatch
@@ -23,7 +26,7 @@ function MiddleSection({
     return <EmptyEditor />;
   }
 }
-export function RegimenEditorWidget({ current, dispatch, auth }:
+export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
   RegimenEditorWidgetProps) {
   if (auth) {
     let regimen = current;
@@ -49,7 +52,10 @@ export function RegimenEditorWidget({ current, dispatch, auth }:
         <DeleteButton {...saveButtonProps} />
       </WidgetHeader>
       <WidgetBody>
-        <MiddleSection regimen={regimen} dispatch={dispatch} />
+        <MiddleSection
+          regimen={regimen}
+          dispatch={dispatch}
+          calendar={calendar} />
       </WidgetBody>
     </Widget>;
   } else {
