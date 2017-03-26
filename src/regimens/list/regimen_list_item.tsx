@@ -6,13 +6,13 @@ import { TaggedRegimen, isTaggedRegimen } from "../../resources/tagged_resources
 import { RegimenItemCalendarRow, CalendarRow } from "../interfaces";
 
 export function RegimenListItem(props: RegimenItemCalendarRow) {
-  /*let { color, dispatch, name, dirty } = props;
+  let { color, dispatch, name, regimen } = props;
   let style = `block block-wrapper full-width
     text-left ${color}-block block-header`;
 
   if (!isMobile()) {
     return <button className={style}
-      onClick={select(dispatch, regimen)}> {name || "??"}{(dirty) ? "*" : ""}
+      onClick={select(dispatch, regimen)}> {name || "??"}{(regimen.dirty) ? "*" : ""}
       <i className="fa fa-pencil block-control" />
     </button>;
   } else {
@@ -20,7 +20,7 @@ export function RegimenListItem(props: RegimenItemCalendarRow) {
       regimen.body.name.replace(/ /g, "_").toLowerCase() : "SomethingWentWrong";
     let name = (regimen && regimen.body.name) ?
       regimen.body.name + (regimen.body.dirty ? "*" : "") : "SomethingWentWrong";
-    let key = (regimen && regimen.body.id) ? regimen.body.id : index;
+    let key = regimen.uuid;
 
     return <Link
       to={`/app/regimens/${link}`}
@@ -29,8 +29,7 @@ export function RegimenListItem(props: RegimenItemCalendarRow) {
       className={style}>
       {name}
     </Link>;
-  }*/
-  return <p> Where is this?</p>;
+  }
 }
 
 function select(dispatch: Function, regimen: TaggedRegimen | undefined) {

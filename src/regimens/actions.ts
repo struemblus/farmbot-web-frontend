@@ -27,13 +27,6 @@ export function deleteRegimen(uuid: string) {
   return destroy(uuid);
 }
 
-export function newRegimen(): ReduxAction<{}> {
-  return {
-    type: "NEW_REGIMEN",
-    payload: {}
-  };
-}
-
 export function selectRegimen(payload: TaggedRegimen) {
   if (isTaggedRegimen(payload)) {
     return { type: "SELECT_REGIMEN", payload };

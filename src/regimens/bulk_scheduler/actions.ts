@@ -1,9 +1,4 @@
-import { warning, error } from "../../ui";
-import { Everything } from "../../interfaces";
 import { ReduxAction, Thunk } from "../../redux/interfaces";
-import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
-import { t } from "i18next";
-import { newRegimen } from "../actions";
 import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
 import { assertUuid } from "../../resources/selectors";
 
