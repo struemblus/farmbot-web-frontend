@@ -1,34 +1,27 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
-import { selectAllSequences, selectAllRegimens, getRegimenByUUID, findId, getSequenceByUUID, maybeGetSequence } from "../resources/selectors";
-import { isTaggedRegimen, TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
-import { ResourceIndex } from "../resources/interfaces";
+import {
+  selectAllSequences,
+  selectAllRegimens,
+  maybeGetSequence,
+  maybeGetRegimen
+} from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
-  let uuid = props.resources.consumers.regimens.selectedSequenceUUID;
-  let query = uuid ?
-    getRegimenByUUID(props.resources.index, "regimens", uuid) : undefined;
-  let current: TaggedRegimen | undefined;
-  let unsavedChanges = false;
-  if (query && isTaggedRegimen(query)) {
-    current = query;
-    unsavedChanges = !!(!current.body.id || current.body.dirty);
-  } else {
-    if (!_.isUndefined(query)) { console.warn("THAT WAS NOT A REGIMEN!!!"); }
-  }
-  let regimenState = props.resources.consumers.regimens;
-  let selectedSequence = maybeGetSequence(props.resources.index,
-    regimenState.selectedSequenceUUID);
+  let { resources } = props;
+  let { regimens } = resources.consumers;
+
   return {
     dispatch: props.dispatch,
-    sequences: selectAllSequences(props.resources.index),
-    resources: props.resources.index,
+    sequences: selectAllSequences(resources.index),
+    resources: resources.index,
     auth: props.auth,
-    current,
-    regimens: selectAllRegimens(props.resources.index),
-    selectedSequence,
-    dailyOffsetMs: regimenState.dailyOffsetMs,
-    weeks: regimenState.weeks,
+    current: maybeGetRegimen(resources.index, regimens.currentRegimen),
+    regimens: selectAllRegimens(resources.index),
+    selectedSequence: maybeGetSequence(resources.index,
+      regimens.selectedSequenceUUID),
+    dailyOffsetMs: regimens.dailyOffsetMs,
+    weeks: regimens.weeks,
     bot: props.bot
   };
 }

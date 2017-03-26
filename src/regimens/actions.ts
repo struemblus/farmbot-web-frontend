@@ -36,12 +36,7 @@ export function newRegimen(): ReduxAction<{}> {
 
 export function selectRegimen(payload: TaggedRegimen) {
   if (isTaggedRegimen(payload)) {
-    console.log("How/why is this mutation state?")
-    return({
-      type: "FIXME",
-      payload: {}
-    })
-    // return init(payload);
+    return { type: "SELECT_REGIMEN", payload };
   } else {
     throw new Error("Not a regimen.")
   }

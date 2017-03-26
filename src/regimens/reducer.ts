@@ -1,12 +1,13 @@
 import { Week } from "./bulk_scheduler/interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { TaggedResource } from "../resources/tagged_resources";
+import { TaggedResource, TaggedRegimen } from "../resources/tagged_resources";
 import { Dictionary } from "farmbot/dist";
 
 export interface RegimenState {
   dailyOffsetMs: number;
   weeks: Week[];
   selectedSequenceUUID: string | undefined;
+  currentRegimen: string | undefined;
 }
 
 function newWeek() {
@@ -27,7 +28,8 @@ function newState(): RegimenState {
   return {
     dailyOffsetMs: 300000,
     weeks: _.times(10, newWeek),
-    selectedSequenceUUID: undefined
+    selectedSequenceUUID: undefined,
+    currentRegimen: undefined
   };
 }
 
@@ -55,9 +57,10 @@ export let regimensReducer = generateReducer<RegimenState>(initialState)
     days[day] = !days[day];
     return state;
   })
-  // .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
-  //   return newState();
-  // })
+  .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
+    state.currentRegimen = action.payload.uuid;
+    return state;
+  })
   // .add<number>("SET_TIME_OFFSET", function (state, action) {
   //   state.form.dailyOffsetMs = action.payload;
   //   return state;

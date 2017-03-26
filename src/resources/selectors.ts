@@ -120,8 +120,8 @@ export function selectAllRegimens(index: ResourceIndex) {
   return findAll(index, "regimens") as TaggedRegimen[];
 }
 
-export function getRegimenByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
-  assertUuid(kind, uuid);
+export function getRegimenByUUID(index: ResourceIndex, uuid: string) {
+  assertUuid("regimens", uuid);
   return index.references[uuid];
 }
 export function getSequenceByUUID(index: ResourceIndex,
@@ -337,4 +337,10 @@ export function maybeGetSequence(index: ResourceIndex,
   } else {
     return undefined;
   }
+}
+
+export function maybeGetRegimen(index: ResourceIndex,
+  uuid: string | undefined): TaggedRegimen | undefined {
+  let tr = uuid && getRegimenByUUID(index, uuid);
+  if (tr && isTaggedRegimen(tr)) { return tr; };
 }

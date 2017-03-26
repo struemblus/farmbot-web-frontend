@@ -5,7 +5,7 @@ import { selectRegimen } from "../actions";
 import { Link } from "react-router";
 import { error } from "../../ui/logger";
 import { t } from "i18next";
-import { TaggedRegimen } from "../../resources/tagged_resources";
+import { TaggedRegimen, isTaggedRegimen } from "../../resources/tagged_resources";
 
 export function RegimenListItem({ regimen,
   dispatch,
@@ -31,15 +31,19 @@ export function RegimenListItem({ regimen,
     return <Link
       to={`/app/regimens/${link}`}
       key={key}
-      onClick={regimen && select(dispatch, regimen)}
+      onClick={select(dispatch, regimen)}
       className={style}>
       {name}
     </Link>;
   }
 }
 
-function select(dispatch: Function, regimen: TaggedRegimen) {
+function select(dispatch: Function, regimen: TaggedRegimen | undefined) {
   return function (event: React.MouseEvent<{}>) {
-    dispatch(selectRegimen(regimen));
+    if (regimen && isTaggedRegimen(regimen)) {
+      dispatch(selectRegimen(regimen));
+    } else {
+      console.warn("No regimen ??")
+    }
   };
 }

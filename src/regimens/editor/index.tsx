@@ -16,6 +16,7 @@ function MiddleSection({
   regimen,
   dispatch
 }: MiddleSectionProps) {
+
   if (regimen && isTaggedRegimen(regimen)) {
     return <ActiveEditor dispatch={dispatch} regimen={regimen} />;
   } else {
