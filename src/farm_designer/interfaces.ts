@@ -87,7 +87,7 @@ export interface DesignerState {
   x_size: number;
   y_size: number;
   cropSearchQuery: string;
-  cropSearchResults: CropLiveSearchResult[] | undefined;
+  cropSearchResults: CropLiveSearchResult[];
 }
 
 export interface Point {

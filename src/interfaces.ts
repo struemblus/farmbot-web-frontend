@@ -61,7 +61,6 @@ interface Location {
 export interface Everything {
   config: ConfigState;
   auth: AuthState | undefined;
-  designer: DesignerState;
   dispatch: Function;
   bot: BotState;
   location: Location;
