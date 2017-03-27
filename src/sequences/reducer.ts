@@ -9,8 +9,10 @@ export const initialState: SequenceReducerState = {
 
 export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
-    if (action.payload.uuid === state.current) {
-      state.current = action.payload.uuid;
+    switch (action.payload.uuid) {
+      case state.current:
+        state.current = undefined;
+        break;
     }
     return state;
   })
