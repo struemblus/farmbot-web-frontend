@@ -133,7 +133,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                     <div className="channel-options">
                       <NewFBSelect
                         onChange={this.setMessageType}
-                        value={this.currentSelection}
+                        selectedItem={this.currentSelection}
                         list={MESSAGE_STATUSES} />
                     </div>
                     <div className="channel-fields">

@@ -4,7 +4,7 @@ import { fancyDebug } from "../util";
 
 interface Props {
   /** Value to show. */
-  value: DropDownItem | undefined;
+  selectedItem: DropDownItem | undefined;
   /** Notifies component user that something was clicked. */
   onChange(selection: DropDownItem): void;
   /** All possible select options */
@@ -19,10 +19,7 @@ type OptionComponent = React.ComponentClass<DropDownItem>
   | React.StatelessComponent<DropDownItem>;
 
 export interface SelectState {
-  touched: boolean;
-  label: string;
   isOpen: boolean;
-  value: string | number | undefined;
 }
 
 /** Used as a placeholder for a selection of "none" when allowEmpty is true. */
@@ -53,14 +50,15 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
   }
 
   render() {
+    let item = this.props.selectedItem || { label: "", value: 0 };
     let { isOpen } = this.state;
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        <input type="text" placeholder="Search..." id="" />
+        <input type="text" placeholder="Search..." value={item.label} />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>
-        {this.props.list}
+        {this.normlItemList()}
       </div>
     </div>;
   }
