@@ -45,10 +45,10 @@ let errorLoading = (cb: any) => function handleError(err: any) {
     </div>
   `);
   }
+  sessionStorage.clear();
   if (!location.hostname.includes("localhost")) {
     // Clear cache for end users, but not developers.
     localStorage.clear();
-    sessionStorage.clear();
   }
   let y = document.querySelectorAll("link");
   for (var x = 0; x < y.length; x++) {

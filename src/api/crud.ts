@@ -16,7 +16,7 @@ import {
 } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
-import { descriptiveUUID } from "../resources/util";
+import { generateUuid } from "../resources/util";
 import { defensiveClone } from "../util";
 
 export interface EditResourceParams {
@@ -46,7 +46,7 @@ export function overwrite(tr: TaggedResource, update: typeof tr.body):
 export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
   resource.dirty = true;
   /** Technically, this happens in the reducer, but I like to be extra safe. */
-  resource.uuid = descriptiveUUID(resource.body.id, resource.kind);
+  resource.uuid = generateUuid(resource.body.id, resource.kind);
   return {
     type: "INIT_RESOURCE",
     payload: resource

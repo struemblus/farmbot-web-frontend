@@ -1,21 +1,18 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { destroy, save, init } from "../api/crud";
+import { destroy, save, init, edit } from "../api/crud";
 import { TaggedRegimen, isTaggedRegimen } from "../resources/tagged_resources";
+
+export function editRegimen(r: TaggedRegimen | undefined,
+  update: Partial<Regimen>) {
+  return (dispatch: Function) => {
+    r && isTaggedRegimen(r) && dispatch(edit(r, update));
+  }
+}
 export function copyRegimen(payload: TaggedRegimen) {
   return {
     type: "COPY_REGIMEN",
     payload
-  };
-}
-
-export function editRegimen(regimen: TaggedRegimen,
-  update: Object):
-  ReduxAction<undefined> {
-  console.log("Lets fix this one later.")
-  return {
-    type: "EDIT_REGIMEN",
-    payload: undefined
   };
 }
 

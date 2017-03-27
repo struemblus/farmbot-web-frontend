@@ -8,7 +8,7 @@ import {
   isTaggedResource
 } from "./tagged_resources";
 import { isUndefined } from "util";
-import { descriptiveUUID } from "./util";
+import { generateUuid } from "./util";
 import { EditResourceParams } from "../api/crud";
 import {
   initialState as sequenceState,
@@ -184,7 +184,7 @@ interface HasID {
 }
 function addAllToIndex<T extends HasID>(i: ResourceIndex, kind: ResourceName, all: T[]) {
   all.map(function (tr) {
-    return addToIndex(i, kind, tr, descriptiveUUID(tr.id, kind));
+    return addToIndex(i, kind, tr, generateUuid(tr.id, kind));
   });
 }
 
@@ -200,16 +200,18 @@ function addToIndex<T>(index: ResourceIndex,
   index.references[tr.uuid] = tr;
 }
 
-let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
 export function joinKindAndId(kind: ResourceName, id: number | undefined) {
-  return descriptiveUUID(id, kind);
+  return `${kind}.${id || 0}`;
 }
 
+let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
 function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
+  let { kind } = tr;
+  let id = tr.body.id;
   index.all = index.all.filter(removeUUID(tr));
   index.byKind[tr.kind].filter(removeUUID(tr));
-  let key = joinKindAndId(tr.kind, tr.body.id)
-  delete index.byKindAndId[key]
+  delete index.byKindAndId[joinKindAndId(kind, id)]
+  delete index.byKindAndId[joinKindAndId(kind, 0)]
   delete index.references[tr.uuid];
 }
 
