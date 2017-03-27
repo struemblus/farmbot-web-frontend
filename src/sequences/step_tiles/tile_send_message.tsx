@@ -16,6 +16,7 @@ import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
+import { NewFBSelect } from "../../ui/new_fb_select";
 
 export function TileSendMessage(props: StepParams) {
   if (props.currentStep.kind === "send_message") {
@@ -130,12 +131,10 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                   />
                   <div className="bottom-content">
                     <div className="channel-options">
-                      <DeprecatedFBSelect
+                      <NewFBSelect
                         onChange={this.setMessageType}
                         value={this.currentSelection}
-                        list={MESSAGE_STATUSES}
-                        allowEmpty={true}
-                      />
+                        list={MESSAGE_STATUSES} />
                     </div>
                     <div className="channel-fields">
                       <fieldset>
