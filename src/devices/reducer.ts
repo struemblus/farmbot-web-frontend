@@ -113,7 +113,7 @@ export let botReducer = generateReducer<BotState>(initialState)
     return s;
   })
   .add<string>("CHANGE_WEBCAM_URL", function (s, a) {
-    s.account.dirty = true;
+    s.dirty = true;
     s.account.webcam_url = a.payload;
     return s;
   })

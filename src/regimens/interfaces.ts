@@ -47,7 +47,6 @@ export interface Regimen {
   name: string;
   color: Color;
   regimen_items: RegimenItem[];
-  dirty?: boolean;
 };
 
 export interface RegimenListItemProps {

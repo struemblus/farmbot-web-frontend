@@ -17,7 +17,7 @@ export function RegimenListItem({ regimen,
     let link = (regimen.body.name) ?
       regimen.body.name.replace(/ /g, "_").toLowerCase() : "-";
     name = (regimen.body.name) ?
-      regimen.body.name + (regimen.body.dirty ? "*" : "") : "-";
+      regimen.body.name + (regimen.dirty ? "*" : "") : "-";
     let key = (regimen.body.id) ? regimen.body.id : index;
 
     return <Link

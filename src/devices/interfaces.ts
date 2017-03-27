@@ -25,7 +25,6 @@ export interface DeviceAccountSettings {
   name: string;
   webcam_url?: string;
   /** Must the deivce be saved? */
-  dirty?: boolean;
 };
 
 /**
@@ -60,7 +59,6 @@ export interface DeviceAccountSettingsUpdate {
   name?: string;
   uuid?: string;
   webcam_url?: string;
-  dirty?: boolean;
 };
 
 export interface BotState {
