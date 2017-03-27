@@ -104,8 +104,12 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
     return iv;
   }
 
-  render() {
-    let fe = this.props.getFarmEvent(history.getCurrentLocation().pathname);
+  noFe() {
+    history.push("/app/designer/farm_events");
+    return <div>Loading...</div>;
+  }
+
+  hasFe(fe: TaggedFarmEvent) {
     let { formatDate, formatTime, repeatOptions, dispatch } = this.props;
     let { time_unit } = fe.body;
     let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
@@ -204,5 +208,10 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
         </button>
       </div>
     </div>;
+  }
+  render() {
+    let fe = this.props.getFarmEvent();
+    return fe ? this.hasFe(fe) : this.noFe();
+    // return this.noFe();
   }
 }

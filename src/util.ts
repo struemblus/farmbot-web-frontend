@@ -278,3 +278,4 @@ export function betterCompact<T>(input: (T | undefined)[]): T[] {
   input.forEach(x => x ? output.push(x) : "")
   return [];
 };
+

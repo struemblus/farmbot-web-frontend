@@ -10,9 +10,11 @@ import {
   indexFarmEventById,
   findFarmEventById,
   selectAllRegimens,
-  selectAllSequences
+  selectAllSequences,
+  hasId
 } from "../../resources/selectors";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { history } from "../../history";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
@@ -110,9 +112,14 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
 
   let farmEvents = selectAllFarmEvents(props.resources.index);
 
-  let getFarmEvent = (url: string): TaggedFarmEvent => {
+  let getFarmEvent = (): TaggedFarmEvent | undefined => {
+    let url = history.getCurrentLocation().pathname;
     let id = parseInt(url.split("/")[4]);
-    return findFarmEventById(props.resources.index, id);
+    if (id && hasId(props.resources.index, "farm_events", id)) {
+      return findFarmEventById(props.resources.index, id);
+    } else {
+      history.push("/app/designer/farm_events");
+    }
   }
 
   return {

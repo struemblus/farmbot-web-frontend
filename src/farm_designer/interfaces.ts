@@ -107,7 +107,7 @@ export interface AddEditFarmEventProps {
   regimensById: CowardlyDictionary<TaggedRegimen>;
   sequencesById: CowardlyDictionary<TaggedSequence>;
   farmEventsById: CowardlyDictionary<TaggedFarmEvent>;
-  getFarmEvent(url: string): TaggedFarmEvent;
+  getFarmEvent(): TaggedFarmEvent | undefined;
   formatDate(input: string): string;
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;

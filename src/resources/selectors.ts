@@ -284,13 +284,17 @@ export let byId = <T extends TaggedResource>(name: ResourceName) =>
     // Maybe we should add a throw here?
     return tools.filter(f)[0] as T | undefined;
   }
-
+export function hasId(ri: ResourceIndex, k: ResourceName, id: number): boolean {
+  return !!ri.byKindAndId[joinKindAndId(k, id)];
+}
 export let findFarmEventById = (ri: ResourceIndex, fe_id: number) => {
   let fe = byId("farm_events")(ri, fe_id);
   if (fe && isTaggedFarmEvent(fe) && sanityCheck(fe)) {
     return fe;
   } else {
-    throw new Error("Bad tool id: " + fe_id);
+    let e = new Error(`Bad farm_event id: ${fe_id}`);
+    console.dir(e)
+    throw e;
   }
 };
 
