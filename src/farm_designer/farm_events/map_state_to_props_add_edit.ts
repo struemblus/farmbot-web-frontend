@@ -1,4 +1,4 @@
-import { AddEditFarmEventProps, FarmEvent } from "../interfaces";
+import { AddEditFarmEventProps } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";

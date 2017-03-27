@@ -57,6 +57,7 @@ export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
 export function initSave(resource: TaggedResource) {
   return function (dispatch: Function, getState: GetState) {
     let action = init(resource);
+    if (resource.body.id === 0) { delete resource.body.id; }
     dispatch(action);
     let nextState = getState().resources.index;
     let tr = findByUuid(nextState, action.payload.uuid);
