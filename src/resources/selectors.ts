@@ -100,6 +100,7 @@ let find = (r: ResourceName) =>
 export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
 export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
+export let findRegimen = find("regimens") as Finder<TaggedRegimen>;
 export let findFarmEvent = find("farm_events") as Finder<TaggedFarmEvent>;
 
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {

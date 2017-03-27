@@ -2,6 +2,7 @@ import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
 import { destroy, save, init, edit } from "../api/crud";
 import { TaggedRegimen, isTaggedRegimen } from "../resources/tagged_resources";
+import { randomColor } from "../util";
 
 export function editRegimen(r: TaggedRegimen | undefined,
   update: Partial<Regimen>) {
@@ -26,4 +27,20 @@ export function selectRegimen(payload: TaggedRegimen) {
   }
 }
 
+let copy = 1;
+
+function emptyRegimen(): TaggedRegimen {
+  return {
+    kind: "regimens",
+    uuid: "NEVER",
+    dirty: true,
+    body: {
+      name: ("New regimen " + copy++),
+      color: randomColor(),
+      regimen_items: []
+    }
+  }
+}
+
+export let newRegimen = () => init(emptyRegimen());
 

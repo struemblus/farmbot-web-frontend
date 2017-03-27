@@ -37,8 +37,13 @@ export let initialState: RegimenState = newState();
 
 export let regimensReducer = generateReducer<RegimenState>(initialState)
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
-    if (action.payload.uuid === state.selectedSequenceUUID) {
-      state.selectedSequenceUUID = undefined;
+    switch (action.payload.uuid) {
+      case state.selectedSequenceUUID:
+        state.selectedSequenceUUID = undefined;
+        break;
+      case state.currentRegimen:
+        state.selectedSequenceUUID = undefined;
+        break;
     }
     return state;
   })
@@ -68,6 +73,10 @@ export let regimensReducer = generateReducer<RegimenState>(initialState)
     state.currentRegimen = action.payload.uuid;
     return state;
   })
+  .add<string>("SET_SEQUENCE", function (state, action) {
+    state.selectedSequenceUUID = action.payload;
+    return state;
+  });
   // .add<number>("SET_TIME_OFFSET", function (state, action) {
   //   state.form.dailyOffsetMs = action.payload;
   //   return state;
@@ -75,11 +84,6 @@ export let regimensReducer = generateReducer<RegimenState>(initialState)
   // .add<void>("COMMIT_BULK_EDITOR", function (state, action) {
   //   return newState();
   // })
-  // .add<Sequence>("SET_SEQUENCE", function (state, action) {
-  //   // state.sequence = action.payload;
-  //   console.log("FIXME");
-  //   return state;
-  // });
   // .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN",
   // function (state, action) {
   //   let update = {

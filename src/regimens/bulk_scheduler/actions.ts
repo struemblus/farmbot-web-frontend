@@ -1,6 +1,12 @@
 import { ReduxAction, Thunk } from "../../redux/interfaces";
 import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
-import { assertUuid } from "../../resources/selectors";
+import { assertUuid, findSequence, findRegimen } from "../../resources/selectors";
+import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
+import { newRegimen } from "../actions";
+import { error } from "../../ui/index";
+import { t } from "i18next";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
 
 export function pushWeek() {
   return {
@@ -50,31 +56,33 @@ export function toggleDay({ week, day }: ToggleDayParams) {
 
 export function setSequence(uuid: string): ReduxAction<string> {
   assertUuid("sequences", uuid);
-  return {
-    type: "SET_SEQUENCE",
-    payload: uuid
-  };
+  return { type: "SET_SEQUENCE", payload: uuid };
 };
 
 export function commitBulkEditor(): Thunk {
 
   return function (dispatch, getState) {
-    // const state: Everything = getState();
+    let res = getState().resources;
+    let { weeks, dailyOffsetMs, selectedSequenceUUID, currentRegimen } =
+      res.consumers.regimens;
 
-    // if (!state.regimens.current) { dispatch(newRegimen()); }
+    // If the user hasn't clicked a regimen, initialize one for them.
+    if (!currentRegimen) {
+      dispatch(newRegimen());
+      currentRegimen = getState().resources.consumers.regimens.currentRegimen
+        || "Impossible UUID";
+    }
 
-    // if (state.bulkScheduler.sequence) {
-    //   let index = getState().regimens.current;
-    //   const regimenItems = groupRegimenItemsByWeek(
-    //     state.bulkScheduler.form.weeks,
-    //     state.bulkScheduler.form.dailyOffsetMs,
-    //     state.bulkScheduler.sequence.body);
-    dispatch({
-      type: "COMMIT_BULK_EDITOR",
-      payload: {} //{ regimenItems, index }
-    });
-    // } else {
-    //   error(t("Select a sequence from the dropdown first."));
-    // }
+    // Proceed only if they selected a sequence from the drop down.
+    if (selectedSequenceUUID) {
+      let seq = findSequence(res.index, selectedSequenceUUID).body;
+      const regimenItems = groupRegimenItemsByWeek(weeks, dailyOffsetMs, seq);
+      let reg = findRegimen(res.index, currentRegimen);
+      let update = defensiveClone(reg).body;
+      update.regimen_items = update.regimen_items.concat(regimenItems);
+      dispatch(overwrite(reg, update));
+    } else {
+      error(t("Select a sequence from the dropdown first."));
+    }
   };
 }
