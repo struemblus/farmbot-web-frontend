@@ -1,12 +1,12 @@
 import * as React from "react";
 import { PeripheralList } from "./peripheral_list";
 import { PeripheralForm } from "./peripheral_form";
-import { Widget, WidgetBody, WidgetHeader } from "../../ui";
+import { Widget, WidgetBody, WidgetHeader, error } from "../../ui";
 import { PeripheralsProps } from "../../devices/interfaces";
 import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
 import { TaggedPeripheral } from "../../resources/tagged_resources";
-import { initSave, saveAll } from "../../api/crud";
+import { initSave, saveAll, init } from "../../api/crud";
 import { selectAllPeripherals } from "../../resources/selectors";
 
 const HELP_TEXT = `Use these toggle switches to control FarmBot's peripherals in 
@@ -19,20 +19,43 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     this.state = { isEditing: false };
   }
 
-  getPinNumber = () => {
-    return _(selectAllPeripherals(this.props.resources.index))
-      .map(tr => tr.body.pin || 0)
-      .max() + 1
+  toggle = () => {
+    this.setState({ isEditing: !this.state.isEditing });
   }
 
+  maybeSave = () => {
+    let { peripherals, dispatch } = this.props;
+    let pinNums = peripherals.map(x => x.body.pin);
+    let positivePins = pinNums.filter(x => x && x > 0);
+    // I hate adding client side validation, but this is a wonky endpoint - RC.
+    let allAreUniq = _.uniq(pinNums).length === pinNums.length;
+    let allArePositive = positivePins.length === pinNums.length
+    if (allAreUniq && allArePositive) {
+      this.props.dispatch(saveAll(this.props.peripherals, this.toggle));
+    } else {
+      error("Pin numbers are required and must be unique.");
+    }
+
+
+  }
+
+  showPins = () => {
+    let { peripherals, dispatch, bot } = this.props;
+    let pins = bot.hardware.pins;
+    if (this.state.isEditing) {
+      return <PeripheralForm peripherals={peripherals}
+        dispatch={dispatch} />
+    } else {
+      return <PeripheralList peripherals={peripherals}
+        dispatch={dispatch}
+        pins={pins} />
+    }
+  }
   emptyPeripheral = (): TaggedPeripheral => {
     return {
       uuid: "WILL_BE_CHANGED_BY_REDUCER",
       kind: "peripherals",
-      body: {
-        pin: this.getPinNumber(),
-        label: "Peripheral " + (this.props.peripherals.length + 1)
-      }
+      body: { pin: 0, label: "New Peripheral" }
     }
   }
 
@@ -45,31 +68,26 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
         <button
           className="gray button-like"
           type="button"
-          onClick={() => this.setState({ isEditing: !isEditing })}>
+          onClick={this.toggle}>
           {isEditing ? t("Back") : t("Edit")}
         </button>
         <button
           hidden={!isEditing}
           className="green button-like"
           type="button"
-          onClick={() => dispatch(saveAll(peripherals))}>
+          onClick={this.maybeSave}>
           {t("Save")}
         </button>
         <button
           hidden={!isEditing}
           className="green button-like"
           type="button"
-          onClick={() => { dispatch(initSave(this.emptyPeripheral())) }}>
+          onClick={() => { dispatch(init(this.emptyPeripheral())) }}>
           <i className="fa fa-plus" />
         </button>
       </WidgetHeader>
       <WidgetBody>
-        {isEditing &&
-          <PeripheralForm peripherals={peripherals} dispatch={dispatch} />
-        }
-        {!isEditing &&
-          <PeripheralList peripherals={peripherals} dispatch={dispatch} />
-        }
+        {this.showPins()}
       </WidgetBody>
     </Widget>;
   };

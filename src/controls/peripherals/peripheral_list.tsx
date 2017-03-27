@@ -8,6 +8,7 @@ import { PeripheralListProps } from "./interfaces";
 export function PeripheralList(props: PeripheralListProps) {
   return <div>
     {props.peripherals.map(p => {
+      let status = JSON.stringify(props.pins[p.body.pin || 0]);
       return <Row>
         <Col xs={4}>
           <label>{p.body.label}</label>
@@ -17,7 +18,7 @@ export function PeripheralList(props: PeripheralListProps) {
         </Col>
         <Col xs={4}>
           <ToggleButton
-            toggleval={p.body.pin || "*"}
+            toggleval={status}
             toggleAction={() => p.body.pin && pinToggle(p.body.pin)} />
         </Col>
       </Row>

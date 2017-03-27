@@ -3,7 +3,7 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
+import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES, Pins } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { PeripheralState } from "../controls/peripherals/interfaces";
 import { Image } from "../images/index";

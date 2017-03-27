@@ -1,4 +1,5 @@
 import { TaggedPeripheral } from "../../resources/tagged_resources";
+import { Pins } from "farmbot/dist";
 
 export interface PeripheralState {
   isEditing: boolean;
@@ -18,4 +19,5 @@ export interface PeripheralFormProps {
 export interface PeripheralListProps {
   dispatch: Function;
   peripherals: TaggedPeripheral[];
+  pins: Pins
 }
