@@ -5,21 +5,20 @@ import { selectRegimen } from "../actions";
 import { Link } from "react-router";
 import { TaggedRegimen, isTaggedRegimen } from "../../resources/tagged_resources";
 
-export function RegimenListItem({ regimen,
+export function RegimenListItem({
+  regimen,
   dispatch,
-  index }: RegimenListItemProps) {
+  index
+}: RegimenListItemProps) {
   let color = (regimen.body.color) || randomColor();
   let style = `block block-wrapper full-width text-left ${color}-block
         block-header`;
   let dirty = (regimen.dirty) ? "*" : "";
   let name = (regimen.body.name || "-") + dirty;
+  let key = regimen.uuid;
+  let link = (regimen.body.name) ?
+    regimen.body.name.replace(/ /g, "_").toLowerCase() : "-";
   if (isMobile()) {
-    let link = (regimen.body.name) ?
-      regimen.body.name.replace(/ /g, "_").toLowerCase() : "-";
-    name = (regimen.body.name) ?
-      regimen.body.name + (regimen.dirty ? "*" : "") : "-";
-    let key = (regimen.body.id) ? regimen.body.id : index;
-
     return <Link
       to={`/app/regimens/${link}`}
       key={key}
