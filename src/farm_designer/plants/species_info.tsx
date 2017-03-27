@@ -10,7 +10,11 @@ import { Everything } from "../../interfaces";
 
 function mapStateToProps(props: Everything): SpeciesInfoProps {
   return {
-    cropSearchResults: props.resources.consumers.farm_designer.cropSearchResults
+    cropSearchResults: props
+      .resources
+      .consumers
+      .farm_designer
+      .cropSearchResults || []
   }
 }
 

@@ -1,14 +1,10 @@
 /** Like Dictionary<T>, except more cautious about null values. */
-import { Sequence, SequenceReducerState } from "../sequences/interfaces";
-import { Regimen, RegimenItem, RegimensState } from "../regimens/interfaces";
-import { Plant, Point, FarmEvent, DesignerState } from "../farm_designer/interfaces";
-import { ToolBay, ToolSlot, Tool } from "../tools/interfaces";
-import { Image } from "../images/index";
-import { Log } from "../interfaces";
+import { SequenceReducerState } from "../sequences/interfaces";
+import { DesignerState } from "../farm_designer/interfaces";
 import { CowardlyDictionary } from "../util";
 import { TaggedResource, ResourceName } from "./tagged_resources";
 import { Dictionary } from "farmbot/dist";
-import { BulkSchedulerState } from "../regimens/bulk_scheduler/interfaces";
+import { RegimenState } from "../regimens/reducer";
 
 type UUID = string;
 
@@ -24,7 +20,7 @@ export interface RestResources {
   index: ResourceIndex
   consumers: {
     sequences: SequenceReducerState;
-    regimens: RegimensState;
+    regimens: RegimenState;
     farm_designer: DesignerState;
   }
 };

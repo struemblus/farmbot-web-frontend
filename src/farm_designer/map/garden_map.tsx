@@ -6,7 +6,6 @@ import {
   GardenMapProps,
   GardenMapState,
   PlantOptions,
-  Plant as PlantInterface
 } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
@@ -43,7 +42,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
+    let crops = this.props.designer.cropSearchResults || [];
     let crop = _(crops).find((result) => result.crop.slug === slug);
     return crop || {
       crop: {

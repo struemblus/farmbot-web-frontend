@@ -1,18 +1,89 @@
-import { RegimensState, Regimen, RegimenItem } from "./interfaces";
+import { Week } from "./bulk_scheduler/interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { ReduxAction } from "../redux/interfaces";
+import { TaggedResource, TaggedRegimen } from "../resources/tagged_resources";
+import { Dictionary } from "farmbot/dist";
 
-export function emptyRegimen(): Regimen {
+export interface RegimenState {
+  dailyOffsetMs: number;
+  weeks: Week[];
+  selectedSequenceUUID: string | undefined;
+  currentRegimen: string | undefined;
+}
+
+function newWeek() {
   return {
-    name: "Untitled Regimen",
-    color: "gray",
-    regimen_items: [],
+    days: {
+      day1: false,
+      day2: false,
+      day3: false,
+      day4: false,
+      day5: false,
+      day6: false,
+      day7: false
+    }
   };
 }
 
-export const initialState: RegimensState = { current: undefined };
+function newState(): RegimenState {
+  return {
+    dailyOffsetMs: 300000,
+    weeks: _.times(10, newWeek),
+    selectedSequenceUUID: undefined,
+    currentRegimen: undefined
+  };
+}
 
-export let regimensReducer = generateReducer<RegimensState>(initialState)
+export let initialState: RegimenState = newState();
+
+export let regimensReducer = generateReducer<RegimenState>(initialState)
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
+    switch (action.payload.uuid) {
+      case state.selectedSequenceUUID:
+        state.selectedSequenceUUID = undefined;
+        break;
+      case state.currentRegimen:
+        state.selectedSequenceUUID = undefined;
+        break;
+    }
+    return state;
+  })
+  .add<TaggedResource>("INIT_RESOURCE", function (state, action) {
+    if (action.payload.kind === "regimens") {
+      console.log(action.payload.uuid);
+      state.currentRegimen = action.payload.uuid;
+    }
+    return state;
+  })
+  .add<void>("PUSH_WEEK", function (state, action) {
+    state.weeks.push(newWeek());
+    return state;
+  })
+  .add<void>("POP_WEEK", function (state, action) {
+    state.weeks.pop();
+    return state;
+  })
+  .add<{ week: number, day: number }>("TOGGLE_DAY", function (state, action) {
+    let week = state.weeks[action.payload.week];
+    let day = `day${action.payload.day}`;
+    let days = (week.days as Dictionary<boolean>);
+    days[day] = !days[day];
+    return state;
+  })
+  .add<TaggedRegimen>("SELECT_REGIMEN", function (state, action) {
+    state.currentRegimen = action.payload.uuid;
+    return state;
+  })
+  .add<string>("SET_SEQUENCE", function (state, action) {
+    state.selectedSequenceUUID = action.payload;
+    return state;
+  });
+  // .add<number>("SET_TIME_OFFSET", function (state, action) {
+  //   state.form.dailyOffsetMs = action.payload;
+  //   return state;
+  // })
+  // .add<void>("COMMIT_BULK_EDITOR", function (state, action) {
+  //   return newState();
+  // })
   // .add<{ regimen: Regimen, update: Regimen }>("EDIT_REGIMEN",
   // function (state, action) {
   //   let update = {

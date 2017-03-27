@@ -1,22 +1,14 @@
 import { Regimen, RegimenItem } from "./interfaces";
 import { ReduxAction } from "../redux/interfaces";
-import { destroy, save } from "../api/crud";
-import { TaggedRegimen } from "../resources/tagged_resources";
-export function copyRegimen(payload: TaggedRegimen) {
-  return {
-    type: "COPY_REGIMEN",
-    payload
-  };
-}
+import { destroy, save, init, edit } from "../api/crud";
+import { TaggedRegimen, isTaggedRegimen } from "../resources/tagged_resources";
+import { randomColor } from "../util";
 
-export function editRegimen(regimen: TaggedRegimen,
-  update: Object):
-  ReduxAction<undefined> {
-  console.log("Lets fix this one later.")
-  return {
-    type: "EDIT_REGIMEN",
-    payload: undefined
-  };
+export function editRegimen(r: TaggedRegimen | undefined,
+  update: Partial<Regimen>) {
+  return (dispatch: Function) => {
+    r && isTaggedRegimen(r) && dispatch(edit(r, update));
+  }
 }
 
 export function saveRegimen(uuid: string) {
@@ -27,21 +19,28 @@ export function deleteRegimen(uuid: string) {
   return destroy(uuid);
 }
 
-export function newRegimen(): ReduxAction<{}> {
-  return {
-    type: "NEW_REGIMEN",
-    payload: {}
-  };
+export function selectRegimen(payload: TaggedRegimen) {
+  if (isTaggedRegimen(payload)) {
+    return { type: "SELECT_REGIMEN", payload };
+  } else {
+    throw new Error("Not a regimen.")
+  }
 }
 
-export function selectRegimen(payload: TaggedRegimen): ReduxAction<TaggedRegimen> {
-  return { type: "SELECT_REGIMEN", payload };
+let copy = 1;
+
+function emptyRegimen(): TaggedRegimen {
+  return {
+    kind: "regimens",
+    uuid: "NEVER",
+    dirty: true,
+    body: {
+      name: ("New regimen " + copy++),
+      color: randomColor(),
+      regimen_items: []
+    }
+  }
 }
 
-export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
-  return {
-    type: "REMOVE_REGIMEN_ITEM",
-    payload: item
-  };
-}
+export let newRegimen = () => init(emptyRegimen());
 

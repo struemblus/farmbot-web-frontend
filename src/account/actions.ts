@@ -6,7 +6,7 @@ import { User } from "../auth/interfaces";
 import { API } from "../api";
 import { ReduxAction } from "../redux/interfaces";
 import { State, DeletionRequest } from "./interfaces";
-import { prettyPrintApiErrors, AxiosErrorResponse, toastErrors } from "../util";
+import { toastErrors } from "../util";
 import { Session } from "../session";
 
 function updateUserSuccess(payload: User): ReduxAction<User> {

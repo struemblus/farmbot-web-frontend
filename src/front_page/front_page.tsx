@@ -6,9 +6,9 @@ import { error as log, success, init as logInit } from "../ui";
 import { prettyPrintApiErrors } from "../util";
 import { API } from "../api";
 import { Session } from "../session";
-import { FrontPageState, FrontPageProps } from "./interfaces";
+import { FrontPageState } from "./interfaces";
 
-export class FrontPage extends React.Component<FrontPageProps, Partial<FrontPageState>> {
+export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
   constructor() {
     super();
     this.state = {

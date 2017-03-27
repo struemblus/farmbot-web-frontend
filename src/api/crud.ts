@@ -16,7 +16,7 @@ import {
 } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
-import { descriptiveUUID } from "../resources/util";
+import { generateUuid } from "../resources/util";
 import { defensiveClone } from "../util";
 
 export interface EditResourceParams {
@@ -44,9 +44,10 @@ export function overwrite(tr: TaggedResource, update: typeof tr.body):
 
 /** Initialize (but don't save) an indexed / tagged resource. */
 export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
+  resource.body.id = 0;
   resource.dirty = true;
   /** Technically, this happens in the reducer, but I like to be extra safe. */
-  resource.uuid = descriptiveUUID(resource.body.id, resource.kind);
+  resource.uuid = generateUuid(resource.body.id, resource.kind);
   return {
     type: "INIT_RESOURCE",
     payload: resource
@@ -158,8 +159,7 @@ export function urlFor(tag: ResourceName) {
     users: API.current.usersPath,
     device: API.current.devicePath,
     images: API.current.imagesPath,
-    logs: API.current.logsPath,
-    regimen_items: API.current.regimensPath
+    logs: API.current.logsPath
   }
   let url = OPTIONS[tag];
   if (url) {

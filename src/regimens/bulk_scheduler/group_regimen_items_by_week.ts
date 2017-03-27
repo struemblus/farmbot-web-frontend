@@ -2,7 +2,7 @@ import { Week } from "./interfaces";
 import { Sequence } from "../../sequences/interfaces";
 import { RegimenItem } from "../../regimens/interfaces";
 
-/** Calculates correct time_offset for a group of RegimenItem[]s based on a 
+/** Calculates correct time_offset for a group of RegimenItem[]s based on a
  * set of weeks and a desired offset. */
 export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number,
   seq: Sequence) {
@@ -18,7 +18,7 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number,
       keys.map((key) =>
         (week.days as { [day: string]: boolean })[key]))
     // [[true,false,false,true] . . . ]
-    // Convert true values to an offset, in milliseconds from the 
+    // Convert true values to an offset, in milliseconds from the
     // start point.
     // Convert false values to -1.
     .map((weekArray, weekNum) => {
@@ -41,8 +41,11 @@ export function groupRegimenItemsByWeek(weeks: Week[], OFFSET: number,
       return (a > b) ? 1 : 0;
     })
     // Transform the sorted array of values into a regimenItem[] array.
-    .map<RegimenItem>((time_offset) => {
-      let sequence = _.cloneDeep<Sequence>(seq);
-      return { time_offset, sequence };
+    .map<RegimenItem>(time_offset => {
+      if (seq.id) {
+        return { time_offset, sequence_id: seq.id };
+      } else {
+        throw new Error("Impossible???");
+      }
     });
 }

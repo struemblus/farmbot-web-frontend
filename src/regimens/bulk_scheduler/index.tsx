@@ -7,9 +7,9 @@ import { WeekGrid } from "./week_grid";
 import { commitBulkEditor } from "./actions";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 
-export function BulkSchedulerWidget({ sequences, dispatch, editor }:
-  BulkEditorProps) {
+export function BulkSchedulerWidget(props: BulkEditorProps) {
   let click = function () { dispatch(commitBulkEditor()); };
+  let { resources, dispatch, sequences, selectedSequence } = props;
   let active = !!(sequences && sequences.length);
   return <Widget className="bulk-scheduler-widget">
     <WidgetHeader title="Scheduler"
@@ -21,15 +21,15 @@ export function BulkSchedulerWidget({ sequences, dispatch, editor }:
       <Row>
         <Col xs={6}>
           <SequenceList sequences={sequences}
-            current={editor.sequence}
+            current={selectedSequence}
             dispatch={dispatch} />
         </Col>
         <Col xs={6}>
           <TimeInput dispatch={dispatch}
-            offset={editor.form.dailyOffsetMs} />
+            offset={props.dailyOffsetMs} />
         </Col>
       </Row>
-      <WeekGrid weeks={editor.form.weeks}
+      <WeekGrid weeks={props.weeks}
         dispatch={dispatch} />
     </WidgetBody>
   </Widget>;

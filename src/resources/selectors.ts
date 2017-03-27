@@ -24,7 +24,7 @@ import {
 import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
 
-export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => {
+export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
   let uuid = index.byKindAndId[joinKindAndId(kind, id)];
   assertUuid(kind, uuid);
@@ -37,9 +37,7 @@ export let findUuid = (index: ResourceIndex, kind: ResourceName, id: number) => 
 
 export function findResourceById(index: ResourceIndex, kind: ResourceName,
   id: number) {
-  let uuid = findUuid(index, kind, id);
-  assertUuid(kind, uuid);
-  return uuid;
+  return findId(index, kind, id);
 }
 
 export let isKind = (name: ResourceName) => (tr: TaggedResource) => tr.kind === name;
@@ -102,6 +100,7 @@ let find = (r: ResourceName) =>
 export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
 export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
+export let findRegimen = find("regimens") as Finder<TaggedRegimen>;
 export let findFarmEvent = find("farm_events") as Finder<TaggedFarmEvent>;
 
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
@@ -120,9 +119,19 @@ export function selectAllRegimens(index: ResourceIndex) {
   return findAll(index, "regimens") as TaggedRegimen[];
 }
 
-export function getRegimenByUUID(index: ResourceIndex, kind: ResourceName, uuid: string) {
-  assertUuid(kind, uuid);
+export function getRegimenByUUID(index: ResourceIndex, uuid: string) {
+  assertUuid("regimens", uuid);
   return index.references[uuid];
+}
+export function getSequenceByUUID(index: ResourceIndex,
+  uuid: string): TaggedSequence {
+  assertUuid("sequences", uuid);
+  let result = index.references[uuid];
+  if (result && isTaggedSequence(result)) {
+    return result;
+  } else {
+    throw new Error("BAD Sequence UUID;");
+  }
 }
 
 export function selectAllSequences(index: ResourceIndex) {
@@ -318,4 +327,19 @@ export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
   } else {
     return undefined;
   }
+}
+
+export function maybeGetSequence(index: ResourceIndex,
+  uuid: string | undefined): TaggedSequence | undefined {
+  if (uuid) {
+    return getSequenceByUUID(index, uuid);
+  } else {
+    return undefined;
+  }
+}
+
+export function maybeGetRegimen(index: ResourceIndex,
+  uuid: string | undefined): TaggedRegimen | undefined {
+  let tr = uuid && getRegimenByUUID(index, uuid);
+  if (tr && isTaggedRegimen(tr)) { return tr; };
 }

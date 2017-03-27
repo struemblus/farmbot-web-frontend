@@ -20,7 +20,7 @@ export function PeripheralForm(props: PeripheralFormProps) {
         </Col>
         <Col xs={4}>
           <input type="number"
-            value={(p.body.pin).toString()}
+            value={(p.body.pin || "").toString()}
             placeholder="Pin #"
             onChange={(e) => {
               let { value } = e.currentTarget;

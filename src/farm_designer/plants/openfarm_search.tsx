@@ -20,8 +20,7 @@ export class OpenFarmSearch extends React.Component<OFSearchProps,
   }
 
   componentWillReceiveProps() {
-    let debounced = _.debounce(this.search, 800);
-    debounced();
+    _.debounce(this.search, 800)();
   }
 
   search = () => {

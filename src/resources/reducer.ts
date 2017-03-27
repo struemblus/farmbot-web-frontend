@@ -1,9 +1,14 @@
 import { generateReducer } from "../redux/generate_reducer";
 import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
-import { TaggedResource, ResourceName, sanityCheck, isTaggedResource, TaggedPeripheral } from "./tagged_resources";
+import {
+  TaggedResource,
+  ResourceName,
+  sanityCheck,
+  isTaggedResource
+} from "./tagged_resources";
 import { isUndefined } from "util";
-import { descriptiveUUID } from "./util";
+import { generateUuid } from "./util";
 import { EditResourceParams } from "../api/crud";
 import {
   initialState as sequenceState,
@@ -44,7 +49,6 @@ function emptyState(): RestResources {
         peripherals: [],
         plants: [],
         points: [],
-        regimen_items: [],
         regimens: [],
         sequences: [],
         tool_bays: [],
@@ -161,7 +165,6 @@ export let resourceReducer = generateReducer
     addAllToIndex(index, "peripherals", p["peripherals"]);
     addAllToIndex(index, "plants", p["plants"]);
     addAllToIndex(index, "points", p["points"]);
-    addAllToIndex(index, "regimen_items", p["regimen_items"]);
     addAllToIndex(index, "regimens", p["regimens"]);
     addAllToIndex(index, "sequences", p["sequences"]);
     addAllToIndex(index, "tool_bays", p["tool_bays"]);
@@ -181,7 +184,7 @@ interface HasID {
 }
 function addAllToIndex<T extends HasID>(i: ResourceIndex, kind: ResourceName, all: T[]) {
   all.map(function (tr) {
-    return addToIndex(i, kind, tr, descriptiveUUID(tr.id, kind));
+    return addToIndex(i, kind, tr, generateUuid(tr.id, kind));
   });
 }
 
@@ -197,16 +200,18 @@ function addToIndex<T>(index: ResourceIndex,
   index.references[tr.uuid] = tr;
 }
 
-let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
 export function joinKindAndId(kind: ResourceName, id: number | undefined) {
-  return descriptiveUUID(id, kind);
+  return `${kind}.${id || 0}`;
 }
 
+let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
 function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
+  let { kind } = tr;
+  let id = tr.body.id;
   index.all = index.all.filter(removeUUID(tr));
   index.byKind[tr.kind].filter(removeUUID(tr));
-  let key = joinKindAndId(tr.kind, tr.body.id)
-  delete index.byKindAndId[key]
+  delete index.byKindAndId[joinKindAndId(kind, id)]
+  delete index.byKindAndId[joinKindAndId(kind, 0)]
   delete index.references[tr.uuid];
 }
 

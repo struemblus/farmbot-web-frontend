@@ -5,6 +5,20 @@ import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 import { RegimensListProps } from "../interfaces";
 
 export class RegimensList extends React.Component<RegimensListProps, {}> {
+  rows = () => {
+    return <Col xs={12}>
+      {this
+        .props
+        .regimens
+        .map((regimen, index) => {
+          return <RegimenListItem index={index}
+            key={index}
+            regimen={regimen}
+            dispatch={this.props.dispatch} />;
+        })}
+    </Col>
+  }
+
   render() {
     return <Widget className="regimen-list-widget">
       <WidgetHeader title="Regimens"
@@ -14,17 +28,7 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
       </WidgetHeader>
       <WidgetBody>
         <Row>
-          <Col xs={12}>
-            {this
-              .props
-              .regimens
-              .map((regimen, inx) => <RegimenListItem
-                dispatch={this.props.dispatch}
-                regimen={regimen}
-                index={inx}
-                key={inx} />)
-            }
-          </Col>
+          {this.rows()}
         </Row>
       </WidgetBody>
 
