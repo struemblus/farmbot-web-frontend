@@ -26,10 +26,4 @@ export function selectRegimen(payload: TaggedRegimen) {
   }
 }
 
-export function removeRegimenItem(item: RegimenItem): ReduxAction<RegimenItem> {
-  return {
-    type: "REMOVE_REGIMEN_ITEM",
-    payload: item
-  };
-}
 

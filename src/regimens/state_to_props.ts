@@ -63,7 +63,7 @@ let createRows = (index: ResourceIndex, dispatch: Function, regimen: TaggedRegim
     let { name } = sequence.body;
     let color = sequence.body.color || randomColor()
     let hhmm = moment({ hour: d.hours(), minute: d.minutes() }).format(FMT);
-    let day = Math.round(duration(time_offset).asDays());
-    return { name, hhmm, color, day, dispatch, regimen };
+    let day = Math.round(duration(time_offset).asDays()) + 1;
+    return { name, hhmm, color, day, dispatch, regimen, item };
   }
 

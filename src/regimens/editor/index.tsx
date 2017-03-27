@@ -17,11 +17,14 @@ interface MiddleSectionProps {
 
 function MiddleSection({
   regimen,
-  dispatch
+  dispatch,
+  calendar
 }: MiddleSectionProps) {
 
-  if (regimen && isTaggedRegimen(regimen)) {
-    return <ActiveEditor dispatch={dispatch} regimen={regimen} />;
+  if (regimen && isTaggedRegimen(regimen) && calendar) {
+    return <ActiveEditor dispatch={dispatch}
+      regimen={regimen}
+      calendar={calendar} />;
   } else {
     return <EmptyEditor />;
   }

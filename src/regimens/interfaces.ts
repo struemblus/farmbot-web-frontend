@@ -7,6 +7,7 @@ import { TaggedRegimen, TaggedSequence } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 import { RegimenState } from "./reducer";
 import { Dictionary } from "farmbot/dist";
+
 export interface CalendarRow {
   day: string;
   items: RegimenItemCalendarRow[];
@@ -26,7 +27,8 @@ export interface Props {
 }
 
 export interface RegimenItemCalendarRow {
-  regimen: TaggedRegimen; // Want to remove this.
+  regimen: TaggedRegimen;
+  item: RegimenItem;
   name: string;
   hhmm: string;
   color: string;
