@@ -6,11 +6,9 @@ import {
   selectAllToolSlots,
   selectAllTools,
   selectAllToolBays,
-  selectCurrentToolSlot,
-  findWhere,
   currentToolInSlot
 } from "../resources/selectors";
-import { TaggedTool, isTaggedTool } from "../resources/tagged_resources";
+import { isTaggedTool } from "../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAllToolBays(props.resources.index);
@@ -18,7 +16,7 @@ export function mapStateToProps(props: Everything): Props {
   let tools = selectAllTools(props.resources.index);
 
   /** Returns sorted tool objects. */
-  let getSortedTools = () => tools;
+  let getSortedTools = () => _.sortBy(tools, "id");
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (/** uuid: string */) => {
