@@ -44,6 +44,7 @@ export function overwrite(tr: TaggedResource, update: typeof tr.body):
 
 /** Initialize (but don't save) an indexed / tagged resource. */
 export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
+  resource.body.id = 0;
   resource.dirty = true;
   /** Technically, this happens in the reducer, but I like to be extra safe. */
   resource.uuid = generateUuid(resource.body.id, resource.kind);

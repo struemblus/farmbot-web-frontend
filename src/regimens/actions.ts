@@ -9,12 +9,6 @@ export function editRegimen(r: TaggedRegimen | undefined,
     r && isTaggedRegimen(r) && dispatch(edit(r, update));
   }
 }
-export function copyRegimen(payload: TaggedRegimen) {
-  return {
-    type: "COPY_REGIMEN",
-    payload
-  };
-}
 
 export function saveRegimen(uuid: string) {
   return save(uuid);
