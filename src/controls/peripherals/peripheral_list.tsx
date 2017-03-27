@@ -8,7 +8,7 @@ import { PeripheralListProps } from "./interfaces";
 export function PeripheralList(props: PeripheralListProps) {
   return <div>
     {props.peripherals.map(p => {
-      <Row>
+      return <Row>
         <Col xs={4}>
           <label>{p.body.label}</label>
         </Col>
