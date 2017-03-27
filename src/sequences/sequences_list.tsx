@@ -45,7 +45,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
       body: {
         name: "new sequence " + (this.props.sequences.length + 1),
         args: { version: -999 },
-        color: randomColor(),
+        color: "gray",
         kind: "sequence",
         body: []
       }
