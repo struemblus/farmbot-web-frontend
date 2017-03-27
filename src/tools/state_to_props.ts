@@ -8,7 +8,9 @@ import {
   selectAllToolBays,
   currentToolInSlot
 } from "../resources/selectors";
-import { isTaggedTool } from "../resources/tagged_resources";
+import { isTaggedTool, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
+import { edit } from "../api/crud";
+import { DropDownItem } from "../ui/index";
 
 export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAllToolBays(props.resources.index);
@@ -41,14 +43,26 @@ export function mapStateToProps(props: Everything): Props {
 
 	/** Returns the current tool chosen in a slot based off the slot's id
 	 * and in an <FBSelect /> compatible format. */
-  let getChosenToolOption = (toolSlotUUID: string) => {
-    let chosenTool = getToolByToolSlotUUID(toolSlotUUID);
+  let getChosenToolOption = (toolSlotUUID: string | undefined) => {
+    let chosenTool = toolSlotUUID && getToolByToolSlotUUID(toolSlotUUID);
+    console.log(`
+    ========= ENV INFO =========
+    chosenTool: ${chosenTool}
+    toolSlotUUID: ${toolSlotUUID}
+    `)
     if (chosenTool && isTaggedTool(chosenTool) && chosenTool.body.id) {
       return { label: chosenTool.body.name, value: chosenTool.uuid };
     } else {
       return NULL_CHOICE;
     }
   };
+
+  let changeToolSlot = (t: TaggedToolSlot,
+    dispatch: Function) =>
+    (d: DropDownItem) => {
+      let tool_id = d.value ? d.value : (null as any); // Move "" to undefined;
+      dispatch(edit(t, { tool_id }));
+    }
 
   return {
     toolBays,
@@ -59,7 +73,8 @@ export function mapStateToProps(props: Everything): Props {
     getToolOptions,
     getChosenToolOption,
     dispatch: props.dispatch,
-    getToolByToolSlotUUID
+    getToolByToolSlotUUID,
+    changeToolSlot
   };
 
 }

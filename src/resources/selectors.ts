@@ -257,7 +257,9 @@ export let currentToolInSlot = (index: ResourceIndex) =>
   (toolSlotUUID: string): TaggedTool | undefined => {
     let currentSlot = selectCurrentToolSlot(index, toolSlotUUID);
     if (currentSlot && currentSlot.kind === "tool_slots") {
-      let tool = findWhere(index, { id: currentSlot.body.tool_id });
+      let toolUUID = index
+        .byKindAndId[joinKindAndId("tools", currentSlot.body.tool_id)];
+      let tool = index.references[toolUUID || "NOPE!"];
       if (tool && isTaggedTool(tool)) {
         return tool;
       }

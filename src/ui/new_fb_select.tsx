@@ -9,6 +9,7 @@ interface Props {
   onChange(selection: DropDownItem): void;
   /** All possible select options */
   list: DropDownItem[];
+  allowEmpty?: boolean;
 };
 
 type State = {
@@ -34,10 +35,17 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
     this.state = { isOpen: false };
   }
 
+  get list() {
+    let orig = this.props.list;
+    return (this.props.allowEmpty) ? orig.concat([NULL_CHOICE]) : orig;
+  }
+
+  get item() { return this.props.selectedItem || NULL_CHOICE; }
+
   toggleDropdown = () => { this.setState({ isOpen: !this.state.isOpen }); }
 
   normlItemList = () => {
-    return this.props.list.map((option: DropDownItem, i) => {
+    return this.list.map((option: DropDownItem, i) => {
       let { label } = option;
       fancyDebug(option)
       // TODO: Put this in a shared function when we finish debugging callbacks.
@@ -50,11 +58,10 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
   }
 
   render() {
-    let item = this.props.selectedItem || { label: "", value: 0 };
     let { isOpen } = this.state;
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        <input type="text" placeholder="Search..." value={item.label} />
+        <input type="text" placeholder="Search..." value={this.item.label} />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>

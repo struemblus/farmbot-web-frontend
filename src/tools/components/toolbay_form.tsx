@@ -4,7 +4,6 @@ import {
   Widget,
   WidgetBody,
   WidgetHeader,
-  DeprecatedFBSelect,
   Col,
   Row,
   BlurableInput
@@ -12,6 +11,7 @@ import {
 import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
 import { edit, destroy, saveAll, initSave } from "../../api/crud";
+import { NewFBSelect } from "../../ui/new_fb_select";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
   emptyToolSlot = (tool_bay_id: number): TaggedToolSlot => {
@@ -28,8 +28,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
   }
 
   render() {
-    let toggle = () => this.props.toggle();
-    let { dispatch } = this.props;
+    let { toggle, dispatch } = this.props;
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -112,13 +111,12 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                     />
                   </Col>
                   <Col xs={3}>
-                    <DeprecatedFBSelect
+                    <NewFBSelect
                       list={this.props.getToolOptions()}
-                      initialValue={this.props.getChosenToolOption(slot.uuid)}
-                      onChange={(e) => {
-                        dispatch(edit(slot, { x: e.value }));
-                      }}
+                      selectedItem={this.props.getChosenToolOption(slot.uuid)}
                       allowEmpty={true}
+                      onChange={this.props.changeToolSlot(slot,
+                        this.props.dispatch)}
                     />
                   </Col>
                   <Col xs={1}>

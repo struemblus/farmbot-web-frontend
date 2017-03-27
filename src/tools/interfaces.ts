@@ -20,6 +20,7 @@ export interface Props {
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
   getToolSlots(): TaggedToolSlot[];
   dispatch: Function;
+  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface ToolBay {
@@ -60,6 +61,7 @@ export interface ToolBayFormProps {
   getToolOptions(): DropDownItem[];
   getChosenToolOption(uuid: string): DropDownItem;
   getToolSlots(): TaggedToolSlot[];
+  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface ToolListProps {

@@ -31,6 +31,7 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
             getToolSlots={this.props.getToolSlots}
             getChosenToolOption={this.props.getChosenToolOption}
             getToolOptions={this.props.getToolOptions}
+            changeToolSlot={this.props.changeToolSlot}
           />}
         </Col>
         <Col sm={5}>
