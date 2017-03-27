@@ -3,6 +3,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import { DesignerState } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { HardwareState } from "../devices/interfaces";
+import { TaggedResource } from "../resources/tagged_resources";
 
 export let initialState: DesignerState = {
   x_size: 0,
@@ -33,5 +34,9 @@ export let designer = generateReducer<DesignerState>(initialState)
   function (s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
+    return state;
+  })
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
+    console.warn("Cleanup UUID here.")
     return state;
   });

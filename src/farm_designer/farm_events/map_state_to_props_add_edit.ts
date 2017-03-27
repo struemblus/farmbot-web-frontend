@@ -16,7 +16,6 @@ import { TaggedFarmEvent } from "../../resources/tagged_resources";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
-    // Am I really doing this right now? How else?
     let incomingTime = e.currentTarget.value.split(":");
     let hours = parseInt(incomingTime[0]) || 0;
     let minutes = parseInt(incomingTime[1]) || 0;
@@ -111,16 +110,6 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
 
   let farmEvents = selectAllFarmEvents(props.resources.index);
 
-  let getInitalizedFarmEvent = (): TaggedFarmEvent | undefined => {
-    let uuid = props.resources.index.byKind.farm_events.pop();
-    if (uuid) {
-      let fe = props.resources.index.references[uuid];
-      if (fe && fe.kind === "farm_events" && !fe.body.id) { return fe; }
-    } else {
-      throw new Error("Tried to retrive an uninitialized farm event.");
-    }
-  }
-
   let getFarmEvent = (url: string): TaggedFarmEvent => {
     let id = parseInt(url.split("/")[4]);
     return findFarmEventById(props.resources.index, id);
@@ -137,7 +126,6 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
     formatTime,
     handleTime,
     farmEvents,
-    getFarmEvent,
-    getInitalizedFarmEvent
+    getFarmEvent
   };
 }
