@@ -11,7 +11,7 @@ import {
   LegalSequenceKind
 } from "farmbot";
 import {
-  FBSelect,
+  DeprecatedFBSelect,
   Row,
   Col,
   BlurableInput,
@@ -177,7 +177,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <Row>
               <Col md={12}>
                 <label>Import coordinates from</label>
-                <FBSelect
+                <DeprecatedFBSelect
                   allowEmpty={true}
                   list={this.options}
                   initialValue={this.initialDropDownSequenceValue()}

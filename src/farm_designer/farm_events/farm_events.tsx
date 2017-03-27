@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { FBSelect, Row, Col } from "../../ui";
+import { DeprecatedFBSelect, Row, Col } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { mapStateToProps } from "./map_state_to_props";
@@ -64,7 +64,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <Col xs={10}>
-            <FBSelect list={[]}
+            <DeprecatedFBSelect list={[]}
               onChange={(selectedOption) => {
                 this.props.push("/app/designer/farm_events/" + selectedOption.value);
               }}

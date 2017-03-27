@@ -50,7 +50,7 @@ export const NULL_CHOICE: DropDownItem = Object.freeze({
   value: ""
 });
 
-export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
+export class DeprecatedFBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
   constructor() {
     super();
     this.state = { touched: false };

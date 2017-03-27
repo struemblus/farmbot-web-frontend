@@ -2,7 +2,7 @@ import * as React from "react";
 import { t } from "i18next";
 import { FarmEvent, AddEditFarmEventProps, TimeUnit } from "../interfaces";
 import {
-  FBSelect,
+  DeprecatedFBSelect,
   BlurableInput,
   Col,
   Row,
@@ -107,7 +107,7 @@ Partial<FarmEvent>> {
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
-        <FBSelect
+        <DeprecatedFBSelect
           list={selectOptions}
           onChange={this.updateSequenceOrRegimen} />
         <label>{t("Starts")}</label>
@@ -142,7 +142,7 @@ Partial<FarmEvent>> {
               onCommit={this.updateForm} />
           </Col>
           <Col xs={8}>
-            <FBSelect
+            <DeprecatedFBSelect
               list={this.props.repeatOptions}
               onChange={this.updateRepeatSelect} />
           </Col>

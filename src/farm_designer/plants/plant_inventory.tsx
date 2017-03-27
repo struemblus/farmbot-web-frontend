@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { FBSelect, DropDownItem } from "../../ui";
+import { DeprecatedFBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
@@ -62,7 +62,7 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <FBSelect list={plantOptions}
+          <DeprecatedFBSelect list={plantOptions}
             optionComponent={OptionComponent(plants)}
             onChange={this.handleRedirect}
             isOpen={true}

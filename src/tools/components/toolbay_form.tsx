@@ -4,7 +4,7 @@ import {
   Widget,
   WidgetBody,
   WidgetHeader,
-  FBSelect,
+  DeprecatedFBSelect,
   Col,
   Row,
   BlurableInput
@@ -112,7 +112,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                     />
                   </Col>
                   <Col xs={3}>
-                    <FBSelect
+                    <DeprecatedFBSelect
                       list={this.props.getToolOptions()}
                       initialValue={this.props.getChosenToolOption(slot.uuid)}
                       onChange={(e) => {

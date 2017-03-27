@@ -1,6 +1,6 @@
 import * as React from "react";
 import { IfParams, seqDropDown, initialValue, updateSubSeq } from "./index";
-import { FBSelect } from "../../../ui/fb_select";
+import { DeprecatedFBSelect } from "../../../ui/fb_select";
 import { t } from "i18next";
 
 export function Then(props: IfParams) {
@@ -15,7 +15,7 @@ export function Then(props: IfParams) {
     </div>
     <div className="col-xs-12 col-md-12">
       <label>{t("Execute Sequence")}</label>
-      <FBSelect
+      <DeprecatedFBSelect
         list={seqDropDown(props.resources)}
         placeholder="Sequence..."
         onChange={onChange}

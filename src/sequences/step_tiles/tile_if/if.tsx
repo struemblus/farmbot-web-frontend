@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IfParams, LHSOptions, updateField, operatorOptions } from "./index";
 import { t } from "i18next";
-import { FBSelect } from "../../../ui/index";
+import { DeprecatedFBSelect } from "../../../ui/index";
 import { StepInputBox } from "../../inputs/step_input_box";
 
 export function If_(props: IfParams) {
@@ -18,7 +18,7 @@ export function If_(props: IfParams) {
     </div>
     <div className="col-xs-4 col-md-4">
       <label>{t("Variable")}</label>
-      <FBSelect
+      <DeprecatedFBSelect
         list={LHSOptions}
         placeholder="Left hand side"
         onChange={updateField("lhs", dispatch)}
@@ -27,7 +27,7 @@ export function If_(props: IfParams) {
     </div>
     <div className="col-xs-4 col-md-4">
       <label>{t("Operator")}</label>
-      <FBSelect
+      <DeprecatedFBSelect
         list={operatorOptions}
         placeholder="Operation"
         onChange={updateField("op", dispatch)}

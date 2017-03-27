@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui";
+import { DeprecatedFBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui";
 import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
 
@@ -84,7 +84,7 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
         </Row>
         <Row>
           <Col xs={12}>
-            <FBSelect list={this.fwList()}
+            <DeprecatedFBSelect list={this.fwList()}
               onChange={(x) => this.setState({ selectedFarmware: x.label })}
               placeholder="Installed Farmware Packages" />
           </Col>

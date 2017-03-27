@@ -1,10 +1,7 @@
 import * as React from "react";
-import {
-  copy,
-  remove
-} from "./index";
+import { copy, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help, FBSelect, DropDownItem } from "../../ui";
+import { Help, DeprecatedFBSelect, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SendMessage } from "farmbot";
@@ -39,6 +36,7 @@ interface SendMessageParams {
   index: number;
   resources: ResourceIndex;
 }
+
 class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   get args() { return this.props.currentStep.args; }
   get message() { return this.args.message };
@@ -48,7 +46,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   get dispatch() { return this.props.dispatch }
   get sequence() { return this.props.currentSequence; }
   get index() { return this.props.index }
-  get initialSelection(): DropDownItem {
+  get currentSelection(): DropDownItem {
     return { label: this.label, value: this.message_type };
   };
 
@@ -132,9 +130,9 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                   />
                   <div className="bottom-content">
                     <div className="channel-options">
-                      <FBSelect
+                      <DeprecatedFBSelect
                         onChange={this.setMessageType}
-                        initialValue={this.initialSelection}
+                        value={this.currentSelection}
                         list={MESSAGE_STATUSES}
                         allowEmpty={true}
                       />

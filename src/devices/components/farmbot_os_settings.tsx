@@ -11,7 +11,7 @@ import {
 } from "../actions";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { FBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import { DeprecatedFBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
@@ -176,7 +176,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Col>
             <Col xs={7}>
               <p>
-                <FBSelect allowEmpty={true}
+                <DeprecatedFBSelect allowEmpty={true}
                   list={CAMERA_CHOICES}
                   placeholder="Select a camera..."
                   onChange={this.sendOffConfig} />

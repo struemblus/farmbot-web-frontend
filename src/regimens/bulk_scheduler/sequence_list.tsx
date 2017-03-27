@@ -1,6 +1,6 @@
 import * as React from "react";
 import { setSequence } from "./actions";
-import { FBSelect, DropDownItem } from "../../ui";
+import { DeprecatedFBSelect, DropDownItem } from "../../ui";
 import * as _ from "lodash";
 import { t } from "i18next";
 import { SequenceListProps } from "./interfaces";
@@ -31,7 +31,7 @@ export function SequenceList({ sequences,
 
   return <div>
     <label>{t("Sequence")}</label>
-    <FBSelect
+    <DeprecatedFBSelect
       allowEmpty={true}
       initialValue={selectedSequence}
       onChange={change(dispatch, sequences)}

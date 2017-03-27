@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { DropDownItem, FBSelect } from "../ui/fb_select";
+import { DropDownItem, DeprecatedFBSelect } from "../ui/fb_select";
 import { Row, Col } from "../ui/index";
 
 const calibrationAxes: DropDownItem[] = [
@@ -31,7 +31,7 @@ export const additionalSettingsMenu = () => {
     <label htmlFor="calibration_object_separation_axis">
       {t(`Calibration Object Separation along axis`)}
     </label>
-    <FBSelect
+    <DeprecatedFBSelect
       list={calibrationAxes}
       placeholder="Select..."
       id="calibration_object_separation_axis" />
@@ -52,7 +52,7 @@ export const additionalSettingsMenu = () => {
     <label htmlFor="image_bot_origin_location">
       {t(`Origin Location in Image`)}
     </label>
-    <FBSelect
+    <DeprecatedFBSelect
       list={originLocations}
       placeholder="Select..."
       id="image_bot_origin_location" />

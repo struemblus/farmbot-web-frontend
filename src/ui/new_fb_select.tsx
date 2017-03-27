@@ -1,7 +1,14 @@
 import * as React from "react";
 import { DropDownItem } from "./fb_select";
 
-type Props = {};
+interface Props {
+  className: string;
+  placeholder: string;
+  id: string;
+  isOpen: boolean;
+  value: DropDownItem | undefined;
+};
+
 type State = {};
 
 type OptionComponent = React.ComponentClass<DropDownItem>
@@ -27,18 +34,15 @@ export class NewFBSelect extends React.Component<Props, State> {
   }
 
   render() {
-    return <div className={"select " + (className || "")}>
+    let { placeholder, isOpen } = this.props;
+    return <div className={"select " + (this.props.className || "")}>
       <div className="select-search-container">
         <input type="text"
-          onChange={this.updateInput}
-          onFocus={this.open}
-          onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
-          value={this.value().label}
           id={this.props.id || ""} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>
-        {renderList(this.filterByInput())}
+
       </div>
     </div>;
   }

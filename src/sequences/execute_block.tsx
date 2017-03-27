@@ -2,7 +2,7 @@ import * as React from "react";
 import { copy, remove } from "./step_tiles/index";
 import { StepParams } from "./interfaces";
 import { t } from "i18next";
-import { FBSelect, DropDownItem } from "../ui";
+import { DeprecatedFBSelect, DropDownItem } from "../ui";
 import { selectAllSequences, findSequenceById } from "../resources/selectors";
 import { Execute } from "farmbot/dist";
 import { TaggedSequence } from "../resources/tagged_resources";
@@ -58,7 +58,7 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
   }
 
   SequenceSelectBox = () => {
-    return <FBSelect onChange={this.changeSelection}
+    return <DeprecatedFBSelect onChange={this.changeSelection}
       initialValue={this.selectedSequence()}
       list={this.sequenceDropDownList()}
       placeholder="Pick a sequence (or save a new one)" />
