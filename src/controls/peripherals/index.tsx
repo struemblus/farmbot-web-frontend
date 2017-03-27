@@ -9,6 +9,10 @@ import { TaggedPeripheral } from "../../resources/tagged_resources";
 import { initSave, saveAll } from "../../api/crud";
 import { selectAllPeripherals } from "../../resources/selectors";
 
+const HELP_TEXT = `Use these toggle switches to control FarmBot's peripherals in 
+realtime. To edit and create new peripherals, press the EDIT button. Make 
+sure to turn things off when you're done!`
+
 export class Peripherals extends React.Component<PeripheralsProps, PeripheralState> {
   constructor() {
     super();
@@ -37,9 +41,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     let { isEditing } = this.state;
     return <Widget>
       <WidgetHeader title={"Peripherals"}
-        helpText={`Use these toggle switches to control FarmBot's peripherals in 
-      realtime. To edit and create new peripherals, press the EDIT button. Make 
-      sure to turn things off when you're done!`}>
+        helpText={HELP_TEXT}>
         <button
           className="gray button-like"
           type="button"
