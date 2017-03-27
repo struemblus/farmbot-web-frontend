@@ -102,7 +102,12 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                 step={currentStep} />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
+                onClick={() => copy({
+                  dispatch,
+                  step: currentStep,
+                  sequence: currentSequence,
+                  index
+                })} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
               <Help text={(`The Send Message step instructs

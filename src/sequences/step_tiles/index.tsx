@@ -16,21 +16,22 @@ import { TileTakePhoto } from "./tile_take_photo";
 import * as _ from "lodash";
 import { CeleryNode, LegalSequenceKind, LegalArgString, If, Execute, Nothing } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
-import { edit, overwrite } from "../../api/crud";
-import { DropDownItem } from "../../ui/index";
+import { overwrite } from "../../api/crud";
 
 interface CopyParams {
   dispatch: Function;
   step: Step;
+  index: number;
   sequence: TaggedSequence
 }
 
-export function copy({ dispatch, step, sequence }: CopyParams) {
+export function copy({ dispatch, step, sequence, index }: CopyParams) {
   let copy = defensiveClone(step);
   let next = defensiveClone(sequence);
   let seq = next.body;
   seq.body = seq.body || [];
-  seq.body.splice(_.indexOf(seq.body, copy), 0, copy);
+  seq.body.splice(index, 0, copy);
+
   dispatch(overwrite(sequence, next.body));
 };
 

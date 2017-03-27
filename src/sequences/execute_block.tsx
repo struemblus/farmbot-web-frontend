@@ -89,11 +89,16 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
               <i className="fa fa-clone step-control"
                 onClick={() => copy({
                   dispatch,
+                  index,
                   step: currentStep,
                   sequence: currentSequence
                 })} />
               <i className="fa fa-trash step-control"
-                onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
+                onClick={() => remove({
+                  dispatch,
+                  index,
+                  sequence: currentSequence
+                })} />
             </div>
           </div>
         </div>

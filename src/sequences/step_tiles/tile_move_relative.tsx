@@ -18,7 +18,12 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
               step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step: currentStep, sequence: currentSequence })} />
+              onClick={() => copy({
+                dispatch,
+                step: currentStep,
+                index,
+                sequence: currentSequence
+              })} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Move Relative step instructs FarmBot \
