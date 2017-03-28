@@ -72,25 +72,25 @@ function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
  * array argument.
  * SOURCE:
  *   https://github.com/granteagon/move/blob/master/src/index.js */
-export function move<T>(array: T[], moveIndex: number, toIndex: number) {
+export function move<T>(array: T[], fromIndex: number, toIndex: number) {
 
-  let item = array[moveIndex];
+  let item = array[fromIndex];
   let length = array.length;
-  let diff = moveIndex - toIndex;
+  let diff = fromIndex - toIndex;
 
   if (diff > 0) {
     // move left
     return [
       ...array.slice(0, toIndex),
       item,
-      ...array.slice(toIndex, moveIndex),
-      ...array.slice(moveIndex + 1, length)
+      ...array.slice(toIndex, fromIndex),
+      ...array.slice(fromIndex + 1, length)
     ];
   } else if (diff < 0) {
     // move right
     return [
-      ...array.slice(0, moveIndex),
-      ...array.slice(moveIndex + 1, toIndex + 1),
+      ...array.slice(0, fromIndex),
+      ...array.slice(fromIndex + 1, toIndex + 1),
       item,
       ...array.slice(toIndex + 1, length)
     ];
