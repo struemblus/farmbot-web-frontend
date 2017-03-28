@@ -42,13 +42,13 @@ export function copySequence(payload: TaggedSequence) {
   }
 }
 
-export function spliceStep(step: Step, insertBefore: number):
-  ReduxAction<SpliceStepPayl> {
-  return {
-    type: "SPLICE_STEP",
-    payload: { step, insertBefore }
-  };
-}
+// export function spliceStep(step: Step, insertBefore: number):
+//   ReduxAction<SpliceStepPayl> {
+//   return {
+//     type: "SPLICE_STEP",
+//     payload: { step, insertBefore }
+//   };
+// }
 
 export function moveStep(step: Step,
   from: number,

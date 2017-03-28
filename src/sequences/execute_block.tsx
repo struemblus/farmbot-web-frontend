@@ -1,5 +1,5 @@
 import * as React from "react";
-import { copy, remove } from "./step_tiles/index";
+import { splice, remove } from "./step_tiles/index";
 import { StepParams } from "./interfaces";
 import { t } from "i18next";
 import { DeprecatedFBSelect, DropDownItem } from "../ui";
@@ -87,7 +87,7 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
               <input className="step-label" placeholder="Execute" />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => copy({
+                onClick={() => splice({
                   dispatch,
                   index,
                   step: currentStep,

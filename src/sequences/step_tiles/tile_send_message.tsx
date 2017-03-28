@@ -1,5 +1,5 @@
 import * as React from "react";
-import { copy, remove } from "./index";
+import { splice, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help, DropDownItem } from "../../ui";
 import { t } from "i18next";
@@ -102,7 +102,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                 step={currentStep} />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => copy({
+                onClick={() => splice({
                   dispatch,
                   step: currentStep,
                   sequence: currentSequence,

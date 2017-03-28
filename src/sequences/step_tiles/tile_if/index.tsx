@@ -4,7 +4,7 @@ import { TaggedSequence } from "../../../resources/tagged_resources";
 import { If, Execute, Nothing } from "farmbot/dist";
 import { ResourceIndex } from "../../../resources/interfaces";
 import { selectAllSequences, findSequenceById } from "../../../resources/selectors";
-import { copy, remove, isRecursive } from "../index";
+import { splice, remove, isRecursive } from "../index";
 import { StepTitleBar } from "../step_title_bar";
 import { If_ } from "./if";
 import { Then } from "./then";
@@ -136,7 +136,7 @@ export function InnerIf(props: IfParams) {
               step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy(stuff)} />
+              onClick={() => splice(stuff)} />
             <i className="fa fa-trash step-control"
               onClick={() => remove(stuff)} />
             <Help text={(`Detailed documentation coming soon`)} />

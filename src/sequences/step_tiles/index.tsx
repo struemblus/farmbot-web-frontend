@@ -25,7 +25,7 @@ interface CopyParams {
   sequence: TaggedSequence
 }
 
-export function copy({ dispatch, step, sequence, index }: CopyParams) {
+export function splice({ dispatch, step, sequence, index }: CopyParams) {
   let copy = defensiveClone(step);
   let next = defensiveClone(sequence);
   let seq = next.body;

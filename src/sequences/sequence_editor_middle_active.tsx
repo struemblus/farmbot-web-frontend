@@ -10,7 +10,7 @@ import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence
 } from "./actions";
-import { renderCeleryNode } from "./step_tiles/index";
+import { renderCeleryNode, splice } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import {
@@ -23,32 +23,31 @@ import {
 } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
-import { pushStep, spliceStep, moveStep } from "./actions";
+import { pushStep, moveStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { save, edit, destroy } from "../api/crud";
 import { toastErrors } from "../util";
+import { GetState } from "../redux/interfaces";
 
-function routeIncomingDroppedItems(dispatch: dispatcher,
-  key: string,
-  dropperId: number) {
-  let dataXferObj = dispatch(stepGet(key));
-  let step = dataXferObj.value;
-  switch (dataXferObj.intent) {
-    case "step_splice":
-      return dispatch(spliceStep(step, dropperId));
-    case "step_move":
-      let { draggerId } = dataXferObj;
-      return dispatch(moveStep(step, draggerId, dropperId));
-    default:
-      throw new Error("Got unexpected data transfer object.");
-  }
-}
-
-let onDrop = (dispatch: dispatcher, dropperId: number) => (key: string) => {
-  routeIncomingDroppedItems(dispatch, key, dropperId);
-};
+let onDrop = (index: number, dispatch: Function, sequence: TaggedSequence) =>
+  (key: string) => {
+    dispatch(function (dispatch: Function, getState: GetState) {
+      let dataXferObj = dispatch(stepGet(key));
+      let currentSequence
+      let step = dataXferObj.value;
+      switch (dataXferObj.intent) {
+        case "step_splice":
+          return splice({ dispatch, step, sequence, index });
+        case "step_move":
+          let { draggerId } = dataXferObj;
+          return dispatch(moveStep(step, draggerId, index));
+        default:
+          throw new Error("Got unexpected data transfer object.");
+      }
+    });
+  };
 
 let handleNameUpdate = (dispatch: Function, seq: TaggedSequence) =>
   (event: React.SyntheticEvent<HTMLInputElement>) => {
@@ -136,7 +135,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           let wow = (currentStep as any).uuid || index;
           let currentSequence = sequence;
           return <div key={wow}>
-            <DropArea callback={onDrop(dispatch as dispatcher, index)} />
+            <DropArea callback={onDrop(index, dispatch, sequence)} />
             <StepDragger dispatch={dispatch}
               step={currentStep}
               ghostCss="step-drag-ghost-image-big"

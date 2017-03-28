@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { StepParams } from "../interfaces";
-import { copy, remove } from "./index";
+import { splice, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
 import {
   Vector3,
@@ -145,7 +145,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <StepTitleBar index={index} dispatch={dispatch} step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({
+              onClick={() => splice({
                 dispatch,
                 step: currentStep,
                 index,

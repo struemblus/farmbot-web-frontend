@@ -8,7 +8,6 @@ export function addGhostImage(
   ev: React.DragEvent<HTMLElement>,
   /** Optional CSS class to add to drag image. */
   cssClass = "") {
-  console.warn(` Imperative DOM manipulation? `)
   var el = ev.currentTarget.cloneNode(true) as HTMLElement;
   // RELEVANT READING:
   // http://www.kryogenix.org/code/browser/custom-drag-image.html
