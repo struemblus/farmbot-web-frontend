@@ -1,10 +1,9 @@
 import * as React from "react";
 import { IfParams, seqDropDown, initialValue, updateSubSeq } from "./index";
-import { DeprecatedFBSelect } from "../../../ui/fb_select";
 import { t } from "i18next";
+import { NewFBSelect } from "../../../ui/new_fb_select";
 
 export function Then(props: IfParams) {
-  let { args } = props.currentStep;
   let step = props.currentStep;
   let seq = props.currentSequence;
   let { dispatch, index } = props;
@@ -15,11 +14,11 @@ export function Then(props: IfParams) {
     </div>
     <div className="col-xs-12 col-md-12">
       <label>{t("Execute Sequence")}</label>
-      <DeprecatedFBSelect
+      <NewFBSelect
         list={seqDropDown(props.resources)}
         placeholder="Sequence..."
         onChange={onChange}
-        initialValue={initialValue(props.currentStep.args._then, props.resources)}
+        selectedItem={initialValue(props.currentStep.args._then, props.resources)}
       />
     </div>
   </div>

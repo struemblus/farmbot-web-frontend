@@ -55,11 +55,6 @@ export const operatorOptions: DropDownItem[] = [
   { value: "not", label: "is not equal to" }
 ];
 
-export let updateField = (field: Operator, dispatch: Function) =>
-  (e: DropDownItem) => {
-    console.log("TODO!");
-  };
-
 export function seqDropDown(i: ResourceIndex) {
   let results: DropDownItem[] = [];
   selectAllSequences(i)
