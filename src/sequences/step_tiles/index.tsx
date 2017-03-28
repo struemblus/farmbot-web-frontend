@@ -3,7 +3,7 @@ import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
 import { ExecuteBlock } from "./tile_execute";
 import { StepParams, StepInputProps } from "../interfaces";
-import { defensiveClone } from "../../util";
+import { defensiveClone, fancyDebug } from "../../util";
 import { TileIf } from "./tile_if";
 import { TileWait } from "./tile_wait";
 import { TileMoveAbsolute } from "./tile_move_absolute";
@@ -30,10 +30,17 @@ export function move({ step, sequence, to, from }: MoveParams) {
   let next = defensiveClone(sequence);
   let seq = next.body;
   seq.body = seq.body || [];
-  seq.body.splice(to, 0, defensiveClone(copy));
-  delete seq.body[from];
-  seq.body = _.compact(seq.body);
-  return overwrite(sequence, next.body);
+  let both = [from, to];
+  if (from > to) {
+    // wtf ?
+    return { type: "NOOP", payload: {} }
+  } else {
+    // WORKS!
+    seq.body.splice(to, 0, defensiveClone(copy));
+    delete seq.body[from];
+    seq.body = _.compact(seq.body);
+    return overwrite(sequence, next.body);
+  }
 };
 
 interface CopyParams {
