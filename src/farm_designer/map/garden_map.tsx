@@ -78,7 +78,6 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
         body: Plant({
           x,
           y,
-          img_url: OFEntry.image,
           openfarm_slug: OFEntry.crop.slug,
           name: OFEntry.crop.name || "Mystery Crop",
           planted_at: moment().toISOString(),
@@ -98,6 +97,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     };
 
     let dropper = (uuid: string) => {
+      console.log("Noop? TODO: Implement.");
       // dispatch(savePlant(uuid));
     };
 

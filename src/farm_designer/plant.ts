@@ -14,14 +14,12 @@ export function Plant(options: PlantOptions): Plant {
   return {
     id: options.id,
     planted_at: (options.planted_at || ""),
-    img_url: (options.img_url || DEFAULT_ICON),
     name: (options.name || "Untitled Plant"),
     x: (options.x || 0),
     y: (options.y || 0),
     radius: (options.radius || 25),
     spread: options.spread,
     planting_area_id: (options.planting_area_id || ""),
-    icon_url,
     openfarm_slug
   };
 }
