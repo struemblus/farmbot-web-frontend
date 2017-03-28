@@ -69,12 +69,13 @@ export let botReducer = generateReducer<BotState>(initialState)
     Object.assign(s.account, a.payload, { dirty: true });
     return s;
   })
-  .add<any>("FETCH_DEVICE_ERR", function (s, a) {
-    return Object.assign({}, s);
-  })
   .add<Partial<DeviceAccountSettings>>("SAVE_DEVICE_OK", function (s, a) {
     s.account = _.merge({}, s.account, a.payload, { dirty: false });
     s.dirty = false;
+    return s;
+  })
+  .add<DeviceAccountSettings>("FETCH_DEVICE_OK", function(s, a){
+    s.account = a.payload;
     return s;
   })
   .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {

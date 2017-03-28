@@ -10,6 +10,7 @@ import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { ResourceName } from "../resources/tagged_resources";
 import { error } from "../ui/index";
+import { warning } from "../ui/logger";
 
 export interface ResourceReadyPayl {
   name: ResourceName;
@@ -17,14 +18,13 @@ export interface ResourceReadyPayl {
 }
 
 export function fetchDeprecatedSyncData(dispatch: Function) {
+  let fail = () => warning("Please try refreshing the page.",
+    "Error downloading data");
   let fetch = <T>(name: ResourceName, url: string) => axios
     .get<T>(url)
     .then((r): T => dispatch({
       type: "RESOURCE_READY", payload: { name, data: r.data }
-    }), (e) => {
-      let rname = name.split("_").join(" ");
-      error(`Hit an error downloading ${rname}. Please try refreshing the page.`);
-    });
+    }), fail);
   console.log("Missing stil: users, devices")
   fetch<FarmEvent[]>("farm_events", API.current.farmEventsPath);
   fetch<Image[]>("images", API.current.imagesPath);
@@ -37,13 +37,9 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<ToolBay[]>("tool_bays", API.current.toolBaysPath);
   fetch<Tool[]>("tools", API.current.toolsPath);
   fetch<ToolSlot[]>("tool_slots", API.current.toolSlotsPath);
-  console.log("Still need to finish these: ");
   axios
     .get<DeviceAccountSettings>(API.current.devicePath)
-    .then(() => console.log("BRB!"));
-  axios
-    .get<{}>(API.current.usersPath)
-    .then(() => console.log("BRB!"));
+    .then((resp) => dispatch({type: "FETCH_DEVICE_OK", payload: resp.data}));
 }
 
 export function fetchDeprecatedSyncDataOk(payload: {}) {
