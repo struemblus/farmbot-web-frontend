@@ -1,6 +1,5 @@
 import * as React from "react";
 import { DropDownItem } from "./fb_select";
-import { fancyDebug } from "../util";
 
 interface Props {
   /** Value to show. */
@@ -47,7 +46,6 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
   normlItemList = () => {
     return this.list.map((option: DropDownItem, i) => {
       let { label } = option;
-      fancyDebug(option)
       // TODO: Put this in a shared function when we finish debugging callbacks.
       return <div key={option.value}
         className="select-result"
