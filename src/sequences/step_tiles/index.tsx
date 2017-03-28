@@ -18,21 +18,37 @@ import { CeleryNode, LegalSequenceKind, LegalArgString, If, Execute, Nothing } f
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { overwrite } from "../../api/crud";
 
+interface MoveParams {
+  step: Step;
+  to: number;
+  from: number;
+  sequence: TaggedSequence
+}
+
+export function move({ step, sequence, to, from }: MoveParams) {
+  let copy = defensiveClone(step);
+  let next = defensiveClone(sequence);
+  let seq = next.body;
+  seq.body = seq.body || [];
+  seq.body.splice(to, 0, defensiveClone(copy));
+  delete seq.body[from];
+  seq.body = _.compact(seq.body);
+  return overwrite(sequence, next.body);
+};
+
 interface CopyParams {
-  dispatch: Function;
   step: Step;
   index: number;
   sequence: TaggedSequence
 }
 
-export function splice({ dispatch, step, sequence, index }: CopyParams) {
+export function splice({ step, sequence, index }: CopyParams) {
   let copy = defensiveClone(step);
   let next = defensiveClone(sequence);
   let seq = next.body;
   seq.body = seq.body || [];
   seq.body.splice(index, 0, copy);
-
-  dispatch(overwrite(sequence, next.body));
+  return overwrite(sequence, next.body);
 };
 
 interface RemoveParams {

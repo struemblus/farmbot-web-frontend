@@ -17,12 +17,11 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
               step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => splice({
-                dispatch,
+              onClick={() => dispatch(splice({
                 step: currentStep,
                 index,
                 sequence: currentSequence
-              })} />
+              }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Read Pin step instructs FarmBot to

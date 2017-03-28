@@ -87,12 +87,11 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
               <input className="step-label" placeholder="Execute" />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => splice({
-                  dispatch,
+                onClick={() => dispatch(splice({
                   index,
                   step: currentStep,
                   sequence: currentSequence
-                })} />
+                }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({
                   dispatch,

@@ -10,7 +10,7 @@ import { execSequence } from "../devices/actions";
 import {
   editCurrentSequence
 } from "./actions";
-import { renderCeleryNode, splice } from "./step_tiles/index";
+import { renderCeleryNode, splice, remove, move } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import {
@@ -39,10 +39,11 @@ let onDrop = (index: number, dispatch: Function, sequence: TaggedSequence) =>
       let step = dataXferObj.value;
       switch (dataXferObj.intent) {
         case "step_splice":
-          return splice({ dispatch, step, sequence, index });
+          return dispatch(splice({ step, sequence, index }));
         case "step_move":
-          let { draggerId } = dataXferObj;
-          return dispatch(moveStep(step, draggerId, index));
+          let action =
+            move({ step, sequence, to: index, from: dataXferObj.draggerId });
+          return dispatch(action);
         default:
           throw new Error("Got unexpected data transfer object.");
       }

@@ -42,22 +42,15 @@ export function copySequence(payload: TaggedSequence) {
   }
 }
 
-// export function spliceStep(step: Step, insertBefore: number):
-//   ReduxAction<SpliceStepPayl> {
-//   return {
-//     type: "SPLICE_STEP",
-//     payload: { step, insertBefore }
-//   };
-// }
-
 export function moveStep(step: Step,
   from: number,
-  to: number):
-  ReduxAction<MoveStepPayl> {
-  return {
-    type: "MOVE_STEP",
-    payload: { step, from, to }
-  };
+  to: number) {
+  return function (dispatch: Function, getState: GetState) {
+    return {
+      type: "MOVE_STEP",
+      payload: { step, from, to }
+    };
+  }
 }
 
 export function changeStepSelect(
