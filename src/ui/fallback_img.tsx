@@ -14,33 +14,20 @@ export class FallbackImg extends React.Component<Props, State> {
     this.state = { needsFallback: false };
   }
 
-  computeSrc = () => {
-    return this.state.needsFallback ? this.props.fallback : this.props.src;
+  componentWillReceiveProps(next: Props) {
+    // Sorry. The webcam page needs live updates. <img/> tag was acting wonky.
+    (next.src !== this.props.src) && this.setState({ needsFallback: false });
   }
 
-  handleError = () => this.setState({ needsFallback: true });
+  fallback = () => <img {...this.props} src={this.props.fallback} />;
 
-  handleSuccess = (e: React.SyntheticEvent<HTMLImageElement>) => {
-    // Avoids endless feedback loop.
-    if (e.currentTarget.src === this.props.fallback) {
-      this.setState({ needsFallback: false });
-    }
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.src !== this.props.src) {
-      this.setState({ needsFallback: false });
-    }
+  dontFallback = () => {
+    return <img {...this.props}
+      onError={() => this.setState({ needsFallback: true })}
+      src={this.props.src} />;
   }
 
   render() {
-    if (this.state.needsFallback) {
-      return <img {...this.props} src={this.props.fallback} />;
-    } else {
-      return <img {...this.props}
-        onError={this.handleError}
-        onLoad={this.handleSuccess}
-        src={this.props.src} />;
-    }
+    return ((this.state.needsFallback) ? this.fallback : this.dontFallback)();
   }
 }
