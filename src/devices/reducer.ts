@@ -4,6 +4,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./interfaces";
 import { Configuration } from "farmbot";
+import { PLACEHOLDER_FARMBOT } from "../images/index";
 
 let initialState: BotState = {
   account: { id: 0, name: "" },
@@ -71,14 +72,9 @@ export let botReducer = generateReducer<BotState>(initialState)
   .add<any>("FETCH_DEVICE_ERR", function (s, a) {
     return Object.assign({}, s);
   })
-  .add<any>("SAVE_DEVICE_OK", function (s, a) {
-    return Object.assign({}, s, a.payload, {
-      dirty: false
-    });
-  })
-  .add<string>("CHANGE_WEBCAM_URL", function (s, a) {
-    s.dirty = true;
-    s.account.webcam_url = a.payload;
+  .add<Partial<DeviceAccountSettings>>("SAVE_DEVICE_OK", function (s, a) {
+    s.account = _.merge({}, s.account, a.payload, { dirty: false });
+    s.dirty = false;
     return s;
   })
   .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {

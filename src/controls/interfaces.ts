@@ -1,21 +1,8 @@
-import { BotState } from "../devices/interfaces";
-import { PeripheralState } from "./peripherals/interfaces";
+import { BotState, Xyz } from "../devices/interfaces";
+import { Vector3 } from "farmbot/dist";
 
 export interface ControlsState {
   isEditingCameraURL: boolean;
-}
-
-export interface DirectionButtonProps {
-  axis: "x" | "y" | "z";
-  direction: "up" | "down" | "left" | "right";
-  steps: number;
-}
-
-export interface SaveWebcamParams {
-  dispatch: Function;
-  apiUrl: string;
-  webcam_url: string;
-  updateState: Function;
 }
 
 export interface WebcamSaveBtnProps {
@@ -25,11 +12,13 @@ export interface WebcamSaveBtnProps {
   updateState: Function;
 }
 
-export interface Vector {
-  x: number;
-  y: number;
-  z: number;
+export interface DirectionButtonProps {
+  axis: Xyz;
+  direction: "up" | "down" | "left" | "right";
+  steps: number;
 }
+
+export type Vector = Vector3;
 
 export interface AxisInputBoxGroupProps {
   onCommit: (v: Vector) => void;
@@ -43,7 +32,7 @@ export interface AxisInputBoxGroupState {
 }
 
 export interface AxisInputBoxProps {
-  axis: "x" | "y" | "z";
+  axis: Xyz;
   label: string;
   value: number | undefined;
   onChange: (key: string, val: number | undefined) => void;

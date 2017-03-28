@@ -5,7 +5,7 @@ import { Everything } from "../interfaces";
 import {
   GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
 } from "./interfaces";
-import { ReduxAction, Thunk } from "../redux/interfaces";
+import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
 import { get } from "axios";
 import {
   DeviceAccountSettings,
@@ -16,6 +16,9 @@ import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
 import { HardwareState } from "../devices/interfaces";
+import { API } from "../api/index";
+import { User } from "../auth/interfaces";
+import * as Axios from "axios";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -128,7 +131,7 @@ export function execSequence(sequence: Sequence) {
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
   let state = getState();
   let bot = getState().bot.account;
-  return update(bot);
+  return save(bot);
 };
 
 let commandErr = (noun = "Command") => () => {
@@ -183,7 +186,15 @@ export function fetchFWUpdateInfo(url: string) {
   };
 }
 
-export let update = _.noop;
+export function save(input: Partial<DeviceAccountSettings>) {
+  return function (dispatch: Function, getState: GetState) {
+    return Axios
+      .put<User>(API.current.devicePath, input)
+      .then(resp => dispatch({ type: "SAVE_DEVICE_OK", payload: resp.data }))
+      .catch(resp => error("Error saving device settings."))
+  }
+}
+
 export let addDevice = _.noop
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {

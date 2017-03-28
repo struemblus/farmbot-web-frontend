@@ -1,17 +1,26 @@
 import * as React from "react";
+import { FallbackImg } from "../ui/fallback_img";
+import { PLACEHOLDER_FARMBOT, WEBCAM_ERROR } from "../images/index";
 
 export const showUrl = (url: string, dirty: boolean) => {
   if (dirty) {
     return <p>Press save to view.</p>;
   } else {
-    if (url.includes("placeholder_farmbot")) {
+    if (url.includes(PLACEHOLDER_FARMBOT)) {
       return <div className="webcam-stream-unavailable">
-        <img src={url} />
-        <text>Camera stream not available.
-        <br />Press <b>EDIT</b> to add a stream.</text>
+        <FallbackImg className="webcam-stream"
+          src={url}
+          fallback={WEBCAM_ERROR} />
+        <text>
+          Camera stream not available.
+          <br />
+          Press <b>EDIT</b> to add a stream.
+        </text>
       </div>;
     } else {
-      return <img className="webcam-stream" src={url} />;
+      return <FallbackImg className="webcam-stream"
+        src={url}
+        fallback={WEBCAM_ERROR} />;
     };
   };
 };

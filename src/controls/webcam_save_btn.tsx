@@ -1,21 +1,17 @@
 import * as React from "react";
-import { update } from "../devices/actions";
+import { save as saveDevice } from "../devices/actions";
 import { t } from "i18next";
-import { SaveWebcamParams, WebcamSaveBtnProps } from "./interfaces";
+import { WebcamSaveBtnProps } from "./interfaces";
 
-let saveWebcamUrl = ({ dispatch, webcam_url, updateState }:
-  SaveWebcamParams) => () => {
-    updateState();
-    return dispatch(() => update({ webcam_url }));
-  };
-
-export function WebcamSaveBtn({ dispatch, webcamUrl, apiUrl, updateState }:
+export function WebcamSaveBtn({ dispatch, webcamUrl, updateState }:
   WebcamSaveBtnProps) {
+  let save = (e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(saveDevice({ webcam_url: webcamUrl }));
+    updateState();
+  };
   return <button type="button"
     className="green button-like"
-    onClick={
-      saveWebcamUrl({ dispatch, apiUrl, webcam_url: webcamUrl, updateState })
-    }>
+    onClick={save}>
     {t("SAVE")}
   </button>;
 }

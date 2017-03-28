@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { changeStepSize, moveAbs } from "../devices/actions";
+import { changeStepSize, moveAbs, changeDevice } from "../devices/actions";
 import { connect } from "react-redux";
 import { ControlsState } from "./interfaces";
 import { WebcamSaveBtn } from "./webcam_save_btn";
@@ -15,7 +15,6 @@ import { Row, Page, Col, Widget, WidgetBody, WidgetHeader } from "../ui";
 import { mapStateToProps, Props } from "./state_to_props";
 import { StepSizeSelector } from "./step_size_selector";
 import { showUrl } from "./show_url";
-import { updateWebcamUrl } from "./update_webcam_url";
 
 @connect(mapStateToProps)
 export class Controls extends Component<Props, ControlsState> {
@@ -29,14 +28,15 @@ export class Controls extends Component<Props, ControlsState> {
   }
 
   clearURL = () => {
-    this.props.dispatch(updateWebcamUrl("http://"));
+    this.props.dispatch(changeDevice({ webcam_url: "http://" }));
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
   render() {
     let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
-    let url = custom || fallback || "";
+    let url = custom || fallback;
+    console.dir(url);
     let dirty = !!this.props.bot.dirty;
     let { isEditingCameraURL } = this.state;
     return <Page className="controls">
@@ -82,8 +82,7 @@ export class Controls extends Component<Props, ControlsState> {
                 <WebcamSaveBtn dispatch={this.props.dispatch}
                   webcamUrl={url}
                   apiUrl={API.current.baseUrl}
-                  updateState={this.toggleCameraURLEdit}
-                />
+                  updateState={this.toggleCameraURLEdit} />
                 :
                 <button
                   className="button-like gray"
@@ -102,7 +101,8 @@ export class Controls extends Component<Props, ControlsState> {
                 </button>
                 <input type="text"
                   onChange={(e) => {
-                    this.props.dispatch(updateWebcamUrl(e.currentTarget.value))
+                    let update = { webcam_url: e.currentTarget.value };
+                    this.props.dispatch(changeDevice(update));
                   }}
                   value={url}
                   className="webcam-url-input" />
