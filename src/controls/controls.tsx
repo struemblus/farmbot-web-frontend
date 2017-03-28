@@ -29,21 +29,11 @@ export class Controls extends Component<Props, ControlsState> {
   }
 
   clearURL = () => {
-    this.props.dispatch({
-      type: "CHANGE_WEBCAM_URL",
-      payload: "http://"
-    });
-    let urlInput = document
-      .querySelector(".webcam-url-input") as HTMLInputElement;
-    urlInput.focus();
+    this.props.dispatch(updateWebcamUrl("http://"));
+    (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
   render() {
-    console.warn(`
-    PROBLEMS IN THIS FILE:
-     * Imperative DOM manipulation
-     * Dispatching without an action creator.
-    `);
     let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
     let url = custom || fallback || "";
@@ -111,7 +101,9 @@ export class Controls extends Component<Props, ControlsState> {
                   <i className="fa fa-times"></i>
                 </button>
                 <input type="text"
-                  onChange={updateWebcamUrl(this.props.dispatch)}
+                  onChange={(e) => {
+                    this.props.dispatch(updateWebcamUrl(e.currentTarget.value))
+                  }}
                   value={url}
                   className="webcam-url-input" />
               </div>

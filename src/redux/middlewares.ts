@@ -24,19 +24,6 @@ export let mwConfig: MiddlewareConfig[] = [
     env: "development",
     fn: require("redux-immutable-state-invariant")()
   }
-  , { // DETECTS DEAD / UNWRITTEN ACTION HANDLERS:
-    env: "development",
-    fn: (store: any) =>
-      (next: any) =>
-        (action: any) => {
-          let current = JSON.stringify(store.getState());
-          if (last === current) {
-            console.info(_.get(action, "type", NO_TYPE) + USELESS_ACTION);
-          }
-          last = current;
-          next(action);
-        }
-  }
 ];
 
 export function getMiddleware(env: EnvName) {
