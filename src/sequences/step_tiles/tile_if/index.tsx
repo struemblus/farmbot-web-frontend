@@ -57,7 +57,7 @@ export const operatorOptions: DropDownItem[] = [
 
 export let updateField = (field: Operator, dispatch: Function) =>
   (e: DropDownItem) => {
-    console.log("TODO!")
+    console.log("TODO!");
   };
 
 export function seqDropDown(i: ResourceIndex) {

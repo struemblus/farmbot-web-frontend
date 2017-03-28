@@ -78,10 +78,6 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
         pushStep(xfer.value, dispatch, sequence);
       } else {
         let from = xfer.draggerId;
-        // Remove it from where it was.
-        // dispatch(removeStep(from));
-        console.log("FIX THIS!")
-        // Push it to the end.
         pushStep(xfer.value, dispatch, sequence);
       };
     };

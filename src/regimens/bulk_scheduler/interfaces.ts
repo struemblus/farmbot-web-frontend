@@ -7,8 +7,6 @@ export interface BulkSchedulerOutput {
   regimenItems: RegimenItem[];
 }
 
-console.log("Hey Rick: Do you really need to pass in the whole " +
-  "resource object here?")
 export interface BulkEditorProps {
   selectedSequence?: TaggedSequence;
   dailyOffsetMs: number;

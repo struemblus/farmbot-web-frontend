@@ -79,7 +79,6 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
   render() {
     let props = this.props;
     let { dispatch, currentStep, index, currentSequence } = props;
-    console.log(JSON.stringify(props.currentStep.args));
     return (<div>
       <div className="step-wrapper">
         <div className="row">

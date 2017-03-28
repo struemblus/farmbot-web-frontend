@@ -4,7 +4,6 @@ import { AuthState } from "../auth/interfaces";
 import { TaggedPeripheral } from "../resources/tagged_resources";
 import { selectAllPeripherals } from "../resources/selectors";
 import { RestResources } from "../resources/interfaces";
-import { fancyDebug } from "../util";
 
 export interface Props {
   dispatch: Function;
@@ -16,7 +15,6 @@ export interface Props {
 
 export function mapStateToProps(props: Everything): Props {
   let peripherals = _.uniq(selectAllPeripherals(props.resources.index));
-  fancyDebug(peripherals.map(x => x.body.id || 0))
   let resources = props.resources;
 
   return {

@@ -45,11 +45,6 @@ export function mapStateToProps(props: Everything): Props {
 	 * and in an <FBSelect /> compatible format. */
   let getChosenToolOption = (toolSlotUUID: string | undefined) => {
     let chosenTool = toolSlotUUID && getToolByToolSlotUUID(toolSlotUUID);
-    console.log(`
-    ========= ENV INFO =========
-    chosenTool: ${chosenTool}
-    toolSlotUUID: ${toolSlotUUID}
-    `)
     if (chosenTool && isTaggedTool(chosenTool) && chosenTool.body.id) {
       return { label: chosenTool.body.name, value: chosenTool.uuid };
     } else {

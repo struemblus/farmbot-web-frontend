@@ -253,7 +253,6 @@ export function fancyDebug(t: any) {
     last = next;
     console.log(next);
   }
-  console.log();
 }
 
 export type CowardlyDictionary<T> = Dictionary<T | undefined>;

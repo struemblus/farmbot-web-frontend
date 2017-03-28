@@ -82,8 +82,6 @@ export let resourceReducer = generateReducer
       && resource.body.id) {
       switch (resource.kind) {
         case "peripherals":
-        // console.log("Handle peripherals in resource reducer.");
-        // break;
         case "farm_events":
         case "plants":
         case "regimens":
@@ -104,8 +102,6 @@ export let resourceReducer = generateReducer
     let resource = action.payload;
     switch (resource.kind) {
       case "peripherals":
-      // console.log("Handle peripherals in resource reducer.");
-      // break;
       case "farm_events":
       case "plants":
       case "regimens":
