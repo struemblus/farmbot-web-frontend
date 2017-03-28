@@ -3,7 +3,6 @@ import {
   fetchFWUpdateInfo,
   fetchOSUpdateInfo
 } from "../devices/actions";
-import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
