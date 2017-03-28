@@ -22,13 +22,13 @@ interface Subscription {
 /** To make it easier to manage all things watching the state tree,
  * we keep subscriber functions in this array. */
 export let subscriptions: Subscription[] = [
+  // {
+  //   env: "development",
+  //   fn: function storeState(state: Everything) {
+  //     sessionStorage["lastState"] = JSON.stringify(state);
+  //   }
+  // },
   {
-    env: "development",
-    fn: function storeState(state: Everything) {
-      sessionStorage["lastState"] = JSON.stringify(state);
-    }
-  }
-  , {
     env: "*",
     fn: dontExitIfBrowserIsOnHold
   }

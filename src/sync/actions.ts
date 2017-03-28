@@ -25,7 +25,6 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
     .then((r): T => dispatch({
       type: "RESOURCE_READY", payload: { name, data: r.data }
     }), fail);
-  console.log("Missing stil: users, devices")
   fetch<FarmEvent[]>("farm_events", API.current.farmEventsPath);
   fetch<Image[]>("images", API.current.imagesPath);
   fetch<Log[]>("logs", API.current.logsPath);

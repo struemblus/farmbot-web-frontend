@@ -23,6 +23,8 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
 
         <div className="col-xs-10 events">
           {item.items.map(function (farmEvent) {
+            let url = `/app/designer/farm_events/` +
+              (farmEvent.id || "UNSAVED_EVENT").toString();
             return <div className={`farm-event col-xs-12`}
               key={farmEvent.sortKey}>
               <div className="event-time col-xs-4">
@@ -31,8 +33,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
               <div className="event-title col-xs-8">
                 {farmEvent.executableName}
               </div>
-              <Link to={`/app/designer/farm_events/` +
-                (farmEvent.id || "UNSAVED_EVENT").toString()}>
+              <Link to={url}>
                 <i className="fa fa-pencil-square-o edit-icon"></i>
               </Link>
             </div>;

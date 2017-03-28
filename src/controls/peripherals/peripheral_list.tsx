@@ -1,5 +1,4 @@
 import * as React from "react";
-import { t } from "i18next";
 import { ToggleButton } from "../toggle_button";
 import { pinToggle } from "../../devices/actions";
 import { Row, Col } from "../../ui";

@@ -110,6 +110,7 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
   }
 
   hasFe(fe: TaggedFarmEvent) {
+    console.info("Not sure if it got this far or not.");
     let { formatDate, formatTime, repeatOptions, dispatch } = this.props;
     let { time_unit } = fe.body;
     let currentTimeUnit = _.findWhere(repeatOptions, { value: time_unit });
@@ -212,6 +213,5 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
   render() {
     let fe = this.props.getFarmEvent();
     return fe ? this.hasFe(fe) : this.noFe();
-    // return this.noFe();
   }
 }

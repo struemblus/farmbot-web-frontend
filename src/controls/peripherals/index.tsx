@@ -6,8 +6,7 @@ import { PeripheralsProps } from "../../devices/interfaces";
 import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
 import { TaggedPeripheral } from "../../resources/tagged_resources";
-import { initSave, saveAll, init } from "../../api/crud";
-import { selectAllPeripherals } from "../../resources/selectors";
+import { saveAll, init } from "../../api/crud";
 
 const HELP_TEXT = `Use these toggle switches to control FarmBot's peripherals in 
 realtime. To edit and create new peripherals, press the EDIT button. Make 
