@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SequenceBodyItem as Step } from "farmbot";
 import { NUMERIC_FIELDS } from "../interfaces";
-import { ExecuteBlock } from "../execute_block";
+import { ExecuteBlock } from "./tile_execute";
 import { StepParams, StepInputProps } from "../interfaces";
 import { defensiveClone } from "../../util";
 import { TileIf } from "./tile_if";

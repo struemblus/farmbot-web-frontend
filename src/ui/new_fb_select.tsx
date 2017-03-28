@@ -9,6 +9,7 @@ interface Props {
   /** All possible select options */
   list: DropDownItem[];
   allowEmpty?: boolean;
+  placeholder?: string | undefined;
 };
 
 type State = {
@@ -49,7 +50,10 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
       // TODO: Put this in a shared function when we finish debugging callbacks.
       return <div key={option.value}
         className="select-result"
-        onMouseDown={() => { this.props.onChange(option); }}>
+        onMouseDown={() => {
+          this.setState({ isOpen: false });
+          this.props.onChange(option);
+        }}>
         <label>{label}</label>
       </div>;
     });
@@ -57,9 +61,10 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
 
   render() {
     let { isOpen } = this.state;
+    let placeholder = this.props.placeholder || "Search...";
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        <input type="text" placeholder="Search..." value={this.item.label} />
+        <input type="text" placeholder={placeholder} value={this.item.label} />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>

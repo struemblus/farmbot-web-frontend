@@ -1,14 +1,15 @@
 import * as React from "react";
-import { splice, remove } from "./step_tiles/index";
-import { StepParams } from "./interfaces";
+import { splice, remove } from "../step_tiles/index";
+import { StepParams } from "../interfaces";
 import { t } from "i18next";
-import { DeprecatedFBSelect, DropDownItem } from "../ui";
-import { selectAllSequences, findSequenceById } from "../resources/selectors";
+import { DropDownItem } from "../../ui";
+import { selectAllSequences, findSequenceById } from "../../resources/selectors";
 import { Execute } from "farmbot/dist";
-import { TaggedSequence } from "../resources/tagged_resources";
-import { ResourceIndex } from "../resources/interfaces";
-import { defensiveClone } from "../util";
-import { overwrite } from "../api/crud";
+import { TaggedSequence } from "../../resources/tagged_resources";
+import { ResourceIndex } from "../../resources/interfaces";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
+import { NewFBSelect } from "../../ui/new_fb_select";
 
 export function ExecuteBlock(p: StepParams) {
   if (p.currentStep.kind === "execute") {
@@ -58,8 +59,8 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
   }
 
   SequenceSelectBox = () => {
-    return <DeprecatedFBSelect onChange={this.changeSelection}
-      initialValue={this.selectedSequence()}
+    return <NewFBSelect onChange={this.changeSelection}
+      selectedItem={this.selectedSequence()}
       list={this.sequenceDropDownList()}
       placeholder="Pick a sequence (or save a new one)" />
   }
