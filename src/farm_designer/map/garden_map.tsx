@@ -5,12 +5,14 @@ import * as moment from "moment";
 import {
   GardenMapProps,
   GardenMapState,
-  PlantOptions,
+  PlantOptions
 } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
 import { history } from "../../history";
+import { initSave } from "../../api/crud";
+import { TaggedPlant } from "../../resources/tagged_resources";
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   /** The offset of 50px is made for the setDragImage to make it in the
@@ -66,21 +68,24 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     let el = document.querySelector("#drop-area > svg");
     if (el) {
       let box = el.getBoundingClientRect();
-      let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
-      // TEMPORARY SOLUTION =======
-      // TODO: This is definitely not right, figure out query objects
+      let { x, y } = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
-      p.img_url = OFEntry.image;
-      p.openfarm_slug = OFEntry.crop.slug;
-      p.name = OFEntry.crop.name || "Mystery Crop";
-      p.planted_at = moment().toISOString();
-      p.spread = OFEntry.crop.spread;
-      // END TEMPORARY SOLUTION =======
-      let plant = Plant(p);
-      let uuid = "TODO: FIX ME";
-      console.warn("HEY!! FIX!! ^");
-      // this.props.dispatch(savePlant(uuid));
+      let p: TaggedPlant = {
+        kind: "plants",
+        uuid: "--never",
+        dirty: true,
+        body: Plant({
+          x,
+          y,
+          img_url: OFEntry.image,
+          openfarm_slug: OFEntry.crop.slug,
+          name: OFEntry.crop.name || "Mystery Crop",
+          planted_at: moment().toISOString(),
+          spread: OFEntry.crop.spread,
+        })
+      }
+      this.props.dispatch(initSave(p));
     } else {
       throw new Error("never");
     }
@@ -106,24 +111,28 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           return <GardenPoint point={p} key={p.body.id} />;
         })}
         {
-          this.props.plants.map((p, inx) => {
-            let pathname = history.getCurrentLocation().pathname;
-            if (p.body.id) {
-              let isActive = (pathname.includes(p.body.id.toString()) &&
-                pathname.includes("edit")) ? "active" : "";
+          this
+            .props
+            .plants
+            .filter(x => !!x.body.id)
+            .map((p, inx) => {
+              let pathname = history.getCurrentLocation().pathname;
+              if (p.body.id) {
+                let isActive = (pathname.includes(p.body.id.toString()) &&
+                  pathname.includes("edit")) ? "active" : "";
 
-              return <Link to={`/app/designer/plants/${p.body.id}`}
-                className={`plant-link-wrapper ` + isActive.toString()}
-                key={p.body.id}>
-                <GardenPlant
-                  plant={p}
-                  onUpdate={updater}
-                  onDrop={dropper} />
-              </Link>;
-            } else {
-              throw new Error("Never.");
-            }
-          })
+                return <Link to={`/app/designer/plants/${p.body.id}`}
+                  className={`plant-link-wrapper ` + isActive.toString()}
+                  key={p.body.id}>
+                  <GardenPlant
+                    plant={p}
+                    onUpdate={updater}
+                    onDrop={dropper} />
+                </Link>;
+              } else {
+                throw new Error("Never.");
+              }
+            })
         }
       </svg>
     </div>;

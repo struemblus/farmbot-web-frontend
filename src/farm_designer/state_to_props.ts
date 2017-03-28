@@ -3,8 +3,7 @@ import { Props } from "./interfaces";
 import { selectAllPoints, selectAllPlants } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
-  console.warn("I think props.designer (below) is undefined. " +
-    "Why didnt TS tell us?");
+
   return {
     dispatch: props.dispatch,
     designer: props.resources.consumers.farm_designer,
