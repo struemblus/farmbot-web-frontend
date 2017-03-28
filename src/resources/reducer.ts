@@ -156,16 +156,22 @@ export let resourceReducer = generateReducer
   })
   .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
     let { name, data } = action.payload;
+    let { index } = state;
     state.loaded.push(name);
-    state.loaded = _.uniq(state.loaded);
-    addAllToIndex(state.index, name, data);
+    index.byKind[name].map(x => {
+      let resource = index.references[x];
+      resource && removeFromIndex(index, resource);
+    });
+    addAllToIndex(index, name, data);
     return state;
   });
 
 interface HasID {
   id?: number | undefined;
 }
-function addAllToIndex<T extends HasID>(i: ResourceIndex, kind: ResourceName, all: T[]) {
+function addAllToIndex<T extends HasID>(i: ResourceIndex,
+  kind: ResourceName,
+  all: T[]) {
   all.map(function (tr) {
     return addToIndex(i, kind, tr, generateUuid(tr.id, kind));
   });
@@ -187,12 +193,12 @@ export function joinKindAndId(kind: ResourceName, id: number | undefined) {
   return `${kind}.${id || 0}`;
 }
 
-let removeUUID = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
+let filterOutUuid = (tr: TaggedResource) => (uuid: string) => uuid !== tr.uuid;
 function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
   let { kind } = tr;
   let id = tr.body.id;
-  index.all = index.all.filter(removeUUID(tr));
-  index.byKind[tr.kind].filter(removeUUID(tr));
+  index.all = index.all.filter(filterOutUuid(tr));
+  index.byKind[tr.kind].filter(filterOutUuid(tr));
   delete index.byKindAndId[joinKindAndId(kind, id)]
   delete index.byKindAndId[joinKindAndId(kind, 0)]
   delete index.references[tr.uuid];

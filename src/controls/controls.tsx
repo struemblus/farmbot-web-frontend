@@ -36,7 +36,6 @@ export class Controls extends Component<Props, ControlsState> {
     let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
     let url = custom || fallback;
-    console.dir(url);
     let dirty = !!this.props.bot.dirty;
     let { isEditingCameraURL } = this.state;
     return <Page className="controls">
