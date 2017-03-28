@@ -42,7 +42,7 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
     .get<DeviceAccountSettings>(API.current.devicePath)
     .then(() => console.log("BRB!"));
   axios
-    .get<{}>(API.current.syncPath)
+    .get<{}>(API.current.usersPath)
     .then(() => console.log("BRB!"));
 }
 

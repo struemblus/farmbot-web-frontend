@@ -27,9 +27,6 @@ export interface HiLo {
   lo: number;
 }
 
-// api/regimens/sync
-// {1: 57}
-
 /** JSON document that gets sent to the weed detection python script as an WeedDetectorENV
  *  variable. */
 export interface WeedDetectorENV {
