@@ -23,14 +23,7 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
   dispatch(loginOk(authState));
 
-  NoNoNo.fetchDeprecatedSyncData().then((x) => {
-    if (x) {
-      dispatch(NoNoNo.fetchDeprecatedSyncDataOk(x));
-    }
-  }, (e: Error) => {
-    error(t("Could not download sync data"));
-    dispatch(NoNoNo.fetchDeprecatedSyncDataNo(e));
-  });
+  NoNoNo.fetchDeprecatedSyncData(dispatch);
   dispatch(connectDevice(authState.token.encoded));
 };
 

@@ -1,5 +1,4 @@
 import { generateReducer } from "../redux/generate_reducer";
-import { DeprecatedSync } from "../interfaces";
 import { RestResources, ResourceIndex } from "./interfaces";
 import {
   TaggedResource,
@@ -24,6 +23,7 @@ import {
   designer as farm_designer,
   initialState as designerState
 } from "../farm_designer/reducer";
+import { ResourceReadyPayl } from "../sync/actions";
 
 let consumerReducer = combineReducers({
   regimens,
@@ -38,7 +38,7 @@ function emptyState(): RestResources {
       regimens: regimenState,
       farm_designer: designerState
     },
-    loaded: false,
+    loaded: [],
     index: {
       all: [],
       byKind: {
@@ -154,30 +154,13 @@ export let resourceReducer = generateReducer
     sanityCheck(tr);
     return s;
   })
-  .add<DeprecatedSync>("FETCH_SYNC_OK", function (state, action) {
-    let p = action.payload;
-    state = emptyState();
-    let { index } = state;
-    // TODO: Try doing something fancier.
-    addAllToIndex(index, "farm_events", p["farm_events"]);
-    addAllToIndex(index, "images", p["images"]);
-    addAllToIndex(index, "logs", p["logs"]);
-    addAllToIndex(index, "peripherals", p["peripherals"]);
-    addAllToIndex(index, "plants", p["plants"]);
-    addAllToIndex(index, "points", p["points"]);
-    addAllToIndex(index, "regimens", p["regimens"]);
-    addAllToIndex(index, "sequences", p["sequences"]);
-    addAllToIndex(index, "tool_bays", p["tool_bays"]);
-    addAllToIndex(index, "tool_slots", p["tool_slots"]);
-    addAllToIndex(index, "tools", p["tools"]);
-    addAllToIndex(index, "users", p["users"]);
-    state.loaded = true;
+  .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
+    let { name, data } = action.payload;
+    state.loaded.push(name);
+    state.loaded = _.uniq(state.loaded);
+    addAllToIndex(state.index, name, data);
     return state;
-  })
-// .add<TaggedPeripheral>("PUSH_PERIPHERAL", function (s, a) {
-//   sanityCheck(tr);
-//   return s;
-// })
+  });
 
 interface HasID {
   id?: number | undefined;

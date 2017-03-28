@@ -8,6 +8,7 @@ import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
 import * as _ from "lodash";
 import { selectAll } from "./resources/util";
+import { ResourceName } from "./resources/tagged_resources";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -23,7 +24,7 @@ we recommend you try refreshing the page.`;
 
 interface AppProps {
   dispatch: Function;
-  loaded: boolean;
+  loaded: ResourceName[];
   logs: Log[];
   auth: AuthState | undefined;
   bot: BotState;
@@ -46,9 +47,10 @@ function mapStateToProps(props: Everything): AppProps {
 
 @connect(mapStateToProps)
 export default class App extends React.Component<AppProps, {}> {
+  get isLoaded() { return this.props.loaded.length > 5; }
   componentDidMount() {
     setTimeout(() => {
-      if (!this.props.loaded) {
+      if (!this.isLoaded) {
         this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
         error(TIMEOUT_MESSAGE, "Warning");
       }
@@ -56,7 +58,7 @@ export default class App extends React.Component<AppProps, {}> {
   }
 
   render() {
-    let syncLoaded = this.props.loaded;
+    let syncLoaded = this.isLoaded;
     return <div className="app">
       <NavBar
         auth={this.props.auth}

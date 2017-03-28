@@ -26,7 +26,7 @@ export let sequenceReducer = generateReducer<SequenceReducerState>(initialState)
     s.current = a.payload;
     return s;
   })
-  .add<void>("FETCH_SYNC_OK", function (s, a) {
+  .add<void>("RESOURCE_READY", function (s, a) {
     s.current = undefined;
     return s;
   })

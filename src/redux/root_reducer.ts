@@ -2,7 +2,6 @@ import { authReducer as auth } from "../auth/reducer";
 import { botReducer as bot } from "../devices/reducer";
 import { configReducer as config } from "../config/reducer";
 import { draggableReducer as draggable } from "../draggable/reducer";
-import { syncReducer as sync } from "../sync/reducer";
 import { combineReducers } from "redux";
 import { ReduxAction } from "./interfaces";
 import { Session } from "../session";
@@ -13,7 +12,6 @@ export let reducers = combineReducers({
   bot,
   config,
   draggable,
-  sync,
   resources
 });
 /** This is the topmost reducer in the application. If you need to preempt a
