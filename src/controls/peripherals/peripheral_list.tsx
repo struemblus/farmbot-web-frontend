@@ -5,9 +5,10 @@ import { Row, Col } from "../../ui";
 import { PeripheralListProps } from "./interfaces";
 
 export function PeripheralList(props: PeripheralListProps) {
+  let { pins } = props;
   return <div>
     {props.peripherals.map(p => {
-      let status = JSON.stringify(props.pins[p.body.pin || 0]);
+      let value = (pins[p.body.pin || -1] || { value: undefined }).value;
       return <Row>
         <Col xs={4}>
           <label>{p.body.label}</label>
@@ -17,7 +18,7 @@ export function PeripheralList(props: PeripheralListProps) {
         </Col>
         <Col xs={4}>
           <ToggleButton
-            toggleval={status}
+            toggleval={value}
             toggleAction={() => p.body.pin && pinToggle(p.body.pin)} />
         </Col>
       </Row>
