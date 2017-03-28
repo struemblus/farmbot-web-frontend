@@ -1,5 +1,6 @@
 import { DropAreaProps, DropAreaState } from "./interfaces";
 import * as React from "react";
+import { STEP_DATATRANSFER_IDENTIFER } from "./actions";
 
 /** Style rules for the drop area when it is not dragged over. */
 const INVISIBLE_STYLE = {
@@ -21,7 +22,7 @@ export class DropArea extends React.Component<DropAreaProps, DropAreaState> {
 
   drop = (event: React.DragEvent<HTMLElement>) => {
     event.preventDefault();
-    let key = event.dataTransfer.getData("text");
+    let key = event.dataTransfer.getData(STEP_DATATRANSFER_IDENTIFER);
     let fn = this.props.callback;
     if (fn) { fn(key); }
     this.toggle();
