@@ -25,11 +25,6 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
         <button
-          className="gray button-like"
-          onClick={toggle}>
-          {t("Back")}
-        </button>
-        <button
           className="green button-like"
           onClick={() => {
             dispatch(saveAll(this.props.getSortedTools(), () => {

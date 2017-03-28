@@ -38,10 +38,6 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
-              className="gray button-like" onClick={toggle}>
-              {t("Back")}
-            </button>
-            <button
               className="green button-like"
               onClick={() => {
                 dispatch(saveAll(this.props.getToolSlots(), () => {
