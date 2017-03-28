@@ -1,7 +1,7 @@
 import * as React from "react";
 import { copy, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help, DeprecatedFBSelect, DropDownItem } from "../../ui";
+import { Help, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SendMessage } from "farmbot";

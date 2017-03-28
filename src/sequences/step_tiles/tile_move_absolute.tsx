@@ -11,7 +11,6 @@ import {
   LegalSequenceKind
 } from "farmbot";
 import {
-  DeprecatedFBSelect,
   Row,
   Col,
   BlurableInput,
@@ -34,6 +33,7 @@ import {
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { Xyz } from "../../devices/interfaces";
+import { NewFBSelect } from "../../ui/new_fb_select";
 
 interface Args {
   location: Tool | Coordinate;
@@ -101,7 +101,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     if (_.isNumber(tool_id)) {
       this.updateArgs({ location: { kind: "tool", args: { tool_id } } });
     } else {
-      console.log("BAD NUMBER!")
+      this.clearTool();
     }
   }
 
@@ -182,10 +182,10 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <Row>
               <Col md={12}>
                 <label>Import coordinates from</label>
-                <DeprecatedFBSelect
+                <NewFBSelect
                   allowEmpty={true}
                   list={this.options}
-                  initialValue={this.initialDropDownSequenceValue()}
+                  selectedItem={this.initialDropDownSequenceValue()}
                   onChange={this.updateToolSelect} />
               </Col>
               <Col xs={3}>
