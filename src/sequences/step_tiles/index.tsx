@@ -31,12 +31,16 @@ export function move({ step, sequence, to, from }: MoveParams) {
   let seq = next.body;
   seq.body = seq.body || [];
   let both = [from, to];
+  // WEIRD EDGE CASE: TODO:
+  // Works when from > to but not the other way around.
+  // Wish I could use one function for both cases, but don't have
+  // time to debug right now.
   if (from > to) {
     // wtf ?
     seq.body = arrayMover(seq.body, from, to)
   } else {
-    seq.body.splice(to, 0, defensiveClone(copy)); // (1, 0, ...)
-    delete seq.body[from];                        // .body[2]
+    seq.body.splice(to, 0, defensiveClone(copy));
+    delete seq.body[from];
     seq.body = _.compact(seq.body);
   }
   return overwrite(sequence, next.body);
