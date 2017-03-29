@@ -18,11 +18,7 @@ import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 import { generateUuid } from "../resources/util";
 import { defensiveClone } from "../util";
-
-export interface EditResourceParams {
-  uuid: string;
-  update: object;
-}
+import { EditResourceParams } from "./interfaces";
 
 export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   ReduxAction<EditResourceParams> {
@@ -48,10 +44,7 @@ export function init(resource: TaggedResource): ReduxAction<TaggedResource> {
   resource.dirty = true;
   /** Technically, this happens in the reducer, but I like to be extra safe. */
   resource.uuid = generateUuid(resource.body.id, resource.kind);
-  return {
-    type: "INIT_RESOURCE",
-    payload: resource
-  }
+  return { type: "INIT_RESOURCE", payload: resource }
 }
 
 export function initSave(resource: TaggedResource) {
