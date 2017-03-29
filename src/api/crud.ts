@@ -89,6 +89,7 @@ function create(uuid: string) {
       })
       .catch(function (err: UnsafeError) {
         dispatch(createNO(err));
+        return Promise.reject(err);
       });
   }
 }
@@ -111,6 +112,7 @@ function update(uuid: string) {
       })
       .catch(function (err: UnsafeError) {
         dispatch(updateNO(err));
+        return Promise.reject(err);
       });
   }
 }
@@ -126,6 +128,7 @@ export function destroy(uuid: string) {
         })
         .catch(function (err: UnsafeError) {
           dispatch(destroyNO(err));
+          return Promise.reject(err);
         });
     } else {
       dispatch(destroyOK(resource))
