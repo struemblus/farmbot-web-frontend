@@ -1,10 +1,9 @@
 import { TaggedResource } from "./tagged_resources";
 import { UnsafeError } from "../interfaces";
-import { prettyPrintApiErrors, toastErrors } from "../util";
-import { error } from "../ui/logger";
+import { toastErrors } from "../util";
 
 export function createOK(payload: TaggedResource) {
-  return { type: "CREATE_RESOURCE_OK", payload };
+  return { type: "SAVE_RESOURCE_OK", payload };
 }
 
 export function updateOK(payload: TaggedResource) {

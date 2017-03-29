@@ -37,6 +37,5 @@ export let designer = generateReducer<DesignerState>(initialState)
     return state;
   })
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
-    console.warn("Cleanup UUID here.")
     return state;
   });

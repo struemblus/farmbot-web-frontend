@@ -75,7 +75,7 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
-  .add<TaggedResource>("CREATE_RESOURCE_OK", function (state, action) {
+  .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     if (resource
       && resource.body
@@ -88,10 +88,11 @@ export let resourceReducer = generateReducer
         case "sequences":
         case "tool_slots":
         case "tools":
+          addToIndex(state.index, resource.kind, resource.body, resource.uuid);
           state.index.references[resource.uuid] = resource;
           break;
         default:
-          whoops("CREATE_RESOURCE_OK", action.payload.kind);
+          whoops("SAVE_RESOURCE_OK", action.payload.kind);
       }
     } else {
       throw new Error("Somehow, a resource was created without an ID?");
