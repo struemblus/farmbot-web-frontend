@@ -6,7 +6,7 @@ import {
   findSequence,
   selectAllToolSlots
 } from "../resources/selectors";
-eval("window.HELP = true");
+
 export function mapStateToProps(props: Everything): Props {
   let uuid = props.resources.consumers.sequences.current;
   return {

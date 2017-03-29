@@ -49,7 +49,7 @@ function findAll(index: ResourceIndex, name: ResourceName) {
     let item = index.references[uuid];
     (item && isTaggedResource(item) && results.push(item));
   })
-  return results;
+  return _.sortBy(results, "body.id");
 }
 
 export function selectAllFarmEvents(index: ResourceIndex) {
