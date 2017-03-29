@@ -59,7 +59,7 @@ export interface FarmEvent {
 export interface MovePlantProps {
   deltaX: number;
   deltaY: number;
-  plantId: number;
+  plant: TaggedPlant;
 }
 
 /** OFCrop bundled with corresponding profile image from OpenFarm API. */

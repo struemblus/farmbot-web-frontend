@@ -28,7 +28,7 @@ function mapStateToProps(props: Everything): EditPlantInfoProps {
 @connect(mapStateToProps)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
   get stringyID() {
-    console.log("We should put this into a query object incase the URL changes")
+    // TODO: ("We should put this into a query object incase the URL changes")
     return history.getCurrentLocation().pathname.split("/")[4] || "";
   }
 
