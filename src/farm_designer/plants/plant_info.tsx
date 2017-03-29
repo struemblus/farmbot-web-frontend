@@ -3,33 +3,24 @@ import { error } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { EditPlantInfoProps, Plant, PlantData } from "../interfaces";
+import { EditPlantInfoProps } from "../interfaces";
 import { history } from "../../history";
 import { Everything } from "../../interfaces";
-import { findWhere } from "../../resources/selectors";
-import { isTaggedPlant } from "../../resources/tagged_resources";
+import { maybeFindPlantById } from "../../resources/selectors";
 import { destroy } from "../../api/crud";
 import { Link } from "react-router";
+import { TaggedPlant } from "../../resources/tagged_resources";
 
 function mapStateToProps(props: Everything): EditPlantInfoProps {
-  // TODO: Handle this better with query params
-  let plant_id = parseInt(history.getCurrentLocation().pathname.split("/")[4]);
-  let query: Partial<Plant> = { id: plant_id };
-  let currentPlant = findWhere(props.resources.index, query);
-
-  let plant_info: undefined | PlantData = undefined;
-  if (currentPlant && currentPlant.body.id && isTaggedPlant(currentPlant)) {
-    let { name, x, y, planted_at, id } = currentPlant.body;
-    plant_info = { name, x, y, planted_at, id, uuid: currentPlant.uuid };
-  }
-
-  if (!plant_info) {
-    history.push("/app/designer/plants");
-    error("Plant could not be found.", "Error");
-  }
+  let findPlant = (id: string | undefined) => {
+    let num = parseInt(id || "NOPE", 10);
+    if (_.isNumber(num) && !_.isNaN(num)) {
+      return maybeFindPlantById(props.resources.index, num);
+    }
+  };
 
   return {
-    plant_info,
+    findPlant,
     push: history.push,
     dispatch: props.dispatch,
   }
@@ -37,6 +28,14 @@ function mapStateToProps(props: Everything): EditPlantInfoProps {
 
 @connect(mapStateToProps)
 export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
+  get stringyID() {
+    console.log("We should put this into a query object incase the URL changes")
+    return history.getCurrentLocation().pathname.split("/")[4] || "";
+  }
+
+  get plant() {
+    return this.props.findPlant(this.stringyID);
+  }
   destroy = (plantUUID: string) => {
     this.props.dispatch(destroy(plantUUID))
       .then(() => history.push("/app/designer/plants"))
@@ -45,8 +44,8 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
 
   fallback = () => <span>Redirecting...</span>
 
-  default = (plant_info: PlantData) => {
-    let { planted_at, name, x, y, id } = plant_info;
+  default = (plant_info: TaggedPlant) => {
+    let { planted_at, name, x, y, id } = plant_info.body;
     let dayPlanted = moment();
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
     let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
@@ -81,7 +80,7 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
   }
 
   render() {
-    let { plant_info } = this.props;
+    let plant_info = this.plant && this.plant
     return plant_info ? this.default(plant_info) : this.fallback();
   }
 }

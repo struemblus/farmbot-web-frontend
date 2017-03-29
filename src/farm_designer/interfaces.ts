@@ -183,7 +183,7 @@ export interface PlantData {
 export interface EditPlantInfoProps {
   push(url: string): void;
   dispatch: Function;
-  plant_info: undefined | PlantData;
+  findPlant(stringyID: string | undefined): TaggedPlant | undefined;
 }
 
 export interface DNDSpeciesMobileState {
