@@ -88,7 +88,7 @@ export let resourceReducer = generateReducer
         case "sequences":
         case "tool_slots":
         case "tools":
-          reindexResource(state.index, resource)
+          reindexResource(state.index, resource);
           state.index.references[resource.uuid] = resource;
           break;
         default:
@@ -146,7 +146,7 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;
     let uuid = tr.uuid;
-    addToIndex(s.index, tr.kind, tr.body, uuid);
+    reindexResource(s.index, tr);
     findByUuid(s.index, uuid).dirty = true;
     sanityCheck(tr);
     return s;
@@ -166,6 +166,7 @@ export let resourceReducer = generateReducer
 interface HasID {
   id?: number | undefined;
 }
+
 function addAllToIndex<T extends HasID>(i: ResourceIndex,
   kind: ResourceName,
   all: T[]) {
@@ -195,7 +196,7 @@ function removeFromIndex(index: ResourceIndex, tr: TaggedResource) {
   let { kind } = tr;
   let id = tr.body.id;
   index.all = index.all.filter(filterOutUuid(tr));
-  index.byKind[tr.kind].filter(filterOutUuid(tr));
+  index.byKind[tr.kind] = index.byKind[tr.kind].filter(filterOutUuid(tr));
   delete index.byKindAndId[joinKindAndId(kind, id)]
   delete index.byKindAndId[joinKindAndId(kind, 0)]
   delete index.references[tr.uuid];
@@ -208,10 +209,10 @@ function whoops(origin: string, kind: string) {
 
 export function findByUuid(index: ResourceIndex, uuid: string): TaggedResource {
   let x = index.references[uuid];
-  if (isUndefined(x)) {
-    throw new Error("BAD UUID- CANT FIND RESOURCE: " + uuid);
+  if (x && isTaggedResource(x)) {
+    return x;
   } else {
-    return x as TaggedResource;
+    throw new Error("BAD UUID- CANT FIND RESOURCE: " + uuid);
   }
 }
 

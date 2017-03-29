@@ -84,34 +84,6 @@ export function initialValue(input: Execute | Nothing, index: ResourceIndex) {
   }
 }
 
-export let updateSubSeq = (branch: "_then" | "_else",
-  dispatch: Function,
-  sequence: TaggedSequence,
-  index: number,
-  step: If) =>
-  (x: DropDownItem) => {
-    let seqCpy = defensiveClone(sequence).body;
-    let stepCpy = defensiveClone(step);
-    seqCpy.body = seqCpy.body || [];
-    seqCpy.body[index] = stepCpy;
-    if (Object.is(NULL_CHOICE, x)) {
-      stepCpy.args[branch] = {
-        kind: "nothing",
-        args: {}
-      }
-    } else {
-      if (_.isNumber(sequence.body.id)) {
-        stepCpy.args[branch] = {
-          kind: "execute",
-          args: { sequence_id: sequence.body.id }
-        }
-      } else {
-        throw new Error("Bad seq id...");
-      }
-    }
-    dispatch(overwrite(sequence, seqCpy));
-  }
-
 export function InnerIf(props: IfParams) {
   let {
     index,
@@ -157,4 +129,49 @@ export function InnerIf(props: IfParams) {
       </div>
     </div>
   </div>;
+}
+
+/** Creates a function that can be used in the `onChange` event of a _else or
+ * _then block in the sequence editor.
+ */
+export let IfBlockDropDownHandler = (props: IfParams,
+  key: "_else" | "_then") => {
+
+  let { dispatch, currentSequence, currentStep, index } = props;
+  let step = props.currentStep;
+  let sequence = props.currentSequence;
+  let block = step.args[key];
+  let selectedItem = () => {
+    if (block.kind === "nothing") {
+      return NULL_CHOICE;
+    } else {
+      let value = (block.kind === "execute") && block.args.sequence_id;
+      let label = value && findSequenceById(props.resources, value).body.name;
+      if (_.isNumber(value) && _.isString(label)) {
+        return { label, value }
+      } else {
+        throw new Error("Failed type assertion");
+      }
+    }
+  }
+
+  function overwriteStep(input: Execute | Nothing) {
+    console.log("OVERWRITING WITH " + input.kind);
+    let update = defensiveClone(step);
+    let nextSequence = defensiveClone(sequence).body;
+    update.args[key] = input;
+    (nextSequence.body || [])[index] = update;
+    dispatch(overwrite(sequence, nextSequence));
+  }
+
+  function onChange(e: DropDownItem) {
+    if (e.value) {
+      let v = _.isNumber(e.value) && e.value;
+      v && overwriteStep({ kind: "execute", args: { sequence_id: v } })
+    } else {
+      overwriteStep({ kind: "nothing", args: {} });
+    }
+  };
+
+  return { onChange, selectedItem };
 }

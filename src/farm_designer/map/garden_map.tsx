@@ -7,7 +7,7 @@ import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
 import { history } from "../../history";
-import { initSave } from "../../api/crud";
+import { initSave, save } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
@@ -87,14 +87,11 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
 
   render() {
     let { dispatch } = this.props;
-    let updater = (deltaX: number, deltaY: number, plantId: number) => {
-      dispatch(movePlant({ deltaX, deltaY, plantId }));
+    let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
+      dispatch(movePlant({ deltaX, deltaY, plant }));
     };
 
-    let dropper = (uuid: string) => {
-      console.log("Noop? TODO: Implement.");
-      // dispatch(savePlant(uuid));
-    };
+    let dropper = (p: TaggedPlant) => () => dispatch(save(p.uuid));
 
     return <div className="drop-area"
       id="drop-area"
@@ -119,7 +116,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 return <Link to={`/app/designer/plants/${p.body.id}`}
                   className={`plant-link-wrapper ` + isActive.toString()}
                   key={p.body.id}>
-                  <GardenPlant plant={p} onUpdate={updater} onDrop={dropper} />
+                  <GardenPlant plant={p}
+                    onUpdate={updater(p)}
+                    onDrop={dropper(p)} />
                 </Link>;
               } else {
                 throw new Error("Never.");

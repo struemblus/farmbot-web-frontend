@@ -19,7 +19,8 @@ import {
   isTaggedResource,
   sanityCheck,
   isTaggedFarmEvent,
-  TaggedPeripheral
+  TaggedPeripheral,
+  isTaggedPlant
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact } from "../util";
 import { error } from "../ui/logger";
@@ -49,7 +50,7 @@ function findAll(index: ResourceIndex, name: ResourceName) {
     let item = index.references[uuid];
     (item && isTaggedResource(item) && results.push(item));
   })
-  return results;
+  return _.sortBy(results, "body.id");
 }
 
 export function selectAllFarmEvents(index: ResourceIndex) {
@@ -348,4 +349,11 @@ export function maybeGetRegimen(index: ResourceIndex,
   uuid: string | undefined): TaggedRegimen | undefined {
   let tr = uuid && getRegimenByUUID(index, uuid);
   if (tr && isTaggedRegimen(tr)) { return tr; };
+}
+
+/** Unlike other findById methods, this one allows undefined (missed) values */
+export function maybeFindPlantById(index: ResourceIndex, id: number) {
+  let uuid = index.byKindAndId[joinKindAndId("plants", id)];
+  let resource = index.references[uuid || "nope"];
+  if (resource && isTaggedPlant(resource)) { return resource; }
 }
