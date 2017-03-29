@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DraggableSvgImageProps, DraggableSvgImageState } from "./interfaces";
+import { history } from "../history";
 
 export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
   Partial<DraggableSvgImageState>> {
@@ -8,7 +9,16 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
     this.state = { isDragging: false, transX: 0, transY: 0 };
   }
 
-  select = () => this.setState({ isDragging: true });
+  select = () => {
+    let plantId = this.props.plant.body.id || "";
+    if (history
+    .getCurrentLocation()
+    .pathname
+    // TS doesn't like that the id is a number for the .includes() method
+    .includes((plantId as string) && "edit")) {
+      this.setState({ isDragging: true });
+    }
+  }
 
   deSelect = () => this.setState({ isDragging: false });
 
@@ -37,19 +47,31 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
   }
 
   render() {
-    let { height, width, x, y } = this.props;
+    let { height, width, x, y, plant } = this.props;
     let offsetX = x - (height * 0.1);
     let offsetY = y - (width * 0.1);
     let offsetH = height * 1.2;
     let offsetW = width * 1.2;
     let translation = `translate(${this.state.transX}, ${this.state.transY})`;
     return <g>
-
       <defs>
         <pattern id="active-grid" width="10" height="10" patternUnits="userSpaceOnUse">
           <path d="M 10 0 L 0 0 0 10" fill="none" stroke="green" strokeWidth="0.5" />
         </pattern>
       </defs>
+
+        <g className="selected-plant-indicator">
+          <circle
+            cx={plant.body.x}
+            cy={plant.body.y}
+            strokeWidth={3}
+            fill="none"
+            stroke="green"
+            strokeDasharray={8}
+            r={plant.body.radius} 
+            transform={translation}
+            />
+        </g>
 
       {this.state.isDragging && (
         <g>

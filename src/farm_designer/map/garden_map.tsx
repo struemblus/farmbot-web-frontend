@@ -2,11 +2,7 @@ import * as React from "react";
 import { Plant } from "../plant";
 import { movePlant } from "../actions";
 import * as moment from "moment";
-import {
-  GardenMapProps,
-  GardenMapState,
-  PlantOptions
-} from "../interfaces";
+import { GardenMapProps, GardenMapState } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { Link } from "react-router";
@@ -34,7 +30,6 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   state = { activePlant: undefined, tempX: undefined, tempY: undefined };
 
   handleDragOver(e: React.DragEvent<HTMLElement>) {
-    // Perform drop availability here probably
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   }
@@ -124,10 +119,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 return <Link to={`/app/designer/plants/${p.body.id}`}
                   className={`plant-link-wrapper ` + isActive.toString()}
                   key={p.body.id}>
-                  <GardenPlant
-                    plant={p}
-                    onUpdate={updater}
-                    onDrop={dropper} />
+                  <GardenPlant plant={p} onUpdate={updater} onDrop={dropper} />
                 </Link>;
               } else {
                 throw new Error("Never.");
