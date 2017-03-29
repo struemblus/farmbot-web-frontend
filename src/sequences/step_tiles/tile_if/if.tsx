@@ -7,6 +7,7 @@ import { DropDownItem } from "../../../ui/fb_select";
 import { updateStep } from "../index";
 import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
+import { Col } from "../../../ui/index";
 
 export function If_(props: IfParams) {
   let {
@@ -31,10 +32,10 @@ export function If_(props: IfParams) {
   }
 
   return <div>
-    <div className="col-xs-12 col-md-12">
+    <Col xs={12}>
       <h4 className="top">IF...</h4>
-    </div>
-    <div className="col-xs-4 col-md-4">
+    </Col>
+    <Col xs={4}>
       <label>{t("Variable")}</label>
       <NewFBSelect
         list={LHSOptions}
@@ -42,22 +43,22 @@ export function If_(props: IfParams) {
         onChange={updateField("lhs")}
         selectedItem={{ label: lhs, value: lhs }}
       />
-    </div>
-    <div className="col-xs-4 col-md-4">
+    </Col>
+    <Col xs={4}>
       <label>{t("Operator")}</label>
       <NewFBSelect
         list={operatorOptions}
         placeholder="Operation"
         onChange={updateField("op")}
         selectedItem={{ label: op, value: op }} />
-    </div>
-    <div className="col-xs-4 col-md-4">
+    </Col>
+    <Col xs={4}>
       <label>{t("Right hand side")}</label>
       <StepInputBox dispatch={dispatch}
         step={currentStep}
         sequence={sequence}
         index={index}
         field="rhs" />
-    </div>
+    </Col>
   </div>;
 }

@@ -8,7 +8,7 @@ import {
 } from "./tagged_resources";
 import { isUndefined } from "util";
 import { generateUuid } from "./util";
-import { EditResourceParams } from "../api/crud";
+import { EditResourceParams } from "../api/interfaces";
 import {
   initialState as sequenceState,
   sequenceReducer as sequences,

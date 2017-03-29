@@ -10,7 +10,6 @@ let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
 export function Plant(options: PlantOptions): Plant {
   console.warn("REFACTOR THIS OUT. USE TAGGED RESOURCES.");
   let openfarm_slug = options.openfarm_slug || "not-set";
-  let icon_url = TEMP_ICON_MAP[openfarm_slug] || TEMP_ICON_MAP["not-set"];
   return {
     id: options.id,
     planted_at: (options.planted_at || ""),

@@ -27,17 +27,13 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
         <button
           className="green button-like"
           onClick={() => {
-            dispatch(saveAll(this.props.getSortedTools(), () => {
-              toggle();
-            }))
+            dispatch(saveAll(this.props.getSortedTools(), () => { toggle(); }))
           }}>
           {t("Save")}
         </button>
         <button
           className="green button-like"
-          onClick={() => {
-            dispatch(initSave(this.emptyTool()));
-          }}>
+          onClick={() => { dispatch(initSave(this.emptyTool())); }}>
           <i className="fa fa-plus" />
         </button>
       </WidgetHeader>
