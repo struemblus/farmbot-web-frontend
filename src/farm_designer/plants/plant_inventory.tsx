@@ -5,25 +5,14 @@ import { DeprecatedFBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { DEFAULT_ICON } from "../../open_farm/index";
 import { selectAllPlants } from "../../resources/selectors";
 import { TaggedPlant } from "../../resources/tagged_resources";
+import { PlantInventoryItem } from "./plant_inventory_item";
 
 function OptionComponent(plants: TaggedPlant[]) {
-  let indexedById = _.indexBy(plants, "id");
+  let indexedById = _(plants).map(x => x.body).indexBy("id").value();
   return (props: DropDownItem) => {
-    let plant = indexedById[props.value || 0];
-    let planted_at = (plant && plant.body.planted_at) || moment();
-    let dayPlanted = moment();
-
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    console.dir(plant);
-    return <div className="plant-search-item">
-      <img className="plant-search-item-image" src={DEFAULT_ICON} />
-      <span className="plant-search-item-name">{props.label}</span>
-      <i className="plant-search-item-age">
-        {daysOld} {t("days old")}</i>
-    </div>;
+    return <PlantInventoryItem plant={indexedById[props.value || 0]} />;
   };
 }
 
