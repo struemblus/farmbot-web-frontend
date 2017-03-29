@@ -17,6 +17,7 @@ function OptionComponent(plants: TaggedPlant[]) {
     let dayPlanted = moment();
 
     let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
+    console.dir(plant);
     return <div className="plant-search-item">
       <img className="plant-search-item-image" src={DEFAULT_ICON} />
       <span className="plant-search-item-name">{props.label}</span>
