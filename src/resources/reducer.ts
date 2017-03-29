@@ -77,9 +77,9 @@ export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
+    resource.dirty = false;
     if (resource
-      && resource.body
-      && resource.body.id) {
+      && resource.body) {
       switch (resource.kind) {
         case "peripherals":
         case "farm_events":

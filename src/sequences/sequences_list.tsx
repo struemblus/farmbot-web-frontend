@@ -66,7 +66,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
       <WidgetBody>
         <Row>
           <Col xs={12}>
-            {sequences.map(buttonList(dispatch))}
+            {_.sortBy(sequences, (x) => x.body.id || Infinity).map(buttonList(dispatch))}
           </Col>
         </Row>
       </WidgetBody>
