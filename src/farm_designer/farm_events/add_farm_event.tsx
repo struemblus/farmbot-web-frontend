@@ -89,10 +89,14 @@ Partial<FarmEvent>> {
       uuid: "WILL_GET_A_NEW_ONE",
       body
     } as TaggedFarmEvent;
-    this.props.dispatch(initSave(tr))
+    this.props
+      .dispatch(initSave(tr))
       .then(() => {
         history.push("/app/designer/farm_events");
         success("Saved farm event.", "Saved");
+        console.log("success branch");
+      }, () => {
+        console.log("Failure brnach");
       });
   }
 

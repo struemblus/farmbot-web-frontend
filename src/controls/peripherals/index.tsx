@@ -65,10 +65,11 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
       <WidgetHeader title={"Peripherals"}
         helpText={HELP_TEXT}>
         <button
+          hidden={isEditing}
           className="gray button-like"
           type="button"
           onClick={this.toggle}>
-          {isEditing ? t("Back") : t("Edit")}
+          {t("Edit")}
         </button>
         <button
           hidden={!isEditing}

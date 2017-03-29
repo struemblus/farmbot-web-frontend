@@ -88,7 +88,7 @@ export let resourceReducer = generateReducer
         case "sequences":
         case "tool_slots":
         case "tools":
-          addToIndex(state.index, resource.kind, resource.body, resource.uuid);
+          reindexResource(state.index, resource)
           state.index.references[resource.uuid] = resource;
           break;
         default:
@@ -213,4 +213,9 @@ export function findByUuid(index: ResourceIndex, uuid: string): TaggedResource {
   } else {
     return x as TaggedResource;
   }
+}
+
+function reindexResource(i: ResourceIndex, r: TaggedResource) {
+  removeFromIndex(i, r);
+  addToIndex(i, r.kind, r.body, r.uuid);
 }
