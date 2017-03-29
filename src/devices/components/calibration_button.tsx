@@ -16,3 +16,20 @@ export function CalibrationButton({ axis }: CalibrationButtonProps) {
     {t("CALIBRATE {{axis}}", { axis })}
   </button>;
 };
+
+export function CalibrationRow() {
+  return <tr>
+    <td>
+      <label>{t("CALIBRATION")}</label>
+    </td>
+    <td>
+      <CalibrationButton axis="x" />
+    </td>
+    <td>
+      <CalibrationButton axis="y" />
+    </td>
+    <td>
+      <CalibrationButton axis="z" />
+    </td>
+  </tr>;
+}

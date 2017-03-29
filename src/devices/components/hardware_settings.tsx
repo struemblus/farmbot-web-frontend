@@ -1,5 +1,5 @@
 import * as React from "react";
-import { CalibrationButton } from "./calibration_button";
+import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
 import { ConfigInputBox } from "./config_input_box";
@@ -7,6 +7,7 @@ import { settingToggle, commitSettingsChanges } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { HardwareSettingsProps } from "../interfaces";
+import { HomingRow } from "./homing_row";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
@@ -114,20 +115,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 bot={this.props.bot}
                 dispatch={this.props.dispatch} />
             </tr>
-            <tr>
-              <td>
-                <label>{t("CALIBRATION")}</label>
-              </td>
-              <td>
-                <CalibrationButton axis="x" />
-              </td>
-              <td>
-                <CalibrationButton axis="y" />
-              </td>
-              <td>
-                <CalibrationButton axis="z" />
-              </td>
-            </tr>
+            <CalibrationRow />
+            <HomingRow />
             <tr>
               <td>
                 <label>{t("INVERT ENDPOINTS")}</label>
