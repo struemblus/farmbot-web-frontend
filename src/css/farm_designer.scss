@@ -135,10 +135,29 @@
 
 .plant-link-wrapper {
     position: relative;
+    cursor: default;
     image {
-        cursor: -webkit-grab !important;
-        &:active {
-            cursor: -webkit-grabbing !important;
+        -webkit-user-drag: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+    .selected-plant-indicator {
+        display: none;
+    }
+    &.active {
+        image {
+            cursor: -webkit-grab !important;
+            -webkit-user-drag: auto;
+            -webkit-user-select: all;
+            user-select: all;
+            &:active {
+                cursor: -webkit-grabbing !important;
+            }
+        }
+        .selected-plant-indicator {
+            animation: pulse-and-rotate 3.8s infinite linear;
+            transform-origin: center;
+            display: block;
         }
     }
 }
@@ -223,8 +242,20 @@
     }
 }
 
-.map-plant-spread{
-  fill: $green;
-  opacity: 0.1;
-  pointer-events: none;
+.map-plant-spread {
+    fill: $green;
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+@keyframes pulse-and-rotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
 }

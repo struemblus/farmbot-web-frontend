@@ -1,12 +1,13 @@
 import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
-import { toggleEditingTools } from "../actions";
 import { t } from "i18next";
-import { Props, Tool } from "../interfaces";
+import { ToolListProps } from "../interfaces";
+import { TaggedTool } from "../../resources/tagged_resources";
 
-export class ToolList extends React.Component<Props, {}> {
+export class ToolList extends React.Component<ToolListProps, {}> {
   render() {
-    let toggle = () => { this.props.dispatch(toggleEditingTools()); };
+    let toggle = () => this.props.toggle();
+    let { getSortedTools } = this.props;
     return <Widget>
       <WidgetHeader
         helpText={t(`This is a list of all your FarmBot Tools.
@@ -27,10 +28,10 @@ export class ToolList extends React.Component<Props, {}> {
             <label>{t("Status")}</label>
           </Col>
         </Row>
-        {this.props.getSortedTools().map((tool: Tool) => {
-          return <Row key={tool.id}>
-            <Col xs={8}>{tool.name || "Name not found"}</Col>
-            <Col xs={4}>{tool.status || "Status not found"}</Col>
+        {getSortedTools().map((tool: TaggedTool) => {
+          return <Row key={tool.body.id}>
+            <Col xs={8}>{tool.body.name || "Name not found"}</Col>
+            <Col xs={4}>{tool.body.status || "Status not found"}</Col>
           </Row>;
         })}
       </WidgetBody>

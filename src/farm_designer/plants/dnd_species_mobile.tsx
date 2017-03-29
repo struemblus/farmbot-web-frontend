@@ -4,12 +4,17 @@ import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
+import { history } from "../../history";
 import { DEFAULT_ICON } from "../../open_farm/index";
 import {
   SpeciesInfoProps,
   DNDSpeciesMobileState,
   DraggableEvent
 } from "../interfaces";
+
+const NOOP = (a: object, b: number, c: number) => {
+  console.log("NO DND SUPPORT ON THIS BROWSER");
+};
 
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */
@@ -26,12 +31,8 @@ DNDSpeciesMobileState> {
     // Stub until we figure out dynamic drag images
     img.src = DEFAULT_ICON;
 
-    e
-      && e.dataTransfer
-      // Because of Android
-      && e.dataTransfer.setDragImage
-      // Because of MS Edge.
-      && e.dataTransfer.setDragImage(img, 50, 50);
+    // Because of Android and MS Edge.
+    _.get(e, "dataTransfer.setDragImage", NOOP)(img, 50, 50);
   }
 
   toggleDesignerView() {
@@ -39,7 +40,7 @@ DNDSpeciesMobileState> {
   }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
+    let crops = this.props.cropSearchResults;
     let crop = _(crops).find((result) => result.crop.slug === slug);
     return crop || {
       crop: {
@@ -59,7 +60,8 @@ DNDSpeciesMobileState> {
   }
 
   render() {
-    let species = this.props.params.species.toString();
+    let species = history.getCurrentLocation().pathname.split("/")[5];
+
     let result = this.findCrop(species || "PLANT_NOT_FOUND");
 
     /** rgba arguments are a more mobile-friendly way apply filters */

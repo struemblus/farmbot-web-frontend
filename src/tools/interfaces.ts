@@ -1,63 +1,78 @@
 import { DropDownItem } from "../ui/fb_select";
+import {
+  TaggedTool,
+  TaggedToolSlot,
+  TaggedToolBay
+} from "../resources/tagged_resources";
 
 export interface ToolsState {
-  editorMode: boolean;
-  tool_bays: ToolBay[];
-  tool_slots: ToolSlot[];
-  tools: {
-    isEditing: boolean;
-    all: Tool[];
-    dirty: boolean;
-  };
+  editingTools: boolean;
+  editingBays: boolean;
 }
 
 export interface Props {
-  toolBays: ToolBay[];
-  toolSlots: ToolSlot[];
-  tools: Tool[];
-  editorMode: boolean;
-  isEditingTools: boolean;
-  dirtyTools: boolean;
-  getSortedTools(): Tool[];
-  getToolSlots(toolBayId: number): ToolSlot[];
+  toolBays: TaggedToolBay[];
+  toolSlots: TaggedToolSlot[];
+  tools: TaggedTool[];
+  getSortedTools(): TaggedTool[];
   getToolOptions(): DropDownItem[];
-  getChosenToolOption(toolSlotId: number): DropDownItem;
-  getChosenTool(toolSlotId: number): Tool;
+  getChosenToolOption(toolSlotUuid: string): DropDownItem;
+  getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
+  getToolSlots(): TaggedToolSlot[];
   dispatch: Function;
+  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface ToolBay {
   id: number;
   name: string;
   isEditing?: boolean;
-  dirty?: boolean;
   created_at?: string | undefined;
 }
 
-export interface ToolFormState {
-  newToolName: string;
-}
-
 export interface ToolSlot {
-  id: number;
+  id?: number | undefined;
   tool_bay_id?: number;
   tool_id?: number | undefined;
   created_at?: string;
   x: number;
   y: number;
   z: number;
-  dirty?: boolean;
-}
-
-export interface UpdateToolSlotPayl {
-  value: number;
-  name: string;
-  id: number;
 }
 
 export interface Tool {
   id?: number | undefined;
   name: string;
-  dirty?: boolean;
   status?: undefined | "unknown" | "active" | "inactive";
+}
+
+export interface ToolBayListProps {
+  dispatch: Function;
+  toolBays: TaggedToolBay[];
+  toggle(): void;
+  getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
+  getToolSlots(): TaggedToolSlot[];
+}
+
+export interface ToolBayFormProps {
+  dispatch: Function;
+  toolBays: TaggedToolBay[];
+  toggle(): void;
+  getToolOptions(): DropDownItem[];
+  getChosenToolOption(uuid: string): DropDownItem;
+  getToolSlots(): TaggedToolSlot[];
+  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
+}
+
+export interface ToolListProps {
+  dispatch: Function;
+  toggle(): void;
+  getSortedTools(): TaggedTool[];
+}
+
+export interface ToolFormProps {
+  dispatch: Function;
+  tools: TaggedTool[];
+  toggle(): void;
+  getSortedTools(): TaggedTool[];
 }

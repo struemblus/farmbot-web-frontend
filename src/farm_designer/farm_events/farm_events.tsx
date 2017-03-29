@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { FBSelect, Row, Col } from "../../ui";
+import { DeprecatedFBSelect, Row, Col } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { mapStateToProps } from "./map_state_to_props";
@@ -23,6 +23,8 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
 
         <div className="col-xs-10 events">
           {item.items.map(function (farmEvent) {
+            let url = `/app/designer/farm_events/` +
+              (farmEvent.id || "UNSAVED_EVENT").toString();
             return <div className={`farm-event col-xs-12`}
               key={farmEvent.sortKey}>
               <div className="event-time col-xs-4">
@@ -31,8 +33,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
               <div className="event-title col-xs-8">
                 {farmEvent.executableName}
               </div>
-              <Link to={`/app/designer/farm_events/` +
-                (farmEvent.id || "UNSAVED_EVENT").toString()}>
+              <Link to={url}>
                 <i className="fa fa-pencil-square-o edit-icon"></i>
               </Link>
             </div>;
@@ -64,7 +65,7 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
           <i className="col-xs-2 fa fa-calendar"></i>
 
           <Col xs={10}>
-            <FBSelect list={[]}
+            <DeprecatedFBSelect list={[]}
               onChange={(selectedOption) => {
                 this.props.push("/app/designer/farm_events/" + selectedOption.value);
               }}

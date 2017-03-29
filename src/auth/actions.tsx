@@ -3,18 +3,16 @@ import {
   fetchFWUpdateInfo,
   fetchOSUpdateInfo
 } from "../devices/actions";
-import { DeviceAccountSettings } from "../devices/interfaces";
 import { push } from "../history";
 import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
-import { fetchSyncData } from "../sync/actions";
-import { fetchRegimens } from "../regimens/actions";
+import * as NoNoNo from "../sync/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
 import * as _ from "lodash";
 import { API } from "../api";
-import { prettyPrintApiErrors } from "../util";
+import { toastErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
 import { responseFulfilled, responseRejected, requestFulfilled } from "../interceptors";
@@ -24,29 +22,13 @@ export function didLogin(authState: AuthState, dispatch: Function) {
   dispatch(fetchOSUpdateInfo(authState.token.unencoded.os_update_server));
   dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
   dispatch(loginOk(authState));
-  dispatch(fetchSyncData());
-  // TODO: Make regimens work with sync object
-  dispatch(fetchRegimens());
+
+  NoNoNo.fetchDeprecatedSyncData(dispatch);
   dispatch(connectDevice(authState.token.encoded));
 };
 
-export function downloadDeviceData(): Thunk {
-  return function (dispatch, getState) {
-    Axios
-      .get<DeviceAccountSettings>(API.current.devicePath)
-      .then(res => dispatch({
-        type: "REPLACE_DEVICE_ACCOUNT_INFO",
-        payload: res.data
-      }))
-      .catch(payload => dispatch({
-        type: "DEVICE_ACCOUNT_ERR",
-        payload
-      }));
-  };
-};
-
 // We need to handle OK logins for numerous use cases (Ex: login & registration)
-export function onLogin(dispatch: Function) {
+function onLogin(dispatch: Function) {
   return (response: Axios.AxiosXHR<AuthState>) => {
     let { data } = response;
     Session.put(data);
@@ -104,7 +86,7 @@ export function register(name: string,
 /** Handle user registration errors. */
 export function onRegistrationErr(dispatch: Function) {
   return (err: UnsafeError) => {
-    error(prettyPrintApiErrors(err));
+    toastErrors(err);
     dispatch({
       type: "REGISTRATION_ERROR",
       payload: err

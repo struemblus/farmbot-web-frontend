@@ -1,16 +1,15 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Everything } from "../interfaces";
-import { DropDownProps, NavBarState } from "./interfaces";
+import { DropDownProps, NavBarState, NavBarProps } from "./interfaces";
 import { EStopButton } from "../devices/components/e_stop_btn";
-import { connect } from "react-redux";
 import { t } from "i18next";
 import { Session } from "../session";
 import { Markdown } from "../ui";
 import * as moment from "moment";
 import { SyncButton } from "./sync_button";
+import { history } from "../history";
 
-let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
+let DropDown = ({ auth, onClick }: DropDownProps) => {
   if (!auth) { return <span></span>; }
   let hasName = auth.user && auth.user.name;
   let greeting = hasName ? `${hasName} ▾` : "";
@@ -31,11 +30,6 @@ let DropDown = ({ auth, onClick, sync }: DropDownProps) => {
         </li>
       </ul>
       <div className="version-links">
-        <span>API:
-                    <a href="https://github.com/FarmBot/Farmbot-Web-API"
-            target="_blank">{sync.api_version}
-          </a>
-        </span>
         <span>Frontend:
                     <a href="https://github.com/FarmBot/farmbot-web-frontend"
             target="_blank">{process.env.SHORT_REVISION}
@@ -55,8 +49,7 @@ let links = [
   { name: "Tools", icon: "wrench", url: "/app/tools" }
 ];
 
-@connect((state: Everything) => state)
-export class NavBar extends React.Component<Everything, NavBarState> {
+export class NavBar extends React.Component<NavBarProps, NavBarState> {
   constructor() {
     super();
     this.state = {
@@ -82,7 +75,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
   render() {
     let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
     // The way our app is laid out, we'll pretty much always want this bit.
-    let pageName = this.props.location.pathname.split("/")[2] || "";
+    let pageName = history.getCurrentLocation().pathname.split("/")[2] || "";
     let { toggleNav, logout } = this;
 
     return <div className="nav-wrapper">
@@ -123,11 +116,6 @@ export class NavBar extends React.Component<Everything, NavBarState> {
             </li>
           </ul>
           <div className="version-links mobile-only">
-            <span>API:
-                    <a href="https://github.com/FarmBot/Farmbot-Web-API"
-                target="_blank">{this.props.sync.api_version}
-              </a>
-            </span>
             <span>Frontend:
                     <a href="https://github.com/FarmBot/farmbot-web-frontend"
                 target="_blank">{process.env.SHORT_REVISION}
@@ -137,7 +125,7 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         </div>
 
         <div className="ticker-list">
-          {this.props.sync.logs.map((log, index) => {
+          {this.props.logs.map((log, index) => {
             let time = moment.utc(log.created_at).local().format("h:mm a");
             return <div key={index} className="status-ticker-wrapper">
               <div className={`saucer ${log.meta.type}`} />
@@ -154,9 +142,16 @@ export class NavBar extends React.Component<Everything, NavBarState> {
         </div>
 
         <div className="right-nav-content">
-          <SyncButton { ...this.props } />
-          <EStopButton { ...this.props } />
-          <DropDown onClick={logout} { ...this.props } />
+          <SyncButton
+            bot={this.props.bot}
+            auth={this.props.auth}
+            dispatch={this.props.dispatch} />
+          <EStopButton
+            bot={this.props.bot}
+            auth={this.props.auth} />
+          <DropDown
+            onClick={logout}
+            auth={this.props.auth} />
         </div>
 
         <div className={`underlay ${mobileMenuClass}`}

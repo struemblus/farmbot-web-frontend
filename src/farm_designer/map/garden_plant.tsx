@@ -4,31 +4,32 @@ import { GardenPlantProps } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 
 export class GardenPlant extends React.Component<GardenPlantProps,
-  { icon: string }> {
+ { icon: string }> {
   constructor() {
     super();
     this.state = { icon: DEFAULT_ICON };
   }
 
   componentDidMount() {
-    cachedIcon(this.props.plant.openfarm_slug)
+    cachedIcon(this.props.plant.body.openfarm_slug)
       .then((icon: string) => this.setState({ icon }));
   }
 
   render() {
     let { plant, onUpdate, onDrop } = this.props;
-    if (plant.id) {
+    if (plant.body.id) {
       return <g>
         <circle className="map-plant-spread"
-          cx={plant.x}
-          cy={plant.y}
-          r={(plant.spread || 0) * 10 / 2} />
-        <DraggableSvgImage key={plant.id}
-          x={plant.x - plant.radius}
-          y={plant.y - plant.radius}
-          height={plant.radius * 2}
-          width={plant.radius * 2}
-          id={plant.id}
+          cx={plant.body.x}
+          cy={plant.body.y}
+          r={(plant.body.spread || 0) * 10 / 2} />
+        <DraggableSvgImage key={plant.body.id}
+          plant={plant}
+          x={plant.body.x - plant.body.radius}
+          y={plant.body.y - plant.body.radius}
+          height={plant.body.radius * 2}
+          width={plant.body.radius * 2}
+          id={plant.body.id}
           onUpdate={onUpdate}
           onDrop={onDrop}
           href={this.state.icon} />

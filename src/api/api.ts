@@ -116,8 +116,6 @@ export class API {
   get regimensPath() { return `${this.baseUrl}/api/regimens/`; };
   /** /api/sequences/ */
   get sequencesPath() { return `${this.baseUrl}/api/sequences/`; };
-  /** /api/sync/ */
-  get syncPath() { return `${this.baseUrl}/api/sync/`; };
   /** /api/tool_bays/ */
   get toolBaysPath() { return `${this.baseUrl}/api/tool_bays/`; };
   /** /api/tool_slots/ */

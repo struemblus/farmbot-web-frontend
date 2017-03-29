@@ -6,19 +6,46 @@ import { connect } from "react-redux";
 import { mapStateToProps } from "./state_to_props";
 
 @connect(mapStateToProps)
-export class Tools extends React.Component<Props, ToolsState> {
+export class Tools extends React.Component<Props, Partial<ToolsState>> {
+
+  toggleBays = () => { this.setState({ editingBays: !this.state.editingBays }); }
+  toggleTools = () => { this.setState({ editingTools: !this.state.editingTools }); }
+
   render() {
-    let isEditingBays = this.props.editorMode;
-    let isEditingTools = this.props.isEditingTools;
+    let isEditingBays = this.state.editingBays;
+    let isEditingTools = this.state.editingTools;
     return <Page className="tools">
       <Row>
         <Col sm={7}>
-          {!isEditingBays && <ToolBayList {...this.props} />}
-          {isEditingBays && <ToolBayForm {...this.props} />}
+          {!isEditingBays && <ToolBayList
+            toggle={this.toggleBays}
+            dispatch={this.props.dispatch}
+            getToolByToolSlotUUID={this.props.getToolByToolSlotUUID}
+            toolBays={this.props.toolBays}
+            getToolSlots={this.props.getToolSlots}
+          />}
+          {isEditingBays && <ToolBayForm
+            toggle={this.toggleBays}
+            dispatch={this.props.dispatch}
+            toolBays={this.props.toolBays}
+            getToolSlots={this.props.getToolSlots}
+            getChosenToolOption={this.props.getChosenToolOption}
+            getToolOptions={this.props.getToolOptions}
+            changeToolSlot={this.props.changeToolSlot}
+          />}
         </Col>
         <Col sm={5}>
-          {!isEditingTools && <ToolList {...this.props} />}
-          {isEditingTools && <ToolForm {...this.props} />}
+          {!isEditingTools && <ToolList
+            toggle={this.toggleTools}
+            dispatch={this.props.dispatch}
+            getSortedTools={this.props.getSortedTools}
+          />}
+          {isEditingTools && <ToolForm
+            toggle={this.toggleTools}
+            dispatch={this.props.dispatch}
+            tools={this.props.tools}
+            getSortedTools={this.props.getSortedTools}
+          />}
         </Col>
       </Row>
     </Page>;

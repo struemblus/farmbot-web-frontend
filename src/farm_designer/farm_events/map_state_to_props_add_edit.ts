@@ -3,11 +3,21 @@ import { Everything } from "../../interfaces";
 import * as moment from "moment";
 import { DropDownItem } from "../../ui";
 import { t } from "i18next";
-import { saveFarmEvent, destroyFarmEvent, updateFarmEvent } from "../actions";
+import {
+  selectAllFarmEvents,
+  indexRegimenById,
+  indexSequenceById,
+  indexFarmEventById,
+  findFarmEventById,
+  selectAllRegimens,
+  selectAllSequences,
+  hasId
+} from "../../resources/selectors";
+import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { history } from "../../history";
 
-export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
+export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
-    // Am I really doing this right now? How else?
     let incomingTime = e.currentTarget.value.split(":");
     let hours = parseInt(incomingTime[0]) || 0;
     let minutes = parseInt(incomingTime[1]) || 0;
@@ -67,61 +77,62 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
   let selectOptions: DropDownItem[] = [];
 
   selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
-  state.sync.regimens.map((regimen, index) => {
+  selectAllRegimens(props.resources.index).map(regimen => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (regimen.id) {
+    if (regimen.kind === "regimens" && regimen.body.id) {
       let item = {
-        label: regimen.name,
+        label: regimen.body.name,
         executable_type: "Regimen",
-        executable_id: regimen.id,
-        value: regimen.id
+        executable_id: regimen.body.id,
+        value: regimen.body.id
       };
       selectOptions.push(item);
     }
   });
 
   selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Sequences" });
-  state.sync.sequences.map((sequence, index) => {
+  selectAllSequences(props.resources.index).map(sequence => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (sequence.id) {
+    if (sequence.kind === "sequences" && sequence.body.id) {
       let item = {
-        label: sequence.name,
+        label: sequence.body.name,
         executable_type: "Sequence",
-        executable_id: sequence.id,
-        value: sequence.id
+        executable_id: sequence.body.id,
+        value: sequence.body.id
       };
       selectOptions.push(item);
     }
   });
 
-  let farmEvents = state.sync.farm_events;
-  let sequenceById = _.indexBy(state.sequences.all, "id");
-  let regimenById = _.indexBy(state.regimens.all, "id");
+  let regimensById = indexRegimenById(props.resources.index);
+  let sequencesById = indexSequenceById(props.resources.index);
+  let farmEventsById = indexFarmEventById(props.resources.index);
+
+  let farmEvents = selectAllFarmEvents(props.resources.index);
+
+  let getFarmEvent = (): TaggedFarmEvent | undefined => {
+    let url = history.getCurrentLocation().pathname;
+    let id = parseInt(url.split("/")[4]);
+    if (id && hasId(props.resources.index, "farm_events", id)) {
+      return findFarmEventById(props.resources.index, id);
+    } else {
+      history.push("/app/designer/farm_events");
+    }
+  }
+
   return {
+    dispatch: props.dispatch,
+    regimensById,
+    sequencesById,
+    farmEventsById,
     selectOptions,
     repeatOptions,
     formatDate,
     formatTime,
     handleTime,
     farmEvents,
-    sequenceById,
-    regimenById,
-    save(fe) {
-      this.dispatch(saveFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
-    update(fe) {
-      this.dispatch(updateFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
-    delete(farm_event_id) {
-      this.dispatch(destroyFarmEvent(farm_event_id, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
+    getFarmEvent
   };
 }

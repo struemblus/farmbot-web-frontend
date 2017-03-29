@@ -1,12 +1,12 @@
 import * as React from "react";
-import { StepParams } from "./index";
+import { StepParams } from "../interfaces";
 import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
-import { copy, remove } from "./index";
+import { splice, remove } from "./index";
 import { t } from "i18next";
 
-export function TileExecuteScript({ dispatch, step, index }: StepParams) {
-  if (step.kind === "execute_script") {
+export function TileExecuteScript({ dispatch, currentStep, index, currentSequence }: StepParams) {
+  if (currentStep.kind === "execute_script") {
     return (<div>
       <div className="step-wrapper">
         <div className="row">
@@ -14,12 +14,16 @@ export function TileExecuteScript({ dispatch, step, index }: StepParams) {
             <div className="step-header send-message-step">
               <StepTitleBar index={index}
                 dispatch={dispatch}
-                step={step} />
+                step={currentStep} />
               <i className="fa fa-arrows-v step-control" />
               <i className="fa fa-clone step-control"
-                onClick={() => copy({ dispatch, step })} />
+                onClick={() => dispatch(splice({
+                  step: currentStep,
+                  index,
+                  sequence: currentSequence
+                }))} />
               <i className="fa fa-trash step-control"
-                onClick={() => remove({ dispatch, index })} />
+                onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
               <Help text={(`The 'Run Farmware' block runs a
                                 FarmWare package. The weed detection script is
                                 the only script supported at the moment, but user
@@ -34,7 +38,7 @@ export function TileExecuteScript({ dispatch, step, index }: StepParams) {
               <div className="row">
                 <div className="col-xs-6 col-md-8">
                   <label>{t("Package Name")}</label>
-                  <input type="text" value={step.args.label} disabled={true} />
+                  <input type="text" value={currentStep.args.label} disabled={true} />
                   <small>NOTE: Support for customizable scripts is coming soon.</small>
                 </div>
               </div>

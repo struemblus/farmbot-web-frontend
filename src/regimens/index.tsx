@@ -3,32 +3,39 @@ import { BulkSchedulerWidget } from "./bulk_scheduler/index";
 import { RegimensList } from "./list/index";
 import { RegimenEditorWidget } from "./editor/index";
 import { connect } from "react-redux";
-import { Everything } from "../interfaces";
 import { isMobile } from "../util";
 import { MobileRegimensNav } from "./mobile_nav";
-import { RegimenPropsWithParams } from "./interfaces";
+import { Props } from "./interfaces";
 import { Page, Row, Col } from "../ui/index";
+import { mapStateToProps } from "./state_to_props";
 
-@connect((state: Everything) => state)
-export class Regimens extends React.Component<RegimenPropsWithParams, {}> {
+@connect(mapStateToProps)
+export class Regimens extends React.Component<Props, {}> {
   render() {
-    let { bulkScheduler } = this.props;
-
     return <Page className="regimens">
       <Row>
         <Col xs={12} md={4}>
-          <BulkSchedulerWidget editor={bulkScheduler}
-            sequences={this.props.sequences.all}
+          <BulkSchedulerWidget
+            selectedSequence={this.props.selectedSequence}
+            dailyOffsetMs={this.props.dailyOffsetMs}
+            weeks={this.props.weeks}
+            sequences={this.props.sequences}
+            resources={this.props.resources}
             dispatch={this.props.dispatch} />
         </Col>
         <Col xs={12} md={4}>
-          <RegimenEditorWidget { ...this.props } />
+          <RegimenEditorWidget
+            dispatch={this.props.dispatch}
+            auth={this.props.auth}
+            bot={this.props.bot}
+            calendar={this.props.calendar}
+            current={this.props.current} />
         </Col>
-        {isMobile() && (
-          <MobileRegimensNav { ...this.props} />
-        )}
+        {isMobile() && <MobileRegimensNav />}
         <Col xs={12} md={4}>
-          <RegimensList { ...this.props } />
+          <RegimensList
+            dispatch={this.props.dispatch}
+            regimens={this.props.regimens} />
         </Col>
       </Row>
     </Page>;

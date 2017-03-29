@@ -3,8 +3,19 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
+import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES, Pins } from "farmbot";
 import { AuthState } from "../auth/interfaces";
+import { PeripheralState } from "../controls/peripherals/interfaces";
+import { Image } from "../images/index";
+import { TaggedImage, TaggedPeripheral } from "../resources/tagged_resources";
+import { ResourceIndex, RestResources } from "../resources/interfaces";
+
+export interface Props {
+  auth: AuthState | undefined;
+  bot: BotState;
+  images: TaggedImage[];
+  dispatch: Function;
+}
 
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
@@ -14,7 +25,6 @@ export interface DeviceAccountSettings {
   name: string;
   webcam_url?: string;
   /** Must the deivce be saved? */
-  dirty?: boolean;
 };
 
 /**
@@ -49,13 +59,9 @@ export interface DeviceAccountSettingsUpdate {
   name?: string;
   uuid?: string;
   webcam_url?: string;
-  dirty?: boolean;
 };
 
 export interface BotState {
-  account: DeviceAccountSettings;
-  /** Maximum number of messages to cache. Excess is truncated. */
-  status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
   /** The current os version on the github release api */
@@ -79,6 +85,7 @@ export interface BotState {
   };
   configBuffer: Configuration;
   hardware: HardwareState;
+  account: DeviceAccountSettings;
 }
 export interface BotProp {
   bot: BotState;
@@ -97,9 +104,8 @@ export interface GithubRelease {
   tag_name: string;
 }
 
-type configKey = keyof McuParams;
 export interface ChangeSettingsBuffer {
-  key: configKey;
+  key: keyof McuParams;
   val: number;
 }
 
@@ -110,7 +116,8 @@ export interface MoveRelProps {
   speed?: number | undefined;
 }
 
-export type Axis = "x" | "y" | "z" | "all";
+export type Xyz = "x" | "y" | "z";
+export type Axis = Xyz | "all";
 
 export interface CalibrationButtonProps {
   axis: Axis;
@@ -136,4 +143,27 @@ export interface McuInputBoxProps {
   bot: BotState;
   setting: string;
   dispatch: Function;
+}
+
+export interface EStopButtonProps {
+  bot: BotState;
+  auth: AuthState | undefined;
+}
+
+export interface PeripheralsProps {
+  resources: RestResources;
+  bot: BotState;
+  peripherals: TaggedPeripheral[];
+  dispatch: Function;
+}
+
+export interface WeedDetectorProps {
+  bot: BotState;
+  dispatch: Function;
+  images: TaggedImage[];
+}
+
+export interface HardwareSettingsProps {
+  dispatch: Function;
+  bot: BotState;
 }

@@ -1,5 +1,4 @@
 import { Color } from "../interfaces";
-import { SelectOptionsParams, Everything } from "../interfaces";
 import { AuthState } from "../auth/interfaces";
 import {
   Sequence as CeleryScriptSequence,
@@ -11,14 +10,42 @@ import {
 } from "farmbot";
 import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
-import { IStepInput } from "./step_tiles/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
+import { TaggedSequence, TaggedTool, TaggedToolSlot, TaggedPlant } from "../resources/tagged_resources";
+import { ResourceIndex } from "../resources/interfaces";
+
+export interface Props {
+  dispatch: Function;
+  sequences: TaggedSequence[];
+  tools: TaggedTool[];
+  slots: TaggedToolSlot[];
+  sequence: TaggedSequence | undefined;
+  auth: AuthState | undefined;
+  resources: ResourceIndex;
+}
+
+export interface SequenceEditorMiddleProps {
+  dispatch: Function;
+  sequence: TaggedSequence | undefined;
+  /** @deprecated Use props.resources now. */
+  sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
+  tools: TaggedTool[];
+  /** @deprecated Use props.resources now. */
+  slots: TaggedToolSlot[];
+  resources: ResourceIndex;
+}
+
+export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
+  sequence: TaggedSequence;
+}
+
+
 
 export type CHANNEL_NAME = "toast" | "ticker";
 
-export const NUMERIC_FIELDS = ["x", "y", "z", "speed", "pin_number",
-  "pin_value", "pin_mode", "milliseconds",
-  "sequence_id", "rhs", "sequence_id"];
+export const NUMERIC_FIELDS = ["milliseconds", "pin_mode", "pin_number",
+  "pin_value", "rhs", "sequence_id", "speed", "x", "y", "z"];
 
 /** CeleryScript nodes allowed within a Sequence node's `body` attr. */
 export type SequenceBodyMember = SequenceBodyItem;
@@ -26,31 +53,23 @@ export type SequenceBodyMember = SequenceBodyItem;
 export interface Sequence extends CeleryScriptSequence {
   color: Color;
   name: string;
-  dirty?: boolean;
   id?: number;
 }
 
-export type SequenceOptions = {[P in keyof Sequence]?: Sequence[P]; };
+export type SequenceOptions = Partial<Sequence>;
 
 export interface SequenceReducerState {
-  all: Array<Sequence>;
-  current: number;
+  current: string | undefined;
 };
 
 export interface SequencesListProps {
-  sequences: SequenceReducerState;
+  sequences: TaggedSequence[];
   dispatch: Function;
-  auth: AuthState;
+  auth: AuthState | undefined;
 }
 
 export interface NamedVector3 extends Vector3 {
   name: string;
-}
-
-export interface MobileSequencesNavProps extends Everything {
-  params: {
-    sequence: string;
-  };
 }
 
 /** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */
@@ -90,11 +109,10 @@ export interface ChangeMoveAbsInput {
   value: string;
 }
 
-export type StatelessInput = (p: IStepInput) => JSX.Element;
-
-export type InputChoiceDict = { [name: string]: (StatelessInput | undefined) };
+export type StatelessInput = (p: StepInputProps) => JSX.Element;
 
 export interface StepButtonParams {
+  current: TaggedSequence | undefined;
   step: SequenceBodyItem;
   dispatch: Function;
   children?: JSX.Element | undefined;
@@ -126,27 +144,15 @@ export interface UpdateStepParams {
   field: string;
 }
 
-export interface IStepInput {
-  step: CeleryNode;
+export interface StepInputProps {
+  step: SequenceBodyItem;
+  sequence: TaggedSequence;
   field: LegalArgString;
   dispatch: Function;
   index: number;
 }
 
-export interface StepParams {
-  dispatch: Function;
-  step: SequenceBodyItem;
-  index: number;
-  current: Sequence;
-  all: Sequence[];
-  tools: ToolsState;
-}
-
 export type StepTile = (input: StepParams) => JSX.Element;
-
-export interface StepDictionary {
-  [stepName: string]: StepTile;
-};
 
 export interface StepTitleBarProps {
   step: SequenceBodyItem;
@@ -158,13 +164,6 @@ export interface EditCurrentSequence {
   name?: string;
   color?: Color;
 };
-
-export interface PushStep {
-  type: "PUSH_STEP";
-  payload: {
-    step: CeleryNode;
-  };
-}
 
 export interface SpliceStepPayl {
   insertBefore: number;
@@ -199,20 +198,6 @@ export interface ChangeStepSelect {
   };
 }
 
-export interface SelectPayl {
-  value: number | string;
-  index: number;
-  field: string;
-  type?: string;
-}
-
-export interface RemoveStep {
-  type: "REMOVE_STEP";
-  payload: {
-    index: number;
-  };
-};
-
 export interface SaveSequenceOk {
   type: string;
   payload: Sequence;
@@ -220,7 +205,7 @@ export interface SaveSequenceOk {
 
 export interface SelectSequence {
   type: "SELECT_SEQUENCE";
-  payload: number;
+  payload: string;
 };
 
 export interface SequenceApiResponse {
@@ -230,3 +215,17 @@ export interface SequenceApiResponse {
 export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;
 
 export type dispatcher = (a: Function | { type: string }) => DataXferObj;
+
+export interface StepParams {
+  currentSequence: TaggedSequence;
+  currentStep: SequenceBodyItem;
+  dispatch: Function;
+  index: number;
+  /** @deprecated Use props.resources now. */
+  sequences: TaggedSequence[];
+  /** @deprecated Use props.resources now. */
+  tools: TaggedTool[];
+  /** @deprecated Use props.resources now. */
+  slots: TaggedToolSlot[];
+  resources: ResourceIndex;
+}

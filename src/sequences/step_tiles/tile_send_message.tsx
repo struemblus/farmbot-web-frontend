@@ -1,143 +1,160 @@
 import * as React from "react";
-import {
-  StepParams,
-  copy,
-  remove
-} from "./index";
+import { splice, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
-import { Help, FBSelect, DropDownItem } from "../../ui";
+import { Help, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
-import { addChan, removeChan, updateMessageType } from "../actions";
 import { SendMessage } from "farmbot";
 import * as _ from "lodash";
+import { StepParams, Sequence } from "../interfaces";
+import {
+  MESSAGE_STATUSES,
+  ChannelChoices,
+  THE_ONLY_CHANNEL
+} from "./tile_send_message_support";
+import { TaggedSequence } from "../../resources/tagged_resources";
+import { ResourceIndex } from "../../resources/interfaces";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
+import { NewFBSelect } from "../../ui/new_fb_select";
 
-export function TileSendMessage({ dispatch, step, index }: StepParams) {
-  if (step.kind !== "send_message") {
-    throw new Error("TileSendMessage expects send_message");
+export function TileSendMessage(props: StepParams) {
+  if (props.currentStep.kind === "send_message") {
+    return <RefactoredSendMessage
+      currentStep={props.currentStep}
+      currentSequence={props.currentSequence}
+      dispatch={props.dispatch}
+      index={props.index}
+      resources={props.resources} />;
   } else {
-
+    throw new Error("TileSendMessage expects send_message");
   }
-  step = step as SendMessage;
-  let args = step.args;
-  let message = args.message;
+}
+interface SendMessageParams {
+  currentStep: SendMessage;
+  currentSequence: TaggedSequence;
+  dispatch: Function;
+  index: number;
+  resources: ResourceIndex;
+}
 
-  let channels = _.pairs<{}, string>({
-    "toast": "Toast Notification",
-    "email": "Email",
-    "sms": "SMS",
-    "twitter": "Twitter"
-  });
-
-  let messageType: DropDownItem = {
-    label: _.capitalize(args.message_type),
-    value: args.message_type
+class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
+  get args() { return this.props.currentStep.args; }
+  get message() { return this.args.message };
+  get message_type() { return this.args.message_type }
+  get label() { return _.capitalize(this.message_type) }
+  get step() { return this.props.currentStep; }
+  get dispatch() { return this.props.dispatch }
+  get sequence() { return this.props.currentSequence; }
+  get index() { return this.props.index }
+  get currentSelection(): DropDownItem {
+    return { label: this.label, value: this.message_type };
   };
 
-  let options = [
-    { value: "success", label: "Success" },
-    { value: "busy", label: "Busy" },
-    { value: "warn", label: "Warning" },
-    { value: "error", label: "Error" },
-    { value: "info", label: "Info" },
-    { value: "fun", label: "Fun" }
-  ];
-
-  let handleOptionChange = (event: DropDownItem) => {
-    let { value } = event;
-    if (value) {
-      dispatch(updateMessageType({ value, index }));
-    } else {
-      throw new Error("Must provide a value.");
+  /** Clone the sequence and step in preparation for dispatch. */
+  freshCopy = () => {
+    return {
+      stepCpy: defensiveClone(this.step),
+      seqCpy: defensiveClone(this.sequence).body
     }
-  };
+  }
 
-  let handleChannelChange = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let el = e.target as HTMLInputElement;
-    let channel_name = el.id;
-    let action = (el.checked) ? addChan : removeChan;
-    dispatch(action({ channel_name, index }));
-  };
+  overwriteSequence = (seqCpy: Sequence) =>
+    this.dispatch(overwrite(this.sequence, seqCpy));
 
-  let choices = channels.map(function (pair, key) {
-    let name_list = (step.kind === "send_message") ?
-      (step.body || []).map(x => x.args.channel_name) : [];
-    let [name, label] = pair;
-    let isChecked = name_list.includes(name);
+  setMessageType = (newValue: DropDownItem) => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    let { value } = newValue;
+    if (_.isString(value)) { stepCpy.args.message_type = value; }
+    seqCpy.body = seqCpy.body || []
+    seqCpy.body[this.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
 
-    /** TODO: Temporary. Once features are available, enable them. */
-    let isDisabled = name == "email" || name == "sms" || name == "twitter";
+  removeChan = () => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    stepCpy.body = [];
+    (seqCpy.body || [])[this.props.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
 
-    return <fieldset key={key}>
-      <label htmlFor={name}> {label}</label>
-      <input type="checkbox"
-        id={name}
-        disabled={isDisabled}
-        onChange={(event: React.SyntheticEvent<HTMLInputElement>) => {
-          handleChannelChange(event);
-        }}
-        checked={isChecked}
-      />
-    </fieldset>;
-  });
+  addChan = () => {
+    let { stepCpy, seqCpy } = this.freshCopy();
+    stepCpy.body = [THE_ONLY_CHANNEL]; // We only support "toast" today.
+    (seqCpy.body || [])[this.props.index] = stepCpy;
+    this.overwriteSequence(seqCpy);
+  }
 
-  return <div>
-    <div className="step-wrapper">
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="step-header send-message-step">
-            <StepTitleBar index={index}
-              dispatch={dispatch}
-              step={step} />
-            <i className="fa fa-arrows-v step-control" />
-            <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
-            <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
-            <Help text={(`The Send Message step instructs
-                                FarmBot to send a custom message to the logs.
-                                This can help you with debugging your sequences.
-                                Eventually you will be able to receive push
-                                notifications and email alerts of these
-                                messages!`)} />
+  toggleToastChan = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    ((e.currentTarget.checked) ? this.addChan : this.removeChan)();
+  }
+
+  render() {
+    let { dispatch, index, currentStep, currentSequence } = this.props;
+
+    return <div>
+      <div className="step-wrapper">
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="step-header send-message-step">
+              <StepTitleBar index={index}
+                dispatch={dispatch}
+                step={currentStep} />
+              <i className="fa fa-arrows-v step-control" />
+              <i className="fa fa-clone step-control"
+                onClick={() => dispatch(splice({
+                  step: currentStep,
+                  sequence: currentSequence,
+                  index
+                }))} />
+              <i className="fa fa-trash step-control"
+                onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
+              <Help text={(`The Send Message step instructs
+                            FarmBot to send a custom message to the logs.
+                            This can help you with debugging your sequences.
+                            Eventually you will be able to receive push
+                            notifications and email alerts of these
+                            messages!`)} />
+            </div>
           </div>
         </div>
-      </div>
-      <div className="row">
-        <div className="col-sm-12">
-          <div className="step-content send-message-step">
-            <div className="row">
-              <div className="col-xs-12">
-                <label>{t("Message")}</label>
-                <span className="char-limit">
-                  {message.length}/300
+        <div className="row">
+          <div className="col-sm-12">
+            <div className="step-content send-message-step">
+              <div className="row">
+                <div className="col-xs-12">
+                  <label>{t("Message")}</label>
+                  <span className="char-limit">
+                    {this.message.length}/300
                 </span>
-                <StepInputBox dispatch={dispatch}
-                  step={step}
-                  index={index}
-                  field="message"
-                />
-                <div className="bottom-content">
-                  <div className="channel-options">
-                    <FBSelect
-                      onChange={handleOptionChange}
-                      initialValue={messageType}
-                      list={options}
-                      allowEmpty={true}
-                    />
-                  </div>
-                  <div className="channel-fields">
-                    <fieldset>
-                      <label htmlFor="ticker">
-                        Status Ticker/Logs
+                  <StepInputBox dispatch={dispatch}
+                    step={currentStep}
+                    sequence={currentSequence}
+                    index={index}
+                    field="message"
+                  />
+                  <div className="bottom-content">
+                    <div className="channel-options">
+                      <NewFBSelect
+                        onChange={this.setMessageType}
+                        selectedItem={this.currentSelection}
+                        list={MESSAGE_STATUSES} />
+                    </div>
+                    <div className="channel-fields">
+                      <fieldset>
+                        <label htmlFor="ticker">
+                          Status Ticker/Logs
                       </label>
-                      <input type="checkbox"
-                        id="ticker"
-                        disabled
-                        checked
-                      />
-                    </fieldset>
-                    {choices}
+                        <input type="checkbox"
+                          id="ticker"
+                          disabled
+                          checked
+                        />
+                      </fieldset>
+                      <ChannelChoices
+                        currentStep={this.props.currentStep}
+                        onChange={this.toggleToastChan} />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,6 +162,6 @@ export function TileSendMessage({ dispatch, step, index }: StepParams) {
           </div>
         </div>
       </div>
-    </div>
-  </div>;
+    </div>;
+  }
 }

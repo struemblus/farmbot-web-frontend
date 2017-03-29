@@ -2,13 +2,13 @@ import * as React from "react";
 import { SequenceBodyItem as Step, Dictionary } from "farmbot";
 import { addComment } from "../actions";
 import { t } from "i18next";
-
+import { CowardlyDictionary } from "../../util";
 
 function translate(input: Step): string {
   // We load translations async. If I put this const outside of the function,
   // i18next might not have the correct translation loaded. To get around this,
   // I had to put the translations in the function.
-  const TRANSLATIONS: Dictionary<string | undefined> = {
+  const TRANSLATIONS: CowardlyDictionary<string> = {
     "move_absolute": t("Move Absolute"),
     "move_relative": t("Move Relative"),
     "write_pin": t("Write Pin"),

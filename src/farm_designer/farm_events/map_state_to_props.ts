@@ -1,9 +1,12 @@
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
-import { Sequence } from "../../sequences/interfaces";
-import { Regimen } from "../../regimens/interfaces";
 import { Dictionary } from "farmbot";
 import { FarmEventProps, CalendarOccurrence, CalendarDay } from "../interfaces";
+import {
+  selectAllFarmEvents,
+  indexSequenceById,
+  indexRegimenById
+} from "../../resources/selectors";
 
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
@@ -21,28 +24,30 @@ const MONTHS: Readonly<Dictionary<string>> = {
 };
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
-export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
-  let farmEvents = state && state.sync && state.sync.farm_events || [];
-  let sequences = state && state.sync && state.sync.sequences || [];
-  let regimens = state && state.sync && state.sync.regimens || [];
+export function mapStateToProps(state: Everything): FarmEventProps {
+  let r = state.resources;
+  let farmEvents = selectAllFarmEvents(state.resources.index);
+
   let push = (state && state.router && state.router.push) || (() => { });
-  let sequenceById: Dictionary<Sequence> = _.indexBy(sequences, "id");
-  let regimenById: Dictionary<Regimen> = _.indexBy(regimens, "id");
+
+  let sequenceById = indexSequenceById(state.resources.index);
+  let regimenById = indexRegimenById(state.resources.index);
+
   let farmEventByMMDD: Dictionary<CalendarOccurrence[]> = farmEvents
     .reduce(function (memo, farmEvent) {
-      farmEvent.calendar && farmEvent.calendar.map(function (date) {
+      farmEvent.body.calendar && farmEvent.body.calendar.map(function (date) {
         let m = moment(date);
         let mmdd = m.format("MMDD");
-        let executableId = farmEvent.executable_id;
+        let executableId = farmEvent.body.executable_id;
         let executableName: string;
-        switch (farmEvent.executable_type) {
+        switch (farmEvent.body.executable_type) {
           case "Sequence":
             let s = sequenceById[executableId];
-            executableName = (s && s.name) || "Unknown sequence";
+            executableName = (s && s.body.name) || "Unknown sequence";
             break;
           case "Regimen":
             let r = regimenById[executableId];
-            executableName = (r && r.name) || "Unknown regimen";
+            executableName = (r && r.body.name) || "Unknown regimen";
             break;
           default: throw new Error("Never");
         }
@@ -51,7 +56,7 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
           timeStr: m.format("hh:mm a"),
           executableName,
           executableId,
-          id: farmEvent.id || 0,
+          id: farmEvent.body.id || 0,
         };
         (memo[mmdd]) ? memo[mmdd].push(occur) : (memo[mmdd] = [occur]);
       });
@@ -59,7 +64,7 @@ export function mapStateToProps(state: Partial<Everything>): FarmEventProps {
     }, ({} as Dictionary<CalendarOccurrence[]>));
 
   let calendarRows: CalendarDay[] = _.chain(farmEvents)
-    .map(y => y.calendar || [])
+    .map(y => y.body.calendar || [])
     .flatten()
     .uniq()
     .compact()

@@ -1,10 +1,10 @@
 import * as React from "react";
-import { Sequence } from "../../sequences/interfaces";
 import { setSequence } from "./actions";
-import { FBSelect, DropDownItem } from "../../ui";
+import { DeprecatedFBSelect, DropDownItem } from "../../ui";
 import * as _ from "lodash";
 import { t } from "i18next";
 import { SequenceListProps } from "./interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
 
 let options: DropDownItem[] = [];
 let selectedSequence: DropDownItem;
@@ -14,16 +14,16 @@ export function SequenceList({ sequences,
   dispatch }: SequenceListProps) {
 
   sequences
-    .filter(x => !!x.id) // Don't show unsaved.
+    .filter(x => !!x.body.id) // Don't show unsaved.
     .map((sequence, index) => {
       // Need for initialValue to match DropDownItem interface.
-      if (sequence.id === current.id) {
-        selectedSequence = { label: sequence.name, value: index };
+      if (current && (sequence.body.id === current.body.id)) {
+        selectedSequence = { label: sequence.body.name, value: index };
       }
-      let target = { label: sequence.name, value: index.toString() };
+      let target = { label: sequence.body.name, value: index.toString() };
       if (!_.some(options, target)) {
         options.push({
-          label: sequence.name,
+          label: sequence.body.name,
           value: index.toString()
         });
       }
@@ -31,7 +31,7 @@ export function SequenceList({ sequences,
 
   return <div>
     <label>{t("Sequence")}</label>
-    <FBSelect
+    <DeprecatedFBSelect
       allowEmpty={true}
       initialValue={selectedSequence}
       onChange={change(dispatch, sequences)}
@@ -40,10 +40,10 @@ export function SequenceList({ sequences,
   </div>;
 }
 
-function change(dispatch: Function, sequences: Sequence[]) {
+function change(dispatch: Function, sequences: TaggedSequence[]) {
   // TODO: Solve react-select types issue. Everything breaks.
   return (event: DropDownItem) => {
     let i = _.parseInt((event.value || "-999").toString());
-    dispatch(setSequence(sequences[i]));
+    dispatch(setSequence(sequences[i].uuid));
   };
 }

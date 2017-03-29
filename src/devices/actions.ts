@@ -5,10 +5,9 @@ import { Everything } from "../interfaces";
 import {
   GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
 } from "./interfaces";
-import { ReduxAction, Thunk } from "../redux/interfaces";
-import { put, get } from "axios";
+import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
+import { get } from "axios";
 import {
-  DeviceAccountSettingsUpdate,
   DeviceAccountSettings,
   BotState
 } from "../devices/interfaces";
@@ -16,17 +15,19 @@ import { t } from "i18next";
 import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
-import { API } from "../api";
 import { HardwareState } from "../devices/interfaces";
+import { API } from "../api/index";
+import { User } from "../auth/interfaces";
+import * as Axios from "axios";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
 
-export function incomingStatus(statusMessage: HardwareState) {
+function incomingStatus(statusMessage: HardwareState) {
   return { type: "BOT_CHANGE", payload: statusMessage };
 }
 
-export function incomingLog(botLog: RpcBotLog) {
+function incomingLog(botLog: RpcBotLog) {
   return { type: "BOT_LOG", payload: botLog };
 };
 
@@ -130,8 +131,7 @@ export function execSequence(sequence: Sequence) {
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
   let state = getState();
   let bot = getState().bot.account;
-  let url = API.current.baseUrl;
-  return updateDevice(url, bot, dispatch);
+  return save(bot);
 };
 
 let commandErr = (noun = "Command") => () => {
@@ -186,17 +186,16 @@ export function fetchFWUpdateInfo(url: string) {
   };
 }
 
-export function updateDevice(apiUrl: string,
-  optns: DeviceAccountSettingsUpdate, dispatch: Function) {
-  let url = API.current.devicePath;
-  return put<DeviceAccountSettingsUpdate>(url, optns)
-    .then(res => dispatch({
-      type: "REPLACE_DEVICE_ACCOUNT_INFO",
-      payload: res.data
-    }))
-    .catch((payload) => dispatch({ type: "DEVICE_ACCOUNT_ERR", payload }));
-  ;
+export function save(input: Partial<DeviceAccountSettings>) {
+  return function (dispatch: Function, getState: GetState) {
+    return Axios
+      .put<User>(API.current.devicePath, input)
+      .then(resp => dispatch({ type: "SAVE_DEVICE_OK", payload: resp.data }))
+      .catch(resp => error("Error saving device settings."))
+  }
 }
+
+export let addDevice = _.noop
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
   // Flips the "dirty" flag to true.
@@ -206,11 +205,6 @@ export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
   };
 }
 
-export function addDevice(deviceAttrs: DeviceAccountSettings): Thunk {
-  return (dispatch, getState) => {
-    updateDevice(API.current.baseUrl, deviceAttrs, dispatch);
-  };
-}
 
 export function settingToggle(name: configKey, bot: BotState) {
   // TODO : This should be an atomic operation handled at the bot level
@@ -256,7 +250,7 @@ export function homeAll(speed: number) {
     .then(commandOK(noun), commandErr(noun));
 }
 
-export function readStatus() {
+function readStatus() {
   let noun = "'Read Status' command";
   return devices
     .current
@@ -356,11 +350,5 @@ function commitSettingsChangesOk() {
   return {
     type: "COMMIT_SETTINGS_OK",
     payload: {}
-  };
-}
-
-export function clearLogs(): Thunk {
-  return function (dispatch, getState) {
-    dispatch({ type: "CLEAR_BOT_LOG", payload: {} });
   };
 }

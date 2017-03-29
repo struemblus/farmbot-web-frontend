@@ -11,7 +11,7 @@ import {
 } from "../actions";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { FBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import { DeprecatedFBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
@@ -67,7 +67,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
           <button type="submit"
             className={`button-like green`}
             onClick={this.updateBot}>
-            {t("SAVE")} {this.props.bot.account.dirty ? "*" : ""}
+            {t("SAVE")} {this.props.bot.dirty ? "*" : ""}
           </button>
         </WidgetHeader>
         <WidgetBody>
@@ -107,7 +107,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={7}>
-              <OsUpdateButton { ...this.props } />
+              <OsUpdateButton bot={this.props.bot} />
             </Col>
           </Row>
           <Row>
@@ -116,7 +116,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Col>
             <Col xs={7}>
               <p>
-                {t(`This will restart FarmBot's Raspberry 
+                {t(`This will restart FarmBot's Raspberry
                     Pi and controller software.`)}
               </p>
             </Col>
@@ -134,7 +134,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Col>
             <Col xs={7}>
               <p>
-                {t(`This will shutdown FarmBot's Raspberry Pi. To turn it 
+                {t(`This will shutdown FarmBot's Raspberry Pi. To turn it
                     back on, unplug FarmBot and plug it back in.`)}
               </p>
             </Col>
@@ -152,13 +152,13 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Col>
             <Col xs={7}>
               <p>
-                {t(`Factory resetting your FarmBot will destroy all data on 
-                    the device, revoking your FarmBot's abilily to connect to 
-                    your web app account and your home wifi. Upon factory 
-                    resetting, your device will restart into Conflgurator 
-                    mode. Factory resetting your FarmBot will not affect any 
-                    data or settings from your web app account, allowing you 
-                    to do a complete restore to your device once it is back 
+                {t(`Factory resetting your FarmBot will destroy all data on
+                    the device, revoking your FarmBot's abilily to connect to
+                    your web app account and your home wifi. Upon factory
+                    resetting, your device will restart into Conflgurator
+                    mode. Factory resetting your FarmBot will not affect any
+                    data or settings from your web app account, allowing you
+                    to do a complete restore to your device once it is back
                     online and paired with your web app account.`)}
               </p>
             </Col>
@@ -176,7 +176,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Col>
             <Col xs={7}>
               <p>
-                <FBSelect allowEmpty={true}
+                <DeprecatedFBSelect allowEmpty={true}
                   list={CAMERA_CHOICES}
                   placeholder="Select a camera..."
                   onChange={this.sendOffConfig} />

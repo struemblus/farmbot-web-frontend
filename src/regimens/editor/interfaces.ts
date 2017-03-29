@@ -1,42 +1,46 @@
-import { Regimen, RegimenItem, RegimenProps, RegimensState } from "../interfaces";
+import {
+  RegimenItem,
+  RegimenProps,
+  CalendarRow,
+  RegimenItemCalendarRow,
+  Regimen
+} from "../interfaces";
 import { AuthState } from "../../auth/interfaces";
 import { BotState } from "../../devices/interfaces";
+import { TaggedRegimen } from "../../resources/tagged_resources";
 
 export interface ActiveEditorProps {
-  regimen: Regimen;
+  regimen: TaggedRegimen;
+  calendar: CalendarRow[];
   dispatch: Function;
 }
 
 export interface RegimenItemListProps {
-  items: RegimenItem[];
+  calendar: RegimenItemCalendarRow[];
   dispatch: Function;
 }
 
 export interface RegimenItemStepProps {
-  item: RegimenItem;
+  item: CalendarRow;
   dispatch: Function;
 }
 
 export interface RegimenItemDayGroupProps {
-  day: string;
-  items: RegimenItem[];
+  row: CalendarRow;
   dispatch: Function;
 }
 
-export interface SaveButtonProps extends RegimenProps {
-  url: string;
-};
-
 export interface RegimenEditorWidgetProps {
-  regimens: RegimensState;
+  current: TaggedRegimen | undefined;
   dispatch: Function;
   auth: AuthState | undefined;
+  calendar: CalendarRow[];
   bot: BotState;
 }
 
 export interface CopyButtnProps {
   dispatch: Function;
-  regimen?: Regimen;
+  regimen?: TaggedRegimen;
 }
 
 export interface DeleteButtonProps extends RegimenProps {
