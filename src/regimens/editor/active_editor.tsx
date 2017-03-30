@@ -22,8 +22,8 @@ export function ActiveEditor(props: ActiveEditorProps) {
             let click = () => props.dispatch(removeRegimenItem(item, regimen));
             let klass = `${row.color}-block block-header regimen-event`
             return <div className={klass}>
-              <span className="regimen-event-title">"ADD THIS"</span>
-              <span className="regimen-event-time">{row.name}</span>
+              <span className="regimen-event-title">{row.name}</span>
+              <span className="regimen-event-time">{row.hhmm}</span>
               <i className="fa fa-trash regimen-control" onClick={click} />
             </div>;
           })}

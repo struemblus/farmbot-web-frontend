@@ -47,7 +47,12 @@ function generateCalendar(regimen: TaggedRegimen,
   let rows = regimen.body.regimen_items.map(mapper);
   let dict = _.groupBy(rows, "day");
   let makeRows = (day: string): CalendarRow => ({ day: day, items: dict[day] });
-  let days = Object.keys(dict).sort();
+  let days = _(dict)
+    .keys()
+    .map(x => parseInt(x))
+    .sort((a, b) => a - b)
+    .map(x => "" + x)
+    .value();
   return days.map(makeRows);
 }
 
