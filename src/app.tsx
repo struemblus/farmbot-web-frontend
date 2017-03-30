@@ -7,8 +7,8 @@ import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
 import * as _ from "lodash";
-import { selectAll } from "./resources/util";
 import { ResourceName } from "./resources/tagged_resources";
+import { selectAllLogs } from "./resources/selectors";
 
 /** Remove 300ms delay on touch devices - https://github.com/ftlabs/fastclick */
 let fastClick = require("fastclick");
@@ -32,15 +32,12 @@ interface AppProps {
 
 function mapStateToProps(props: Everything): AppProps {
   let dispatch = props.dispatch;
-  let logs = selectAll(props.resources.index, "logs")
-    .filter(log => log.kind === "logs")
-    .map(x => x.body as Log);
 
   return {
     dispatch,
     auth: props.auth,
     bot: props.bot,
-    logs,
+    logs: selectAllLogs(props.resources.index).map(x => x.body),
     loaded: props.resources.loaded
   };
 }

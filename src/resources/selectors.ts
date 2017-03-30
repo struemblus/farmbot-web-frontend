@@ -20,9 +20,10 @@ import {
   sanityCheck,
   isTaggedFarmEvent,
   TaggedPeripheral,
-  isTaggedPlant
+  isTaggedPlant,
+TaggedLog
 } from "./tagged_resources";
-import { CowardlyDictionary, betterCompact } from "../util";
+import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
 
 export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
@@ -50,7 +51,7 @@ function findAll(index: ResourceIndex, name: ResourceName) {
     let item = index.references[uuid];
     (item && isTaggedResource(item) && results.push(item));
   })
-  return _.sortBy(results, "body.id");
+  return sortResourcesById(results);
 }
 
 export function selectAllFarmEvents(index: ResourceIndex) {
@@ -75,6 +76,10 @@ export function selectAllToolSlots(index: ResourceIndex) {
 
 export function selectAllPeripherals(index: ResourceIndex) {
   return findAll(index, "peripherals") as TaggedPeripheral[];
+}
+
+export function selectAllLogs(index: ResourceIndex) {
+  return findAll(index, "logs") as TaggedLog[];
 }
 
 interface Finder<T> {

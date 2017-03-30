@@ -3,13 +3,12 @@ import { RegimenListItem } from "./regimen_list_item";
 import { AddRegimen } from "./add_button";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 import { RegimensListProps } from "../interfaces";
+import { sortResourcesById } from "../../util";
 
 export class RegimensList extends React.Component<RegimensListProps, {}> {
   rows = () => {
     return <Col xs={12}>
-      {this
-        .props
-        .regimens
+      {sortResourcesById(this.props.regimens)
         .map((regimen, index) => {
           return <RegimenListItem index={index}
             key={index}

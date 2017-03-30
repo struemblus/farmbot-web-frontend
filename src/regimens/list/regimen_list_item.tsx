@@ -10,7 +10,7 @@ export function RegimenListItem({
   dispatch,
   index
 }: RegimenListItemProps) {
-  let color = (regimen.body.color) || randomColor();
+  let color = (regimen.body.color) || "gray";
   let style = `block block-wrapper full-width text-left ${color}-block
         block-header`;
   let dirty = (regimen.dirty) ? "*" : "";

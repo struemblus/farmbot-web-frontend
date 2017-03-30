@@ -113,3 +113,5 @@ export let isTaggedPoint =
   (x: object): x is TaggedPoint => is("points")(x);
 export let isTaggedFarmEvent =
   (x: object): x is TaggedFarmEvent => is("farm_events")(x);
+export let isTaggedLog =
+  (x: object): x is TaggedLog => is("logs")(x);
