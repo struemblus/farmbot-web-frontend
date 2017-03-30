@@ -2,11 +2,12 @@ import * as React from "react";
 import { Row, Col } from "../../ui/index";
 import { destroy, edit } from "../../api/crud";
 import { PeripheralFormProps } from "./interfaces";
+import { sortResourcesById } from "../../util";
 
 export function PeripheralForm(props: PeripheralFormProps) {
   let { dispatch } = props;
   return <div>
-    {props.peripherals.map(p => {
+    {sortResourcesById(props.peripherals).map(p => {
       return <Row>
         <Col xs={4}>
           <input type="text"

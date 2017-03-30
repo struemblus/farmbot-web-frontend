@@ -2,7 +2,7 @@ import * as React from "react";
 import { selectSequence } from "./actions";
 import { SequencesListProps } from "./interfaces";
 import { t } from "i18next";
-import { isMobile, randomColor } from "../util";
+import { isMobile, randomColor, sortResourcesById } from "../util";
 import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
@@ -66,7 +66,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
       <WidgetBody>
         <Row>
           <Col xs={12}>
-            {_.sortBy(sequences, (x) => x.body.id || Infinity).map(buttonList(dispatch))}
+            {sortResourcesById(sequences).map(buttonList(dispatch))}
           </Col>
         </Row>
       </WidgetBody>

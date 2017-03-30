@@ -4,6 +4,7 @@ import { box } from "boxed_value";
 import { t } from "i18next";
 import { Dictionary } from "farmbot/dist";
 import { error } from "./ui/index";
+import { TaggedResource } from "./resources/tagged_resources";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -278,3 +279,7 @@ export function betterCompact<T>(input: (T | undefined)[]): T[] {
   return [];
 };
 
+/** Sorts a list of tagged resources. Unsaved resource get put on the end. */
+export function sortResourcesById<T extends TaggedResource>(input: T[]): T[] {
+  return _.sortBy(input, (x) => x.body.id || Infinity);
+}
