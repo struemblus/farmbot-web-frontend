@@ -6,7 +6,6 @@ import {
   sanityCheck,
   isTaggedResource
 } from "./tagged_resources";
-import { isUndefined } from "util";
 import { generateUuid } from "./util";
 import { EditResourceParams } from "../api/interfaces";
 import {
@@ -88,6 +87,7 @@ export let resourceReducer = generateReducer
         case "sequences":
         case "tool_slots":
         case "tools":
+        case "logs":
           reindexResource(state.index, resource);
           state.index.references[resource.uuid] = resource;
           break;
@@ -110,6 +110,7 @@ export let resourceReducer = generateReducer
       case "tools":
       case "tool_slots":
       case "tool_bays":
+      case "logs":
         removeFromIndex(state.index, resource);
         break;
       default:

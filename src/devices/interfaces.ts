@@ -27,20 +27,6 @@ export interface DeviceAccountSettings {
   /** Must the deivce be saved? */
 };
 
-/**
- * Rpc Log message from the bot.
- */
-export interface RpcBotLog {
-  /** The message to be displayed from the bot. */
-  message: string;
-  /** Unix timestamp of when the log was created. */
-  created_at: number;
-  /** Array of channels where this message is supposed to show up. */
-  channels: ALLOWED_CHANNEL_NAMES[];
-  /** Meta data about the message. */
-  meta: Meta;
-}
-
 /** Meta information about a log message. */
 interface Meta {
   type: ALLOWED_MESSAGE_TYPES;

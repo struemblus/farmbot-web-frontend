@@ -33,7 +33,7 @@ export interface SelectOptionsParams {
 }
 
 export interface Log {
-  id: number;
+  id?: number | undefined;
   message: string;
   meta: { type: string; };
   channels: string;
