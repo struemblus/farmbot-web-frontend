@@ -37,7 +37,7 @@ function mapStateToProps(props: Everything): AppProps {
     dispatch,
     auth: props.auth,
     bot: props.bot,
-    logs: selectAllLogs(props.resources.index).map(x => x.body),
+    logs: selectAllLogs(props.resources.index).map(x => x.body).reverse(),
     loaded: props.resources.loaded
   };
 }

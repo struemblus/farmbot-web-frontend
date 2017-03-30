@@ -271,11 +271,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
         readStatus();
         bot.on("logs", function (msg: Log) {
-          dispatch(init({
-            kind: "logs",
-            uuid: "MUST_CHANGE",
-            body: msg
-          }));
+          dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
         });
         bot.on("status", function (msg: BotStateTree) {
           dispatch(incomingStatus(msg));
