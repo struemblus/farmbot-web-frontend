@@ -31,7 +31,7 @@ export class ToolList extends React.Component<ToolListProps, {}> {
         {getSortedTools().map((tool: TaggedTool) => {
           return <Row key={tool.body.id}>
             <Col xs={8}>{tool.body.name || "Name not found"}</Col>
-            <Col xs={4}>{tool.body.status || "Status not found"}</Col>
+            <Col xs={4}>{this.props.isActive(tool) ? "active" : "inactive"}</Col>
           </Row>;
         })}
       </WidgetBody>

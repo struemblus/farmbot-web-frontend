@@ -36,6 +36,7 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
         </Col>
         <Col sm={5}>
           {!isEditingTools && <ToolList
+            isActive={this.props.isActive}
             toggle={this.toggleTools}
             dispatch={this.props.dispatch}
             getSortedTools={this.props.getSortedTools}

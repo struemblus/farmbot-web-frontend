@@ -20,6 +20,7 @@ export interface Props {
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
   getToolSlots(): TaggedToolSlot[];
   dispatch: Function;
+  isActive: (tool: TaggedTool) => boolean;
   changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
 }
 
@@ -43,7 +44,6 @@ export interface ToolSlot {
 export interface Tool {
   id?: number | undefined;
   name: string;
-  status?: undefined | "unknown" | "active" | "inactive";
 }
 
 export interface ToolBayListProps {
@@ -67,6 +67,7 @@ export interface ToolBayFormProps {
 export interface ToolListProps {
   dispatch: Function;
   toggle(): void;
+  isActive(tool: TaggedTool): boolean;
   getSortedTools(): TaggedTool[];
 }
 

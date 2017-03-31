@@ -6,7 +6,8 @@ import {
   selectAllToolSlots,
   selectAllTools,
   selectAllToolBays,
-  currentToolInSlot
+  currentToolInSlot,
+  findSlotWhere
 } from "../resources/selectors";
 import { isTaggedTool, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
 import { edit } from "../api/crud";
@@ -39,6 +40,9 @@ export function mapStateToProps(props: Everything): Props {
       .value();
   };
 
+  let isActive = (t: TaggedTool) => !!findSlotWhere(props.resources.index,
+    { tool_id: t.body.id });
+
   let getToolByToolSlotUUID = currentToolInSlot(props.resources.index);
 
 	/** Returns the current tool chosen in a slot based off the slot's id
@@ -69,7 +73,8 @@ export function mapStateToProps(props: Everything): Props {
     getChosenToolOption,
     dispatch: props.dispatch,
     getToolByToolSlotUUID,
-    changeToolSlot
+    changeToolSlot,
+    isActive
   };
 
 }

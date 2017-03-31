@@ -21,7 +21,7 @@ import {
   isTaggedFarmEvent,
   TaggedPeripheral,
   isTaggedPlant,
-TaggedLog
+  TaggedLog
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
@@ -255,6 +255,15 @@ export function findWhere(index: ResourceIndex,
    *        currently, this method will accept any old object, which might be
    *        unsafe. */
   return _.findWhere(toArray(index), { body });
+}
+
+export function findSlotWhere(index: ResourceIndex, body: object):
+  TaggedToolSlot | undefined {
+  /** TODO: Find a way to add type safety.
+   *        currently, this method will accept any old object, which might be
+   *        unsafe. */
+  let x = _.findWhere(toArray(index), { kind: "tool_slots", body });
+  return (x && isTaggedToolSlot(x)) ? x : undefined;
 }
 
 /** GIVEN: a slot UUID.
