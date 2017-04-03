@@ -18,9 +18,6 @@ export function mapStateToProps(props: Everything): Props {
   let toolSlots = selectAllToolSlots(props.resources.index);
   let tools = selectAllTools(props.resources.index);
 
-  /** Returns sorted tool objects. */
-  let getSortedTools = () => _.sortBy(tools, "body.id");
-
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (/** uuid: string */) => {
     // TODO: three things:
@@ -67,7 +64,6 @@ export function mapStateToProps(props: Everything): Props {
     toolBays,
     toolSlots,
     tools,
-    getSortedTools,
     getToolSlots,
     getToolOptions,
     getChosenToolOption,

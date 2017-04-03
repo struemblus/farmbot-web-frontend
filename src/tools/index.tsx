@@ -39,13 +39,12 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
             isActive={this.props.isActive}
             toggle={this.toggleTools}
             dispatch={this.props.dispatch}
-            getSortedTools={this.props.getSortedTools}
+            tools={this.props.tools}
           />}
           {isEditingTools && <ToolForm
             toggle={this.toggleTools}
             dispatch={this.props.dispatch}
             tools={this.props.tools}
-            getSortedTools={this.props.getSortedTools}
           />}
         </Col>
       </Row>

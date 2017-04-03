@@ -14,7 +14,6 @@ export interface Props {
   toolBays: TaggedToolBay[];
   toolSlots: TaggedToolSlot[];
   tools: TaggedTool[];
-  getSortedTools(): TaggedTool[];
   getToolOptions(): DropDownItem[];
   getChosenToolOption(toolSlotUuid: string): DropDownItem;
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
@@ -65,15 +64,14 @@ export interface ToolBayFormProps {
 }
 
 export interface ToolListProps {
+  tools: TaggedTool[];
   dispatch: Function;
   toggle(): void;
   isActive(tool: TaggedTool): boolean;
-  getSortedTools(): TaggedTool[];
 }
 
 export interface ToolFormProps {
   dispatch: Function;
   tools: TaggedTool[];
   toggle(): void;
-  getSortedTools(): TaggedTool[];
 }
