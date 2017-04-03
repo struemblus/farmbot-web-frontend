@@ -186,6 +186,27 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
 
             <tr>
               <td>
+                <label>{t("ENABLE ENDSTOPS")}</label>
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_x}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_x", this.props.bot)} />
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_y}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_y", this.props.bot)} />
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_z}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_z", this.props.bot)} />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
                 <label>{t("ENABLE ENCODERS")}</label>
               </td>
               <td>
