@@ -20,6 +20,7 @@ import {
   Row,
   Col
 } from "../../ui/index";
+import { save } from "../../api/crud";
 
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
@@ -34,15 +35,13 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
   }
 
   changeBot = (e: React.MouseEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.warn("If you are reading this method, refactor NOW! -RC");
-    let updates = _.object([[e.currentTarget.name, e.currentTarget.value]]);
-    this.props.dispatch(changeDevice(updates));
+    let action = changeDevice(this.props.account, { name: e.currentTarget.value });
+    this.props.dispatch(action);
   }
 
   saveBot(e: React.MouseEvent<{}>) {
     e.preventDefault();
-    console.log("Save resource here");
+    this.props.dispatch(save(this.props.account.uuid));
   }
 
   updateBot = (e: React.MouseEvent<{}>) => {
@@ -75,7 +74,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
           <button type="submit"
             className={`button-like green`}
             onClick={this.updateBot}>
-            {t("SAVE")} {this.props.bot.dirty ? "*" : ""}
+            {t("SAVE")} {this.props.account.dirty ? "*" : ""}
           </button>
         </WidgetHeader>
         <WidgetBody>

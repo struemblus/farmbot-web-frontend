@@ -24,9 +24,6 @@ export type ResourceName =
   | "tools"
   | "users";
 
-/** This interface is here mostly for safety reasons.
- * If you add a TaggedResource, the type checker will notify you when tag names
- * change. */
 export interface TaggedResourceBase {
   kind: ResourceName;
   /** Unique identifier and index key.

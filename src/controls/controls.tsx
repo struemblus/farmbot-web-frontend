@@ -28,7 +28,7 @@ export class Controls extends Component<Props, ControlsState> {
   }
 
   clearURL = () => {
-    this.props.dispatch(changeDevice({ webcam_url: "http://" }));
+    this.props.dispatch(changeDevice(this.props.account, { webcam_url: "http://" }));
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
@@ -101,7 +101,7 @@ export class Controls extends Component<Props, ControlsState> {
                 <input type="text"
                   onChange={(e) => {
                     let update = { webcam_url: e.currentTarget.value };
-                    this.props.dispatch(changeDevice(update));
+                    this.props.dispatch(changeDevice(this.props.account, update));
                   }}
                   value={url}
                   className="webcam-url-input" />
