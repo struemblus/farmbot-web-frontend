@@ -19,7 +19,10 @@ import { HardwareState } from "../devices/interfaces";
 import { API } from "../api/index";
 import { User } from "../auth/interfaces";
 import * as Axios from "axios";
-import { init } from "../api/crud";
+import { init, edit } from "../api/crud";
+import { fancyDebug } from "../util";
+import { getDeviceAccountSettings } from "../resources/selectors";
+import { TaggedDevice } from "../resources/tagged_resources";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -126,9 +129,7 @@ export function execSequence(sequence: Sequence) {
 }
 
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
-  let state = getState();
-  let bot = getState().bot.account;
-  return save(bot);
+  return save(getDeviceAccountSettings(getState().resources.index));
 };
 
 let commandErr = (noun = "Command") => () => {
@@ -194,12 +195,9 @@ export function save(input: Partial<DeviceAccountSettings>) {
 
 export let addDevice = _.noop
 
-export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
-  // Flips the "dirty" flag to true.
-  return {
-    type: "CHANGE_DEVICE",
-    payload: newAttrs
-  };
+export function changeDevice(device: TaggedDevice,
+  update: Partial<DeviceAccountSettings>) {
+  return edit(device, update);
 }
 
 

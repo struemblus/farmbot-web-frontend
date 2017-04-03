@@ -7,7 +7,6 @@ import { Configuration } from "farmbot";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
 
 let initialState: BotState = {
-  account: { id: 0, name: "" },
   stepSize: 100,
   hardware: {
     mcu_params: {},
@@ -63,19 +62,6 @@ export let botReducer = generateReducer<BotState>(initialState)
   .add<HardwareState>("BOT_CHANGE",
   function (s, a) {
     s.hardware = a.payload;
-    return s;
-  })
-  .add<DeviceAccountSettings>("CHANGE_DEVICE", function (s, a) {
-    Object.assign(s.account, a.payload, { dirty: true });
-    return s;
-  })
-  .add<Partial<DeviceAccountSettings>>("SAVE_DEVICE_OK", function (s, a) {
-    s.account = _.merge({}, s.account, a.payload, { dirty: false });
-    s.dirty = false;
-    return s;
-  })
-  .add<DeviceAccountSettings>("FETCH_DEVICE_OK", function(s, a){
-    s.account = a.payload;
     return s;
   })
   .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {

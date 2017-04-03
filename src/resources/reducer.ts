@@ -80,14 +80,15 @@ export let resourceReducer = generateReducer
     if (resource
       && resource.body) {
       switch (resource.kind) {
-        case "peripherals":
+        case "device":
         case "farm_events":
+        case "logs":
+        case "peripherals":
         case "plants":
         case "regimens":
         case "sequences":
         case "tool_slots":
         case "tools":
-        case "logs":
           reindexResource(state.index, resource);
           state.index.references[resource.uuid] = resource;
           break;
@@ -102,15 +103,16 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     switch (resource.kind) {
-      case "peripherals":
+      case "device":
       case "farm_events":
+      case "logs":
+      case "peripherals":
       case "plants":
       case "regimens":
       case "sequences":
-      case "tools":
-      case "tool_slots":
       case "tool_bays":
-      case "logs":
+      case "tool_slots":
+      case "tools":
         removeFromIndex(state.index, resource);
         break;
       default:
@@ -158,7 +160,13 @@ export let resourceReducer = generateReducer
     return s;
   })
   .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
-    let { name, data } = action.payload;
+    let { name } = action.payload;
+    /** Problem:  Most API resources are plural (array wrapped) resource.
+     *            A small subset are singular (`device` and a few others),
+     *            making `.map()` and friends unsafe.
+     *  Solution: wrap everything in an array on the way in. */
+    let unwrapped = action.payload.data;
+    let data = _.isArray(unwrapped) ? unwrapped : [unwrapped];
     let { index } = state;
     state.loaded.push(name);
     index.byKind[name].map(x => {

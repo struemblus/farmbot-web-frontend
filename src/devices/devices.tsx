@@ -16,6 +16,7 @@ export class Devices extends React.Component<Props, {}> {
         <Col xs={12} sm={6}>
           <Farmware bot={this.props.bot} />
           <FarmbotOsSettings
+            account={this.props.deviceAccount}
             dispatch={this.props.dispatch}
             bot={this.props.bot}
             auth={this.props.auth} />

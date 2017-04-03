@@ -72,28 +72,6 @@ export interface Everything {
   };
 };
 
-/** A sync object, as returned by a GET request to `/api/sync` */
-// export interface DeprecatedSync {
-//   /** Tells the ui when the sync object has completed. */
-//   loaded: boolean;
-//   /** Git commit hash of the revision that the server is running. */
-//   api_version: string;
-//   device: DeviceAccountSettings;
-//   farm_events: FarmEvent[];
-//   users: User[];
-//   sequences: Sequence[];
-//   regimens: Regimen[];
-//   peripherals: Peripheral[];
-//   regimen_items: RegimenItem[];
-//   plants: Plant[];
-//   tool_bays: ToolBay[];
-//   tool_slots: ToolSlot[];
-//   tools: Tool[];
-//   logs: Log[];
-//   images: Image[];
-//   points: Point[];
-// }
-
 /** React-select does not provide an interface for their CustomOption
  * component. Since they share similarities, we can go with this one as a base.
  */

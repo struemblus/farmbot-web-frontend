@@ -11,7 +11,17 @@ import {
 } from "../actions";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { DeprecatedFBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import {
+  DeprecatedFBSelect,
+  DropDownItem,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../../ui/index";
+import { save } from "../../api/crud";
+
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
@@ -25,16 +35,13 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
   }
 
   changeBot = (e: React.MouseEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.warn("If you are reading this method, refactor NOW! -RC");
-    let updates = _.object([[e.currentTarget.name, e.currentTarget.value]]);
-    this.props.dispatch(changeDevice(updates));
+    let action = changeDevice(this.props.account, { name: e.currentTarget.value });
+    this.props.dispatch(action);
   }
 
   saveBot(e: React.MouseEvent<{}>) {
     e.preventDefault();
-    let form = this.props.bot.account;
-    this.props.dispatch(addDevice(form));
+    this.props.dispatch(save(this.props.account.uuid));
   }
 
   updateBot = (e: React.MouseEvent<{}>) => {
@@ -67,7 +74,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
           <button type="submit"
             className={`button-like green`}
             onClick={this.updateBot}>
-            {t("SAVE")} {this.props.bot.dirty ? "*" : ""}
+            {t("SAVE")} {this.props.account.dirty ? "*" : ""}
           </button>
         </WidgetHeader>
         <WidgetBody>
@@ -80,7 +87,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             <Col xs={10}>
               <input name="name"
                 onChange={this.changeBot}
-                value={this.props.bot.account.name} />
+                value={this.props.account.body.name} />
             </Col>
           </Row>
           <Row>
