@@ -17,7 +17,7 @@ export interface ResourceIndex {
 export interface RestResources {
   /** Tells you if the sync finished yet. */
   loaded: ResourceName[];
-  index: ResourceIndex
+  index: ResourceIndex;
   consumers: {
     sequences: SequenceReducerState;
     regimens: RegimenState;

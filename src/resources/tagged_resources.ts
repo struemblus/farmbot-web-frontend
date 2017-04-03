@@ -33,8 +33,9 @@ export interface TaggedResourceBase {
    * unsaved objects don't have one.
    */
   uuid: string;
-  dirty?: boolean | undefined;
   body: object;
+  dirty?: boolean | undefined;
+  saving?: boolean | undefined;
 }
 
 export interface Resource<T extends ResourceName, U extends object>
