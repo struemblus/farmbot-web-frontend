@@ -23,7 +23,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
   }
 
   maybeSave = () => {
-    let { peripherals, dispatch } = this.props;
+    let { peripherals } = this.props;
     let pinNums = peripherals.map(x => x.body.pin);
     let positivePins = pinNums.filter(x => x && x > 0);
     // I hate adding client side validation, but this is a wonky endpoint - RC.
@@ -34,8 +34,6 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     } else {
       error("Pin numbers are required and must be unique.");
     }
-
-
   }
 
   showPins = () => {
@@ -50,6 +48,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
         pins={pins} />
     }
   }
+
   emptyPeripheral = (): TaggedPeripheral => {
     return {
       uuid: "WILL_BE_CHANGED_BY_REDUCER",
@@ -59,7 +58,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
   }
 
   render() {
-    let { dispatch, peripherals } = this.props;
+    let { dispatch } = this.props;
     let { isEditing } = this.state;
     return <Widget>
       <WidgetHeader title={"Peripherals"}

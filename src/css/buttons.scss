@@ -122,14 +122,12 @@ button {
 
 .button-like {
     position: relative;
-    transition: all 1s ease-in-out;
     &:active:not(.toggle-button) {
-        border-bottom-width: 1px!important;
-        border-top: 1px solid transparent!important;
+        border-bottom-width: 1px !important;
+        border-top: 1px solid transparent !important;
         transform: translateY(1px);
     }
     &.is-saving-true {
-        transition: all 1s ease-in-out;
         width: 5rem;
         text-align: left;
         &:after {

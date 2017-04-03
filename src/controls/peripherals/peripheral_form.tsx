@@ -9,7 +9,7 @@ export function PeripheralForm(props: PeripheralFormProps) {
   return <div>
     {sortResourcesById(props.peripherals).map(p => {
       return <Row>
-        <Col xs={4}>
+        <Col xs={6}>
           <input type="text"
             placeholder="Label"
             value={p.body.label}
@@ -28,7 +28,7 @@ export function PeripheralForm(props: PeripheralFormProps) {
               dispatch(edit(p, { pin: value }));
             }} />
         </Col>
-        <Col xs={4}>
+        <Col xs={2}>
           <button className="button-like red"
             onClick={() => { dispatch(destroy(p.uuid)); }}>
             <i className="fa fa-minus" />

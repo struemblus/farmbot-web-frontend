@@ -141,8 +141,6 @@ export function saveAll(input: TaggedResource[],
   }
 }
 
-export function list(uuid: string) { }
-
 export function urlFor(tag: ResourceName) {
   const OPTIONS: Partial<Record<ResourceName, string>> = {
     sequences: API.current.sequencesPath,
