@@ -20,6 +20,7 @@ import { API } from "../api/index";
 import { User } from "../auth/interfaces";
 import * as Axios from "axios";
 import { init } from "../api/crud";
+import { fancyDebug } from "../util";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -195,7 +196,9 @@ export function save(input: Partial<DeviceAccountSettings>) {
 export let addDevice = _.noop
 
 export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
-  // Flips the "dirty" flag to true.
+  // Flips the "dirty" flag to true.CHANGE_DEVICE
+  fancyDebug(newAttrs);
+  console.log("UPDATE TAGGED RESOURCE HERE");
   return {
     type: "CHANGE_DEVICE",
     payload: newAttrs

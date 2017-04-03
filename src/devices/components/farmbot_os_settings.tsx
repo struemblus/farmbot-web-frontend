@@ -11,7 +11,16 @@ import {
 } from "../actions";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { DeprecatedFBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import {
+  DeprecatedFBSelect,
+  DropDownItem,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../../ui/index";
+
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
@@ -33,8 +42,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
 
   saveBot(e: React.MouseEvent<{}>) {
     e.preventDefault();
-    let form = this.props.bot.account;
-    this.props.dispatch(addDevice(form));
+    console.log("Save resource here");
   }
 
   updateBot = (e: React.MouseEvent<{}>) => {

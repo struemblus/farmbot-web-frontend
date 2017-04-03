@@ -3,12 +3,10 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES, Pins } from "farmbot";
+import { ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
-import { PeripheralState } from "../controls/peripherals/interfaces";
-import { Image } from "../images/index";
 import { TaggedImage, TaggedPeripheral } from "../resources/tagged_resources";
-import { ResourceIndex, RestResources } from "../resources/interfaces";
+import { RestResources } from "../resources/interfaces";
 
 export interface Props {
   auth: AuthState | undefined;
