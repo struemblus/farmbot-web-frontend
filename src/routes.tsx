@@ -57,6 +57,17 @@ let errorLoading = (cb: any) => function handleError(err: any) {
   }
 }
 
+/** This route is used both as an index route and a child route. Putting it into
+ * a single var up here for DRYness. -RC */
+const PLANTS = {
+  path: "plants",
+  getComponent(location: any, cb: any) {
+    System.import("./farm_designer/plants/plant_inventory.tsx").then(
+      (module: any) => cb(null, module.Plants)
+    ).catch(errorLoading(cb));
+  },
+};
+
 export class RootComponent extends React.Component<RootComponentProps, {}> {
 
   requireAuth(_: RouterState, replace: RedirectFunction) {
@@ -143,15 +154,9 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             (module: any) => cb(null, module.FarmDesigner)
           ).catch(errorLoading(cb));
         },
+        indexRoute: PLANTS,
         childRoutes: [
-          {
-            path: "plants",
-            getComponent(location: any, cb: any) {
-              System.import("./farm_designer/plants/plant_inventory.tsx").then(
-                (module: any) => cb(null, module.Plants)
-              ).catch(errorLoading(cb));
-            },
-          },
+          PLANTS,
           {
             path: "plants/crop_search",
             getComponent(location: any, cb: any) {
