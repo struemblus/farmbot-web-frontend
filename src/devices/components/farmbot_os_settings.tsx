@@ -88,7 +88,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             <Col xs={10}>
               <input name="name"
                 onChange={this.changeBot}
-                value={this.props.bot.account.name} />
+                value={this.props.account.body.name} />
             </Col>
           </Row>
           <Row>

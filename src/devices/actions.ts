@@ -21,6 +21,7 @@ import { User } from "../auth/interfaces";
 import * as Axios from "axios";
 import { init } from "../api/crud";
 import { fancyDebug } from "../util";
+import { getDeviceAccountSettings } from "../resources/selectors";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -127,9 +128,7 @@ export function execSequence(sequence: Sequence) {
 }
 
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
-  let state = getState();
-  let bot = getState().bot.account;
-  return save(bot);
+  return save(getDeviceAccountSettings(getState().resources.index));
 };
 
 let commandErr = (noun = "Command") => () => {
