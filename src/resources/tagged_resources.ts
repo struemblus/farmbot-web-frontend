@@ -7,6 +7,7 @@ import { Log } from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
+import { DeviceAccountSettings } from "../devices/interfaces";
 
 export type ResourceName =
   | "device"
@@ -43,7 +44,9 @@ export interface Resource<T extends ResourceName, U extends object>
   body: U;
 }
 
-export type TaggedResource = TaggedFarmEvent
+export type TaggedResource =
+  | TaggedDevice
+  | TaggedFarmEvent
   | TaggedImage
   | TaggedLog
   | TaggedPeripheral
@@ -68,6 +71,7 @@ export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
 export type TaggedPoint = Resource<"points", Point>;
 export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
 export type TaggedUser = Resource<"users", User>;
+export type TaggedDevice = Resource<"device", DeviceAccountSettings>;
 
 /** Spot check to be certain a TaggedResource is what it says it is. */
 export function sanityCheck(x: object) {

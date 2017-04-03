@@ -371,3 +371,17 @@ export function maybeFindPlantById(index: ResourceIndex, id: number) {
   let resource = index.references[uuid || "nope"];
   if (resource && isTaggedPlant(resource)) { return resource; }
 }
+
+export function getDeviceAccountSettings(index: ResourceIndex) {
+  let list = index.byKind.device;
+  let uuid = list[0];
+  let device = index.references[uuid || -1];
+  if ((list.length === 1) && device && device.kind === "device") {
+    sanityCheck(device);
+    return device;
+  } else {
+    throw new Error(`
+    PROBLEM: Expected getDeviceAccountSettings() to return exactly 1 device.
+    We got some other number back, indicating a hazardous condition.`);
+  }
+}

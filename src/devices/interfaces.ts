@@ -22,7 +22,6 @@ export interface DeviceAccountSettings {
   id: number;
   name: string;
   webcam_url?: string;
-  /** Must the deivce be saved? */
 };
 
 /** Meta information about a log message. */

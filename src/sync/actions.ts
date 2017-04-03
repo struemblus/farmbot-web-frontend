@@ -25,6 +25,7 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
     .then((r): T => dispatch({
       type: "RESOURCE_READY", payload: { name, data: r.data }
     }), fail);
+  fetch<DeviceAccountSettings>("device", API.current.devicePath)
   fetch<FarmEvent[]>("farm_events", API.current.farmEventsPath);
   fetch<Image[]>("images", API.current.imagesPath);
   fetch<Log[]>("logs", API.current.logsPath);
@@ -38,7 +39,7 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<ToolSlot[]>("tool_slots", API.current.toolSlotsPath);
   axios
     .get<DeviceAccountSettings>(API.current.devicePath)
-    .then((resp) => dispatch({type: "FETCH_DEVICE_OK", payload: resp.data}));
+    .then((resp) => dispatch({ type: "FETCH_DEVICE_OK", payload: resp.data }));
 }
 
 export function fetchDeprecatedSyncDataOk(payload: {}) {
