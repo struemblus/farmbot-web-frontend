@@ -56,8 +56,7 @@ export class Plants extends React.Component<Everything, {}> {
             optionComponent={OptionComponent(plants)}
             onChange={this.handleRedirect}
             isOpen={true}
-            placeholder="Search Plants"
-          />
+            placeholder="Search Plants" />
         </div>
 
       </div>
