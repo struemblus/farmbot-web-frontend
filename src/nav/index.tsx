@@ -20,18 +20,20 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
       <ul>
         <li>
           <Link to="/app/account">
-            <i className="fa fa-cog"></i>{t("Account Settings")}
+            <i className="fa fa-cog"></i>
+            {t("Account Settings")}
           </Link>
         </li>
         <li>
           <a onClick={onClick}>
-            <i className="fa fa-sign-out"></i>{t("Logout")}
+            <i className="fa fa-sign-out"></i>
+            {t("Logout")}
           </a>
         </li>
       </ul>
       <div className="version-links">
-        <span>Frontend:
-                    <a href="https://github.com/FarmBot/farmbot-web-frontend"
+        <span>{t("Frontend")}:
+            <a href="https://github.com/FarmBot/farmbot-web-frontend"
             target="_blank">{process.env.SHORT_REVISION}
           </a>
         </span>
@@ -52,52 +54,49 @@ let links = [
 export class NavBar extends React.Component<NavBarProps, NavBarState> {
   constructor() {
     super();
-    this.state = {
-      mobileNavExpanded: false,
-      tickerExpanded: false
-    };
-    this.toggleNav = this.toggleNav.bind(this);
-    this.logout = this.logout.bind(this);
+    this.state = { mobileNavExpanded: false, tickerExpanded: false };
   }
 
-  toggleNav() {
+  toggleMobileNav = () => {
+    let { mobileNavExpanded } = this.state;
     /** Don't let user scroll when nav is open */
     // document.body.classList.toggle("freeze");
-    this.setState({
-      mobileNavExpanded: !this.state.mobileNavExpanded
-    });
+    this.setState({ mobileNavExpanded: !mobileNavExpanded });
   }
 
-  logout() {
-    Session.clear(true);
+  toggleTicker = () => {
+    this.forceUpdate
+    let { tickerExpanded } = this.state;
+    this.setState({ tickerExpanded: !tickerExpanded });
   }
+
+  logout = () => Session.clear(true);
 
   render() {
     let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
+    let tickerClass = this.state.tickerExpanded ? "expanded" : "";
     // The way our app is laid out, we'll pretty much always want this bit.
     let pageName = history.getCurrentLocation().pathname.split("/")[2] || "";
-    let { toggleNav, logout } = this;
+    let { toggleMobileNav, toggleTicker, logout } = this;
 
     return <div className="nav-wrapper">
       <nav role="navigation">
         <button
           className="mobile-and-tablet-only"
-          onClick={() => { toggleNav(); }}>
+          onClick={toggleMobileNav}>
           <i className="fa fa-bars"></i>
         </button>
         <span className="page-name">{pageName}</span>
         <div className={`links ${mobileMenuClass}`}>
           <ul>
             {links.map(link => {
-              return (
-                <li key={link.url}>
-                  <Link to={link.url}
-                    activeClassName="active">
-                    <i className={`fa fa-${link.icon}`} />
-                    {link.name}
-                  </Link>
-                </li>
-              );
+              return <li key={link.url}>
+                <Link to={link.url}
+                  activeClassName="active">
+                  <i className={`fa fa-${link.icon}`} />
+                  {link.name}
+                </Link>
+              </li>;
             })}
           </ul>
           {/** TODO: Getting the links from the desktop dropdown to the
@@ -111,23 +110,24 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             </li>
             <li>
               <a onClick={logout}>
-                <i className="fa fa-sign-out"></i>{t("Logout")}
+                <i className="fa fa-sign-out"></i>
+                {t("Logout")}
               </a>
             </li>
           </ul>
           <div className="version-links mobile-only">
-            <span>Frontend:
-                    <a href="https://github.com/FarmBot/farmbot-web-frontend"
-                target="_blank">{process.env.SHORT_REVISION}
-              </a>
-            </span>
+            {t("Frontend")}:
+                <a href="https://github.com/FarmBot/farmbot-web-frontend"
+              target="_blank">
+              {process.env.SHORT_REVISION}
+            </a>
           </div>
         </div>
 
-        <div className="ticker-list">
-          {this.props.logs.map((log, index) => {
+        <div className={`ticker-list ${tickerClass}`} onClick={toggleTicker}>
+          {this.props.logs.map(log => {
             let time = moment.utc(log.created_at).local().format("h:mm a");
-            return <div key={index} className="status-ticker-wrapper">
+            return <div key={log.id} className="status-ticker-wrapper">
               <div className={`saucer ${log.meta.type}`} />
               <label className="status-ticker-message">
                 <Markdown>
@@ -155,7 +155,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
         </div>
 
         <div className={`underlay ${mobileMenuClass}`}
-          onClick={() => { toggleNav(); }}></div>
+          onClick={toggleMobileNav}></div>
       </nav>
     </div>;
   }
