@@ -13,7 +13,7 @@ import {
   selectAllSequences,
   hasId
 } from "../../resources/selectors";
-import { TaggedFarmEvent } from "../../resources/tagged_resources";
+import { TaggedFarmEvent, TaggedSequence } from "../../resources/tagged_resources";
 import { history } from "../../history";
 
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
