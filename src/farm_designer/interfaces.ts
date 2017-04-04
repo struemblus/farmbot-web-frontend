@@ -52,7 +52,7 @@ export interface FarmEvent {
   time_unit: TimeUnit;
   next_time: string;
   executable_id: number;
-  executable_type: string;
+  executable_type: "Sequence" | "Regimen";
   readonly calendar?: string[] | undefined;
 };
 
