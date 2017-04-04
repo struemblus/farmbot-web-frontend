@@ -151,7 +151,13 @@ export let resourceReducer = generateReducer
     let tr = a.payload;
     let uuid = tr.uuid;
     reindexResource(s.index, tr);
-    findByUuid(s.index, uuid).dirty = true;
+    if (tr.kind === "logs") {
+      // Since logs don't come from the API all the time, they are the only
+      // resource (right now) that can have an id of `undefined` and not dirty.
+      findByUuid(s.index, uuid).dirty = false;
+    } else {
+      findByUuid(s.index, uuid).dirty = true;
+    }
     sanityCheck(tr);
     return s;
   })

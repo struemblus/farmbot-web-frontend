@@ -385,3 +385,7 @@ export function getDeviceAccountSettings(index: ResourceIndex) {
     We got some other number back, indicating a hazardous condition.`);
   }
 }
+
+export function all(index: ResourceIndex) {
+  return betterCompact(index.all.map(uuid => index.references[uuid]));
+}

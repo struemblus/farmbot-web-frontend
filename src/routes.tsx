@@ -154,7 +154,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
             (module: any) => cb(null, module.FarmDesigner)
           ).catch(errorLoading(cb));
         },
-        indexRoute: PLANTS,
+        indexRoute: { getComponent: PLANTS.getComponent },
         childRoutes: [
           PLANTS,
           {

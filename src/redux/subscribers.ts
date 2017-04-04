@@ -1,6 +1,7 @@
 import { Everything } from "../interfaces";
 import { Store } from "./interfaces";
 import { EnvName } from "./interfaces";
+import { all } from "../resources/selectors";
 
 function stopThem() { return "You have unsaved work."; }
 function dontStopThem() { }
@@ -8,9 +9,7 @@ function dontStopThem() { }
 /** Subscribe to the store. Stop the user from exiting if any part of the
  * state tree contains `dirty: true`. */
 export function dontExitIfBrowserIsOnHold(state: Everything) {
-  let unsavedWork = ((JSON.stringify(state) || "")
-    .replace(" ", "")
-    .includes('"dirty":true'));
+  let unsavedWork = !!all(state.resources.index).filter(r => r.dirty).length;
   window.onbeforeunload = (unsavedWork) ? stopThem : dontStopThem;
 }
 
