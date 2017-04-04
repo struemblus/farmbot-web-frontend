@@ -28,7 +28,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
   }
 
   render() {
-    let { toggle, dispatch } = this.props;
+    let { toggle, dispatch, toolSlots } = this.props;
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -40,7 +40,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             <button
               className="green button-like"
               onClick={() => {
-                dispatch(saveAll(this.props.getToolSlots(), () => {
+                dispatch(saveAll(toolSlots, () => {
                   toggle();
                 }))
               }}>

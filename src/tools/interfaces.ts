@@ -56,6 +56,7 @@ export interface ToolBayListProps {
 export interface ToolBayFormProps {
   dispatch: Function;
   toolBays: TaggedToolBay[];
+  toolSlots: TaggedToolSlot[];
   toggle(): void;
   getToolOptions(): DropDownItem[];
   getChosenToolOption(uuid: string): DropDownItem;
