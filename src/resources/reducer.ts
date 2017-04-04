@@ -156,7 +156,9 @@ export let resourceReducer = generateReducer
     return s;
   })
   .add<TaggedResource>("SAVE_RESOURCE_START", function (s, a) {
-    findByUuid(s.index, a.payload.uuid).saving = true;
+    let resource = findByUuid(s.index, a.payload.uuid);
+    resource.saving = true;
+    if (!resource.body.id) { delete resource.body.id; }
     return s;
   })
   .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
