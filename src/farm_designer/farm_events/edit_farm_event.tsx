@@ -187,7 +187,7 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
               onCommit={(e) => this.updateTime(e)(fe)} />
           </Col>
         </Row>
-        <button className="magenta button-like"
+        <button className={`magenta button-like is-saving-${!!fe.saving}`}
           onClick={() => {
             dispatch(save(fe.uuid))
               .then(() => {

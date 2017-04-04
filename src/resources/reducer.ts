@@ -124,6 +124,7 @@ export let resourceReducer = generateReducer
     let uuid = a.payload.uuid;
     let tr = _.merge(findByUuid(s.index, uuid), a.payload);
     tr.dirty = false;
+    tr.saving = false;
     sanityCheck(tr);
     return s;
   })
@@ -152,6 +153,10 @@ export let resourceReducer = generateReducer
     reindexResource(s.index, tr);
     findByUuid(s.index, uuid).dirty = true;
     sanityCheck(tr);
+    return s;
+  })
+  .add<TaggedResource>("SAVE_RESOURCE_START", function (s, a) {
+    findByUuid(s.index, a.payload.uuid).saving = true;
     return s;
   })
   .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {

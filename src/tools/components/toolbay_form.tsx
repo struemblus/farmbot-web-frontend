@@ -10,7 +10,7 @@ import {
 } from "../../ui";
 import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
-import { edit, destroy, saveAll, initSave } from "../../api/crud";
+import { edit, destroy, saveAll, init } from "../../api/crud";
 import { NewFBSelect } from "../../ui/new_fb_select";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
@@ -28,7 +28,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
   }
 
   render() {
-    let { toggle, dispatch } = this.props;
+    let { toggle, dispatch, toolSlots } = this.props;
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -40,7 +40,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             <button
               className="green button-like"
               onClick={() => {
-                dispatch(saveAll(this.props.getToolSlots(), () => {
+                dispatch(saveAll(toolSlots, () => {
                   toggle();
                 }))
               }}>
@@ -49,7 +49,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             <button
               className="green button-like"
               onClick={() => {
-                dispatch(initSave(this.emptyToolSlot(bay.body.id)));
+                dispatch(init(this.emptyToolSlot(bay.body.id)));
               }}>
               <i className="fa fa-plus" />
             </button>

@@ -61,6 +61,7 @@ export function initSave(resource: TaggedResource) {
 export function save(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);
+    dispatch({ type: "SAVE_RESOURCE_START", payload: resource });
     return dispatch(((resource.body.id) ? update : create)(uuid));
   }
 }
@@ -139,8 +140,6 @@ export function saveAll(input: TaggedResource[],
     Promise.all(p).then(callback, errBack);
   }
 }
-
-export function list(uuid: string) { }
 
 export function urlFor(tag: ResourceName) {
   const OPTIONS: Partial<Record<ResourceName, string>> = {

@@ -28,6 +28,7 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
             toggle={this.toggleBays}
             dispatch={this.props.dispatch}
             toolBays={this.props.toolBays}
+            toolSlots={this.props.toolSlots}
             getToolSlots={this.props.getToolSlots}
             getChosenToolOption={this.props.getChosenToolOption}
             getToolOptions={this.props.getToolOptions}
@@ -39,13 +40,12 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
             isActive={this.props.isActive}
             toggle={this.toggleTools}
             dispatch={this.props.dispatch}
-            getSortedTools={this.props.getSortedTools}
+            tools={this.props.tools}
           />}
           {isEditingTools && <ToolForm
             toggle={this.toggleTools}
             dispatch={this.props.dispatch}
             tools={this.props.tools}
-            getSortedTools={this.props.getSortedTools}
           />}
         </Col>
       </Row>
