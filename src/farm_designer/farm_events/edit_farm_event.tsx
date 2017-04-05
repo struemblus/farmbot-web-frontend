@@ -1,21 +1,9 @@
 import * as React from "react";
-import { t } from "i18next";
 import { AddEditFarmEventProps } from "../interfaces";
-import {
-  BlurableInput,
-  Col,
-  Row,
-  BackArrow,
-  success,
-  DropDownItem
-} from "../../ui";
-import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit } from "./map_state_to_props_add_edit";
 import { history } from "../../history";
-import { TaggedFarmEvent, TaggedSequence, TaggedRegimen } from "../../resources/tagged_resources";
-import { save, destroy, edit } from "../../api/crud";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { TaggedFarmEvent } from "../../resources/tagged_resources";
 import { EditFEForm } from "./farm_event_form";
 
 @connect(mapStateToPropsAddEdit)

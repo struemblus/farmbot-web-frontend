@@ -282,3 +282,8 @@ export function betterCompact<T>(input: (T | undefined)[]): T[] {
 export function sortResourcesById<T extends TaggedResource>(input: T[]): T[] {
   return _.sortBy(input, (x) => x.body.id || Infinity);
 }
+
+/** Light wrapper around _.merge() to prevent common type errors / mistakes. */
+export function betterMerge<T>(target: T, update: (T | Partial<T>)): T {
+  return _.merge({}, target, update);
+}
