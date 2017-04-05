@@ -76,7 +76,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           openfarm_slug: OFEntry.crop.slug,
           name: OFEntry.crop.name || "Mystery Crop",
           planted_at: moment().toISOString(),
-          spread: OFEntry.crop.spread,
+          spread: OFEntry.crop.spread
         })
       }
       this.props.dispatch(initSave(p));

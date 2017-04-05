@@ -4,7 +4,7 @@ import { GardenPlantProps } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 
 export class GardenPlant extends React.Component<GardenPlantProps,
- { icon: string }> {
+  { icon: string }> {
   constructor() {
     super();
     this.state = { icon: DEFAULT_ICON };

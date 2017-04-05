@@ -244,8 +244,21 @@
 
 .map-plant-spread {
     fill: $green;
-    opacity: 0.1;
+    opacity: 0.3;
     pointer-events: none;
+}
+
+.zoomer {
+    position: fixed;
+    top: 11rem;
+    right: 2rem;
+    .plus-button {
+        position: initial;
+        margin: 0;
+        &:first-child {
+            margin-bottom: 1rem;
+        }
+    }
 }
 
 @keyframes pulse-and-rotate {
