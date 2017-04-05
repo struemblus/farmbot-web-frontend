@@ -18,8 +18,9 @@ export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
   renderForm(fe: TaggedFarmEvent) {
     return <EditFEForm farmEvent={fe}
       repeatOptions={this.props.repeatOptions}
-      selectOptions={this.props.selectOptions}
-      dispatch={this.props.dispatch} />
+      executableOptions={this.props.executableOptions}
+      dispatch={this.props.dispatch}
+      findExecutable={this.props.findExecutable} />
   }
 
   render() {

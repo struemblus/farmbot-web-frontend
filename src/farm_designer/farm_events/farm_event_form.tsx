@@ -1,7 +1,7 @@
 import * as React from "react";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
-import { TimeUnit } from "../interfaces";
-import { formatTime, formatDate } from "./map_state_to_props_add_edit";
+import { TimeUnit, ExecutableQuery, ExecutableType } from "../interfaces";
+import { formatTime, formatDate, TightlyCoupledFarmEventDropDown } from "./map_state_to_props_add_edit";
 import { BackArrow, BlurableInput, Col, Row, success } from "../../ui/index";
 import { NewFBSelect } from "../../ui/new_fb_select";
 import { destroy, save, edit } from "../../api/crud";
@@ -16,14 +16,14 @@ type FormEvent = React.SyntheticEvent<HTMLInputElement>;
  * on save.
  */
 interface FarmEventViewModel {
-  startDate: string;
-  startTime: string;
-  endDate: string;
-  endTime: string;
+  start_date: string;
+  start_time: string;
+  end_date: string;
+  end_time: string;
   repeat: string;
-  timeUnit: string;
-  executableType: string;
-  executableId: string;
+  time_unit: string;
+  executable_type: string;
+  executable_id: string;
 }
 /** Breaks up a TaggedFarmEvent into a structure that can easily be used
  * by the edit form.
@@ -31,14 +31,14 @@ interface FarmEventViewModel {
  *                   a single "start_time" FarmEvent field. */
 function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
   return {
-    startDate: formatDate((fe.body.start_time || new Date()).toString()),
-    startTime: formatTime((fe.body.start_time || new Date()).toString()),
-    endDate: formatDate((fe.body.end_time || new Date()).toString()),
-    endTime: formatTime((fe.body.end_time || new Date()).toString()),
+    start_date: formatDate((fe.body.start_time || new Date()).toString()),
+    start_time: formatTime((fe.body.start_time || new Date()).toString()),
+    end_date: formatDate((fe.body.end_time || new Date()).toString()),
+    end_time: formatTime((fe.body.end_time || new Date()).toString()),
     repeat: (fe.body.repeat || 0).toString(),
-    timeUnit: "minutely",
-    executableType: fe.body.executable_type,
-    executableId: (fe.body.executable_id || "").toString()
+    time_unit: "minutely",
+    executable_type: fe.body.executable_type,
+    executable_id: (fe.body.executable_id || "").toString()
   }
 }
 
@@ -47,20 +47,21 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
 function recombine(vm: FarmEventViewModel):
   Partial<TaggedFarmEvent["body"]> {
   return {
-    start_time: moment(vm.startDate + " " + vm.startTime).toISOString(),
-    end_time: moment(vm.endDate + " " + vm.startDate).toISOString(),
+    start_time: moment(vm.start_date + " " + vm.start_time).toISOString(),
+    end_time: moment(vm.end_date + " " + vm.start_date).toISOString(),
     repeat: parseInt(vm.repeat, 10),
-    time_unit: vm.timeUnit as TimeUnit,
-    executable_id: parseInt(vm.executableId, 10),
-    executable_type: vm.executableType as ("Sequence" | "Regimen"),
+    time_unit: vm.time_unit as TimeUnit,
+    executable_id: parseInt(vm.executable_id, 10),
+    executable_type: vm.executable_type as ("Sequence" | "Regimen"),
   };
 }
 
 interface Props {
-  selectOptions: DropDownItem[];
+  executableOptions: TightlyCoupledFarmEventDropDown[];
   repeatOptions: DropDownItem[];
   farmEvent: TaggedFarmEvent;
   dispatch: Function;
+  findExecutable: ExecutableQuery;
 }
 const STUB = { label: "STUB", value: 0 };
 type State = Partial<FarmEventViewModel>;
@@ -68,14 +69,35 @@ type State = Partial<FarmEventViewModel>;
 export class EditFEForm extends React.Component<Props, State> {
   get dispatch() { return this.props.dispatch; }
   get viewModel() { return destructureFarmEvent(this.props.farmEvent); }
-
+  get executable() {
+    let t = this.fieldGet("executable_type");
+    let id = parseInt(this.fieldGet("executable_id"));
+    if (t === "Sequence" || t === "Regimen") {
+      return this.props.findExecutable(t, id);
+    } else {
+      throw new Error(`${t} is not a valid executable_type`);
+    }
+  }
   constructor() {
     super();
     this.state = {};
   }
 
-  changeExecutable = (e: DropDownItem) => {
-    console.log("TODO - maybe need to pass heading data down");
+  executableSet = (e: TightlyCoupledFarmEventDropDown) => {
+    this.setState({
+      executable_type: e.executable_type,
+      executable_id: (e.value || "").toString()
+    });
+  }
+
+  executableGet = (): TightlyCoupledFarmEventDropDown => {
+    let executable_type: ExecutableType =
+      (this.executable.kind === "sequences") ? "Sequence" : "Regimen";
+    return {
+      value: this.executable.body.id || 0,
+      label: this.executable.body.name,
+      executable_type
+    }
   }
 
   fieldSet = (name: keyof State) => (e: FormEvent) => {
@@ -105,9 +127,9 @@ export class EditFEForm extends React.Component<Props, State> {
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
         <NewFBSelect
-          list={this.props.selectOptions}
-          onChange={this.changeExecutable}
-          selectedItem={STUB} />
+          list={this.props.executableOptions}
+          onChange={this.executableSet}
+          selectedItem={this.executableGet()} />
         <label>{t("Starts")}</label>
         <Row>
           <Col xs={6}>
@@ -115,15 +137,15 @@ export class EditFEForm extends React.Component<Props, State> {
               type="date"
               className="add-event-start-date"
               name="start_date"
-              value={this.fieldGet("startDate")}
-              onCommit={this.fieldSet("startDate")} />
+              value={this.fieldGet("start_date")}
+              onCommit={this.fieldSet("start_date")} />
           </Col>
           <Col xs={6}>
             <BlurableInput type="time"
               className="add-event-start-time"
               name="start_time"
-              value={this.fieldGet("startTime")}
-              onCommit={this.fieldSet("startTime")} />
+              value={this.fieldGet("start_time")}
+              onCommit={this.fieldSet("start_time")} />
           </Col>
         </Row>
         <label>{t("Repeats Every")}</label>
@@ -151,16 +173,16 @@ export class EditFEForm extends React.Component<Props, State> {
               type="date"
               className="add-event-end-date"
               name="end_date"
-              value={this.fieldGet("endDate")}
-              onCommit={this.fieldSet("endDate")} />
+              value={this.fieldGet("end_date")}
+              onCommit={this.fieldSet("end_date")} />
           </Col>
           <Col xs={6}>
             <BlurableInput
               type="time"
               name="end_time"
               className="add-event-end-time"
-              value={this.fieldGet("endTime")}
-              onCommit={this.fieldSet("endTime")} />
+              value={this.fieldGet("end_time")}
+              onCommit={this.fieldSet("end_time")} />
           </Col>
         </Row>
         <button className={`magenta button-like is-saving-${!!fe.saving}`}
