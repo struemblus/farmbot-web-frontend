@@ -1,7 +1,6 @@
 import * as _ from "lodash";
 import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
-import { t } from "i18next";
 import { Dictionary } from "farmbot/dist";
 import { error } from "./ui/index";
 import { TaggedResource } from "./resources/tagged_resources";
