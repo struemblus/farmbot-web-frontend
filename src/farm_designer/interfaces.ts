@@ -1,12 +1,10 @@
 import { OpenFarm } from "./openfarm";
 import { DropDownItem } from "../ui/index";
 import { CowardlyDictionary } from "../util";
-import { RestResources } from "../resources/interfaces";
 import {
   TaggedFarmEvent,
   TaggedSequence,
   TaggedRegimen,
-  TaggedResource,
   TaggedPoint,
   TaggedPlant
 } from "../resources/tagged_resources";
@@ -33,16 +31,6 @@ export type TimeUnit =
   | "weekly"
   | "monthly"
   | "yearly";
-
-const TIME_UNITS: TimeUnit[] = [
-  "never",
-  "minutely",
-  "hourly",
-  "daily",
-  "weekly",
-  "monthly",
-  "yearly"
-];
 
 export interface FarmEvent {
   id?: number | undefined;
@@ -81,6 +69,26 @@ export interface Plant {
   planting_area_id: string;
   // icon_url: string; // ? Maybe this will change.
   openfarm_slug: string; // ? Maybe this will change.
+}
+
+export interface Crop {
+  id?: undefined; // ?
+  name: string;
+  guides_count: number;
+  processing_pictures: number;
+  description?: string | undefined;
+  growing_degree_days?: number | undefined;
+  height?: number | undefined;
+  common_names?: string[] | undefined;
+  main_image_path?: string | undefined;
+  row_spacing?: string | undefined;
+  slug?: string | undefined;
+  sowing_method?: string | undefined;
+  spread?: string | undefined;
+  sun_requirements?: string | undefined;
+  svg_icon?: string | undefined;
+  tags_array?: string | undefined;
+  taxon?: string | undefined;
 }
 
 export interface DesignerState {

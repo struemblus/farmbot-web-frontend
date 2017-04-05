@@ -47,6 +47,7 @@ function emptyState(): RestResources {
         logs: [],
         peripherals: [],
         plants: [],
+        crops: [],
         points: [],
         regimens: [],
         sequences: [],
@@ -85,6 +86,7 @@ export let resourceReducer = generateReducer
         case "logs":
         case "peripherals":
         case "plants":
+        case "crops":
         case "regimens":
         case "sequences":
         case "tool_slots":
@@ -108,6 +110,7 @@ export let resourceReducer = generateReducer
       case "logs":
       case "peripherals":
       case "plants":
+      case "crops":
       case "regimens":
       case "sequences":
       case "tool_bays":
