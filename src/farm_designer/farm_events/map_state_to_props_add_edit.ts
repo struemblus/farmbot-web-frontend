@@ -16,6 +16,16 @@ import {
 import { TaggedFarmEvent, TaggedSequence } from "../../resources/tagged_resources";
 import { history } from "../../history";
 
+export let formatTime = (input: string) => {
+  let iso = new Date(input).toISOString();
+  return moment(iso).format("HH:mm");
+};
+
+export let formatDate = (input: string) => {
+  let iso = new Date(input).toISOString();
+  return moment(iso).format("YYYY-MM-DD");
+};
+
 export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
     let incomingTime = e.currentTarget.value.split(":");
@@ -52,15 +62,6 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
     }
   };
 
-  let formatTime = (input: string) => {
-    let iso = new Date(input).toISOString();
-    return moment(iso).format("HH:mm");
-  };
-
-  let formatDate = (input: string) => {
-    let iso = new Date(input).toISOString();
-    return moment(iso).format("YYYY-MM-DD");
-  };
 
   let repeatOptions = [
     // Removing this for now until prod. deploy is over.
