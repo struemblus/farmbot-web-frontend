@@ -87,6 +87,7 @@ export class FarmDesigner extends React.Component<Props, State> {
 
       <div className="farm-designer-map">
         <GardenMap
+          crops={this.props.crops}
           dispatch={this.props.dispatch}
           designer={this.props.designer}
           plants={this.props.plants}

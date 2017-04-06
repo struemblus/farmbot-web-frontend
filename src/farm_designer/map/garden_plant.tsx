@@ -18,11 +18,12 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   render() {
     let { plant, onUpdate, onDrop } = this.props;
     if (plant.body.id) {
+      let r = this.props.crop && this.props.crop.body.spread;
       return <g>
         <circle className="map-plant-spread"
           cx={plant.body.x}
           cy={plant.body.y}
-          r={(plant.body.spread || 0) * 10 / 2} />
+          r={(r || 0) * 10 / 2} />
         <DraggableSvgImage key={plant.body.id}
           plant={plant}
           x={plant.body.x - plant.body.radius}

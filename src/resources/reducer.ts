@@ -23,6 +23,8 @@ import {
   initialState as designerState
 } from "../farm_designer/reducer";
 import { ResourceReadyPayl } from "../sync/actions";
+import { Crop } from "../farm_designer/interfaces";
+import { OFCropResponse } from "../open_farm/index";
 
 let consumerReducer = combineReducers({
   regimens,
@@ -78,8 +80,13 @@ export let resourceReducer = generateReducer
   .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
     let data = arrayWrap(a.payload);
     let kind = a.payload.name;
-    data.map(body => {
-      addToIndex(s.index, kind, body, generateUuid(undefined, kind));
+    // TODO: How to clean this up? TS is not liking the object[]...
+    data.map((body: ResourceReadyPayl) => {
+      let crop = body.data as OFCropResponse;
+      if (crop.data) {
+        let cropInfo = crop.data.attributes;
+        addToIndex(s.index, kind, cropInfo, generateUuid(undefined, kind));
+      }
     })
     return s;
   })

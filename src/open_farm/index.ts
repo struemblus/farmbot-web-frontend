@@ -1,6 +1,5 @@
 import * as axios from "axios";
 import { Dictionary } from "farmbot/dist";
-import { Crop } from "../farm_designer/interfaces";
 
 const BASE = "https://openfarm.cc/api/v1/crops/";
 export const DATA_URI = "data:image/svg+xml;utf8,";
@@ -9,9 +8,14 @@ export const DEFAULT_ICON = "/app-resources/img/generic-plant.svg";
 
 let cache: Dictionary<Axios.IPromise<string>> = {};
 
-interface OFCropResponse {
-  data: {
-    attributes: Crop | undefined;
+export interface OFCropResponse {
+  id?: undefined; // ?
+  data?: {
+    attributes: {
+      svg_icon?: string | undefined;
+      spread?: number | undefined;
+      slug: string;
+    } | undefined;
   } | undefined;
 }
 
