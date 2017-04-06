@@ -19,7 +19,7 @@ import { t } from "i18next";
 import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
 import * as moment from "moment";
-import { betterMerge } from "../../util";
+import { betterMerge, fancyDebug } from "../../util";
 
 type FormEvent = React.SyntheticEvent<HTMLInputElement>;
 /** Seperate each of the form fields into their own interface. Recombined later
@@ -46,7 +46,7 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
     end_date: formatDate((fe.body.end_time || new Date()).toString()),
     end_time: formatTime((fe.body.end_time || new Date()).toString()),
     repeat: (fe.body.repeat || 0).toString(),
-    time_unit: "minutely",
+    time_unit: fe.body.time_unit,
     executable_type: fe.body.executable_type,
     executable_id: (fe.body.executable_id || "").toString()
   }
@@ -135,7 +135,8 @@ export class EditFEForm extends React.Component<Props, State> {
 
   render() {
     let fe = this.props.farmEvent;
-
+    let options = _.indexBy(this.props.repeatOptions, "value");
+    fancyDebug(betterMerge(this.viewModel, this.state));
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title"> <BackArrow /> {t("Edit Farm Event")} </p>
@@ -178,8 +179,10 @@ export class EditFEForm extends React.Component<Props, State> {
           <Col xs={8}>
             <NewFBSelect
               list={this.props.repeatOptions}
-              onChange={_.noop}
-              selectedItem={STUB} />
+              onChange={(e) => this.setState({
+                time_unit: (e.value || "hourly").toString()
+              })}
+              selectedItem={options[this.fieldGet("time_unit")]} />
           </Col>
         </Row>
         <label>{t("Until")}</label>
