@@ -156,7 +156,7 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
     TaggedSequence | TaggedRegimen => {
     switch (kind) {
       case "Sequence": return findSequenceById(props.resources.index, id)
-      case "Regimen": return findSequenceById(props.resources.index, id)
+      case "Regimen": return findRegimenById(props.resources.index, id)
       default: throw new Error("GOT A BAD `KIND` STRING");
     }
   }

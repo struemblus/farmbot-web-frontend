@@ -81,32 +81,29 @@ export class EditFEForm extends React.Component<Props, State> {
   get viewModel() {
     return destructureFarmEvent(this.props.farmEvent);
   }
+
   get executable() {
-    try {
-      let t = this.fieldGet("executable_type");
-      let id = parseInt(this.fieldGet("executable_id"));
-      if (t === "Sequence" || t === "Regimen") {
-        return this.props.findExecutable(t, id);
-      } else {
-        throw new Error(`${t} is not a valid executable_type`);
-      }
-    } catch (error) {
-      debugger;
-      throw new Error("BRB - TODO - FIX");
+    let t = this.fieldGet("executable_type");
+    let id = parseInt(this.fieldGet("executable_id"));
+    if (t === "Sequence" || t === "Regimen") {
+      return this.props.findExecutable(t, id);
+    } else {
+      throw new Error(`${t} is not a valid executable_type`);
     }
   }
+
   constructor() {
     super();
     this.state = {};
   }
 
   executableSet = (e: TightlyCoupledFarmEventDropDown) => {
-    this.setState({
-      executable_type: e.executable_type,
-      executable_id: (e.value || "").toString()
-    });
-    console.log("SET EXE");
-    console.log(this.fieldGet("executable_type"))
+    if (e.value) {
+      this.setState({
+        executable_type: e.executable_type,
+        executable_id: (e.value || "").toString()
+      });
+    }
   }
 
   executableGet = (): TightlyCoupledFarmEventDropDown => {
