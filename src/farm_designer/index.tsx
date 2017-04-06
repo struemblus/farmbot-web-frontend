@@ -34,6 +34,7 @@ export class FarmDesigner extends React.Component<Props, State> {
       undefined : React.createElement(Plants, this.props as any);
     return this.props.children || fallback;
   }
+
   render() {
     let plusBtnColor = this.state.zoomLevel === 1 ? "light-gray" : "green";
     let minusBtnColor = this.state.zoomLevel === 0.3 ? "light-gray" : "green";
