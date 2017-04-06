@@ -75,6 +75,9 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
+  .add<{}>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+    return s;
+  })
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     resource.dirty = false;

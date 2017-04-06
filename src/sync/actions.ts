@@ -23,10 +23,10 @@ export interface SyncResponse {
 }
 
 export function fetchDeprecatedSyncData(dispatch: Function) {
-  let fetch = <T>(name: ResourceName, url: string) => axios
+  let fetch = <T>(name: ResourceName, url: string, type = "RESOURCE_READY") => axios
     .get<T>(url)
     .then((r): SyncResponse => dispatch({
-      type: "RESOURCE_READY", payload: { name, data: r.data }
+      type, payload: { name, data: r.data }
     }), fail);
 
   let fail = () => warning("Please try refreshing the page.",
@@ -44,10 +44,10 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
         .uniq()
         .compact()
         .value();
-      // slugs.map((slug) => {
-      //   let url = OpenFarmAPI.OFBaseURL + plant.openfarm_slug;
-      //   fetch<Crop>("crops", url);
-      // })
+      slugs.map((slug) => {
+        let url = OpenFarmAPI.OFBaseURL + slug;
+        fetch<Crop>("crops", url, "SAVE_SPECIAL_RESOURCE");
+      })
     });
   fetch<Point[]>("points", API.current.pointsPath);
   fetch<Regimen[]>("regimens", API.current.regimensPath);
