@@ -39,9 +39,15 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<Peripheral[]>("peripherals", API.current.peripheralsPath);
   fetch<Plant[]>("plants", API.current.plantsPath)
     .then(action => {
-      action.payload.data.map((plant: Plant) => {
-        fetch<Crop>("crops", OpenFarmAPI.OFBaseURL + plant.openfarm_slug);
-      })
+      let slugs = _(action.payload.data)
+        .pluck<string>("openfarm_slug")
+        .uniq()
+        .compact()
+        .value();
+      // slugs.map((slug) => {
+      //   let url = OpenFarmAPI.OFBaseURL + plant.openfarm_slug;
+      //   fetch<Crop>("crops", url);
+      // })
     });
   fetch<Point[]>("points", API.current.pointsPath);
   fetch<Regimen[]>("regimens", API.current.regimensPath);
@@ -49,9 +55,6 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<ToolBay[]>("tool_bays", API.current.toolBaysPath);
   fetch<Tool[]>("tools", API.current.toolsPath);
   fetch<ToolSlot[]>("tool_slots", API.current.toolSlotsPath);
-  axios
-    .get<DeviceAccountSettings>(API.current.devicePath)
-    .then((resp) => dispatch({ type: "FETCH_DEVICE_OK", payload: resp.data }));
 }
 
 export function fetchDeprecatedSyncDataOk(payload: {}) {
