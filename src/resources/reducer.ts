@@ -6,7 +6,7 @@ import {
   sanityCheck,
   isTaggedResource
 } from "./tagged_resources";
-import { generateUuid } from "./util";
+import { generateUuid, arrayWrap } from "./util";
 import { EditResourceParams } from "../api/interfaces";
 import {
   initialState as sequenceState,
@@ -75,7 +75,12 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
-  .add<{}>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+  .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+    let data = arrayWrap(a.payload);
+    let kind = a.payload.name;
+    data.map( body => {
+      addToIndex(s.index, kind, body, generateUuid(undefined, kind));
+    })
     return s;
   })
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
@@ -181,7 +186,7 @@ export let resourceReducer = generateReducer
      *            making `.map()` and friends unsafe.
      *  Solution: wrap everything in an array on the way in. */
     let unwrapped = action.payload.data;
-    let data = _.isArray(unwrapped) ? unwrapped : [unwrapped];
+    let data = arrayWrap(unwrapped);
     let { index } = state;
     state.loaded.push(name);
     index.byKind[name].map(x => {
