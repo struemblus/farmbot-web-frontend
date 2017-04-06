@@ -66,18 +66,26 @@ export class FarmDesigner extends React.Component<Props, State> {
         {this.childComponent()}
       </div>
 
-      <div className="zoomer">
-        <div className={`plus-button ${plusBtnColor}`}
-          onClick={() => this.zoom(0.1)}>
-          <i className="fa fa-2x fa-plus" />
-        </div>
-        <div className={`plus-button ${minusBtnColor}`}
-          onClick={() => this.zoom(-0.1)}>
-          <i className="fa fa-2x fa-minus" />
-        </div>
-      </div>
+      {/* TODO: This actually changes the amount of translation the plants
+                receive when performing a drag and drop. Leaving as a todo
+                for convenience of doing a production deploy today.
 
-      <div className="farm-designer-map" style={{ zoom: this.state.zoomLevel }}>
+          <div className="zoomer">
+            <div className={`plus-button ${plusBtnColor}`}
+              onClick={() => this.zoom(0.1)}>
+              <i className="fa fa-2x fa-plus" />
+            </div>
+            <div className={`plus-button ${minusBtnColor}`}
+              onClick={() => this.zoom(-0.1)}>
+              <i className="fa fa-2x fa-minus" />
+            </div>
+          </div>
+
+          // This will be added as an attribute to farm-designer-map
+          style={{ zoom: this.state.zoomLevel }}
+        */}
+
+      <div className="farm-designer-map">
         <GardenMap
           dispatch={this.props.dispatch}
           designer={this.props.designer}
