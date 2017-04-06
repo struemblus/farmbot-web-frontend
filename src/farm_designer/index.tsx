@@ -7,6 +7,8 @@ import { t } from "i18next";
 import { Props } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
+import { Plants } from "./plants/plant_inventory";
+import { isMobile } from "../util";
 
 interface State {
   zoomLevel: number;
@@ -27,6 +29,11 @@ export class FarmDesigner extends React.Component<Props, State> {
     this.setState({ zoomLevel: this.state.zoomLevel + zoomNumber })
   }
 
+  childComponent() {
+    let fallback = isMobile() ?
+      <span /> : React.createElement(Plants, this.props as any);
+    return this.props.children || fallback;
+  }
   render() {
     let plusBtnColor = this.state.zoomLevel === 1 ? "light-gray" : "green";
     let minusBtnColor = this.state.zoomLevel === 0.3 ? "light-gray" : "green";
@@ -55,7 +62,7 @@ export class FarmDesigner extends React.Component<Props, State> {
         </div>
       </div>
       <div className="farm-designer-panels">
-        {this.props.children || <div>No child route found.</div>}
+        {this.childComponent()}
       </div>
 
       <div className="zoomer">
