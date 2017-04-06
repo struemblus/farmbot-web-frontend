@@ -9,31 +9,38 @@ import { FarmEvent, Plant, Point, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { ResourceName } from "../resources/tagged_resources";
-import { error } from "../ui/index";
 import { warning } from "../ui/logger";
+import { OpenFarmAPI } from "../open_farm/index";
 
 export interface ResourceReadyPayl {
   name: ResourceName;
   data: object[];
 }
 
+export interface SyncResponse {
+  type: "RESOURCE_READY";
+  payload: ResourceReadyPayl;
+}
+
 export function fetchDeprecatedSyncData(dispatch: Function) {
-  let fail = () => warning("Please try refreshing the page.",
-    "Error downloading data");
   let fetch = <T>(name: ResourceName, url: string) => axios
     .get<T>(url)
-    .then((r): T => dispatch({
+    .then((r): SyncResponse => dispatch({
       type: "RESOURCE_READY", payload: { name, data: r.data }
     }), fail);
+
+  let fail = () => warning("Please try refreshing the page.",
+    "Error downloading data");
+
   fetch<DeviceAccountSettings>("device", API.current.devicePath)
   fetch<FarmEvent[]>("farm_events", API.current.farmEventsPath);
   fetch<Image[]>("images", API.current.imagesPath);
   fetch<Log[]>("logs", API.current.logsPath);
   fetch<Peripheral[]>("peripherals", API.current.peripheralsPath);
   fetch<Plant[]>("plants", API.current.plantsPath)
-    .then((action) => {
-      action.payload.data.map(function(plant) {
-        fetch<Crop>("crops", "//openfarm.cc/api/v1/crops/" + OpeFarm.cropUrl(plant.slug))
+    .then(action => {
+      action.payload.data.map((plant: Plant) => {
+        fetch<Crop>("crops", OpenFarmAPI.OFBaseURL + plant.openfarm_slug);
       })
     });
   fetch<Point[]>("points", API.current.pointsPath);
