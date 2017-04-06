@@ -136,7 +136,6 @@ export class EditFEForm extends React.Component<Props, State> {
   render() {
     let fe = this.props.farmEvent;
     let options = _.indexBy(this.props.repeatOptions, "value");
-    fancyDebug(betterMerge(this.viewModel, this.state));
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title"> <BackArrow /> {t("Edit Farm Event")} </p>
