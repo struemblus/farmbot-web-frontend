@@ -275,7 +275,7 @@ export function isUndefined(x: any): x is undefined {
 export function betterCompact<T>(input: (T | undefined)[]): T[] {
   let output: T[] = [];
   input.forEach(x => x ? output.push(x) : "")
-  return [];
+  return output;
 };
 
 /** Sorts a list of tagged resources. Unsaved resource get put on the end. */
