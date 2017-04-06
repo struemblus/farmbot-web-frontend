@@ -30,8 +30,7 @@ export function PeripheralForm(props: PeripheralFormProps) {
             }} />
         </Col>
         <Col xs={2}>
-          <button className="button-like red"
-            onClick={() => { dispatch(destroy(p.uuid)); }}>
+          <button className="red" onClick={() => { dispatch(destroy(p.uuid)); }}>
             <i className="fa fa-minus" />
           </button>
         </Col>

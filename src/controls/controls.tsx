@@ -83,9 +83,7 @@ export class Controls extends Component<Props, ControlsState> {
                   apiUrl={API.current.baseUrl}
                   updateState={this.toggleCameraURLEdit} />
                 :
-                <button
-                  className="button-like gray"
-                  onClick={this.toggleCameraURLEdit}>
+                <button className="gray" onClick={this.toggleCameraURLEdit}>
                   {t("Edit")}
                 </button>
               }

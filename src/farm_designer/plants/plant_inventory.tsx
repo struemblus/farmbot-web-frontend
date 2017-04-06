@@ -62,7 +62,7 @@ export class Plants extends React.Component<Everything, {}> {
       </div>
 
       <Link to="/app/designer/plants/crop_search">
-        <div className="plus-button button-like green">
+        <div className="plus-button green">
           <i className="fa fa-2x fa-plus" />
         </div>
       </Link>

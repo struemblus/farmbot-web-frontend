@@ -22,7 +22,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   FarmBot after changing settings and test a few sequences
                   to verify that everything works as expected. Note:
                   Currently not all settings can be changed.`}>
-        <button className="green button-like"
+        <button className="green"
           onClick={() => this.props.dispatch(commitSettingsChanges())} >
           {t("SAVE")}
           {Object.keys(this.props.bot.settingsBuffer).length ? "*" : ""}

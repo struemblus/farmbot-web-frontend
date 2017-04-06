@@ -10,8 +10,7 @@ function calibrate(axis: Axis) {
 }
 
 export function CalibrationButton({ axis }: CalibrationButtonProps) {
-  return <button type="button"
-    className="button-like yellow"
+  return <button className="yellow toggle-button"
     onClick={() => calibrate(axis)}>
     {t("CALIBRATE {{axis}}", { axis })}
   </button>;

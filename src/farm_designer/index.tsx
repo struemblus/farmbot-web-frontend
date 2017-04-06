@@ -59,11 +59,11 @@ export class FarmDesigner extends React.Component<Props, State> {
       </div>
 
       <div className="zoomer">
-        <div className={`plus-button button-like ${plusBtnColor}`}
+        <div className={`plus-button ${plusBtnColor}`}
           onClick={() => this.zoom(0.1)}>
           <i className="fa fa-2x fa-plus" />
         </div>
-        <div className={`plus-button button-like ${minusBtnColor}`}
+        <div className={`plus-button ${minusBtnColor}`}
           onClick={() => this.zoom(-0.1)}>
           <i className="fa fa-2x fa-minus" />
         </div>

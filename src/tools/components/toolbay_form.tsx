@@ -43,14 +43,14 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
-              className={`green button-like is-saving-${isSaving}`}
+              className={`green is-saving-${isSaving}`}
               onClick={() => {
                 dispatch(saveAll(toolSlots, () => { toggle(); }))
               }}>
               {t("Save")} {isDirty && !isSaving && ("*")}
             </button>
             <button
-              className="green button-like"
+              className="green"
               onClick={() => { dispatch(init(this.emptyToolSlot(id))); }}>
               <i className="fa fa-plus" />
             </button>
@@ -117,7 +117,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                   </Col>
                   <Col xs={1}>
                     <button
-                      className="red button-like"
+                      className="red"
                       onClick={() => dispatch(destroy(slot.uuid))}>
                       <i className="fa fa-times" />
                     </button>

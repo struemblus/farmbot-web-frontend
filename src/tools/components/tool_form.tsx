@@ -30,12 +30,12 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
         <button
-          className={`green button-like is-saving-${isSaving}`}
+          className={`green is-saving-${isSaving}`}
           onClick={() => { dispatch(saveAll(tools, () => { toggle(); })) }}>
           {t("Save")} {isDirty && !isSaving && ("*")}
         </button>
         <button
-          className="green button-like"
+          className="green"
           onClick={() => { dispatch(init(this.emptyTool())); }}>
           <i className="fa fa-plus" />
         </button>
@@ -59,8 +59,7 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
             </Col>
             <Col xs={2}>
               <button
-                className="button-like red"
-                onClick={() => { dispatch(destroy(tool.uuid)); }}>
+                className="red" onClick={() => { dispatch(destroy(tool.uuid)); }}>
                 <i className="fa fa-times"></i>
               </button>
             </Col>

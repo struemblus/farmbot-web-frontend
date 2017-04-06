@@ -26,8 +26,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
         </tr>
         <tr>
           <td>
-            <button
-              className="button-like i fa fa-home arrow-button"
+            <button className="i fa fa-home arrow-button"
               onClick={() => homeAll(100)} />
           </td>
           <td />

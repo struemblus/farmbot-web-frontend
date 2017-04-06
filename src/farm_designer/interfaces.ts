@@ -8,6 +8,7 @@ import {
   TaggedPoint,
   TaggedPlant
 } from "../resources/tagged_resources";
+import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 
 export interface Props {
   dispatch: Function;
@@ -32,6 +33,8 @@ export type TimeUnit =
   | "monthly"
   | "yearly";
 
+export type ExecutableType = "Sequence" | "Regimen";
+
 export interface FarmEvent {
   id?: number | undefined;
   start_time: string;
@@ -40,7 +43,7 @@ export interface FarmEvent {
   time_unit: TimeUnit;
   next_time: string;
   executable_id: number;
-  executable_type: "Sequence" | "Regimen";
+  executable_type: ExecutableType;
   readonly calendar?: string[] | undefined;
 };
 
@@ -107,9 +110,10 @@ export interface Point {
   created_at: string;
   meta: { [key: string]: (string | undefined) };
 }
-
+export type TaggedExecutable = TaggedSequence | TaggedRegimen;
+export type ExecutableQuery = (kind: ExecutableType, id: number) => TaggedExecutable;
 export interface AddEditFarmEventProps {
-  selectOptions: DropDownItem[];
+  executableOptions: TightlyCoupledFarmEventDropDown[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
   regimensById: CowardlyDictionary<TaggedRegimen>;
@@ -120,6 +124,7 @@ export interface AddEditFarmEventProps {
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
   dispatch: Function;
+  findExecutable: ExecutableQuery;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent

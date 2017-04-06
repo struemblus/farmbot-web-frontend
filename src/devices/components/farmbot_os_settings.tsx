@@ -68,7 +68,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
         <WidgetHeader title="Device"
           helpText={`This widget shows device information.`}>
           <button type="submit"
-            className={`green button-like is-saving-${isSaving}`}
+            className={`green is-saving-${isSaving}`}
             onClick={this.updateBot}>
             {t("Save")} {isDirty && !isSaving && ("*")}
           </button>
@@ -124,9 +124,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like yellow"
-                onClick={reboot}>
+              <button className="yellow" onClick={reboot}>
                 {t("RESTART")}
               </button>
             </Col>
@@ -142,9 +140,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like red"
-                onClick={powerOff}>
+              <button className="red" onClick={powerOff}>
                 {t("SHUTDOWN")}
               </button>
             </Col>
@@ -166,9 +162,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like red"
-                onClick={factoryReset} >
+              <button className="red" onClick={factoryReset} >
                 {t("FACTORY RESET")}
               </button>
             </Col>

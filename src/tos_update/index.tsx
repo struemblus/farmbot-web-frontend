@@ -173,7 +173,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
                       </ul>
                       <div className="row">
                         <div className="col-xs-12">
-                          <button className="button-like button green login">
+                          <button className="green">
                             {t("I Agree to the Terms of Service")}
                           </button>
                         </div>

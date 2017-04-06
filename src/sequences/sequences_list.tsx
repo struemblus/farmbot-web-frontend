@@ -58,7 +58,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
       <WidgetHeader title="Sequences"
         helpText={`Here is the list of all of your sequences.
                    Click one to edit.`}>
-        <button className="green button-like"
+        <button className="green"
           onClick={() => dispatch(init(this.emptySequence()))}>
           {t("Add")}
         </button>

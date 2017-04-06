@@ -19,9 +19,9 @@ export class ToggleButton extends React.Component<ToggleButtonProps, {}> {
   }
 
   css() {
-    let redCSS = "button-like toggle-button red";
-    let greenCSS = "button-like toggle-button green";
-    let yellowCSS = "button-like toggle-button yellow";
+    let redCSS = "toggle-button red";
+    let greenCSS = "toggle-button green";
+    let yellowCSS = "toggle-button yellow";
 
     let cssClasses: { [s: string]: string | undefined } = {
       "0": redCSS,

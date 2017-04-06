@@ -77,8 +77,7 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
               />
             </Col>
             <Col xs={12}>
-              <button className="button-like green"
-                onClick={this.install}>
+              <button className="green" onClick={this.install}>
                 {t("Install")}
               </button>
             </Col>
@@ -91,13 +90,13 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
               placeholder="Installed Farmware Packages" />
           </Col>
           <Col xs={12}>
-            <button className="button-like red" onClick={this.remove}>
+            <button className="red" onClick={this.remove}>
               {t("Remove")}
             </button>
-            <button className="button-like yellow" onClick={this.update}>
+            <button className="yellow" onClick={this.update}>
               {t("Update")}
             </button>
-            <button className="button-like green" onClick={this.run}>
+            <button className="green" onClick={this.run}>
               {t("Run")}
             </button>
           </Col>

@@ -8,9 +8,7 @@ const speed = Farmbot.defaults.speed;
 let calibrate = (axis: Axis) => devices.current.home({ speed, axis });
 
 export function HomingButton({ axis }: CalibrationButtonProps) {
-  return <button type="button"
-    className="button-like yellow"
-    onClick={() => calibrate(axis)}>
+  return <button className="yellow" onClick={() => calibrate(axis)}>
     {t("HOME {{axis}}", { axis })}
   </button>;
 };

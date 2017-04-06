@@ -18,7 +18,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
-              className="gray button-like" onClick={toggle}>
+              className="gray" onClick={toggle}>
               {t("Edit")}
             </button>
           </WidgetHeader>

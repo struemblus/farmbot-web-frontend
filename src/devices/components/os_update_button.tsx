@@ -31,8 +31,7 @@ export let OsUpdateButton = ({ bot }: BotProp) => {
       toggleAction={() => {
         updateConfig({ os_auto_update: !osUpdateBool });
       }} />
-    <button className={`button-like ${buttonColor}`}
-      onClick={() => checkControllerUpdates()}>
+    <button className={buttonColor} onClick={() => checkControllerUpdates()}>
       {buttonStr}
     </button>
   </div>;

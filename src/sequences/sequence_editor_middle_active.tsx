@@ -74,22 +74,20 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
                    with FarmBot. You can also edit, copy, and delete
                    existing sequences; assign a color; and give
                    your commands custom names.`}>
-        <button className={`green button-like is-saving-${!!sequence.saving}`}
+        <button className={`green is-saving-${!!sequence.saving}`}
           onClick={() => {
             dispatch(save(sequence.uuid));
           }}>
           {t("Save")} {sequence && sequence.dirty && !sequence.saving && "*"}
         </button>
-        <button className="orange button-like"
-          onClick={performSeq(dispatch, sequence)}>
+        <button className="orange" onClick={performSeq(dispatch, sequence)}>
           {t("Save & Run")}
         </button>
-        <button className="red button-like"
+        <button className="red"
           onClick={() => dispatch(destroy(sequence.uuid)).then(null, toastErrors)}>
           {t("Delete")}
         </button>
-        <button className="yellow button-like"
-          onClick={copy(dispatch, sequence)}>
+        <button className="yellow" onClick={copy(dispatch, sequence)}>
           {t("Copy")}
         </button>
       </WidgetHeader>

@@ -15,8 +15,7 @@ export class ToolList extends React.Component<ToolListProps, {}> {
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
         <button
-          className="gray button-like"
-          onClick={toggle}>
+          className="gray" onClick={toggle}>
           {t("Edit")}
         </button>
       </WidgetHeader>

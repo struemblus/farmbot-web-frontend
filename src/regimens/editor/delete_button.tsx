@@ -15,8 +15,7 @@ function remove({ regimen, dispatch }: DeleteButtonProps) {
 
 export function DeleteButton({ regimen, dispatch, baseUrl }: DeleteButtonProps) {
   if (!regimen) { return <span />; };
-  return <button className="red button-like"
-    onClick={remove({ dispatch, regimen, baseUrl })}>
+  return <button className="red" onClick={remove({ dispatch, regimen, baseUrl })}>
     {t("Delete")}
   </button>;
 }

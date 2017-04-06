@@ -9,9 +9,7 @@ export function WebcamSaveBtn({ dispatch, webcamUrl, updateState }:
     dispatch(saveDevice({ webcam_url: webcamUrl }));
     updateState();
   };
-  return <button type="button"
-    className="green button-like"
-    onClick={save}>
+  return <button className="green" onClick={save}>
     {t("SAVE")}
   </button>;
 }

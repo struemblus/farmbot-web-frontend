@@ -73,21 +73,18 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
         helpText={HELP_TEXT}>
         <button
           hidden={isEditing}
-          className="gray button-like"
-          type="button"
-          onClick={this.toggle}>
+          className="gray" type="button" onClick={this.toggle}>
           {t("Edit")}
         </button>
-        <button
-          hidden={!isEditing}
-          className={`green button-like is-saving-${isSaving}`}
+        <button hidden={!isEditing}
+          className={`green is-saving-${isSaving}`}
           type="button"
           onClick={this.maybeSave}>
           {t("Save")} {isDirty && !isSaving && ("*")}
         </button>
         <button
           hidden={!isEditing}
-          className="green button-like"
+          className="green"
           type="button"
           onClick={() => { dispatch(init(this.emptyPeripheral())) }}>
           <i className="fa fa-plus" />

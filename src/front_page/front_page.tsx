@@ -132,6 +132,12 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
   }
 
   render() {
+    let buttonStylesUniqueToOnlyThisPage = {
+      marginTop: "1.5rem",
+      padding: ".5rem 1.6rem",
+      fontSize: "1.2rem"
+    };
+
     let { showServerOpts, forgotPassword } = this.state;
     let expandIcon = showServerOpts ? "minus" : "plus";
     let { toggleServerOpts } = this;
@@ -204,7 +210,8 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
                           </div>
                           <div className="row">
                             <div className="col-xs-12">
-                              <button className="button-like button green login">
+                              <button className="green"
+                                style={buttonStylesUniqueToOnlyThisPage}>
                                 {i18next.t("Login")}
                               </button>
                             </div>
@@ -224,8 +231,7 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
                       <div className="widget-header">
                         <h5>{i18next.t("Forgot Password")}</h5>
                         <button
-                          className="gray button-like"
-                          type="button"
+                          className="gray"
                           onClick={this.toggleForgotPassword.bind(this)}>
                           {i18next.t("BACK")}
                         </button>
@@ -244,7 +250,8 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
                           </div>
                           <div className="row">
                             <div className="col-xs-12">
-                              <button className="button-like button green login">
+                              <button className="green"
+                                style={buttonStylesUniqueToOnlyThisPage}>
                                 {i18next.t("Send Password reset")}
                               </button>
                             </div>
@@ -287,7 +294,8 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
                         </div>
                         <div className="row">
                           <div className="col-xs-12">
-                            <button className="button-like button green create-account">
+                            <button className="green"
+                              style={buttonStylesUniqueToOnlyThisPage}>
                               {i18next.t("Create Account")}
                             </button>
                           </div>

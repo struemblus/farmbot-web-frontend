@@ -54,7 +54,7 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
                 times. Multiple regimens can be applied to any one plant.`}>
         {regimen && (
           <button onClick={save({ dispatch, regimen })}
-            className={`green button-like is-saving-${isSaving}`}>
+            className={`green is-saving-${isSaving}`}>
             {t("Save")} {isDirty && !isSaving && ("*")}
           </button>
         )}

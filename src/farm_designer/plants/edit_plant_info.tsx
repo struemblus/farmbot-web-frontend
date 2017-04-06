@@ -72,8 +72,7 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
         </ul>
         <label>{t("Delete this plant")}</label>
         <div>
-          <button className="red button-like left"
-            onClick={() => this.destroy(uuid)}>
+          <button className="red" onClick={() => this.destroy(uuid)}>
             {t("Delete")}
           </button>
         </div>
