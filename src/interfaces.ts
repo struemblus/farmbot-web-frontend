@@ -1,20 +1,9 @@
-import { AuthState, User } from "./auth/interfaces";
+import { AuthState } from "./auth/interfaces";
 import { ConfigState } from "./config/interfaces";
-import { BotState, DeviceAccountSettings } from "./devices/interfaces";
-import { RegimenItem } from "./regimens/interfaces";
-import { Sequence } from "./sequences/interfaces";
-import {
-  DesignerState,
-  Plant,
-  Point,
-  FarmEvent
-} from "./farm_designer/interfaces";
+import { BotState } from "./devices/interfaces";
 import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
-import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
-import { ToolBay, Tool, ToolSlot } from "./tools/interfaces";
-import { Image } from "./images";
-import { Regimen } from "./regimens/interfaces";
+import { PeripheralState } from "./controls/peripherals/interfaces";
 import { RestResources } from "./resources/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks

@@ -8,6 +8,7 @@ button {
     border-radius: 3px;
     border-bottom-width: 2px !important;
     border: none;
+    position: relative;
     color: $off_white;
     &:active:not(.toggle-button) {
         transform: translateY(1px);
