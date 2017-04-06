@@ -31,10 +31,11 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
         </Row>
       </WidgetBody>
 
+      {/* This guy doesn't quite fit in yet...
       <AddRegimen className="plus-button"
         dispatch={this.props.dispatch}>
         <i className="fa fa-plus"></i>
-      </AddRegimen>
+      </AddRegimen>*/}
 
     </Widget>;
   }
