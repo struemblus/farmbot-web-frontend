@@ -35,6 +35,11 @@
     }
 }
 
+// ok... :(
+.peripherals-widget .widget-header button[class*="is-saving"] {
+    margin-right: 0;
+}
+
 @media (max-width: 600px) {
     .widget-wrapper {
         margin-bottom: 1.5rem;

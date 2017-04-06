@@ -68,7 +68,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     let isDirty = peripherals && peripherals
       .filter(x => x.dirty).length !== 0;
 
-    return <Widget>
+    return <Widget className="peripherals-widget">
       <WidgetHeader title={"Peripherals"}
         helpText={HELP_TEXT}>
         <button
