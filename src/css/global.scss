@@ -56,17 +56,10 @@ body {
     }
 }
 
-.hide {
-    display: none !important;
-}
-
 a {
     cursor: pointer !important;
     outline: none !important;
 }
-
-
-/* Rick wuz here. */
 
 .input-group {
     a {
@@ -103,15 +96,6 @@ a {
     }
 }
 
-.xx-small {
-    padding-left: 0.45rem;
-    padding-right: 0.45rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-size: 0.625rem;
-    background-color: $dark_gray;
-}
-
 .drag-drop-area {
     border-style: dashed;
     border-width: 2px;
@@ -130,24 +114,12 @@ a {
     padding: 0.5rem 0 0 0.5rem;
 }
 
-.margin {
-    margin-bottom: 20px;
-}
-
 .row {
     max-width: 160rem;
 }
 
 body {
     background: $light_gray!important;
-}
-
-.no-radius {
-    border-radius: 0;
-}
-
-.radius {
-    border-radius: 5px;
 }
 
 .full-width {
