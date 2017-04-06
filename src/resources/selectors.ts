@@ -21,7 +21,8 @@ import {
   isTaggedFarmEvent,
   TaggedPeripheral,
   isTaggedPlant,
-  TaggedLog
+  TaggedLog,
+  TaggedCrop
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
@@ -123,6 +124,10 @@ export function selectAllImages(index: ResourceIndex) {
 
 export function selectAllRegimens(index: ResourceIndex) {
   return findAll(index, "regimens") as TaggedRegimen[];
+}
+
+export function selectAllCrops(index: ResourceIndex) {
+  return findAll(index, "crops") as TaggedCrop[];
 }
 
 export function getRegimenByUUID(index: ResourceIndex, uuid: string) {

@@ -20,13 +20,14 @@ export class FarmDesigner extends React.Component<Props, State> {
     super();
     this.state = { zoomLevel: 0.6 };
   }
+
   componentDidMount() {
     success("Subscribe to the FarmBot.io mailing list for news and updates.",
       "Work in Progress");
   }
 
   zoom = (zoomNumber: number) => {
-    this.setState({ zoomLevel: this.state.zoomLevel + zoomNumber })
+    this.setState({ zoomLevel: this.state.zoomLevel + zoomNumber });
   }
 
   childComponent() {
@@ -89,7 +90,8 @@ export class FarmDesigner extends React.Component<Props, State> {
           dispatch={this.props.dispatch}
           designer={this.props.designer}
           plants={this.props.plants}
-          points={this.props.points} />
+          points={this.props.points}
+        />
       </div>
     </div>
   }

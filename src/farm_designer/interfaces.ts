@@ -6,7 +6,8 @@ import {
   TaggedSequence,
   TaggedRegimen,
   TaggedPoint,
-  TaggedPlant
+  TaggedPlant,
+  TaggedCrop
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 
@@ -15,6 +16,7 @@ export interface Props {
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  crops: TaggedCrop[];
 }
 
 export interface UpdateSequenceOrRegimenProps {

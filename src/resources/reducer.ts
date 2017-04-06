@@ -78,7 +78,7 @@ export let resourceReducer = generateReducer
   .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
     let data = arrayWrap(a.payload);
     let kind = a.payload.name;
-    data.map( body => {
+    data.map(body => {
       addToIndex(s.index, kind, body, generateUuid(undefined, kind));
     })
     return s;
