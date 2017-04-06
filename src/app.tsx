@@ -44,7 +44,8 @@ function mapStateToProps(props: Everything): AppProps {
 /** Relational resources that *must* load before app starts.
  * App will crash at load time if they are not pre-loaded.
 */
-const MUST_LOAD: ResourceName[] = [ "sequences", "regimens", "farm_events" ];
+const MUST_LOAD: ResourceName[] = [ "sequences", "regimens", "farm_events",
+  "crops", "plants" ];
 
 @connect(mapStateToProps)
 export default class App extends React.Component<AppProps, {}> {

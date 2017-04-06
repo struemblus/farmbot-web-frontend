@@ -5,7 +5,7 @@ import { Sequence } from "../sequences/interfaces";
 import { Tool, ToolBay, ToolSlot } from "../tools/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
-import { FarmEvent, Plant, Point } from "../farm_designer/interfaces";
+import { FarmEvent, Plant, Point, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { ResourceName } from "../resources/tagged_resources";
@@ -30,7 +30,12 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<Image[]>("images", API.current.imagesPath);
   fetch<Log[]>("logs", API.current.logsPath);
   fetch<Peripheral[]>("peripherals", API.current.peripheralsPath);
-  fetch<Plant[]>("plants", API.current.plantsPath);
+  fetch<Plant[]>("plants", API.current.plantsPath)
+    .then((action) => {
+      action.payload.data.map(function(plant) {
+        fetch<Crop>("crops", "//openfarm.cc/api/v1/crops/" + OpeFarm.cropUrl(plant.slug))
+      })
+    });
   fetch<Point[]>("points", API.current.pointsPath);
   fetch<Regimen[]>("regimens", API.current.regimensPath);
   fetch<Sequence[]>("sequences", API.current.sequencesPath);
