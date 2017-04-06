@@ -2,15 +2,49 @@ import {
   prettyPrintApiErrors,
   defensiveClone,
   getParam,
-  betterCompact
+  betterCompact,
+  safeStringFetch
 } from "../util";
 describe("util", () => {
+  describe("safeStringFetch", () => {
+    let data = {
+      "null": null,
+      "undefined": undefined,
+      "number": 0,
+      "string": "hello",
+      "boolean": false,
+      "other": () => { "not allowed!" }
+    };
+
+    it("fetches null", () => {
+      expect(safeStringFetch(data, "null")).toEqual("");
+    });
+
+    it("fetches undefined", () => {
+      expect(safeStringFetch(data, "undefined")).toEqual("");
+    });
+
+    it("fetches number", () => {
+      expect(safeStringFetch(data, "number")).toEqual("0");
+    });
+
+    it("fetches string", () => {
+      expect(safeStringFetch(data, "string")).toEqual("hello");
+    });
+
+    it("fetches boolean", () => {
+      expect(safeStringFetch(data, "boolean")).toEqual("false");
+    });
+
+    it("handles others with exception", () => {
+      expect(() => safeStringFetch(data, "other")).toThrow();
+    });
+  });
 
   describe("betterCompact", () => {
     it("removes falsy values", () => {
       let before = [{}, {}, undefined];
       let after = betterCompact(before);
-      console.dir(after)
       expect(after.length).toBe(2);
       expect(after).not.toContain(undefined);
     });
