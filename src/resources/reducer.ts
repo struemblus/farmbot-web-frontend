@@ -78,6 +78,7 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     resource.dirty = false;
+    resource.saving = false;
     if (resource
       && resource.body) {
       switch (resource.kind) {
