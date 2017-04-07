@@ -3,7 +3,7 @@ import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps, DeleteButtonProps } from "./interfaces";
-import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
+import { Widget, WidgetHeader, WidgetBody, SaveBtn } from "../../ui/index";
 import { saveRegimen, deleteRegimen } from "../actions";
 import { RegimenProps, MiddleSectionProps } from "../interfaces";
 import { isTaggedRegimen } from "../../resources/tagged_resources";
@@ -46,6 +46,7 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
 
     let isSaving = regimen && regimen.saving;
     let isDirty = regimen && regimen.dirty;
+    let isSaved = !isSaving && !isDirty;
 
     return <Widget className="regimen-editor-widget">
       <WidgetHeader title="Regimen Editor"
@@ -58,10 +59,12 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
                 times. Multiple regimens can be applied to any one plant.`}>
 
         {regimen && (
-          <button onClick={save({ dispatch, regimen })}
-            className={`green is-saving-${isSaving}`}>
-            {t("Save")} {isDirty && !isSaving && ("*")}
-          </button>
+          <SaveBtn
+            isDirty={isDirty}
+            isSaving={isSaving}
+            isSaved={isSaved}
+            onClick={save({ dispatch, regimen })}
+          />
         )}
 
         <CopyButton regimen={regimen} dispatch={dispatch} />
