@@ -1,6 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
-import { AddEditFarmEventProps, TaggedExecutable } from "../interfaces";
+import { AddEditFarmEventProps, TaggedExecutable, ExecutableType } from "../interfaces";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
@@ -9,44 +9,79 @@ import { EditFEForm } from "./farm_event_form";
 import { betterCompact } from "../../util";
 import { TaggedSequence, TaggedRegimen } from "../../resources/tagged_resources";
 import { entries } from "../../resources/util";
+import { Link } from "react-router";
+import { findFarmEvent } from "../../resources/selectors";
 
+interface State {
+  uuid: string;
+}
 @connect(mapStateToPropsAddEdit)
-export class AddFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> {
   get sequences() { return betterCompact(entries(this.props.sequencesById)); }
   get regimens() { return betterCompact(entries(this.props.regimensById)); }
   get executables() {
     return ([] as TaggedExecutable[])
       .concat(this.sequences)
-      .concat(this.regimens);
+      .concat(this.regimens)
+      .filter(x => x.body.id);
   }
   get executable(): TaggedExecutable | undefined {
     return _.sample(this.executables);
   }
   componentDidMount() {
     if (this.executable) {
-      console.log("Init here.")
-      // let action = init({
-      //   kind: "farm_events",
-      //   dirty: true,
-      //   saving: false,
-      //   body: {
-      //     start_time: string;
-      //     time_unit: TimeUnit;
-      //     executable_id: number;
-      //     executable_type: ExecutableType;
-      //   }
-      // })
-      // this.props.dispatch()
+      let executable_type: ExecutableType =
+        (this.executable.kind === "sequences") ? "Sequence" : "Regimen";
+      let executable_id = this.executable.body.id || 0;
+      let NOW = moment().toISOString();
+      let action = init({
+        kind: "farm_events",
+        dirty: true,
+        saving: false,
+        uuid: "---",
+        body: {
+          start_time: NOW,
+          next_time: NOW,
+          time_unit: "hourly",
+          executable_id,
+          executable_type
+        }
+      })
+      this.props.dispatch(action);
+      this.setState({ uuid: action.payload.uuid });
     } else {
       console.log("Dissuade user from creating a farm event.")
     }
   }
+  /** No executables. Can't load form. */
+  none() {
+    return <p>
+      You haven't made any regimens or sequences yet.
+          Please create a <Link to="/app/sequences">sequence</Link> or
+          <Link to="/app/regimen">regimen</Link> first.
+        </p>;
+  }
+
+  /** User has executales to create FarmEvents with, has not loaded yet. */
+  loading() {
+    return <p>Loading...</p>;
+  }
+
   render() {
-    return <EditFEForm farmEvent={fe}
-      repeatOptions={this.props.repeatOptions}
-      executableOptions={this.props.executableOptions}
-      dispatch={this.props.dispatch}
-      findExecutable={this.props.findExecutable}
-      title={t("Add Farm Event")} />;
+    let { uuid } = this.state;
+    // Legacy leftover from pre-TaggedResource era.
+    // TODO: Proper fix where we add a `findFarmEvent` selector
+    //       to mapStateToProps instead of juggling arrays.
+    let fe = uuid && this.props.farmEvents.filter(x => x.uuid === uuid)[0];
+    if (fe) {
+      return <EditFEForm farmEvent={fe}
+        repeatOptions={this.props.repeatOptions}
+        executableOptions={this.props.executableOptions}
+        dispatch={this.props.dispatch}
+        findExecutable={this.props.findExecutable}
+        title={t("Add Farm Event")} />;
+    } else {
+      return ((this.executable) ? this.loading : this.none)();
+    }
   }
 }
