@@ -1,7 +1,7 @@
 import * as React from "react";
 import { ToolFormProps } from "../interfaces";
 import { t } from "i18next";
-import { Row, Col, Widget, WidgetBody, WidgetHeader, BlurableInput } from "../../ui";
+import { Row, Col, Widget, WidgetBody, WidgetHeader, BlurableInput, SaveBtn } from "../../ui";
 import { TaggedTool } from "../../resources/tagged_resources";
 import { edit, destroy, init, saveAll } from "../../api/crud";
 
@@ -29,11 +29,12 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
         helpText={t(`This is a list of all your FarmBot Tools.
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
-        <button
-          className={`green is-saving-${isSaving}`}
-          onClick={() => { dispatch(saveAll(tools, () => { toggle(); })) }}>
-          {t("Save")} {isDirty && !isSaving && ("*")}
-        </button>
+        <SaveBtn
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={!isDirty && !isSaving}
+          onClick={() => { dispatch(saveAll(tools, () => { toggle(); })) }}
+        />
         <button
           className="green"
           onClick={() => { dispatch(init(this.emptyTool())); }}>
