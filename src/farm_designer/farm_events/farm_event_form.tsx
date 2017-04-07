@@ -54,8 +54,7 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
 
 /** Take a FormViewModel and recombine the fields into a Partial<FarmEvent>
  * that can be used to apply updates (such as a PUT request to the API). */
-function recombine(vm: FarmEventViewModel):
-  Partial<TaggedFarmEvent["body"]> {
+function recombine(vm: FarmEventViewModel): Partial<TaggedFarmEvent["body"]> {
   return {
     start_time: moment(vm.start_date + " " + vm.start_time).toISOString(),
     end_time: moment(vm.end_date + " " + vm.start_date).toISOString(),
