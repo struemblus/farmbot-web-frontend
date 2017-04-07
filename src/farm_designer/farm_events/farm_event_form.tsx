@@ -72,8 +72,9 @@ interface Props {
   farmEvent: TaggedFarmEvent;
   dispatch: Function;
   findExecutable: ExecutableQuery;
+  title: string;
 }
-const STUB = { label: "STUB", value: 0 };
+
 type State = Partial<FarmEventViewModel>;
 
 export class EditFEForm extends React.Component<Props, State> {
@@ -138,7 +139,7 @@ export class EditFEForm extends React.Component<Props, State> {
     let options = _.indexBy(this.props.repeatOptions, "value");
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
-        <p className="panel-title"> <BackArrow /> {t("Edit Farm Event")} </p>
+        <p className="panel-title"> <BackArrow /> {this.props.title} </p>
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
