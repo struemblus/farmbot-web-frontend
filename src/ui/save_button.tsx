@@ -10,12 +10,14 @@ interface SaveBtnProps {
   isSaving?: boolean;
   /** If resource has been saved */
   isSaved?: boolean;
-  /** Optial alternative to "SAVE" */
+  /** Optional alternative to "SAVE" */
   dirtyText?: string;
-  /** Optial alternative to "SAVING" */
+  /** Optional alternative to "SAVING" */
   savingText?: string;
-  /** Optial alternative to "SAVED" */
+  /** Optional alternative to "SAVED" */
   savedText?: string;
+  /** Optional boolean for whether the button should be hidden or shown */
+  hidden?: boolean;
 }
 
 /** Animation during saving action */
@@ -30,7 +32,7 @@ export function SaveBtn(props: SaveBtnProps) {
   if (isSaving) { statusClass = "is-saving"; }
   if (isSaved) { statusClass = "is-saved"; }
 
-  return <button onClick={props.onClick}
+  return <button onClick={props.onClick} hidden={!!props.hidden}
     className={`green save-btn ${statusClass}`}>
 
     {/** Dirty */}
