@@ -73,7 +73,10 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     return <Widget className="peripherals-widget">
       <WidgetHeader title={"Peripherals"}
         helpText={HELP_TEXT}>
-        <button className="gray" onClick={this.toggle}>
+        <button
+          className="gray"
+          onClick={this.toggle}
+          hidden={!isSaved}>
           {!isEditing && t("Edit")}
           {isEditing && t("Back")}
         </button>
