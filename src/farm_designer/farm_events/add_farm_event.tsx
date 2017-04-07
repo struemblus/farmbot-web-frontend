@@ -32,7 +32,7 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> 
     if (this.executable) {
       let executable_type: ExecutableType =
         (this.executable.kind === "sequences") ? "Sequence" : "Regimen";
-      let executable_id = this.executable.body.id || 0;
+      let executable_id = this.executable.body.id || 1;
       let NOW = moment().toISOString();
       let action = init({
         kind: "farm_events",
