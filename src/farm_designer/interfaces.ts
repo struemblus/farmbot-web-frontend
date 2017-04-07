@@ -6,7 +6,8 @@ import {
   TaggedSequence,
   TaggedRegimen,
   TaggedPoint,
-  TaggedPlant
+  TaggedPlant,
+  TaggedCrop
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 
@@ -15,6 +16,7 @@ export interface Props {
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  crops: TaggedCrop[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -75,23 +77,10 @@ export interface Plant {
 }
 
 export interface Crop {
-  id?: undefined; // ?
-  name: string;
-  guides_count: number;
-  processing_pictures: number;
-  description?: string | undefined;
-  growing_degree_days?: number | undefined;
-  height?: number | undefined;
-  common_names?: string[] | undefined;
-  main_image_path?: string | undefined;
-  row_spacing?: string | undefined;
-  slug?: string | undefined;
-  sowing_method?: string | undefined;
-  spread?: string | undefined;
-  sun_requirements?: string | undefined;
+  id?: undefined;
   svg_icon?: string | undefined;
-  tags_array?: string | undefined;
-  taxon?: string | undefined;
+  spread?: number | undefined;
+  slug: string;
 }
 
 export interface DesignerState {
@@ -160,6 +149,7 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  crops: TaggedCrop[];
 }
 
 export interface GardenMapState {
@@ -169,6 +159,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
   onDrop: (uuid: string) => void;
@@ -215,6 +206,7 @@ export interface DraggableSvgImageState {
 }
 
 export interface DraggableSvgImageProps {
+  crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
   id: number;
   height: number;

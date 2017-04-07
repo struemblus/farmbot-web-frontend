@@ -8,12 +8,19 @@ export const DEFAULT_ICON = "/app-resources/img/generic-plant.svg";
 
 let cache: Dictionary<Axios.IPromise<string>> = {};
 
-interface Crop {
-  data: {
+export interface OFCropResponse {
+  id?: undefined; // ?
+  data?: {
     attributes: {
-      svg_icon: string;
+      svg_icon?: string | undefined;
+      spread?: number | undefined;
+      slug: string;
     } | undefined;
   } | undefined;
+}
+
+export class OpenFarmAPI {
+  static get OFBaseURL() { return BASE; };
 }
 
 /** PROBLEM: You have 100 lettuce plants. You don't want to download an SVG icon
@@ -21,13 +28,13 @@ interface Crop {
  * SOLUTION: Cache stuff. */
 export function cachedIcon(slug: string): Axios.IPromise<string> {
   cache[slug] = cache[slug] || (axios
-    .get<Crop>(BASE + slug)
+    .get<OFCropResponse>(BASE + slug)
     .then(cacheTheIcon(slug), cacheTheIcon(slug)));
   return cache[slug] as Axios.IPromise<string>;
 }
 
 let cacheTheIcon = (slug: string) =>
-  (resp: Axios.AxiosXHR<Crop>) => {
+  (resp: Axios.AxiosXHR<OFCropResponse>) => {
     let text = _.get(resp, "data.data.attributes.svg_icon", "");
     return (text) ? DATA_URI + text : DEFAULT_ICON;
   };

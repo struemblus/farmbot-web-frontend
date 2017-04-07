@@ -86,7 +86,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   render() {
-    let { dispatch } = this.props;
+    let { dispatch, crops } = this.props;
     let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
       dispatch(movePlant({ deltaX, deltaY, plant }));
     };
@@ -108,6 +108,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
             .plants
             .filter(x => !!x.body.id)
             .map((p, inx) => {
+              let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
               let pathname = history.getCurrentLocation().pathname;
               if (p.body.id) {
                 let isActive = (pathname.includes(p.body.id.toString()) &&
@@ -116,7 +117,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 return <Link to={`/app/designer/plants/${p.body.id}`}
                   className={`plant-link-wrapper ` + isActive.toString()}
                   key={p.body.id}>
-                  <GardenPlant plant={p}
+                  <GardenPlant
+                    crop={c}
+                    plant={p}
                     onUpdate={updater(p)}
                     onDrop={dropper(p)} />
                 </Link>;

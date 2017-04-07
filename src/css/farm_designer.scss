@@ -141,7 +141,8 @@
         -webkit-user-select: none;
         user-select: none;
     }
-    .selected-plant-indicator {
+    .selected-plant-indicator,
+    .map-plant-spread {
         display: none;
     }
     &.active {
@@ -157,6 +158,9 @@
         .selected-plant-indicator {
             animation: pulse-and-rotate 3.8s infinite linear;
             transform-origin: center;
+            display: block;
+        }
+        .map-plant-spread {
             display: block;
         }
     }

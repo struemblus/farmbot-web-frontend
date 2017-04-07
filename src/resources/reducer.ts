@@ -6,7 +6,7 @@ import {
   sanityCheck,
   isTaggedResource
 } from "./tagged_resources";
-import { generateUuid } from "./util";
+import { generateUuid, arrayWrap } from "./util";
 import { EditResourceParams } from "../api/interfaces";
 import {
   initialState as sequenceState,
@@ -23,6 +23,8 @@ import {
   initialState as designerState
 } from "../farm_designer/reducer";
 import { ResourceReadyPayl } from "../sync/actions";
+import { Crop } from "../farm_designer/interfaces";
+import { OFCropResponse } from "../open_farm/index";
 
 let consumerReducer = combineReducers({
   regimens,
@@ -75,6 +77,19 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
+  .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+    let data = arrayWrap(a.payload);
+    let kind = a.payload.name;
+    // TODO: How to clean this up? TS is not liking the object[]...
+    data.map((body: ResourceReadyPayl) => {
+      let crop = body.data as OFCropResponse;
+      if (crop.data) {
+        let cropInfo = crop.data.attributes;
+        addToIndex(s.index, kind, cropInfo, generateUuid(undefined, kind));
+      }
+    })
+    return s;
+  })
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     resource.dirty = false;
@@ -178,7 +193,7 @@ export let resourceReducer = generateReducer
      *            making `.map()` and friends unsafe.
      *  Solution: wrap everything in an array on the way in. */
     let unwrapped = action.payload.data;
-    let data = _.isArray(unwrapped) ? unwrapped : [unwrapped];
+    let data = arrayWrap(unwrapped);
     let { index } = state;
     state.loaded.push(name);
     index.byKind[name].map(x => {
