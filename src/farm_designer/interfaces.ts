@@ -206,6 +206,7 @@ export interface DraggableSvgImageState {
 }
 
 export interface DraggableSvgImageProps {
+  crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
   id: number;
   height: number;
