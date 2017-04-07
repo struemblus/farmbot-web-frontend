@@ -26,7 +26,7 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> 
       .filter(x => x.body.id);
   }
   get executable(): TaggedExecutable | undefined {
-    return _.sample(this.executables);
+    return this.executables[0];
   }
   componentDidMount() {
     if (this.executable) {
