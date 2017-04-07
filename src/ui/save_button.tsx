@@ -16,6 +16,8 @@ interface SaveBtnProps {
   savingText?: string;
   /** Optional alternative to "SAVED" */
   savedText?: string;
+  /** Optional alternative color to green */
+  color?: string;
   /** Optional boolean for whether the button should be hidden or shown */
   hidden?: boolean;
 }
@@ -32,8 +34,10 @@ export function SaveBtn(props: SaveBtnProps) {
   if (isSaving) { statusClass = "is-saving"; }
   if (isSaved) { statusClass = "is-saved"; }
 
+  let btnColor = props.color || "green";
+
   return <button onClick={props.onClick} hidden={!!props.hidden}
-    className={`green save-btn ${statusClass}`}>
+    className={`${btnColor} save-btn ${statusClass}`}>
 
     {/** Dirty */}
     {isDirty && !isSaving && (t(dirtyText || "Save ") + " *")}
