@@ -12,7 +12,8 @@ import {
   WidgetHeader,
   WidgetBody,
   Row,
-  Col
+  Col,
+  SaveBtn
 } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
@@ -65,6 +66,10 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
       };
     };
 
+    let isSaving = sequence.saving;
+    let isDirty = sequence.dirty;
+    let isSaved = !isSaving && !isDirty;
+
     return <Widget className="sequence-editor-widget">
       <WidgetHeader title="Sequence Editor"
         helpText={`Drag and drop commands here to create
@@ -74,12 +79,12 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
                    with FarmBot. You can also edit, copy, and delete
                    existing sequences; assign a color; and give
                    your commands custom names.`}>
-        <button className={`green is-saving-${!!sequence.saving}`}
-          onClick={() => {
-            dispatch(save(sequence.uuid));
-          }}>
-          {t("Save")} {sequence && sequence.dirty && !sequence.saving && "*"}
-        </button>
+        <SaveBtn
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={isSaved}
+          onClick={() => { dispatch(save(sequence.uuid)); }}
+        />
         <button className="orange" onClick={performSeq(dispatch, sequence)}>
           {t("Save & Run")}
         </button>
