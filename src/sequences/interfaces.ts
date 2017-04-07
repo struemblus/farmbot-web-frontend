@@ -51,9 +51,9 @@ export const NUMERIC_FIELDS = ["milliseconds", "pin_mode", "pin_number",
 export type SequenceBodyMember = SequenceBodyItem;
 
 export interface Sequence extends CeleryScriptSequence {
+  id?: number;
   color: Color;
   name: string;
-  id?: number;
 }
 
 export type SequenceOptions = Partial<Sequence>;
