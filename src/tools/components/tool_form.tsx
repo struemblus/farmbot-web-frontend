@@ -39,17 +39,18 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
         helpText={t(`This is a list of all your FarmBot Tools.
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
+        <button
+          className="gray"
+          onClick={() => { toggle(); }}
+          hidden={!isSaved}>
+          {t("Back")}
+        </button>
         <SaveBtn
           isDirty={isDirty}
           isSaving={isSaving}
           isSaved={isSaved}
           onClick={() => { dispatch(saveAll(tools, () => { toggle(); })) }}
         />
-        {isSaved && (
-          <button className="gray" onClick={() => { toggle(); }}>
-            {t("Back")}
-          </button>
-        )}
         <button
           className="green"
           onClick={() => { dispatch(init(this.emptyTool())); }}>

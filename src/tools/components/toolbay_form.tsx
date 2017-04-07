@@ -45,6 +45,12 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
               Toolbay has Slots that you can put your Tools in, which should be
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
+            <button
+              className="gray"
+              hidden={!isSaved}
+              onClick={() => { toggle(); }}>
+              {t("Back")}
+            </button>
             <SaveBtn
               isDirty={isDirty}
               isSaving={isSaving}
@@ -53,11 +59,6 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                 dispatch(saveAll(toolSlots, () => { toggle(); }))
               }}
             />
-            {isSaved && (
-              <button className="gray" onClick={() => { toggle(); }}>
-                {t("Back")}
-              </button>
-            )}
             <button
               className="green"
               onClick={() => { dispatch(init(this.emptyToolSlot(id))); }}>
