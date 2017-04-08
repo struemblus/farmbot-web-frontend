@@ -8,7 +8,7 @@ import { PLACEHOLDER_FARMBOT } from "../images/index";
 
 export function versionOK(stringyVersion = "0.0.0",
   EXPECTED_MAJOR = 3,
-  EXPECTED_MINOR = 0) {
+  EXPECTED_MINOR = 1) {
   let [actual_major, actual_minor] = stringyVersion
     .split(".")
     .map(x => parseInt(x, 10));
