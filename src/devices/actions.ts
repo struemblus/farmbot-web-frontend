@@ -22,6 +22,7 @@ import * as Axios from "axios";
 import { init, edit } from "../api/crud";
 import { getDeviceAccountSettings } from "../resources/selectors";
 import { TaggedDevice } from "../resources/tagged_resources";
+import { versionOK } from "./reducer";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -255,6 +256,8 @@ function readStatus() {
     });
 }
 
+let NEED_VERSION_CHECK = true;
+
 export function connectDevice(token: string): {} | ((dispatch: Function) => any) {
   return (dispatch) => {
     let bot = new Farmbot({ token });
@@ -270,6 +273,13 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
           dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
         });
         bot.on("status", function (msg: BotStateTree) {
+          if (NEED_VERSION_CHECK) {
+            let IS_OK = versionOK("3.1.0", 3, 1);
+            if (!IS_OK) {
+              error("You are running an old version of FarmBot OS. Please update.")
+            }
+            NEED_VERSION_CHECK = false;
+          }
           dispatch(incomingStatus(msg));
         });
 
