@@ -259,12 +259,11 @@ function readStatus() {
 let NEED_VERSION_CHECK = true;
 
 export function connectDevice(token: string): {} | ((dispatch: Function) => any) {
-  return (dispatch) => {
+  return (dispatch: Function, getState: GetState) => {
     let bot = new Farmbot({ token });
     return bot
       .connect()
       .then(() => {
-        debugger;
         devices.current = bot;
         (window as any)["current_bot"] = bot;
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
@@ -273,14 +272,15 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
           dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
         });
         bot.on("status", function (msg: BotStateTree) {
+          dispatch(incomingStatus(msg));
           if (NEED_VERSION_CHECK) {
-            let IS_OK = versionOK("3.1.0", 3, 1);
+            let IS_OK = versionOK(getState().bot.hardware.informational_settings.controller_version, 3, 1);
             if (!IS_OK) {
               error("You are running an old version of FarmBot OS. Please update.")
             }
             NEED_VERSION_CHECK = false;
           }
-          dispatch(incomingStatus(msg));
+
         });
 
         let alreadyToldYou = false;
