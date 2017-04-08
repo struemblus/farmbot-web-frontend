@@ -10,9 +10,7 @@ export class ChangePassword extends React.Component<ChangePwPropTypes, {}> {
     let npcString = "new_password_confirmation";
     return <Widget>
       <WidgetHeader title="Change Password">
-        <button onClick={save}
-          className="green button-like"
-          type="button">
+        <button onClick={save} className="green" type="button">
           {t("SAVE")}
         </button>
       </WidgetHeader>

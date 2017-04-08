@@ -82,11 +82,11 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
     }
   };
 
-  replaceSequencesModules(next: RouterState, replace: RedirectFunction) {
-    if (next.location.pathname === "/app/sequences" && isMobile()) {
-      replace(`${next.location.pathname}/`);
-    }
-  };
+  // replaceSequencesModules(next: RouterState, replace: RedirectFunction) {
+  //   if (next.location.pathname === "/app/sequences" && isMobile()) {
+  //     replace(`${next.location.pathname}/`);
+  //   }
+  // };
 
   /*
     /app                => App
@@ -243,15 +243,9 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
       {
         path: "app/sequences",
         getComponent(location: any, cb: any) {
-          if (!isMobile()) {
-            System.import("./sequences/sequences.tsx").then(
-              (module: any) => cb(null, module.Sequences)
-            ).catch(errorLoading(cb));
-          } else {
-            System.import("./sequences/sequences_list.tsx").then(
-              (module: any) => cb(null, module.SequencesList)
-            ).catch(errorLoading(cb));
-          }
+          System.import("./sequences/sequences.tsx").then(
+            (module: any) => cb(null, module.Sequences)
+          ).catch(errorLoading(cb));
         },
       },
       {

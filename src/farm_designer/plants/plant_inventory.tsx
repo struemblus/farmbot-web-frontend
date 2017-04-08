@@ -56,16 +56,13 @@ export class Plants extends React.Component<Everything, {}> {
             optionComponent={OptionComponent(plants)}
             onChange={this.handleRedirect}
             isOpen={true}
-            placeholder="Search Plants"
-          />
+            placeholder="Search Plants" />
         </div>
 
       </div>
 
       <Link to="/app/designer/plants/crop_search">
-        <div className="plus-button add-plant button-like"
-          data-toggle="tooltip"
-          title="Add plant">
+        <div className="plus-button green">
           <i className="fa fa-2x fa-plus" />
         </div>
       </Link>

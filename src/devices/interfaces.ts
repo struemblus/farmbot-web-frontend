@@ -3,16 +3,15 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES, Pins } from "farmbot";
+import { ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
-import { PeripheralState } from "../controls/peripherals/interfaces";
-import { Image } from "../images/index";
-import { TaggedImage, TaggedPeripheral } from "../resources/tagged_resources";
-import { ResourceIndex, RestResources } from "../resources/interfaces";
+import { TaggedImage, TaggedPeripheral, TaggedDevice } from "../resources/tagged_resources";
+import { RestResources } from "../resources/interfaces";
 
 export interface Props {
   auth: AuthState | undefined;
   bot: BotState;
+  deviceAccount: TaggedDevice;
   images: TaggedImage[];
   dispatch: Function;
 }
@@ -24,22 +23,7 @@ export interface DeviceAccountSettings {
   id: number;
   name: string;
   webcam_url?: string;
-  /** Must the deivce be saved? */
 };
-
-/**
- * Rpc Log message from the bot.
- */
-export interface RpcBotLog {
-  /** The message to be displayed from the bot. */
-  message: string;
-  /** Unix timestamp of when the log was created. */
-  created_at: number;
-  /** Array of channels where this message is supposed to show up. */
-  channels: ALLOWED_CHANNEL_NAMES[];
-  /** Meta data about the message. */
-  meta: Meta;
-}
 
 /** Meta information about a log message. */
 interface Meta {
@@ -85,7 +69,6 @@ export interface BotState {
   };
   configBuffer: Configuration;
   hardware: HardwareState;
-  account: DeviceAccountSettings;
 }
 export interface BotProp {
   bot: BotState;
@@ -125,6 +108,7 @@ export interface CalibrationButtonProps {
 
 export interface FarmbotOsProps {
   bot: BotState;
+  account: TaggedDevice;
   auth: AuthState;
   dispatch: Function;
 }

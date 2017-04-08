@@ -6,8 +6,7 @@ import {
   sanityCheck,
   isTaggedResource
 } from "./tagged_resources";
-import { isUndefined } from "util";
-import { generateUuid } from "./util";
+import { generateUuid, arrayWrap } from "./util";
 import { EditResourceParams } from "../api/interfaces";
 import {
   initialState as sequenceState,
@@ -24,6 +23,8 @@ import {
   initialState as designerState
 } from "../farm_designer/reducer";
 import { ResourceReadyPayl } from "../sync/actions";
+import { Crop } from "../farm_designer/interfaces";
+import { OFCropResponse } from "../open_farm/index";
 
 let consumerReducer = combineReducers({
   regimens,
@@ -48,6 +49,7 @@ function emptyState(): RestResources {
         logs: [],
         peripherals: [],
         plants: [],
+        crops: [],
         points: [],
         regimens: [],
         sequences: [],
@@ -75,15 +77,32 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
+  .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+    let data = arrayWrap(a.payload);
+    let kind = a.payload.name;
+    // TODO: How to clean this up? TS is not liking the object[]...
+    data.map((body: ResourceReadyPayl) => {
+      let crop = body.data as OFCropResponse;
+      if (crop.data) {
+        let cropInfo = crop.data.attributes;
+        addToIndex(s.index, kind, cropInfo, generateUuid(undefined, kind));
+      }
+    })
+    return s;
+  })
   .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
+    resource.dirty = false;
+    resource.saving = false;
     if (resource
-      && resource.body
-      && resource.body.id) {
+      && resource.body) {
       switch (resource.kind) {
-        case "peripherals":
+        case "device":
         case "farm_events":
+        case "logs":
+        case "peripherals":
         case "plants":
+        case "crops":
         case "regimens":
         case "sequences":
         case "tool_slots":
@@ -102,14 +121,17 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
     let resource = action.payload;
     switch (resource.kind) {
-      case "peripherals":
+      case "device":
       case "farm_events":
+      case "logs":
+      case "peripherals":
       case "plants":
+      case "crops":
       case "regimens":
       case "sequences":
-      case "tools":
-      case "tool_slots":
       case "tool_bays":
+      case "tool_slots":
+      case "tools":
         removeFromIndex(state.index, resource);
         break;
       default:
@@ -121,6 +143,7 @@ export let resourceReducer = generateReducer
     let uuid = a.payload.uuid;
     let tr = _.merge(findByUuid(s.index, uuid), a.payload);
     tr.dirty = false;
+    tr.saving = false;
     sanityCheck(tr);
     return s;
   })
@@ -147,12 +170,30 @@ export let resourceReducer = generateReducer
     let tr = a.payload;
     let uuid = tr.uuid;
     reindexResource(s.index, tr);
-    findByUuid(s.index, uuid).dirty = true;
+    if (tr.kind === "logs") {
+      // Since logs don't come from the API all the time, they are the only
+      // resource (right now) that can have an id of `undefined` and not dirty.
+      findByUuid(s.index, uuid).dirty = false;
+    } else {
+      findByUuid(s.index, uuid).dirty = true;
+    }
     sanityCheck(tr);
     return s;
   })
+  .add<TaggedResource>("SAVE_RESOURCE_START", function (s, a) {
+    let resource = findByUuid(s.index, a.payload.uuid);
+    resource.saving = true;
+    if (!resource.body.id) { delete resource.body.id; }
+    return s;
+  })
   .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
-    let { name, data } = action.payload;
+    let { name } = action.payload;
+    /** Problem:  Most API resources are plural (array wrapped) resource.
+     *            A small subset are singular (`device` and a few others),
+     *            making `.map()` and friends unsafe.
+     *  Solution: wrap everything in an array on the way in. */
+    let unwrapped = action.payload.data;
+    let data = arrayWrap(unwrapped);
     let { index } = state;
     state.loaded.push(name);
     index.byKind[name].map(x => {

@@ -51,17 +51,24 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
 
   render() {
     let { height, width, x, y, plant } = this.props;
-    let offsetX = x - (height * 0.1);
-    let offsetY = y - (width * 0.1);
-    let offsetH = height * 1.2;
-    let offsetW = width * 1.2;
+    let offsetX = x - (height * (-0.5));
+    let offsetY = y - (width * (-0.5));
+    let radius = width * 1.2;
     let translation = `translate(${this.state.transX}, ${this.state.transY})`;
+    let r = this.props.crop && this.props.crop.body.spread;
+
     return <g>
       <defs>
         <pattern id="active-grid" width="10" height="10" patternUnits="userSpaceOnUse">
           <path d="M 10 0 L 0 0 0 10" fill="none" stroke="green" strokeWidth="0.5" />
         </pattern>
       </defs>
+
+
+      <circle className="map-plant-spread"
+          cx={plant.body.x}
+          cy={plant.body.y}
+          r={(r || 0) * 10 / 2} />
 
         <g className="selected-plant-indicator">
           <circle
@@ -78,10 +85,10 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
 
       {this.state.isDragging && (
         <g>
-          <rect x={offsetX} y={offsetY} transform={translation} height={offsetH}
-            width={offsetW} fill="none" stroke="green" strokeWidth="1.5" />
-          <rect height={offsetH} width={offsetW} transform={translation}
-            fill={"url(#active-grid)"} x={offsetX} y={offsetY} />
+          <circle cx={offsetX} cy={offsetY} transform={translation}
+            r={radius} fill="none" stroke="green" strokeWidth="1.5" />
+          <circle r={radius} transform={translation}
+            fill={"url(#active-grid)"} cx={offsetX} cy={offsetY} />
         </g>
       )}
 

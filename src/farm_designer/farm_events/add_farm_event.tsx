@@ -1,182 +1,87 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FarmEvent, AddEditFarmEventProps, TimeUnit } from "../interfaces";
-import {
-  DeprecatedFBSelect,
-  BlurableInput,
-  Col,
-  Row,
-  BackArrow,
-  success
-} from "../../ui";
+import { AddEditFarmEventProps, TaggedExecutable, ExecutableType } from "../interfaces";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
-import { initSave } from "../../api/crud";
-import { TaggedFarmEvent } from "../../resources/tagged_resources";
-import { history } from "../../history";
+import { init } from "../../api/crud";
+import { EditFEForm } from "./farm_event_form";
+import { betterCompact } from "../../util";
+import { TaggedSequence, TaggedRegimen } from "../../resources/tagged_resources";
+import { entries } from "../../resources/util";
+import { Link } from "react-router";
+import { findFarmEvent } from "../../resources/selectors";
 
+interface State {
+  uuid: string;
+}
 @connect(mapStateToPropsAddEdit)
-export class AddFarmEvent extends React.Component<AddEditFarmEventProps,
-Partial<FarmEvent>> {
-  constructor() {
-    super();
-    this.state = {
-      next_time: new Date().toISOString(),
-      start_time: new Date().toISOString(),
-      end_time: new Date().toISOString(),
-      repeat: 0,
-      time_unit: "daily"
-    };
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> {
+  get sequences() { return betterCompact(entries(this.props.sequencesById)); }
+  get regimens() { return betterCompact(entries(this.props.regimensById)); }
+  get executables() {
+    return ([] as TaggedExecutable[])
+      .concat(this.sequences)
+      .concat(this.regimens)
+      .filter(x => x.body.id);
   }
-
-  updateSequenceOrRegimen = (e: Partial<FarmEvent>) => {
-    let { executable_id, executable_type } = e;
-    this.setState({ executable_id, executable_type });
+  get executable(): TaggedExecutable | undefined {
+    return this.executables[0];
   }
-
-  updateForm = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    switch (e.currentTarget.name) {
-      case "start_time":
-      case "end_time":
-      case "repeat":
-      case "time_unit":
-      case "next_time":
-        let { name, value } = e.currentTarget;
-        return this.setState({ [name]: value });
-      default:
-        throw new Error("Tried to match field name but couldn't.");
+  componentDidMount() {
+    if (this.executable) {
+      let executable_type: ExecutableType =
+        (this.executable.kind === "sequences") ? "Sequence" : "Regimen";
+      let executable_id = this.executable.body.id || 0;
+      let NOW = moment().toISOString();
+      let action = init({
+        kind: "farm_events",
+        dirty: true,
+        saving: false,
+        uuid: "---",
+        body: {
+          start_time: NOW,
+          next_time: NOW,
+          time_unit: "hourly",
+          executable_id,
+          executable_type
+        }
+      })
+      this.props.dispatch(action);
+      this.setState({ uuid: action.payload.uuid });
+    } else {
+      console.log("Dissuade user from creating a farm event.")
     }
   }
-
-  updateTime = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let { handleTime } = this.props;
-    switch (e.currentTarget.name) {
-      case "start_time":
-        let newStart = handleTime(e, (this.state.start_time || "").toString());
-        this.setState({ start_time: newStart });
-        break;
-      case "end_time":
-        let newEnd = handleTime(e, (this.state.end_time || "").toString());
-        this.setState({ end_time: newEnd });
-        break;
-    }
+  /** No executables. Can't load form. */
+  none() {
+    return <p>
+      You haven't made any regimens or sequences yet.
+          Please create a <Link to="/app/sequences">sequence</Link> or
+          <Link to="/app/regimen">regimen</Link> first.
+        </p>;
   }
 
-  updateRepeatSelect = (e: { label: string, value: TimeUnit, name: string }) => {
-    this.setState({ time_unit: e.value });
-  }
-
-  handleDate = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    switch (e.currentTarget.name) {
-      case "start_date":
-        let newStartDate = moment(e.currentTarget.value || "").toISOString();
-        this.setState({ start_time: newStartDate });
-        break;
-      case "end_date":
-        let newEndDate = moment(e.currentTarget.value || "").toISOString();
-        this.setState({ end_time: newEndDate });
-        break;
-      default:
-        throw new Error("Expected a name attribute from date field.");
-    }
-  }
-
-  handleSave = () => {
-    let body = this.state;
-    let tr = {
-      kind: "farm_events",
-      uuid: "WILL_GET_A_NEW_ONE",
-      body
-    } as TaggedFarmEvent;
-    this.props
-      .dispatch(initSave(tr))
-      .then(() => {
-        history.push("/app/designer/farm_events");
-        success("Saved farm event.", "Saved");
-        console.log("success branch");
-      }, () => {
-        console.log("Failure brnach");
-      });
+  /** User has executales to create FarmEvents with, has not loaded yet. */
+  loading() {
+    return <p>Loading...</p>;
   }
 
   render() {
-    let { formatDate, formatTime, selectOptions } = this.props;
-    return <div className={`panel-container magenta-panel
-            add-farm-event-panel`}>
-      <div className="panel-header magenta-panel">
-        <p className="panel-title">
-          <BackArrow /> {t("Add Farm Event")}
-        </p>
-      </div>
-      <div className="panel-content">
-        <label>{t("Sequence or Regimen")}</label>
-        <DeprecatedFBSelect
-          list={selectOptions}
-          onChange={this.updateSequenceOrRegimen} />
-        <label>{t("Starts")}</label>
-        <Row>
-          <Col xs={6}>
-            <BlurableInput
-              type="date"
-              className="add-event-start-date"
-              name="start_date"
-              value={formatDate((this.state.start_time ||
-                new Date()).toString())}
-              onCommit={this.handleDate} />
-          </Col>
-          <Col xs={6}>
-            <BlurableInput type="time"
-              className="add-event-start-time"
-              name="start_time"
-              value={formatTime((this.state.start_time ||
-                new Date()).toString())}
-              onCommit={this.updateTime} />
-          </Col>
-        </Row>
-        <label>{t("Repeats Every")}</label>
-        <Row>
-          <Col xs={4}>
-            <BlurableInput
-              placeholder="(Number)"
-              type="number"
-              className="add-event-repeat-frequency"
-              name="repeat"
-              value={(this.state.repeat || 0).toString()}
-              onCommit={this.updateForm} />
-          </Col>
-          <Col xs={8}>
-            <DeprecatedFBSelect
-              list={this.props.repeatOptions}
-              onChange={this.updateRepeatSelect} />
-          </Col>
-        </Row>
-        <label>{t("Until")}</label>
-        <Row>
-          <Col xs={6}>
-            <BlurableInput
-              type="date"
-              className="add-event-end-date"
-              name="end_date"
-              value={formatDate((this.state.end_time ||
-                new Date()).toString())}
-              onCommit={this.handleDate} />
-          </Col>
-          <Col xs={6}>
-            <BlurableInput
-              type="time"
-              name="end_time"
-              className="add-event-end-time"
-              value={formatTime((this.state.end_time ||
-                new Date()).toString())}
-              onCommit={this.updateTime} />
-          </Col>
-        </Row>
-        <button className="magenta button-like"
-          onClick={this.handleSave}>
-          {t("Save")}
-        </button>
-      </div>
-    </div>;
+    let { uuid } = this.state;
+    // Legacy leftover from pre-TaggedResource era.
+    // TODO: Proper fix where we add a `findFarmEvent` selector
+    //       to mapStateToProps instead of juggling arrays.
+    let fe = uuid && this.props.farmEvents.filter(x => x.uuid === uuid)[0];
+    if (fe) {
+      return <EditFEForm farmEvent={fe}
+        repeatOptions={this.props.repeatOptions}
+        executableOptions={this.props.executableOptions}
+        dispatch={this.props.dispatch}
+        findExecutable={this.props.findExecutable}
+        title={t("Add Farm Event")} />;
+    } else {
+      return ((this.executable) ? this.loading : this.none)();
+    }
   }
 }

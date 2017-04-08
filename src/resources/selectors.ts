@@ -20,9 +20,11 @@ import {
   sanityCheck,
   isTaggedFarmEvent,
   TaggedPeripheral,
-  isTaggedPlant
+  isTaggedPlant,
+  TaggedLog,
+  TaggedCrop
 } from "./tagged_resources";
-import { CowardlyDictionary, betterCompact } from "../util";
+import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
 
 export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
@@ -50,7 +52,7 @@ function findAll(index: ResourceIndex, name: ResourceName) {
     let item = index.references[uuid];
     (item && isTaggedResource(item) && results.push(item));
   })
-  return _.sortBy(results, "body.id");
+  return sortResourcesById(results);
 }
 
 export function selectAllFarmEvents(index: ResourceIndex) {
@@ -75,6 +77,10 @@ export function selectAllToolSlots(index: ResourceIndex) {
 
 export function selectAllPeripherals(index: ResourceIndex) {
   return findAll(index, "peripherals") as TaggedPeripheral[];
+}
+
+export function selectAllLogs(index: ResourceIndex) {
+  return findAll(index, "logs") as TaggedLog[];
 }
 
 interface Finder<T> {
@@ -118,6 +124,10 @@ export function selectAllImages(index: ResourceIndex) {
 
 export function selectAllRegimens(index: ResourceIndex) {
   return findAll(index, "regimens") as TaggedRegimen[];
+}
+
+export function selectAllCrops(index: ResourceIndex) {
+  return findAll(index, "crops") as TaggedCrop[];
 }
 
 export function getRegimenByUUID(index: ResourceIndex, uuid: string) {
@@ -252,6 +262,15 @@ export function findWhere(index: ResourceIndex,
   return _.findWhere(toArray(index), { body });
 }
 
+export function findSlotWhere(index: ResourceIndex, body: object):
+  TaggedToolSlot | undefined {
+  /** TODO: Find a way to add type safety.
+   *        currently, this method will accept any old object, which might be
+   *        unsafe. */
+  let x = _.findWhere(toArray(index), { kind: "tool_slots", body });
+  return (x && isTaggedToolSlot(x)) ? x : undefined;
+}
+
 /** GIVEN: a slot UUID.
  *  FINDS: Tool in that slot (if any) */
 export let currentToolInSlot = (index: ResourceIndex) =>
@@ -319,6 +338,16 @@ export let findSequenceById = (ri: ResourceIndex, sequence_id: number) => {
   }
 };
 
+
+export let findRegimenById = (ri: ResourceIndex, regimen_id: number) => {
+  let regimen = byId("regimens")(ri, regimen_id);
+  if (regimen && isTaggedRegimen(regimen) && sanityCheck(regimen)) {
+    return regimen;
+  } else {
+    throw new Error("Bad regimen id: " + regimen_id);
+  }
+};
+
 export let findSlotById = byId<TaggedToolSlot>("tool_slots");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
@@ -356,4 +385,22 @@ export function maybeFindPlantById(index: ResourceIndex, id: number) {
   let uuid = index.byKindAndId[joinKindAndId("plants", id)];
   let resource = index.references[uuid || "nope"];
   if (resource && isTaggedPlant(resource)) { return resource; }
+}
+
+export function getDeviceAccountSettings(index: ResourceIndex) {
+  let list = index.byKind.device;
+  let uuid = list[0];
+  let device = index.references[uuid || -1];
+  if ((list.length === 1) && device && device.kind === "device") {
+    sanityCheck(device);
+    return device;
+  } else {
+    throw new Error(`
+    PROBLEM: Expected getDeviceAccountSettings() to return exactly 1 device.
+    We got some other number back, indicating a hazardous condition.`);
+  }
+}
+
+export function all(index: ResourceIndex) {
+  return betterCompact(index.all.map(uuid => index.references[uuid]));
 }

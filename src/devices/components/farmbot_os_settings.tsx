@@ -3,7 +3,6 @@ import { t } from "i18next";
 import { FarmbotOsProps, FarmbotOsState } from "../interfaces";
 import {
   changeDevice,
-  addDevice,
   saveAccountChanges,
   reboot,
   powerOff,
@@ -11,7 +10,17 @@ import {
 } from "../actions";
 import { OsUpdateButton } from "./os_update_button";
 import { devices } from "../../device";
-import { DeprecatedFBSelect, DropDownItem, Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import {
+  DeprecatedFBSelect,
+  DropDownItem,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../../ui/index";
+import { save } from "../../api/crud";
+
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
   { label: "Raspberry Pi Camera", value: "RPI" }
@@ -25,16 +34,13 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
   }
 
   changeBot = (e: React.MouseEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    console.warn("If you are reading this method, refactor NOW! -RC");
-    let updates = _.object([[e.currentTarget.name, e.currentTarget.value]]);
-    this.props.dispatch(changeDevice(updates));
+    let action = changeDevice(this.props.account, { name: e.currentTarget.value });
+    this.props.dispatch(action);
   }
 
   saveBot(e: React.MouseEvent<{}>) {
     e.preventDefault();
-    let form = this.props.bot.account;
-    this.props.dispatch(addDevice(form));
+    this.props.dispatch(save(this.props.account.uuid));
   }
 
   updateBot = (e: React.MouseEvent<{}>) => {
@@ -53,21 +59,18 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
   }
 
   render() {
-    let fwvers = _.get(this
-      .props
-      .bot
-      .hardware
-      .informational_settings,
-      "firmware_version",
-      t("Not Connected to bot"));
+    let { account } = this.props;
+    let isSaving = account && account.saving;
+    let isDirty = account && account.dirty
+
     return <Widget className="device-widget">
       <form onSubmit={this.saveBot.bind(this)}>
         <WidgetHeader title="Device"
           helpText={`This widget shows device information.`}>
           <button type="submit"
-            className={`button-like green`}
+            className={`green is-saving-${isSaving}`}
             onClick={this.updateBot}>
-            {t("SAVE")} {this.props.bot.dirty ? "*" : ""}
+            {t("Save")} {isDirty && !isSaving && ("*")}
           </button>
         </WidgetHeader>
         <WidgetBody>
@@ -80,7 +83,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             <Col xs={10}>
               <input name="name"
                 onChange={this.changeBot}
-                value={this.props.bot.account.name} />
+                value={this.props.account.body.name} />
             </Col>
           </Row>
           <Row>
@@ -121,9 +124,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like yellow"
-                onClick={reboot}>
+              <button className="yellow" onClick={reboot}>
                 {t("RESTART")}
               </button>
             </Col>
@@ -139,9 +140,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like red"
-                onClick={powerOff}>
+              <button className="red" onClick={powerOff}>
                 {t("SHUTDOWN")}
               </button>
             </Col>
@@ -163,9 +162,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </p>
             </Col>
             <Col xs={3}>
-              <button type="button"
-                className="button-like red"
-                onClick={factoryReset} >
+              <button className="red" onClick={factoryReset} >
                 {t("FACTORY RESET")}
               </button>
             </Col>

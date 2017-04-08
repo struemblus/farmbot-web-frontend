@@ -3,11 +3,12 @@ import { ToggleButton } from "../toggle_button";
 import { pinToggle } from "../../devices/actions";
 import { Row, Col } from "../../ui";
 import { PeripheralListProps } from "./interfaces";
+import { sortResourcesById } from "../../util";
 
 export function PeripheralList(props: PeripheralListProps) {
   let { pins } = props;
   return <div>
-    {props.peripherals.map(p => {
+    {sortResourcesById(props.peripherals).map(p => {
       let value = (pins[p.body.pin || -1] || { value: undefined }).value;
       return <Row>
         <Col xs={4}>

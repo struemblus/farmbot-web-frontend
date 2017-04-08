@@ -1,13 +1,20 @@
-import { ResourceIndex } from "./interfaces";
-import { ResourceName, TaggedResource } from "./tagged_resources";
-import { betterCompact } from "../util";
-import { uuid } from "farmbot/dist";
+import { ResourceName } from "./tagged_resources";
+// import { uuid } from "farmbot/dist";
 import { joinKindAndId } from "./reducer";
+import { Dictionary } from "farmbot/dist";
+import { betterCompact } from "../util";
 
-export function selectAll(index: ResourceIndex, name: ResourceName): TaggedResource[] {
-  return betterCompact(index.byKind[name].map(uuid => index.references[uuid]));
+var count = 0;
+export function generateUuid(id: number | undefined, kind: ResourceName) {
+  return `${joinKindAndId(kind, id)}.${count++}`
 }
 
-export function generateUuid(id: number | undefined, kind: ResourceName) {
-  return `${joinKindAndId(kind, id)}.${uuid()}`
+export function arrayWrap<T>(input: T | (T[])): T[] {
+  return _.isArray(input) ? input : [input];
+}
+
+export function entries<T>(input: Dictionary<T | undefined>): T[] {
+  let x = Object.keys(input).map(key => input[key]);
+  let y = betterCompact(x);
+  return y;
 }

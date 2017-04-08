@@ -10,12 +10,9 @@ interface ButtonProps {
 }
 
 export function WidgetButton(props: ButtonProps) {
-  let baseClasses = "button-like";
-  let classes = `${baseClasses} ${props.className}`;
+  let classes = props.className;
 
-  return <button
-    className={classes}
-    onClick={props.onClick}>
+  return <button className={classes} onClick={props.onClick}>
     {t(props.text)}
   </button>;
 }

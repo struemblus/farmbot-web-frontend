@@ -46,9 +46,7 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                 type="password" />
             </Col>
             <Col xs={4}>
-              <button onClick={save}
-                className="red button-like"
-                type="button">
+              <button onClick={save} className="red" type="button">
                 {t("Delete Account")}
               </button>
             </Col>

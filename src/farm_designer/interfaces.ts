@@ -1,21 +1,22 @@
 import { OpenFarm } from "./openfarm";
 import { DropDownItem } from "../ui/index";
 import { CowardlyDictionary } from "../util";
-import { RestResources } from "../resources/interfaces";
 import {
   TaggedFarmEvent,
   TaggedSequence,
   TaggedRegimen,
-  TaggedResource,
   TaggedPoint,
-  TaggedPlant
+  TaggedPlant,
+  TaggedCrop
 } from "../resources/tagged_resources";
+import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 
 export interface Props {
   dispatch: Function;
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  crops: TaggedCrop[];
 }
 
 export interface UpdateSequenceOrRegimenProps {
@@ -34,15 +35,7 @@ export type TimeUnit =
   | "monthly"
   | "yearly";
 
-const TIME_UNITS: TimeUnit[] = [
-  "never",
-  "minutely",
-  "hourly",
-  "daily",
-  "weekly",
-  "monthly",
-  "yearly"
-];
+export type ExecutableType = "Sequence" | "Regimen";
 
 export interface FarmEvent {
   id?: number | undefined;
@@ -52,7 +45,7 @@ export interface FarmEvent {
   time_unit: TimeUnit;
   next_time: string;
   executable_id: number;
-  executable_type: string;
+  executable_type: ExecutableType;
   readonly calendar?: string[] | undefined;
 };
 
@@ -83,6 +76,13 @@ export interface Plant {
   openfarm_slug: string; // ? Maybe this will change.
 }
 
+export interface Crop {
+  id?: undefined;
+  svg_icon?: string | undefined;
+  spread?: number | undefined;
+  slug: string;
+}
+
 export interface DesignerState {
   x_size: number;
   y_size: number;
@@ -99,9 +99,10 @@ export interface Point {
   created_at: string;
   meta: { [key: string]: (string | undefined) };
 }
-
+export type TaggedExecutable = TaggedSequence | TaggedRegimen;
+export type ExecutableQuery = (kind: ExecutableType, id: number) => TaggedExecutable;
 export interface AddEditFarmEventProps {
-  selectOptions: DropDownItem[];
+  executableOptions: TightlyCoupledFarmEventDropDown[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
   regimensById: CowardlyDictionary<TaggedRegimen>;
@@ -112,6 +113,7 @@ export interface AddEditFarmEventProps {
   formatTime(input: string): string;
   handleTime(e: React.SyntheticEvent<HTMLInputElement>, currentISO: string): string;
   dispatch: Function;
+  findExecutable: ExecutableQuery;
 }
 
 /** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
@@ -147,6 +149,7 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  crops: TaggedCrop[];
 }
 
 export interface GardenMapState {
@@ -156,6 +159,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
   onDrop: (uuid: string) => void;
@@ -202,6 +206,7 @@ export interface DraggableSvgImageState {
 }
 
 export interface DraggableSvgImageProps {
+  crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
   id: number;
   height: number;

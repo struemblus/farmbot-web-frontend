@@ -1,9 +1,9 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success, warning } from "../ui";
-import { Everything } from "../interfaces";
+import { Everything, Log } from "../interfaces";
 import {
-  GithubRelease, ChangeSettingsBuffer, RpcBotLog, MoveRelProps
+  GithubRelease, ChangeSettingsBuffer, MoveRelProps
 } from "./interfaces";
 import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
 import { get } from "axios";
@@ -19,6 +19,9 @@ import { HardwareState } from "../devices/interfaces";
 import { API } from "../api/index";
 import { User } from "../auth/interfaces";
 import * as Axios from "axios";
+import { init, edit } from "../api/crud";
+import { getDeviceAccountSettings } from "../resources/selectors";
+import { TaggedDevice } from "../resources/tagged_resources";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
@@ -26,10 +29,6 @@ type configKey = keyof McuParams;
 function incomingStatus(statusMessage: HardwareState) {
   return { type: "BOT_CHANGE", payload: statusMessage };
 }
-
-function incomingLog(botLog: RpcBotLog) {
-  return { type: "BOT_LOG", payload: botLog };
-};
 
 export function updateConfig(config: Configuration) {
   let noun = "Update Config";
@@ -129,9 +128,7 @@ export function execSequence(sequence: Sequence) {
 }
 
 export let saveAccountChanges: Thunk = function (dispatch, getState) {
-  let state = getState();
-  let bot = getState().bot.account;
-  return save(bot);
+  return save(getDeviceAccountSettings(getState().resources.index));
 };
 
 let commandErr = (noun = "Command") => () => {
@@ -195,14 +192,9 @@ export function save(input: Partial<DeviceAccountSettings>) {
   }
 }
 
-export let addDevice = _.noop
-
-export function changeDevice(newAttrs: Partial<DeviceAccountSettings>) {
-  // Flips the "dirty" flag to true.
-  return {
-    type: "CHANGE_DEVICE",
-    payload: newAttrs
-  };
+export function changeDevice(device: TaggedDevice,
+  update: Partial<DeviceAccountSettings>) {
+  return edit(device, update);
 }
 
 
@@ -273,8 +265,8 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
         (window as any)["current_bot"] = bot;
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
         readStatus();
-        bot.on("logs", function (msg: RpcBotLog) {
-          dispatch(incomingLog(msg));
+        bot.on("logs", function (msg: Log) {
+          dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
         });
         bot.on("status", function (msg: BotStateTree) {
           dispatch(incomingStatus(msg));

@@ -1,20 +1,9 @@
-import { AuthState, User } from "./auth/interfaces";
+import { AuthState } from "./auth/interfaces";
 import { ConfigState } from "./config/interfaces";
-import { BotState, DeviceAccountSettings } from "./devices/interfaces";
-import { RegimenItem } from "./regimens/interfaces";
-import { Sequence } from "./sequences/interfaces";
-import {
-  DesignerState,
-  Plant,
-  Point,
-  FarmEvent
-} from "./farm_designer/interfaces";
+import { BotState } from "./devices/interfaces";
 import { Color as FarmBotJsColor } from "farmbot";
 import { DragableState } from "./draggable/interfaces";
-import { PeripheralState, Peripheral } from "./controls/peripherals/interfaces";
-import { ToolBay, Tool, ToolSlot } from "./tools/interfaces";
-import { Image } from "./images";
-import { Regimen } from "./regimens/interfaces";
+import { PeripheralState } from "./controls/peripherals/interfaces";
 import { RestResources } from "./resources/interfaces";
 
 /** Regimens and sequences may have a "color" which determines how it looks
@@ -33,7 +22,7 @@ export interface SelectOptionsParams {
 }
 
 export interface Log {
-  id: number;
+  id?: number | undefined;
   message: string;
   meta: { type: string; };
   channels: string;
@@ -71,28 +60,6 @@ export interface Everything {
     push(url?: string): void;
   };
 };
-
-/** A sync object, as returned by a GET request to `/api/sync` */
-// export interface DeprecatedSync {
-//   /** Tells the ui when the sync object has completed. */
-//   loaded: boolean;
-//   /** Git commit hash of the revision that the server is running. */
-//   api_version: string;
-//   device: DeviceAccountSettings;
-//   farm_events: FarmEvent[];
-//   users: User[];
-//   sequences: Sequence[];
-//   regimens: Regimen[];
-//   peripherals: Peripheral[];
-//   regimen_items: RegimenItem[];
-//   plants: Plant[];
-//   tool_bays: ToolBay[];
-//   tool_slots: ToolSlot[];
-//   tools: Tool[];
-//   logs: Log[];
-//   images: Image[];
-//   points: Point[];
-// }
 
 /** React-select does not provide an interface for their CustomOption
  * component. Since they share similarities, we can go with this one as a base.

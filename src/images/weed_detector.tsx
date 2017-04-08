@@ -37,7 +37,7 @@ export class WeedDetector extends React.Component<WeedDetectorProps,
       .bot
       .hardware
       .user_env["LAST_CLIENT_CONNECTED"];
-    const NEEDS_SETUP = !!this.optionsOnDevice;
+    const NEEDS_SETUP = !!Object.keys(this.optionsOnDevice).length;
     let remoteFarmwareSettings = this.farmwareSettings;
     (IS_ONLINE && NEEDS_SETUP) ?
       this.saveSettings() : this.setState({ remoteFarmwareSettings });
@@ -81,7 +81,6 @@ export class WeedDetector extends React.Component<WeedDetectorProps,
   }
 
   test = () => {
-    let that = this;
     let settings = this.farmwareSettings;
     let pairs = Object
       .keys(settings)

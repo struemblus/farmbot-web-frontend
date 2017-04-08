@@ -22,27 +22,20 @@ export function TitleBar({
   onDeletionClick
 }: Props) {
   return <div className="widget-header">
-    <button onClick={onSave}
-      className="green button-like">
+    <button onClick={onSave} className="green">
       {t("SAVE")}
     </button>
-    <button
-      onClick={onTest}
-      className="yellow button-like">
+    <button onClick={onTest} className="yellow">
       {t("TEST")}
     </button>
-    <button
-      className="gray button-like"
-      onClick={onPhotoClick}>
+    <button className="gray" onClick={onPhotoClick}>
       {t("Take Photo")}
     </button>
-    <button onClick={onDeletionClick}
-      className="red button-like">
+    <button onClick={onDeletionClick} className="red">
       {deletionProgress || t("CLEAR WEEDS")}
     </button>
     {/* TODO: Hook up calibration */}
-    <button onClick={() => { }}
-      className="green button-like">
+    <button onClick={() => { }} className="green">
       {t("Calibrate")}
     </button>
     <i className="fa fa-cog" onClick={onSettingToggle}>

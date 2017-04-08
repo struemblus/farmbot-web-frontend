@@ -1,16 +1,9 @@
 import * as React from "react";
 import { SequenceBodyItem, LegalSequenceKind } from "farmbot";
-import {
-  dispatcher,
-  DataXferObj,
-  ActiveMiddleProps,
-  Sequence
-} from "./interfaces";
+import { DataXferObj, ActiveMiddleProps } from "./interfaces";
 import { execSequence } from "../devices/actions";
-import {
-  editCurrentSequence
-} from "./actions";
-import { renderCeleryNode, splice, remove, move } from "./step_tiles/index";
+import { editCurrentSequence } from "./actions";
+import { renderCeleryNode, splice, move } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
 import {
@@ -23,7 +16,7 @@ import {
 } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
-import { pushStep, moveStep } from "./actions";
+import { pushStep } from "./actions";
 import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
@@ -35,7 +28,6 @@ let onDrop = (index: number, dispatch: Function, sequence: TaggedSequence) =>
   (key: string) => {
     dispatch(function (dispatch: Function, getState: GetState) {
       let dataXferObj = dispatch(stepGet(key));
-      let currentSequence
       let step = dataXferObj.value;
       switch (dataXferObj.intent) {
         case "step_splice":
@@ -50,13 +42,6 @@ let onDrop = (index: number, dispatch: Function, sequence: TaggedSequence) =>
     });
   };
 
-let handleNameUpdate = (dispatch: Function, seq: TaggedSequence) =>
-  (event: React.SyntheticEvent<HTMLInputElement>) => {
-    let name: string = (event.currentTarget).value || "";
-    let x: Partial<Sequence> = { name: name };
-    dispatch(editCurrentSequence(dispatch, seq, x));
-  };
-
 let copy = function (dispatch: Function, sequence: TaggedSequence) {
   return (e: React.SyntheticEvent<HTMLButtonElement>) =>
     dispatch(copySequence(sequence));
@@ -69,7 +54,6 @@ export let performSeq = (dispatch: Function, s: TaggedSequence) => {
 };
 
 export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
-
   render() {
     let { sequences, dispatch, tools, sequence, slots, resources } = this.props;
     let fixThisToo = function (key: string) {
@@ -77,7 +61,6 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
       if (xfer.draggerId === NULL_DRAGGER_ID) {
         pushStep(xfer.value, dispatch, sequence);
       } else {
-        let from = xfer.draggerId;
         pushStep(xfer.value, dispatch, sequence);
       };
     };
@@ -91,22 +74,20 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
                    with FarmBot. You can also edit, copy, and delete
                    existing sequences; assign a color; and give
                    your commands custom names.`}>
-        <button className="green button-like"
+        <button className={`green is-saving-${!!sequence.saving}`}
           onClick={() => {
             dispatch(save(sequence.uuid));
           }}>
-          {t("Save")} {sequence && sequence.dirty && "*"}
+          {t("Save")} {sequence && sequence.dirty && !sequence.saving && "*"}
         </button>
-        <button className="orange button-like"
-          onClick={performSeq(dispatch, sequence)}>
+        <button className="orange" onClick={performSeq(dispatch, sequence)}>
           {t("Save & Run")}
         </button>
-        <button className="red button-like"
+        <button className="red"
           onClick={() => dispatch(destroy(sequence.uuid)).then(null, toastErrors)}>
           {t("Delete")}
         </button>
-        <button className="yellow button-like"
-          onClick={copy(dispatch, sequence)}>
+        <button className="yellow" onClick={copy(dispatch, sequence)}>
           {t("Copy")}
         </button>
       </WidgetHeader>

@@ -1,26 +1,15 @@
 import * as React from "react";
-import { SaveButton } from "./save_button";
-import { DeleteButton } from "./delete_button";
 import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
-import { RegimenEditorWidgetProps } from "./interfaces";
+import { RegimenEditorWidgetProps, DeleteButtonProps } from "./interfaces";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
-import { isTaggedRegimen, TaggedRegimen } from "../../resources/tagged_resources";
-import { CalendarRow } from "../interfaces";
+import { saveRegimen, deleteRegimen } from "../actions";
+import { RegimenProps, MiddleSectionProps } from "../interfaces";
+import { isTaggedRegimen } from "../../resources/tagged_resources";
+import { t } from "i18next";
 
-interface MiddleSectionProps {
-  regimen: TaggedRegimen | undefined;
-  calendar: CalendarRow[];
-  dispatch: Function;
-}
-
-function MiddleSection({
-  regimen,
-  dispatch,
-  calendar
-}: MiddleSectionProps) {
-
+function MiddleSection({ regimen, dispatch, calendar }: MiddleSectionProps) {
   if (regimen && isTaggedRegimen(regimen) && calendar) {
     return <ActiveEditor dispatch={dispatch}
       regimen={regimen}
@@ -29,17 +18,34 @@ function MiddleSection({
     return <EmptyEditor />;
   }
 }
+
+function save({ regimen, dispatch }: RegimenProps) {
+  if (regimen) {
+    return (event: React.FormEvent<{}>) => {
+      dispatch(saveRegimen(regimen.uuid));
+    };
+  } else { throw new Error("Tried to save regimen, but there wasn't one."); };
+}
+
+function remove({ regimen, dispatch }: DeleteButtonProps) {
+  if (regimen) {
+    return (event: React.FormEvent<{}>) =>
+      regimen && dispatch(deleteRegimen(regimen.uuid));
+  } else {
+    // Technically unreachable, but I'll keep TS happy...
+    throw new Error("Tried to delete non-existant regimen");
+  }
+}
+
 export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
   RegimenEditorWidgetProps) {
   if (auth) {
     let regimen = current;
-    let saveButtonProps = {
-      dispatch,
-      regimen,
-      token: auth.token,
-      baseUrl: (auth.token && auth.token.unencoded.iss) ||
-      "CANT_FETCH_TOKEN_ISS"
-    };
+    let baseUrl = (auth.token && auth.token.unencoded.iss) ||
+      "CANT_FETCH_TOKEN_ISS";
+
+    let isSaving = regimen && regimen.saving;
+    let isDirty = regimen && regimen.dirty;
 
     return <Widget className="regimen-editor-widget">
       <WidgetHeader title="Regimen Editor"
@@ -50,9 +56,23 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
                 plants from the farm designer (coming soon) and can be
                 re-used on many plants growing at the same or different
                 times. Multiple regimens can be applied to any one plant.`}>
-        <SaveButton regimen={regimen} dispatch={dispatch} />
+
+        {regimen && (
+          <button onClick={save({ dispatch, regimen })}
+            className={`green is-saving-${isSaving}`}>
+            {t("Save")} {isDirty && !isSaving && ("*")}
+          </button>
+        )}
+
         <CopyButton regimen={regimen} dispatch={dispatch} />
-        <DeleteButton {...saveButtonProps} />
+
+        {regimen && (
+          <button className="red"
+            onClick={remove({ dispatch, regimen, baseUrl })}>
+            {t("Delete")}
+          </button>
+        )}
+
       </WidgetHeader>
       <WidgetBody>
         <MiddleSection

@@ -7,15 +7,15 @@ import { TaggedTool } from "../../resources/tagged_resources";
 export class ToolList extends React.Component<ToolListProps, {}> {
   render() {
     let toggle = () => this.props.toggle();
-    let { getSortedTools } = this.props;
+    let { tools } = this.props;
+
     return <Widget>
       <WidgetHeader
         helpText={t(`This is a list of all your FarmBot Tools.
           Click the Edit button to add, edit, or delete tools.`)}
         title="Tools">
         <button
-          className="gray button-like"
-          onClick={toggle}>
+          className="gray" onClick={toggle}>
           {t("Edit")}
         </button>
       </WidgetHeader>
@@ -28,10 +28,10 @@ export class ToolList extends React.Component<ToolListProps, {}> {
             <label>{t("Status")}</label>
           </Col>
         </Row>
-        {getSortedTools().map((tool: TaggedTool) => {
+        {tools.map((tool: TaggedTool) => {
           return <Row key={tool.body.id}>
             <Col xs={8}>{tool.body.name || "Name not found"}</Col>
-            <Col xs={4}>{tool.body.status || "Status not found"}</Col>
+            <Col xs={4}>{this.props.isActive(tool) ? "active" : "inactive"}</Col>
           </Row>;
         })}
       </WidgetBody>

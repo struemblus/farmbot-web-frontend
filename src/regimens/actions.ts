@@ -36,7 +36,7 @@ function emptyRegimen(): TaggedRegimen {
     dirty: true,
     body: {
       name: ("New regimen " + copy++),
-      color: randomColor(),
+      color: "gray",
       regimen_items: []
     }
   }

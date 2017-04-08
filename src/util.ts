@@ -1,9 +1,9 @@
 import * as _ from "lodash";
 import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
-import { t } from "i18next";
 import { Dictionary } from "farmbot/dist";
 import { error } from "./ui/index";
+import { TaggedResource } from "./resources/tagged_resources";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -100,11 +100,10 @@ export function move<T>(array: T[], fromIndex: number, toIndex: number) {
 
 export function isMobile() {
   if (window &&
-    window.innerWidth <= 800 && window.innerHeight <= 600 &&
+    window.innerWidth <= 568 && window.innerHeight <= 600 &&
     navigator.userAgent.match(/Android/i)
     || navigator.userAgent.match(/webOS/i)
     || navigator.userAgent.match(/iPhone/i)
-    || navigator.userAgent.match(/iPad/i)
     || navigator.userAgent.match(/iPod/i)
     || navigator.userAgent.match(/BlackBerry/i)
     || navigator.userAgent.match(/Windows Phone/i)
@@ -275,6 +274,15 @@ export function isUndefined(x: any): x is undefined {
 export function betterCompact<T>(input: (T | undefined)[]): T[] {
   let output: T[] = [];
   input.forEach(x => x ? output.push(x) : "")
-  return [];
+  return output;
 };
 
+/** Sorts a list of tagged resources. Unsaved resource get put on the end. */
+export function sortResourcesById<T extends TaggedResource>(input: T[]): T[] {
+  return _.sortBy(input, (x) => x.body.id || Infinity);
+}
+
+/** Light wrapper around _.merge() to prevent common type errors / mistakes. */
+export function betterMerge<T>(target: T, update: (T | Partial<T>)): T {
+  return _.merge({}, target, update);
+}

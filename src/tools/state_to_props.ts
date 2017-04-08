@@ -6,7 +6,8 @@ import {
   selectAllToolSlots,
   selectAllTools,
   selectAllToolBays,
-  currentToolInSlot
+  currentToolInSlot,
+  findSlotWhere
 } from "../resources/selectors";
 import { isTaggedTool, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
 import { edit } from "../api/crud";
@@ -16,9 +17,6 @@ export function mapStateToProps(props: Everything): Props {
   let toolBays = selectAllToolBays(props.resources.index);
   let toolSlots = selectAllToolSlots(props.resources.index);
   let tools = selectAllTools(props.resources.index);
-
-  /** Returns sorted tool objects. */
-  let getSortedTools = () => _.sortBy(tools, "body.id");
 
   /** Returns sorted tool slots specific to the tool bay id passed. */
   let getToolSlots = (/** uuid: string */) => {
@@ -38,6 +36,9 @@ export function mapStateToProps(props: Everything): Props {
       .compact()
       .value();
   };
+
+  let isActive = (t: TaggedTool) => !!findSlotWhere(props.resources.index,
+    { tool_id: t.body.id });
 
   let getToolByToolSlotUUID = currentToolInSlot(props.resources.index);
 
@@ -63,13 +64,13 @@ export function mapStateToProps(props: Everything): Props {
     toolBays,
     toolSlots,
     tools,
-    getSortedTools,
     getToolSlots,
     getToolOptions,
     getChosenToolOption,
     dispatch: props.dispatch,
     getToolByToolSlotUUID,
-    changeToolSlot
+    changeToolSlot,
+    isActive
   };
 
 }

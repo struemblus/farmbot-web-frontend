@@ -28,13 +28,13 @@ export class Controls extends Component<Props, ControlsState> {
   }
 
   clearURL = () => {
-    this.props.dispatch(changeDevice({ webcam_url: "http://" }));
+    this.props.dispatch(changeDevice(this.props.account, { webcam_url: "http://" }));
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
   render() {
     let fallback = PLACEHOLDER_FARMBOT;
-    let custom = (this.props.bot.account && this.props.bot.account.webcam_url);
+    let custom = (this.props.account.body.webcam_url);
     let url = custom || fallback;
     let dirty = !!this.props.bot.dirty;
     let { isEditingCameraURL } = this.state;
@@ -83,9 +83,7 @@ export class Controls extends Component<Props, ControlsState> {
                   apiUrl={API.current.baseUrl}
                   updateState={this.toggleCameraURLEdit} />
                 :
-                <button
-                  className="button-like gray"
-                  onClick={this.toggleCameraURLEdit}>
+                <button className="gray" onClick={this.toggleCameraURLEdit}>
                   {t("Edit")}
                 </button>
               }
@@ -101,7 +99,7 @@ export class Controls extends Component<Props, ControlsState> {
                 <input type="text"
                   onChange={(e) => {
                     let update = { webcam_url: e.currentTarget.value };
-                    this.props.dispatch(changeDevice(update));
+                    this.props.dispatch(changeDevice(this.props.account, update));
                   }}
                   value={url}
                   className="webcam-url-input" />

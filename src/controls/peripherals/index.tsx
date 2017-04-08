@@ -23,7 +23,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
   }
 
   maybeSave = () => {
-    let { peripherals, dispatch } = this.props;
+    let { peripherals } = this.props;
     let pinNums = peripherals.map(x => x.body.pin);
     let positivePins = pinNums.filter(x => x && x > 0);
     // I hate adding client side validation, but this is a wonky endpoint - RC.
@@ -34,12 +34,11 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     } else {
       error("Pin numbers are required and must be unique.");
     }
-
-
   }
 
   showPins = () => {
     let { peripherals, dispatch, bot } = this.props;
+
     let pins = bot.hardware.pins;
     if (this.state.isEditing) {
       return <PeripheralForm peripherals={peripherals}
@@ -50,6 +49,7 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
         pins={pins} />
     }
   }
+
   emptyPeripheral = (): TaggedPeripheral => {
     return {
       uuid: "WILL_BE_CHANGED_BY_REDUCER",
@@ -61,26 +61,30 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
   render() {
     let { dispatch, peripherals } = this.props;
     let { isEditing } = this.state;
-    return <Widget>
+
+    let isSaving = peripherals && peripherals
+      .filter(x => x.saving).length !== 0;
+
+    let isDirty = peripherals && peripherals
+      .filter(x => x.dirty).length !== 0;
+
+    return <Widget className="peripherals-widget">
       <WidgetHeader title={"Peripherals"}
         helpText={HELP_TEXT}>
         <button
           hidden={isEditing}
-          className="gray button-like"
-          type="button"
-          onClick={this.toggle}>
+          className="gray" type="button" onClick={this.toggle}>
           {t("Edit")}
         </button>
-        <button
-          hidden={!isEditing}
-          className="green button-like"
+        <button hidden={!isEditing}
+          className={`green is-saving-${isSaving}`}
           type="button"
           onClick={this.maybeSave}>
-          {t("Save")}
+          {t("Save")} {isDirty && !isSaving && ("*")}
         </button>
         <button
           hidden={!isEditing}
-          className="green button-like"
+          className="green"
           type="button"
           onClick={() => { dispatch(init(this.emptyPeripheral())) }}>
           <i className="fa fa-plus" />

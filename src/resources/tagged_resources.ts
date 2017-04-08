@@ -1,12 +1,13 @@
 import { Sequence } from "../sequences/interfaces";
 import { Tool, ToolSlot, ToolBay } from "../tools/interfaces";
-import { Regimen, RegimenItem } from "../regimens/interfaces";
-import { Plant, FarmEvent, Point } from "../farm_designer/interfaces";
+import { Regimen } from "../regimens/interfaces";
+import { Plant, FarmEvent, Point, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/index";
 import { Log } from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
+import { DeviceAccountSettings } from "../devices/interfaces";
 
 export type ResourceName =
   | "device"
@@ -15,6 +16,7 @@ export type ResourceName =
   | "logs"
   | "peripherals"
   | "plants"
+  | "crops"
   | "points"
   | "regimens"
   | "sequences"
@@ -23,9 +25,6 @@ export type ResourceName =
   | "tools"
   | "users";
 
-/** This interface is here mostly for safety reasons.
- * If you add a TaggedResource, the type checker will notify you when tag names
- * change. */
 export interface TaggedResourceBase {
   kind: ResourceName;
   /** Unique identifier and index key.
@@ -33,8 +32,9 @@ export interface TaggedResourceBase {
    * unsaved objects don't have one.
    */
   uuid: string;
-  dirty?: boolean | undefined;
   body: object;
+  dirty?: boolean | undefined;
+  saving?: boolean | undefined;
 }
 
 export interface Resource<T extends ResourceName, U extends object>
@@ -43,11 +43,14 @@ export interface Resource<T extends ResourceName, U extends object>
   body: U;
 }
 
-export type TaggedResource = TaggedFarmEvent
+export type TaggedResource =
+  | TaggedDevice
+  | TaggedFarmEvent
   | TaggedImage
   | TaggedLog
   | TaggedPeripheral
   | TaggedPlant
+  | TaggedCrop
   | TaggedPoint
   | TaggedRegimen
   | TaggedSequence
@@ -61,6 +64,7 @@ export type TaggedTool = Resource<"tools", Tool>;
 export type TaggedToolSlot = Resource<"tool_slots", ToolSlot>;
 export type TaggedSequence = Resource<"sequences", Sequence>;
 export type TaggedPlant = Resource<"plants", Plant>;
+export type TaggedCrop = Resource<"crops", Crop>;
 export type TaggedFarmEvent = Resource<"farm_events", FarmEvent>;
 export type TaggedImage = Resource<"images", Image>;
 export type TaggedLog = Resource<"logs", Log>;
@@ -68,6 +72,7 @@ export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
 export type TaggedPoint = Resource<"points", Point>;
 export type TaggedToolBay = Resource<"tool_bays", ToolBay>;
 export type TaggedUser = Resource<"users", User>;
+export type TaggedDevice = Resource<"device", DeviceAccountSettings>;
 
 /** Spot check to be certain a TaggedResource is what it says it is. */
 export function sanityCheck(x: object) {
@@ -109,7 +114,11 @@ export let isTaggedToolBay =
   (x: object): x is TaggedToolBay => is("tool_bays")(x);
 export let isTaggedPlant =
   (x: object): x is TaggedPlant => is("plants")(x);
+export let isTaggedCrop =
+  (x: object): x is TaggedCrop => is("crops")(x);
 export let isTaggedPoint =
   (x: object): x is TaggedPoint => is("points")(x);
 export let isTaggedFarmEvent =
   (x: object): x is TaggedFarmEvent => is("farm_events")(x);
+export let isTaggedLog =
+  (x: object): x is TaggedLog => is("logs")(x);

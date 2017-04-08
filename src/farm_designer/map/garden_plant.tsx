@@ -4,7 +4,7 @@ import { GardenPlantProps } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 
 export class GardenPlant extends React.Component<GardenPlantProps,
- { icon: string }> {
+  { icon: string }> {
   constructor() {
     super();
     this.state = { icon: DEFAULT_ICON };
@@ -16,14 +16,12 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   }
 
   render() {
-    let { plant, onUpdate, onDrop } = this.props;
+    let { plant, onUpdate, onDrop, crop } = this.props;
     if (plant.body.id) {
-      return <g>
-        <circle className="map-plant-spread"
-          cx={plant.body.x}
-          cy={plant.body.y}
-          r={(plant.body.spread || 0) * 10 / 2} />
-        <DraggableSvgImage key={plant.body.id}
+      return <g>        
+        <DraggableSvgImage
+          crop={crop}
+          key={plant.body.id}
           plant={plant}
           x={plant.body.x - plant.body.radius}
           y={plant.body.y - plant.body.radius}

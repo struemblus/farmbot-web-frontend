@@ -8,6 +8,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
     let toggle = () => this.props.toggle();
     let { getToolSlots, getToolByToolSlotUUID } = this.props;
+
     return <div>
       {this.props.toolBays.map(bay => {
         return <Widget key={bay.body.id}>
@@ -17,7 +18,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
-              className="gray button-like" onClick={toggle}>
+              className="gray" onClick={toggle}>
               {t("Edit")}
             </button>
           </WidgetHeader>
