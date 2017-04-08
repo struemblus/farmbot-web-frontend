@@ -6,6 +6,18 @@ import { ChangeSettingsBuffer } from "./interfaces";
 import { Configuration } from "farmbot";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
 
+export function versionOK(stringyVersion = "0.0.0",
+  EXPECTED_MAJOR = 3,
+  EXPECTED_MINOR = 0) {
+  let [actual_major, actual_minor] = stringyVersion
+    .split(".")
+    .map(x => parseInt(x, 10));
+  if ((actual_major >= EXPECTED_MAJOR) &&
+    (actual_minor >= EXPECTED_MINOR)) {
+    return true;
+  }
+  return false;
+}
 let initialState: BotState = {
   stepSize: 100,
   hardware: {
@@ -61,7 +73,9 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<HardwareState>("BOT_CHANGE",
   function (s, a) {
-    s.hardware = a.payload;
+    let nextState = a.payload;
+    s.hardware = nextState;
+    versionOK(nextState.informational_settings.controller_version);
     return s;
   })
   .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {

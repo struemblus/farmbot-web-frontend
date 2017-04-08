@@ -261,6 +261,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
     return bot
       .connect()
       .then(() => {
+        debugger;
         devices.current = bot;
         (window as any)["current_bot"] = bot;
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
