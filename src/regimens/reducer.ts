@@ -2,6 +2,7 @@ import { Week } from "./bulk_scheduler/interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { TaggedResource, TaggedRegimen } from "../resources/tagged_resources";
 import { Dictionary } from "farmbot/dist";
+import * as _ from "lodash";
 
 export interface RegimenState {
   dailyOffsetMs: number;

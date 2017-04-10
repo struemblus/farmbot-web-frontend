@@ -7,21 +7,21 @@ import { Pins } from "farmbot/dist";
 describe("<PeripheralList/>", function () {
   const peripherals: TaggedPeripheral[] = [
     {
-      uuid: "peripherals.1.1",
-      kind: "peripherals",
-      body: {
-        id: 1,
-        pin: 2,
-        label: "GPIO 2"
-      }
-    },
-    {
       uuid: "peripherals.2.2",
       kind: "peripherals",
       body: {
         id: 2,
         pin: 13,
         label: "GPIO 13 - LED"
+      }
+    },
+    {
+      uuid: "peripherals.1.1",
+      kind: "peripherals",
+      body: {
+        id: 1,
+        pin: 2,
+        label: "GPIO 2"
       }
     },
   ]
@@ -37,11 +37,16 @@ describe("<PeripheralList/>", function () {
     }
   }
   it("renders a list of peripherals, in sorted order", function () {
+    pending("Stopping here for now. Still needs finishing.");
     let node = <PeripheralList dispatch={() => { }}
       peripherals={peripherals}
       pins={pins} />
-    let dom = render(node);
-    debugger;
-    // expect(dom.find("p").first().text())
+    let labels = render(node).find("label");
+    let first = labels.first();
+    expect(first.text()).toBeTruthy();
+    expect(first.text()).toContain("GPIO 2")
+    let last = labels.last();
+    expect(last.text()).toBeTruthy();
+    expect(last.text()).toContain("GPIO 2")
   });
 });
