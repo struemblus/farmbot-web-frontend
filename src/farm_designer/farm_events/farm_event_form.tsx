@@ -11,7 +11,8 @@ import {
   BlurableInput,
   Col,
   Row,
-  success
+  success,
+  SaveBtn
 } from "../../ui/index";
 import { NewFBSelect } from "../../ui/new_fb_select";
 import { destroy, save, edit } from "../../api/crud";
@@ -135,6 +136,10 @@ export class EditFEForm extends React.Component<Props, State> {
 
   render() {
     let fe = this.props.farmEvent;
+    let isSaving = fe.saving;
+    let isDirty = fe.dirty;
+    let isSaved = !isSaving && !isDirty;
+
     let options = _.indexBy(this.props.repeatOptions, "value");
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
@@ -203,10 +208,13 @@ export class EditFEForm extends React.Component<Props, State> {
               onCommit={this.fieldSet("end_time")} />
           </Col>
         </Row>
-        <button className={`magenta is-saving-${!!fe.saving}`}
-          onClick={this.commitViewModel}>
-          {t("Save")}
-        </button>
+        <SaveBtn
+          color="magenta"
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={isSaved}
+          onClick={this.commitViewModel}
+        />
         <button className="red"
           onClick={() => {
             this.dispatch(destroy(fe.uuid)).then(() => {

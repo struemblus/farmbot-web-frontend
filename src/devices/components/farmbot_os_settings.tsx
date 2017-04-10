@@ -17,7 +17,8 @@ import {
   WidgetHeader,
   WidgetBody,
   Row,
-  Col
+  Col,
+  SaveBtn
 } from "../../ui/index";
 import { save } from "../../api/crud";
 
@@ -61,17 +62,19 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
   render() {
     let { account } = this.props;
     let isSaving = account && account.saving;
-    let isDirty = account && account.dirty
+    let isDirty = account && account.dirty;
+    let isSaved = !isSaving && !isDirty;
 
     return <Widget className="device-widget">
       <form onSubmit={this.saveBot.bind(this)}>
         <WidgetHeader title="Device"
           helpText={`This widget shows device information.`}>
-          <button type="submit"
-            className={`green is-saving-${isSaving}`}
-            onClick={this.updateBot}>
-            {t("Save")} {isDirty && !isSaving && ("*")}
-          </button>
+          <SaveBtn
+            isDirty={isDirty}
+            isSaving={isSaving}
+            isSaved={isSaved}
+            onClick={this.updateBot}
+          />
         </WidgetHeader>
         <WidgetBody>
           <Row>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { PeripheralList } from "./peripheral_list";
 import { PeripheralForm } from "./peripheral_form";
-import { Widget, WidgetBody, WidgetHeader, error } from "../../ui";
+import { Widget, WidgetBody, WidgetHeader, error, SaveBtn } from "../../ui";
 import { PeripheralsProps } from "../../devices/interfaces";
 import { PeripheralState } from "./interfaces";
 import { t } from "i18next";
@@ -68,20 +68,25 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     let isDirty = peripherals && peripherals
       .filter(x => x.dirty).length !== 0;
 
+    let isSaved = !isSaving && !isDirty;
+
     return <Widget className="peripherals-widget">
       <WidgetHeader title={"Peripherals"}
         helpText={HELP_TEXT}>
         <button
-          hidden={isEditing}
-          className="gray" type="button" onClick={this.toggle}>
-          {t("Edit")}
+          className="gray"
+          onClick={this.toggle}
+          hidden={!isSaved}>
+          {!isEditing && t("Edit")}
+          {isEditing && t("Back")}
         </button>
-        <button hidden={!isEditing}
-          className={`green is-saving-${isSaving}`}
-          type="button"
-          onClick={this.maybeSave}>
-          {t("Save")} {isDirty && !isSaving && ("*")}
-        </button>
+        <SaveBtn
+          hidden={!isEditing}
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={isSaved}
+          onClick={this.maybeSave}
+        />
         <button
           hidden={!isEditing}
           className="green"

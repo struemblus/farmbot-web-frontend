@@ -6,7 +6,8 @@ import {
   WidgetHeader,
   Col,
   Row,
-  BlurableInput
+  BlurableInput,
+  SaveBtn
 } from "../../ui";
 import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
@@ -32,6 +33,8 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
     let isDirty = toolSlots && toolSlots
       .filter(x => x.dirty).length !== 0;
 
+    let isSaved = !isSaving && !isDirty;
+
     return <div>
       {this.props.toolBays.map(bay => {
         let { id } = bay.body;
@@ -43,12 +46,19 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
               reflective of your real FarmBot hardware configuration.`)}
             title={"ToolBay 1"}>
             <button
-              className={`green is-saving-${isSaving}`}
+              className="gray"
+              hidden={!isSaved}
+              onClick={() => { toggle(); }}>
+              {t("Back")}
+            </button>
+            <SaveBtn
+              isDirty={isDirty}
+              isSaving={isSaving}
+              isSaved={!isDirty && !isSaving}
               onClick={() => {
                 dispatch(saveAll(toolSlots, () => { toggle(); }))
-              }}>
-              {t("Save")} {isDirty && !isSaving && ("*")}
-            </button>
+              }}
+            />
             <button
               className="green"
               onClick={() => { dispatch(init(this.emptyToolSlot(id))); }}>

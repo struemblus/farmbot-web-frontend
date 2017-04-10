@@ -10,24 +10,24 @@ button {
     border: none;
     position: relative;
     color: $off_white;
+    &.is-saved,
+    &.is-saving {
+        background: $medium_gray !important;
+        border-bottom: solid $dark_gray !important;
+        pointer-events: none;
+    }
+    .btn-spinner {
+        width: 0.8rem;
+        height: 0.8rem;
+        animation: rotate 0.8s infinite linear;
+        border: 1px solid #fff;
+        border-right-color: transparent;
+        border-radius: 50%;
+        float: right;
+        margin: 0.2rem 0px 0 0.6rem;
+    }
     &:active:not(.toggle-button) {
         transform: translateY(1px);
-    }
-    &.is-saving-true {
-        width: 5rem;
-        text-align: left;
-        &:after {
-            content: "";
-            top: 0.4rem;
-            right: 0.5rem;
-            position: absolute;
-            width: 0.8rem;
-            height: 0.8rem;
-            animation: rotate 0.8s infinite linear;
-            border: 1px solid #fff;
-            border-right-color: transparent;
-            border-radius: 50%;
-        }
     }
     &.go {
         background-color: $green;
