@@ -1,9 +1,6 @@
 import * as React from "react";
 import { botIsOnline } from "./actions";
 
-const DEFAULT_MESSAGE =
-  "This feature is unavailable when the device is offline.";
-
 interface Props {
   fallback?: string | undefined;
   children?: React.ReactNode;
