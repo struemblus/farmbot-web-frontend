@@ -274,13 +274,13 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               <td>
                 <label>{t("ENCODER SCALING*")}</label>
               </td>
-              <ConfigInputBox setting="TODO"
+              <ConfigInputBox setting={(mcu_params.encoder_scaling_x || 0).toString()}
                 bot={bot}
                 dispatch={dispatch} />
-              <ConfigInputBox setting="TODO"
+              <ConfigInputBox setting={(mcu_params.encoder_scaling_y || 0).toString()}
                 bot={bot}
                 dispatch={dispatch} />
-              <ConfigInputBox setting="TODO"
+              <ConfigInputBox setting={(mcu_params.encoder_scaling_z || 0).toString()}
                 bot={bot}
                 dispatch={dispatch} />
             </tr>
@@ -297,8 +297,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", bot)} />
+                  toggleval={mcu_params.movement_secondary_motor_x}
+                  toggleAction={() => settingToggle("movement_secondary_motor_x", bot)} />
               </td>
             </tr>
             <tr>
@@ -307,8 +307,9 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", bot)} />
+                  toggleval={mcu_params.movement_secondary_motor_invert_x}
+                  toggleAction={() => settingToggle("movement_secondary_motor_invert_x",
+                    bot)} />
               </td>
             </tr>
             <tr>
