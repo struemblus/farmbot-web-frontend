@@ -165,7 +165,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
             </tr>
             <tr>
               <td>
-                <label>{t("ALLOW NEGATIVES")}</label>
+                <label>{t("ONLY ALLOW NEGATIVES COORDINATES")}</label>
               </td>
               <td>
                 <ToggleButton
@@ -204,7 +204,13 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   toggleAction={() => settingToggle("movement_enable_endpoints_z", this.props.bot)} />
               </td>
             </tr>
-
+            <tr>
+              <td colSpan={100}>
+                <small>
+                  Firmware level support for rotary encoders is still under development
+                </small>
+              </td>
+            </tr>
             <tr>
               <td>
                 <label>{t("ENABLE ENCODERS")}</label>
@@ -225,6 +231,102 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   toggleAction={() => settingToggle("encoder_enabled_z", this.props.bot)} />
               </td>
             </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+              <td>
+                <label>{t("DIFFERENTIAL ENCODERS*")}</label>
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <label>{t("ENCODER SCALING*")}</label>
+              </td>
+              <ConfigInputBox setting="TODO"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <ConfigInputBox setting="TODO"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <ConfigInputBox setting="TODO"
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+            </tr>
+            <tr>
+              <td colSpan={100}>
+                <small>
+                  Second X Motor
+                </small>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>{t("ENABLE MOTOR*")}</label>
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>{t("INVERT MOTOR*")}</label>
+              </td>
+              <td>
+                <ToggleButton
+                  toggleval={this.props.bot.hardware.mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <label>RESET HARDWARE PARAMETER DEFAULTS*</label>
+              </td>
+              <td>
+                <p>
+                  Restoring hardware parameter defaults will destroy the
+                  current settings, resetting them to default values.
+                </p>
+              </td>
+              <td>
+                <button className="red" onClick={() => "TODO"}>
+                  {t("RESET")}
+                </button>
+              </td>
+            </tr>
+
+
           </tbody>
         </table>
       </WidgetBody>
