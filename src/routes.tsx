@@ -13,7 +13,6 @@ import { isMobile } from "./util";
 interface RootComponentProps {
   store: Store;
 }
-
 declare const System: any;
 let errorLoading = (cb: any) => function handleError(err: any) {
   console.error("Dynamic page loading failed", err);

@@ -197,7 +197,9 @@ export function changeDevice(device: TaggedDevice,
   update: Partial<DeviceAccountSettings>) {
   return edit(device, update);
 }
-
+export function botIsOnline() {
+  return !(devices && devices.current && devices.current.client);
+}
 export function MCUFactoryReset(pkg: ALLOWED_PACKAGES = "arduino_firmware") {
   const noun = "MCU Factory Reset";
   return devices
@@ -277,6 +279,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
     return bot
       .connect()
       .then(() => {
+        devices.online = true;
         devices.current = bot;
         (window as any)["current_bot"] = bot;
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });

@@ -43,8 +43,8 @@ export function EncoderType(props: EncoderTypeProps) {
     <td>
       <label>{t("DIFFERENTIAL ENCODERS*")}</label>
     </td>
-    {KEYS.map(function (key) {
-      return <td>
+    {KEYS.map(function (key, inx) {
+      return <td key={inx}>
         <NewFBSelect selectedItem={findByType(hardware.encoder_type_z)}
           list={OPTIONS}
           onChange={handleChange(key)} />

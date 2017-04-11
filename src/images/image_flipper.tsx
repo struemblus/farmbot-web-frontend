@@ -125,7 +125,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           </div>
           : ""}
         <div className="meta-coordinates">
-          {this.metaDatas()}
+          {/*this.metaDatas()*/}
         </div>
       </div>
     </div>;
