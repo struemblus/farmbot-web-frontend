@@ -19,7 +19,6 @@ let errorLoading = (cb: any) => function handleError(err: any) {
   console.error("Dynamic page loading failed", err);
   var container = document.getElementById("root");
   let stack = _.get(err, "stack", "No stack.")
-  console.dir(stack)
   if (container) {
     container.innerHTML = (`
     <div>
