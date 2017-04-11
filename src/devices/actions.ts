@@ -12,7 +12,7 @@ import {
   BotState
 } from "../devices/interfaces";
 import { t } from "i18next";
-import { McuParams, Configuration, BotStateTree } from "farmbot";
+import { McuParams, Configuration, BotStateTree, ALLOWED_PACKAGES } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
 import { HardwareState } from "../devices/interfaces";
@@ -196,6 +196,14 @@ export function save(input: Partial<DeviceAccountSettings>) {
 export function changeDevice(device: TaggedDevice,
   update: Partial<DeviceAccountSettings>) {
   return edit(device, update);
+}
+
+export function MCUFactoryReset(pkg: ALLOWED_PACKAGES = "arduino_firmware") {
+  const noun = "MCU Factory Reset";
+  return devices
+    .current
+    .factoryReset(pkg)
+    .then(commandOK(noun), commandErr(noun));
 }
 
 export function botConfigChange(key: configKey, value: number) {

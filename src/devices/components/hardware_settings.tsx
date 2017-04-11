@@ -3,7 +3,7 @@ import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
 import { ConfigInputBox } from "./config_input_box";
-import { settingToggle, commitSettingsChanges, botConfigChange } from "../actions";
+import { settingToggle, commitSettingsChanges, botConfigChange, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { HardwareSettingsProps } from "../interfaces";
@@ -291,7 +291,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 </p>
               </td>
               <td>
-                <button className="red" onClick={() => "TODO"}>
+                <button className="red" onClick={() => MCUFactoryReset()}>
                   {t("RESET")}
                 </button>
               </td>
