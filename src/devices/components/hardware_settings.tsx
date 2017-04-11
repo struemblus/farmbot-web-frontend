@@ -33,7 +33,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
         </button>
       </WidgetHeader>
       <WidgetBody>
-        <MustBeOnline fallback="Device is offline." forceOpen={true}>
+        <MustBeOnline fallback="Device is offline.">
           <table className="plain">
             <thead>
               <tr>

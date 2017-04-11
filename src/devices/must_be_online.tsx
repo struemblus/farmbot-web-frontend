@@ -6,14 +6,14 @@ const DEFAULT_MESSAGE =
 
 interface Props {
   fallback?: string | undefined;
-  forceOpen?: boolean | undefined;
   children?: React.ReactNode;
 }
 
 export function MustBeOnline(props: Props) {
   let FALLBACK = props.fallback || "";
+  let FORCE_OPEN = process.env.NODE_ENV === "development";
   return <div>
-    {(botIsOnline() || props.forceOpen) ? props.children : FALLBACK}
+    {(botIsOnline() || FORCE_OPEN) ? props.children : FALLBACK}
   </div>
 }
 
