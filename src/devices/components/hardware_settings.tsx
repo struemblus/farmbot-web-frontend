@@ -11,6 +11,8 @@ import { HomingRow } from "./homing_row";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
+    let { bot, dispatch } = this.props;
+    let { mcu_params } = bot.hardware;
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware"
         helpText={`Change settings
@@ -23,9 +25,9 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   to verify that everything works as expected. Note:
                   Currently not all settings can be changed.`}>
         <button className="green"
-          onClick={() => this.props.dispatch(commitSettingsChanges())} >
+          onClick={() => dispatch(commitSettingsChanges())} >
           {t("SAVE")}
-          {Object.keys(this.props.bot.settingsBuffer).length ? "*" : ""}
+          {Object.keys(bot.settingsBuffer).length ? "*" : ""}
         </button>
       </WidgetHeader>
       <WidgetBody>
@@ -50,72 +52,72 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 <label>{t("Steps per MM")}</label>
               </td>
               <ConfigInputBox setting="steps_per_mm_x"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <ConfigInputBox setting="steps_per_mm_y"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <ConfigInputBox setting="steps_per_mm_z"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("MAX SPEED (mm/s)")}</label>
               </td>
               <McuInputBox setting="movement_max_spd_x"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_max_spd_y"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_max_spd_z"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("ACCELERATE FOR (steps)")}</label>
               </td>
               <McuInputBox setting="movement_steps_acc_dec_x"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_steps_acc_dec_y"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_steps_acc_dec_z"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("TIMEOUT AFTER (seconds)")}</label>
               </td>
               <McuInputBox setting="movement_timeout_x"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_timeout_y"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_timeout_z"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
             <tr>
               <td>
                 <label>{t("LENGTH (m)")}</label>
               </td>
               <McuInputBox setting="movement_axis_nr_steps_x"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_axis_nr_steps_y"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <McuInputBox setting="movement_axis_nr_steps_z"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
-            <CalibrationRow />
+            <CalibrationRow hardware={mcu_params} />
             <HomingRow />
             <tr>
               <td>
@@ -123,24 +125,24 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_x}
+                  toggleval={mcu_params.movement_invert_endpoints_x}
                   toggleAction={() =>
                     settingToggle("movement_invert_endpoints_x",
-                      this.props.bot)} />
+                      bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_y}
+                  toggleval={mcu_params.movement_invert_endpoints_y}
                   toggleAction={() =>
                     settingToggle("movement_invert_endpoints_y",
-                      this.props.bot)} />
+                      bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_endpoints_z}
+                  toggleval={mcu_params.movement_invert_endpoints_z}
                   toggleAction={() =>
                     settingToggle("movement_invert_endpoints_z",
-                      this.props.bot)} />
+                      bot)} />
               </td>
             </tr>
             <tr>
@@ -149,18 +151,18 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_x}
-                  toggleAction={() => settingToggle("movement_invert_motor_x", this.props.bot)} />
+                  toggleval={mcu_params.movement_invert_motor_x}
+                  toggleAction={() => settingToggle("movement_invert_motor_x", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_y}
-                  toggleAction={() => settingToggle("movement_invert_motor_y", this.props.bot)} />
+                  toggleval={mcu_params.movement_invert_motor_y}
+                  toggleAction={() => settingToggle("movement_invert_motor_y", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_invert_motor_z}
-                  toggleAction={() => settingToggle("movement_invert_motor_z", this.props.bot)} />
+                  toggleval={mcu_params.movement_invert_motor_z}
+                  toggleAction={() => settingToggle("movement_invert_motor_z", bot)} />
               </td>
             </tr>
             <tr>
@@ -169,18 +171,18 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_home_up_x}
-                  toggleAction={() => settingToggle("movement_home_up_x", this.props.bot)} />
+                  toggleval={mcu_params.movement_home_up_x}
+                  toggleAction={() => settingToggle("movement_home_up_x", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_home_up_y}
-                  toggleAction={() => settingToggle("movement_home_up_y", this.props.bot)} />
+                  toggleval={mcu_params.movement_home_up_y}
+                  toggleAction={() => settingToggle("movement_home_up_y", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_home_up_z}
-                  toggleAction={() => settingToggle("movement_home_up_z", this.props.bot)} />
+                  toggleval={mcu_params.movement_home_up_z}
+                  toggleAction={() => settingToggle("movement_home_up_z", bot)} />
               </td>
             </tr>
 
@@ -190,18 +192,18 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_x}
-                  toggleAction={() => settingToggle("movement_enable_endpoints_x", this.props.bot)} />
+                  toggleval={mcu_params.movement_enable_endpoints_x}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_x", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_y}
-                  toggleAction={() => settingToggle("movement_enable_endpoints_y", this.props.bot)} />
+                  toggleval={mcu_params.movement_enable_endpoints_y}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_y", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.movement_enable_endpoints_z}
-                  toggleAction={() => settingToggle("movement_enable_endpoints_z", this.props.bot)} />
+                  toggleval={mcu_params.movement_enable_endpoints_z}
+                  toggleAction={() => settingToggle("movement_enable_endpoints_z", bot)} />
               </td>
             </tr>
             <tr>
@@ -217,18 +219,18 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_x}
-                  toggleAction={() => settingToggle("encoder_enabled_x", this.props.bot)} />
+                  toggleval={mcu_params.encoder_enabled_x}
+                  toggleAction={() => settingToggle("encoder_enabled_x", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_y}
-                  toggleAction={() => settingToggle("encoder_enabled_y", this.props.bot)} />
+                  toggleval={mcu_params.encoder_enabled_y}
+                  toggleAction={() => settingToggle("encoder_enabled_y", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.encoder_enabled_z}
-                  toggleAction={() => settingToggle("encoder_enabled_z", this.props.bot)} />
+                  toggleval={mcu_params.encoder_enabled_z}
+                  toggleAction={() => settingToggle("encoder_enabled_z", bot)} />
               </td>
             </tr>
 
@@ -253,18 +255,18 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+                  toggleval={mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+                  toggleval={mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", bot)} />
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+                  toggleval={mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", bot)} />
               </td>
             </tr>
 
@@ -273,14 +275,14 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 <label>{t("ENCODER SCALING*")}</label>
               </td>
               <ConfigInputBox setting="TODO"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <ConfigInputBox setting="TODO"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
               <ConfigInputBox setting="TODO"
-                bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                bot={bot}
+                dispatch={dispatch} />
             </tr>
             <tr>
               <td colSpan={100}>
@@ -295,8 +297,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+                  toggleval={mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", bot)} />
               </td>
             </tr>
             <tr>
@@ -305,8 +307,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </td>
               <td>
                 <ToggleButton
-                  toggleval={this.props.bot.hardware.mcu_params.TODO}
-                  toggleAction={() => settingToggle("TODO", this.props.bot)} />
+                  toggleval={mcu_params.TODO}
+                  toggleAction={() => settingToggle("TODO", bot)} />
               </td>
             </tr>
             <tr>
