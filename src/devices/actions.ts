@@ -198,15 +198,20 @@ export function changeDevice(device: TaggedDevice,
   return edit(device, update);
 }
 
+export function botConfigChange(key: configKey, value: number) {
+  const noun = "Setting toggle";
+  return devices
+    .current
+    .updateMcu({ [key]: value })
+    .then(commandOK(noun), commandErr(noun));
+};
 
 export function settingToggle(name: configKey, bot: BotState) {
-  // TODO : This should be an atomic operation handled at the bot level
-  // as a lower level command.
   const noun = "Setting toggle";
   return devices
     .current
     .updateMcu({
-      [name]: ((bot.hardware.mcu_params as any)[name] === 0) ? ON : OFF
+      [name]: ((bot.hardware.mcu_params)[name] === 0) ? ON : OFF
     })
     .then(commandOK(noun), commandErr(noun));
 };
