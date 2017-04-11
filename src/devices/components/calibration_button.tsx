@@ -15,7 +15,8 @@ interface ButtonProps extends CalibrationButtonProps {
 }
 
 export function CalibrationButton({ axis, isDisabled }: ButtonProps) {
-  return <button className="yellow"
+  let className = isDisabled ? "red" : "yellow";
+  return <button className={className}
     disabled={isDisabled}
     onClick={() => calibrate(axis)}>
     {t("CALIBRATE {{axis}}", { axis })}
@@ -29,9 +30,9 @@ interface CalibrationRowProps {
 export function CalibrationRow(input: CalibrationRowProps) {
   let h = input.hardware
     , rows: [Xyz, boolean][] = [
-      ["x", !!(h.encoder_enabled_x || h.movement_enable_endpoints_x)],
-      ["y", !!(h.encoder_enabled_y || h.movement_enable_endpoints_y)],
-      ["z", !!(h.encoder_enabled_z || h.movement_enable_endpoints_z)]
+      ["x", !(h.encoder_enabled_x || h.movement_enable_endpoints_x)],
+      ["y", !(h.encoder_enabled_y || h.movement_enable_endpoints_y)],
+      ["z", !(h.encoder_enabled_z || h.movement_enable_endpoints_z)]
     ];
   return <tr>
     <td>

@@ -12,3 +12,18 @@
 |????|???|Set Home X|
 |????|???|Set Home Y|
 |????|???|Set Home Z|
+
+# MCU Reset button
+
+```
+ok this is implemented on the farmbot os side.
+
+Farmbot JS will need an update:
+
+{
+kind: "factory_reset"
+args: {package: "arduino_firmware" || "farmbot_os"}
+}
+
+and the frontend will need a button
+```
