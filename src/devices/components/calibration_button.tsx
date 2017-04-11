@@ -15,7 +15,7 @@ interface ButtonProps extends CalibrationButtonProps {
 }
 
 export function CalibrationButton({ axis, isDisabled }: ButtonProps) {
-  let className = isDisabled ? "red" : "yellow";
+  let className = isDisabled ? "gray" : "yellow";
   return <button className={className}
     disabled={isDisabled}
     onClick={() => calibrate(axis)}>
