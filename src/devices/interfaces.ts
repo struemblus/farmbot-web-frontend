@@ -55,19 +55,8 @@ export interface BotState {
   /** Is the bot in sync with the api */
   dirty: boolean;
   /** Holds settings that the user is currently editing, but has not sent */
-  settingsBuffer: {
-    movement_max_spd_x?: string;
-    movement_max_spd_y?: string;
-    movement_max_spd_z?: string;
-    movement_steps_acc_dec_x?: string;
-    movement_steps_acc_dec_y?: string;
-    movement_steps_acc_dec_z?: string;
-    movement_timeout_x?: string;
-    movement_timeout_y?: string;
-    movement_timeout_z?: string;
-    [name: string]: string | undefined;
-  };
-  configBuffer: Configuration;
+  settingsBuffer: Partial<Record<McuParamName, string | undefined>>;
+  configBuffer: Partial<Configuration>;
   hardware: HardwareState;
 }
 export interface BotProp {
@@ -88,7 +77,7 @@ export interface GithubRelease {
 }
 
 export interface ChangeSettingsBuffer {
-  key: keyof McuParams;
+  key: McuParamName;
   val: number;
 }
 
@@ -120,7 +109,7 @@ export interface FarmbotOsState {
 
 export interface StepsPerMMBoxProps {
   bot: BotState;
-  setting: "steps_per_mm_x" | "steps_per_mm_y" | "steps_per_mm_z";
+  axis: Xyz;
   dispatch: Function;
 }
 

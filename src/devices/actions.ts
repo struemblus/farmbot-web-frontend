@@ -339,7 +339,7 @@ export function changeSettingsBuffer(key: configKey, val: string):
   };
 }
 
-export function changeConfigBuffer(config: Configuration):
+export function changeConfigBuffer(config: Partial<Configuration>):
   ReduxAction<Configuration> {
   return {
     type: "CHANGE_CONFIG_BUFFER",

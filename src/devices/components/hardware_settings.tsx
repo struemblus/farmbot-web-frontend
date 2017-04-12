@@ -2,7 +2,7 @@ import * as React from "react";
 import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
-import { StepPerMMBox } from "./config_input_box";
+import { StepPerMMBox } from "./step_per_mm_box";
 import { settingToggle, commitSettingsChanges, botConfigChange, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
@@ -55,13 +55,13 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 <td>
                   <label>{t("Steps per MM")}</label>
                 </td>
-                <StepPerMMBox setting="steps_per_mm_x"
+                <StepPerMMBox axis="x"
                   bot={bot}
                   dispatch={dispatch} />
-                <StepPerMMBox setting="steps_per_mm_y"
+                <StepPerMMBox axis="y"
                   bot={bot}
                   dispatch={dispatch} />
-                <StepPerMMBox setting="steps_per_mm_z"
+                <StepPerMMBox axis="z"
                   bot={bot}
                   dispatch={dispatch} />
               </tr>

@@ -4,6 +4,7 @@ import { generateReducer } from "../redux/generate_reducer";
 import * as i18next from "i18next";
 import { ChangeSettingsBuffer } from "./interfaces";
 import { Configuration } from "farmbot";
+import { betterMerge } from "../util";
 
 export function versionOK(stringyVersion = "0.0.0",
   EXPECTED_MAJOR = 3,
@@ -46,12 +47,13 @@ export let botReducer = generateReducer<BotState>(initialState)
     });
     return nextState;
   })
-  .add<Configuration>("CHANGE_CONFIG_BUFFER", function (s, a) {
+  .add<Partial<Configuration>>("CHANGE_CONFIG_BUFFER", function (s, a) {
     let old_buffer = s.configBuffer;
     let new_buffer = a.payload;
-    Object.assign(old_buffer, new_buffer);
-    let new_state = Object.assign({}, s, { config_buffer: new_buffer });
-    return new_state; // I am doing something wrong.
+    let nextConfig = betterMerge(old_buffer, new_buffer);
+    s.configBuffer = nextConfig;
+    s.dirty = true;
+    return s;
   })
   .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER",
   function (s, a) {
