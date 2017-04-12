@@ -29,7 +29,6 @@ export class StepPerMMBox extends React.Component<StepsPerMMBoxProps, {}> {
     };
   }
   render() {
-    console.log("TODO");
     return <td>
       <BlurableInput type="number"
         onCommit={this.change(this.props.axis, this.props.dispatch)}

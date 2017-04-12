@@ -16,6 +16,9 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
   render() {
     let { bot, dispatch } = this.props;
     let { mcu_params } = bot.hardware;
+    let UNSAVED_CHANGES = Object
+      .keys(bot.settingsBuffer)
+      .concat(Object.keys(bot.configBuffer)).length
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware"
         helpText={`Change settings
@@ -30,7 +33,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
         <button className="green"
           onClick={() => dispatch(commitSettingsChanges())} >
           {t("SAVE")}
-          {Object.keys(bot.settingsBuffer).length ? "*" : ""}
+          {UNSAVED_CHANGES ? "*" : ""}
         </button>
       </WidgetHeader>
       <WidgetBody>

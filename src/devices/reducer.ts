@@ -52,7 +52,6 @@ export let botReducer = generateReducer<BotState>(initialState)
     let new_buffer = a.payload;
     let nextConfig = betterMerge(old_buffer, new_buffer);
     s.configBuffer = nextConfig;
-    s.dirty = true;
     return s;
   })
   .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER",
