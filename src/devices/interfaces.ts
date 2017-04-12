@@ -118,9 +118,9 @@ export interface FarmbotOsState {
   cameraStatus: "" | "sending" | "done" | "error";
 }
 
-export interface ConfigInputBoxProps {
+export interface StepsPerMMBoxProps {
   bot: BotState;
-  setting: string;
+  setting: "steps_per_mm_x" | "steps_per_mm_y" | "steps_per_mm_z";
   dispatch: Function;
 }
 

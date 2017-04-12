@@ -2,7 +2,7 @@ import * as React from "react";
 import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
-import { ConfigInputBox } from "./config_input_box";
+import { StepPerMMBox } from "./config_input_box";
 import { settingToggle, commitSettingsChanges, botConfigChange, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
@@ -55,13 +55,13 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 <td>
                   <label>{t("Steps per MM")}</label>
                 </td>
-                <ConfigInputBox setting="steps_per_mm_x"
+                <StepPerMMBox setting="steps_per_mm_x"
                   bot={bot}
                   dispatch={dispatch} />
-                <ConfigInputBox setting="steps_per_mm_y"
+                <StepPerMMBox setting="steps_per_mm_y"
                   bot={bot}
                   dispatch={dispatch} />
-                <ConfigInputBox setting="steps_per_mm_z"
+                <StepPerMMBox setting="steps_per_mm_z"
                   bot={bot}
                   dispatch={dispatch} />
               </tr>
@@ -244,15 +244,15 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
 
               <tr>
                 <td>
-                  <label>{t("ENCODER SCALING*")}</label>
+                  <label>{t("ENCODER SCALING")}</label>
                 </td>
-                <ConfigInputBox setting={(mcu_params.encoder_scaling_x || 0).toString()}
+                <McuInputBox setting={"encoder_scaling_x"}
                   bot={bot}
                   dispatch={dispatch} />
-                <ConfigInputBox setting={(mcu_params.encoder_scaling_y || 0).toString()}
+                <McuInputBox setting={"encoder_scaling_y"}
                   bot={bot}
                   dispatch={dispatch} />
-                <ConfigInputBox setting={(mcu_params.encoder_scaling_z || 0).toString()}
+                <McuInputBox setting={"encoder_scaling_z"}
                   bot={bot}
                   dispatch={dispatch} />
               </tr>
@@ -265,7 +265,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
               <tr>
                 <td>
-                  <label>{t("ENABLE MOTOR*")}</label>
+                  <label>{t("ENABLE MOTOR")}</label>
                 </td>
                 <td>
                   <ToggleButton
@@ -275,7 +275,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
               <tr>
                 <td>
-                  <label>{t("INVERT MOTOR*")}</label>
+                  <label>{t("INVERT MOTOR")}</label>
                 </td>
                 <td>
                   <ToggleButton

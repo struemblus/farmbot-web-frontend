@@ -1,39 +1,26 @@
 import * as React from "react";
-import { safeStringFetch } from "../../util";
 import { changeConfigBuffer } from "../actions";
-import { ConfigInputBoxProps } from "../interfaces";
+import { BlurableInput } from "../../ui/index";
+import { StepsPerMMBoxProps } from "../interfaces";
 
-export class ConfigInputBox extends React.Component<ConfigInputBoxProps, {}> {
-  primary() {
-    let { bot, setting } = this.props;
-    return safeStringFetch(bot.settingsBuffer, setting);
-  }
-
-  secondary() {
-    let { bot, setting } = this.props;
-    return safeStringFetch(bot.hardware.configuration, setting);
-  }
-
-  style() {
-    return {
-      border: (this.primary()) ? "1px solid red" : ""
-    };
-  }
-
+export class StepPerMMBox extends React.Component<StepsPerMMBoxProps, {}> {
   change(key: string, dispatch: Function) {
     return function (event: React.FormEvent<HTMLInputElement>) {
       let formInput = event.currentTarget.value;
       dispatch(changeConfigBuffer({ [key]: Number(formInput) }));
     };
   }
-
+  get key() { return this.props.setting; }
+  get value() {
+    let config = this.props.bot.configBuffer;
+    return "";//.steps_per_mm[this.props.setting];
+  }
   render() {
 
     return <td>
-      <input type="text"
-        style={this.style()}
-        onChange={this.change(this.props.setting, this.props.dispatch)}
-        value={this.primary() || this.secondary() || "---"} />
+      <BlurableInput type="number"
+        onCommit={this.change(this.props.setting, this.props.dispatch)}
+        value={this.value} />
     </td>;
   }
 }

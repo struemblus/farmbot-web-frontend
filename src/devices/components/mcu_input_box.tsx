@@ -1,7 +1,5 @@
 import * as React from "react";
 import { McuInputBoxProps } from "../interfaces";
-import { safeStringFetch } from "../../util";
-import { McuParams, McuParamName } from "farmbot";
 import { changeSettingsBuffer } from "../actions";
 import { BlurableInput } from "../../ui/index";
 
@@ -16,11 +14,10 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
 
   render() {
     return <td>
-      <BlurableInput type="number"
-        onCommit={(e) => {
-          let action = changeSettingsBuffer(this.key, e.currentTarget.value);
-          this.dispatch(action);
-        }}
+      <BlurableInput type="number" onCommit={(e) => {
+        let action = changeSettingsBuffer(this.key, e.currentTarget.value);
+        this.dispatch(action);
+      }}
         value={this.value} />
     </td>;
   }
