@@ -6,26 +6,21 @@ import { changeSettingsBuffer } from "../actions";
 import { BlurableInput } from "../../ui/index";
 
 export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
-
-  change(key: McuParamName, dispatch: Function) {
-    return function (event: React.FormEvent<HTMLInputElement>) {
-      dispatch(changeSettingsBuffer(key, event.currentTarget.value));
-    };
-  }
-
+  get key() { return this.props.setting; }
+  get dispatch() { return this.props.dispatch; }
   get value() {
-    let _value = this.props.bot[this.props.setting];
-    if (_.isUndefined(_value)) {
-      return "";
-    } else {
-      return JSON.stringify(_value);
-    }
+    let { settingsBuffer, hardware } = this.props.bot;
+    let _value = settingsBuffer[this.key] || hardware.mcu_params[this.key];
+    return _.isUndefined(_value) ? "" : JSON.stringify(_value);
   }
 
   render() {
     return <td>
       <BlurableInput type="number"
-        onCommit={this.change(this.props.setting, this.props.dispatch)}
+        onCommit={(e) => {
+          let action = changeSettingsBuffer(this.key, e.currentTarget.value);
+          this.dispatch(action);
+        }}
         value={this.value} />
     </td>;
   }

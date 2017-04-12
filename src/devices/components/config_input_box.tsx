@@ -6,7 +6,7 @@ import { ConfigInputBoxProps } from "../interfaces";
 export class ConfigInputBox extends React.Component<ConfigInputBoxProps, {}> {
   primary() {
     let { bot, setting } = this.props;
-    return safeStringFetch(bot.configBuffer, setting);
+    return safeStringFetch(bot.settingsBuffer, setting);
   }
 
   secondary() {

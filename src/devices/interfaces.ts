@@ -125,7 +125,7 @@ export interface ConfigInputBoxProps {
 }
 
 export interface McuInputBoxProps {
-  bot: Partial<McuParams>;
+  bot: BotState;
   setting: McuParamName;
   dispatch: Function;
 }
