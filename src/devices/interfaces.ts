@@ -3,7 +3,7 @@ import {
   Configuration,
   McuParams
 } from "farmbot";
-import { ALLOWED_MESSAGE_TYPES } from "farmbot";
+import { ALLOWED_MESSAGE_TYPES, McuParamName } from "farmbot";
 import { AuthState } from "../auth/interfaces";
 import { TaggedImage, TaggedPeripheral, TaggedDevice } from "../resources/tagged_resources";
 import { RestResources } from "../resources/interfaces";
@@ -125,8 +125,8 @@ export interface ConfigInputBoxProps {
 }
 
 export interface McuInputBoxProps {
-  bot: BotState;
-  setting: string;
+  bot: Partial<McuParams>;
+  setting: McuParamName;
   dispatch: Function;
 }
 

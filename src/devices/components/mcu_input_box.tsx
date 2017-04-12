@@ -1,39 +1,32 @@
 import * as React from "react";
 import { McuInputBoxProps } from "../interfaces";
 import { safeStringFetch } from "../../util";
-import { McuParams } from "farmbot";
+import { McuParams, McuParamName } from "farmbot";
 import { changeSettingsBuffer } from "../actions";
+import { BlurableInput } from "../../ui/index";
 
 export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
-  primary() {
-    let { bot, setting } = this.props;
-    return safeStringFetch(bot.settingsBuffer, setting);
-  }
 
-  secondary() {
-    let { setting, bot } = this.props;
-    return safeStringFetch(bot.hardware.mcu_params, setting);
-  }
-
-  style() {
-    return {
-      border: (this.primary()) ? "1px solid red" : ""
-    };
-  }
-
-  change(key: string, dispatch: Function) {
+  change(key: McuParamName, dispatch: Function) {
     return function (event: React.FormEvent<HTMLInputElement>) {
-      let formInput = event.currentTarget.value;
-      dispatch(changeSettingsBuffer(key as keyof McuParams, formInput));
+      dispatch(changeSettingsBuffer(key, event.currentTarget.value));
     };
+  }
+
+  get value() {
+    let _value = this.props.bot[this.props.setting];
+    if (_.isUndefined(_value)) {
+      return "";
+    } else {
+      return JSON.stringify(_value);
+    }
   }
 
   render() {
     return <td>
-      <input type="text"
-        style={this.style()}
-        onChange={this.change(this.props.setting, this.props.dispatch)}
-        value={this.primary() || this.secondary() || "---"} />
+      <BlurableInput type="number"
+        onCommit={this.change(this.props.setting, this.props.dispatch)}
+        value={this.value} />
     </td>;
   }
 }
