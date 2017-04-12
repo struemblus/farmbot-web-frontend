@@ -121,7 +121,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   dispatch={dispatch} />
               </tr>
               <CalibrationRow hardware={mcu_params} />
-              <HomingRow />
+              <HomingRow hardware={mcu_params} />
               <tr>
                 <td>
                   <label>{t("INVERT ENDPOINTS")}</label>

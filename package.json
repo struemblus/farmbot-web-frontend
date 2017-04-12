@@ -82,6 +82,7 @@
     "weinre": "^2.0.0-pre-I0Z7U9OV"
   },
   "devDependencies": {
+    "jscpd": "^0.6.10",
     "webpack-notifier": "^1.5.0"
   },
   "jest": {

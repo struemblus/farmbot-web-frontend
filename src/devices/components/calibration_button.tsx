@@ -1,8 +1,9 @@
 import * as React from "react";
 import { t } from "i18next";
 import { devices } from "../../device";
-import { CalibrationButtonProps, Axis, HardwareState, Xyz } from "../interfaces";
+import { Axis, Xyz } from "../interfaces";
 import { McuParams } from "farmbot/dist";
+import { LockableButton } from "./lockable_button";
 
 function calibrate(axis: Axis) {
   devices
@@ -10,18 +11,6 @@ function calibrate(axis: Axis) {
     .calibrate({ axis });
 }
 
-interface ButtonProps extends CalibrationButtonProps {
-  isDisabled: boolean;
-}
-
-export function CalibrationButton({ axis, isDisabled }: ButtonProps) {
-  let className = isDisabled ? "gray" : "yellow";
-  return <button className={className}
-    disabled={isDisabled}
-    onClick={() => calibrate(axis)}>
-    {t("CALIBRATE {{axis}}", { axis })}
-  </button>;
-};
 
 interface CalibrationRowProps {
   hardware: McuParams;
@@ -39,8 +28,11 @@ export function CalibrationRow(input: CalibrationRowProps) {
       <label>{t("CALIBRATION")}</label>
     </td>
     {rows.map((row) => {
-      return <td key={row[0]}>
-        <CalibrationButton axis={row[0]} isDisabled={row[1]} />
+      let [axis, disable] = row;
+      return <td key={axis}>
+        <LockableButton disabled={disable} onClick={() => calibrate(axis)}>
+          {t("CALIBRATE {{axis}}", { axis })}
+        </LockableButton>
       </td>
     })}
   </tr>;
