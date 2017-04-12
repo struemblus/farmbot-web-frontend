@@ -22,14 +22,13 @@ export class Devices extends React.Component<Props, {}> {
             auth={this.props.auth} />
         </Col>
         <Col xs={12} sm={6}>
+          <HardwareSettings
+            dispatch={this.props.dispatch}
+            bot={this.props.bot} />
           <WeedDetector
             dispatch={this.props.dispatch}
             bot={this.props.bot}
             images={this.props.images} />
-          <HardwareSettings
-            dispatch={this.props.dispatch}
-            bot={this.props.bot}
-          />
         </Col>
       </Page>;
     } else {
