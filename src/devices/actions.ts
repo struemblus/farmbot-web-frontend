@@ -23,12 +23,17 @@ import { init, edit } from "../api/crud";
 import { getDeviceAccountSettings } from "../resources/selectors";
 import { TaggedDevice } from "../resources/tagged_resources";
 import { versionOK } from "./reducer";
+import { oneOf } from "../util";
 
 const ON = 1, OFF = 0;
 type configKey = keyof McuParams;
 
 function incomingStatus(statusMessage: HardwareState) {
   return { type: "BOT_CHANGE", payload: statusMessage };
+}
+
+function isLog(x: any): x is Log {
+  return _.isObject(x) && _.isString(x.message);
 }
 
 export function updateConfig(config: Configuration) {
@@ -272,7 +277,10 @@ function readStatus() {
 }
 
 let NEED_VERSION_CHECK = true;
-
+// Already filtering messages in FarmBot OS and the API- this is just for
+// an additional layer of safety. If sensitive data ever hits a client, it will
+// be reported to ROllbar for investigation.
+const BAD_WORDS = ["WPA", "PSK", "PASSWORD", "NERVES"];
 export function connectDevice(token: string): {} | ((dispatch: Function) => any) {
   return (dispatch: Function, getState: GetState) => {
     let bot = new Farmbot({ token });
@@ -285,7 +293,11 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
         bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
         readStatus();
         bot.on("logs", function (msg: Log) {
-          dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
+          if (isLog(msg) && !oneOf(BAD_WORDS, msg.message.toUpperCase())) {
+            dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
+          } else {
+            throw new Error("Refusing to display log: " + JSON.stringify(msg));
+          }
         });
         bot.on("status", function (msg: BotStateTree) {
           dispatch(incomingStatus(msg));

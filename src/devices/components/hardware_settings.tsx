@@ -10,6 +10,7 @@ import { HardwareSettingsProps } from "../interfaces";
 import { HomingRow } from "./homing_row";
 import { EncoderType } from "./encoder_type";
 import { MustBeOnline } from "../must_be_online";
+import { ZeroRow } from "./zero_row";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
@@ -122,6 +123,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
               <CalibrationRow hardware={mcu_params} />
               <HomingRow hardware={mcu_params} />
+              <ZeroRow />
               <tr>
                 <td>
                   <label>{t("INVERT ENDPOINTS")}</label>
