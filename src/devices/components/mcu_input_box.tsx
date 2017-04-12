@@ -11,7 +11,7 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
   get value() {
     let { settingsBuffer, hardware } = this.props.bot;
     let _value = settingsBuffer[this.key] || hardware.mcu_params[this.key];
-    return _.isUndefined(_value) ? "" : JSON.stringify(_value);
+    return _.isUndefined(_value) ? "" : (_value || "").toString();
   }
 
   render() {
