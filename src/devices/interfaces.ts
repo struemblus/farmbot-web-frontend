@@ -1,11 +1,18 @@
 import {
   BotStateTree,
   Configuration,
-  McuParams
 } from "farmbot";
-import { ALLOWED_MESSAGE_TYPES, McuParamName } from "farmbot";
+import {
+  ALLOWED_MESSAGE_TYPES,
+  McuParamName,
+  ConfigurationName
+} from "farmbot";
 import { AuthState } from "../auth/interfaces";
-import { TaggedImage, TaggedPeripheral, TaggedDevice } from "../resources/tagged_resources";
+import {
+  TaggedImage,
+  TaggedPeripheral,
+  TaggedDevice
+} from "../resources/tagged_resources";
 import { RestResources } from "../resources/interfaces";
 
 export interface Props {
@@ -113,7 +120,7 @@ export interface FarmbotOsState {
 
 export interface StepsPerMMBoxProps {
   bot: BotState;
-  axis: Xyz;
+  setting: ConfigurationName;
   dispatch: Function;
 }
 
