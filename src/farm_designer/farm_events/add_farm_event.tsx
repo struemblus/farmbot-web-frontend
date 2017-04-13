@@ -7,16 +7,14 @@ import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
 import { init } from "../../api/crud";
 import { EditFEForm } from "./farm_event_form";
 import { betterCompact } from "../../util";
-import { TaggedSequence, TaggedRegimen } from "../../resources/tagged_resources";
 import { entries } from "../../resources/util";
 import { Link } from "react-router";
-import { findFarmEvent } from "../../resources/selectors";
 
 interface State {
   uuid: string;
 }
 @connect(mapStateToPropsAddEdit)
-export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> {
+export class AddFarmEvent extends React.Component<AddEditFarmEventProps, Partial<State>> {
   get sequences() { return betterCompact(entries(this.props.sequencesById)); }
   get regimens() { return betterCompact(entries(this.props.regimensById)); }
   get executables() {
@@ -27,6 +25,10 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, State> 
   }
   get executable(): TaggedExecutable | undefined {
     return this.executables[0];
+  }
+  constructor() {
+    super();
+    this.state = {};
   }
   componentDidMount() {
     if (this.executable) {
