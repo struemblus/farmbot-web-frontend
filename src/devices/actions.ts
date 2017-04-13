@@ -202,9 +202,8 @@ export function changeDevice(device: TaggedDevice,
   update: Partial<DeviceAccountSettings>) {
   return edit(device, update);
 }
-export function botIsOnline() {
-  return !(devices && devices.current && devices.current.client);
-}
+
+
 export function MCUFactoryReset(pkg: ALLOWED_PACKAGES = "arduino_firmware") {
   const noun = "MCU Factory Reset";
   return devices

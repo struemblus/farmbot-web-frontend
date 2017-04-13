@@ -3,6 +3,7 @@ import { t } from "i18next";
 import { DeprecatedFBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui";
 import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
+import { MustBeOnline } from "../devices/must_be_online";
 
 export class Farmware extends React.Component<FWProps, Partial<FWState>> {
   constructor() {
@@ -65,42 +66,46 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
         helpText={`This widget shows Farmware (plugin) information.`}>
       </WidgetHeader>
       <WidgetBody>
-        <Row>
-          <fieldset>
+        <MustBeOnline fallback="Not available when FarmBot is offline."
+          status={this.props.bot.hardware.informational_settings.sync_status}
+          lockOpen={process.env.NODE_ENV !== "production"}>
+          <Row>
+            <fieldset>
+              <Col xs={12}>
+                <input type="url"
+                  placeholder={"http://...."}
+                  value={this.state.packageUrl || ""}
+                  onChange={(e) => {
+                    this.setState({ packageUrl: e.currentTarget.value });
+                  }}
+                />
+              </Col>
+              <Col xs={12}>
+                <button className="green" onClick={this.install}>
+                  {t("Install")}
+                </button>
+              </Col>
+            </fieldset>
+          </Row>
+          <Row>
             <Col xs={12}>
-              <input type="url"
-                placeholder={"http://...."}
-                value={this.state.packageUrl || ""}
-                onChange={(e) => {
-                  this.setState({ packageUrl: e.currentTarget.value });
-                }}
-              />
+              <DeprecatedFBSelect list={this.fwList()}
+                onChange={(x) => this.setState({ selectedFarmware: x.label })}
+                placeholder="Installed Farmware Packages" />
             </Col>
             <Col xs={12}>
-              <button className="green" onClick={this.install}>
-                {t("Install")}
+              <button className="red" onClick={this.remove}>
+                {t("Remove")}
+              </button>
+              <button className="yellow" onClick={this.update}>
+                {t("Update")}
+              </button>
+              <button className="green" onClick={this.run}>
+                {t("Run")}
               </button>
             </Col>
-          </fieldset>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <DeprecatedFBSelect list={this.fwList()}
-              onChange={(x) => this.setState({ selectedFarmware: x.label })}
-              placeholder="Installed Farmware Packages" />
-          </Col>
-          <Col xs={12}>
-            <button className="red" onClick={this.remove}>
-              {t("Remove")}
-            </button>
-            <button className="yellow" onClick={this.update}>
-              {t("Update")}
-            </button>
-            <button className="green" onClick={this.run}>
-              {t("Run")}
-            </button>
-          </Col>
-        </Row>
+          </Row>
+        </MustBeOnline>
       </WidgetBody>
     </Widget>;
   }

@@ -21,6 +21,7 @@ import {
   SaveBtn
 } from "../../ui/index";
 import { save } from "../../api/crud";
+import { MustBeOnline } from "../must_be_online";
 
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
@@ -97,64 +98,67 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               <p>{`mqtt://${this.props.auth.token.unencoded.mqtt}`}</p>
             </Col>
           </Row>
-          <Row>
-            <Col xs={2}>
-              <label>{t("FARMBOT OS")}</label>
-            </Col>
-            <Col xs={3}>
-              <p>
-                {t("Version")}
-                {this
-                  .props
-                  .bot
-                  .hardware
-                  .informational_settings.controller_version
-                  || t(" unknown (offline)")}
-              </p>
-            </Col>
-            <Col xs={7}>
-              <OsUpdateButton bot={this.props.bot} />
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={2}>
-              <label>{t("RESTART FARMBOT")} </label>
-            </Col>
-            <Col xs={7}>
-              <p>
-                {t(`This will restart FarmBot's Raspberry
+          <MustBeOnline fallback="Some settings are not available when FarmBot is offline."
+            status={this.props.bot.hardware.informational_settings.sync_status}
+            lockOpen={process.env.NODE_ENV !== "production"}>
+            <Row>
+              <Col xs={2}>
+                <label>{t("FARMBOT OS")}</label>
+              </Col>
+              <Col xs={3}>
+                <p>
+                  {t("Version")}
+                  {this
+                    .props
+                    .bot
+                    .hardware
+                    .informational_settings.controller_version
+                    || t(" unknown (offline)")}
+                </p>
+              </Col>
+              <Col xs={7}>
+                <OsUpdateButton bot={this.props.bot} />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <label>{t("RESTART FARMBOT")} </label>
+              </Col>
+              <Col xs={7}>
+                <p>
+                  {t(`This will restart FarmBot's Raspberry
                     Pi and controller software.`)}
-              </p>
-            </Col>
-            <Col xs={3}>
-              <button className="yellow" onClick={reboot}>
-                {t("RESTART")}
-              </button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={2}>
-              <label>{t("SHUTDOWN FARMBOT")}</label>
-            </Col>
-            <Col xs={7}>
-              <p>
-                {t(`This will shutdown FarmBot's Raspberry Pi. To turn it
+                </p>
+              </Col>
+              <Col xs={3}>
+                <button className="yellow" onClick={reboot}>
+                  {t("RESTART")}
+                </button>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <label>{t("SHUTDOWN FARMBOT")}</label>
+              </Col>
+              <Col xs={7}>
+                <p>
+                  {t(`This will shutdown FarmBot's Raspberry Pi. To turn it
                     back on, unplug FarmBot and plug it back in.`)}
-              </p>
-            </Col>
-            <Col xs={3}>
-              <button className="red" onClick={powerOff}>
-                {t("SHUTDOWN")}
-              </button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={2}>
-              <label>{t("Factory Reset")}</label>
-            </Col>
-            <Col xs={7}>
-              <p>
-                {t(`Factory resetting your FarmBot will destroy all data on
+                </p>
+              </Col>
+              <Col xs={3}>
+                <button className="red" onClick={powerOff}>
+                  {t("SHUTDOWN")}
+                </button>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <label>{t("Factory Reset")}</label>
+              </Col>
+              <Col xs={7}>
+                <p>
+                  {t(`Factory resetting your FarmBot will destroy all data on
                     the device, revoking your FarmBot's abilily to connect to
                     your web app account and your home wifi. Upon factory
                     resetting, your device will restart into Conflgurator
@@ -162,30 +166,31 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
                     data or settings from your web app account, allowing you
                     to do a complete restore to your device once it is back
                     online and paired with your web app account.`)}
-              </p>
-            </Col>
-            <Col xs={3}>
-              <button className="red" onClick={factoryReset} >
-                {t("FACTORY RESET")}
-              </button>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={2}>
-              <label>{t("CAMERA")}</label>
-            </Col>
-            <Col xs={7}>
-              <div>
-                <DeprecatedFBSelect allowEmpty={true}
-                  list={CAMERA_CHOICES}
-                  placeholder="Select a camera..."
-                  onChange={this.sendOffConfig} />
-              </div>
-            </Col>
-            <Col xs={3}>
-              {this.state.cameraStatus}
-            </Col>
-          </Row>
+                </p>
+              </Col>
+              <Col xs={3}>
+                <button className="red" onClick={factoryReset} >
+                  {t("FACTORY RESET")}
+                </button>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <label>{t("CAMERA")}</label>
+              </Col>
+              <Col xs={7}>
+                <div>
+                  <DeprecatedFBSelect allowEmpty={true}
+                    list={CAMERA_CHOICES}
+                    placeholder="Select a camera..."
+                    onChange={this.sendOffConfig} />
+                </div>
+              </Col>
+              <Col xs={3}>
+                {this.state.cameraStatus}
+              </Col>
+            </Row>
+          </MustBeOnline>
         </WidgetBody>
       </form>
     </Widget>;

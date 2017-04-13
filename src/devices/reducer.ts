@@ -42,10 +42,7 @@ let initialState: BotState = {
 
 export let botReducer = generateReducer<BotState>(initialState)
   .add<{}>("COMMIT_SETTINGS_OK", function (s, a) {
-    let nextState = Object.assign({}, s, {
-      settingsBuffer: {}
-    });
-    return nextState;
+    return betterMerge(s, { configBuffer: {}, settingsBuffer: {} });
   })
   .add<Partial<Configuration>>("CHANGE_CONFIG_BUFFER", function (s, a) {
     let old_buffer = s.configBuffer;
