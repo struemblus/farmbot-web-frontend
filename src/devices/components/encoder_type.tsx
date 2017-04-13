@@ -11,7 +11,7 @@ interface EncoderTypeProps {
 
 const LOOKUP: { [name: string]: DropDownItem } = {
   [Encoder.differential]: { label: "differential", value: Encoder.differential },
-  [Encoder.quadrature]: { label: "quadrature", value: Encoder.quadrature },
+  [Encoder.quadrature]: { label: "Single Ended", value: Encoder.quadrature },
   DEFAULT: { label: "---", value: Encoder.unknown }
 }
 

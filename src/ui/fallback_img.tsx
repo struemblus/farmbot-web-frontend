@@ -1,4 +1,5 @@
 import * as React from "react";
+import { defensiveClone } from "../util";
 
 interface Props extends React.HTMLProps<HTMLImageElement> {
   src: string;
@@ -22,7 +23,9 @@ export class FallbackImg extends React.Component<Props, State> {
   fallback = () => <img {...this.props} src={this.props.fallback} />;
 
   dontFallback = () => {
-    return <img {...this.props}
+    let imgProps = defensiveClone(this.props);
+    delete imgProps.fallback; // React will complain otherwise.
+    return <img {...imgProps}
       onError={() => this.setState({ needsFallback: true })}
       src={this.props.src} />;
   }
