@@ -15,6 +15,7 @@ import { Row, Page, Col, Widget, WidgetBody, WidgetHeader } from "../ui";
 import { mapStateToProps, Props } from "./state_to_props";
 import { StepSizeSelector } from "./step_size_selector";
 import { showUrl } from "./show_url";
+import { MustBeOnline } from "../devices/must_be_online";
 
 @connect(mapStateToProps)
 export class Controls extends Component<Props, ControlsState> {
@@ -38,6 +39,7 @@ export class Controls extends Component<Props, ControlsState> {
     let url = custom || fallback;
     let dirty = !!this.props.bot.dirty;
     let { isEditingCameraURL } = this.state;
+    let { sync_status } = this.props.bot.hardware.informational_settings;
     return <Page className="controls">
       <Row>
         <Col xs={12} sm={6} md={4} mdOffset={1}>
@@ -53,17 +55,21 @@ export class Controls extends Component<Props, ControlsState> {
                 auth={this.props.auth} />
             </WidgetHeader>
             <WidgetBody>
-              <label className="text-center">
-                {t("MOVE AMOUNT (mm)")}
-              </label>
-              <StepSizeSelector
-                choices={[1, 10, 100, 1000, 10000]}
-                selector={(num: number) => this.props.dispatch(changeStepSize(num))}
-                selected={this.props.bot.stepSize} />
-              <JogButtons bot={this.props.bot} />
-              <AxisInputBoxGroup
-                bot={this.props.bot}
-                onCommit={(input) => { moveAbs(input); }} />
+              <MustBeOnline fallback="Bot is offline."
+                lockOpen={process.env.NODE_ENV !== "production"}
+                status={sync_status}>
+                <label className="text-center">
+                  {t("MOVE AMOUNT (mm)")}
+                </label>
+                <StepSizeSelector
+                  choices={[1, 10, 100, 1000, 10000]}
+                  selector={(num: number) => this.props.dispatch(changeStepSize(num))}
+                  selected={this.props.bot.stepSize} />
+                <JogButtons bot={this.props.bot} />
+                <AxisInputBoxGroup
+                  bot={this.props.bot}
+                  onCommit={(input) => { moveAbs(input); }} />
+              </MustBeOnline>
             </WidgetBody>
           </Widget>
           <Peripherals

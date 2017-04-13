@@ -47,8 +47,7 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
   normlItemList = () => {
     return this.list.map((option: DropDownItem, i) => {
       let { label } = option;
-      // TODO: Put this in a shared function when we finish debugging callbacks.
-      return <div key={option.value}
+      return <div key={i}
         className="select-result"
         onMouseDown={() => {
           this.setState({ isOpen: false });
