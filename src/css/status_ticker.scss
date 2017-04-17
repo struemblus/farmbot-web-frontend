@@ -29,15 +29,15 @@
             font-size: 1.2rem !important;
             font-weight: bold;
         }
-        .saucer {
-            opacity: 1;
-            width: 1.8rem;
-            height: 1.8rem;
-        }
         .markdown p {
             white-space: nowrap !important;
             overflow: hidden !important;
             text-overflow: ellipsis !important;
+        }
+        .saucer {
+            opacity: 1;
+            width: 1.8rem;
+            height: 1.8rem;
         }
     }
     .status-ticker-wrapper:nth-child(2) {
@@ -135,6 +135,7 @@
     margin-left: 15px;
     line-height: 20px;
     vertical-align: top;
+    max-width: 82%;
 }
 
 .status-ticker-message span {
