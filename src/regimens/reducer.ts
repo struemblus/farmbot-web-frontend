@@ -76,11 +76,11 @@ export let regimensReducer = generateReducer<RegimenState>(initialState)
   .add<string>("SET_SEQUENCE", function (state, action) {
     state.selectedSequenceUUID = action.payload;
     return state;
+  })
+  .add<number>("SET_TIME_OFFSET", function (state, action) {
+    state.dailyOffsetMs = action.payload;
+    return state;
   });
-  // .add<number>("SET_TIME_OFFSET", function (state, action) {
-  //   state.form.dailyOffsetMs = action.payload;
-  //   return state;
-  // })
   // .add<void>("COMMIT_BULK_EDITOR", function (state, action) {
   //   return newState();
   // })

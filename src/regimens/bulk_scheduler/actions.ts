@@ -1,5 +1,5 @@
 import { ReduxAction, Thunk } from "../../redux/interfaces";
-import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
+import { ToggleDayParams } from "./interfaces";
 import { assertUuid, findSequence, findRegimen } from "../../resources/selectors";
 import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
 import { newRegimen } from "../actions";
@@ -7,6 +7,7 @@ import { error } from "../../ui/index";
 import { t } from "i18next";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
+import { warning } from "../../ui/logger";
 
 export function pushWeek() {
   return {
@@ -21,27 +22,15 @@ export function popWeek() {
 }
 
 const MINUTES_MS = 1000 * 60;
-const HOURS_MS = MINUTES_MS * 60;
 
 /** Sets daily offset of a regimen */
-export function setTimeOffset({ hours, minutes }: SetTimeOffsetProps) {
-  // let milliseconds = [hours * HOURS_MS, minutes * MINUTES_MS]
-  //   .reduce((num, acc) => num + acc);
-
-  // if (_.isNaN(milliseconds) || !_.isNumber(milliseconds)) {
-  //   let m = "Time is not properly formatted.";
-  //   warning(m, "Bad Input");
-  //   return {
-  //     type: "TIME_OFFSET_ERROR",
-  //     payload: 0
-  //   };
-
-  // } else {
-  return {
-    type: "SET_TIME_OFFSET",
-    payload: [] // bulk_scheduler/actions.ts
+export function setTimeOffset(ms: number) {
+  if (_.isNaN(ms) || !_.isNumber(ms)) {
+    warning("Time is not properly formatted.", "Bad Input");
+    throw new Error("Bad time input on regimen page: " + JSON.stringify(ms));
+  } else {
+    return { type: "SET_TIME_OFFSET", payload: ms };
   };
-  // };
 }
 
 export function toggleDay({ week, day }: ToggleDayParams) {
