@@ -138,6 +138,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     if (currentSequence && !isTaggedSequence(currentSequence)) {
       throw new Error("WHOOPS!");
     }
+
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
