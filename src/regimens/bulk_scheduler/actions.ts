@@ -60,29 +60,26 @@ export function setSequence(uuid: string): ReduxAction<string> {
 };
 
 export function commitBulkEditor(): Thunk {
-
   return function (dispatch, getState) {
     let res = getState().resources;
     let { weeks, dailyOffsetMs, selectedSequenceUUID, currentRegimen } =
       res.consumers.regimens;
 
     // If the user hasn't clicked a regimen, initialize one for them.
-    if (!currentRegimen) {
-      dispatch(newRegimen());
-      currentRegimen = getState().resources.consumers.regimens.currentRegimen
-        || "Impossible UUID";
-    }
-
-    // Proceed only if they selected a sequence from the drop down.
-    if (selectedSequenceUUID) {
-      let seq = findSequence(res.index, selectedSequenceUUID).body;
-      const regimenItems = groupRegimenItemsByWeek(weeks, dailyOffsetMs, seq);
-      let reg = findRegimen(res.index, currentRegimen);
-      let update = defensiveClone(reg).body;
-      update.regimen_items = update.regimen_items.concat(regimenItems);
-      dispatch(overwrite(reg, update));
+    if (currentRegimen) {
+      // Proceed only if they selected a sequence from the drop down.
+      if (selectedSequenceUUID) {
+        let seq = findSequence(res.index, selectedSequenceUUID).body;
+        const regimenItems = groupRegimenItemsByWeek(weeks, dailyOffsetMs, seq);
+        let reg = findRegimen(res.index, currentRegimen);
+        let update = defensiveClone(reg).body;
+        update.regimen_items = update.regimen_items.concat(regimenItems);
+        dispatch(overwrite(reg, update));
+      } else {
+        return error(t("Select a sequence from the dropdown first."));
+      }
     } else {
-      error(t("Select a sequence from the dropdown first."));
+      return error(t("Select a regimen first or create one."));
     }
   };
 }
