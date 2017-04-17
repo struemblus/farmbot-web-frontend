@@ -17,4 +17,4 @@ export interface Thunk {
   (dispatch: Function, getState: GetState): any;
 };
 
-export type EnvName = "production" | "development" | "*";
+export type EnvName = "test" | "production" | "development" | "*";

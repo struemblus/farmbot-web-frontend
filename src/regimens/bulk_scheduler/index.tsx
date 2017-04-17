@@ -9,7 +9,7 @@ import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 
 export function BulkSchedulerWidget(props: BulkEditorProps) {
   let click = function () { dispatch(commitBulkEditor()); };
-  let { resources, dispatch, sequences, selectedSequence } = props;
+  let { dispatch, sequences, selectedSequence } = props;
   let active = !!(sequences && sequences.length);
   return <Widget className="bulk-scheduler-widget">
     <WidgetHeader title="Scheduler"

@@ -32,7 +32,7 @@ let consumerReducer = combineReducers({
   farm_designer
 });
 
-function emptyState(): RestResources {
+export function emptyState(): RestResources {
   return {
     consumers: {
       sequences: sequenceState,
