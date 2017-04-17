@@ -82,7 +82,7 @@ function create(uuid: string) {
         }
       })
       .catch(function (err: UnsafeError) {
-        dispatch(createNO(err));
+        dispatch(createNO({ err, uuid }));
         return Promise.reject(err);
       });
   }

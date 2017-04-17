@@ -147,6 +147,14 @@ export let resourceReducer = generateReducer
     sanityCheck(tr);
     return s;
   })
+  .add<TaggedResource>("*_RESOURCE_NO", function (s, a) {
+    let uuid = a.payload.uuid;
+    let tr = _.merge(findByUuid(s.index, uuid), a.payload);
+    tr.dirty = true;
+    tr.saving = false;
+    sanityCheck(tr);
+    return s;
+  })
   .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
     let uuid = a.payload.uuid;
     let { update } = a.payload;

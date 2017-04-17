@@ -19,8 +19,7 @@ export function destroyOK(payload: TaggedResource) {
 function generalizedError(payload: UnsafeError) {
   toastErrors(payload);
   return {
-    type: "*_RESOURCE_NO",
-    payload: {}
+    type: "*_RESOURCE_NO", payload
   };
 };
 
