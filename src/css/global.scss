@@ -79,6 +79,9 @@ a {
 }
 
 .select-search-container {
+    input {
+        cursor: pointer;
+    }
     &:after {
         content: "\25BE";
         position: absolute;
@@ -87,6 +90,7 @@ a {
         right: 1rem;
         top: 0.2rem;
         line-height: initial;
+        pointer-events: none;
     }
 }
 

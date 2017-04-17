@@ -25,6 +25,12 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
           </Link>
         </li>
         <li>
+          <a href="https://software.farmbot.io/docs/the-farmbot-web-app"
+            target="_blank">
+            <i className="fa fa-file-text-o"></i>{t("Documentation")}
+          </a>
+        </li>
+        <li>
           <a onClick={onClick}>
             <i className="fa fa-sign-out"></i>
             {t("Logout")}
@@ -65,7 +71,6 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
   }
 
   toggleTicker = () => {
-    this.forceUpdate
     let { tickerExpanded } = this.state;
     this.setState({ tickerExpanded: !tickerExpanded });
   }
@@ -107,6 +112,12 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
               <Link to="/app/account">
                 <i className="fa fa-cog"></i>{t("Account Settings")}
               </Link>
+            </li>
+            <li>
+              <a href="https://software.farmbot.io/docs/the-farmbot-web-app"
+                target="_blank">
+                <i className="fa fa-file-text-o"></i>{t("Documentation")}
+              </a>
             </li>
             <li>
               <a onClick={logout}>

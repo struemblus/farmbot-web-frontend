@@ -141,8 +141,7 @@
         -webkit-user-select: none;
         user-select: none;
     }
-    .selected-plant-indicator,
-    .map-plant-spread {
+    .selected-plant-indicator {
         display: none;
     }
     &.active {
@@ -248,7 +247,7 @@
 
 .map-plant-spread {
     fill: $green;
-    opacity: 0.3;
+    opacity: 0.2;
     pointer-events: none;
 }
 

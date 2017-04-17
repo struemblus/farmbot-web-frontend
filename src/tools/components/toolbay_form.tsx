@@ -85,7 +85,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             </Row>
             {this.props.getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
-                return <Row key={slot.body.id}>
+                return <Row key={index}>
                   <Col xs={2}>
                     <label>{index + 1}</label>
                   </Col>

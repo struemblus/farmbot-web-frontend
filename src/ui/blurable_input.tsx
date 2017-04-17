@@ -28,17 +28,17 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
   }
 
   /** Called on blur. */
-  maybeCommit(e: React.SyntheticEvent<HTMLInputElement>) {
+  maybeCommit = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let shouldPassToParent = (this.state.buffer || (this.props.allowEmpty));
     if (shouldPassToParent) { this.props.onCommit(e); }
     this.setState({ isEditing: false, buffer: "" });
   }
 
-  focus() {
-    this.setState({ isEditing: true });
+  focus = () => {
+    this.setState({ isEditing: true, buffer: this.props.value || "" });
   }
 
-  updateBuffer(e: React.SyntheticEvent<HTMLInputElement>) {
+  updateBuffer = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let buffer = e.currentTarget.value;
     this.setState({ buffer });
   }
@@ -46,9 +46,9 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
   render() {
     let value = this.state.isEditing ? this.state.buffer : this.props.value;
     return <input value={value}
-      onFocus={this.focus.bind(this)}
-      onChange={this.updateBuffer.bind(this)}
-      onBlur={this.maybeCommit.bind(this)}
+      onFocus={this.focus}
+      onChange={this.updateBuffer}
+      onBlur={this.maybeCommit}
       name={this.props.name}
       id={this.props.id}
       min={this.props.min}

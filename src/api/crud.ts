@@ -82,7 +82,7 @@ function create(uuid: string) {
         }
       })
       .catch(function (err: UnsafeError) {
-        dispatch(createNO(err));
+        dispatch(createNO({ err, uuid }));
         return Promise.reject(err);
       });
   }
@@ -105,7 +105,7 @@ function update(uuid: string) {
         }
       })
       .catch(function (err: UnsafeError) {
-        dispatch(updateNO(err));
+        dispatch(updateNO({ err, uuid }));
         return Promise.reject(err);
       });
   }
@@ -121,7 +121,7 @@ export function destroy(uuid: string) {
           dispatch(destroyOK(resource));
         })
         .catch(function (err: UnsafeError) {
-          dispatch(destroyNO(err));
+          dispatch(destroyNO({ err, uuid }));
           return Promise.reject(err);
         });
     } else {

@@ -44,7 +44,7 @@ export interface AxiosErrorResponse {
   };
 };
 
-export function toastErrors(err: UnsafeError) {
+export function toastErrors({ err }: UnsafeError) {
   return error(prettyPrintApiErrors(err));
 }
 

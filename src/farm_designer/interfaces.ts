@@ -99,6 +99,7 @@ export interface Point {
   created_at: string;
   meta: { [key: string]: (string | undefined) };
 }
+
 export type TaggedExecutable = TaggedSequence | TaggedRegimen;
 export type ExecutableQuery = (kind: ExecutableType, id: number) => TaggedExecutable;
 export interface AddEditFarmEventProps {

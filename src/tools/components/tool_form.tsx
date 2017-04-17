@@ -63,8 +63,8 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
             <label>{t("Tool Name")}</label>
           </Col>
         </Row>
-        {tools.map((tool: TaggedTool) => {
-          return <Row key={tool.body.id}>
+        {tools.map((tool: TaggedTool, index: number) => {
+          return <Row key={index}>
             <Col xs={10}>
               <BlurableInput
                 id={(tool.body.id || "Error getting ID").toString()}
