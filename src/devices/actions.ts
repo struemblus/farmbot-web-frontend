@@ -358,11 +358,11 @@ export function commitSettingsChanges() {
     getState: () => Everything) {
     let { settingsBuffer, configBuffer, hardware } = getState().bot;
     let mcuPacket = _({})
-      .assign(hardware.mcu_params)
+      // .assign(hardware.mcu_params)
       .assign(settingsBuffer)
       .value();
     let configPacket = _({})
-      .assign(hardware.configuration)
+      // .assign(hardware.configuration)
       .assign(configBuffer)
       .value();
     Promise.all([

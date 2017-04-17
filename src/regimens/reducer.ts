@@ -7,8 +7,8 @@ import * as _ from "lodash";
 export interface RegimenState {
   dailyOffsetMs: number;
   weeks: Week[];
-  selectedSequenceUUID: string | undefined;
-  currentRegimen: string | undefined;
+  selectedSequenceUUID?: string | undefined;
+  currentRegimen?: string | undefined;
 }
 
 function newWeek() {
