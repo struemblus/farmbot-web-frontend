@@ -86,8 +86,8 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
       {this.state.isDragging && (
         <g>
           <circle cx={offsetX} cy={offsetY} transform={translation}
-            r={radius} fill="none" stroke="green" strokeWidth="1.5" />
-          <circle r={radius} transform={translation}
+            r={(r || 0) * 9.8 / 2} fill="none" stroke="green" strokeWidth="1.5" />
+          <circle r={(r || 0) * 9.8 / 2} transform={translation}
             fill={"url(#active-grid)"} cx={offsetX} cy={offsetY} />
         </g>
       )}
