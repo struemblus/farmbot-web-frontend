@@ -71,7 +71,6 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
   }
 
   toggleTicker = () => {
-    this.forceUpdate
     let { tickerExpanded } = this.state;
     this.setState({ tickerExpanded: !tickerExpanded });
   }
