@@ -14,14 +14,14 @@ export function ActiveEditor(props: ActiveEditorProps) {
     <RegimenNameInput regimen={props.regimen} dispatch={props.dispatch} />
     <div>
       <hr />
-      {props.calendar.map(function (group, index) {
-        return <div className="regimen-day" key={index}>
+      {props.calendar.map(function (group, index1) {
+        return <div className="regimen-day" key={index1}>
           <label> {t("Day {{day}}", { day: group.day })} </label>
-          {group.items.map(function (row, idx) {
+          {group.items.map(function (row, index2) {
             let { item, regimen } = row;
             let click = () => props.dispatch(removeRegimenItem(item, regimen));
             let klass = `${row.color}-block block-header regimen-event`
-            return <div className={klass} key={idx}>
+            return <div className={klass} key={`${index1}.${index2}`}>
               <span className="regimen-event-title">{row.name}</span>
               <span className="regimen-event-time">{row.hhmm}</span>
               <i className="fa fa-trash regimen-control" onClick={click} />

@@ -28,11 +28,6 @@ export interface Week {
   };
 }
 
-export interface SetTimeOffsetProps {
-  hours: number;
-  minutes: number;
-}
-
 export interface ToggleDayParams {
   week: number;
   day: number;
@@ -47,16 +42,6 @@ export interface SequenceListProps {
   sequences: TaggedSequence[];
   current: TaggedSequence | undefined;
   dispatch: Function;
-}
-
-export interface TimeInputProps {
-  dispatch: Function;
-  /** milliseconds from midnight */
-  offset: number;
-}
-
-export interface TimeInputState {
-  val: string;
 }
 
 export interface WeekGridProps {
