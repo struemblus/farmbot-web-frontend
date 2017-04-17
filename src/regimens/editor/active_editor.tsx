@@ -15,13 +15,13 @@ export function ActiveEditor(props: ActiveEditorProps) {
     <div>
       <hr />
       {props.calendar.map(function (group, index) {
-        return <div className="regimen-day">
+        return <div className="regimen-day" key={index}>
           <label> {t("Day {{day}}", { day: group.day })} </label>
-          {group.items.map(function (row, index) {
+          {group.items.map(function (row, idx) {
             let { item, regimen } = row;
             let click = () => props.dispatch(removeRegimenItem(item, regimen));
             let klass = `${row.color}-block block-header regimen-event`
-            return <div className={klass}>
+            return <div className={klass} key={idx}>
               <span className="regimen-event-title">{row.name}</span>
               <span className="regimen-event-time">{row.hhmm}</span>
               <i className="fa fa-trash regimen-control" onClick={click} />
