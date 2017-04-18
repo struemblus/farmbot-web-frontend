@@ -166,6 +166,9 @@ export interface GardenPlantProps {
 
 export interface GardenPlantState {
   icon: string;
+  isDragging: boolean;
+  transX: number;
+  transY: number;
 }
 
 export interface GardenPointProps {
@@ -200,25 +203,6 @@ export interface DNDSpeciesMobileState {
 export interface DraggableEvent {
   currentTarget: HTMLImageElement;
   dataTransfer: { setDragImage: Function; };
-}
-
-export interface DraggableSvgImageState {
-  isDragging: boolean;
-  transX: number;
-  transY: number;
-}
-
-export interface DraggableSvgImageProps {
-  crop?: TaggedCrop | undefined;
-  plant: TaggedPlant;
-  id: number;
-  height: number;
-  width: number;
-  onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (uuid: string) => void;
-  x: number;
-  y: number;
-  href: string;
 }
 
 export interface OFSearchProps {

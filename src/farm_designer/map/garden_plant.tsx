@@ -1,71 +1,74 @@
 import * as React from "react";
-import { DraggableSvgImage } from "../draggable_svg_image";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
+import { history } from "../../history";
 
-export class GardenPlant extends React.Component<GardenPlantProps, GardenPlantState> {
+export class GardenPlant extends React.Component<GardenPlantProps,
+  Partial<GardenPlantState>> {
 
-  state = { icon: DEFAULT_ICON };
+  state = { icon: DEFAULT_ICON, isDragging: false, transX: 0, transY: 0 };
 
   componentDidMount() {
     cachedIcon(this.props.plant.body.openfarm_slug)
       .then((icon: string) => this.setState({ icon }));
   }
 
-  render() {
-    let { plant, onUpdate, onDrop, crop } = this.props;
-    if (plant.body.id) {
-      return <g>
-
-        {/*<defs>
-        <pattern id="active-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="green" strokeWidth="0.5" />
-        </pattern>
-      </defs>
-
-      <circle className="map-plant-spread"
-          cx={plant.body.x}
-          cy={plant.body.y}
-          r={(r || 0) * 10 / 2} />
-
-        <g className="selected-plant-indicator">
-          <circle
-            cx={plant.body.x}
-            cy={plant.body.y}
-            strokeWidth={3}
-            fill="none"
-            stroke="green"
-            strokeDasharray={8}
-            r={plant.body.radius} 
-            transform={translation}
-            />
-        </g>
-
-      {this.state.isDragging && (
-        <g>
-          <circle cx={offsetX} cy={offsetY} transform={translation}
-            r={(r || 0) * 9.8 / 2} fill="none" stroke="green" strokeWidth="1.5" />
-          <circle r={(r || 0) * 9.8 / 2} transform={translation}
-            fill={"url(#active-grid)"} cx={offsetX} cy={offsetY} />
-        </g>
-      )}*/}
-
-        <DraggableSvgImage
-          crop={crop}
-          key={plant.body.id}
-          plant={plant}
-          x={plant.body.x - plant.body.radius}
-          y={plant.body.y - plant.body.radius}
-          height={plant.body.radius * 2}
-          width={plant.body.radius * 2}
-          id={plant.body.id}
-          onUpdate={onUpdate}
-          onDrop={onDrop}
-          href={this.state.icon} />
-
-      </g>;
-    } else {
-      throw new Error("Save plants before placing them on the map.");
+  select = () => {
+    let plantId = this.props.plant.body.id || "";
+    if (history.getCurrentLocation().pathname
+      // TS doesn't like that the id is a number for the .includes() method
+      .includes((plantId as string) && "edit")) {
+      this.setState({ isDragging: true });
     }
+  }
+
+  deSelect = () => {
+    (this.props.onDrop)("")
+    this.setState({ isDragging: false });
+  };
+
+  snap = (value: number, gridSize: number) => {
+    let snapped = gridSize * Math.round(value / gridSize);
+    if (Math.abs(value - snapped) < 2) { return snapped; }
+  }
+
+  drag = (e: React.MouseEvent<SVGElement>) => {
+    let { radius, id, x, y } = this.props.plant.body;
+    if (this.state.isDragging) {
+      // TODO: Use offsets of where element is initially selected instead of
+      // hard-coded values.
+      let coordX = (e.pageX - radius) - (320 + x);
+      let coordY = (e.pageY - radius) - (110 + y);
+
+      let gridSize = 10;
+      let snappedX = this.snap(coordX, gridSize);
+      let snappedY = this.snap(coordY, gridSize);
+
+      if (snappedX) { this.setState({ transX: snappedX }); }
+      if (snappedY) { this.setState({ transY: snappedY }); }
+
+      id && this.props.onUpdate(this.state.transX, this.state.transY, id);
+    }
+  }
+
+  render() {
+    let { radius, x, y } = this.props.plant.body;
+
+    return <g>
+      <circle className="draggable-svg-image-container"
+        onMouseDown={() => this.select()}
+        onMouseUp={() => this.deSelect()}
+        onMouseMove={(e) => this.drag(e)}
+        cx={x}
+        cy={y}
+        r={radius * 4}>
+      </circle>
+
+      <image href={this.state.icon}
+        height={radius * 2}
+        width={radius * 2}
+        x={x}
+        y={y} />
+    </g>
   }
 }
