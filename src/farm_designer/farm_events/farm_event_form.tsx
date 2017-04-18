@@ -143,7 +143,7 @@ export class EditFEForm extends React.Component<Props, State> {
   }
 
   commitViewModel = () => {
-    let partial = recombine(betterMerge(this.viewModel, this.state));
+    let partial = recombine(betterMerge(this.viewModel, this.state.fe));
     this.dispatch(edit(this.props.farmEvent, partial));
     this.dispatch(save(this.props.farmEvent.uuid)).then(() => {
       history.push("/app/designer/farm_events");
