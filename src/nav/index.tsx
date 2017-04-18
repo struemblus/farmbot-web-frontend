@@ -137,18 +137,21 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
 
         <div className={`ticker-list ${tickerClass}`} onClick={toggleTicker}>
           {this.props.logs.map(log => {
+            let isFiltered = log.message.includes("filtered");
             let time = moment.utc(log.created_at).local().format("h:mm a");
-            return <div key={log.id} className="status-ticker-wrapper">
-              <div className={`saucer ${log.meta.type}`} />
-              <label className="status-ticker-message">
-                <Markdown>
-                  {log.message.toString() || "Loading"}
-                </Markdown>
-              </label>
-              <label className="status-ticker-created-at">
-                {time}
-              </label>
-            </div>;
+            if (!isFiltered) {
+              return <div key={log.id} className="status-ticker-wrapper">
+                <div className={`saucer ${log.meta.type}`} />
+                <label className="status-ticker-message">
+                  <Markdown>
+                    {log.message || "Loading"}
+                  </Markdown>
+                </label>
+                <label className="status-ticker-created-at">
+                  {time}
+                </label>
+              </div>;
+            }
           })}
         </div>
 

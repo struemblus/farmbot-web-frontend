@@ -142,14 +142,10 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                     </div>
                     <div className="channel-fields">
                       <fieldset>
-                        <label htmlFor="ticker">
-                          Status Ticker/Logs
-                      </label>
-                        <input type="checkbox"
-                          id="ticker"
-                          disabled
-                          checked
-                        />
+                        <label>
+                          {t("Status Ticker/Logs")}
+                          <input type="checkbox" disabled checked />
+                        </label>
                       </fieldset>
                       <ChannelChoices
                         currentStep={this.props.currentStep}
