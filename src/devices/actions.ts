@@ -147,8 +147,8 @@ let commandOK = (noun = "Command") => () => {
   success(msg, t("Request sent"));
 };
 
-export function fetchOSUpdateInfo(url: string): Thunk {
-  return (dispatch: Function, getState: Function) => {
+export let fetchReleases =
+  (url: string) => (dispatch: Function, getState: Function) => {
     get<GithubRelease>(url)
       .then((resp) => {
         let version = resp.data.tag_name;
@@ -159,35 +159,13 @@ export function fetchOSUpdateInfo(url: string): Thunk {
         });
       })
       .catch((ferror) => {
-        error(t("Could not download OS update information."));
+        error(t("Could not download firmware update information."));
         dispatch({
           type: "FETCH_OS_UPDATE_INFO_ERROR",
           payload: ferror
         });
       });
   };
-}
-
-export function fetchFWUpdateInfo(url: string) {
-  return (dispatch: Function, getState: Function) => {
-    get<GithubRelease>(url)
-      .then((resp) => {
-        let version = resp.data.tag_name;
-        let versionWithoutV = version.slice(1, version.length);
-        dispatch({
-          type: "FETCH_FW_UPDATE_INFO_OK",
-          payload: versionWithoutV
-        });
-      })
-      .catch((ferror) => {
-        error(t("Could not download firmware update information."));
-        dispatch({
-          type: "FETCH_FW_UPDATE_INFO_ERROR",
-          payload: ferror
-        });
-      });
-  };
-}
 
 export function save(input: Partial<DeviceAccountSettings>) {
   return function (dispatch: Function, getState: GetState) {

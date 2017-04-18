@@ -1,7 +1,6 @@
 import {
   connectDevice,
-  fetchFWUpdateInfo,
-  fetchOSUpdateInfo
+  fetchReleases
 } from "../devices/actions";
 import { push } from "../history";
 import { error, success } from "../ui";
@@ -19,8 +18,7 @@ import { responseFulfilled, responseRejected, requestFulfilled } from "../interc
 
 export function didLogin(authState: AuthState, dispatch: Function) {
   API.setBaseUrl(authState.token.unencoded.iss);
-  dispatch(fetchOSUpdateInfo(authState.token.unencoded.os_update_server));
-  dispatch(fetchFWUpdateInfo(authState.token.unencoded.fw_update_server));
+  dispatch(fetchReleases(authState.token.unencoded.os_update_server));
   dispatch(loginOk(authState));
 
   NoNoNo.fetchDeprecatedSyncData(dispatch);

@@ -19,6 +19,7 @@ import { findByUuid } from "../resources/reducer";
 import { generateUuid } from "../resources/util";
 import { defensiveClone } from "../util";
 import { EditResourceParams } from "./interfaces";
+import { ResourceIndex } from "../resources/interfaces";
 
 export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   ReduxAction<EditResourceParams> {
@@ -68,46 +69,13 @@ export function save(uuid: string) {
 
 function create(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
-    let resource = findByUuid(getState().resources.index, uuid);
-    return Axios
-      .post<typeof resource.body>(urlFor(resource.kind), resource.body)
-      .then(function (resp) {
-        let r1 = defensiveClone(resource);
-        let r2 = { body: defensiveClone(resp.data) };
-        let newTR = _.merge({}, r1, r2);
-        if (isTaggedResource(newTR)) {
-          dispatch(createOK(newTR));
-        } else {
-          throw new Error("Just saved a malformed TR.");
-        }
-      })
-      .catch(function (err: UnsafeError) {
-        dispatch(createNO({ err, uuid }));
-        return Promise.reject(err);
-      });
+    return updateViaAjax("post", getState().resources.index, uuid, dispatch);
   }
 }
 
 function update(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
-    let resource = findByUuid(getState().resources.index, uuid);
-    let { body, kind } = resource;
-    return Axios
-      .patch<typeof resource.body>(urlFor(kind) + body.id, body)
-      .then(function (resp) {
-        let r1 = defensiveClone(resource);
-        let r2 = { body: defensiveClone(resp.data) };
-        let newTR = _.merge({}, r1, r2);
-        if (isTaggedResource(newTR)) {
-          dispatch(updateOK(newTR));
-        } else {
-          throw new Error("Just saved a malformed TR.");
-        }
-      })
-      .catch(function (err: UnsafeError) {
-        dispatch(updateNO({ err, uuid }));
-        return Promise.reject(err);
-      });
+    return updateViaAjax("patch", getState().resources.index, uuid, dispatch);
   }
 }
 
@@ -164,4 +132,28 @@ export function urlFor(tag: ResourceName) {
     throw new Error(`No resource/URL handler for ${tag} yet.
     Consider adding one to crud.ts`);
   }
+}
+
+/** Shared functionality in create() and update(). */
+function updateViaAjax(verb: "patch" | "post",
+  index: ResourceIndex,
+  uuid: string,
+  dispatch: Function) {
+  let resource = findByUuid(index, uuid);
+  let { body, kind } = resource;
+  return Axios[verb]<typeof resource.body>(urlFor(kind) + body.id, body)
+    .then(function (resp) {
+      let r1 = defensiveClone(resource);
+      let r2 = { body: defensiveClone(resp.data) };
+      let newTR = _.merge({}, r1, r2);
+      if (isTaggedResource(newTR)) {
+        dispatch(updateOK(newTR));
+      } else {
+        throw new Error("Just saved a malformed TR.");
+      }
+    })
+    .catch(function (err: UnsafeError) {
+      dispatch(updateNO({ err, uuid }));
+      return Promise.reject(err);
+    });
 }
