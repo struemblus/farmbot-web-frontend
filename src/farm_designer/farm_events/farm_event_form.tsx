@@ -1,6 +1,10 @@
 import * as React from "react";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
-import { TimeUnit, ExecutableQuery, ExecutableType } from "../interfaces";
+import {
+  TimeUnit,
+  ExecutableQuery,
+  ExecutableType
+} from "../interfaces";
 import {
   formatTime,
   formatDate,
@@ -15,12 +19,18 @@ import {
   SaveBtn
 } from "../../ui/index";
 import { NewFBSelect } from "../../ui/new_fb_select";
-import { destroy, save, edit } from "../../api/crud";
+import {
+  destroy,
+  save,
+  edit
+} from "../../api/crud";
 import { t } from "i18next";
 import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
 import * as moment from "moment";
-import { betterMerge, fancyDebug } from "../../util";
+// TIL: http://stackoverflow.com/a/24900248/1064917
+import { betterMerge } from "../../util";
+import { error } from "../../ui/logger";
 
 type FormEvent = React.SyntheticEvent<HTMLInputElement>;
 /** Seperate each of the form fields into their own interface. Recombined later
@@ -46,7 +56,7 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
     start_time: formatTime((fe.body.start_time || new Date()).toString()),
     end_date: formatDate((fe.body.end_time || new Date()).toString()),
     end_time: formatTime((fe.body.end_time || new Date()).toString()),
-    repeat: (fe.body.repeat || 0).toString(),
+    repeat: (fe.body.repeat || 1).toString(),
     time_unit: fe.body.time_unit,
     executable_type: fe.body.executable_type,
     executable_id: (fe.body.executable_id || "").toString()
@@ -75,9 +85,19 @@ interface Props {
   title: string;
 }
 
-type State = Partial<FarmEventViewModel>;
+interface State {
+  /** Hold a partial FarmEvent locally*/
+  fe: Partial<FarmEventViewModel>;
+  /** This form has local state and does not cause any global state changes when editing.
+   * Example: Navigating away from the page while editing will discard changes. */
+  localCopyDirty: boolean;
+};
 
 export class EditFEForm extends React.Component<Props, State> {
+  constructor() {
+    super();
+    this.state = { fe: {}, localCopyDirty: false }
+  }
   get dispatch() { return this.props.dispatch; }
   get viewModel() {
     return destructureFarmEvent(this.props.farmEvent);
@@ -93,17 +113,16 @@ export class EditFEForm extends React.Component<Props, State> {
     }
   }
 
-  constructor() {
-    super();
-    this.state = {};
-  }
 
   executableSet = (e: TightlyCoupledFarmEventDropDown) => {
     if (e.value) {
-      this.setState({
-        executable_type: e.executable_type,
-        executable_id: (e.value || "").toString()
-      });
+      this.setState(betterMerge(this.state, {
+        fe: {
+          executable_type: e.executable_type,
+          executable_id: (e.value || "").toString()
+        },
+        localCopyDirty: true
+      }));
     }
   }
 
@@ -117,29 +136,35 @@ export class EditFEForm extends React.Component<Props, State> {
     }
   }
 
-  fieldSet = (name: keyof State) => (e: FormEvent) => {
-    this.setState({ [name]: e.currentTarget.value });
+  fieldSet = (name: keyof State["fe"]) => (e: FormEvent) => {
+    this.setState(betterMerge(this.state, {
+      fe: { [name]: e.currentTarget.value },
+      localCopyDirty: true
+    }));
   }
 
-  fieldGet = (name: keyof State): string => {
-    return (this.state[name] || this.viewModel[name] || "").toString();
+  fieldGet = (name: keyof State["fe"]): string => {
+    return (this.state.fe[name] || this.viewModel[name] || "").toString();
   }
 
   commitViewModel = () => {
-    let partial = recombine(betterMerge(this.viewModel, this.state));
+    let partial = recombine(betterMerge(this.viewModel, this.state.fe));
     this.dispatch(edit(this.props.farmEvent, partial));
     this.dispatch(save(this.props.farmEvent.uuid)).then(() => {
       history.push("/app/designer/farm_events");
       success("Saved farm event.", "Saved");
-    });
+    })
+      .catch(() => {
+        error("Unable to save farm event.");
+        this.setState(betterMerge(this.state, { localCopyDirty: false }));
+      });
   }
 
   render() {
     let fe = this.props.farmEvent;
     let isSaving = fe.saving;
-    let isDirty = fe.dirty;
+    let isDirty = fe.dirty || this.state.localCopyDirty;
     let isSaved = !isSaving && !isDirty;
-
     let options = _.indexBy(this.props.repeatOptions, "value");
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
@@ -183,9 +208,12 @@ export class EditFEForm extends React.Component<Props, State> {
           <Col xs={8}>
             <NewFBSelect
               list={this.props.repeatOptions}
-              onChange={(e) => this.setState({
-                time_unit: (e.value || "hourly").toString()
-              })}
+              onChange={(e) => this.setState(betterMerge(this.state, {
+                fe: {
+                  time_unit: (e.value || "hourly").toString()
+                },
+                localCopyDirty: true
+              }))}
               selectedItem={options[this.fieldGet("time_unit")]} />
           </Col>
         </Row>
@@ -213,8 +241,7 @@ export class EditFEForm extends React.Component<Props, State> {
           isDirty={isDirty}
           isSaving={isSaving}
           isSaved={isSaved}
-          onClick={this.commitViewModel}
-        />
+          onClick={this.commitViewModel} />
         <button className="red"
           onClick={() => {
             this.dispatch(destroy(fe.uuid)).then(() => {

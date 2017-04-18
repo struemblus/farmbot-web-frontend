@@ -22,11 +22,11 @@ export class FarmEvents extends React.Component<FarmEventProps, {}> {
         </div>
 
         <div className="col-xs-10 events">
-          {item.items.map(function (farmEvent) {
+          {item.items.map(function (farmEvent, index) {
             let url = `/app/designer/farm_events/` +
               (farmEvent.id || "UNSAVED_EVENT").toString();
             return <div className={`farm-event col-xs-12`}
-              key={farmEvent.sortKey}>
+              key={`${farmEvent.sortKey}.${index}`}>
               <div className="event-time col-xs-4">
                 {farmEvent.timeStr}
               </div>

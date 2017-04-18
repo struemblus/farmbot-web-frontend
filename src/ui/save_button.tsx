@@ -3,7 +3,7 @@ import { t } from "i18next";
 
 interface SaveBtnProps {
   /** Callback */
-  onClick?: any; // TODO: Come back to this
+  onClick?: (e: React.MouseEvent<{}>) => void;
   /** If resource has been edited and not yet saved */
   isDirty?: boolean;
   /** If resource is currently being saved */
