@@ -133,38 +133,6 @@
     }
 }
 
-.plant-link-wrapper {
-    position: relative;
-    cursor: default;
-    image {
-        -webkit-user-drag: none;
-        -webkit-user-select: none;
-        user-select: none;
-    }
-    .selected-plant-indicator {
-        display: none;
-    }
-    &.active {
-        image {
-            cursor: -webkit-grab !important;
-            -webkit-user-drag: auto;
-            -webkit-user-select: all;
-            user-select: all;
-            &:active {
-                cursor: -webkit-grabbing !important;
-            }
-        }
-        .selected-plant-indicator {
-            animation: pulse-and-rotate 3.8s infinite linear;
-            transform-origin: center;
-            display: block;
-        }
-        .map-plant-spread {
-            display: block;
-        }
-    }
-}
-
 .thin-search-wrapper {
     position: relative;
     border-bottom: 1px solid #000;
@@ -261,17 +229,5 @@
         &:first-child {
             margin-bottom: 1rem;
         }
-    }
-}
-
-@keyframes pulse-and-rotate {
-    0% {
-        transform: rotate(0deg) scale(1);
-    }
-    50% {
-        transform: rotate(180deg) scale(1.2);
-    }
-    100% {
-        transform: rotate(360deg) scale(1);
     }
 }

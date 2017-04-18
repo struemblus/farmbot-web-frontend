@@ -27,16 +27,24 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
 }
 
 export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
-  state = { activePlant: undefined, tempX: undefined, tempY: undefined };
 
-  handleDragOver(e: React.DragEvent<HTMLElement>) {
+  state = { map: undefined };
+
+  componentDidMount() {
+    // Possible alternative to this? Maybe refs? Hmm...
+    setTimeout(() => {
+      let el = document.querySelector("#drop-area-svg");
+      let map = el && el.getBoundingClientRect();
+      map && this.setState({ map });
+    }, 1);
+  }
+
+  handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   }
 
-  handleDragEnter(e: React.DragEvent<HTMLElement>) {
-    e.preventDefault();
-  }
+  handleDragEnter = (e: React.DragEvent<HTMLElement>) => { e.preventDefault(); }
 
   findCrop(slug?: string) {
     let crops = this.props.designer.cropSearchResults || [];
@@ -58,7 +66,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     };
   }
 
-  handleDrop(e: React.DragEvent<HTMLElement>) {
+  handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     let el = document.querySelector("#drop-area > svg");
     if (el) {
@@ -95,40 +103,39 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
 
     return <div className="drop-area"
       id="drop-area"
-      onDrop={this.handleDrop.bind(this)}
-      onDragEnter={this.handleDragEnter.bind(this)}
-      onDragOver={this.handleDragOver.bind(this)}>
-      <svg id="svg">
-        {this.props.points.map(function (p) {
-          return <GardenPoint point={p} key={p.body.id} />;
-        })}
-        {
-          this
-            .props
-            .plants
-            .filter(x => !!x.body.id)
-            .map((p, inx) => {
-              let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
-              let pathname = history.getCurrentLocation().pathname;
-              if (p.body.id) {
-                let isActive = (pathname.includes(p.body.id.toString()) &&
-                  pathname.includes("edit")) ? "active" : "";
+      onDrop={this.handleDrop}
+      onDragEnter={this.handleDragEnter}
+      onDragOver={this.handleDragOver}>
 
-                return <Link to={`/app/designer/plants/${p.body.id}`}
-                  className={`plant-link-wrapper ` + isActive.toString()}
-                  key={p.body.id}>
-                  <GardenPlant
-                    crop={c}
-                    plant={p}
-                    onUpdate={updater(p)}
-                    onDrop={dropper(p)} />
-                </Link>;
-              } else {
-                throw new Error("Never.");
-              }
-            })
-        }
+      <svg id="drop-area-svg">
+
+        {this
+          .props
+          .points
+          .map(p => {
+            return <GardenPoint point={p} key={p.body.id} />;
+          })}
+
+        {this
+          .props
+          .plants
+          .filter(x => !!x.body.id)
+          .map(p => {
+            let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
+            return <Link
+              to={"/app/designer/plants/" + p.body.id}
+              className="plant-link-wrapper"
+              key={p.body.id}>
+              <GardenPlant
+                crop={c}
+                plant={p}
+                onUpdate={updater(p)}
+                onDrop={dropper(p)} />
+            </Link>;
+          })}
+
       </svg>
+
     </div>;
   }
 }

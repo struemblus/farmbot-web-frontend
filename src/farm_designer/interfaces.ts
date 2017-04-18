@@ -154,9 +154,7 @@ export interface GardenMapProps {
 }
 
 export interface GardenMapState {
-  activePlant: Plant | undefined;
-  tempX: number | undefined;
-  tempY: number | undefined;
+  map?: ClientRect | undefined;
 }
 
 export interface GardenPlantProps {
@@ -164,6 +162,10 @@ export interface GardenPlantProps {
   plant: TaggedPlant;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
   onDrop: (uuid: string) => void;
+}
+
+export interface GardenPlantState {
+  icon: string;
 }
 
 export interface GardenPointProps {

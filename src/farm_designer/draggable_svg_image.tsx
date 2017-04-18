@@ -4,10 +4,7 @@ import { history } from "../history";
 
 export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
   Partial<DraggableSvgImageState>> {
-  constructor() {
-    super();
-    this.state = { isDragging: false, transX: 0, transY: 0 };
-  }
+  state = { isDragging: false, transX: 0, transY: 0 };
 
   select = () => {
     let plantId = this.props.plant.body.id || "";
@@ -26,14 +23,14 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
   };
 
   snap = (value: number, gridSize: number) => {
-    let snapped = gridSize * Math.round(value / gridSize);
-    if (Math.abs(value - snapped) < 2) { return snapped; }
+    // let snapped = gridSize * Math.round(value / gridSize);
+    // if (Math.abs(value - snapped) < 2) { return snapped; }
   }
 
   drag = (e: React.MouseEvent<SVGElement>) => {
     if (this.state.isDragging) {
-      // TODO: Use offsets of where element is initially selected instead of
-      // hard-coded values (and do some mathematical cleanup).
+    //   // TODO: Use offsets of where element is initially selected instead of
+    //   // hard-coded values (and do some mathematical cleanup).
       let coordX = ((e.pageX - (this.props.height / 2)) - (320 + this.props.x));
       let coordY = ((e.pageY - (this.props.width / 2)) - (110 + this.props.y));
 
@@ -50,59 +47,14 @@ export class DraggableSvgImage extends React.Component<DraggableSvgImageProps,
   }
 
   render() {
-    let { height, width, x, y, plant } = this.props;
-    let offsetX = x - (height * (-0.5));
-    let offsetY = y - (width * (-0.5));
-    let radius = width * 1.2;
-    let translation = `translate(${this.state.transX}, ${this.state.transY})`;
-    let r = this.props.crop && this.props.crop.body.spread;
-
-    return <g>
-      <defs>
-        <pattern id="active-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M 10 0 L 0 0 0 10" fill="none" stroke="green" strokeWidth="0.5" />
-        </pattern>
-      </defs>
-
-
-      <circle className="map-plant-spread"
-          cx={plant.body.x}
-          cy={plant.body.y}
-          r={(r || 0) * 10 / 2} />
-
-        <g className="selected-plant-indicator">
-          <circle
-            cx={plant.body.x}
-            cy={plant.body.y}
-            strokeWidth={3}
-            fill="none"
-            stroke="green"
-            strokeDasharray={8}
-            r={plant.body.radius} 
-            transform={translation}
-            />
-        </g>
-
-      {this.state.isDragging && (
-        <g>
-          <circle cx={offsetX} cy={offsetY} transform={translation}
-            r={(r || 0) * 9.8 / 2} fill="none" stroke="green" strokeWidth="1.5" />
-          <circle r={(r || 0) * 9.8 / 2} transform={translation}
-            fill={"url(#active-grid)"} cx={offsetX} cy={offsetY} />
-        </g>
-      )}
-
-      <image className="handle"
+    return <image
         x={this.props.x}
         y={this.props.y}
         href={this.props.href}
         height={this.props.height}
         width={this.props.width}
-        transform={translation}
         onMouseDown={() => this.select()}
         onMouseUp={() => this.deSelect()}
         onMouseMove={(e) => this.drag(e)} />
-
-    </g>;
   }
 };
