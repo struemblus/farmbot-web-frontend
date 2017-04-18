@@ -55,20 +55,15 @@ export class GardenPlant extends React.Component<GardenPlantProps,
     let { radius, x, y } = this.props.plant.body;
 
     return <g>
-      <circle className="draggable-svg-image-container"
-        onMouseDown={() => this.select()}
-        onMouseUp={() => this.deSelect()}
-        onMouseMove={(e) => this.drag(e)}
-        cx={x}
-        cy={y}
-        r={radius * 4}>
-      </circle>
-
       <image href={this.state.icon}
         height={radius * 2}
         width={radius * 2}
         x={x}
-        y={y} />
+        y={y}
+        onMouseDown={() => this.select()}
+        onMouseUp={() => this.deSelect()}
+        onMouseMove={(e) => this.drag(e)}
+      />
     </g>
   }
 }
