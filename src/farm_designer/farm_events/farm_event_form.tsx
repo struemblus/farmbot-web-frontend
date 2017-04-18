@@ -213,8 +213,7 @@ export class EditFEForm extends React.Component<Props, State> {
           isDirty={isDirty}
           isSaving={isSaving}
           isSaved={isSaved}
-          onClick={this.commitViewModel}
-        />
+          onClick={this.commitViewModel} />
         <button className="red"
           onClick={() => {
             this.dispatch(destroy(fe.uuid)).then(() => {
