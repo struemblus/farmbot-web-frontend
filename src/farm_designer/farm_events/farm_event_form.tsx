@@ -28,7 +28,9 @@ import { t } from "i18next";
 import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
 import * as moment from "moment";
+// TIL: http://stackoverflow.com/a/24900248/1064917
 import { betterMerge } from "../../util";
+import { error } from "../../ui/logger";
 
 type FormEvent = React.SyntheticEvent<HTMLInputElement>;
 /** Seperate each of the form fields into their own interface. Recombined later
@@ -54,7 +56,7 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
     start_time: formatTime((fe.body.start_time || new Date()).toString()),
     end_date: formatDate((fe.body.end_time || new Date()).toString()),
     end_time: formatTime((fe.body.end_time || new Date()).toString()),
-    repeat: (fe.body.repeat || 0).toString(),
+    repeat: (fe.body.repeat || 1).toString(),
     time_unit: fe.body.time_unit,
     executable_type: fe.body.executable_type,
     executable_id: (fe.body.executable_id || "").toString()
@@ -114,13 +116,13 @@ export class EditFEForm extends React.Component<Props, State> {
 
   executableSet = (e: TightlyCoupledFarmEventDropDown) => {
     if (e.value) {
-      this.setState({
+      this.setState(betterMerge(this.state, {
         fe: {
           executable_type: e.executable_type,
           executable_id: (e.value || "").toString()
         },
         localCopyDirty: true
-      });
+      }));
     }
   }
 
@@ -135,7 +137,10 @@ export class EditFEForm extends React.Component<Props, State> {
   }
 
   fieldSet = (name: keyof State["fe"]) => (e: FormEvent) => {
-    this.setState({ fe: { [name]: e.currentTarget.value }, localCopyDirty: true });
+    this.setState(betterMerge(this.state, {
+      fe: { [name]: e.currentTarget.value },
+      localCopyDirty: true
+    }));
   }
 
   fieldGet = (name: keyof State["fe"]): string => {
@@ -148,7 +153,11 @@ export class EditFEForm extends React.Component<Props, State> {
     this.dispatch(save(this.props.farmEvent.uuid)).then(() => {
       history.push("/app/designer/farm_events");
       success("Saved farm event.", "Saved");
-    });
+    })
+      .catch(() => {
+        error("Unable to save farm event.");
+        this.setState(betterMerge(this.state, { localCopyDirty: false }));
+      });
   }
 
   render() {
@@ -156,7 +165,6 @@ export class EditFEForm extends React.Component<Props, State> {
     let isSaving = fe.saving;
     let isDirty = fe.dirty || this.state.localCopyDirty;
     let isSaved = !isSaving && !isDirty;
-    console.dir({ isSaving, isDirty, isSaved });
     let options = _.indexBy(this.props.repeatOptions, "value");
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
@@ -200,12 +208,12 @@ export class EditFEForm extends React.Component<Props, State> {
           <Col xs={8}>
             <NewFBSelect
               list={this.props.repeatOptions}
-              onChange={(e) => this.setState({
+              onChange={(e) => this.setState(betterMerge(this.state, {
                 fe: {
                   time_unit: (e.value || "hourly").toString()
                 },
                 localCopyDirty: true
-              })}
+              }))}
               selectedItem={options[this.fieldGet("time_unit")]} />
           </Col>
         </Row>

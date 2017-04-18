@@ -69,13 +69,13 @@ export function save(uuid: string) {
 
 function create(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
-    return updateViaAjax("post", getState().resources.index, uuid, dispatch);
+    return updateViaAjax(getState().resources.index, uuid, dispatch);
   }
 }
 
 function update(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
-    return updateViaAjax("patch", getState().resources.index, uuid, dispatch);
+    return updateViaAjax(getState().resources.index, uuid, dispatch);
   }
 }
 
@@ -135,13 +135,20 @@ export function urlFor(tag: ResourceName) {
 }
 
 /** Shared functionality in create() and update(). */
-function updateViaAjax(verb: "patch" | "post",
-  index: ResourceIndex,
+function updateViaAjax(index: ResourceIndex,
   uuid: string,
   dispatch: Function) {
   let resource = findByUuid(index, uuid);
   let { body, kind } = resource;
-  return Axios[verb]<typeof resource.body>(urlFor(kind) + body.id, body)
+  let verb: "post" | "put";
+  let url = urlFor(kind);
+  if (body.id) {
+    verb = "put";
+    url += body.id;
+  } else {
+    verb = "post";
+  }
+  return Axios[verb]<typeof resource.body>(url, body)
     .then(function (resp) {
       let r1 = defensiveClone(resource);
       let r2 = { body: defensiveClone(resp.data) };

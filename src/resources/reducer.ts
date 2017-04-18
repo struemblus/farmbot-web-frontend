@@ -145,6 +145,7 @@ export let resourceReducer = generateReducer
     tr.dirty = false;
     tr.saving = false;
     sanityCheck(tr);
+    reindexResource(s.index, tr);
     return s;
   })
   .add<TaggedResource>("*_RESOURCE_NO", function (s, a) {
