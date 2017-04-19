@@ -63,13 +63,7 @@ export function save(uuid: string) {
   return function (dispatch: Function, getState: GetState) {
     let resource = findByUuid(getState().resources.index, uuid);
     dispatch({ type: "SAVE_RESOURCE_START", payload: resource });
-    return dispatch(((resource.body.id) ? update : create)(uuid));
-  }
-}
-
-function create(uuid: string) {
-  return function (dispatch: Function, getState: GetState) {
-    return updateViaAjax(getState().resources.index, uuid, dispatch);
+    return dispatch(update(uuid));
   }
 }
 
