@@ -5,6 +5,7 @@ import { ImageFlipper } from "./image_flipper";
 import { HSV } from "./interfaces";
 import { WeedDetectorSlider } from "./weed_detector_slider";
 import { TaggedImage } from "../resources/tagged_resources";
+import { t } from "i18next";
 
 const DEFAULTS = {
   H: {
@@ -81,9 +82,9 @@ export function WeedDetectorBody({
     <div className="row">
       <div className="col-md-6 col-sm-12">
         <h4>
-          <i>Color Range</i>
+          <i>{t("Color Range")}</i>
         </h4>
-        <label htmlFor="hue">HUE</label>
+        <label htmlFor="hue">{t("HUE")}</label>
         <WeedDetectorSlider
           onChange={onChange("H")}
           onRelease={_.noop}
@@ -91,7 +92,7 @@ export function WeedDetectorBody({
           highest={DEFAULTS.H.HIGHEST}
           lowValue={h_lo}
           highValue={h_hi} />
-        <label htmlFor="saturation">SATURATION</label>
+        <label htmlFor="saturation">{t("SATURATION")}</label>
         <WeedDetectorSlider
           onChange={onChange("S")}
           onRelease={_.noop}
@@ -99,7 +100,7 @@ export function WeedDetectorBody({
           highest={DEFAULTS.S.HIGHEST}
           lowValue={s_lo}
           highValue={s_hi} />
-        <label htmlFor="value">VALUE</label>
+        <label htmlFor="value">{t("VALUE")}</label>
         <WeedDetectorSlider
           onChange={onChange("V")}
           onRelease={_.noop}
@@ -118,12 +119,12 @@ export function WeedDetectorBody({
     <div className="row">
       <div className="col-md-12 col-sm-12">
         <h4>
-          <i>Processing Parameters</i>
+          <i>{t("Processing Parameters")}</i>
         </h4>
       </div>
 
       <div className="col-md-4 col-sm-4">
-        <label>BLUR</label>
+        <label>{t("BLUR")}</label>
         <BlurableInput type="number"
           min={DEFAULTS.BLUR.LOWEST}
           max={DEFAULTS.BLUR.HIGHEST}
@@ -132,7 +133,7 @@ export function WeedDetectorBody({
       </div>
 
       <div className="col-md-4 col-sm-4">
-        <label>MORPH</label>
+        <label>{t("MORPH")}</label>
         <BlurableInput type="number"
           min={DEFAULTS.MORPH.LOWEST}
           max={DEFAULTS.MORPH.HIGHEST}
@@ -140,7 +141,7 @@ export function WeedDetectorBody({
           value={"" + DEFAULTS.MORPH.FALLBACK} />
       </div>
       <div className="col-md-4 col-sm-4">
-        <label>ITERATION</label>
+        <label>{t("ITERATION")}</label>
         <BlurableInput type="number"
           min={DEFAULTS.ITERATION.LOWEST}
           max={DEFAULTS.ITERATION.HIGHEST}

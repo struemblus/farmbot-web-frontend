@@ -1,4 +1,4 @@
-import { Image, ImageFlipperProps, ImageFlipperState } from "./interfaces";
+import { ImageFlipperProps, ImageFlipperState } from "./interfaces";
 import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
@@ -13,9 +13,11 @@ const NO_INDEX = new Error(`
 `);
 
 export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
-  constructor() {
-    super();
-    this.state = { currentInx: 0, isLoaded: false };
+
+  state = { currentInx: 0, isLoaded: false };
+
+  componentDidMount() {
+    this.setState({ currentInx: this.props.images.length - 1 });
   }
 
   current(): TaggedImage | undefined {
@@ -61,13 +63,9 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
   }
 
-  get next() {
-    return this.useIndex(n => this.props.images[n + 1]);
-  }
+  get next() { return this.useIndex(n => this.props.images[n + 1]); }
 
-  get prev() {
-    return this.useIndex(n => this.props.images[n - 1]);
-  }
+  get prev() { return this.useIndex(n => this.props.images[n - 1]); }
 
   up = () => {
     if (this.next) {
@@ -82,10 +80,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
   down = () => {
     if (this.prev) {
       let num = this.useIndex(n => n - 1);
-      this.setState({
-        currentInx: _.max([0, num]),
-        isLoaded: false
-      });
+      this.setState({ currentInx: _.max([0, num]), isLoaded: false });
     }
   }
 
@@ -105,12 +100,20 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     let image = this.imageJSX();
     let i = this.current();
     return <div>
-      <div className="row" >
+      <div className="row">
         <div className="col-sm-12">
           <div className="image-flipper">
             {image}
-            <button onClick={this.down} className="image-flipper-left">Prev</button>
-            <button onClick={this.up} className="image-flipper-right">Next</button>
+            <button
+              onClick={this.down}
+              className="image-flipper-left">
+              {t("Previous")}
+            </button>
+            <button
+              onClick={this.up}
+              className="image-flipper-right">
+              {t("Next")}
+            </button>
           </div>
         </div>
       </div>
