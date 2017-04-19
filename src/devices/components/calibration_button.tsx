@@ -4,6 +4,7 @@ import { devices } from "../../device";
 import { Axis, Xyz } from "../interfaces";
 import { McuParams } from "farmbot/dist";
 import { LockableButton } from "./lockable_button";
+import { axisTrackingStatus } from "./axis_tracking_status";
 
 function calibrate(axis: Axis) {
   devices
@@ -17,17 +18,11 @@ interface CalibrationRowProps {
 }
 
 export function CalibrationRow(input: CalibrationRowProps) {
-  let h = input.hardware
-    , rows: [Xyz, boolean][] = [
-      ["x", !(h.encoder_enabled_x || h.movement_enable_endpoints_x)],
-      ["y", !(h.encoder_enabled_y || h.movement_enable_endpoints_y)],
-      ["z", !(h.encoder_enabled_z || h.movement_enable_endpoints_z)]
-    ];
   return <tr>
     <td>
       <label>{t("CALIBRATION")}</label>
     </td>
-    {rows.map((row) => {
+    {axisTrackingStatus(input).map((row) => {
       let [axis, disable] = row;
       return <td key={axis}>
         <LockableButton disabled={disable} onClick={() => calibrate(axis)}>
