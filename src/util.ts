@@ -292,3 +292,10 @@ export function oneOf(list: string[], target: string) {
   list.map(x => target.includes(x) ? matches++ : "");
   return !!matches;
 }
+
+/** Dynamically change the meta title of the page. */
+export function updatePageInfo(pageName: string) {
+  if (pageName === "designer") { pageName = "Farm Designer"; }
+  document.title = _.capitalize(pageName);
+  // Possibly add meta "content" here dynamically as well
+}

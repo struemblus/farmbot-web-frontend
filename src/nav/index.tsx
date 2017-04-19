@@ -8,6 +8,7 @@ import { Markdown } from "../ui";
 import * as moment from "moment";
 import { SyncButton } from "./sync_button";
 import { history } from "../history";
+import { updatePageInfo } from "../util";
 
 let DropDown = ({ auth, onClick }: DropDownProps) => {
   if (!auth) { return <span></span>; }
@@ -82,6 +83,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
     let tickerClass = this.state.tickerExpanded ? "expanded" : "";
     // The way our app is laid out, we'll pretty much always want this bit.
     let pageName = history.getCurrentLocation().pathname.split("/")[2] || "";
+    updatePageInfo(pageName);
     let { toggleMobileNav, toggleTicker, logout } = this;
 
     return <div className="nav-wrapper">
