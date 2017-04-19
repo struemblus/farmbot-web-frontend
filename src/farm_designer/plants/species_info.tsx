@@ -7,6 +7,7 @@ import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
 import { history } from "../../history";
 import { connect } from "react-redux";
 import { Everything } from "../../interfaces";
+import { findBySlug } from "../search_selectors";
 
 function mapStateToProps(props: Everything): SpeciesInfoProps {
   return {
@@ -34,31 +35,11 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
       && e.dataTransfer.setDragImage(img, 50, 50);
   }
 
-  findCrop(slug?: string) {
-    let crops = this.props.cropSearchResults;
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements",
-        svg_icon: DEFAULT_ICON
-      },
-      image: "http://placehold.it/350x150"
-    };
-  }
-
   render() {
     let species = history.getCurrentLocation().pathname.split("/")[5];
-    let result = this.findCrop(species || "PLANT_NOT_FOUND");
+    let result =
+      findBySlug(this.props.cropSearchResults,
+        species || "PLANT_NOT_FOUND");
 
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 

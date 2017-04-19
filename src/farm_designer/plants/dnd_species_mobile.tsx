@@ -11,6 +11,7 @@ import {
   DNDSpeciesMobileState,
   DraggableEvent
 } from "../interfaces";
+import { findBySlug } from "../search_selectors";
 
 const NOOP = (a: object, b: number, c: number) => {
   // "NO DND SUPPORT ON THIS BROWSER";
@@ -39,30 +40,12 @@ DNDSpeciesMobileState> {
     this.setState({ isDragging: !this.state.isDragging });
   }
 
-  findCrop(slug?: string) {
-    let crops = this.props.cropSearchResults;
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements"
-      },
-      image: "http://placehold.it/350x150"
-    };
-  }
-
   render() {
     let species = history.getCurrentLocation().pathname.split("/")[5];
 
-    let result = this.findCrop(species || "PLANT_NOT_FOUND");
+    let result =
+      findBySlug(this.props.cropSearchResults,
+        species || "PLANT_NOT_FOUND");
 
     /** rgba arguments are a more mobile-friendly way apply filters */
     let backgroundURL = isMobile() ? `linear-gradient(
