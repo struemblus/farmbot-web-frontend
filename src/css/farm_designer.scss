@@ -188,8 +188,13 @@
         }
     }
     .plant-search-item {
+        cursor: pointer;
         height: 4rem;
         margin-bottom: 1rem;
+        &:hover {
+            background: darken($light_green, 10%);
+            transition: background 0.2s ease;
+        }
         img {
             height: 4rem;
             width: 4rem;
