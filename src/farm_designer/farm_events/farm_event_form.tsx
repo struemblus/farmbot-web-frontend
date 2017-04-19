@@ -68,7 +68,7 @@ function destructureFarmEvent(fe: TaggedFarmEvent): FarmEventViewModel {
 function recombine(vm: FarmEventViewModel): Partial<TaggedFarmEvent["body"]> {
   return {
     start_time: moment(vm.start_date + " " + vm.start_time).toISOString(),
-    end_time: moment(vm.end_date + " " + vm.start_date).toISOString(),
+    end_time: moment(vm.end_date + " " + vm.end_time).toISOString(),
     repeat: parseInt(vm.repeat, 10),
     time_unit: vm.time_unit as TimeUnit,
     executable_id: parseInt(vm.executable_id, 10),
