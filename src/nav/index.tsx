@@ -145,6 +145,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             {t("Frontend")}:
                 <a href="https://github.com/FarmBot/farmbot-web-frontend"
               target="_blank">
+              {/** SHORT_REVISION is the last frontend commit. */}
               {process.env.SHORT_REVISION}
             </a>
           </div>
