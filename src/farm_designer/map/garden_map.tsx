@@ -93,6 +93,16 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     }
   }
 
+  handleOnClick = (plantId: string) => {
+    console.log("here???");
+
+    let selectedPlant = document.getElementById(plantId);
+    console.log(selectedPlant);
+
+    selectedPlant && selectedPlant.classList.remove("eligible");
+    selectedPlant && selectedPlant.classList.add("chosen");
+  }
+
   render() {
     let { dispatch, crops } = this.props;
     let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
@@ -120,12 +130,15 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           .props
           .plants
           .filter(x => !!x.body.id)
-          .map(p => {
+          .map((p, index) => {
+            let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
             return <Link
-              to={"/app/designer/plants/" + p.body.id}
+              to={"/app/designer/plants/" + plantId}
               className="plant-link-wrapper"
-              key={p.body.id}>
+              id={plantId}
+              onClick={() => this.handleOnClick(plantId)}
+              key={(plantId || index)}>
               <GardenPlant
                 crop={c}
                 plant={p}

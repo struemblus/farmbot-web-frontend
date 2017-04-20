@@ -23,8 +23,14 @@ export class PlantInventoryItem extends React.Component<Props, State> {
     }
   }
 
-  handleMouseOver = () => {
-    // dispatch
+  handleMouseEnter = (plantId: string) => {
+    let selectedPlant = document.getElementById(plantId);
+    selectedPlant && selectedPlant.classList.add("eligible");
+  }
+
+  handleMouseLeave = (plantId: string) => {
+    let selectedPlant = document.getElementById(plantId);
+    selectedPlant && selectedPlant.classList.remove("eligible");
   }
 
   render() {
@@ -33,11 +39,11 @@ export class PlantInventoryItem extends React.Component<Props, State> {
     let dayPlanted = moment();
     let label = (plant && plant.name) || ("Unknown plant");
     let daysOld = dayPlanted.diff(moment(plantedAt), "days") + 1;
-    let plantId;
-    if (plant && plant.id) { plantId = plant.id.toString(); }
+    let plantId = (plant && plant.id || "ERR_NO_PLANT_ID").toString();
 
-    return <div className="plant-search-item" id={plantId}
-      onMouseOver={this.handleMouseOver}>
+    return <div className="plant-search-item"
+      onMouseEnter={() => this.handleMouseEnter(plantId)}
+      onMouseLeave={() => this.handleMouseLeave(plantId)}>
       <img className="plant-search-item-image" src={this.state.icon} />
       <span className="plant-search-item-name">{label}</span>
       <i className="plant-search-item-age">
