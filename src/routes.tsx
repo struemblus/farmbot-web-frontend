@@ -54,7 +54,14 @@ let errorLoading = (cb: any) => function handleError(err: any) {
     element.remove();
   }
 }
-
+let controlsRoute = {
+  path: "app/controls",
+  getComponent(location: any, cb: any) {
+    System.import("./controls/controls.tsx").then(
+      (module: any) => cb(null, module.Controls)
+    ).catch(errorLoading(cb));
+  }
+};
 export class RootComponent extends React.Component<RootComponentProps, {}> {
 
   requireAuth(_: RouterState, replace: RedirectFunction) {
@@ -100,14 +107,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
 
   routes = {
     component: App,
-    indexRoute: {
-      path: "app/controls",
-      getComponent(location: any, cb: any) {
-        System.import("./controls/controls.tsx").then(
-          (module: any) => cb(null, module.Controls)
-        ).catch(errorLoading(cb));
-      }
-    },
+    indexRoute: controlsRoute,
     childRoutes: [
       {
         path: "app/account",
@@ -117,14 +117,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
           ).catch(errorLoading(cb));
         }
       },
-      {
-        path: "app/controls",
-        getComponent(location: any, cb: any) {
-          System.import("./controls/controls.tsx").then(
-            (module: any) => cb(null, module.Controls)
-          ).catch(errorLoading(cb));
-        }
-      },
+      controlsRoute,
       {
         path: "app/device",
         getComponent(location: any, cb: any) {
