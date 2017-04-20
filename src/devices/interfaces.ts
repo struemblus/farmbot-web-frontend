@@ -61,14 +61,11 @@ export interface BotState {
   currentFWVersion?: string;
   /** Is the bot in sync with the api */
   dirty: boolean;
-  /** Holds ARDUINO settings that the user is currently editing,
-   * but has not sent */
-  settingsBuffer: Partial<Record<McuParamName, string | undefined>>;
-  /** RPi / FarmBot OS settings (steps_per_mm and such) that have been edited,
-   * but not sent to the bot yet. */
-  configBuffer: Partial<Configuration>;
   /** The state of the bot, as reported by the bot over MQTT. */
   hardware: HardwareState;
+  /** Hardware settings auto update on blur. Tells the UI if it should load a
+   * spinner or not. */
+  isUpdating?: boolean;
 }
 export interface BotProp {
   bot: BotState;

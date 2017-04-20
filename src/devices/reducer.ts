@@ -33,40 +33,24 @@ let initialState: BotState = {
       farm_events: []
     }
   },
-  settingsBuffer: {},
-  configBuffer: {},
   dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<{}>("COMMIT_SETTINGS_OK", function (s, a) {
-    return betterMerge(s, { configBuffer: {}, settingsBuffer: {} });
-  })
-  .add<Partial<Configuration>>("CHANGE_CONFIG_BUFFER", function (s, a) {
-    let old_buffer = s.configBuffer;
-    let new_buffer = a.payload;
-    let nextConfig = betterMerge(old_buffer, new_buffer);
-    s.configBuffer = nextConfig;
-    return s;
-  })
-  .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER",
-  function (s, a) {
-    let newVal = a.payload.val;
-    if (newVal) {
-      s.settingsBuffer[a.payload.key] = a.payload.val.toString();
-    } else {
-      delete s.settingsBuffer[a.payload.key];
-    }
-    return Object.assign({}, s, {
-      settingsBuffer: s.settingsBuffer
-    });
-  })
   .add<number>("CHANGE_STEP_SIZE", function (s, a) {
     return Object.assign({}, s, {
       stepSize: a.payload
     });
+  })
+  .add<void>("SETTING_UPDATE_START", (s, a) => {
+    s.isUpdating = true;
+    return s;
+  })
+  .add<void>("SETTING_UPDATE_END", (s, a) => {
+    s.isUpdating = false;
+    return s;
   })
   .add<HardwareState>("BOT_CHANGE",
   function (s, a) {

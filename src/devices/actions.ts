@@ -36,15 +36,6 @@ function isLog(x: any): x is Log {
   return _.isObject(x) && _.isString(x.message);
 }
 
-export function updateConfig(config: Configuration) {
-  let noun = "Update Config";
-  devices
-    .current
-    .updateConfig(config)
-    .then(() => { commandOK(noun); })
-    .catch(() => { commandErr(noun); });
-}
-
 export function checkControllerUpdates() {
   let noun = "Check for Updates";
   devices
@@ -221,7 +212,7 @@ export function moveAbs(props: MoveRelProps) {
   return devices
     .current
     .moveAbsolute(props)
-    .then(commandOK(noun), commandErr(noun));
+    .then(_.noop, commandErr(noun));
 }
 
 export function pinToggle(pin_number: number) {
@@ -308,49 +299,48 @@ function fetchDeviceErr(err: Error) {
   };
 }
 
-export function changeSettingsBuffer(key: configKey, val: string):
-  ReduxAction<ChangeSettingsBuffer> {
-  return {
-    type: "CHANGE_SETTINGS_BUFFER",
-    payload: { key, val: parseInt(val, 10) }
-  };
+let startUpdate = (dispatch: Function) => {
+  dispatch({ type: "SETTING_UPDATE_START", payload: undefined });
 }
 
-export function changeConfigBuffer(config: Partial<Configuration>):
-  ReduxAction<Configuration> {
-  return {
-    type: "CHANGE_CONFIG_BUFFER",
-    payload: config
-  };
+let updateOK = (dispatch: Function, noun: string) => {
+  dispatch({ type: "SETTING_UPDATE_END", payload: undefined });
+  commandOK(noun);
 }
+
+let updateNO = (dispatch: Function, noun: string) => {
+  dispatch({ type: "SETTING_UPDATE_END", payload: undefined });
+  commandErr(noun);
+}
+
+export function updateMCU(key: configKey, val: string) {
+  let noun = "configuration update";
+  return function (dispatch: Function) {
+    startUpdate(dispatch);
+    devices
+      .current
+      .updateMcu({ [key]: val })
+      .then(() => updateOK(dispatch, noun))
+      .catch(() => updateNO(dispatch, noun));
+  }
+}
+
+export function updateConfig(config: Configuration) {
+  let noun = "Update Config";
+  return function (dispatch: Function) {
+    devices
+      .current
+      .updateConfig(config)
+      .then(() => updateOK(dispatch, noun))
+      .catch(() => updateNO(dispatch, noun));
+  }
+}
+
 
 export function changeStepSize(integer: number) {
   return {
     type: "CHANGE_STEP_SIZE",
     payload: integer
-  };
-}
-
-export function commitSettingsChanges() {
-  return function (dispatch: Function,
-    getState: () => Everything) {
-    let { settingsBuffer, configBuffer, hardware } = getState().bot;
-    let mcuPacket = _({})
-      // .assign(hardware.mcu_params)
-      .assign(settingsBuffer)
-      .value();
-    let configPacket = _({})
-      // .assign(hardware.configuration)
-      .assign(configBuffer)
-      .value();
-    Promise.all([
-      devices.current.updateMcu(mcuPacket),
-      devices.current.updateConfig(configPacket)
-    ]).then(() => {
-      dispatch(commitSettingsChangesOk());
-    }).catch(() => {
-      commandErr("Commit Settings Change");
-    });
   };
 }
 
