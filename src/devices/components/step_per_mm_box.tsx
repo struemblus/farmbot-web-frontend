@@ -13,9 +13,10 @@ export class BotConfigInputBox extends React.Component<StepsPerMMBoxProps, {}> {
 
   change(key: ConfigurationName, dispatch: Function) {
     return function (event: React.FormEvent<HTMLInputElement>) {
-      let formInput = parseInt(event.currentTarget.value, 10);
-      if (!_.isNaN(formInput)) {
-        dispatch(updateConfig({ [key]: formInput }));
+      let next = parseInt(event.currentTarget.value, 10);
+      let current = this.config[this.setting];
+      if (!_.isNaN(next) && (next !== current)) {
+        dispatch(updateConfig({ [key]: next }));
       }
     };
   }
