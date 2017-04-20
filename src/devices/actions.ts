@@ -309,16 +309,13 @@ function fetchDeviceErr(err: Error) {
 }
 
 export function updateMCU(key: configKey, val: string) {
-  devices.current.updateMcu({ [key]: val });
+  let noun = "configuration update";
+  devices
+    .current
+    .updateMcu({ [key]: val })
+    .then(() => { commandOK(noun); })
+    .catch(() => { commandErr(noun); });
 }
-
-// export function changeConfigBuffer(config: Partial<Configuration>):
-//   ReduxAction<Configuration> {
-//   return {
-//     type: "CHANGE_CONFIG_BUFFER",
-//     payload: config
-//   };
-// }
 
 export function changeStepSize(integer: number) {
   return {
@@ -326,29 +323,6 @@ export function changeStepSize(integer: number) {
     payload: integer
   };
 }
-
-// export function commitSettingsChanges() {
-//   return function (dispatch: Function,
-//     getState: () => Everything) {
-//     let { settingsBuffer, configBuffer, hardware } = getState().bot;
-//     let mcuPacket = _({})
-//       // .assign(hardware.mcu_params)
-//       .assign(settingsBuffer)
-//       .value();
-//     let configPacket = _({})
-//       // .assign(hardware.configuration)
-//       .assign(configBuffer)
-//       .value();
-//     Promise.all([
-//       devices.current.updateMcu(mcuPacket),
-//       devices.current.updateConfig(configPacket)
-//     ]).then(() => {
-//       dispatch(commitSettingsChangesOk());
-//     }).catch(() => {
-//       commandErr("Commit Settings Change");
-//     });
-//   };
-// }
 
 function commitSettingsChangesOk() {
   return {
