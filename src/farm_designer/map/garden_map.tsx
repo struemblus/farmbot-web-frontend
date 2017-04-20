@@ -5,8 +5,7 @@ import * as moment from "moment";
 import { GardenMapProps, GardenMapState } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
-import { Link } from "react-router";
-import { history } from "../../history";
+import { history, push } from "../../history";
 import { initSave, save } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 
@@ -96,11 +95,11 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   handleOnClick = (plantId: string) => {
     console.log("here???");
 
-    let selectedPlant = document.getElementById(plantId);
-    console.log(selectedPlant);
+    // let selectedPlant = document.getElementById(plantId);
+    // console.log(selectedPlant);
 
-    selectedPlant && selectedPlant.classList.remove("eligible");
-    selectedPlant && selectedPlant.classList.add("chosen");
+    // selectedPlant && selectedPlant.classList.remove("eligible");
+    // selectedPlant && selectedPlant.classList.add("chosen");
   }
 
   render() {
@@ -133,9 +132,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
-            return <Link
-              to={"/app/designer/plants/" + plantId}
-              className="plant-link-wrapper"
+            return <a className="plant-link-wrapper"
               id={plantId}
               onClick={() => this.handleOnClick(plantId)}
               key={(plantId || index)}>
@@ -144,7 +141,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 plant={p}
                 onUpdate={updater(p)}
                 onDrop={dropper(p)} />
-            </Link>;
+            </a>;
           })}
 
       </svg>
