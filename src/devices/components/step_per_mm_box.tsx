@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BlurableInput } from "../../ui/index";
 import { StepsPerMMBoxProps } from "../interfaces";
-import { Xyz, ConfigurationName } from "farmbot/dist";
+import { ConfigurationName } from "farmbot/dist";
 import { updateConfig } from "../actions";
 
 /** Steps per mm is not an actual Arduino command.
@@ -11,8 +11,8 @@ export class BotConfigInputBox extends React.Component<StepsPerMMBoxProps, {}> {
   get setting() { return this.props.setting; }
   get config() { return this.props.bot.hardware.configuration; }
 
-  change(key: ConfigurationName, dispatch: Function) {
-    return function (event: React.FormEvent<HTMLInputElement>) {
+  change = (key: ConfigurationName, dispatch: Function) => {
+    return (event: React.FormEvent<HTMLInputElement>) => {
       let next = parseInt(event.currentTarget.value, 10);
       let current = this.config[this.setting];
       if (!_.isNaN(next) && (next !== current)) {
