@@ -5,25 +5,10 @@ import * as moment from "moment";
 import { t } from "i18next";
 import { EditPlantInfoProps, PlantData } from "../interfaces";
 import { history } from "../../history";
-import { Everything } from "../../interfaces";
 import { destroy } from "../../api/crud";
-import { maybeFindPlantById } from "../../resources/selectors";
 import { TaggedPlant } from "../../resources/tagged_resources";
+import { mapStateToProps } from "./map_state_to_props"
 
-function mapStateToProps(props: Everything): EditPlantInfoProps {
-  let findPlant = (id: string | undefined) => {
-    let num = parseInt(id || "NOPE", 10);
-    if (_.isNumber(num) && !_.isNaN(num)) {
-      return maybeFindPlantById(props.resources.index, num);
-    }
-  };
-
-  return {
-    findPlant,
-    push: history.push,
-    dispatch: props.dispatch,
-  }
-}
 
 @connect(mapStateToProps)
 export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
