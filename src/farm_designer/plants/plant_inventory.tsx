@@ -3,18 +3,10 @@ import { Link } from "react-router";
 import { Everything } from "../../interfaces";
 import { DeprecatedFBSelect, DropDownItem } from "../../ui";
 import { connect } from "react-redux";
-import * as moment from "moment";
 import { t } from "i18next";
 import { selectAllPlants } from "../../resources/selectors";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { PlantInventoryItem } from "./plant_inventory_item";
-
-function OptionComponent(plants: TaggedPlant[]) {
-  let indexedById = _(plants).map(x => x.body).indexBy("id").value();
-  return (props: DropDownItem) => {
-    return <PlantInventoryItem plant={indexedById[props.value || 0]} />;
-  };
-}
 
 @connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
@@ -23,13 +15,22 @@ export class Plants extends React.Component<Everything, {}> {
     this.props.router.push(`/app/designer/plants/` + e.value);
   }
 
+  OptionComponent(plants: TaggedPlant[]) {
+    let indexedById = _(plants).map(x => x.body).indexBy("id").value();
+    return (props: DropDownItem) => {
+      return <PlantInventoryItem plant={indexedById[props.value || 0]}
+      />;
+    };
+  }
+
   render() {
     let plants = selectAllPlants(this.props.resources.index);
+
     let plantOptions = plants.map(plant => {
       if (plant.body.id) {
         return { label: plant.body.name, value: plant.body.id };
       } else {
-        throw new Error("Thought plants would have an ID here.");
+        throw new Error("Thought plant would have an ID here.");
       }
     });
 
@@ -53,7 +54,7 @@ export class Plants extends React.Component<Everything, {}> {
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
           <DeprecatedFBSelect list={plantOptions}
-            optionComponent={OptionComponent(plants)}
+            optionComponent={this.OptionComponent(plants)}
             onChange={this.handleRedirect}
             isOpen={true}
             placeholder="Search Plants" />

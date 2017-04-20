@@ -13,10 +13,8 @@ interface State {
 }
 
 export class PlantInventoryItem extends React.Component<Props, State> {
-  constructor() {
-    super();
-    this.state = { icon: DEFAULT_ICON };
-  }
+
+  state = { icon: DEFAULT_ICON };
 
   componentDidMount() {
     if (this.props.plant) {
@@ -24,14 +22,22 @@ export class PlantInventoryItem extends React.Component<Props, State> {
         .then(icon => this.setState({ icon }))
     }
   }
+
+  handleMouseOver = () => {
+    // dispatch
+  }
+
   render() {
     let plant = this.props.plant;
-    let planted_at = (plant && plant.planted_at) || moment();
+    let plantedAt = (plant && plant.planted_at) || moment();
     let dayPlanted = moment();
-    let label = ((plant && plant.name) ||
-      ("Unknown plant"));
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    return <div className="plant-search-item">
+    let label = (plant && plant.name) || ("Unknown plant");
+    let daysOld = dayPlanted.diff(moment(plantedAt), "days") + 1;
+    let plantId;
+    if (plant && plant.id) { plantId = plant.id.toString(); }
+
+    return <div className="plant-search-item" id={plantId}
+      onMouseOver={this.handleMouseOver}>
       <img className="plant-search-item-image" src={this.state.icon} />
       <span className="plant-search-item-name">{label}</span>
       <i className="plant-search-item-age">

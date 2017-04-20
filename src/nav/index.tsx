@@ -11,10 +11,14 @@ import { history } from "../history";
 import { updatePageInfo } from "../util";
 
 let DropDown = ({ auth, onClick }: DropDownProps) => {
+  // Just checking if user is logged in, otherwise nothing is returned.
   if (!auth) { return <span></span>; }
+
+  // Displaying the user's name in the top right of the screen if available.
   let hasName = auth.user && auth.user.name;
   let greeting = hasName ? `${hasName} ▾` : "";
 
+  // The bit shown while hovering over username in top right of screen.
   return <div className="nav-dropdown">
     <span>{greeting}</span>
     <div className="nav-dropdown-content">
@@ -41,7 +45,9 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
       <div className="version-links">
         <span>{t("Frontend")}:
             <a href="https://github.com/FarmBot/farmbot-web-frontend"
-            target="_blank">{process.env.SHORT_REVISION}
+            target="_blank">
+            {/**  */}
+            {process.env.SHORT_REVISION}
           </a>
         </span>
       </div>
@@ -49,6 +55,7 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
   </div>;
 };
 
+// Easier way to keep track of links in the navbar.
 let links = [
   { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
   { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
@@ -59,10 +66,8 @@ let links = [
 ];
 
 export class NavBar extends React.Component<NavBarProps, NavBarState> {
-  constructor() {
-    super();
-    this.state = { mobileNavExpanded: false, tickerExpanded: false };
-  }
+
+  state = { mobileNavExpanded: false, tickerExpanded: false };
 
   toggleMobileNav = () => {
     let { mobileNavExpanded } = this.state;
@@ -79,11 +84,18 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
   logout = () => Session.clear(true);
 
   render() {
+    // Class for toggling the left sliding menu on mobile and tablets.
     let mobileMenuClass = this.state.mobileNavExpanded ? "expanded" : "";
+
+    // Class for toggling the black bar, top of the screen containing logs.
     let tickerClass = this.state.tickerExpanded ? "expanded" : "";
+
     // The way our app is laid out, we'll pretty much always want this bit.
     let pageName = history.getCurrentLocation().pathname.split("/")[2] || "";
+
+    // Change document meta title on every route change.
     updatePageInfo(pageName);
+
     let { toggleMobileNav, toggleTicker, logout } = this;
 
     return <div className="nav-wrapper">
@@ -106,6 +118,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
               </li>;
             })}
           </ul>
+
           {/** TODO: Getting the links from the desktop dropdown to the
           mobile slide-out menu involves gnarly (and probably mobile-
           incompatible) CSS. I'll look into this one. -CV */}
@@ -132,6 +145,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             {t("Frontend")}:
                 <a href="https://github.com/FarmBot/farmbot-web-frontend"
               target="_blank">
+              {/** SHORT_REVISION is the last frontend commit. */}
               {process.env.SHORT_REVISION}
             </a>
           </div>
@@ -139,7 +153,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
 
         <div className={`ticker-list ${tickerClass}`} onClick={toggleTicker}>
           {this.props.logs.map(log => {
-            let isFiltered = log.message.includes("filtered");
+            let isFiltered = log.message.toLowerCase().includes("filtered");
             let time = moment.utc(log.created_at).local().format("h:mm a");
             if (!isFiltered) {
               return <div key={log.id} className="status-ticker-wrapper">
@@ -157,6 +171,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
           })}
         </div>
 
+        {/** Everything to the right of the navigation links. */}
         <div className="right-nav-content">
           <SyncButton
             bot={this.props.bot}
@@ -170,6 +185,7 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
             auth={this.props.auth} />
         </div>
 
+        {/** The darkish opaque backdrop when mobile/tablet is open */}
         <div className={`underlay ${mobileMenuClass}`}
           onClick={toggleMobileNav}></div>
       </nav>
