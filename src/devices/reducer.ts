@@ -44,6 +44,14 @@ export let botReducer = generateReducer<BotState>(initialState)
       stepSize: a.payload
     });
   })
+  .add<void>("SETTING_UPDATE_START", (s, a) => {
+    s.isUpdating = true;
+    return s;
+  })
+  .add<void>("SETTING_UPDATE_END", (s, a) => {
+    s.isUpdating = false;
+    return s;
+  })
   .add<HardwareState>("BOT_CHANGE",
   function (s, a) {
     let nextState = a.payload;

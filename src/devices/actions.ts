@@ -36,15 +36,6 @@ function isLog(x: any): x is Log {
   return _.isObject(x) && _.isString(x.message);
 }
 
-export function updateConfig(config: Configuration) {
-  let noun = "Update Config";
-  devices
-    .current
-    .updateConfig(config)
-    .then(() => { commandOK(noun); })
-    .catch(() => { commandErr(noun); });
-}
-
 export function checkControllerUpdates() {
   let noun = "Check for Updates";
   devices
@@ -308,14 +299,43 @@ function fetchDeviceErr(err: Error) {
   };
 }
 
+let startUpdate = (dispatch: Function) => {
+  dispatch({ type: "SETTING_UPDATE_START", payload: undefined });
+}
+
+let updateOK = (dispatch: Function, noun: string) => {
+  dispatch({ type: "SETTING_UPDATE_END", payload: undefined });
+  commandOK(noun);
+}
+
+let updateNO = (dispatch: Function, noun: string) => {
+  dispatch({ type: "SETTING_UPDATE_END", payload: undefined });
+  commandErr(noun);
+}
+
 export function updateMCU(key: configKey, val: string) {
   let noun = "configuration update";
-  devices
-    .current
-    .updateMcu({ [key]: val })
-    .then(() => { commandOK(noun); })
-    .catch(() => { commandErr(noun); });
+  return function (dispatch: Function) {
+    startUpdate(dispatch);
+    devices
+      .current
+      .updateMcu({ [key]: val })
+      .then(() => updateOK(dispatch, noun))
+      .catch(() => updateNO(dispatch, noun));
+  }
 }
+
+export function updateConfig(config: Configuration) {
+  let noun = "Update Config";
+  return function (dispatch: Function) {
+    devices
+      .current
+      .updateConfig(config)
+      .then(() => updateOK(dispatch, noun))
+      .catch(() => updateNO(dispatch, noun));
+  }
+}
+
 
 export function changeStepSize(integer: number) {
   return {

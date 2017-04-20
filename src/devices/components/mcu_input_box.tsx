@@ -16,7 +16,7 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
       <BlurableInput type="number" onCommit={(e) => {
         let { value } = e.currentTarget;
         if (this.value !== value) {
-          updateMCU(this.key, e.currentTarget.value);
+          this.props.dispatch(updateMCU(this.key, e.currentTarget.value));
         }
       }}
         value={this.value} />
