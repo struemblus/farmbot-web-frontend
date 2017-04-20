@@ -8,7 +8,7 @@ import { history } from "../../history";
 import { destroy } from "../../api/crud";
 import { Link } from "react-router";
 import { TaggedPlant } from "../../resources/tagged_resources";
-import { mapStateToProps } from "./map_state_to_props"
+import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
 
 @connect(mapStateToProps)
 export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
@@ -29,19 +29,15 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
   fallback = () => <span>Redirecting...</span>
 
   default = (plant_info: TaggedPlant) => {
-    let { planted_at, name, x, y, id } = plant_info.body;
-    let dayPlanted = moment();
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
-
+    let info = formatPlantInfo(plant_info);
     return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
           <Link to="/app/designer/plants" className="back-arrow">
             <i className="fa fa-arrow-left" />
           </Link>
-          <span className="title">{name}</span>
-          <Link to={`/app/designer/plants/` + (id || "BROKEN")
+          <span className="title">{info.name}</span>
+          <Link to={`/app/designer/plants/` + (info.id || "BROKEN")
             .toString() + `/edit`}
             className="right-button">
             {t("Edit")}
@@ -51,9 +47,9 @@ export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
       <div className="panel-content">
         <label>{t("Plant Info")}</label>
         <ul>
-          <li>{t("Started")}: {plantedAt}</li>
-          <li>{t("Age")}: {daysOld}</li>
-          <li>{t("Location")}: ({x}, {y})</li>
+          <li>{t("Started")}: {info.plantedAt}</li>
+          <li>{t("Age")}: {info.daysOld}</li>
+          <li>{t("Location")}: ({info.x}, {info.y})</li>
         </ul>
         <label>{t("Regimens")}</label>
         <ul>

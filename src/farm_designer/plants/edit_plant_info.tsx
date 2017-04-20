@@ -7,7 +7,7 @@ import { EditPlantInfoProps, PlantData } from "../interfaces";
 import { history } from "../../history";
 import { destroy } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
-import { mapStateToProps } from "./map_state_to_props"
+import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
 
 
 @connect(mapStateToProps)
@@ -31,25 +31,20 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
   }
 
   default = (plant_info: TaggedPlant) => {
-    let { planted_at, name, x, y } = plant_info.body;
-    let { uuid } = plant_info;
-    let dayPlanted = moment();
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
-
+    let info = formatPlantInfo(plant_info);
     return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
           <BackArrow />
-          <span className="title">{t("Edit")} {name}</span>
+          <span className="title">{t("Edit")} {info.name}</span>
         </p>
       </div>
       <div className="panel-content">
         <label>{t("Plant Info")}</label>
         <ul>
-          <li>{t("Started")}: {plantedAt}</li>
-          <li>{t("Age")}: {daysOld}</li>
-          <li>{t("Location")}: ({x}, {y})</li>
+          <li>{t("Started")}: {info.plantedAt}</li>
+          <li>{t("Age")}: {info.daysOld}</li>
+          <li>{t("Location")}: ({info.x}, {info.y})</li>
         </ul>
         <label>{t("Regimens")}</label>
         <ul>
@@ -57,7 +52,7 @@ export class EditPlantInfo extends React.Component<EditPlantInfoProps, {}> {
         </ul>
         <label>{t("Delete this plant")}</label>
         <div>
-          <button className="red" onClick={() => this.destroy(uuid)}>
+          <button className="red" onClick={() => this.destroy(info.uuid)}>
             {t("Delete")}
           </button>
         </div>
