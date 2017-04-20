@@ -3,7 +3,7 @@ import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
 import { McuInputBox } from "./mcu_input_box";
 import { BotConfigInputBox } from "./step_per_mm_box";
-import { settingToggle, commitSettingsChanges, botConfigChange, MCUFactoryReset } from "../actions";
+import { settingToggle, botConfigChange, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { HardwareSettingsProps } from "../interfaces";
@@ -16,9 +16,6 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
   render() {
     let { bot, dispatch } = this.props;
     let { mcu_params } = bot.hardware;
-    let UNSAVED_CHANGES = Object
-      .keys(bot.settingsBuffer)
-      .concat(Object.keys(bot.configBuffer)).length
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware"
         helpText={`Change settings
@@ -30,11 +27,6 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   FarmBot after changing settings and test a few sequences
                   to verify that everything works as expected. Note:
                   Currently not all settings can be changed.`}>
-        <button className="green"
-          onClick={() => dispatch(commitSettingsChanges())} >
-          {t("SAVE")}
-          {UNSAVED_CHANGES ? "*" : ""}
-        </button>
       </WidgetHeader>
       <WidgetBody>
         <MustBeOnline fallback="Device is offline."
@@ -72,7 +64,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
               <tr>
                 <td>
-                  <label>{t("MAX SPEED (mm/s)")}</label>
+                  <label>{t("MAX SPEED (steps/s)")}</label>
                 </td>
                 <McuInputBox setting="movement_max_spd_x"
                   bot={bot}
