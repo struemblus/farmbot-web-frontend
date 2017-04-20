@@ -11,6 +11,7 @@ import { HomingRow } from "./homing_row";
 import { EncoderType } from "./encoder_type";
 import { MustBeOnline } from "../must_be_online";
 import { ZeroRow } from "./zero_row";
+import { SaveBtn } from "../../ui/save_button";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
@@ -27,6 +28,19 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   FarmBot after changing settings and test a few sequences
                   to verify that everything works as expected. Note:
                   Currently not all settings can be changed.`}>
+        <MustBeOnline fallback=" "
+          status={bot.hardware.informational_settings.sync_status}
+          lockOpen={process.env.NODE_ENV !== "production"}>
+          <SaveBtn
+            isDirty={false}
+            isSaving={bot.isUpdating}
+            isSaved={!bot.isUpdating}
+            dirtyText={" "}
+            savingText={"Updating..."}
+            savedText={"saved"}
+            /** Optional boolean for whether the button should be hidden or shown */
+            hidden={false} />
+        </MustBeOnline>
       </WidgetHeader>
       <WidgetBody>
         <MustBeOnline fallback="Device is offline."

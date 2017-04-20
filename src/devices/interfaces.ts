@@ -63,6 +63,9 @@ export interface BotState {
   dirty: boolean;
   /** The state of the bot, as reported by the bot over MQTT. */
   hardware: HardwareState;
+  /** Hardware settings auto update on blur. Tells the UI if it should load a
+   * spinner or not. */
+  isUpdating?: boolean;
 }
 export interface BotProp {
   bot: BotState;
