@@ -38,6 +38,7 @@ function isLog(x: any): x is Log {
 
 export function updateConfig(config: Configuration) {
   let noun = "Update Config";
+  console.log("DING DING DING")
   devices
     .current
     .updateConfig(config)
