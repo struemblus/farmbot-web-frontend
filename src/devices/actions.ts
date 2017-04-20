@@ -221,7 +221,7 @@ export function moveAbs(props: MoveRelProps) {
   return devices
     .current
     .moveAbsolute(props)
-    .then(commandOK(noun), commandErr(noun));
+    .then(_.noop, commandErr(noun));
 }
 
 export function pinToggle(pin_number: number) {

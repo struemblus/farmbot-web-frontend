@@ -17,11 +17,12 @@ export class BotConfigInputBox extends React.Component<StepsPerMMBoxProps, {}> {
       dispatch(updateConfig({ [key]: formInput }));
     };
   }
+
   render() {
     return <td>
       <BlurableInput type="number"
         onCommit={this.change(this.props.setting, this.props.dispatch)}
-        value={"123" /*this.value*/} />
+        value={(this.config[this.setting] || "").toString()} />
     </td>;
   }
 }
