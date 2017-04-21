@@ -12,25 +12,16 @@ function calibrate(axis: Axis) {
     .calibrate({ axis });
 }
 
-
-interface CalibrationRowProps {
-  hardware: McuParams;
-}
-
-export function CalibrationRow(input: CalibrationRowProps) {
+export function CalibrationRow({ hardware }: { hardware: McuParams }) {
   return <tr>
     <td>
       <label>{t("CALIBRATION")}</label>
     </td>
-    {axisTrackingStatus(input)
-      .map((r) => {
-        console.log(`Calibration: ${r[0]}:${r[1]}`);
-        return r;
-      })
+    {axisTrackingStatus(hardware)
       .map((row) => {
-        let [axis, disable] = row;
+        let { axis, disabled } = row;
         return <td key={axis}>
-          <LockableButton disabled={disable} onClick={() => calibrate(axis)}>
+          <LockableButton disabled={disabled} onClick={() => calibrate(axis)}>
             {t("CALIBRATE {{axis}}", { axis })}
           </LockableButton>
         </td>

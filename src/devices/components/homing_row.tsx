@@ -9,30 +9,26 @@ import { axisTrackingStatus } from "./axis_tracking_status";
 const speed = Farmbot.defaults.speed;
 let findHome = (axis: Axis) => devices.current.findHome({ speed, axis });
 
-export function HomingButton({ axis }: CalibrationButtonProps) {
+/*export function HomingButton({ axis }: CalibrationButtonProps) {
   return <button className="yellow" onClick={() => findHome(axis)}>
     {t("HOME {{axis}}", { axis })}
   </button>;
-};
+};*/
 
 interface HomingRowProps {
   hardware: McuParams;
 }
 
-export function HomingRow({ hardware }: HomingRowProps) {
+export function HomingRow({ hardware }: { hardware: McuParams }) {
   return <tr>
     <td>
       <label>{t("HOMING")}</label>
     </td>
     {axisTrackingStatus(hardware)
-      .map((r) => {
-        console.log(`Calibration: ${r[0]}:${r[1]}`);
-        return r;
-      })
       .map((row) => {
-        let [axis, disable] = row;
+        let { axis, disabled } = row;
         return <td key={axis}>
-          <LockableButton disabled={disable} onClick={() => findHome(axis)}>
+          <LockableButton disabled={disabled} onClick={() => findHome(axis)}>
             {t("HOME {{axis}}", { axis })}
           </LockableButton>
         </td>
