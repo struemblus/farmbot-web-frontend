@@ -24,13 +24,18 @@ export function HomingRow({ hardware }: HomingRowProps) {
     <td>
       <label>{t("HOMING")}</label>
     </td>
-    {axisTrackingStatus(hardware).map((row) => {
-      let [axis, disable] = row;
-      return <td key={axis}>
-        <LockableButton disabled={disable} onClick={() => findHome(axis)}>
-          {t("HOME {{axis}}", { axis })}
-        </LockableButton>
-      </td>
-    })}
+    {axisTrackingStatus(hardware)
+      .map((r) => {
+        console.log(`Calibration: ${r[0]}:${r[1]}`);
+        return r;
+      })
+      .map((row) => {
+        let [axis, disable] = row;
+        return <td key={axis}>
+          <LockableButton disabled={disable} onClick={() => findHome(axis)}>
+            {t("HOME {{axis}}", { axis })}
+          </LockableButton>
+        </td>
+      })}
   </tr>;
 }

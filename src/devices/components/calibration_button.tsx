@@ -22,13 +22,18 @@ export function CalibrationRow(input: CalibrationRowProps) {
     <td>
       <label>{t("CALIBRATION")}</label>
     </td>
-    {axisTrackingStatus(input).map((row) => {
-      let [axis, disable] = row;
-      return <td key={axis}>
-        <LockableButton disabled={disable} onClick={() => calibrate(axis)}>
-          {t("CALIBRATE {{axis}}", { axis })}
-        </LockableButton>
-      </td>
-    })}
+    {axisTrackingStatus(input)
+      .map((r) => {
+        console.log(`Calibration: ${r[0]}:${r[1]}`);
+        return r;
+      })
+      .map((row) => {
+        let [axis, disable] = row;
+        return <td key={axis}>
+          <LockableButton disabled={disable} onClick={() => calibrate(axis)}>
+            {t("CALIBRATE {{axis}}", { axis })}
+          </LockableButton>
+        </td>
+      })}
   </tr>;
 }
