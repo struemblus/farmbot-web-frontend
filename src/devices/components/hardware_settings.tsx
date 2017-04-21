@@ -297,7 +297,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
               <tr>
                 <td>
-                  <label>RESET HARDWARE PARAMETER DEFAULTS*</label>
+                  <label>RESET HARDWARE PARAMETER DEFAULTS</label>
                 </td>
                 <td>
                   <p>

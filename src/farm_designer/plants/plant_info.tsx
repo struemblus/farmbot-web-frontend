@@ -9,24 +9,10 @@ import { destroy } from "../../api/crud";
 import { Link } from "react-router";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
+import { PlantInfoBase } from "./plant_info_base";
 
 @connect(mapStateToProps)
-export class PlantInfo extends React.Component<EditPlantInfoProps, {}> {
-  get stringyID() {
-    // TODO: ("We should put this into a query object incase the URL changes")
-    return history.getCurrentLocation().pathname.split("/")[4] || "";
-  }
-
-  get plant() {
-    return this.props.findPlant(this.stringyID);
-  }
-  destroy = (plantUUID: string) => {
-    this.props.dispatch(destroy(plantUUID))
-      .then(() => history.push("/app/designer/plants"))
-      .catch(() => error("Could not delete plant.", "Error"))
-  }
-
-  fallback = () => <span>Redirecting...</span>
+export class PlantInfo extends PlantInfoBase {
 
   default = (plant_info: TaggedPlant) => {
     let info = formatPlantInfo(plant_info);

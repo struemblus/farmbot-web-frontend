@@ -41,7 +41,7 @@ export function EncoderType(props: EncoderTypeProps) {
   }
   return <tr>
     <td>
-      <label>{t("DIFFERENTIAL ENCODERS*")}</label>
+      <label>{t("DIFFERENTIAL ENCODERS")}</label>
     </td>
     {KEYS.map(function (key, inx) {
       return <td key={inx}>

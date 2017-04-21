@@ -1,6 +1,11 @@
 import { McuParams } from "farmbot/dist";
 import { Xyz } from "../interfaces";
 
+interface AxisStatus {
+  axis: Xyz;
+  disabled: boolean;
+}
+
 /** Farmbot prevents itself from ramming into walls via two mechanisms:
  *
  *  - Encoders (count steps)
@@ -13,10 +18,19 @@ import { Xyz } from "../interfaces";
  * axis has at least one of the precautions in place. Useful for checking if it is safe
  * to proceed with certain actions that could damage the bot.
  */
-export function axisTrackingStatus(h: McuParams): [Xyz, boolean][] {
+export function axisTrackingStatus(h: McuParams): AxisStatus[] {
   return [
-    ["x", !(h.encoder_enabled_x || h.movement_enable_endpoints_x)],
-    ["y", !(h.encoder_enabled_y || h.movement_enable_endpoints_y)],
-    ["z", !(h.encoder_enabled_z || h.movement_enable_endpoints_z)]
+    {
+      axis: "x",
+      disabled: !(h.encoder_enabled_x || h.movement_enable_endpoints_x)
+    },
+    {
+      axis: "y",
+      disabled: !(h.encoder_enabled_y || h.movement_enable_endpoints_y)
+    },
+    {
+      axis: "z",
+      disabled: !(h.encoder_enabled_z || h.movement_enable_endpoints_z)
+    }
   ];
 }
