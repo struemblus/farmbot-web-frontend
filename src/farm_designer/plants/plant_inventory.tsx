@@ -5,15 +5,10 @@ import { CustomFBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { selectAllPlants } from "../../resources/selectors";
-import { TaggedPlant } from "../../resources/tagged_resources";
 import { PlantInventoryItem } from "./plant_inventory_item";
 
 @connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
-
-  handleRedirect = (e: any) => {
-    this.props.router.push(`/app/designer/plants/` + e.value);
-  }
 
   render() {
     let plants = selectAllPlants(this.props.resources.index);
@@ -40,7 +35,6 @@ export class Plants extends React.Component<Everything, {}> {
           <CustomFBSelect
             resourceList={plants}
             optionComponent={PlantInventoryItem}
-            onChange={this.handleRedirect}
             forceOpen={true}
             placeholder="Search Plants" />
         </div>

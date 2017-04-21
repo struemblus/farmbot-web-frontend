@@ -10,7 +10,7 @@ interface Props {
   /** Value to show. */
   selectedItem?: TaggedResource | undefined;
   /** Notifies component user that something was clicked. */
-  onChange(selection: TaggedResource): void;
+  onChange?(selection: TaggedResource): void;
   /** All possible select options in TaggedResource format. */
   resourceList?: TaggedResource[];
   /** Text shown before user selection. */
