@@ -12,7 +12,7 @@ import {
 import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
 import { edit, destroy, saveAll, init } from "../../api/crud";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { FBSelect } from "../../ui/new_fb_select";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
 
@@ -117,7 +117,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
                     />
                   </Col>
                   <Col xs={3}>
-                    <NewFBSelect
+                    <FBSelect
                       list={this.props.getToolOptions()}
                       selectedItem={this.props.getChosenToolOption(slot.uuid)}
                       allowEmpty={true}

@@ -9,7 +9,7 @@ import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { FBSelect } from "../../ui/new_fb_select";
 
 export function ExecuteBlock(p: StepParams) {
   if (p.currentStep.kind === "execute") {
@@ -59,7 +59,7 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
   }
 
   SequenceSelectBox = () => {
-    return <NewFBSelect onChange={this.changeSelection}
+    return <FBSelect onChange={this.changeSelection}
       selectedItem={this.selectedSequence()}
       list={this.sequenceDropDownList()}
       placeholder="Pick a sequence (or save a new one)" />

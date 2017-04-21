@@ -22,7 +22,7 @@ import { history } from "../../history";
  *
  * PROBLEM: Drop down item had an id of '6'. But that `id` could have been for a
  *          "regimen" or a "sequence". There's no way to diferentiate as a user
- *          of <NewFBSelect/>
+ *          of <FBSelect/>
  *
  * Fast Solution:  Tack extra information into DropDownItem. This results in
  *                 us needing to do type casts and coupling DropDownItem to
@@ -33,7 +33,7 @@ import { history } from "../../history";
  *                 would tell us which heading the DropDownItem came from. we
  *                 could infer the `executable_type` based on the heading it
  *                 was under. Then do a `groupBy` inside
- *                 of <NewFBSelect/>*/
+ *                 of <FBSelect/>*/
 export interface TightlyCoupledFarmEventDropDown {
   label: string;
   executable_type: "Regimen" | "Sequence";

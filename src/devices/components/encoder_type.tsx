@@ -1,7 +1,7 @@
 import * as React from "react";
 import { McuParams, Encoder, McuParamName } from "farmbot/dist";
 import { t } from "i18next";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { FBSelect } from "../../ui/new_fb_select";
 import { DropDownItem } from "../../ui/fb_select";
 
 interface EncoderTypeProps {
@@ -45,7 +45,7 @@ export function EncoderType(props: EncoderTypeProps) {
     </td>
     {KEYS.map(function (key, inx) {
       return <td key={inx}>
-        <NewFBSelect selectedItem={findByType(hardware.encoder_type_z)}
+        <FBSelect selectedItem={findByType(hardware.encoder_type_z)}
           list={OPTIONS}
           onChange={handleChange(key)} />
       </td>;

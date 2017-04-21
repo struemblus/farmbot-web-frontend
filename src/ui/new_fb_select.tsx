@@ -32,7 +32,7 @@ export const NULL_CHOICE: DropDownItem = Object.freeze({
   value: ""
 });
 
-export class NewFBSelect extends React.Component<Props, Partial<State>> {
+export class FBSelect extends React.Component<Props, Partial<State>> {
 
   state = { isOpen: false };
 
