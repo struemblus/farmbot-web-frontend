@@ -200,11 +200,10 @@ export function settingToggle(name: configKey, bot: BotState) {
 };
 
 export function moveRelative(props: MoveRelProps) {
-  const noun = "Relative movement";
   return devices
     .current
     .moveRelative(props)
-    .then(commandOK(noun), commandErr(noun));
+    .then(_.noop, commandErr("Relative movement"));
 }
 
 export function moveAbs(props: MoveRelProps) {
