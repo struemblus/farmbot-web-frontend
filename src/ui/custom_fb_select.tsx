@@ -1,5 +1,8 @@
 import * as React from "react";
-import { TaggedResource, TaggedResourceBase } from "../resources/tagged_resources";
+import {
+  TaggedResource,
+  TaggedResourceBase
+} from "../resources/tagged_resources";
 
 interface Props {
   /** Allow user to select no value. */
@@ -15,7 +18,7 @@ interface Props {
   /** Determines whether the list of options should remain open. */
   forceOpen?: boolean;
   /** Custom built options to be rendered besides the default ones. */
-  optionComponent?: OptionComponent;
+  optionComponent(tr: TaggedResource): JSX.Element;
 }
 
 type State = {
@@ -40,35 +43,28 @@ export const CUSTOM_NULL_CHOICE: TaggedResourceBase = {
 };
 
 export class CustomFBSelect extends React.Component<Props, Partial<State>> {
-  constructor() {
-    super();
-    this.state = { isOpen: false };
-  }
 
-  // get list() {
-  //   let orig = this.props.list || this.props.resourceList;
-  //   if (!orig) { throw new Error("Must give FBSelect a list of options."); }
-  //   if (this.props.list && !this.props.resourceList) {
-  //     return (this.props.allowEmpty) ? orig.concat([CUSTOM_NULL_CHOICE]) : orig;
-  //   }
-  // }
-
-  get item() { return this.props.selectedItem || CUSTOM_NULL_CHOICE; }
+  state = { isOpen: true };
 
   toggleDropdown = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
     let { isOpen } = this.state;
     let placeholder = this.props.placeholder || "Search...";
+    let val = this.props.selectedItem && this.props.selectedItem.body.id;
+
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        {/*<input type="text"
+        <input type="text"
           readOnly={true}
           placeholder={placeholder}
-          value={this.item.label} />*/}
+          value={val} />
       </div>
-      <div className={"select-results-container is-open-" + !!isOpen}>
-        {/* list */}
+      <div
+        className={"select-results-container is-open-" + !!isOpen}>
+        {this.props.resourceList && this.props.resourceList.map(r => {
+          return this.props.optionComponent && this.props.optionComponent(r);
+        })}
       </div>
     </div>;
   }

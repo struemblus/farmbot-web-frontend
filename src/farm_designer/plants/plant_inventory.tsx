@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import { Everything } from "../../interfaces";
-import { DeprecatedFBSelect, DropDownItem } from "../../ui";
+import { CustomFBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { selectAllPlants } from "../../resources/selectors";
@@ -11,28 +11,12 @@ import { PlantInventoryItem } from "./plant_inventory_item";
 @connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
 
-  handleRedirect = (e: DropDownItem) => {
+  handleRedirect = (e: any) => {
     this.props.router.push(`/app/designer/plants/` + e.value);
-  }
-
-  OptionComponent(plants: TaggedPlant[]) {
-    let indexedById = _(plants).map(x => x.body).indexBy("id").value();
-    return (props: DropDownItem) => {
-      return <PlantInventoryItem plant={indexedById[props.value || 0]}
-      />;
-    };
   }
 
   render() {
     let plants = selectAllPlants(this.props.resources.index);
-
-    let plantOptions = plants.map(plant => {
-      if (plant.body.id) {
-        return { label: plant.body.name, value: plant.body.id };
-      } else {
-        throw new Error("Thought plant would have an ID here.");
-      }
-    });
 
     return <div className="panel-container green-panel plant-inventory-panel">
       <div className="panel-header green-panel">
@@ -53,10 +37,11 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <DeprecatedFBSelect list={plantOptions}
-            optionComponent={this.OptionComponent(plants)}
+          <CustomFBSelect
+            resourceList={plants}
+            optionComponent={PlantInventoryItem}
             onChange={this.handleRedirect}
-            isOpen={true}
+            forceOpen={true}
             placeholder="Search Plants" />
         </div>
 
