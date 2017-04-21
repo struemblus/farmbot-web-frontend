@@ -1,10 +1,10 @@
+import "../../unmock_i18next";
 import * as React from "react";
-import { render } from "enzyme";
+import { render, mount } from "enzyme";
 import { TitleBar } from "../weed_detector_title";
 
 describe("<TitleBar/>", () => {
   it("Has a progress bar", () => {
-    pending("http://stackoverflow.com/questions/43523664/jest-and-i18next-cant-see-text-in-react-component");
     let props = {
       onSave: jest.fn(),
       onTest: jest.fn(),
@@ -13,6 +13,10 @@ describe("<TitleBar/>", () => {
       onDeletionClick: jest.fn(),
       settingsMenuOpen: false
     }
-    let tb = render(<TitleBar {...props} />);
+    let tb = mount(<TitleBar {...props} />);
+    expect(tb.text().toLowerCase()).toContain("clear weeds");
+    tb.setProps({ deletionProgress: "10%" });
+    expect(tb.text().toLowerCase()).toContain("10%");
+    expect(tb.text().toLowerCase()).not.toContain("clear weeds");
   });
-})
+});
