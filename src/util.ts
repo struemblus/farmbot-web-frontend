@@ -4,6 +4,8 @@ import { box } from "boxed_value";
 import { Dictionary } from "farmbot/dist";
 import { error } from "./ui/index";
 import { TaggedResource } from "./resources/tagged_resources";
+import * as React from "react";
+import { render } from "react-dom";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -298,4 +300,20 @@ export function updatePageInfo(pageName: string) {
   if (pageName === "designer") { pageName = "Farm Designer"; }
   document.title = _.capitalize(pageName);
   // Possibly add meta "content" here dynamically as well
+}
+
+export function attachToRoot<P>(type: React.ComponentClass<P>,
+  props?: React.Attributes & P) {
+  let node = document.createElement("DIV");
+  node.id = "root";
+  document.body.appendChild(node);
+
+  let reactElem = React.createElement(type, props);
+  let domElem = document.getElementById("root");
+
+  if (domElem) {
+    render(reactElem, domElem);
+  } else {
+    throw new Error("Add a div with id `root` to the page first.");
+  };
 }
