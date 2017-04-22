@@ -16,6 +16,13 @@ export function CalibrationRow({ hardware }: { hardware: McuParams }) {
   return <tr>
     <td>
       <label>{t("CALIBRATION")}</label>
+      <div className="help">
+        <i className="fa fa-question-circle help-icon" />
+        <div className="help-text">
+          {t(`(Alpha) If encoders or end-stops are enabled,
+            home axis and determine maximum.`)}
+        </div>
+      </div>
     </td>
     {axisTrackingStatus(hardware)
       .map((row) => {

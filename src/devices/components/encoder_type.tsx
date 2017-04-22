@@ -10,8 +10,8 @@ interface EncoderTypeProps {
 }
 
 const LOOKUP: { [name: string]: DropDownItem } = {
-  [Encoder.differential]: { label: "differential", value: Encoder.differential },
-  [Encoder.quadrature]: { label: "Single Ended", value: Encoder.quadrature },
+  [Encoder.differential]: { label: "Differential", value: Encoder.differential },
+  [Encoder.quadrature]: { label: "Single-Ended", value: Encoder.quadrature },
   DEFAULT: { label: "---", value: Encoder.unknown }
 }
 
@@ -41,7 +41,15 @@ export function EncoderType(props: EncoderTypeProps) {
   }
   return <tr>
     <td>
-      <label>{t("DIFFERENTIAL ENCODERS")}</label>
+      <label>{t("ENCODER TYPE")}</label>
+      <div className="help">
+        <i className="fa fa-question-circle help-icon" />
+        <div className="help-text">
+          {t(`Rotary encoder type. Differential encoders use
+            A, A+, B, and B+ channels. Single-Ended encoders use
+            A and B channels.`)}
+        </div>
+      </div>
     </td>
     {KEYS.map(function (key, inx) {
       return <td key={inx}>
