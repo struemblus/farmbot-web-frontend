@@ -1,5 +1,6 @@
 import * as axios from "axios";
 import { Dictionary } from "farmbot/dist";
+import * as _ from "lodash";
 
 const BASE = "https://openfarm.cc/api/v1/crops/";
 export const DATA_URI = "data:image/svg+xml;utf8,";
@@ -9,8 +10,8 @@ export const DEFAULT_ICON = "/app-resources/img/generic-plant.svg";
 let cache: Dictionary<Axios.IPromise<string>> = {};
 
 export interface OFCropResponse {
-  id?: undefined; // ?
-  data?: {
+  id?: undefined; // TODO: Convert this to use Partial<OFCropResponse> instead
+  data?: {        //       using `| undefined` all over the place.
     attributes: {
       svg_icon?: string | undefined;
       spread?: number | undefined;
@@ -19,8 +20,8 @@ export interface OFCropResponse {
   } | undefined;
 }
 
-export class OpenFarmAPI {
-  static get OFBaseURL() { return BASE; };
+export namespace OpenFarmAPI {
+  export let OFBaseURL = BASE;
 }
 
 /** PROBLEM: You have 100 lettuce plants. You don't want to download an SVG icon
