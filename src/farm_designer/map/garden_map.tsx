@@ -93,13 +93,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   handleOnClick = (plantId: string) => {
-    console.log("here???");
 
-    // let selectedPlant = document.getElementById(plantId);
-    // console.log(selectedPlant);
-
-    // selectedPlant && selectedPlant.classList.remove("eligible");
-    // selectedPlant && selectedPlant.classList.add("chosen");
   }
 
   render() {

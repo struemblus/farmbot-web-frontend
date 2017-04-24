@@ -18,7 +18,7 @@ export function PlantInventoryItem(props: TaggedPlant) {
 
   // CSS to make apparent the associated mapped plant about to be clicked.
   let mouseEnter = (id: string) => {
-    console.log(plantId);
+    // console.log(plantId);
 
     // classList.add("eligible");
   }
