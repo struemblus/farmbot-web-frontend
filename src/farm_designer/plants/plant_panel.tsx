@@ -13,9 +13,5 @@ export function PlantPanel({ info }: PlantPanelProps) {
       <li>{t("Age")}: {info.daysOld}</li>
       <li>{t("Location")}: ({info.x}, {info.y})</li>
     </ul>
-    <label>{t("Regimens")}</label>
-    <ul>
-      <li>Soil Acidifier</li>
-    </ul>
   </div>;
 }

@@ -146,7 +146,7 @@ function updateViaAjax(index: ResourceIndex,
     .then(function (resp) {
       let r1 = defensiveClone(resource);
       let r2 = { body: defensiveClone(resp.data) };
-      let newTR = _.merge({}, r1, r2);
+      let newTR = _.assign({}, r1, r2);
       if (isTaggedResource(newTR)) {
         dispatch(updateOK(newTR));
       } else {

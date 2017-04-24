@@ -141,12 +141,17 @@ export let resourceReducer = generateReducer
   })
   .add<TaggedResource>("UPDATE_RESOURCE_OK", function (s, a) {
     let uuid = a.payload.uuid;
-    let tr = _.merge(findByUuid(s.index, uuid), a.payload);
-    tr.dirty = false;
-    tr.saving = false;
-    sanityCheck(tr);
-    reindexResource(s.index, tr);
-    return s;
+    s.index.references[uuid] = a.payload;
+    let tr = s.index.references[uuid];
+    if (tr) {
+      tr.dirty = false;
+      tr.saving = false;
+      sanityCheck(tr);
+      reindexResource(s.index, tr);
+      return s;
+    } else {
+      throw new Error("BAD UUID IN UPDATE_RESOURCE_OK");
+    }
   })
   .add<TaggedResource>("*_RESOURCE_NO", function (s, a) {
     let uuid = a.payload.uuid;
