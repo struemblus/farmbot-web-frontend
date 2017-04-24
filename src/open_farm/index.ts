@@ -9,8 +9,8 @@ export const DEFAULT_ICON = "/app-resources/img/generic-plant.svg";
 let cache: Dictionary<Axios.IPromise<string>> = {};
 
 export interface OFCropResponse {
-  id?: undefined; // ?
-  data?: {
+  id?: undefined; // TODO: Convert this to use Partial<OFCropResponse> instead
+  data?: {        //       using `| undefined` all over the place.
     attributes: {
       svg_icon?: string | undefined;
       spread?: number | undefined;
