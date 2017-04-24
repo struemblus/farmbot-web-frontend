@@ -18,22 +18,22 @@ export function PlantInventoryItem(props: TaggedPlant) {
 
   // CSS to make apparent the associated mapped plant about to be clicked.
   let mouseEnter = (id: string) => {
-    // console.log(plantId);
-
-    // classList.add("eligible");
+    let el = document.getElementById(plantId);
+    el && el.classList.add("eligible");
   }
 
   // Just removes the previous styling.
   let mouseLeave = (id: string) => {
-    // classList.remove("eligible");
+    let el = document.getElementById(plantId);
+    el && el.classList.remove("eligible");
   }
 
   // Handler for navigation and CSS.
   let handleClick = (id: string) => {
-    // let { classList } = e.currentTarget;
+    let el = document.getElementById(plantId);
+    el && el.classList.remove("eligible");
+    el && el.classList.add("chosen");
     push("/app/designer/plants/" + plantId);
-    // classList.remove("eligible");
-    // classList.add("chosen");
   }
 
   // See `cachedIcon` for more details on this.
@@ -42,7 +42,7 @@ export function PlantInventoryItem(props: TaggedPlant) {
     let img = e.currentTarget;
     // DEFAULT_ICON will be fallback.
     OFS && cachedIcon(OFS)
-      .then(iconString => img.setAttribute("src", iconString));
+      .then(i => img.setAttribute("src", i));
   }
 
   // Name given from OpenFarm's API.
@@ -59,7 +59,7 @@ export function PlantInventoryItem(props: TaggedPlant) {
     onClick={() => handleClick(plantId)}>
     <img className="plant-search-item-image"
       src={DEFAULT_ICON} onLoad={maybeGetCachedIcon} />
-    <span className=";plant-search-item-name">{label}</span>
+    <span className="plant-search-item-name">{label}</span>
     <i className="plant-search-item-age">
       {daysOld} {t("days old")}</i>
   </div>;
