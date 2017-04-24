@@ -2,6 +2,7 @@ import * as React from "react";
 import { McuInputBox } from "./mcu_input_box";
 import { BotState } from "../interfaces";
 import { McuParamName } from "farmbot/dist";
+import { SpacePanelToolTip } from "./space_panel_tool_tip";
 
 export interface NumericMCUInputGroupProps {
   bot: BotState;
@@ -26,12 +27,7 @@ export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
   return <tr>
     <td>
       <label>{name}</label>
-      {(tooltip && <div className="help">
-        <i className="fa fa-question-circle help-icon" />
-        <div className="help-text">
-          {tooltip}
-        </div>
-      </div>)}
+      <SpacePanelToolTip tooltip={tooltip} />
     </td>
     <McuInputBox setting={x} bot={bot} dispatch={dispatch} />
     <McuInputBox setting={y} bot={bot} dispatch={dispatch} />
