@@ -1,4 +1,6 @@
 import * as React from "react";
+import { Col, Row } from "../../ui/index";
+import { t } from "i18next";
 
 export function ToolBayHeader(props: {}) {
   return <Row>
