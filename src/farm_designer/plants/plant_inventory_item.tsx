@@ -13,7 +13,6 @@ export function PlantInventoryItem(props: TaggedPlant) {
 
   // CSS to make apparent the associated mapped plant about to be clicked.
   let mouseEnter = (plantId: string) => (e: DIVEvent) => {
-    console.log(plantId, e);
 
     let { classList } = e.currentTarget;
     classList.add("eligible");
