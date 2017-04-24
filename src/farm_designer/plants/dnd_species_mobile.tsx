@@ -13,10 +13,6 @@ import {
 } from "../interfaces";
 import { findBySlug } from "../search_selectors";
 
-const NOOP = (a: object, b: number, c: number) => {
-  // "NO DND SUPPORT ON THIS BROWSER";
-};
-
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */
 export class DNDSpeciesMobile extends React.Component<SpeciesInfoProps,
@@ -33,7 +29,7 @@ DNDSpeciesMobileState> {
     img.src = DEFAULT_ICON;
 
     // Because of Android and MS Edge.
-    _.get(e, "dataTransfer.setDragImage", NOOP)(img, 50, 50);
+    _.get(e, "dataTransfer.setDragImage", _.noop)(img, 50, 50);
   }
 
   toggleDesignerView() {

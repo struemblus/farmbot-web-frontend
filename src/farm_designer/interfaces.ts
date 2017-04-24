@@ -131,7 +131,7 @@ export interface CalendarOccurrence {
 /** A group of FarmEvents for a particular day on the calendar. */
 export interface CalendarDay {
   /** Unix timestamp. Used as a unique key in JSX and for sorting. */
-  sortKey: string;
+  sortKey: number;
   month: string;
   day: number;
   /** Every event that will execute on that day. */

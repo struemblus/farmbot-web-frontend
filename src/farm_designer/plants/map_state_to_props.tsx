@@ -20,7 +20,9 @@ export function mapStateToProps(props: Everything): EditPlantInfoProps {
   }
 }
 
-interface formattedPlantInfo {
+/** All of the info a user would need to know about a plant, formatted and
+ * ready to use by the UI. */
+export interface formattedPlantInfo {
   x: number;
   y: number;
   id: number | undefined;

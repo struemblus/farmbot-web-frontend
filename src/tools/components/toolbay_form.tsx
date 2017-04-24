@@ -13,6 +13,7 @@ import { t } from "i18next";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
 import { edit, destroy, saveAll, init } from "../../api/crud";
 import { FBSelect } from "../../ui/new_fb_select";
+import { ToolBayHeader } from "./toolbay_header";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
 
@@ -66,23 +67,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
             </button>
           </WidgetHeader>
           <WidgetBody>
-            <Row>
-              <Col xs={2}>
-                <label>{t("Slot")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("X")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("Y")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("Z")}</label>
-              </Col>
-              <Col xs={3}>
-                <label>{t("Tool")}</label>
-              </Col>
-            </Row>
+            <ToolBayHeader />
             {this.props.getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
                 return <Row key={index}>

@@ -3,6 +3,7 @@ import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { t } from "i18next";
 import { ToolBayListProps } from "../interfaces";
 import { TaggedToolSlot } from "../../resources/tagged_resources";
+import { ToolBayHeader } from "./toolbay_header";
 
 export class ToolBayList extends React.Component<ToolBayListProps, {}> {
   render() {
@@ -23,23 +24,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
             </button>
           </WidgetHeader>
           <WidgetBody>
-            <Row>
-              <Col xs={2}>
-                <label>{t("Slot")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("X")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("Y")}</label>
-              </Col>
-              <Col xs={2}>
-                <label>{t("Z")}</label>
-              </Col>
-              <Col xs={4}>
-                <label>{t("Tool")}</label>
-              </Col>
-            </Row>
+            <ToolBayHeader />
             {getToolSlots().map(
               (slot: TaggedToolSlot, index: number) => {
                 let tool = getToolByToolSlotUUID(slot.uuid);
