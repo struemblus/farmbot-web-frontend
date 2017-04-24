@@ -33,7 +33,7 @@ import {
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { Xyz } from "../../devices/interfaces";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { FBSelect } from "../../ui/new_fb_select";
 
 interface Args {
   location: Tool | Coordinate;
@@ -182,7 +182,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <Row>
               <Col md={12}>
                 <label>Import coordinates from</label>
-                <NewFBSelect
+                <FBSelect
                   allowEmpty={true}
                   list={this.options}
                   selectedItem={this.initialDropDownSequenceValue()}

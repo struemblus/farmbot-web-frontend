@@ -72,12 +72,7 @@ export class DeprecatedFBSelect extends React.Component<Readonly<SelectProps>, P
     this.props.onUserTyping && this.props.onUserTyping(value);
   }
 
-  open = () => {
-    this.setState({
-      isOpen: true,
-      label: ""
-    });
-  }
+  open = () => this.setState({ isOpen: true, label: "" });
 
   /** Closes the dropdown ONLY IF the developer has not set this.props.isOpen to
    * true, since that would indicate the developer wants it to always be open.

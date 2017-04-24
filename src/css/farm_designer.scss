@@ -224,6 +224,19 @@
     pointer-events: none;
 }
 
+.plant-link-wrapper {
+    &.eligible {
+        image {
+            transform-origin: center;
+            transform: scale(2, 2);
+        }
+    }
+    &.chosen {
+        border: 3px dashed $green;
+        animation: pulse-and-rotate linear infinite;
+    }
+}
+
 .zoomer {
     position: fixed;
     top: 11rem;
@@ -234,5 +247,17 @@
         &:first-child {
             margin-bottom: 1rem;
         }
+    }
+}
+
+@keyframes pulse-and-rotate {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    50% {
+        transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
     }
 }

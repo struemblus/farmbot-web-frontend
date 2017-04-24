@@ -6,22 +6,25 @@ interface Props {
   selectedItem: DropDownItem | undefined;
   /** Notifies component user that something was clicked. */
   onChange(selection: DropDownItem): void;
-  /** All possible select options */
+  /** All possible select options. */
   list: DropDownItem[];
+  /** Allow user to select no value. */
   allowEmpty?: boolean;
+  /** Text shown before user selection. */
   placeholder?: string | undefined;
-};
+}
 
 type State = {
   isOpen: boolean;
-};
-
-type OptionComponent = React.ComponentClass<DropDownItem>
-  | React.StatelessComponent<DropDownItem>;
+}
 
 export interface SelectState {
   isOpen: boolean;
 }
+
+type OptionComponent =
+  | React.ComponentClass<DropDownItem>
+  | React.StatelessComponent<DropDownItem>
 
 /** Used as a placeholder for a selection of "none" when allowEmpty is true. */
 export const NULL_CHOICE: DropDownItem = Object.freeze({
@@ -29,11 +32,9 @@ export const NULL_CHOICE: DropDownItem = Object.freeze({
   value: ""
 });
 
-export class NewFBSelect extends React.Component<Props, Partial<State>> {
-  constructor() {
-    super();
-    this.state = { isOpen: false };
-  }
+export class FBSelect extends React.Component<Props, Partial<State>> {
+
+  state = { isOpen: false };
 
   get list() {
     let orig = this.props.list;
@@ -42,32 +43,31 @@ export class NewFBSelect extends React.Component<Props, Partial<State>> {
 
   get item() { return this.props.selectedItem || NULL_CHOICE; }
 
-  toggleDropdown = () => { this.setState({ isOpen: !this.state.isOpen }); }
-
-  normlItemList = () => {
-    return this.list.map((option: DropDownItem, i) => {
-      let { label } = option;
-      return <div key={i}
-        className="select-result"
-        onMouseDown={() => {
-          this.setState({ isOpen: false });
-          this.props.onChange(option);
-        }}>
-        <label>{label}</label>
-      </div>;
-    });
-  }
+  toggleDropdown = () => this.setState({ isOpen: !this.state.isOpen });
 
   render() {
     let { isOpen } = this.state;
     let placeholder = this.props.placeholder || "Search...";
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        <input type="text" readOnly={true} placeholder={placeholder} value={this.item.label} />
+        <input type="text"
+          readOnly={true}
+          placeholder={placeholder}
+          value={this.item.label} />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>
-        {this.normlItemList()}
+        {this.list.map((option: DropDownItem, i) => {
+          let { label } = option;
+          return <div key={i}
+            className="select-result"
+            onMouseDown={() => {
+              this.setState({ isOpen: false });
+              this.props.onChange(option);
+            }}>
+            <label>{label}</label>
+          </div>;
+        })}
       </div>
     </div>;
   }

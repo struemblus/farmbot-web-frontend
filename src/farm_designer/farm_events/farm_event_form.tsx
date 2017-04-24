@@ -18,7 +18,7 @@ import {
   success,
   SaveBtn
 } from "../../ui/index";
-import { NewFBSelect } from "../../ui/new_fb_select";
+import { FBSelect } from "../../ui/new_fb_select";
 import {
   destroy,
   save,
@@ -172,7 +172,7 @@ export class EditFEForm extends React.Component<Props, State> {
       </div>
       <div className="panel-content">
         <label>{t("Sequence or Regimen")}</label>
-        <NewFBSelect
+        <FBSelect
           list={this.props.executableOptions}
           onChange={this.executableSet}
           selectedItem={this.executableGet()} />
@@ -206,7 +206,7 @@ export class EditFEForm extends React.Component<Props, State> {
               onCommit={this.fieldSet("repeat")} />
           </Col>
           <Col xs={8}>
-            <NewFBSelect
+            <FBSelect
               list={this.props.repeatOptions}
               onChange={(e) => this.setState(betterMerge(this.state, {
                 fe: {

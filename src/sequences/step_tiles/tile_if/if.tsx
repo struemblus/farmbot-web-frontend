@@ -1,10 +1,9 @@
 import * as React from "react";
-import { IfParams, LHSOptions, operatorOptions, Operator } from "./index";
+import { IfParams, LHSOptions, operatorOptions } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../../inputs/step_input_box";
-import { NewFBSelect } from "../../../ui/new_fb_select";
+import { FBSelect } from "../../../ui/new_fb_select";
 import { DropDownItem } from "../../../ui/fb_select";
-import { updateStep } from "../index";
 import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
 import { Col } from "../../../ui/index";
@@ -37,7 +36,7 @@ export function If_(props: IfParams) {
     </Col>
     <Col xs={4}>
       <label>{t("Variable")}</label>
-      <NewFBSelect
+      <FBSelect
         list={LHSOptions}
         placeholder="Left hand side"
         onChange={updateField("lhs")}
@@ -46,7 +45,7 @@ export function If_(props: IfParams) {
     </Col>
     <Col xs={4}>
       <label>{t("Operator")}</label>
-      <NewFBSelect
+      <FBSelect
         list={operatorOptions}
         placeholder="Operation"
         onChange={updateField("op")}
