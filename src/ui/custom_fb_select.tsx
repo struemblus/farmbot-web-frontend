@@ -1,7 +1,8 @@
 import * as React from "react";
 import {
   TaggedResource,
-  TaggedResourceBase
+  TaggedResourceBase,
+  TaggedPlant
 } from "../resources/tagged_resources";
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 
 type State = {
   isOpen: boolean;
+  input: string;
 }
 
 type OptionComponent =
@@ -44,7 +46,9 @@ export const CUSTOM_NULL_CHOICE: TaggedResourceBase = {
 
 export class CustomFBSelect extends React.Component<Props, Partial<State>> {
 
-  state = { isOpen: true };
+  state = { isOpen: true, input: "" };
+
+  handleChange = (input: string) => this.setState({ input });
 
   toggleDropdown = () => this.setState({ isOpen: !this.state.isOpen });
 
@@ -52,18 +56,22 @@ export class CustomFBSelect extends React.Component<Props, Partial<State>> {
     let { isOpen } = this.state;
     let placeholder = this.props.placeholder || "Search...";
     let val = this.props.selectedItem && this.props.selectedItem.body.id;
+    let shouldToggle = this.props.forceOpen ? _.noop : this.toggleDropdown;
+    let list = this.props.resourceList;
 
-    return <div className="select" onClick={this.toggleDropdown}>
+    return <div className="select" onClick={shouldToggle}>
       <div className="select-search-container">
         <input type="text"
-          readOnly={true}
           placeholder={placeholder}
-          value={val} />
+          value={val}
+          onChange={(e) => this.handleChange(e.currentTarget.value)} />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>
-        {this.props.resourceList && this.props.resourceList.map(r => {
-          return this.props.optionComponent && this.props.optionComponent(r);
+        {list && list.map((x: TaggedPlant) => {
+          let comp = this.props.optionComponent;
+          let condition = x.body.name.toLowerCase().includes(this.state.input);
+          return condition && comp && comp(x);
         })}
       </div>
     </div>;

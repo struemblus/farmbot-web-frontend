@@ -9,8 +9,8 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   state = { icon: DEFAULT_ICON, isDragging: false, transX: 0, transY: 0 };
 
   componentDidMount() {
-    cachedIcon(this.props.plant.body.openfarm_slug)
-      .then((icon: string) => this.setState({ icon }));
+    let OFS = this.props.plant.body.openfarm_slug;
+    cachedIcon(OFS).then(icon => this.setState({ icon }));
   }
 
   select = () => {
@@ -55,6 +55,7 @@ export class GardenPlant extends React.Component<GardenPlantProps,
     let { radius, x, y } = this.props.plant.body;
 
     return <g>
+
       <image href={this.state.icon}
         height={radius * 2}
         width={radius * 2}
