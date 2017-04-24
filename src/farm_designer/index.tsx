@@ -21,11 +21,6 @@ export class FarmDesigner extends React.Component<Props, State> {
     this.state = { zoomLevel: 0.6 };
   }
 
-  componentDidMount() {
-    success("Subscribe to the FarmBot.io mailing list for news and updates.",
-      "Work in Progress");
-  }
-
   zoom = (zoomNumber: number) => {
     this.setState({ zoomLevel: this.state.zoomLevel + zoomNumber });
   }
