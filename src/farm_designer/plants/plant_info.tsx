@@ -1,15 +1,12 @@
 import * as React from "react";
-import { error } from "../../ui";
 import { connect } from "react-redux";
 import * as moment from "moment";
 import { t } from "i18next";
-import { EditPlantInfoProps } from "../interfaces";
-import { history } from "../../history";
-import { destroy } from "../../api/crud";
 import { Link } from "react-router";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
 import { PlantInfoBase } from "./plant_info_base";
+import { PlantPanel } from "./plant_panel";
 
 @connect(mapStateToProps)
 export class PlantInfo extends PlantInfoBase {
@@ -30,18 +27,7 @@ export class PlantInfo extends PlantInfoBase {
           </Link>
         </p>
       </div>
-      <div className="panel-content">
-        <label>{t("Plant Info")}</label>
-        <ul>
-          <li>{t("Started")}: {info.plantedAt}</li>
-          <li>{t("Age")}: {info.daysOld}</li>
-          <li>{t("Location")}: ({info.x}, {info.y})</li>
-        </ul>
-        <label>{t("Regimens")}</label>
-        <ul>
-          <li>Soil Acidifier</li>
-        </ul>
-      </div>
+      <PlantPanel info={info} />
     </div>;
   }
 

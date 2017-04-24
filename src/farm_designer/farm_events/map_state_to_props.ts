@@ -8,6 +8,7 @@ import {
   indexRegimenById
 } from "../../resources/selectors";
 
+const FORMAT = "MMDD";
 const MONTHS: Readonly<Dictionary<string>> = {
   "12": "Dec",
   "11": "Nov",
@@ -37,7 +38,7 @@ export function mapStateToProps(state: Everything): FarmEventProps {
     .reduce(function (memo, farmEvent) {
       farmEvent.body.calendar && farmEvent.body.calendar.map(function (date) {
         let m = moment(date);
-        let mmdd = m.format("MMDD");
+        let mmdd = m.format(FORMAT);
         let executableId = farmEvent.body.executable_id;
         let executableName: string;
         switch (farmEvent.body.executable_type) {
@@ -68,17 +69,23 @@ export function mapStateToProps(state: Everything): FarmEventProps {
     .flatten()
     .uniq()
     .compact()
-    .map(y => moment(y).format("MMDD"))
-    .uniq()
-    .map(function (mmdd) {
+    .map(y => moment(y))
+    .uniq(x => x.format(FORMAT))
+    .map(function (m) {
+      let mmdd = m.format(FORMAT);
       let items = farmEventByMMDD[mmdd];
+      if (!items) {
+        debugger;
+        throw new Error("No");
+      }
       return {
-        sortKey: mmdd,
+        sortKey: m.unix(),
         month: MONTHS[mmdd.slice(0, 2)] || "???",
         day: parseInt(mmdd.slice(2, 4)),
         items
       };
     })
+    .sortBy("sortKey")
     .value();
   return { calendarRows, push };
 }
