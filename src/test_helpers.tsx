@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Everything } from "./interfaces";
+import { noop } from "lodash";
 
 export class Wrapper extends React.Component<any, any> {
   render() {
@@ -8,15 +9,15 @@ export class Wrapper extends React.Component<any, any> {
 }
 
 /** Factory function for empty state object. */
-export function fakeState(dispatcher?: Function): Everything {
+export function fakeState(dispatcher: Function = noop): Everything {
   return {
     "router": {
-      push: _.noop
+      push: noop
     },
     "peripherals": {
       "isEditing": true
     },
-    "dispatch": _.noop,
+    "dispatch": dispatcher,
     "location": {
       pathname: "/app",
       search: "?id=twowing-silverbell&p1=SpeciesInfo",
