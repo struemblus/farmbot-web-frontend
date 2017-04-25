@@ -9,6 +9,7 @@ button {
     border: none;
     position: relative;
     color: $off_white;
+    transition: all 0.1s ease-in-out !important;
     &.is-saved,
     &.is-saving {
         background: $medium_gray !important;
