@@ -2,10 +2,8 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { history } from "../../history";
-import { fancyDebug } from "../../util";
 
 const SCALE_FACTOR = 9.8;
-const GRID_SIZE = 10;
 
 export class GardenPlant extends React.Component<GardenPlantProps,
   Partial<GardenPlantState>> {
@@ -15,6 +13,14 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   componentDidMount() {
     let OFS = this.props.plant.body.openfarm_slug;
     cachedIcon(OFS).then(icon => this.setState({ icon }));
+    document.body.addEventListener("mouseup", this.deSelect);
+    document.body.addEventListener("mousemove", this.drag);
+  }
+
+  componentWillUnmount() {
+    // Avoid memory leaks!
+    document.body.removeEventListener("mouseup", this.deSelect);
+    document.body.removeEventListener("mousemove", this.drag);
   }
 
   select = () => {
@@ -24,11 +30,11 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   }
 
   deSelect = () => {
-    this.props.onDrop("");
+    this.props.onDrop(this.props.plant.uuid);
     this.setState({ isDragging: false });
   }
 
-  drag = (e: React.MouseEvent<SVGElement>) => {
+  drag = (e: MouseEvent) => {
     if (this.state.isDragging) {
       let { id } = this.props.plant.body;
       let deltaX = e.pageX - (this.state.transX || e.pageX);
@@ -44,7 +50,7 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   }
 
   render() {
-    let { radius, x, y, id, spread } = this.props.plant.body;
+    let { radius, x, y, id } = this.props.plant.body;
     let plantId = (id || "NO_PLANT_ID_FOUND").toString();
     let isChosen = history.getCurrentLocation().pathname.includes(plantId);
     let offsetX = x + radius;
@@ -94,10 +100,7 @@ export class GardenPlant extends React.Component<GardenPlantProps,
         width={radius * 2}
         x={x}
         y={y}
-        onClick={() => this.select()}
-        onMouseDown={() => this.select()}
-        ref={(me) => { me }}
-        onMouseMoveCapture={(e) => this.drag(e)} />
+        onMouseDown={this.select} />
     </g>
   }
 }
