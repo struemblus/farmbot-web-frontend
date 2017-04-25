@@ -3,9 +3,9 @@ import { TaggedImage } from "../resources/tagged_resources";
 export interface Image {
   id: number;
   device_id: number;
-  attachment_processed_at: Date | undefined;
-  updated_at: Date;
-  created_at: Date;
+  attachment_processed_at: string | undefined;
+  updated_at: string;
+  created_at: string;
   attachment_url: string;
   meta: {
     x: number | undefined;

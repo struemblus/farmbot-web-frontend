@@ -2,12 +2,12 @@ import { ReduxAction, Thunk } from "../../redux/interfaces";
 import { ToggleDayParams } from "./interfaces";
 import { assertUuid, findSequence, findRegimen } from "../../resources/selectors";
 import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
-import { newRegimen } from "../actions";
 import { error } from "../../ui/index";
 import { t } from "i18next";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { warning } from "../../ui/logger";
+import { isNaN, isNumber } from "lodash";
 
 export function pushWeek() {
   return {
@@ -25,7 +25,7 @@ const MINUTES_MS = 1000 * 60;
 
 /** Sets daily offset of a regimen */
 export function setTimeOffset(ms: number) {
-  if (_.isNaN(ms) || !_.isNumber(ms)) {
+  if (isNaN(ms) || !isNumber(ms)) {
     warning("Time is not properly formatted.", "Bad Input");
     throw new Error("Bad time input on regimen page: " + JSON.stringify(ms));
   } else {

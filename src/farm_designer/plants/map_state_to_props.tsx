@@ -33,13 +33,14 @@ export interface formattedPlantInfo {
 }
 export function formatPlantInfo(resource: TaggedPlant): formattedPlantInfo {
   let p = resource.body;
+  let t = p.planted_at ? moment(p.planted_at) : moment();
   return {
     id: p.id,
     name: p.name,
-    daysOld: (moment().diff(moment(p.planted_at), "days") + 1),
+    daysOld: (moment().diff(t, "days") + 1),
     x: p.x,
     y: p.y,
     uuid: resource.uuid,
-    plantedAt: moment(p.planted_at).format("MMMM Do YYYY, h:mma")
+    plantedAt: moment(t).format("MMMM Do YYYY, h:mma")
   }
 }

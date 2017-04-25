@@ -12,6 +12,8 @@ import { EncoderType } from "./encoder_type";
 import { MustBeOnline } from "../must_be_online";
 import { ZeroRow } from "./zero_row";
 import { SaveBtn } from "../../ui/save_button";
+import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
+import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
@@ -83,205 +85,70 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   bot={bot}
                   dispatch={dispatch} />
               </tr>
-              <tr>
-                <td>
-                  <label>{t("MAX SPEED (steps/s)")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Maximum travel speed after acceleration
+              <NumericMCUInputGroup name={t("MAX SPEED (steps/s)")}
+                tooltip={t(`Maximum travel speed after acceleration
                         in motor steps per second.`)}
-                    </div>
-                  </div>
-                </td>
-                <McuInputBox setting="movement_max_spd_x"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_max_spd_y"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_max_spd_z"
-                  bot={bot}
-                  dispatch={dispatch} />
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("ACCELERATE FOR (steps)")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Number of steps used for acceleration
+                x={"movement_max_spd_x"}
+                y={"movement_max_spd_y"}
+                z={"movement_max_spd_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("ACCELERATE FOR (steps)")}
+                tooltip={t(`Number of steps used for acceleration
                         and deceleration.`)}
-                    </div>
-                  </div>
-                </td>
-                <McuInputBox setting="movement_steps_acc_dec_x"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_steps_acc_dec_y"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_steps_acc_dec_z"
-                  bot={bot}
-                  dispatch={dispatch} />
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("TIMEOUT AFTER (seconds)")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Amount of time to wait for a command to
+                x={"movement_steps_acc_dec_x"}
+                y={"movement_steps_acc_dec_y"}
+                z={"movement_steps_acc_dec_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("TIMEOUT AFTER (seconds)")}
+                tooltip={t(`Amount of time to wait for a command to
                         execute before stopping.`)}
-                    </div>
-                  </div>
-                </td>
-                <McuInputBox setting="movement_timeout_x"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_timeout_y"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_timeout_z"
-                  bot={bot}
-                  dispatch={dispatch} />
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("LENGTH (mm)")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Coming Soon! Set the length of each axis to provide
+                x={"movement_timeout_x"}
+                y={"movement_timeout_y"}
+                z={"movement_timeout_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("LENGTH (mm)")}
+                tooltip={t(`Coming Soon! Set the length of each axis to provide
                         software limits.`)}
-                    </div>
-                  </div>
-                </td>
-                <McuInputBox setting="movement_axis_nr_steps_x"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_axis_nr_steps_y"
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting="movement_axis_nr_steps_z"
-                  bot={bot}
-                  dispatch={dispatch} />
-              </tr>
+                x={"movement_axis_nr_steps_x"}
+                y={"movement_axis_nr_steps_y"}
+                z={"movement_axis_nr_steps_z"}
+                bot={bot}
+                dispatch={dispatch} />
               <CalibrationRow hardware={mcu_params} />
               <HomingRow hardware={mcu_params} />
               <ZeroRow />
-              <tr>
-                <td>
-                  <label>{t("INVERT ENDPOINTS")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Swap axis end-stops during calibration.`)}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_endpoints_x}
-                    toggleAction={() =>
-                      settingToggle("movement_invert_endpoints_x",
-                        bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_endpoints_y}
-                    toggleAction={() =>
-                      settingToggle("movement_invert_endpoints_y",
-                        bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_endpoints_z}
-                    toggleAction={() =>
-                      settingToggle("movement_invert_endpoints_z",
-                        bot)} />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("INVERT MOTORS")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Invert direction of motor during calibration.`)}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_motor_x}
-                    toggleAction={() => settingToggle("movement_invert_motor_x", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_motor_y}
-                    toggleAction={() => settingToggle("movement_invert_motor_y", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_invert_motor_z}
-                    toggleAction={() => settingToggle("movement_invert_motor_z", bot)} />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>{t("NEGATIVE COORDINATES ONLY")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Restrict travel to negative coordinate locations.`)}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_home_up_x}
-                    toggleAction={() => settingToggle("movement_home_up_x", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_home_up_y}
-                    toggleAction={() => settingToggle("movement_home_up_y", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_home_up_z}
-                    toggleAction={() => settingToggle("movement_home_up_z", bot)} />
-                </td>
-              </tr>
-
-              <tr>
-                <td>
-                  <label>{t("ENABLE ENDSTOPS")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`Enable use of electronic end-stops during
+              <BooleanMCUInputGroup name={t("INVERT ENDPOINTS")}
+                tooltip={t(`Swap axis end-stops during calibration.`)}
+                x={"movement_invert_endpoints_x"}
+                y={"movement_invert_endpoints_y"}
+                z={"movement_invert_endpoints_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("INVERT MOTORS")}
+                tooltip={t(`Invert direction of motor during calibration.`)}
+                x={"movement_invert_motor_x"}
+                y={"movement_invert_motor_y"}
+                z={"movement_invert_motor_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("NEGATIVE COORDINATES ONLY")}
+                tooltip={t(`Restrict travel to negative coordinate locations.`)}
+                x={"movement_home_up_x"}
+                y={"movement_home_up_y"}
+                z={"movement_home_up_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("ENABLE ENDSTOPS")}
+                tooltip={t(`Enable use of electronic end-stops during
                         calibration and homing.`)}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_enable_endpoints_x}
-                    toggleAction={() => settingToggle("movement_enable_endpoints_x", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_enable_endpoints_y}
-                    toggleAction={() => settingToggle("movement_enable_endpoints_y", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.movement_enable_endpoints_z}
-                    toggleAction={() => settingToggle("movement_enable_endpoints_z", bot)} />
-                </td>
-              </tr>
+                x={"movement_enable_endpoints_x"}
+                y={"movement_enable_endpoints_y"}
+                z={"movement_enable_endpoints_z"}
+                dispatch={dispatch}
+                bot={bot} />
               <tr>
                 <td colSpan={100}>
                   <small>
@@ -289,59 +156,35 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 </small>
                 </td>
               </tr>
-              <tr>
-                <td>
-                  <label>{t("ENABLE ENCODERS")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`(Alpha) Enable use of rotary encoders during
+              <BooleanMCUInputGroup name={t("ENABLE ENCODERS")}
+                tooltip={t(`(Alpha) Enable use of rotary encoders during
                         calibration and homing.`)}
-                    </div>
-                  </div>
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.encoder_enabled_x}
-                    toggleAction={() => settingToggle("encoder_enabled_x", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.encoder_enabled_y}
-                    toggleAction={() => settingToggle("encoder_enabled_y", bot)} />
-                </td>
-                <td>
-                  <ToggleButton
-                    toggleval={mcu_params.encoder_enabled_z}
-                    toggleAction={() => settingToggle("encoder_enabled_z", bot)} />
-                </td>
-              </tr>
-
-              {/*}
-              <EncoderType hardware={mcu_params}
-                onChange={(x, y) => { botConfigChange(x, y) }} />
-              */}
-
-              <tr>
-                <td>
-                  <label>{t("ENCODER SCALING")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(`(Alpha) Position = encoder_steps * scale_factor / 100.`)}
-                    </div>
-                  </div>
-                </td>
-                <McuInputBox setting={"encoder_scaling_x"}
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting={"encoder_scaling_y"}
-                  bot={bot}
-                  dispatch={dispatch} />
-                <McuInputBox setting={"encoder_scaling_z"}
-                  bot={bot}
-                  dispatch={dispatch} />
-              </tr>
+                x={"encoder_enabled_x"}
+                y={"encoder_enabled_y"}
+                z={"encoder_enabled_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("INVERT ENCODERS")}
+                tooltip={t(`(Alpha) Invert the encoders.`)}
+                x={"encoder_inverted_x"}
+                y={"encoder_inverted_y"}
+                z={"encoder_inverted_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <NumericMCUInputGroup name={t("Max missed steps")}
+                tooltip={t(`(Alpha) maximum missed steps for encoders`)}
+                x={"encoder_missed_steps_max_x"}
+                y={"encoder_missed_steps_max_y"}
+                z={"encoder_missed_steps_max_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("ENCODER SCALING")}
+                tooltip={t(`(Alpha) Position = encoder_steps * scale_factor / 100.`)}
+                x={"encoder_scaling_x"}
+                y={"encoder_scaling_y"}
+                z={"encoder_scaling_z"}
+                bot={bot}
+                dispatch={dispatch} />
               <tr>
                 <td colSpan={100}>
                   <small>
@@ -400,8 +243,6 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   </button>
                 </td>
               </tr>
-
-
             </tbody>
           </table>
         </MustBeOnline>

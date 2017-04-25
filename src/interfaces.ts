@@ -24,11 +24,9 @@ export interface SelectOptionsParams {
 export interface Log {
   id?: number | undefined;
   message: string;
-  meta: { type: string; };
-  channels: string;
-  device_id: number;
-  created_at: string;
-  updated_at: string;
+  meta: { type: string[]; };
+  channels: string[];
+  created_at: number;
 }
 
 interface Location {

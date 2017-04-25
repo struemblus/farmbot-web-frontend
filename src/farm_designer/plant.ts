@@ -17,7 +17,6 @@ export function Plant(options: PlantOptions): Plant {
     y: (options.y || 0),
     radius: (options.radius || 25),
     spread: options.spread,
-    planting_area_id: (options.planting_area_id || ""),
     openfarm_slug
   };
 }
