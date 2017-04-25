@@ -8,6 +8,7 @@ import { GardenPoint } from "./garden_point";
 import { history, push } from "../../history";
 import { initSave, save } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
+import { Link } from "react-router";
 
 function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
   /** The offset of 50px is made for the setDragImage to make it in the
@@ -126,7 +127,8 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
-            return <a className="plant-link-wrapper"
+            return <Link className="plant-link-wrapper"
+              to={"/app/designer/plants/" + plantId}
               id={plantId}
               onClick={() => this.handleOnClick(plantId)}
               key={(plantId || index)}>
@@ -135,7 +137,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
                 plant={p}
                 onUpdate={updater(p)}
                 onDrop={dropper(p)} />
-            </a>;
+            </Link>;
           })}
 
       </svg>
