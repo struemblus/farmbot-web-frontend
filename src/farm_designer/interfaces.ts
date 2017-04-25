@@ -43,7 +43,6 @@ export interface FarmEvent {
   end_time?: string | undefined;
   repeat?: number | undefined;
   time_unit: TimeUnit;
-  next_time: string;
   executable_id: number;
   executable_type: ExecutableType;
   readonly calendar?: string[] | undefined;
@@ -64,16 +63,13 @@ export interface CropLiveSearchResult {
 export interface Plant {
   id?: number;
   dirty?: boolean | undefined;
-  planted_at: string;
-  // img_url: string;
+  planted_at?: string | undefined;
   name: string;
   x: number;
   y: number;
   radius: number;
   spread?: number | undefined;
-  planting_area_id: string;
-  // icon_url: string; // ? Maybe this will change.
-  openfarm_slug: string; // ? Maybe this will change.
+  openfarm_slug: string;
 }
 
 export interface Crop {
@@ -185,7 +181,7 @@ export interface PlantData {
   name: string;
   x: number;
   y: number;
-  planted_at: string;
+  planted_at?: string | undefined;
   uuid: string;
   id?: number;
 }
