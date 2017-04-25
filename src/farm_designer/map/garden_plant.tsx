@@ -5,22 +5,15 @@ import { history } from "../../history";
 
 const SCALE_FACTOR = 9.8;
 
-export class GardenPlant extends React.Component<GardenPlantProps,
-  Partial<GardenPlantState>> {
-
-  state = { icon: DEFAULT_ICON, isDragging: false, transX: 0, transY: 0 };
+export class GardenPlant extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
+  constructor() {
+    super();
+    this.state = { icon: DEFAULT_ICON, isDragging: false, transX: 0, transY: 0 };
+  }
 
   componentDidMount() {
     let OFS = this.props.plant.body.openfarm_slug;
     cachedIcon(OFS).then(icon => this.setState({ icon }));
-    document.body.addEventListener("mouseup", this.deSelect);
-    document.body.addEventListener("mousemove", this.drag);
-  }
-
-  componentWillUnmount() {
-    // Avoid memory leaks!
-    document.body.removeEventListener("mouseup", this.deSelect);
-    document.body.removeEventListener("mousemove", this.drag);
   }
 
   select = () => {
@@ -29,21 +22,13 @@ export class GardenPlant extends React.Component<GardenPlantProps,
     if (hasID && editing) { this.setState({ isDragging: true }); }
   }
 
-  deSelect = () => {
-    this.props.onDrop(this.props.plant.uuid);
-    this.setState({ isDragging: false });
-  }
-
-  drag = (e: MouseEvent) => {
-    if (this.state.isDragging) {
+  drag = (e: React.MouseEvent<SVGElement>) => {
+    if (this.props.selected && this.state.isDragging) {
       let { id } = this.props.plant.body;
       let deltaX = e.pageX - (this.state.transX || e.pageX);
       let deltaY = e.pageY - (this.state.transY || e.pageY);
 
-      this.setState({
-        transX: e.pageX,
-        transY: e.pageY
-      });
+      this.setState({ transX: e.pageX, transY: e.pageY });
 
       id && this.props.onUpdate(deltaX, deltaY, id);
     }
@@ -51,17 +36,16 @@ export class GardenPlant extends React.Component<GardenPlantProps,
 
   render() {
     let { radius, x, y, id } = this.props.plant.body;
-    let plantId = (id || "NO_PLANT_ID_FOUND").toString();
-    let isChosen = history.getCurrentLocation().pathname.includes(plantId);
+    let isEditing = history.getCurrentLocation().pathname.includes("" + id);
+    let isSelected = this.props.selected;
     let offsetX = x + radius;
     let offsetY = y + radius;
     let { isDragging } = this.state;
-
     return <g>
 
-      {isChosen && (
+      {isSelected && (
         <circle
-          className={"plant-indicator is-chosen-" + !!isChosen}
+          className={"plant-indicator is-chosen-" + !!isSelected}
           cx={offsetX}
           cy={offsetY}
           r={radius}
@@ -72,7 +56,7 @@ export class GardenPlant extends React.Component<GardenPlantProps,
         />
       )}
 
-      {isChosen && isDragging && (
+      {isSelected && isDragging && (
         <g>
           <circle
             cx={offsetX}
@@ -94,12 +78,14 @@ export class GardenPlant extends React.Component<GardenPlantProps,
       )}
 
       <image
-        className={"plant-image is-chosen-" + !!isChosen}
+        className={"plant-image is-chosen-" + isSelected}
         href={this.state.icon}
+        onClick={() => { this.props.onClick(this.props.plant.uuid); }}
         height={radius * 2}
         width={radius * 2}
         x={x}
         y={y}
+        onMouseMove={this.drag}
         onMouseDown={this.select} />
     </g>
   }

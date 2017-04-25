@@ -151,13 +151,16 @@ export interface GardenMapProps {
 
 export interface GardenMapState {
   map?: ClientRect | undefined;
+  selectedUUID?: string | undefined;
 }
 
 export interface GardenPlantProps {
   crop?: TaggedCrop | undefined;
   plant: TaggedPlant;
+  selected: boolean;
   onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
   onDrop: (uuid: string) => void;
+  onClick: (uuid: string) => void;
 }
 
 export interface GardenPlantState {
