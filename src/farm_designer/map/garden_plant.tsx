@@ -2,6 +2,10 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { history } from "../../history";
+import { fancyDebug } from "../../util";
+
+const SCALE_FACTOR = 9.8;
+const GRID_SIZE = 10;
 
 export class GardenPlant extends React.Component<GardenPlantProps,
   Partial<GardenPlantState>> {
@@ -11,44 +15,31 @@ export class GardenPlant extends React.Component<GardenPlantProps,
   componentDidMount() {
     let OFS = this.props.plant.body.openfarm_slug;
     cachedIcon(OFS).then(icon => this.setState({ icon }));
-    document.onmousemove = this.drag;
   }
 
   select = () => {
-    let plantId = this.props.plant.body.id || "";
-    if (history.getCurrentLocation().pathname
-      // TS doesn't like that the id is a number for the .includes() method
-      .includes((plantId as string) && "edit")) {
-      this.setState({ isDragging: true });
-    }
+    let hasID = !!this.props.plant.body.id;
+    let editing = history.getCurrentLocation().pathname.includes("edit");
+    if (hasID && editing) { this.setState({ isDragging: true }); }
   }
 
   deSelect = () => {
-    (this.props.onDrop)("")
+    this.props.onDrop("");
     this.setState({ isDragging: false });
   }
 
-  snap = (value: number, gridSize: number) => {
-    let snapped = gridSize * Math.round(value / gridSize);
-    if (Math.abs(value - snapped) < 2) { return snapped; }
-  }
-
-  drag = (e: any) => {
-    let { radius, id, x, y } = this.props.plant.body;
+  drag = (e: React.MouseEvent<SVGElement>) => {
     if (this.state.isDragging) {
-      // TODO: Use offsets of where element is initially selected instead of
-      // hard-coded values.
-      let coordX = (e.pageX - radius) - (320 + x);
-      let coordY = (e.pageY - radius) - (110 + y);
+      let { id } = this.props.plant.body;
+      let deltaX = e.pageX - (this.state.transX || e.pageX);
+      let deltaY = e.pageY - (this.state.transY || e.pageY);
 
-      let gridSize = 10;
-      let snappedX = this.snap(coordX, gridSize);
-      let snappedY = this.snap(coordY, gridSize);
+      this.setState({
+        transX: e.pageX,
+        transY: e.pageY
+      });
 
-      if (snappedX) { this.setState({ transX: snappedX }); }
-      if (snappedY) { this.setState({ transY: snappedY }); }
-
-      id && this.props.onUpdate(this.state.transX, this.state.transY, id);
+      id && this.props.onUpdate(deltaX, deltaY, id);
     }
   }
 
@@ -80,21 +71,19 @@ export class GardenPlant extends React.Component<GardenPlantProps,
           <circle
             cx={offsetX}
             cy={offsetY}
-            r={(radius || 0) * 9.8 / 2}
+            r={(radius || 0) * SCALE_FACTOR / 2}
             fillOpacity={0.2}
             fill="green"
             stroke="green"
-            strokeWidth="1.5"
-          />
+            strokeWidth="1.5" />
 
           <circle
             cx={offsetX}
             cy={offsetY}
-            r={(radius || 0) * 9.8 / 2}
+            r={(radius || 0) * SCALE_FACTOR / 2}
             fill="none"
             stroke="green"
-            strokeWidth="1.5"
-          />
+            strokeWidth="1.5" />
         </g>
       )}
 
@@ -105,11 +94,10 @@ export class GardenPlant extends React.Component<GardenPlantProps,
         width={radius * 2}
         x={x}
         y={y}
+        onClick={() => this.select()}
         onMouseDown={() => this.select()}
-        onMouseUp={() => this.deSelect()}
-        onMouseMove={(e) => this.drag(e)}
-      />
-
+        ref={(me) => { me }}
+        onMouseMoveCapture={(e) => this.drag(e)} />
     </g>
   }
 }
