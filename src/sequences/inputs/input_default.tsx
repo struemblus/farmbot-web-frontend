@@ -1,6 +1,6 @@
 import * as React from "react";
 import { updateStep } from "../step_tiles/index";
-import * as _ from "lodash";
+import { isString, isNumber } from "lodash";
 import { StepInputProps } from "../interfaces";
 
 export function InputDefault({
@@ -11,7 +11,7 @@ export function InputDefault({
   index
 }: StepInputProps) {
   let raw = (step.args as any)[field];
-  let notUndefied = (_.isString(raw) || _.isNumber(raw));
+  let notUndefied = (isString(raw) || isNumber(raw));
   let val = notUndefied ? raw : "";
 
   return <input type="text"
