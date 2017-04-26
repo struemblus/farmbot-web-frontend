@@ -20,7 +20,7 @@ export class EditPlantInfo extends PlantInfoBase {
           <span className="title">{t("Edit")} {info.name}</span>
         </p>
       </div>
-      <PlantPanel info={info} />
+      <PlantPanel info={info} onDestroy={this.destroy} />
     </div >;
   }
 
