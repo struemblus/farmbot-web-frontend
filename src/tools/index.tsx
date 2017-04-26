@@ -12,8 +12,8 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
     this.state = {};
   }
 
-  toggleBays = () => { this.setState({ editingBays: !this.state.editingBays }); }
-  toggleTools = () => { this.setState({ editingTools: !this.state.editingTools }); }
+  toggleBays = () => this.setState({ editingBays: !this.state.editingBays });
+  toggleTools = () => this.setState({ editingTools: !this.state.editingTools });
 
   render() {
     let isEditingBays = this.state.editingBays;
