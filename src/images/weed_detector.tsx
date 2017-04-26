@@ -93,7 +93,7 @@ export class WeedDetector extends React.Component<WeedDetectorProps,
 
   render() {
     return <div>
-      <div className="widget-wrapper weed-detector-widget coming-soon">
+      <div className="widget-wrapper weed-detector-widget">
         <div className="row">
           <div className="col-sm-12">
             <TitleBar onDeletionClick={this.clearWeeds}

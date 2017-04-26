@@ -5,7 +5,7 @@ import * as moment from "moment";
 import { GardenMapProps, GardenMapState } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
-import { history, push } from "../../history";
+import { history } from "../../history";
 import { initSave, save } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
