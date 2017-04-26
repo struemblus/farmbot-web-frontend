@@ -70,7 +70,9 @@ export class CustomFBSelect extends React.Component<Props, Partial<State>> {
         className={"select-results-container is-open-" + !!isOpen}>
         {list && list.map((x: TaggedPlant) => {
           let comp = this.props.optionComponent;
-          let condition = x.body.name.toLowerCase().includes(this.state.input);
+          let name = x.body.name.toLowerCase();
+          let input = this.state.input.toLowerCase();
+          let condition = name.includes(input);
           return condition && comp && comp(x);
         })}
       </div>
