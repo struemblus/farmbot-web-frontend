@@ -27,8 +27,10 @@ function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: 
 }
 
 export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
-
-  state = { map: undefined };
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   componentDidMount() {
     // Possible alternative to this? Maybe refs? Hmm...
@@ -103,7 +105,10 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       dispatch(movePlant({ deltaX, deltaY, plant }));
     };
 
-    let dropper = (p: TaggedPlant) => () => dispatch(save(p.uuid));
+    let dropper = (p: TaggedPlant) => () => {
+      this.setState({ selectedUUID: "" });
+      dispatch(save(p.uuid));
+    };
 
     return <div className="drop-area"
       id="drop-area"
@@ -111,7 +116,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragEnter={this.handleDragEnter}
       onDragOver={this.handleDragOver}>
 
-      <svg id="drop-area-svg">
+      <svg id="drop-area-svg" onMouseUp={() => { this.setState({ selectedUUID: "" }) }}>
 
         {this
           .props
@@ -135,6 +140,8 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
               <GardenPlant
                 crop={c}
                 plant={p}
+                selected={p.uuid === this.state.selectedUUID}
+                onClick={(uuid) => this.setState({ selectedUUID: uuid })}
                 onUpdate={updater(p)}
                 onDrop={dropper(p)} />
             </Link>;
