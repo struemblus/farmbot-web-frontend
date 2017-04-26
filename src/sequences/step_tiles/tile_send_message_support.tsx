@@ -1,5 +1,6 @@
 import { SendMessage, Channel } from "farmbot/dist";
 import * as React from "react";
+import { pairs } from "lodash";
 
 /** Communication channels that we hope to support one day, but don't today. */
 export const DISABLED = ["email", "sms", "twitter"]
@@ -9,7 +10,7 @@ export const THE_ONLY_CHANNEL: Channel = {
     channel_name: "toast"
   }
 };
-export const CHANNELS = _.pairs<{}, string>({
+export const CHANNELS = pairs<{}, string>({
   "toast": "Toast Notification",
   "email": "Email",
   "sms": "SMS",
