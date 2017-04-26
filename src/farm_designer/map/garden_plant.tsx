@@ -22,7 +22,10 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
     if (hasID && editing) { this.setState({ isDragging: true }); }
   }
 
-  deSelect = () => this.setState({ isDragging: false });
+  deSelect = () => {
+    this.setState({ isDragging: false });
+    this.props.onDrop("");
+  }
 
   drag = (e: React.MouseEvent<SVGElement>) => {
     if (this.props.selected && this.state.isDragging) {
@@ -37,8 +40,7 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
   }
 
   render() {
-    let { radius, x, y, id } = this.props.plant.body;
-    let isEditing = history.getCurrentLocation().pathname.includes("" + id);
+    let { radius, x, y } = this.props.plant.body;
     let isSelected = this.props.selected;
     let offsetX = x + radius;
     let offsetY = y + radius;
