@@ -166,9 +166,9 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 bot={bot} />
               <BooleanMCUInputGroup name={t("INVERT ENCODERS")}
                 tooltip={t(`(Alpha) Invert the encoders.`)}
-                x={"encoder_inverted_x"}
-                y={"encoder_inverted_y"}
-                z={"encoder_inverted_z"}
+                x={"encoder_invert_x"}
+                y={"encoder_invert_y"}
+                z={"encoder_invert_z"}
                 dispatch={dispatch}
                 bot={bot} />
               <NumericMCUInputGroup name={t("Max missed steps")}
