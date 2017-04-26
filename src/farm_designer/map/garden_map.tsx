@@ -32,21 +32,13 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     this.state = {};
   }
 
-  componentDidMount() {
-    // Possible alternative to this? Maybe refs? Hmm...
-    setTimeout(() => {
-      let el = document.querySelector("#drop-area-svg");
-      let map = el && el.getBoundingClientRect();
-      map && this.setState({ map });
-    }, 1);
-  }
-
   handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   }
 
-  handleDragEnter = (e: React.DragEvent<HTMLElement>) => { e.preventDefault(); }
+  @preventDefault
+  handleDragEnter(e: React.DragEvent<HTMLElement>) { e.preventDefault(); }
 
   findCrop(slug?: string) {
     let crops = this.props.designer.cropSearchResults || [];
@@ -99,6 +91,18 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
 
   }
 
+  dragIdea = (e: React.MouseEvent<SVGElement>) => {
+    if (this.state.selectedPlant) {
+      let { id } = this.props.plant.body;
+      let deltaX = e.pageX - (this.state.transX || e.pageX);
+      let deltaY = e.pageY - (this.state.transY || e.pageY);
+
+      this.setState({ transX: e.pageX, transY: e.pageY });
+      dispatch(movePlant({ deltaX, deltaY, plant }));
+      id && this.props.onUpdate(deltaX, deltaY, id);
+    }
+  }
+
   render() {
     let { dispatch, crops } = this.props;
     let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
@@ -106,17 +110,22 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     };
 
     let dropper = (p: TaggedPlant) => () => {
-      this.setState({ selectedUUID: "" });
+      this.setState({ selectedPlant: p });
       dispatch(save(p.uuid));
     };
 
+    let { selectedPlant } = this.state;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
       onDragEnter={this.handleDragEnter}
       onDragOver={this.handleDragOver}>
 
-      <svg id="drop-area-svg" onMouseUp={() => { this.setState({ selectedUUID: "" }) }}>
+      <svg id="drop-area-svg"
+        onMouseUp={() => {
+          this.setState({ selectedPlant: undefined });
+        }}
+        onMouseMove={() => { console.log("Heyo moving.") }}>
 
         {this
           .props
@@ -140,15 +149,26 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
               <GardenPlant
                 crop={c}
                 plant={p}
-                selected={p.uuid === this.state.selectedUUID}
-                onClick={(uuid) => this.setState({ selectedUUID: uuid })}
-                onUpdate={updater(p)}
-                onDrop={dropper(p)} />
+                selected={!!(selectedPlant && (p.uuid === selectedPlant.uuid))}
+                onClick={(plant) => this.setState({ selectedPlant: plant })} />
             </Link>;
           })}
 
       </svg>
 
     </div>;
+  }
+}
+
+
+function preventDefault<T>(target: T, key: keyof T, value: any) {
+  return (...args: any[]) => {
+    var a = args.map(a => JSON.stringify(a)).join();
+    var result = value.value.apply(this, args);
+    var r = JSON.stringify(result);
+
+    console.log('called method' + key + ' with args ' + a + ' returned result ' + r);
+
+    return result;
   }
 }

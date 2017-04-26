@@ -23,8 +23,7 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
   }
 
   deSelect = () => {
-    this.setState({ isDragging: false });
-    this.props.onDrop("");
+    this.props.onDrop(this.props.plant);
   }
 
   drag = (e: React.MouseEvent<SVGElement>) => {
@@ -84,7 +83,7 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
       <image
         className={"plant-image is-chosen-" + isSelected}
         href={this.state.icon}
-        onClick={() => { this.props.onClick(this.props.plant.uuid); }}
+        onClick={() => { this.props.onClick(this.props.plant); }}
         height={radius * 2}
         width={radius * 2}
         x={x}
