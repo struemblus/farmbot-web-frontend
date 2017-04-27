@@ -27,6 +27,7 @@ export class GardenMap
   startDrag = () => this.setState({ isDragging: true });
   selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
   clearPlant = () => this.setState({ selectedPlant: undefined });
+  get isEditing() { return location.pathname.includes("edit"); }
   getPlant = (): TaggedPlant | undefined => {
     return this
       .props
@@ -78,7 +79,7 @@ export class GardenMap
 
   drag = (e: React.MouseEvent<SVGElement>) => {
     let plant = this.getPlant();
-    if (this.state.isDragging && plant) {
+    if (this.isEditing && this.state.isDragging && plant) {
       let deltaX = e.pageX - (this.state.pageX || e.pageX);
       let deltaY = e.pageY - (this.state.pageY || e.pageY);
 
@@ -134,7 +135,7 @@ export class GardenMap
               <GardenPlant
                 plant={p}
                 selected={selected}
-                dragging={selected && !!this.state.isDragging}
+                dragging={selected && !!this.state.isDragging && this.isEditing}
                 onClick={(plant) => { this.selectPlant(plant.uuid); }} />
             </Link>;
           })}
