@@ -127,6 +127,14 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         }
       },
       {
+        path: "app/weed_detector",
+        getComponent(location: any, cb: any) {
+          System.import("./images/weed_detector.tsx").then(
+            (module: any) => cb(null, module.WeedDetector)
+          ).catch(errorLoading(cb));
+        }
+      },
+      {
         path: "app/designer",
         onEnter: this.replaceDesignerModules.bind(this),
         getComponent(location: any, cb: any) {

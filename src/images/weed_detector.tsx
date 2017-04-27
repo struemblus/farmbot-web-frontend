@@ -3,17 +3,20 @@ import { DetectorState, WeedDetectorENV } from "./interfaces";
 import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
-import { success, error } from "../ui/index";
+import { success, error, Page, Col, Row } from "../ui/index";
 import { t } from "i18next";
 import { resetWeedDetection } from "./actions";
 import { Progress } from "../util";
 import { Pair } from "farmbot/dist";
 import { HSV } from "./index";
 import { WeedDetectorProps } from "../devices/interfaces";
+import { connect } from "react-redux";
+import { mapStateToProps } from "./state_to_props";
 const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
+@connect(mapStateToProps)
 export class WeedDetector extends React.Component<WeedDetectorProps,
-  Partial<DetectorState>> {
+Partial<DetectorState>> {
   constructor() {
     super();
     this.state = { remoteFarmwareSettings: {} };
@@ -92,29 +95,31 @@ export class WeedDetector extends React.Component<WeedDetectorProps,
   }
 
   render() {
-    return <div>
-      <div className="widget-wrapper weed-detector-widget">
-        <div className="row">
-          <div className="col-sm-12">
-            <TitleBar onDeletionClick={this.clearWeeds}
-              deletionProgress={this.state.deletionProgress}
-              onPhotoClick={this.takePhoto}
-              onSave={this.saveSettings}
-              onSettingToggle={this.toggleSettingsMenu}
-              onTest={this.test}
-              settingsMenuOpen={!!this.state.settingsMenuOpen} />
-            <div className="row">
-              <div className="col-sm-12">
-                <WeedDetectorBody images={this.props.images}
-                  onSliderChange={this.sliderChange}
-                  H={this.farmwareSettings.H}
-                  S={this.farmwareSettings.S}
-                  V={this.farmwareSettings.V} />
-              </div>
-            </div>
-          </div>
+    return <Page className="weed-detector">
+      <Col sm={8} smOffset={2}>
+        <div className="widget-wrapper weed-detector-widget">
+          <Row>
+            <Col>
+              <TitleBar onDeletionClick={this.clearWeeds}
+                deletionProgress={this.state.deletionProgress}
+                onPhotoClick={this.takePhoto}
+                onSave={this.saveSettings}
+                onSettingToggle={this.toggleSettingsMenu}
+                onTest={this.test}
+                settingsMenuOpen={!!this.state.settingsMenuOpen} />
+              <Row>
+                <Col sm={12}>
+                  <WeedDetectorBody images={this.props.images}
+                    onSliderChange={this.sliderChange}
+                    H={this.farmwareSettings.H}
+                    S={this.farmwareSettings.S}
+                    V={this.farmwareSettings.V} />
+                </Col>
+              </Row>
+            </Col>
+          </Row>
         </div>
-      </div>
-    </div>;
+      </Col>
+    </Page>;
   }
 }
