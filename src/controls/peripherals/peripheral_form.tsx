@@ -9,7 +9,7 @@ export function PeripheralForm(props: PeripheralFormProps) {
 
   return <div>
     {sortResourcesById(peripherals).map(p => {
-      return <Row>
+      return <Row key={p.body.id}>
         <Col xs={6}>
           <input type="text"
             placeholder="Label"
