@@ -150,13 +150,16 @@ export interface GardenMapProps {
 }
 
 export interface GardenMapState {
-  selectedPlant?: Readonly<TaggedPlant> | undefined;
+  selectedPlant: Readonly<TaggedPlant> | undefined;
+  isDragging: boolean | undefined;
+  pageX: number | undefined;
+  pageY: number | undefined;
 }
 
 export interface GardenPlantProps {
-  crop?: TaggedCrop | undefined;
   plant: Readonly<TaggedPlant>;
   selected: boolean;
+  dragging: boolean;
   onClick: (plant: Readonly<TaggedPlant>) => void;
 }
 

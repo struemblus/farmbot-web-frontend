@@ -1,14 +1,14 @@
 import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
-import { history } from "../../history";
+import { SpreadCircle } from "./radius_circle";
 
 const SCALE_FACTOR = 9.8;
 
 export class GardenPlant extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
   constructor() {
     super();
-    this.state = { icon: DEFAULT_ICON, isDragging: false, transX: 0, transY: 0 };
+    this.state = { icon: DEFAULT_ICON };
   }
 
   componentDidMount() {
@@ -16,50 +16,14 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
     cachedIcon(OFS).then(icon => this.setState({ icon }));
   }
 
-  select = () => {
-    let hasID = !!this.props.plant.body.id;
-    let editing = history.getCurrentLocation().pathname.includes("edit");
-    if (hasID && editing) { this.setState({ isDragging: true }); }
-  }
-
-  deSelect = () => {
-    this.props.onDrop(this.props.plant);
-  }
-
-  drag = (e: React.MouseEvent<SVGElement>) => {
-    if (this.props.selected && this.state.isDragging) {
-      let { id } = this.props.plant.body;
-      let deltaX = e.pageX - (this.state.transX || e.pageX);
-      let deltaY = e.pageY - (this.state.transY || e.pageY);
-
-      this.setState({ transX: e.pageX, transY: e.pageY });
-
-      id && this.props.onUpdate(deltaX, deltaY, id);
-    }
-  }
-
   render() {
-    let { radius, x, y } = this.props.plant.body;
-    let isSelected = this.props.selected;
+    let { dragging, selected, plant } = this.props;
+    let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
-    let { isDragging } = this.state;
     return <g>
-
-      {isSelected && (
-        <circle
-          className={"plant-indicator is-chosen-" + !!isSelected}
-          cx={offsetX}
-          cy={offsetY}
-          r={radius}
-          stroke="green"
-          strokeWidth={4}
-          strokeDasharray={8}
-          fill="none"
-        />
-      )}
-
-      {isSelected && isDragging && (
+      <SpreadCircle x={offsetX} y={offsetY} r={radius} selected={selected} />
+      {selected && dragging && (
         <g>
           <circle
             cx={offsetX}
@@ -81,16 +45,13 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
       )}
 
       <image
-        className={"plant-image is-chosen-" + isSelected}
+        className={"plant-image is-chosen-" + selected}
         href={this.state.icon}
         onClick={() => { this.props.onClick(this.props.plant); }}
         height={radius * 2}
         width={radius * 2}
         x={x}
-        y={y}
-        onMouseMove={this.drag}
-        onMouseDown={this.select}
-        onMouseUp={this.deSelect} />
+        y={y} />
     </g>
   }
 }

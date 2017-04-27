@@ -9,24 +9,12 @@ import { history } from "../../history";
 import { initSave, save } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
+import { translateScreenToGarden } from "./translate_screen_to_garden";
+import { findBySlug } from "../search_selectors";
+import { fancyDebug } from "../../util";
 
-function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
-  /** The offset of 50px is made for the setDragImage to make it in the
-   * center of the mouse for accuracy which is why this is being done.
-   * Once we get more dynamic with the values (different size plants),
-   * we can tweak this accordingly.
-   */
-  let newMouseX = mouseX - 25;
-  let newMouseY = mouseY - 25;
-  /* */
-
-  let rawX = newMouseX - boxX;
-  let rawY = newMouseY - boxY;
-
-  return { x: rawX, y: rawY };
-}
-
-export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
+export class GardenMap
+  extends React.Component<GardenMapProps, Partial<GardenMapState>> {
   constructor() {
     super();
     this.state = {};
@@ -37,27 +25,10 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     e.dataTransfer.dropEffect = "move";
   }
 
-  @preventDefault
   handleDragEnter(e: React.DragEvent<HTMLElement>) { e.preventDefault(); }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults || [];
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements"
-      },
-      image: "http://placehold.it/350x150"
-    };
+    return findBySlug(this.props.designer.cropSearchResults || [], slug);
   }
 
   handleDrop = (e: React.DragEvent<HTMLElement>) => {
@@ -65,7 +36,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     let el = document.querySelector("#drop-area > svg");
     if (el) {
       let box = el.getBoundingClientRect();
-      let { x, y } = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
+      let { x, y } = translateScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
       let p: TaggedPlant = {
@@ -88,18 +59,28 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
   }
 
   handleOnClick = (plantId: string) => {
-
+    console.log("TODO: DELETE THIS?");
   }
 
-  dragIdea = (e: React.MouseEvent<SVGElement>) => {
-    if (this.state.selectedPlant) {
-      let { id } = this.props.plant.body;
-      let deltaX = e.pageX - (this.state.transX || e.pageX);
-      let deltaY = e.pageY - (this.state.transY || e.pageY);
+  endDrag = () => this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  startDrag = () => this.setState({ isDragging: true });
+  selectPlant = (selectedPlant: TaggedPlant) => this.setState({ selectedPlant });
+  clearPlant = () => this.setState({ selectedPlant: undefined })
 
-      this.setState({ transX: e.pageX, transY: e.pageY });
-      dispatch(movePlant({ deltaX, deltaY, plant }));
-      id && this.props.onUpdate(deltaX, deltaY, id);
+  drag = (e: React.MouseEvent<SVGElement>) => {
+    let plant = this.state.selectedPlant;
+    if (this.state.isDragging && plant) {
+      let deltaX = e.pageX - (this.state.pageX || e.pageX);
+      let deltaY = e.pageY - (this.state.pageY || e.pageY);
+
+      this.setState({ pageX: e.pageX, pageY: e.pageY });
+      fancyDebug({
+        deltaX,
+        deltaY,
+        plantX: plant.body.x,
+        plantY: plant.body.y
+      });
+      this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
     }
   }
 
@@ -122,10 +103,9 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
       onDragOver={this.handleDragOver}>
 
       <svg id="drop-area-svg"
-        onMouseUp={() => {
-          this.setState({ selectedPlant: undefined });
-        }}
-        onMouseMove={() => { console.log("Heyo moving.") }}>
+        onMouseUp={this.endDrag}
+        onMouseDown={this.startDrag}
+        onMouseMove={this.drag}>
 
         {this
           .props
@@ -141,34 +121,23 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
+            let selected = !!(selectedPlant && (p.uuid === selectedPlant.uuid));
+
             return <Link className="plant-link-wrapper"
               to={"/app/designer/plants/" + plantId}
               id={plantId}
               onClick={() => this.handleOnClick(plantId)}
               key={(plantId || index)}>
               <GardenPlant
-                crop={c}
                 plant={p}
-                selected={!!(selectedPlant && (p.uuid === selectedPlant.uuid))}
-                onClick={(plant) => this.setState({ selectedPlant: plant })} />
+                selected={selected}
+                dragging={selected && !!this.state.isDragging}
+                onClick={(plant) => { this.selectPlant(plant); }} />
             </Link>;
           })}
 
       </svg>
 
     </div>;
-  }
-}
-
-
-function preventDefault<T>(target: T, key: keyof T, value: any) {
-  return (...args: any[]) => {
-    var a = args.map(a => JSON.stringify(a)).join();
-    var result = value.value.apply(this, args);
-    var r = JSON.stringify(result);
-
-    console.log('called method' + key + ' with args ' + a + ' returned result ' + r);
-
-    return result;
   }
 }
