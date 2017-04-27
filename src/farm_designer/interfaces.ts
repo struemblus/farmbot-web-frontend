@@ -150,24 +150,21 @@ export interface GardenMapProps {
 }
 
 export interface GardenMapState {
-  map?: ClientRect | undefined;
-  selectedUUID?: string | undefined;
+  selectedPlant: string | undefined;
+  isDragging: boolean | undefined;
+  pageX: number | undefined;
+  pageY: number | undefined;
 }
 
 export interface GardenPlantProps {
-  crop?: TaggedCrop | undefined;
-  plant: TaggedPlant;
+  plant: Readonly<TaggedPlant>;
   selected: boolean;
-  onUpdate: (deltaX: number, deltaY: number, idx: number) => void;
-  onDrop: (uuid: string) => void;
-  onClick: (uuid: string) => void;
+  dragging: boolean;
+  onClick: (plant: Readonly<TaggedPlant>) => void;
 }
 
 export interface GardenPlantState {
   icon: string;
-  isDragging: boolean;
-  transX: number;
-  transY: number;
 }
 
 export interface GardenPointProps {
