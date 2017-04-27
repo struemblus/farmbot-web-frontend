@@ -15,6 +15,17 @@ import { fancyDebug } from "../../util";
 
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
+
+  endDrag = () => this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  startDrag = () => this.setState({ isDragging: true });
+  selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
+  clearPlant = () => this.setState({ selectedPlant: undefined });
+  getPlant = (): TaggedPlant | undefined => {
+    return this
+      .props
+      .plants
+      .filter(x => x.uuid === this.state.selectedPlant)[0];
+  }
   constructor() {
     super();
     this.state = {};
@@ -62,24 +73,13 @@ export class GardenMap
     console.log("TODO: DELETE THIS?");
   }
 
-  endDrag = () => this.setState({ isDragging: false, pageX: 0, pageY: 0 });
-  startDrag = () => this.setState({ isDragging: true });
-  selectPlant = (selectedPlant: TaggedPlant) => this.setState({ selectedPlant });
-  clearPlant = () => this.setState({ selectedPlant: undefined })
-
   drag = (e: React.MouseEvent<SVGElement>) => {
-    let plant = this.state.selectedPlant;
+    let plant = this.getPlant();
     if (this.state.isDragging && plant) {
       let deltaX = e.pageX - (this.state.pageX || e.pageX);
       let deltaY = e.pageY - (this.state.pageY || e.pageY);
 
       this.setState({ pageX: e.pageX, pageY: e.pageY });
-      fancyDebug({
-        deltaX,
-        deltaY,
-        plantX: plant.body.x,
-        plantY: plant.body.y
-      });
       this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
     }
   }
@@ -91,7 +91,7 @@ export class GardenMap
     };
 
     let dropper = (p: TaggedPlant) => () => {
-      this.setState({ selectedPlant: p });
+      this.setState({ selectedPlant: p.uuid });
       dispatch(save(p.uuid));
     };
 
@@ -121,7 +121,7 @@ export class GardenMap
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
-            let selected = !!(selectedPlant && (p.uuid === selectedPlant.uuid));
+            let selected = !!(selectedPlant && (p.uuid === selectedPlant));
 
             return <Link className="plant-link-wrapper"
               to={"/app/designer/plants/" + plantId}
@@ -132,7 +132,7 @@ export class GardenMap
                 plant={p}
                 selected={selected}
                 dragging={selected && !!this.state.isDragging}
-                onClick={(plant) => { this.selectPlant(plant); }} />
+                onClick={(plant) => { this.selectPlant(plant.uuid); }} />
             </Link>;
           })}
 

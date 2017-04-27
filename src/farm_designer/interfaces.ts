@@ -150,7 +150,7 @@ export interface GardenMapProps {
 }
 
 export interface GardenMapState {
-  selectedPlant: Readonly<TaggedPlant> | undefined;
+  selectedPlant: string | undefined;
   isDragging: boolean | undefined;
   pageX: number | undefined;
   pageY: number | undefined;
