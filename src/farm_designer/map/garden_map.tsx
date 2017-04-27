@@ -26,7 +26,6 @@ export class GardenMap
   }
   startDrag = () => this.setState({ isDragging: true });
   selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
-  clearPlant = () => this.setState({ selectedPlant: undefined });
   get isEditing() { return location.pathname.includes("edit"); }
   getPlant = (): TaggedPlant | undefined => {
     return this
@@ -89,15 +88,7 @@ export class GardenMap
   }
 
   render() {
-    let { dispatch, crops } = this.props;
-    let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
-      dispatch(movePlant({ deltaX, deltaY, plant }));
-    };
-
-    let dropper = (p: TaggedPlant) => () => {
-      this.setState({ selectedPlant: p.uuid });
-      dispatch(save(p.uuid));
-    };
+    let { crops } = this.props;
 
     let { selectedPlant } = this.state;
     return <div className="drop-area"
