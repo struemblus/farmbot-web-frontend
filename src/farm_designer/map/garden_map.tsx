@@ -27,12 +27,7 @@ export class GardenMap
   startDrag = () => this.setState({ isDragging: true });
   selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
   get isEditing() { return location.pathname.includes("edit"); }
-  getPlant = (): TaggedPlant | undefined => {
-    return this
-      .props
-      .plants
-      .filter(x => x.uuid === this.state.selectedPlant)[0];
-  }
+  getPlant = (): TaggedPlant | undefined => this.props.selectedPlant;
   constructor() {
     super();
     this.state = {};

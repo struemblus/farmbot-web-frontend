@@ -101,8 +101,7 @@ export function fakeState(dispatcher: Function = noop): Everything {
           current: undefined
         },
         "farm_designer": {
-          "x_size": 0,
-          "y_size": 0,
+          "selectedPlant":undefined,
           "cropSearchQuery": "",
           "cropSearchResults": []
         }
