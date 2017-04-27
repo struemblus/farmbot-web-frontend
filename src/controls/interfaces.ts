@@ -3,13 +3,7 @@ import { Vector3 } from "farmbot/dist";
 
 export interface ControlsState {
   isEditingCameraURL: boolean;
-}
-
-export interface WebcamSaveBtnProps {
-  dispatch: Function;
-  webcamUrl: string;
-  apiUrl: string;
-  updateState: Function;
+  url: string;
 }
 
 export interface DirectionButtonProps {

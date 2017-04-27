@@ -3,11 +3,9 @@ import { Component } from "react";
 import { changeStepSize, moveAbs, changeDevice } from "../devices/actions";
 import { connect } from "react-redux";
 import { ControlsState } from "./interfaces";
-import { WebcamSaveBtn } from "./webcam_save_btn";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
-import { API } from "../api";
 import { JogButtons } from "./jog_buttons";
 import { AxisInputBoxGroup } from "./axis_input_box_group";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
@@ -18,10 +16,10 @@ import { showUrl } from "./show_url";
 import { MustBeOnline } from "../devices/must_be_online";
 
 @connect(mapStateToProps)
-export class Controls extends Component<Props, ControlsState> {
+export class Controls extends Component<Props, Partial<ControlsState>> {
   constructor() {
     super();
-    this.state = { isEditingCameraURL: false };
+    this.state = { isEditingCameraURL: false, url: "" };
   }
 
   toggleCameraURLEdit = () => {
@@ -33,6 +31,11 @@ export class Controls extends Component<Props, ControlsState> {
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
+  saveURL = () => {
+    let update = { webcam_url: this.state.url };
+    this.props.dispatch(changeDevice(this.props.account, update));
+  }
+
   render() {
     let fallback = PLACEHOLDER_FARMBOT;
     let custom = (this.props.account.body.webcam_url);
@@ -40,6 +43,7 @@ export class Controls extends Component<Props, ControlsState> {
     let dirty = !!this.props.bot.dirty;
     let { isEditingCameraURL } = this.state;
     let { sync_status } = this.props.bot.hardware.informational_settings;
+
     return <Page className="controls">
       <Row>
         <Col xs={12} sm={6} md={4} mdOffset={1}>
@@ -84,10 +88,9 @@ export class Controls extends Component<Props, ControlsState> {
               helpText={`Press the edit button to update and save
                 your webcam URL.`}>
               {isEditingCameraURL ?
-                <WebcamSaveBtn dispatch={this.props.dispatch}
-                  webcamUrl={url}
-                  apiUrl={API.current.baseUrl}
-                  updateState={this.toggleCameraURLEdit} />
+                <button className="green" onClick={this.saveURL}>
+                  {t("Save")}
+                </button>
                 :
                 <button className="gray" onClick={this.toggleCameraURLEdit}>
                   {t("Edit")}
@@ -103,11 +106,8 @@ export class Controls extends Component<Props, ControlsState> {
                   <i className="fa fa-times"></i>
                 </button>
                 <input type="text"
-                  onChange={(e) => {
-                    let update = { webcam_url: e.currentTarget.value };
-                    this.props.dispatch(changeDevice(this.props.account, update));
-                  }}
-                  value={url}
+                  onChange={e => this.setState({ url: e.currentTarget.value })}
+                  value={this.state.url}
                   className="webcam-url-input" />
               </div>
             )}
