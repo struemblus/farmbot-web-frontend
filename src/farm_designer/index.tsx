@@ -1,7 +1,6 @@
 import * as React from "react";
 import { GardenMap } from "./map/garden_map";
 import { connect } from "react-redux";
-import { success } from "../ui";
 import { Link } from "react-router";
 import { t } from "i18next";
 import { Props } from "./interfaces";
@@ -82,6 +81,7 @@ export class FarmDesigner extends React.Component<Props, State> {
 
       <div className="farm-designer-map">
         <GardenMap
+          selectedPlant={this.props.selectedPlant}
           crops={this.props.crops}
           dispatch={this.props.dispatch}
           designer={this.props.designer}

@@ -117,38 +117,33 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_axis_nr_steps_z"}
                 bot={bot}
                 dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("ENCODER SCALING")}
+                tooltip={t(`(Alpha) encoder scaling factor =
+                        100 * (motor resolution * microsteps)
+                        / (encoder resolution * 4)`)}
+                x={"encoder_scaling_x"}
+                y={"encoder_scaling_y"}
+                z={"encoder_scaling_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("Max missed steps")}
+                tooltip={t(`(Alpha) Number of steps missed (determined by
+                        encoder) before motor is considered to have stalled.`)}
+                x={"encoder_missed_steps_max_x"}
+                y={"encoder_missed_steps_max_y"}
+                z={"encoder_missed_steps_max_z"}
+                bot={bot}
+                dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("Encoder missed step decay")}
+                tooltip={t(`(Alpha)Encoder missed step decay`)}
+                x={"encoder_missed_steps_decay_x"}
+                y={"encoder_missed_steps_decay_y"}
+                z={"encoder_missed_steps_decay_z"}
+                bot={bot}
+                dispatch={dispatch} />
               <CalibrationRow hardware={mcu_params} />
               <HomingRow hardware={mcu_params} />
               <ZeroRow />
-              <BooleanMCUInputGroup name={t("INVERT ENDPOINTS")}
-                tooltip={t(`Swap axis end-stops during calibration.`)}
-                x={"movement_invert_endpoints_x"}
-                y={"movement_invert_endpoints_y"}
-                z={"movement_invert_endpoints_z"}
-                dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup name={t("INVERT MOTORS")}
-                tooltip={t(`Invert direction of motor during calibration.`)}
-                x={"movement_invert_motor_x"}
-                y={"movement_invert_motor_y"}
-                z={"movement_invert_motor_z"}
-                dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup name={t("NEGATIVE COORDINATES ONLY")}
-                tooltip={t(`Restrict travel to negative coordinate locations.`)}
-                x={"movement_home_up_x"}
-                y={"movement_home_up_y"}
-                z={"movement_home_up_z"}
-                dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup name={t("ENABLE ENDSTOPS")}
-                tooltip={t(`Enable use of electronic end-stops during
-                        calibration and homing.`)}
-                x={"movement_enable_endpoints_x"}
-                y={"movement_enable_endpoints_y"}
-                z={"movement_enable_endpoints_z"}
-                dispatch={dispatch}
-                bot={bot} />
               <tr>
                 <td colSpan={100}>
                   <small>
@@ -180,27 +175,35 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_invert_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <NumericMCUInputGroup name={t("Max missed steps")}
-                tooltip={t(`(Alpha) Number of steps missed (determined by
-                        encoder) before motor is considered to have stalled.`)}
-                x={"encoder_missed_steps_max_x"}
-                y={"encoder_missed_steps_max_y"}
-                z={"encoder_missed_steps_max_z"}
-                bot={bot}
-                dispatch={dispatch} />
-              {/*
-              <EncoderType hardware={mcu_params}
-                onChange={(x, y) => { botConfigChange(x, y) }} />
-              */}
-              <NumericMCUInputGroup name={t("ENCODER SCALING")}
-                tooltip={t(`(Alpha) encoder scaling factor =
-                        100 * (motor resolution * microsteps)
-                        / (encoder resolution * 4)`)}
-                x={"encoder_scaling_x"}
-                y={"encoder_scaling_y"}
-                z={"encoder_scaling_z"}
-                bot={bot}
-                dispatch={dispatch} />
+              <BooleanMCUInputGroup name={t("INVERT ENDPOINTS")}
+                tooltip={t(`Swap axis end-stops during calibration.`)}
+                x={"movement_invert_endpoints_x"}
+                y={"movement_invert_endpoints_y"}
+                z={"movement_invert_endpoints_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("INVERT MOTORS")}
+                tooltip={t(`Invert direction of motor during calibration.`)}
+                x={"movement_invert_motor_x"}
+                y={"movement_invert_motor_y"}
+                z={"movement_invert_motor_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("NEGATIVE COORDINATES ONLY")}
+                tooltip={t(`Restrict travel to negative coordinate locations.`)}
+                x={"movement_home_up_x"}
+                y={"movement_home_up_y"}
+                z={"movement_home_up_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("ENABLE ENDSTOPS")}
+                tooltip={t(`Enable use of electronic end-stops during
+                        calibration and homing.`)}
+                x={"movement_enable_endpoints_x"}
+                y={"movement_enable_endpoints_y"}
+                z={"movement_enable_endpoints_z"}
+                dispatch={dispatch}
+                bot={bot} />
               <tr>
                 <td colSpan={100}>
                   <small>

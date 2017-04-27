@@ -13,6 +13,7 @@ import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_prop
 
 export interface Props {
   dispatch: Function;
+  selectedPlant: TaggedPlant | undefined;
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
@@ -80,8 +81,7 @@ export interface Crop {
 }
 
 export interface DesignerState {
-  x_size: number;
-  y_size: number;
+  selectedPlant: string | undefined;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -146,11 +146,11 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: TaggedPoint[];
   plants: TaggedPlant[];
+  selectedPlant: TaggedPlant | undefined;
   crops: TaggedCrop[];
 }
 
 export interface GardenMapState {
-  selectedPlant: string | undefined;
   isDragging: boolean | undefined;
   pageX: number | undefined;
   pageY: number | undefined;
