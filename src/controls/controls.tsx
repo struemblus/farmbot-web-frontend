@@ -19,7 +19,7 @@ import { MustBeOnline } from "../devices/must_be_online";
 export class Controls extends Component<Props, Partial<ControlsState>> {
   constructor() {
     super();
-    this.state = { isEditingCameraURL: false, url: "" };
+    this.state = { isEditingCameraURL: false, url: "http://" };
   }
 
   toggleCameraURLEdit = () => {
@@ -28,10 +28,12 @@ export class Controls extends Component<Props, Partial<ControlsState>> {
 
   clearURL = () => {
     this.props.dispatch(changeDevice(this.props.account, { webcam_url: "http://" }));
+    this.setState({ url: "http://" });
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
   saveURL = () => {
+    this.setState({ isEditingCameraURL: false });
     let update = { webcam_url: this.state.url };
     this.props.dispatch(changeDevice(this.props.account, update));
   }
