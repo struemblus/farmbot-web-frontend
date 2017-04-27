@@ -1,7 +1,7 @@
 jest.unmock("../../step_tiles/index");
 import * as React from "react";
 import { InputDefault } from "../input_default";
-import { render } from "enzyme";
+import { mount } from "enzyme";
 import { fakeState, Wrapper } from "../../../test_helpers";
 import { TaggedSequence } from "../../../resources/tagged_resources";
 import { MoveAbsolute } from "farmbot/dist";
@@ -48,7 +48,7 @@ describe("<InputDefault/>", () => {
       },
       "uuid": "sequences.74.145"
     };
-    let c = render(<Wrapper>
+    let c = mount(<Wrapper>
       <InputDefault
         index={0}
         field="speed"
@@ -56,15 +56,14 @@ describe("<InputDefault/>", () => {
         dispatch={dispatcher}
         sequence={tr} />
     </Wrapper>);
-    pending("Out of time for testing today. Will get back to this later. RC 26 APR 17")
-    // let input = c.find("input").first();
-    // // TODO: Write more comprehensive test.
-    // // Test coverage is so low at this point (26 APR 17) I want to get the
-    // // basics down and circle back.
-    // expect(input.val()).toBe("800");
-    // input.val("900");
-    // expect(input.val()).toBe("900");
-    // let x: jest.Mock<{}> = (updateStep as any).mock;
-    // expect(x.mock.calls.length).toEqual(1);
+    let x: jest.Mock<{}> = (updateStep as any).mock;
+    let input = c.find("input").first();
+    input.simulate("change");
+    expect(dispatcher.mock.calls.length).toEqual(1);
+    let action = dispatcher.mock.calls[0][0];
+    let { payload } = action;
+    expect(action.type).toEqual("OVERWRITE_RESOURCE");
+    expect(payload.uuid).toContain("sequences");
+    expect(payload.update.name).toEqual(tr.body.name);
   });
 });
