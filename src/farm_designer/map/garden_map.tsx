@@ -16,7 +16,10 @@ import { noop } from "lodash";
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
 
-  endDrag = () => this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  endDrag = () => {
+    this.state.selectedPlant && this.props.dispatch(save(this.state.selectedPlant));
+    this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  }
   startDrag = () => this.setState({ isDragging: true });
   selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
   clearPlant = () => this.setState({ selectedPlant: undefined });
@@ -67,10 +70,6 @@ export class GardenMap
     } else {
       throw new Error("never");
     }
-  }
-
-  handleOnClick = (plantId: string) => {
-    console.log("TODO: DELETE THIS?");
   }
 
   drag = (e: React.MouseEvent<SVGElement>) => {
@@ -125,7 +124,7 @@ export class GardenMap
 
             return <Link className="plant-link-wrapper"
               to={"/app/designer/plants/" + plantId}
-              id={plantId}
+              id={plantId || "NOT_SAVED"}
               onClick={noop}
               key={(plantId || index)}>
               <GardenPlant
