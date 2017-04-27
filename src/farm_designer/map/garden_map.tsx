@@ -9,7 +9,7 @@ import { history } from "../../history";
 import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
-import { translateScreenToGarden, round } from "./translate_screen_to_garden";
+import { translateScreenToGarden, round } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
 

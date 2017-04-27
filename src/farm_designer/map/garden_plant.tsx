@@ -2,7 +2,7 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { SpreadCircle } from "./radius_circle";
-import { round, scale } from "./translate_screen_to_garden";
+import { round, scale } from "./util";
 
 export class GardenPlant extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
   constructor() {
