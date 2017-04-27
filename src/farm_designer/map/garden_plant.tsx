@@ -2,8 +2,7 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { SpreadCircle } from "./radius_circle";
-
-const SCALE_FACTOR = 9.8;
+import { round, scale } from "./translate_screen_to_garden";
 
 export class GardenPlant extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
   constructor() {
@@ -26,18 +25,18 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
       {selected && dragging && (
         <g>
           <circle
-            cx={offsetX}
-            cy={offsetY}
-            r={(radius || 0) * SCALE_FACTOR / 2}
+            cx={round(offsetX)}
+            cy={round(offsetY)}
+            r={scale(radius)}
             fillOpacity={0.2}
             fill="green"
             stroke="green"
             strokeWidth="1.5" />
 
           <circle
-            cx={offsetX}
-            cy={offsetY}
-            r={(radius || 0) * SCALE_FACTOR / 2}
+            cx={round(offsetX)}
+            cy={round(offsetY)}
+            r={scale(radius)}
             fill="none"
             stroke="green"
             strokeWidth="1.5" />
@@ -50,8 +49,8 @@ export class GardenPlant extends React.Component<GardenPlantProps, Partial<Garde
         onClick={() => { this.props.onClick(this.props.plant); }}
         height={radius * 2}
         width={radius * 2}
-        x={x}
-        y={y} />
+        x={round(x)}
+        y={round(y)} />
     </g>
   }
 }

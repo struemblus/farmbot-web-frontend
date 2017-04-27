@@ -1,3 +1,16 @@
+const SNAP = 10;
+const SCALE_FACTOR = 9.8;
+
+export function scale(radius = 0) {
+  return (radius * SCALE_FACTOR / 2);
+}
+
+/** Used for snapping.
+ * Rounds units to nearest 10 (or whatever SNAP is set to) */
+export function round(num: number) {
+  return (Math.round(num / SNAP) * SNAP);
+}
+
 export function translateScreenToGarden(mouseX: number,
   mouseY: number,
   boxX: number,
@@ -16,3 +29,4 @@ export function translateScreenToGarden(mouseX: number,
 
   return { x: rawX, y: rawY };
 }
+

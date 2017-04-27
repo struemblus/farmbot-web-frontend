@@ -11,7 +11,7 @@ import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
 import { translateScreenToGarden } from "./translate_screen_to_garden";
 import { findBySlug } from "../search_selectors";
-import { fancyDebug } from "../../util";
+import { noop } from "lodash";
 
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
@@ -126,7 +126,7 @@ export class GardenMap
             return <Link className="plant-link-wrapper"
               to={"/app/designer/plants/" + plantId}
               id={plantId}
-              onClick={() => this.handleOnClick(plantId)}
+              onClick={noop}
               key={(plantId || index)}>
               <GardenPlant
                 plant={p}
