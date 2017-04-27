@@ -6,10 +6,10 @@ import { GardenMapProps, GardenMapState } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { history } from "../../history";
-import { initSave, save } from "../../api/crud";
+import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
-import { translateScreenToGarden } from "./translate_screen_to_garden";
+import { translateScreenToGarden, round } from "./translate_screen_to_garden";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
 
@@ -17,7 +17,11 @@ export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
 
   endDrag = () => {
-    this.state.selectedPlant && this.props.dispatch(save(this.state.selectedPlant));
+    let p = this.getPlant();
+    if (p) {
+      this.props.dispatch(edit(p, { x: round(p.body.x), y: round(p.body.y) }));
+      this.props.dispatch(save(p.uuid));
+    }
     this.setState({ isDragging: false, pageX: 0, pageY: 0 });
   }
   startDrag = () => this.setState({ isDragging: true });
