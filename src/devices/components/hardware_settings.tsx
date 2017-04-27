@@ -134,6 +134,13 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_missed_steps_max_z"}
                 bot={bot}
                 dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("Encoder missed step decay")}
+                tooltip={t(`(Alpha)Encoder missed step decay`)}
+                x={"encoder_missed_steps_decay_x"}
+                y={"encoder_missed_steps_decay_y"}
+                z={"encoder_missed_steps_decay_z"}
+                bot={bot}
+                dispatch={dispatch} />
               <CalibrationRow hardware={mcu_params} />
               <HomingRow hardware={mcu_params} />
               <ZeroRow />
