@@ -6,39 +6,36 @@ import { GardenMapProps, GardenMapState } from "../interfaces";
 import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { history } from "../../history";
-import { initSave, save } from "../../api/crud";
+import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
+import { translateScreenToGarden, round } from "./util";
+import { findBySlug } from "../search_selectors";
+import { noop } from "lodash";
 
-function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
-  /** The offset of 50px is made for the setDragImage to make it in the
-   * center of the mouse for accuracy which is why this is being done.
-   * Once we get more dynamic with the values (different size plants),
-   * we can tweak this accordingly.
-   */
-  let newMouseX = mouseX - 25;
-  let newMouseY = mouseY - 25;
-  /* */
+export class GardenMap
+  extends React.Component<GardenMapProps, Partial<GardenMapState>> {
 
-  let rawX = newMouseX - boxX;
-  let rawY = newMouseY - boxY;
-
-  return { x: rawX, y: rawY };
-}
-
-export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
+  endDrag = () => {
+    let p = this.getPlant();
+    if (p) {
+      this.props.dispatch(edit(p, { x: round(p.body.x), y: round(p.body.y) }));
+      this.props.dispatch(save(p.uuid));
+    }
+    this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  }
+  startDrag = () => this.setState({ isDragging: true });
+  selectPlant = (selectedPlant: string) => this.setState({ selectedPlant });
+  get isEditing() { return location.pathname.includes("edit"); }
+  getPlant = (): TaggedPlant | undefined => {
+    return this
+      .props
+      .plants
+      .filter(x => x.uuid === this.state.selectedPlant)[0];
+  }
   constructor() {
     super();
     this.state = {};
-  }
-
-  componentDidMount() {
-    // Possible alternative to this? Maybe refs? Hmm...
-    setTimeout(() => {
-      let el = document.querySelector("#drop-area-svg");
-      let map = el && el.getBoundingClientRect();
-      map && this.setState({ map });
-    }, 1);
   }
 
   handleDragOver = (e: React.DragEvent<HTMLElement>) => {
@@ -46,26 +43,10 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     e.dataTransfer.dropEffect = "move";
   }
 
-  handleDragEnter = (e: React.DragEvent<HTMLElement>) => { e.preventDefault(); }
+  handleDragEnter(e: React.DragEvent<HTMLElement>) { e.preventDefault(); }
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults || [];
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements"
-      },
-      image: "http://placehold.it/350x150"
-    };
+    return findBySlug(this.props.designer.cropSearchResults || [], slug);
   }
 
   handleDrop = (e: React.DragEvent<HTMLElement>) => {
@@ -73,7 +54,7 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     let el = document.querySelector("#drop-area > svg");
     if (el) {
       let box = el.getBoundingClientRect();
-      let { x, y } = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
+      let { x, y } = translateScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
       let p: TaggedPlant = {
@@ -95,28 +76,31 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
     }
   }
 
-  handleOnClick = (plantId: string) => {
+  drag = (e: React.MouseEvent<SVGElement>) => {
+    let plant = this.getPlant();
+    if (this.isEditing && this.state.isDragging && plant) {
+      let deltaX = e.pageX - (this.state.pageX || e.pageX);
+      let deltaY = e.pageY - (this.state.pageY || e.pageY);
 
+      this.setState({ pageX: e.pageX, pageY: e.pageY });
+      this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
+    }
   }
 
   render() {
-    let { dispatch, crops } = this.props;
-    let updater = (plant: TaggedPlant) => (deltaX: number, deltaY: number) => {
-      dispatch(movePlant({ deltaX, deltaY, plant }));
-    };
+    let { crops } = this.props;
 
-    let dropper = (p: TaggedPlant) => () => {
-      this.setState({ selectedUUID: "" });
-      dispatch(save(p.uuid));
-    };
-
+    let { selectedPlant } = this.state;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
       onDragEnter={this.handleDragEnter}
       onDragOver={this.handleDragOver}>
 
-      <svg id="drop-area-svg" onMouseUp={() => { this.setState({ selectedUUID: "" }) }}>
+      <svg id="drop-area-svg"
+        onMouseUp={this.endDrag}
+        onMouseDown={this.startDrag}
+        onMouseMove={this.drag}>
 
         {this
           .props
@@ -132,18 +116,18 @@ export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
             let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
+            let selected = !!(selectedPlant && (p.uuid === selectedPlant));
+
             return <Link className="plant-link-wrapper"
               to={"/app/designer/plants/" + plantId}
-              id={plantId}
-              onClick={() => this.handleOnClick(plantId)}
+              id={plantId || "NOT_SAVED"}
+              onClick={noop}
               key={(plantId || index)}>
               <GardenPlant
-                crop={c}
                 plant={p}
-                selected={p.uuid === this.state.selectedUUID}
-                onClick={(uuid) => this.setState({ selectedUUID: uuid })}
-                onUpdate={updater(p)}
-                onDrop={dropper(p)} />
+                selected={selected}
+                dragging={selected && !!this.state.isDragging && this.isEditing}
+                onClick={(plant) => { this.selectPlant(plant.uuid); }} />
             </Link>;
           })}
 

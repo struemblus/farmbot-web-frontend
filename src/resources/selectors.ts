@@ -218,11 +218,6 @@ export function indexBySlotId(index: ResourceIndex) {
   return output;
 }
 
-/** Concerned about all the run-time stuff going on.
- * Leaving this function here to aid in debugging as we make the switch to
- * tagged_resources
- *   -- RC, 21 MAR 17
- */
 export function assertUuid(expected: ResourceName, actual: string | undefined) {
   if (actual && !actual.startsWith(expected)) {
     console.warn(`
