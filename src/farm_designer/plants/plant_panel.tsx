@@ -4,8 +4,10 @@ import { formattedPlantInfo } from "./map_state_to_props";
 
 interface PlantPanelProps {
   info: formattedPlantInfo;
+  onDestroy(uuid: string): void;
 }
-export function PlantPanel({ info }: PlantPanelProps) {
+export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
+  let destroy = () => onDestroy(info.uuid);
   return <div className="panel-content">
     <label>{t("Plant Info")}</label>
     <ul>
@@ -13,5 +15,11 @@ export function PlantPanel({ info }: PlantPanelProps) {
       <li>{t("Age")}: {info.daysOld}</li>
       <li>{t("Location")}: ({info.x}, {info.y})</li>
     </ul>
+    <label>{t("Delete this plant")}</label>
+    <div>
+      <button className="red" onClick={destroy}>
+        {t("Delete")}
+      </button>
+    </div>
   </div>;
 }

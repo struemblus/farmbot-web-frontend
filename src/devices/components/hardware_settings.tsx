@@ -164,6 +164,14 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_enabled_z"}
                 dispatch={dispatch}
                 bot={bot} />
+              <BooleanMCUInputGroup name={t("ALWAYS POWER MOTORS")}
+                tooltip={t(`(Alpha) Keep power applied to motors. Prevents
+                slipping from gravity in certain situations.`)}
+                x={"movement_keep_active_x"}
+                y={"movement_keep_active_y"}
+                z={"movement_keep_active_z"}
+                dispatch={dispatch}
+                bot={bot} />
               <BooleanMCUInputGroup name={t("INVERT ENCODERS")}
                 tooltip={t(`(Alpha) Reverse the direction of encoder position
                         reading. FarmBot OS version 3.1.4 or later required.`)}
