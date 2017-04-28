@@ -44,6 +44,8 @@ function change(dispatch: Function, sequences: TaggedSequence[]) {
   // TODO: Solve react-select types issue. Everything breaks.
   return (event: DropDownItem) => {
     let i = _.parseInt((event.value || "-999").toString());
-    dispatch(setSequence(sequences[i].uuid));
+    if (sequences && sequences[i] && sequences[i].uuid) {
+      dispatch(setSequence(sequences[i].uuid));
+    }
   };
 }
