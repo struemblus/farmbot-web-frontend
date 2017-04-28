@@ -23,11 +23,12 @@ export interface SyncResponse {
 }
 
 export function fetchDeprecatedSyncData(dispatch: Function) {
-  let fetch = <T>(name: ResourceName, url: string, type = "RESOURCE_READY") => axios
-    .get<T>(url)
-    .then((r): SyncResponse => dispatch({
-      type, payload: { name, data: r.data }
-    }), fail);
+  let fetch = <T>(name: ResourceName, url: string, type = "RESOURCE_READY") =>
+    axios
+      .get<T>(url)
+      .then((r): SyncResponse => dispatch({
+        type, payload: { name, data: r.data }
+      }), fail);
 
   let fail = () => warning("Please try refreshing the page.",
     "Error downloading data");

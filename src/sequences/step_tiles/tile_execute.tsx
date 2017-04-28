@@ -107,7 +107,7 @@ export class RefactoredExecuteBlock extends React.Component<ExecBlockParams, {}>
               <div className="row">
                 <div className="col-xs-12">
                   <label>{t("Sequence")}</label>
-                  <this.SequenceSelectBox {...props} />
+                  <this.SequenceSelectBox />
                 </div>
               </div>
             </div>

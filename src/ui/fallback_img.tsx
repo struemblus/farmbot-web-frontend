@@ -20,13 +20,12 @@ export class FallbackImg extends React.Component<Props, State> {
     (next.src !== this.props.src) && this.setState({ needsFallback: false });
   }
 
-  fallback = () => <img {...this.props} src={this.props.fallback} />;
+  fallback = () => <img src={this.props.fallback} />;
 
   dontFallback = () => {
     let imgProps = defensiveClone(this.props);
     delete imgProps.fallback; // React will complain otherwise.
-    return <img {...imgProps}
-      onError={() => this.setState({ needsFallback: true })}
+    return <img onError={() => this.setState({ needsFallback: true })}
       src={this.props.src} />;
   }
 
