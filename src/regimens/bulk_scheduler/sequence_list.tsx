@@ -40,7 +40,7 @@ export function SequenceList({ sequences,
   </div>;
 }
 
-function change(dispatch: Function, sequences: TaggedSequence[]) {
+function change(dispatch: Function, sequences: TaggedSequence[] | undefined) {
   // TODO: Solve react-select types issue. Everything breaks.
   return (event: DropDownItem) => {
     let i = _.parseInt((event.value || "-999").toString());
