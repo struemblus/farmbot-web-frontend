@@ -235,12 +235,7 @@ function readStatus() {
   return devices
     .current
     .readStatus()
-    .then(() => {
-      commandOK(noun);
-    })
-    .catch(function () {
-      warning(t("Could not fetch bot status. Is FarmBot online?"));
-    });
+    .then(() => { commandOK(noun); }, () => { });
 }
 
 let NEED_VERSION_CHECK = true;
@@ -257,8 +252,9 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
         devices.online = true;
         devices.current = bot;
         (window as any)["current_bot"] = bot;
-        bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) });
-        readStatus();
+        readStatus()
+          .then(() => bot.setUserEnv({ "LAST_CLIENT_CONNECTED": JSON.stringify(new Date()) }))
+          .catch(() => { });
         bot.on("logs", function (msg: Log) {
           if (isLog(msg) && !oneOf(BAD_WORDS, msg.message.toUpperCase())) {
             dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
@@ -269,7 +265,11 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
         bot.on("status", function (msg: BotStateTree) {
           dispatch(incomingStatus(msg));
           if (NEED_VERSION_CHECK) {
-            let IS_OK = versionOK(getState().bot.hardware.informational_settings.controller_version, 3, 1);
+            let IS_OK = versionOK(getState()
+              .bot
+              .hardware
+              .informational_settings
+              .controller_version, 3, 1);
             if (!IS_OK) {
               error("You are running an old version of FarmBot OS. Please update.")
             }
