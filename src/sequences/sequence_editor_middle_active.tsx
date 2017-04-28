@@ -89,7 +89,7 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
           {t("Save & Run")}
         </button>
         <button className="red"
-          onClick={() => dispatch(destroy(sequence.uuid)).then(null, toastErrors)}>
+          onClick={() => dispatch(destroy(sequence.uuid))}>
           {t("Delete")}
         </button>
         <button className="yellow" onClick={copy(dispatch, sequence)}>
