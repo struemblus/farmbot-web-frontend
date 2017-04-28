@@ -76,7 +76,7 @@ export class FarmbotColorPicker extends React.Component<FarmbotPickerProps, {}> 
       <div style={{ width: "100%", paddingBottom: "15%" }} />
       <div style={this.hueCSS()}>
         <Hue
-          {...dontTouchThis}
+          {...dontTouchThis as any}
           pointer={this.customPointer}
           onChange={_.noop} />
         <div style={this.hueboxCSS()} />
@@ -84,7 +84,7 @@ export class FarmbotColorPicker extends React.Component<FarmbotPickerProps, {}> 
       <div style={{ width: "100%", paddingBottom: "2%" }} />
       <div style={this.saturationCSS()}>
         <Saturation
-          {...dontTouchThis}
+          {...dontTouchThis as any}
           pointer={this.customPointer}
           onChange={_.noop} />
         <div style={this.saturationboxCSS()} />
