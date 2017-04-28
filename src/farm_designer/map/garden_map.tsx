@@ -76,15 +76,8 @@ export class GardenMap
     if (this.isEditing && this.state.isDragging && plant) {
       let deltaX = e.pageX - (this.state.pageX || e.pageX);
       let deltaY = e.pageY - (this.state.pageY || e.pageY);
-      console.log("???")
       this.setState({ pageX: e.pageX, pageY: e.pageY });
       this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
-    } else {
-      fancyDebug({
-        isEditing: !!this.isEditing,
-        isDragging: !!this.state.isDragging,
-        plant: !!plant
-      });
     }
   }
 
