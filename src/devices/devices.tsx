@@ -25,10 +25,6 @@ export class Devices extends React.Component<Props, {}> {
           <HardwareSettings
             dispatch={this.props.dispatch}
             bot={this.props.bot} />
-          <WeedDetector
-            dispatch={this.props.dispatch}
-            bot={this.props.bot}
-            images={this.props.images} />
         </Col>
       </Page>;
     } else {
