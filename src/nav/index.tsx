@@ -59,7 +59,7 @@ let links = [
   { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
   { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
   { name: "Device", icon: "cog", url: "/app/device" },
-  { name: "Weed Detector", icon: "crosshairs", url: "/app/weed_detector" },
+  { name: "Farmware", icon: "crosshairs", url: "/app/farmware" },
   { name: "Sequences", icon: "server", url: "/app/sequences" },
   { name: "Regimens", icon: "calendar-check-o", url: "/app/regimens" },
   { name: "Tools", icon: "wrench", url: "/app/tools" }

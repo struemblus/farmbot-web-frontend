@@ -127,7 +127,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
         }
       },
       {
-        path: "app/weed_detector",
+        path: "app/farmware",
         getComponent(location: any, cb: any) {
           System.import("./images/weed_detector.tsx").then(
             (module: any) => cb(null, module.WeedDetector)
