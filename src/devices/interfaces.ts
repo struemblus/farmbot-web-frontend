@@ -1,7 +1,4 @@
-import {
-  BotStateTree,
-  Configuration,
-} from "farmbot";
+import { BotStateTree } from "farmbot";
 import {
   ALLOWED_MESSAGE_TYPES,
   McuParamName,
@@ -67,6 +64,7 @@ export interface BotState {
    * spinner or not. */
   isUpdating?: boolean;
 }
+
 export interface BotProp {
   bot: BotState;
 }
