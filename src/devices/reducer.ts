@@ -1,10 +1,5 @@
-import * as _ from "lodash";
 import { BotState, HardwareState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import * as i18next from "i18next";
-import { ChangeSettingsBuffer } from "./interfaces";
-import { Configuration } from "farmbot";
-import { betterMerge } from "../util";
 
 export function versionOK(stringyVersion = "0.0.0",
   EXPECTED_MAJOR = 3,

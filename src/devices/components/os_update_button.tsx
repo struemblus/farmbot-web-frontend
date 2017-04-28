@@ -2,10 +2,7 @@ import * as React from "react";
 import { BotProp } from "../interfaces";
 import { t } from "i18next";
 import { ToggleButton } from "../../controls/toggle_button";
-import {
-  checkControllerUpdates,
-  updateConfig
-} from "../actions";
+import { checkControllerUpdates, updateConfig } from "../actions";
 import { isUndefined, noop } from "lodash";
 
 export let OsUpdateButton = ({ bot }: BotProp) => {

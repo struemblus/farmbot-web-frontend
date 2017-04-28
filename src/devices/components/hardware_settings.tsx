@@ -1,14 +1,12 @@
 import * as React from "react";
 import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
-import { McuInputBox } from "./mcu_input_box";
 import { BotConfigInputBox } from "./step_per_mm_box";
-import { settingToggle, botConfigChange, MCUFactoryReset } from "../actions";
+import { settingToggle, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { HardwareSettingsProps } from "../interfaces";
 import { HomingRow } from "./homing_row";
-import { EncoderType } from "./encoder_type";
 import { MustBeOnline } from "../must_be_online";
 import { ZeroRow } from "./zero_row";
 import { SaveBtn } from "../../ui/save_button";

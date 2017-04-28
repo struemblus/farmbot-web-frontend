@@ -2,7 +2,6 @@ import * as React from "react";
 import { t } from "i18next";
 import { devices } from "../../device";
 import { Axis } from "../interfaces";
-import { McuParams } from "farmbot/dist";
 
 const zero = (axis: Axis) => devices.current.setZero(axis);
 const AXES: Axis[] = ["x", "y", "z"];
