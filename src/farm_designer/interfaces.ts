@@ -62,6 +62,7 @@ export interface CropLiveSearchResult {
 }
 
 export interface Plant {
+  created_at?: string | undefined;
   id?: number;
   dirty?: boolean | undefined;
   planted_at?: string | undefined;

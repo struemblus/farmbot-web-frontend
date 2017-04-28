@@ -49,7 +49,7 @@ export function PlantInventoryItem(props: TaggedPlant) {
   let label = plant.name || "Unknown plant";
 
   // Original planted date vs time now to determine age.
-  let plantedAt = plant.planted_at || moment();
+  let plantedAt = plant.created_at || moment();
   let currentDay = moment();
   let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;
 
