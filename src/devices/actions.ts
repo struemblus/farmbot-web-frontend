@@ -53,14 +53,14 @@ export function powerOff() {
 }
 
 export function factoryReset() {
-  if (!confirm("WAIT! This will erase EVERYTHING stored on your device SD card. Are you sure?")) {
+  if (!confirm("WAIT! This will erase EVERYTHING stored on your device SD " +
+    "card. Are you sure?")) {
     return;
   }
   let noun = "Factory reset";
   devices
     .current
-    .factoryReset()
-    .then(commandOK(noun), commandErr(noun));
+    .factoryReset();
 }
 
 export function reboot() {
@@ -177,8 +177,7 @@ export function MCUFactoryReset(pkg: ALLOWED_PACKAGES = "arduino_firmware") {
   const noun = "MCU Factory Reset";
   return devices
     .current
-    .factoryReset(pkg)
-    .then(commandOK(noun), commandErr(noun));
+    .factoryReset(pkg);
 }
 
 export function botConfigChange(key: configKey, value: number) {

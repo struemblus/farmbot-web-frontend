@@ -135,7 +135,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 bot={bot}
                 dispatch={dispatch} />
               <NumericMCUInputGroup name={t("Encoder missed step decay")}
-                tooltip={t(`(Alpha)Encoder missed step decay`)}
+                tooltip={t(`(Alpha) Reduction to missed step total for every
+                            good step.`)}
                 x={"encoder_missed_steps_decay_x"}
                 y={"encoder_missed_steps_decay_y"}
                 z={"encoder_missed_steps_decay_z"}
