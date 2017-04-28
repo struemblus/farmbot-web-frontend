@@ -30,6 +30,8 @@ export class FarmDesigner extends React.Component<Props, State> {
     return this.props.children || fallback;
   }
 
+  get zoomLevel() { return this.state.zoomLevel; }
+
   render() {
     // Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
     // This one just makes sure the designer can click it's panel tabs without
@@ -40,7 +42,48 @@ export class FarmDesigner extends React.Component<Props, State> {
       document.body.classList.remove("designer-tab");
     }
 
+    let plusBtnColor = this.state.zoomLevel === 1 ? "light-gray" : "green";
+    let minusBtnColor = this.state.zoomLevel === 0.3 ? "light-gray" : "green";
+
     return <div className="farm-designer">
+
+      <div className="garden-map-legend" style={{ zoom: 1 }}>
+        <button className={`plus-button ${plusBtnColor}`}
+          onClick={() => this.zoom(0.1)}>
+          <i className="fa fa-2x fa-plus" />
+        </button>
+        <button className={`plus-button ${minusBtnColor}`}
+          onClick={() => this.zoom(-0.1)}>
+          <i className="fa fa-2x fa-minus" />
+        </button>
+        <div className="map-layers">
+          <fieldset>
+            <label>
+              <span>{t("Plants?")}</span>
+              <button className="toggle-button yellow" name="plants" />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              <span>{t("Red?")}</span>
+              <button className="toggle-button yellow" name="red" />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              <span>{t("Yellow?")}</span>
+              <button className="toggle-button yellow" name="yellow" />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              <span>{t("All?")}</span>
+              <button className="toggle-button yellow" name="red" />
+            </label>
+          </fieldset>
+        </div>
+      </div>
+
       <div className="panel-header gray-panel designer-mobile-nav">
         <div className="panel-tabs">
           <Link to="/app/designer" className="mobile-only active">
@@ -58,28 +101,7 @@ export class FarmDesigner extends React.Component<Props, State> {
         {this.childComponent()}
       </div>
 
-      {/* TODO: This actually changes the amount of translation the plants
-                receive when performing a drag and drop. Leaving as a todo
-                for convenience of doing a production deploy today.
-        // let plusBtnColor = this.state.zoomLevel === 1 ? "light-gray" : "green";
-        // let minusBtnColor = this.state.zoomLevel === 0.3 ? "light-gray" : "green";
-
-          <div className="zoomer">
-            <div className={`plus-button ${plusBtnColor}`}
-              onClick={() => this.zoom(0.1)}>
-              <i className="fa fa-2x fa-plus" />
-            </div>
-            <div className={`plus-button ${minusBtnColor}`}
-              onClick={() => this.zoom(-0.1)}>
-              <i className="fa fa-2x fa-minus" />
-            </div>
-          </div>
-
-          // This will be added as an attribute to farm-designer-map
-          style={{ zoom: this.state.zoomLevel }}
-        */}
-
-      <div className="farm-designer-map">
+      <div className="farm-designer-map" style={{ zoom: this.state.zoomLevel }}>
         <GardenMap
           selectedPlant={this.props.selectedPlant}
           crops={this.props.crops}

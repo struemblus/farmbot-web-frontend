@@ -12,7 +12,6 @@ import { Link } from "react-router";
 import { translateScreenToGarden, round } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
-import { fancyDebug } from "../../util";
 
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
@@ -25,8 +24,11 @@ export class GardenMap
     }
     this.setState({ isDragging: false, pageX: 0, pageY: 0 });
   }
+
   startDrag = () => this.setState({ isDragging: true });
+
   get isEditing() { return location.pathname.includes("edit"); }
+
   getPlant = (): TaggedPlant | undefined => this.props.selectedPlant;
   constructor() {
     super();

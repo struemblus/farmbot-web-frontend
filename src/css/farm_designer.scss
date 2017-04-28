@@ -251,16 +251,21 @@
     transform-origin: center
 }
 
-.zoomer {
+.garden-map-legend {
     position: fixed;
     top: 11rem;
     right: 2rem;
+    display: flex;
+    flex-direction: column;
     .plus-button {
         position: initial;
         margin: 0;
         &:first-child {
             margin-bottom: 1rem;
         }
+    }
+    .map-layers {
+        background: $light_green;
     }
 }
 
