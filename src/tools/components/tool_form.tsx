@@ -26,12 +26,8 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
     let toggle = () => this.props.toggle();
     let { dispatch, tools } = this.props;
 
-    let isSaving = tools && tools
-      .filter(x => x.saving).length !== 0;
-
-    let isDirty = tools && tools
-      .filter(x => x.dirty).length !== 0;
-
+    let isSaving = tools && tools.filter(x => x.saving).length !== 0;
+    let isDirty = tools && tools.filter(x => x.dirty).length !== 0;
     let isSaved = !isSaving && !isDirty;
 
     return <Widget>
