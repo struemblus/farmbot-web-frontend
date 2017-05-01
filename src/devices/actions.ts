@@ -60,7 +60,7 @@ export function factoryReset() {
   let noun = "Factory reset";
   devices
     .current
-    .factoryReset();
+    .resetOS();
 }
 
 export function reboot() {
@@ -173,11 +173,11 @@ export function changeDevice(device: TaggedDevice,
 }
 
 
-export function MCUFactoryReset(pkg: ALLOWED_PACKAGES = "arduino_firmware") {
+export function MCUFactoryReset() {
   const noun = "MCU Factory Reset";
   return devices
     .current
-    .factoryReset(pkg);
+    .resetMCU();
 }
 
 export function botConfigChange(key: configKey, value: number) {
