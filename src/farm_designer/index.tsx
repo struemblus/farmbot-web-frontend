@@ -33,11 +33,14 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     return this.props.children || fallback;
   }
 
+  toggleAll = () => this.setState({
+    showPlants: !this.state.showPlants,
+    showPoints: !this.state.showPoints
+  });
+
   togglePlants = () => this.setState({ showPlants: !this.state.showPlants });
 
   togglePoints = () => this.setState({ showPoints: !this.state.showPoints });
-
-  get zoomLevel() { return this.state.zoomLevel; }
 
   render() {
     // Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
@@ -49,17 +52,22 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
       document.body.classList.remove("designer-tab");
     }
 
-    let plusBtnColor = this.state.zoomLevel === 1 ? "light-gray" : "green";
-    let minusBtnColor = this.state.zoomLevel === 0.3 ? "light-gray" : "green";
+    let { zoomLevel, showPlants, showPoints } = this.state;
+
+    let plusBtnColor = (zoomLevel && zoomLevel <= 0.9) ? "" : "disabled";
+    let minusBtnColor = (zoomLevel && zoomLevel >= 0.4) ? "" : "disabled";
+
+    let plantsBtnColor = showPlants ? "green" : "red";
+    let pointsBtnColor = showPoints ? "green" : "red";
 
     return <div className="farm-designer">
 
       <div className="garden-map-legend" style={{ zoom: 1 }}>
-        <button className={`plus-button ${plusBtnColor}`}
+        <button className={"plus-button green " + plusBtnColor}
           onClick={() => this.zoom(0.1)}>
           <i className="fa fa-2x fa-plus" />
         </button>
-        <button className={`plus-button ${minusBtnColor}`}
+        <button className={"plus-button green " + minusBtnColor}
           onClick={() => this.zoom(-0.1)}>
           <i className="fa fa-2x fa-minus" />
         </button>
@@ -67,19 +75,19 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
           <fieldset>
             <label>
               <span>{t("Plants?")}</span>
-              <button className="toggle-button yellow" name="plants" />
+              <button
+                className={"toggle-button " + plantsBtnColor}
+                onClick={this.togglePlants}
+              />
             </label>
           </fieldset>
           <fieldset>
             <label>
               <span>{t("Points?")}</span>
-              <button className="toggle-button yellow" name="points" />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>
-              <span>{t("All?")}</span>
-              <button className="toggle-button yellow" name="red" />
+              <button
+                className={"toggle-button " + pointsBtnColor}
+                onClick={this.togglePoints}
+              />
             </label>
           </fieldset>
         </div>
@@ -104,6 +112,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
       <div className="farm-designer-map" style={{ zoom: this.state.zoomLevel }}>
         <GardenMap
+          showPoints={showPoints}
+          showPlants={showPlants}
           selectedPlant={this.props.selectedPlant}
           crops={this.props.crops}
           dispatch={this.props.dispatch}

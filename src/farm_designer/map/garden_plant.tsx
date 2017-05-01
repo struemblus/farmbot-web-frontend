@@ -4,7 +4,8 @@ import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { SpreadCircle } from "./radius_circle";
 import { round, scale } from "./util";
 
-export class GardenPlant extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
+export class GardenPlant
+  extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
   constructor() {
     super();
     this.state = { icon: DEFAULT_ICON };

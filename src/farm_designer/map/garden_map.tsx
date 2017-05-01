@@ -15,6 +15,10 @@ import { noop } from "lodash";
 
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   endDrag = () => {
     let p = this.getPlant();
@@ -30,10 +34,6 @@ export class GardenMap
   get isEditing() { return location.pathname.includes("edit"); }
 
   getPlant = (): TaggedPlant | undefined => this.props.selectedPlant;
-  constructor() {
-    super();
-    this.state = {};
-  }
 
   handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
@@ -84,8 +84,6 @@ export class GardenMap
   }
 
   render() {
-    let { crops } = this.props;
-
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
@@ -97,14 +95,14 @@ export class GardenMap
         onMouseDown={this.startDrag}
         onMouseMove={this.drag}>
 
-        {this
+        {this.props.showPoints && this
           .props
           .points
           .map(p => {
             return <GardenPoint point={p} key={p.body.id} />;
           })}
 
-        {this
+        {this.props.showPlants && this
           .props
           .plants
           .filter(x => !!x.body.id)

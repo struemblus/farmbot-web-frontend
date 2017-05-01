@@ -143,6 +143,8 @@ export interface FarmEventProps {
 }
 
 export interface GardenMapProps {
+  showPlants: boolean | undefined;
+  showPoints: boolean | undefined;
   dispatch: Function;
   designer: DesignerState;
   points: TaggedPoint[];
