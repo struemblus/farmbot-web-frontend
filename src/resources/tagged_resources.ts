@@ -8,6 +8,7 @@ import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
 import { DeviceAccountSettings } from "../devices/interfaces";
+import { isObject, isString, get } from "lodash";
 
 export type ResourceName =
   | "device"
@@ -85,10 +86,10 @@ export function sanityCheck(x: object) {
 }
 
 export function isTaggedResource(x: object): x is TaggedResource {
-  return (_.isObject(x)
-    && _.isString(_.get(x, "kind"))
-    && _.isString(_.get(x, "uuid"))
-    && _.isObject(_.get(x, "body")))
+  return (isObject(x)
+    && isString(get(x, "kind"))
+    && isString(get(x, "uuid"))
+    && isObject(get(x, "body")))
 }
 
 let is = (r: ResourceName) => function isOfTag(x: object) {
