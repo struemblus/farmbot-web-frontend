@@ -1,11 +1,9 @@
 import { Farmbot } from "farmbot";
 import { devices } from "../device";
 import { error, success, warning } from "../ui";
-import { Everything, Log } from "../interfaces";
-import {
-  GithubRelease, ChangeSettingsBuffer, MoveRelProps
-} from "./interfaces";
-import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
+import { Log } from "../interfaces";
+import { GithubRelease, MoveRelProps } from "./interfaces";
+import { Thunk, GetState } from "../redux/interfaces";
 import { get } from "axios";
 import {
   DeviceAccountSettings,

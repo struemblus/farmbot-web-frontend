@@ -95,31 +95,27 @@ Partial<DetectorState>> {
   }
 
   render() {
-    return <Page className="weed-detector">
-      <Col sm={8} smOffset={2}>
-        <div className="widget-wrapper weed-detector-widget">
+    return <div className="widget-wrapper weed-detector-widget">
+      <Row>
+        <Col>
+          <TitleBar onDeletionClick={this.clearWeeds}
+            deletionProgress={this.state.deletionProgress}
+            onPhotoClick={this.takePhoto}
+            onSave={this.saveSettings}
+            onSettingToggle={this.toggleSettingsMenu}
+            onTest={this.test}
+            settingsMenuOpen={!!this.state.settingsMenuOpen} />
           <Row>
-            <Col>
-              <TitleBar onDeletionClick={this.clearWeeds}
-                deletionProgress={this.state.deletionProgress}
-                onPhotoClick={this.takePhoto}
-                onSave={this.saveSettings}
-                onSettingToggle={this.toggleSettingsMenu}
-                onTest={this.test}
-                settingsMenuOpen={!!this.state.settingsMenuOpen} />
-              <Row>
-                <Col sm={12}>
-                  <WeedDetectorBody images={this.props.images}
-                    onSliderChange={this.sliderChange}
-                    H={this.farmwareSettings.H}
-                    S={this.farmwareSettings.S}
-                    V={this.farmwareSettings.V} />
-                </Col>
-              </Row>
+            <Col sm={12}>
+              <WeedDetectorBody images={this.props.images}
+                onSliderChange={this.sliderChange}
+                H={this.farmwareSettings.H}
+                S={this.farmwareSettings.S}
+                V={this.farmwareSettings.V} />
             </Col>
           </Row>
-        </div>
-      </Col>
-    </Page>;
+        </Col>
+      </Row>
+    </div>;
   }
 }

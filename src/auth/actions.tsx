@@ -35,9 +35,7 @@ function onLogin(dispatch: Function) {
   };
 };
 
-export function login(username: string,
-  password: string,
-  url: string): Thunk {
+export function login(username: string, password: string, url: string): Thunk {
   return dispatch => {
     return requestToken(username, password, url).then(
       onLogin(dispatch),

@@ -12,10 +12,13 @@ import { Link } from "react-router";
 import { translateScreenToGarden, round } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
-import { fancyDebug } from "../../util";
 
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   endDrag = () => {
     let p = this.getPlant();
@@ -25,13 +28,12 @@ export class GardenMap
     }
     this.setState({ isDragging: false, pageX: 0, pageY: 0 });
   }
+
   startDrag = () => this.setState({ isDragging: true });
+
   get isEditing() { return location.pathname.includes("edit"); }
+
   getPlant = (): TaggedPlant | undefined => this.props.selectedPlant;
-  constructor() {
-    super();
-    this.state = {};
-  }
 
   handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
@@ -82,8 +84,6 @@ export class GardenMap
   }
 
   render() {
-    let { crops } = this.props;
-
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
@@ -95,20 +95,19 @@ export class GardenMap
         onMouseDown={this.startDrag}
         onMouseMove={this.drag}>
 
-        {this
+        {this.props.showPoints && this
           .props
           .points
           .map(p => {
             return <GardenPoint point={p} key={p.body.id} />;
           })}
 
-        {this
+        {this.props.showPlants && this
           .props
           .plants
           .filter(x => !!x.body.id)
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
-            let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
             let currentPlant = this.getPlant();
             let selected = !!(currentPlant && (p.uuid === currentPlant.uuid));
 

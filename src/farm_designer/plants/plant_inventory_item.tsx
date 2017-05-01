@@ -37,19 +37,22 @@ export function PlantInventoryItem(props: TaggedPlant) {
   }
 
   // See `cachedIcon` for more details on this.
-  let maybeGetCachedIcon = (e: IMGEvent) => {
+  function maybeGetCachedIcon(e: IMGEvent) {
     let OFS = props.body.openfarm_slug;
     let img = e.currentTarget;
-    // DEFAULT_ICON will be fallback.
+
     OFS && cachedIcon(OFS)
-      .then(i => img.setAttribute("src", i));
+      .then(i => {
+        if (i === img.getAttribute("src")) { return; }
+        img.setAttribute("src", i)
+      });
   }
 
   // Name given from OpenFarm's API.
   let label = plant.name || "Unknown plant";
 
   // Original planted date vs time now to determine age.
-  let plantedAt = plant.planted_at || moment();
+  let plantedAt = plant.created_at || moment();
   let currentDay = moment();
   let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;
 

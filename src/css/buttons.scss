@@ -10,6 +10,12 @@ button {
     position: relative;
     color: $off_white;
     transition: all 0.1s ease-in-out !important;
+    &.disabled {
+        background: $gray !important;
+        box-shadow: 0 2px 0px 0px lighten($gray, 5%) !important;
+        pointer-events: none !important;
+        cursor: not-allowed !important;
+    }
     &.is-saved,
     &.is-saving {
         background: $medium_gray !important;
@@ -178,7 +184,7 @@ button {
     margin-left: 12rem;
     text-align: center;
     cursor: pointer;
-    border-bottom-width: 3px!important;
+    box-shadow: 0 3px 0px 0px $dark_green;
     position: fixed;
     left: 0;
     right: 0;
