@@ -11,17 +11,20 @@ import { isMobile } from "../util";
 
 interface State {
   zoomLevel: number;
+  showPlants: boolean;
+  showPoints: boolean;
 }
 
 @connect(mapStateToProps)
-export class FarmDesigner extends React.Component<Props, State> {
+export class FarmDesigner extends React.Component<Props, Partial<State>> {
   constructor() {
     super();
-    this.state = { zoomLevel: 0.6 };
+    this.state = { zoomLevel: 0.6, showPlants: true, showPoints: true };
   }
 
   zoom = (zoomNumber: number) => {
-    this.setState({ zoomLevel: this.state.zoomLevel + zoomNumber });
+    let zl = this.state.zoomLevel;
+    zl && this.setState({ zoomLevel: zl + zoomNumber });
   }
 
   childComponent() {
@@ -29,6 +32,10 @@ export class FarmDesigner extends React.Component<Props, State> {
       undefined : React.createElement(Plants, this.props as any);
     return this.props.children || fallback;
   }
+
+  togglePlants = () => this.setState({ showPlants: !this.state.showPlants });
+
+  togglePoints = () => this.setState({ showPoints: !this.state.showPoints });
 
   get zoomLevel() { return this.state.zoomLevel; }
 
@@ -65,14 +72,8 @@ export class FarmDesigner extends React.Component<Props, State> {
           </fieldset>
           <fieldset>
             <label>
-              <span>{t("Red?")}</span>
-              <button className="toggle-button yellow" name="red" />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>
-              <span>{t("Yellow?")}</span>
-              <button className="toggle-button yellow" name="yellow" />
+              <span>{t("Points?")}</span>
+              <button className="toggle-button yellow" name="points" />
             </label>
           </fieldset>
           <fieldset>

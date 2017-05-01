@@ -110,7 +110,6 @@ export class GardenMap
           .filter(x => !!x.body.id)
           .map((p, index) => {
             let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
-            let c = crops.find(x => x.body.slug === p.body.openfarm_slug);
             let currentPlant = this.getPlant();
             let selected = !!(currentPlant && (p.uuid === currentPlant.uuid));
 
