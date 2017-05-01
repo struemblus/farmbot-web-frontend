@@ -244,14 +244,16 @@ export function smoothScrollToBottom() {
 /** Fancy debug */
 var last = "";
 export function fancyDebug(t: any) {
-  var next = Object
-    .entries(t)
-    .map((x: any) => `${_.padRight(x[0], 20, " ")} => ${JSON.stringify(x[1]).slice(0, 52)}`)
-    .join("\n");
-  if (last === next) {
-  } else {
-    last = next;
-    console.log(next);
+  if (Object.entries) { // Object.entries is an "experimental" API.
+    var next = Object
+      .entries(t)
+      .map((x: any) => `${_.padRight(x[0], 20, " ")} => ${JSON.stringify(x[1]).slice(0, 52)}`)
+      .join("\n");
+    if (last === next) {
+    } else {
+      last = next;
+      console.log(next);
+    }
   }
 }
 
