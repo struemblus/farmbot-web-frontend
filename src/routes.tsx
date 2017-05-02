@@ -20,8 +20,9 @@ let errorLoading = (cb: any) => function handleError(err: any) {
   let stack = _.get(err, "stack", "No stack.")
   if (container) {
     let message = _.get(err, "message", "No message available.");
-    let reporter = _.get(window, "Rollbar.error", (x: string) => { });
-    reporter(message);
+    setTimeout(() => {
+      _.get(window, "Rollbar.error", (x: string) => { })(message);
+    }, 250);
     container.innerHTML = (`
     <div>
       <h1> Something went wrong! </h1>
