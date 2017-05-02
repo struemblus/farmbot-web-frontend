@@ -203,6 +203,21 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_enable_endpoints_z"}
                 dispatch={dispatch}
                 bot={bot} />
+              <BooleanMCUInputGroup name={t("Find Home on Boot")}
+                tooltip={t(`Finds the home position when the device
+                powers on.`)}
+                x={"movement_home_at_boot_x"}
+                y={"movement_home_at_boot_y"}
+                z={"movement_home_at_boot_z"}
+                dispatch={dispatch}
+                bot={bot} />
+              <BooleanMCUInputGroup name={t("Software limits")}
+                tooltip={t(`Stop at home.`)}
+                x={"movement_stop_at_home_x"}
+                y={"movement_stop_at_home_y"}
+                z={"movement_stop_at_home_z"}
+                dispatch={dispatch}
+                bot={bot} />
               <tr>
                 <td colSpan={100}>
                   <small>
