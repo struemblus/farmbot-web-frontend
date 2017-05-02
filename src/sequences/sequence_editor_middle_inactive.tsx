@@ -1,6 +1,5 @@
 import * as React from "react";
-import { SequenceEditorMiddleProps } from "./interfaces";
-import { Widget, WidgetHeader, BlurableInput, WidgetBody, Row, Col } from "../ui/index";
+import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
 
 export class SequenceEditorMiddleInactive extends React.Component<{}, {}> {
   render() {

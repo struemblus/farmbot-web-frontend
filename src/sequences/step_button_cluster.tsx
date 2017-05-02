@@ -3,8 +3,9 @@ import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 import { Farmbot } from "farmbot";
 import { smoothScrollToBottom } from "../util";
-import { Row } from "../ui/index";
+import { Row, ToolTip } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
+import { ToolTips } from "../constants";
 
 interface StepButtonProps {
   dispatch: Function;
@@ -89,7 +90,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "_if",
         args: {
@@ -131,19 +131,10 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
       {t("TAKE PHOTO")}
     </StepButton>
   ];
+
   return <div className="step-button-cluster-widget">
     <h3><i>{t("Commands")}</i></h3>
-    <div className="title-help">
-      <i className="fa fa-question-circle title-help-icon" />
-      <div className="title-help-text">
-        <i>
-          {t(`These are the most basic commands FarmBot
-              can execute. Drag and drop them to create sequences
-              for watering, planting seeds, measuring soil
-              properties, and more.`)}
-        </i>
-      </div>
-    </div>
+    <ToolTip helpText={ToolTips.SEQUENCE_COMMANDS} />
     <div>
       <Row>
         {
