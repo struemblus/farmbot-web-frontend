@@ -1,7 +1,6 @@
 import * as React from "react";
 import { selectSequence } from "./actions";
 import { SequencesListProps } from "./interfaces";
-import { t } from "i18next";
 import { isMobile, sortResourcesById } from "../util";
 import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
@@ -60,7 +59,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
                    Click one to edit.`}>
         <button className="green"
           onClick={() => dispatch(init(this.emptySequence()))}>
-          {t("Add")}
+          <i className="fa fa-plus" />
         </button>
       </WidgetHeader>
       <WidgetBody>

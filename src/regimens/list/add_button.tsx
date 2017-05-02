@@ -1,5 +1,4 @@
 import * as React from "react";
-import { t } from "i18next";
 import { AddRegimenProps } from "../interfaces";
 import { newRegimen } from "../actions";
 
@@ -9,7 +8,7 @@ export function AddRegimen(props: AddRegimenProps) {
   let { dispatch } = props;
   return <button className={classes}
     onClick={() => dispatch(newRegimen())}>
-    {props.children || t("Add")}
+    {props.children || <i className="fa fa-plus" />}
   </button>;
 }
 
