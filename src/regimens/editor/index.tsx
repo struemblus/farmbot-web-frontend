@@ -8,6 +8,7 @@ import { saveRegimen, deleteRegimen } from "../actions";
 import { RegimenProps, MiddleSectionProps } from "../interfaces";
 import { isTaggedRegimen } from "../../resources/tagged_resources";
 import { t } from "i18next";
+import { ToolTips } from "../../constants";
 
 function MiddleSection({ regimen, dispatch, calendar }: MiddleSectionProps) {
   if (regimen && isTaggedRegimen(regimen) && calendar) {
@@ -49,15 +50,7 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
     let isSaved = !isSaving && !isDirty;
 
     return <Widget className="regimen-editor-widget">
-      <WidgetHeader title="Regimen Editor"
-        helpText={`Regimens allow FarmBot
-                to take care of a plant throughout its entire life. A
-                regimen consists of many sequences that are scheduled to run
-                based on the age of the plant. Regimens are applied to
-                plants from the farm designer (coming soon) and can be
-                re-used on many plants growing at the same or different
-                times. Multiple regimens can be applied to any one plant.`}>
-
+      <WidgetHeader title="Regimen Editor" helpText={ToolTips.REGIMEN_EDITOR}>
         {regimen && (
           <SaveBtn
             isDirty={isDirty}
@@ -75,7 +68,6 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
             {t("Delete")}
           </button>
         )}
-
       </WidgetHeader>
       <WidgetBody>
         <MiddleSection

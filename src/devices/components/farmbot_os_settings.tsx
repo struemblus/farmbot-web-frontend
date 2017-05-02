@@ -22,6 +22,7 @@ import {
 } from "../../ui/index";
 import { save } from "../../api/crud";
 import { MustBeOnline } from "../must_be_online";
+import { ToolTips } from "../../constants";
 
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
@@ -68,8 +69,7 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
 
     return <Widget className="device-widget">
       <form onSubmit={this.saveBot.bind(this)}>
-        <WidgetHeader title="Device"
-          helpText={`This widget shows device information.`}>
+        <WidgetHeader title="Device" helpText={ToolTips.OS_SETTINGS}>
           <SaveBtn
             isDirty={isDirty}
             isSaving={isSaving}

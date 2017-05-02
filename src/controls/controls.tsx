@@ -14,6 +14,7 @@ import { mapStateToProps, Props } from "./state_to_props";
 import { StepSizeSelector } from "./step_size_selector";
 import { showUrl } from "./show_url";
 import { MustBeOnline } from "../devices/must_be_online";
+import { ToolTips } from "../constants";
 
 @connect(mapStateToProps)
 export class Controls extends Component<Props, Partial<ControlsState>> {
@@ -50,12 +51,7 @@ export class Controls extends Component<Props, Partial<ControlsState>> {
       <Row>
         <Col xs={12} sm={6} md={4} mdOffset={1}>
           <Widget>
-            <WidgetHeader title="Move"
-              helpText={`Use these manual control buttons to move FarmBot in
-                    realtime. Press the arrows for relative movements or type in
-                    new coordinates and press GO for an absolute movement. Tip:
-                    Press the Home button when you are done so FarmBot is ready
-                    to get back to work.`}>
+            <WidgetHeader title="Move" helpText={ToolTips.MOVE}>
               <EStopButton
                 bot={this.props.bot}
                 auth={this.props.auth} />
@@ -86,9 +82,7 @@ export class Controls extends Component<Props, Partial<ControlsState>> {
         </Col>
         <Col xs={12} sm={6}>
           <Widget>
-            <WidgetHeader title="Camera"
-              helpText={`Press the edit button to update and save
-                your webcam URL.`}>
+            <WidgetHeader title="Camera" helpText={ToolTips.WEBCAM_SAVE}>
               {isEditingCameraURL ?
                 <button className="green" onClick={this.saveURL}>
                   {t("Save")}

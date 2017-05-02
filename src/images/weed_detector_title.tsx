@@ -2,6 +2,7 @@ import * as React from "react";
 import { t } from "i18next";
 import { additionalSettingsMenu } from "./weed_detector_config";
 import { WidgetHeader } from "../ui/index";
+import { ToolTips } from "../constants";
 
 interface Props {
   onSave?(): void;
@@ -24,7 +25,7 @@ export function TitleBar({
   onCalibrate,
   title
 }: Props) {
-  return <WidgetHeader helpText={"Detect Weeds"} title={title}>
+  return <WidgetHeader helpText={ToolTips.WEED_DETECTOR} title={title}>
     <button
       hidden={!onSave}
       onClick={onSave}

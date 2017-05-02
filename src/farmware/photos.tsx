@@ -5,6 +5,7 @@ import { PhotosProps } from "./interfaces";
 import { State } from "../account/interfaces";
 import { devices } from "../device";
 import { t } from "i18next";
+import { ToolTips } from "../constants";
 
 export class Photos extends React.Component<PhotosProps, State> {
   takePhoto = () => {
@@ -15,7 +16,7 @@ export class Photos extends React.Component<PhotosProps, State> {
 
   render() {
     return <Widget className="photos-widget">
-      <WidgetHeader helpText={"Take Photos"} title={"Photos"}>
+      <WidgetHeader helpText={ToolTips.PHOTOS} title={"Photos"}>
         <button className="gray" onClick={this.takePhoto}>
           {t("Take Photo")}
         </button>

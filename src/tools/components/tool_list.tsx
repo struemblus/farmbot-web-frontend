@@ -3,6 +3,7 @@ import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { t } from "i18next";
 import { ToolListProps } from "../interfaces";
 import { TaggedTool } from "../../resources/tagged_resources";
+import { ToolTips } from "../../constants";
 
 export class ToolList extends React.Component<ToolListProps, {}> {
   render() {
@@ -10,10 +11,7 @@ export class ToolList extends React.Component<ToolListProps, {}> {
     let { tools } = this.props;
 
     return <Widget>
-      <WidgetHeader
-        helpText={t(`This is a list of all your FarmBot Tools.
-          Click the Edit button to add, edit, or delete tools.`)}
-        title="Tools">
+      <WidgetHeader helpText={ToolTips.TOOL_LIST} title="Tools">
         <button
           className="gray" onClick={toggle}>
           {t("Edit")}

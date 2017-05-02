@@ -12,22 +12,14 @@ import { ZeroRow } from "./zero_row";
 import { SaveBtn } from "../../ui/save_button";
 import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
+import { ToolTips } from "../../constants";
 
 export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
   render() {
     let { bot, dispatch } = this.props;
     let { mcu_params } = bot.hardware;
     return <Widget className="hardware-widget">
-      <WidgetHeader title="Hardware"
-        helpText={`Change settings
-                  of your FarmBot hardware with the fields below.
-                  Caution: Changing these settings to extreme
-                  values can cause hardware malfunction. Make
-                  sure to test any new settings before letting
-                  your FarmBot use them unsupervised. Tip: Recalibrate
-                  FarmBot after changing settings and test a few sequences
-                  to verify that everything works as expected. Note:
-                  Currently not all settings can be changed.`}>
+      <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
         <MustBeOnline fallback=" "
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
@@ -38,7 +30,6 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
             dirtyText={" "}
             savingText={"Updating..."}
             savedText={"saved"}
-            /** Optional boolean for whether the button should be hidden or shown */
             hidden={false} />
         </MustBeOnline>
       </WidgetHeader>

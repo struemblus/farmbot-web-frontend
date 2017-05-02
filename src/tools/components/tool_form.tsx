@@ -12,6 +12,7 @@ import {
 } from "../../ui";
 import { TaggedTool } from "../../resources/tagged_resources";
 import { edit, destroy, init, saveAll } from "../../api/crud";
+import { ToolTips } from "../../constants";
 
 export class ToolForm extends React.Component<ToolFormProps, {}> {
   emptyTool = (): TaggedTool => {
@@ -31,10 +32,7 @@ export class ToolForm extends React.Component<ToolFormProps, {}> {
     let isSaved = !isSaving && !isDirty;
 
     return <Widget>
-      <WidgetHeader
-        helpText={t(`This is a list of all your FarmBot Tools.
-          Click the Edit button to add, edit, or delete tools.`)}
-        title="Tools">
+      <WidgetHeader helpText={ToolTips.TOOL_LIST} title="Tools">
         <button
           className="gray"
           onClick={() => { toggle(); }}

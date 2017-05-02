@@ -8,14 +8,13 @@ import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 import { BlurableInput } from "../../ui/blurable_input";
 import { duration } from "moment";
 import { t } from "i18next";
+import { ToolTips } from "../../constants";
 
 export function BulkSchedulerWidget(props: BulkEditorProps) {
   let { dispatch, sequences, selectedSequence, dailyOffsetMs } = props;
   let active = !!(sequences && sequences.length);
   return <Widget className="bulk-scheduler-widget">
-    <WidgetHeader title="Scheduler"
-      helpText={`Use this tool to schedule sequences to run on one or many
-                days of your regimen.`}>
+    <WidgetHeader title="Scheduler" helpText={ToolTips.BULK_SCHEDULER}>
       <AddButton active={active}
         click={() => { dispatch(commitBulkEditor()); }} />
     </WidgetHeader>

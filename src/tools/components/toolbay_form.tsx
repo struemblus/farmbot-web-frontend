@@ -14,6 +14,7 @@ import { TaggedToolSlot } from "../../resources/tagged_resources";
 import { edit, destroy, saveAll, init } from "../../api/crud";
 import { FBSelect } from "../../ui/new_fb_select";
 import { ToolBayHeader } from "./toolbay_header";
+import { ToolTips } from "../../constants";
 
 export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
 
@@ -41,11 +42,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
         let { id } = bay.body;
 
         return <Widget key={id}>
-          <WidgetHeader
-            helpText={t(`Toolbays are where you store your FarmBot Tools. Each
-              Toolbay has Slots that you can put your Tools in, which should be
-              reflective of your real FarmBot hardware configuration.`)}
-            title={"ToolBay 1"}>
+          <WidgetHeader helpText={ToolTips.TOOLBAY_LIST} title={"ToolBay 1"}>
             <button
               className="gray"
               hidden={!isSaved}

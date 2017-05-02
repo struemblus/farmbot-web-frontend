@@ -4,14 +4,13 @@ import {
 } from "../../ui";
 import { DeleteAccountPropTypes } from "../interfaces";
 import { t } from "i18next";
+import { ToolTips } from "../../constants";
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
   render() {
     let { set, deletion_confirmation, save } = this.props;
     return <Widget>
-      <WidgetHeader
-        title="Delete Account"
-        helpText="Enter your password to delete your account." />
+      <WidgetHeader title="Delete Account" helpText={ToolTips.ACCOUNT_DELETE} />
       <WidgetBody>
         <div>
           {t(`WARNING! Deleting your account will permanently delete

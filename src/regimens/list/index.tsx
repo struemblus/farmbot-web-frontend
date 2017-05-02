@@ -4,6 +4,7 @@ import { AddRegimen } from "./add_button";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
 import { RegimensListProps } from "../interfaces";
 import { sortResourcesById } from "../../util";
+import { ToolTips } from "../../constants";
 
 export class RegimensList extends React.Component<RegimensListProps, {}> {
   rows = () => {
@@ -20,23 +21,12 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
 
   render() {
     return <Widget className="regimen-list-widget">
-      <WidgetHeader title="Regimens"
-        helpText={`This is a list of all of your regimens.
-                   Click one to begin editing it.`}>
+      <WidgetHeader title="Regimens" helpText={ToolTips.REGIMEN_LIST}>
         <AddRegimen dispatch={this.props.dispatch} />
       </WidgetHeader>
       <WidgetBody>
-        <Row>
-          {this.rows()}
-        </Row>
+        <Row>{this.rows()}</Row>
       </WidgetBody>
-
-      {/* This guy doesn't quite fit in yet...
-      <AddRegimen className="plus-button"
-        dispatch={this.props.dispatch}>
-        <i className="fa fa-plus"></i>
-      </AddRegimen>*/}
-
     </Widget>;
   }
 }

@@ -4,6 +4,7 @@ import { DeprecatedFBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "
 import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
 import { MustBeOnline } from "../devices/must_be_online";
+import { ToolTips } from "../constants";
 
 export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   constructor() {
@@ -62,8 +63,7 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
 
   render() {
     return <Widget className="farmware-widget">
-      <WidgetHeader title="Farmware"
-        helpText={`This widget shows Farmware (plugin) information.`}>
+      <WidgetHeader title="Farmware" helpText={ToolTips.FARMWARE}>
       </WidgetHeader>
       <WidgetBody>
         <MustBeOnline fallback="Not available when FarmBot is offline."

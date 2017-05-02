@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { init } from "../api/crud";
+import { ToolTips } from "../constants";
 
 let buttonList = (dispatch: Function) =>
   (ts: TaggedSequence, index: number) => {
@@ -54,9 +55,7 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
   render() {
     let { sequences, dispatch } = this.props;
     return <Widget className="sequence-list-widget">
-      <WidgetHeader title="Sequences"
-        helpText={`Here is the list of all of your sequences.
-                   Click one to edit.`}>
+      <WidgetHeader title="Sequences" helpText={ToolTips.SEQUENCE_LIST}>
         <button className="green"
           onClick={() => dispatch(init(this.emptySequence()))}>
           <i className="fa fa-plus" />
