@@ -3,7 +3,7 @@ import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 import { Farmbot } from "farmbot";
 import { smoothScrollToBottom } from "../util";
-import { Widget, WidgetHeader, WidgetBody, Row } from "../ui/index";
+import { Row } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
 
 interface StepButtonProps {
@@ -37,7 +37,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "move_relative",
         args: { x: 0, y: 0, z: 0, speed: Farmbot.defaults.speed }
@@ -47,7 +46,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "write_pin",
         args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
@@ -57,7 +55,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "read_pin",
         args: {
@@ -71,7 +68,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "wait",
         args: { milliseconds: 0 }
@@ -81,7 +77,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "send_message",
         args: {
@@ -110,7 +105,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     </StepButton>,
     <StepButton dispatch={dispatch}
       current={current}
-
       step={{
         kind: "execute",
         args: { sequence_id: 0 }
@@ -137,14 +131,20 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
       {t("TAKE PHOTO")}
     </StepButton>
   ];
-  return <Widget className="widget-wrapper step-button-cluster-widget">
-    <WidgetHeader title="Commands"
-      helpText={`These are the most basic commands FarmBot
-                  can execute. Drag and drop them to create sequences
-                  for watering, planting seeds, measuring soil
-                  properties, and more.`}>
-    </WidgetHeader>
-    <WidgetBody>
+  return <div className="step-button-cluster-widget">
+    <h3><i>{t("Commands")}</i></h3>
+    <div className="title-help">
+      <i className="fa fa-question-circle title-help-icon" />
+      <div className="title-help-text">
+        <i>
+          {t(`These are the most basic commands FarmBot
+              can execute. Drag and drop them to create sequences
+              for watering, planting seeds, measuring soil
+              properties, and more.`)}
+        </i>
+      </div>
+    </div>
+    <div>
       <Row>
         {
           ALL_THE_BUTTONS.map(function (el, inx) {
@@ -156,6 +156,6 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
           })
         }
       </Row>
-    </WidgetBody>
-  </Widget>;
+    </div>
+  </div>;
 }
