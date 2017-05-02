@@ -3,7 +3,7 @@ import { DetectorState, WeedDetectorENV } from "./interfaces";
 import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
-import { success, error, Page, Col, Row } from "../ui/index";
+import { success, error, Row, Col, Widget } from "../ui/index";
 import { t } from "i18next";
 import { resetWeedDetection } from "./actions";
 import { Progress } from "../util";
@@ -15,8 +15,8 @@ import { mapStateToProps } from "./state_to_props";
 const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
 @connect(mapStateToProps)
-export class WeedDetector extends React.Component<WeedDetectorProps,
-Partial<DetectorState>> {
+export class WeedDetector
+  extends React.Component<WeedDetectorProps, Partial<DetectorState>> {
   constructor() {
     super();
     this.state = { remoteFarmwareSettings: {} };
@@ -46,12 +46,6 @@ Partial<DetectorState>> {
       this.saveSettings() : this.setState({ remoteFarmwareSettings });
   }
 
-  takePhoto = () => {
-    let ok = () => success(t("Processing now. Refresh page to see result."));
-    let no = () => error("Error taking photo");
-    devices.current.takePhoto().then(ok, no);
-  }
-
   clearWeeds = () => {
     let progress = (p: Readonly<Progress>) => {
       let percentage = `${Math.round((p.completed / p.total) * 100)} %`;
@@ -70,10 +64,6 @@ Partial<DetectorState>> {
     let no = () => error(t("Settings NOT saved."));
 
     devices.current.setUserEnv(nextEnv).then(ok, no);
-  }
-
-  toggleSettingsMenu = () => {
-    this.setState({ settingsMenuOpen: !this.state.settingsMenuOpen });
   }
 
   sliderChange = (key: keyof HSV<"">, values: [number, number]) => {
@@ -95,27 +85,29 @@ Partial<DetectorState>> {
   }
 
   render() {
-    return <div className="widget-wrapper weed-detector-widget">
+    return <Widget className="weed-detector-widget">
       <Row>
         <Col>
-          <TitleBar onDeletionClick={this.clearWeeds}
+          <TitleBar
+            onDeletionClick={this.clearWeeds}
             deletionProgress={this.state.deletionProgress}
-            onPhotoClick={this.takePhoto}
             onSave={this.saveSettings}
-            onSettingToggle={this.toggleSettingsMenu}
             onTest={this.test}
-            settingsMenuOpen={!!this.state.settingsMenuOpen} />
+            title={"Weed Detector"}
+          />
           <Row>
             <Col sm={12}>
-              <WeedDetectorBody images={this.props.images}
+              <WeedDetectorBody
+                images={this.props.images}
                 onSliderChange={this.sliderChange}
                 H={this.farmwareSettings.H}
                 S={this.farmwareSettings.S}
-                V={this.farmwareSettings.V} />
+                V={this.farmwareSettings.V}
+              />
             </Col>
           </Row>
         </Col>
       </Row>
-    </div>;
+    </Widget>;
   }
 }

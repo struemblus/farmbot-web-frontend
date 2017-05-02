@@ -17,3 +17,15 @@ export interface Props {
   dispatch: Function;
   images: TaggedImage[];
 }
+
+export interface PhotosProps {
+  images: TaggedImage[];
+}
+
+export interface CameraCalibrationState {
+  settingsMenuOpen: boolean;
+}
+
+export interface CameraCalibrationProps {
+  images: TaggedImage[];
+}

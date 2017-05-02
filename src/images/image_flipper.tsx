@@ -107,7 +107,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
             <button
               onClick={this.down}
               className="image-flipper-left">
-              {t("Previous")}
+              {t("Prev")}
             </button>
             <button
               onClick={this.up}

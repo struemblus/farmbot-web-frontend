@@ -8,10 +8,10 @@ describe("<TitleBar/>", () => {
     let props = {
       onSave: jest.fn(),
       onTest: jest.fn(),
-      onPhotoClick: jest.fn(),
       onSettingToggle: jest.fn(),
       onDeletionClick: jest.fn(),
-      settingsMenuOpen: false
+      settingsMenuOpen: false,
+      title: "Test"
     }
     let tb = mount(<TitleBar {...props} />);
     expect(tb.text().toLowerCase()).toContain("clear weeds");

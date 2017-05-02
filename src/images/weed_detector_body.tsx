@@ -65,6 +65,7 @@ export function WeedDetectorBody({
   V,
   onSliderChange
 }: Props) {
+
   let h_lo = (H || [])[0] || DEFAULTS.H.FALLBACK_LO;
   let h_hi = (H || [])[1] || DEFAULTS.H.FALLBACK_HI;
   let s_lo = (S || [])[0] || DEFAULTS.S.FALLBACK_LO;

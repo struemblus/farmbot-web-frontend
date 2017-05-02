@@ -5,7 +5,7 @@ import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
 import { MustBeOnline } from "../devices/must_be_online";
 
-export class Farmware extends React.Component<FWProps, Partial<FWState>> {
+export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   constructor() {
     super();
     this.state = {};
