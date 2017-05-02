@@ -3,10 +3,11 @@ import { selectSequence } from "./actions";
 import { SequencesListProps } from "./interfaces";
 import { isMobile, sortResourcesById } from "../util";
 import { Link } from "react-router";
-import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui/index";
+import { Row, Col, ToolTip } from "../ui/index";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { init } from "../api/crud";
 import { ToolTips } from "../constants";
+import { t } from "i18next";
 
 let buttonList = (dispatch: Function) =>
   (ts: TaggedSequence, index: number) => {
@@ -54,20 +55,20 @@ export class SequencesList extends React.Component<SequencesListProps, {}> {
 
   render() {
     let { sequences, dispatch } = this.props;
-    return <Widget className="sequence-list-widget">
-      <WidgetHeader title="Sequences" helpText={ToolTips.SEQUENCE_LIST}>
-        <button className="green"
-          onClick={() => dispatch(init(this.emptySequence()))}>
-          <i className="fa fa-plus" />
-        </button>
-      </WidgetHeader>
-      <WidgetBody>
-        <Row>
-          <Col xs={12}>
-            {sortResourcesById(sequences).map(buttonList(dispatch))}
-          </Col>
-        </Row>
-      </WidgetBody>
-    </Widget>;
+    return <div className="sequence-list">
+      <h3>
+        <i>{t("Sequences")}</i>
+      </h3>
+      <ToolTip helpText={ToolTips.SEQUENCE_LIST} />
+      <button className="green"
+        onClick={() => dispatch(init(this.emptySequence()))}>
+        <i className="fa fa-plus" />
+      </button>
+      <Row>
+        <Col xs={12}>
+          {sortResourcesById(sequences).map(buttonList(dispatch))}
+        </Col>
+      </Row>
+    </div>;
   }
 }

@@ -6,16 +6,7 @@ import { editCurrentSequence } from "./actions";
 import { renderCeleryNode, splice, move } from "./step_tiles/index";
 import { ColorPicker } from "./color_picker";
 import { t } from "i18next";
-import {
-  BlurableInput,
-  Widget,
-  WidgetHeader,
-  WidgetBody,
-  Row,
-  Col,
-  SaveBtn,
-  ToolTip
-} from "../ui";
+import { BlurableInput, Row, Col, SaveBtn, ToolTip } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
 import { pushStep } from "./actions";
@@ -23,7 +14,6 @@ import { StepDragger, NULL_DRAGGER_ID } from "../draggable/step_dragger";
 import { copySequence } from "./actions";
 import { TaggedSequence } from "../resources/tagged_resources";
 import { save, edit, destroy } from "../api/crud";
-import { toastErrors } from "../util";
 import { GetState } from "../redux/interfaces";
 import { ToolTips } from "../constants";
 
