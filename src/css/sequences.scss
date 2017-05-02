@@ -1,3 +1,10 @@
+.sequence-editor {
+    >button {
+        margin: -3.2rem 0 2rem 1rem;
+        display: inline-block;
+    }
+}
+
 @media screen and (min-width: 768px) {
     .step-button-cluster-widget {
         position: fixed;

@@ -13,7 +13,8 @@ import {
   WidgetBody,
   Row,
   Col,
-  SaveBtn
+  SaveBtn,
+  ToolTip
 } from "../ui";
 import { DropArea } from "../draggable/drop_area";
 import { stepGet } from "../draggable/actions";
@@ -24,6 +25,7 @@ import { TaggedSequence } from "../resources/tagged_resources";
 import { save, edit, destroy } from "../api/crud";
 import { toastErrors } from "../util";
 import { GetState } from "../redux/interfaces";
+import { ToolTips } from "../constants";
 
 let onDrop = (index: number, dispatch: Function, sequence: TaggedSequence) =>
   (key: string) => {
@@ -70,82 +72,75 @@ export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProp
     let isDirty = sequence.dirty;
     let isSaved = !isSaving && !isDirty;
 
-    return <Widget className="sequence-editor-widget">
-      <WidgetHeader title="Sequence Editor"
-        helpText={`Drag and drop commands here to create
-                   sequences for watering, planting seeds,
-                   measuring soil properties, and more. Press the
-                   Test button to immediately try your sequence
-                   with FarmBot. You can also edit, copy, and delete
-                   existing sequences; assign a color; and give
-                   your commands custom names.`}>
-        <SaveBtn
-          isDirty={isDirty}
-          isSaving={isSaving}
-          isSaved={isSaved}
-          onClick={() => { dispatch(save(sequence.uuid)); }}
-        />
-        <button className="orange" onClick={performSeq(dispatch, sequence)}>
-          {t("Save & Run")}
-        </button>
-        <button className="red"
-          onClick={() => dispatch(destroy(sequence.uuid))}>
-          {t("Delete")}
-        </button>
-        <button className="yellow" onClick={copy(dispatch, sequence)}>
-          {t("Copy")}
-        </button>
-      </WidgetHeader>
-      <WidgetBody>
-        <Row>
-          <Col xs={11}>
-            <BlurableInput value={sequence.body.name}
-              onCommit={(e) => {
-                dispatch(edit(sequence, { name: e.currentTarget.value }))
-              }} />
-          </Col>
-          <ColorPicker current={sequence.body.color}
-            onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
-        </Row>
-        {(sequence.body.body || []).map((currentStep: SequenceBodyItem, index, arr) => {
-          /** HACK: If we wrote `key={index}` for this iterator, React's diff
-           * algorithm (probably?) loses track of which step has changed (and
-           * sometimes even mix up the state of completely different steps).
-           * To get around this, we add a `uuid` property to Steps that
-           * is guaranteed to be unique and allows React to diff the list
-           * correctly.
-           */
-          let wow = (currentStep as any).uuid || index;
-          let currentSequence = sequence;
-          return <div key={wow}>
-            <DropArea callback={onDrop(index, dispatch, sequence)} />
-            <StepDragger dispatch={dispatch}
-              step={currentStep}
-              ghostCss="step-drag-ghost-image-big"
-              intent="step_move"
-              draggerId={index}>
-              {renderCeleryNode(currentStep.kind as LegalSequenceKind, {
-                currentStep,
-                index,
-                dispatch: dispatch,
-                sequences: sequences,
-                currentSequence,
-                slots,
-                tools,
-                resources
-              })}
-            </StepDragger>
-          </div>;
-        })}
-        <Row>
-          <Col xs={12}>
-            <DropArea isLocked={true}
-              callback={fixThisToo}>
-              {t("DRAG STEP HERE")}
-            </DropArea>
-          </Col>
-        </Row>
-      </WidgetBody>
-    </Widget>;
+    return <div className="sequence-editor">
+      <h3>
+        <i>{t("Sequence Editor")}</i>
+      </h3>
+      <ToolTip helpText={ToolTips.SEQUENCE_EDITOR} />
+      <SaveBtn
+        isDirty={isDirty}
+        isSaving={isSaving}
+        isSaved={isSaved}
+        onClick={() => { dispatch(save(sequence.uuid)); }}
+      />
+      <button className="orange" onClick={performSeq(dispatch, sequence)}>
+        {t("Save & Run")}
+      </button>
+      <button className="red"
+        onClick={() => dispatch(destroy(sequence.uuid))}>
+        {t("Delete")}
+      </button>
+      <button className="yellow" onClick={copy(dispatch, sequence)}>
+        {t("Copy")}
+      </button>
+      <Row>
+        <Col xs={11}>
+          <BlurableInput value={sequence.body.name}
+            onCommit={(e) => {
+              dispatch(edit(sequence, { name: e.currentTarget.value }))
+            }} />
+        </Col>
+        <ColorPicker current={sequence.body.color}
+          onChange={color => editCurrentSequence(dispatch, sequence, { color })} />
+      </Row>
+      {(sequence.body.body || []).map((currentStep: SequenceBodyItem, index, arr) => {
+        /** HACK: If we wrote `key={index}` for this iterator, React's diff
+         * algorithm (probably?) loses track of which step has changed (and
+         * sometimes even mix up the state of completely different steps).
+         * To get around this, we add a `uuid` property to Steps that
+         * is guaranteed to be unique and allows React to diff the list
+         * correctly.
+         */
+        let wow = (currentStep as any).uuid || index;
+        let currentSequence = sequence;
+        return <div key={wow}>
+          <DropArea callback={onDrop(index, dispatch, sequence)} />
+          <StepDragger dispatch={dispatch}
+            step={currentStep}
+            ghostCss="step-drag-ghost-image-big"
+            intent="step_move"
+            draggerId={index}>
+            {renderCeleryNode(currentStep.kind as LegalSequenceKind, {
+              currentStep,
+              index,
+              dispatch: dispatch,
+              sequences: sequences,
+              currentSequence,
+              slots,
+              tools,
+              resources
+            })}
+          </StepDragger>
+        </div>;
+      })}
+      <Row>
+        <Col xs={12}>
+          <DropArea isLocked={true}
+            callback={fixThisToo}>
+            {t("DRAG COMMAND HERE")}
+          </DropArea>
+        </Col>
+      </Row>
+    </div>;
   }
 }
