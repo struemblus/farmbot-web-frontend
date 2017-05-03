@@ -35,10 +35,13 @@ export interface FormattedPlantInfo {
 export function formatPlantInfo(resource: TaggedPlant): FormattedPlantInfo {
   let p = resource.body;
   let t = p.planted_at ? moment(p.planted_at) : moment();
+  let currentDay = moment();
+  let plantedAt = p.created_at || moment();
+  let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;
   return {
     id: p.id,
     name: p.name,
-    daysOld: (moment().diff(t, "days") + 1),
+    daysOld,
     x: p.x,
     y: p.y,
     uuid: resource.uuid,

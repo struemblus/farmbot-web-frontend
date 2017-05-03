@@ -6,6 +6,7 @@ interface PlantPanelProps {
   info: FormattedPlantInfo;
   onDestroy(uuid: string): void;
 }
+
 export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
   let destroy = () => onDestroy(info.uuid);
   return <div className="panel-content">

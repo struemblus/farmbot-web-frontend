@@ -64,6 +64,7 @@ export function PlantInventoryItem(props: TaggedPlant) {
       src={DEFAULT_ICON} onLoad={maybeGetCachedIcon} />
     <span className="plant-search-item-name">{label}</span>
     <i className="plant-search-item-age">
-      {daysOld} {t("days old")}</i>
+      {daysOld} {t("days old")}
+    </i>
   </div>;
 }
