@@ -32,10 +32,11 @@ export namespace ToolTips {
     `This widget shows Farmware (plugin) information.`
 
   export const PHOTOS =
-    ``
+    `Take and view photos with your FarmBot's camera.`
 
   export const WEED_DETECTOR =
-    ``
+    `Detect weeds using FarmBot's camera and display them on the Farm Designer
+    map.`
 
   // Sequences
   export const SEQUENCE_COMMANDS =

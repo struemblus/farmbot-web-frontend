@@ -85,7 +85,7 @@ export class WeedDetector
   }
 
   render() {
-    return <Widget className="weed-detector-widget">
+    return <Widget className="weed-detector-widget coming-soon">
       <Row>
         <Col>
           <TitleBar
