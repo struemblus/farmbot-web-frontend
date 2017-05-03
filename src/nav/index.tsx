@@ -59,10 +59,10 @@ let links = [
   { name: "Farm Designer", icon: "leaf", url: "/app/designer" },
   { name: "Controls", icon: "keyboard-o", url: "/app/controls" },
   { name: "Device", icon: "cog", url: "/app/device" },
-  { name: "Farmware", icon: "crosshairs", url: "/app/farmware" },
   { name: "Sequences", icon: "server", url: "/app/sequences" },
   { name: "Regimens", icon: "calendar-check-o", url: "/app/regimens" },
-  { name: "Tools", icon: "wrench", url: "/app/tools" }
+  { name: "Tools", icon: "wrench", url: "/app/tools" },
+  { name: "Farmware", icon: "crosshairs", url: "/app/farmware" }
 ];
 
 export class NavBar extends React.Component<NavBarProps, NavBarState> {
