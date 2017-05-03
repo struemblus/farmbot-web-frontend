@@ -242,7 +242,8 @@ let NEED_VERSION_CHECK = true;
 const BAD_WORDS = ["WPA", "PSK", "PASSWORD", "NERVES"];
 export function connectDevice(token: string): {} | ((dispatch: Function) => any) {
   return (dispatch: Function, getState: GetState) => {
-    let bot = new Farmbot({ token });
+    let secure = location.protocol === "https:";
+    let bot = new Farmbot({ token, secure });
     return bot
       .connect()
       .then(() => {

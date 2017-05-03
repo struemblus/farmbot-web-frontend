@@ -46,8 +46,10 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
   get resources() { return this.props.resources; }
   get step() { return this.props.currentStep; }
   get tool(): TaggedTool | undefined {
-    return (this.args.location.kind === "tool") ?
-      findToolById(this.resources, this.args.location.args.tool_id) : undefined;
+    let l = this.args.location;
+    if (l && l.kind === "tool" && l.args.tool_id) {
+      return findToolById(this.resources, l.args.tool_id);
+    }
   }
   get tool_id() { return this.tool && this.tool.body.id; }
   get slot(): TaggedToolSlot | undefined {

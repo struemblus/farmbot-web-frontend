@@ -19,6 +19,8 @@ let errorLoading = (cb: any) => function handleError(err: any) {
   var container = document.getElementById("root");
   let stack = _.get(err, "stack", "No stack.")
   if (container) {
+    let message = _.get(err, "message", "No message available.");
+    _.get(window, "Rollbar.error", (x: string) => { })(message);
     container.innerHTML = (`
     <div>
       <h1> Something went wrong! </h1>
@@ -36,7 +38,7 @@ let errorLoading = (cb: any) => function handleError(err: any) {
       <pre>
       <br/>
       ${JSON.stringify({
-        message: _.get(err, "message", "No message available."),
+        message,
         stack: stack.split("\n").join("<br/>")
       }, null, "  ")}
     </pre>
