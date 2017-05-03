@@ -9,7 +9,11 @@ import {
   currentToolInSlot,
   findSlotWhere
 } from "../resources/selectors";
-import { isTaggedTool, TaggedTool, TaggedToolSlot } from "../resources/tagged_resources";
+import {
+  isTaggedTool,
+  TaggedTool,
+  TaggedToolSlot
+} from "../resources/tagged_resources";
 import { edit } from "../api/crud";
 import { DropDownItem } from "../ui/index";
 

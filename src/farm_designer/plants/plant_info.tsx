@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import * as moment from "moment";
 import { t } from "i18next";
 import { Link } from "react-router";
 import { TaggedPlant } from "../../resources/tagged_resources";

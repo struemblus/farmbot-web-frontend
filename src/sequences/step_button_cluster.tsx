@@ -11,6 +11,7 @@ interface StepButtonProps {
   dispatch: Function;
   current: TaggedSequence | undefined;
 }
+
 export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
   const ALL_THE_BUTTONS = [
     <StepButton dispatch={dispatch}

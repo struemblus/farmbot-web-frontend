@@ -1,6 +1,7 @@
 import { AddEditFarmEventProps, ExecutableType } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
+import { history } from "../../history";
 import { t } from "i18next";
 import {
   selectAllFarmEvents,
@@ -14,8 +15,11 @@ import {
   findSequenceById,
   findRegimenById
 } from "../../resources/selectors";
-import { TaggedFarmEvent, TaggedSequence, TaggedRegimen } from "../../resources/tagged_resources";
-import { history } from "../../history";
+import {
+  TaggedFarmEvent,
+  TaggedSequence,
+  TaggedRegimen
+} from "../../resources/tagged_resources";
 
 /** TODO: Not a fan of this one, but don't have time to refactor today.
  *  DropDownItem[]s should not know what a Regimen is. - RC Apr '17.
@@ -40,6 +44,7 @@ export interface TightlyCoupledFarmEventDropDown {
   value: number;
   heading?: undefined | boolean;
 }
+
 export let formatTime = (input: string) => {
   let iso = new Date(input).toISOString();
   return moment(iso).format("HH:mm");
@@ -152,6 +157,7 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
       history.push("/app/designer/farm_events");
     }
   }
+
   let findExecutable = (kind: ExecutableType, id: number):
     TaggedSequence | TaggedRegimen => {
     switch (kind) {

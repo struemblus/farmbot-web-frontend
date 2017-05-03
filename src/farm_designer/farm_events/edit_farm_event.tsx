@@ -9,8 +9,6 @@ import { t } from "i18next";
 
 @connect(mapStateToPropsAddEdit)
 export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
-  get dispatch() { return this.props.dispatch; }
-
   redirect() {
     history.push("/app/designer/farm_events");
     return <div>Loading...</div>;

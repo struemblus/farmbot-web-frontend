@@ -16,7 +16,8 @@ export interface MiddleSectionProps {
 export interface CalendarRow {
   day: string;
   items: RegimenItemCalendarRow[];
-};
+}
+
 export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
@@ -45,7 +46,7 @@ export interface RegimenItemCalendarRow {
 export interface RegimenProps {
   regimen?: TaggedRegimen;
   dispatch: Function;
-};
+}
 
 /** A list of "sequences" scheduled after a starting point (epoch). */
 export interface Regimen {
@@ -54,7 +55,7 @@ export interface Regimen {
   name: string;
   color: Color;
   regimen_items: RegimenItem[];
-};
+}
 
 export interface RegimenListItemProps {
   regimen: TaggedRegimen;
@@ -69,7 +70,7 @@ export interface RegimenItem {
   regimen_id?: number;
   /** Time (in milliseconds) to wait before executing the sequence */
   time_offset: number;
-};
+}
 
 /** Used by regimen reducer to route incoming stream of Redux actions */
 export interface RegimensActionHandler {

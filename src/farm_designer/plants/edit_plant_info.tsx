@@ -1,7 +1,6 @@
 import * as React from "react";
 import { BackArrow } from "../../ui";
 import { connect } from "react-redux";
-import * as moment from "moment";
 import { t } from "i18next";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"

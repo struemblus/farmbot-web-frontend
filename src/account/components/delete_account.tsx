@@ -1,6 +1,11 @@
 import * as React from "react";
 import {
-  BlurableInput, Widget, WidgetHeader, WidgetBody, Col, Row
+  BlurableInput,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Col,
+  Row
 } from "../../ui";
 import { DeleteAccountPropTypes } from "../interfaces";
 import { t } from "i18next";

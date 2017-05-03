@@ -1,10 +1,17 @@
 import * as React from "react";
 import { t } from "i18next";
-import { DeprecatedFBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui";
 import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
 import { MustBeOnline } from "../devices/must_be_online";
 import { ToolTips } from "../constants";
+import {
+  DeprecatedFBSelect,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../ui";
 
 export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   constructor() {

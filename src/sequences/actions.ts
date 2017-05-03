@@ -1,21 +1,9 @@
 import { CeleryNode as Step, SequenceBodyItem } from "farmbot";
-import {
-  SequenceOptions,
-  Sequence,
-  ChanParams,
-  MessageParams,
-  EditCurrentSequence,
-  SpliceStepPayl,
-  MoveStepPayl,
-  ChangeStep,
-  ChangeStepSelect,
-  SelectSequence
-} from "./interfaces";
+import { ChangeStepSelect, SelectSequence } from "./interfaces";
 import { DropDownItem } from "../ui";
-import { ReduxAction, Thunk, GetState } from "../redux/interfaces";
-import { destroy, save, edit, init, overwrite } from "../api/crud";
-import { assertUuid } from "../resources/selectors";
-import { TaggedSequence, isTaggedSequence } from "../resources/tagged_resources";
+import { GetState } from "../redux/interfaces";
+import { edit, init, overwrite } from "../api/crud";
+import { TaggedSequence } from "../resources/tagged_resources";
 import { defensiveClone } from "../util";
 
 export function pushStep(step: SequenceBodyItem,
@@ -26,6 +14,7 @@ export function pushStep(step: SequenceBodyItem,
   next.body.body.push(defensiveClone(step))
   dispatch(overwrite(sequence, next.body));
 }
+
 export function editCurrentSequence(dispatch: Function, seq: TaggedSequence,
   update: Partial<typeof seq.body>) {
   dispatch(edit(seq, update));

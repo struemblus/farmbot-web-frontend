@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as i18next from "i18next";
 import * as axios from "axios";
 import { AuthState } from "../auth/interfaces";
 import { error as log, success, init as logInit } from "../ui";

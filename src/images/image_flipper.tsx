@@ -12,7 +12,8 @@ const NO_INDEX = new Error(`
   It was not a number.
 `);
 
-export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
+export class ImageFlipper
+  extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
 
   state = { currentInx: 0, isLoaded: false };
 

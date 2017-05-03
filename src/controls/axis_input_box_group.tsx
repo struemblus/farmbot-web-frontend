@@ -1,12 +1,12 @@
 import * as React from "react";
 import { AxisInputBox } from "./axis_input_box";
 import { t } from "i18next";
+import { Row } from "../ui";
 import {
   AxisInputBoxGroupProps,
   AxisInputBoxGroupState,
   Vector
 } from "./interfaces";
-import { Row } from "../ui";
 
 export class AxisInputBoxGroup extends React.Component<AxisInputBoxGroupProps,
   Partial<AxisInputBoxGroupState>> {

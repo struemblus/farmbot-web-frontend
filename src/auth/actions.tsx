@@ -1,7 +1,4 @@
-import {
-  connectDevice,
-  fetchReleases
-} from "../devices/actions";
+import { connectDevice, fetchReleases } from "../devices/actions";
 import { push } from "../history";
 import { error, success } from "../ui";
 import { AuthState } from "./interfaces";

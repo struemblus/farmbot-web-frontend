@@ -26,7 +26,6 @@ const MONTHS: Readonly<Dictionary<string>> = {
 
 /** Prepares a FarmEvent[] for use with <FBSelect /> */
 export function mapStateToProps(state: Everything): FarmEventProps {
-  let r = state.resources;
   let farmEvents = selectAllFarmEvents(state.resources.index);
 
   let push = (state && state.router && state.router.push) || (() => { });

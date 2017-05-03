@@ -19,7 +19,6 @@ export function responseFulfilled(input: Xhr): Xhr {
   return input;
 }
 
-
 export function responseRejected(x: SafeError | undefined) {
 
   if (x && isSafeError(x)) {

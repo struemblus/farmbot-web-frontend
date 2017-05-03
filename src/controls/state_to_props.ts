@@ -1,12 +1,12 @@
 import { Everything } from "../interfaces";
 import { BotState } from "../devices/interfaces";
 import { AuthState } from "../auth/interfaces";
-import {
-  TaggedPeripheral,
-  TaggedDevice
-} from "../resources/tagged_resources";
-import { selectAllPeripherals, getDeviceAccountSettings } from "../resources/selectors";
+import { TaggedPeripheral, TaggedDevice } from "../resources/tagged_resources";
 import { RestResources } from "../resources/interfaces";
+import {
+  selectAllPeripherals,
+  getDeviceAccountSettings
+} from "../resources/selectors";
 
 export interface Props {
   dispatch: Function;

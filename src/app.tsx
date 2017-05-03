@@ -55,7 +55,7 @@ export default class App extends React.Component<AppProps, {}> {
   }
   componentDidMount() {
     setTimeout(() => {
-      if (!this.isLoaded) {
+      if (!this.isLoaded) {
         this.props.dispatch({ type: "SYNC_TIMEOUT_EXCEEDED" });
         error(TIMEOUT_MESSAGE, "Warning");
       }

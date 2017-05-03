@@ -1,6 +1,5 @@
 import * as React from "react";
 import { t } from "i18next";
-import { AddEditFarmEventProps, TaggedExecutable, ExecutableType } from "../interfaces";
 import * as moment from "moment";
 import { connect } from "react-redux";
 import { mapStateToPropsAddEdit, } from "./map_state_to_props_add_edit";
@@ -9,12 +8,19 @@ import { EditFEForm } from "./farm_event_form";
 import { betterCompact } from "../../util";
 import { entries } from "../../resources/util";
 import { Link } from "react-router";
+import {
+  AddEditFarmEventProps,
+  TaggedExecutable,
+  ExecutableType
+} from "../interfaces";
 
 interface State {
   uuid: string;
 }
+
 @connect(mapStateToPropsAddEdit)
-export class AddFarmEvent extends React.Component<AddEditFarmEventProps, Partial<State>> {
+export class AddFarmEvent
+  extends React.Component<AddEditFarmEventProps, Partial<State>> {
   get sequences() { return betterCompact(entries(this.props.sequencesById)); }
   get regimens() { return betterCompact(entries(this.props.regimensById)); }
   get executables() {
@@ -26,10 +32,12 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, Partial
   get executable(): TaggedExecutable | undefined {
     return this.executables[0];
   }
+
   constructor() {
     super();
     this.state = {};
   }
+
   componentDidMount() {
     if (this.executable) {
       let executable_type: ExecutableType =
@@ -53,6 +61,7 @@ export class AddFarmEvent extends React.Component<AddEditFarmEventProps, Partial
       this.setState({ uuid: action.payload.uuid });
     }
   }
+
   /** No executables. Can't load form. */
   none() {
     return <p>

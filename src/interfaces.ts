@@ -43,7 +43,7 @@ interface Location {
   key: string;
   /** URL ?Query=string, converted to JS object. */
   query: { [name: string]: string };
-};
+}
 
 export interface Everything {
   config: ConfigState;
@@ -57,7 +57,7 @@ export interface Everything {
   router: {
     push(url?: string): void;
   };
-};
+}
 
 /** React-select does not provide an interface for their CustomOption
  * component. Since they share similarities, we can go with this one as a base.

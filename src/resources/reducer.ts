@@ -23,7 +23,6 @@ import {
   initialState as designerState
 } from "../farm_designer/reducer";
 import { ResourceReadyPayl } from "../sync/actions";
-import { Crop } from "../farm_designer/interfaces";
 import { OFCropResponse } from "../open_farm/index";
 
 let consumerReducer = combineReducers({

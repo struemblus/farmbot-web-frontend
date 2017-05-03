@@ -1,5 +1,4 @@
 import { Regimen } from "./interfaces";
-import { Color } from "../interfaces";
 import * as _ from "lodash";
 
 /**
@@ -27,4 +26,4 @@ export function regimenSerializer(input: Regimen) {
     color: regimen.color,
     regimen_items
   };
-};
+}

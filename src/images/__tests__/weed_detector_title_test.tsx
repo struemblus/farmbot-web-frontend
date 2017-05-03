@@ -1,6 +1,6 @@
 import "../../unmock_i18next";
 import * as React from "react";
-import { render, mount } from "enzyme";
+import { mount } from "enzyme";
 import { TitleBar } from "../weed_detector_title";
 
 describe("<TitleBar/>", () => {

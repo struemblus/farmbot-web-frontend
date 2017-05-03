@@ -21,8 +21,7 @@ export let OsUpdateButton = ({ bot }: BotProp) => {
   } else {
     buttonStr = "Can't Connect to release server";
   }
-  let toggleVal = isUndefined(osUpdateBool) ?
-    "undefined" : ("" + osUpdateBool);
+  let toggleVal = isUndefined(osUpdateBool) ? "undefined" : ("" + osUpdateBool);
   return <div className="updates">
     <p>
       {t("Auto Updates?")}

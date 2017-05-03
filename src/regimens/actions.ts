@@ -1,8 +1,6 @@
-import { Regimen, RegimenItem } from "./interfaces";
-import { ReduxAction } from "../redux/interfaces";
+import { Regimen } from "./interfaces";
 import { destroy, save, init, edit } from "../api/crud";
 import { TaggedRegimen, isTaggedRegimen } from "../resources/tagged_resources";
-import { randomColor } from "../util";
 
 export function editRegimen(r: TaggedRegimen | undefined,
   update: Partial<Regimen>) {

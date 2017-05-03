@@ -22,7 +22,7 @@ export function mapStateToProps(props: Everything): EditPlantInfoProps {
 
 /** All of the info a user would need to know about a plant, formatted and
  * ready to use by the UI. */
-export interface formattedPlantInfo {
+export interface FormattedPlantInfo {
   x: number;
   y: number;
   id: number | undefined;
@@ -31,7 +31,8 @@ export interface formattedPlantInfo {
   daysOld: number;
   plantedAt: string;
 }
-export function formatPlantInfo(resource: TaggedPlant): formattedPlantInfo {
+
+export function formatPlantInfo(resource: TaggedPlant): FormattedPlantInfo {
   let p = resource.body;
   let t = p.planted_at ? moment(p.planted_at) : moment();
   return {

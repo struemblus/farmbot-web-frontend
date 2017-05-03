@@ -5,12 +5,9 @@ import { Log } from "../interfaces";
 import { GithubRelease, MoveRelProps } from "./interfaces";
 import { Thunk, GetState } from "../redux/interfaces";
 import { get } from "axios";
-import {
-  DeviceAccountSettings,
-  BotState
-} from "../devices/interfaces";
+import { DeviceAccountSettings, BotState } from "../devices/interfaces";
 import { t } from "i18next";
-import { McuParams, Configuration, BotStateTree, ALLOWED_PACKAGES } from "farmbot";
+import { McuParams, Configuration, BotStateTree } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import * as _ from "lodash";
 import { HardwareState } from "../devices/interfaces";
@@ -55,7 +52,6 @@ export function factoryReset() {
     "card. Are you sure?")) {
     return;
   }
-  let noun = "Factory reset";
   devices
     .current
     .resetOS();
@@ -172,7 +168,6 @@ export function changeDevice(device: TaggedDevice,
 
 
 export function MCUFactoryReset() {
-  const noun = "MCU Factory Reset";
   return devices
     .current
     .resetMCU();
@@ -333,17 +328,9 @@ export function updateConfig(config: Configuration) {
   }
 }
 
-
 export function changeStepSize(integer: number) {
   return {
     type: "CHANGE_STEP_SIZE",
     payload: integer
-  };
-}
-
-function commitSettingsChangesOk() {
-  return {
-    type: "COMMIT_SETTINGS_OK",
-    payload: {}
   };
 }

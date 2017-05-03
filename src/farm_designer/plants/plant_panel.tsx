@@ -1,9 +1,9 @@
 import * as React from "react";
 import { t } from "i18next";
-import { formattedPlantInfo } from "./map_state_to_props";
+import { FormattedPlantInfo } from "./map_state_to_props";
 
 interface PlantPanelProps {
-  info: formattedPlantInfo;
+  info: FormattedPlantInfo;
   onDestroy(uuid: string): void;
 }
 export function PlantPanel({ info, onDestroy }: PlantPanelProps) {

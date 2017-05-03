@@ -6,14 +6,7 @@ import {
 import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
 import * as Axios from "axios";
-import {
-  createOK,
-  createNO,
-  updateOK,
-  updateNO,
-  destroyOK,
-  destroyNO
-} from "../resources/actions";
+import { updateOK, updateNO, destroyOK, destroyNO } from "../resources/actions";
 import { UnsafeError } from "../interfaces";
 import { findByUuid } from "../resources/reducer";
 import { generateUuid } from "../resources/util";

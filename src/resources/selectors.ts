@@ -101,8 +101,7 @@ let find = (r: ResourceName) =>
       throw new Error(`Tagged resource ${r} was not found or malformed: ` +
         JSON.stringify(result));
     }
-
-  }
+  };
 
 export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
 export let findTool = find("tools") as Finder<TaggedTool>;
@@ -134,6 +133,7 @@ export function getRegimenByUUID(index: ResourceIndex, uuid: string) {
   assertUuid("regimens", uuid);
   return index.references[uuid];
 }
+
 export function getSequenceByUUID(index: ResourceIndex,
   uuid: string): TaggedSequence {
   assertUuid("sequences", uuid);
@@ -300,10 +300,12 @@ export let byId = <T extends TaggedResource>(name: ResourceName) =>
     let f = (x: TaggedResource) => (x.kind === name) && (x.body.id === id)
     // Maybe we should add a throw here?
     return tools.filter(f)[0] as T | undefined;
-  }
+  };
+
 export function hasId(ri: ResourceIndex, k: ResourceName, id: number): boolean {
   return !!ri.byKindAndId[joinKindAndId(k, id)];
 }
+
 export let findFarmEventById = (ri: ResourceIndex, fe_id: number) => {
   let fe = byId("farm_events")(ri, fe_id);
   if (fe && isTaggedFarmEvent(fe) && sanityCheck(fe)) {

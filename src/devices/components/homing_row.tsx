@@ -1,7 +1,7 @@
 import * as React from "react";
 import { t } from "i18next";
 import { devices } from "../../device";
-import { CalibrationButtonProps, Axis, Xyz } from "../interfaces";
+import { Axis } from "../interfaces";
 import { Farmbot, McuParams } from "farmbot/dist";
 import { LockableButton } from "./lockable_button";
 import { axisTrackingStatus } from "./axis_tracking_status";

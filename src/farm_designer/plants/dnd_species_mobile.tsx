@@ -15,8 +15,8 @@ import { findBySlug } from "../search_selectors";
 
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */
-export class DNDSpeciesMobile extends React.Component<SpeciesInfoProps,
-DNDSpeciesMobileState> {
+export class DNDSpeciesMobile
+  extends React.Component<SpeciesInfoProps, DNDSpeciesMobileState> {
   constructor() {
     super();
     this.state = { isDragging: false };

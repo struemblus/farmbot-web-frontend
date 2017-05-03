@@ -1,5 +1,4 @@
 import { Everything } from "../interfaces";
-
 import { Props } from "./interfaces";
 import {
   selectAllImages,
@@ -7,7 +6,6 @@ import {
 } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
-
   return {
     deviceAccount: getDeviceAccountSettings(props.resources.index),
     auth: props.auth,

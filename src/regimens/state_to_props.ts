@@ -13,6 +13,7 @@ import { duration } from "moment";
 import * as moment from "moment";
 import { ResourceIndex } from "../resources/interfaces";
 import { randomColor } from "../util";
+
 export function mapStateToProps(props: Everything): Props {
   let { resources, dispatch, bot } = props;
   let { weeks, dailyOffsetMs, selectedSequenceUUID, currentRegimen } =

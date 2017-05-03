@@ -1,9 +1,4 @@
 import { Plant, PlantOptions } from "./interfaces";
-import { DEFAULT_ICON } from "../open_farm/index";
-
-let TEMP_ICON_MAP: { [ofSlug: string]: string } = {
-  "not-set": DEFAULT_ICON
-};
 
 /** @deprecated
  * Factory function for Plant types. */

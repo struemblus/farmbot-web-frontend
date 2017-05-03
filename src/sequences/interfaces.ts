@@ -8,10 +8,13 @@ import {
   CeleryNode,
   LegalArgString
 } from "farmbot";
-import { ToolsState } from "../tools/interfaces";
 import { DropDownItem } from "../ui/index";
 import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
-import { TaggedSequence, TaggedTool, TaggedToolSlot, TaggedPlant } from "../resources/tagged_resources";
+import {
+  TaggedSequence,
+  TaggedTool,
+  TaggedToolSlot
+} from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 
 export interface Props {
@@ -40,8 +43,6 @@ export interface ActiveMiddleProps extends SequenceEditorMiddleProps {
   sequence: TaggedSequence;
 }
 
-
-
 export type CHANNEL_NAME = "toast" | "ticker";
 
 export const NUMERIC_FIELDS = ["milliseconds", "pin_mode", "pin_number",
@@ -60,7 +61,7 @@ export type SequenceOptions = Partial<Sequence>;
 
 export interface SequenceReducerState {
   current: string | undefined;
-};
+}
 
 export interface SequencesListProps {
   sequences: TaggedSequence[];
@@ -76,13 +77,13 @@ export interface NamedVector3 extends Vector3 {
 export interface ChanParams {
   channel_name: string;
   index: number;
-};
+}
 
 // /** Used when dispatching an updated message type. */
 export interface MessageParams {
   value: string | number;
   index: number;
-};
+}
 
 export interface PickerProps {
   current: Color;
@@ -206,7 +207,7 @@ export interface SaveSequenceOk {
 export interface SelectSequence {
   type: "SELECT_SEQUENCE";
   payload: string;
-};
+}
 
 export interface SequenceApiResponse {
   sequence?: string;

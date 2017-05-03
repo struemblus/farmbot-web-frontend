@@ -14,6 +14,7 @@ export interface ResourceIndex {
   byKindAndId: CowardlyDictionary<UUID>;
   references: Dictionary<TaggedResource | undefined>;
 }
+
 export interface RestResources {
   /** Tells you if the sync finished yet. */
   loaded: ResourceName[];
@@ -23,4 +24,4 @@ export interface RestResources {
     regimens: RegimenState;
     farm_designer: DesignerState;
   }
-};
+}

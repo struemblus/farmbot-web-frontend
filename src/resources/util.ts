@@ -1,5 +1,4 @@
 import { ResourceName } from "./tagged_resources";
-// import { uuid } from "farmbot/dist";
 import { joinKindAndId } from "./reducer";
 import { Dictionary } from "farmbot/dist";
 import { betterCompact } from "../util";

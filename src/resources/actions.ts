@@ -21,7 +21,7 @@ function generalizedError(payload: UnsafeError) {
   return {
     type: "*_RESOURCE_NO", payload
   };
-};
+}
 
 export let destroyNO = generalizedError;
 export let createNO = generalizedError;
