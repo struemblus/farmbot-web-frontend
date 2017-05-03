@@ -3,7 +3,19 @@ import { DragableState } from "../interfaces";
 
 describe("draggableReducer", () => {
   function emptyState(): DragableState {
-    return { dataTransfer: {} };
+    return {
+      dataTransfer: {
+        "BAR": {
+          draggerId: 5,
+          value: {
+            kind: "wait",
+            args: { milliseconds: 50 }
+          },
+          uuid: "BAR",
+          intent: "step_splice"
+        }
+      }
+    };
   }
 
   it("puts a step", () => {
@@ -16,5 +28,11 @@ describe("draggableReducer", () => {
     expect(entry && entry.uuid).toEqual(payload.uuid);
   });
 
-  it("drops a step");
+  it("drops a step", () => {
+    let payload = "BAR";
+    let action = { type: "DROP_DATA_XFER", payload };
+    let nextState = draggableReducer(emptyState(), action);
+    expect(Object.keys(nextState.dataTransfer).length)
+      .toEqual(0);
+  });
 })
