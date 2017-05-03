@@ -3,7 +3,7 @@ import { CopyButton } from "./copy_button";
 import { EmptyEditor } from "./empty_editor";
 import { ActiveEditor } from "./active_editor";
 import { RegimenEditorWidgetProps, DeleteButtonProps } from "./interfaces";
-import { Widget, WidgetHeader, WidgetBody, SaveBtn } from "../../ui/index";
+import { ToolTip, SaveBtn } from "../../ui/index";
 import { saveRegimen, deleteRegimen } from "../actions";
 import { RegimenProps, MiddleSectionProps } from "../interfaces";
 import { isTaggedRegimen } from "../../resources/tagged_resources";
@@ -49,33 +49,33 @@ export function RegimenEditorWidget({ current, dispatch, auth, calendar }:
     let isDirty = regimen && regimen.dirty;
     let isSaved = !isSaving && !isDirty;
 
-    return <Widget className="regimen-editor-widget">
-      <WidgetHeader title="Regimen Editor" helpText={ToolTips.REGIMEN_EDITOR}>
-        {regimen && (
-          <SaveBtn
-            isDirty={isDirty}
-            isSaving={isSaving}
-            isSaved={isSaved}
-            onClick={save({ dispatch, regimen })}
-          />
-        )}
+    return <div className="regimen-editor">
+      <h3>
+        <i>{t("Regimen Editor")}</i>
+      </h3>
+      <ToolTip helpText={ToolTips.REGIMEN_EDITOR} />
+      {regimen && (
+        <SaveBtn
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={isSaved}
+          onClick={save({ dispatch, regimen })}
+        />
+      )}
 
-        <CopyButton regimen={regimen} dispatch={dispatch} />
+      <CopyButton regimen={regimen} dispatch={dispatch} />
 
-        {regimen && (
-          <button className="red"
-            onClick={remove({ dispatch, regimen, baseUrl })}>
-            {t("Delete")}
-          </button>
-        )}
-      </WidgetHeader>
-      <WidgetBody>
-        <MiddleSection
-          regimen={regimen}
-          dispatch={dispatch}
-          calendar={calendar} />
-      </WidgetBody>
-    </Widget>;
+      {regimen && (
+        <button className="red"
+          onClick={remove({ dispatch, regimen, baseUrl })}>
+          {t("Delete")}
+        </button>
+      )}
+      <MiddleSection
+        regimen={regimen}
+        dispatch={dispatch}
+        calendar={calendar} />
+    </div >;
   } else {
     throw new Error("Must log in first");
   }

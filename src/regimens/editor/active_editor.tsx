@@ -12,7 +12,6 @@ import { overwrite } from "../../api/crud";
 export function ActiveEditor(props: ActiveEditorProps) {
   return <div>
     <RegimenNameInput regimen={props.regimen} dispatch={props.dispatch} />
-    <div>
       <hr />
       {props.calendar.map(function (group, index1) {
         return <div className="regimen-day" key={index1}>
@@ -29,7 +28,6 @@ export function ActiveEditor(props: ActiveEditorProps) {
           })}
         </div>;
       })}
-    </div>
   </div>;
 }
 

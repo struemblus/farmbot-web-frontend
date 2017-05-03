@@ -1,10 +1,11 @@
 import * as React from "react";
 import { RegimenListItem } from "./regimen_list_item";
 import { AddRegimen } from "./add_button";
-import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import { Row, Col, ToolTip } from "../../ui/index";
 import { RegimensListProps } from "../interfaces";
 import { sortResourcesById } from "../../util";
 import { ToolTips } from "../../constants";
+import { t } from "i18next";
 
 export class RegimensList extends React.Component<RegimensListProps, {}> {
   rows = () => {
@@ -20,13 +21,13 @@ export class RegimensList extends React.Component<RegimensListProps, {}> {
   }
 
   render() {
-    return <Widget className="regimen-list-widget">
-      <WidgetHeader title="Regimens" helpText={ToolTips.REGIMEN_LIST}>
+    return <div className="regimen-list">
+      <h3>
+        <i>{t("Regimens")}</i>
+      </h3>
+      <ToolTip helpText={ToolTips.REGIMEN_LIST} />
         <AddRegimen dispatch={this.props.dispatch} />
-      </WidgetHeader>
-      <WidgetBody>
         <Row>{this.rows()}</Row>
-      </WidgetBody>
-    </Widget>;
+    </div>;
   }
 }

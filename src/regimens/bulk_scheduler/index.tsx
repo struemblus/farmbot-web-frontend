@@ -4,7 +4,7 @@ import { AddButton } from "./add_button";
 import { SequenceList } from "./sequence_list";
 import { WeekGrid } from "./week_grid";
 import { commitBulkEditor, setTimeOffset } from "./actions";
-import { Widget, WidgetHeader, WidgetBody, Row, Col } from "../../ui/index";
+import { ToolTip, Row, Col } from "../../ui/index";
 import { BlurableInput } from "../../ui/blurable_input";
 import { duration } from "moment";
 import { t } from "i18next";
@@ -13,33 +13,33 @@ import { ToolTips } from "../../constants";
 export function BulkSchedulerWidget(props: BulkEditorProps) {
   let { dispatch, sequences, selectedSequence, dailyOffsetMs } = props;
   let active = !!(sequences && sequences.length);
-  return <Widget className="bulk-scheduler-widget">
-    <WidgetHeader title="Scheduler" helpText={ToolTips.BULK_SCHEDULER}>
-      <AddButton active={active}
-        click={() => { dispatch(commitBulkEditor()); }} />
-    </WidgetHeader>
-    <WidgetBody>
-      <Row>
-        <Col xs={6}>
-          <SequenceList sequences={sequences}
-            current={selectedSequence}
-            dispatch={dispatch} />
-        </Col>
-        <Col xs={6}>
-          <div>
-            <label>{t("Time")}</label>
-            <BlurableInput type="time"
-              value={msToTime(dailyOffsetMs)}
-              onCommit={({ currentTarget }) => {
-                dispatch(setTimeOffset(timeToMs(currentTarget.value)));
-              }} />
-          </div>
-        </Col>
-      </Row>
-      <WeekGrid weeks={props.weeks}
-        dispatch={dispatch} />
-    </WidgetBody>
-  </Widget>;
+  return <div className="bulk-scheduler">
+    <h3>
+      <i>{t("Scheduler")}</i>
+    </h3>
+    <ToolTip helpText={ToolTips.SEQUENCE_EDITOR} />
+    <AddButton active={active}
+      click={() => { dispatch(commitBulkEditor()); }} />
+    <Row>
+      <Col xs={6}>
+        <SequenceList sequences={sequences}
+          current={selectedSequence}
+          dispatch={dispatch} />
+      </Col>
+      <Col xs={6}>
+        <div>
+          <label>{t("Time")}</label>
+          <BlurableInput type="time"
+            value={msToTime(dailyOffsetMs)}
+            onCommit={({ currentTarget }) => {
+              dispatch(setTimeOffset(timeToMs(currentTarget.value)));
+            }} />
+        </div>
+      </Col>
+    </Row>
+    <WeekGrid weeks={props.weeks}
+      dispatch={dispatch} />
+  </div>;
 }
 
 function msToTime(ms: number) {
