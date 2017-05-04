@@ -266,7 +266,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 <td colSpan={2}>
                   <p>
                     Restoring hardware parameter defaults will destroy the
-                  current settings, resetting them to default values.
+                  current settings, resetting them to default values.&nbsp;
                   <b>Will reboot device.</b>
                   </p>
                 </td>
