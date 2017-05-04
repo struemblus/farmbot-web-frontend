@@ -75,6 +75,17 @@ export class HardwareSettings
                 bot={this.props.bot}
                 dispatch={this.props.dispatch} />
               <ZeroRow />
+              <tr>
+                <td>
+                  <label>
+                    [&nbsp;
+                      <i onClick={this.toggleAdvancedSettings}
+                      className={`fa fa-${iconString}`} />
+                    &nbsp;]&nbsp;
+                      {t("Advanced")}
+                  </label>
+                </td>
+              </tr>
               <tr hidden={!showAdvancedSettings}>
                 <td>
                   <label>{t("Steps per MM")}</label>
@@ -307,17 +318,6 @@ export class HardwareSettings
                   <button className="red" onClick={() => MCUFactoryReset()}>
                     {t("RESET")}
                   </button>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <label>
-                    [&nbsp;
-                      <i onClick={this.toggleAdvancedSettings}
-                      className={`fa fa-${iconString}`} />
-                    &nbsp;]&nbsp;
-                      {t("Advanced")}
-                  </label>
                 </td>
               </tr>
             </tbody>

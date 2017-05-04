@@ -11,9 +11,9 @@ export namespace ToolTips {
     `Press the edit button to update and save your webcam URL.`
 
   export const PERIPHERALS =
-    `Use these toggle switches to control FarmBot's peripherals in realtime. To 
-    edit and create new peripherals, press the EDIT button. Make sure to turn 
-    things off when you're done!`
+    `Use these toggle switches to control FarmBot's peripherals in realtime. To
+    edit and create new peripherals, press the EDIT button. Make sure to turn
+    things off when you're done!`
 
   // Device
   export const OS_SETTINGS =
