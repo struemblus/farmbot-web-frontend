@@ -30,7 +30,7 @@ export function notifyBotOfChanges(url: string, action: DataChangeType) {
 }
 
 /** The input of an axios error interceptor is an "any" type.
- * Sometimes it will be a real Axios errors, other times it will not be.
+ * Sometimes it will be a real Axios error, other times it will not be.
  */
 export interface SafeError {
   response: {
