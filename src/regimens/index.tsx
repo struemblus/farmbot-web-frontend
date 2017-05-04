@@ -14,7 +14,7 @@ export class Regimens extends React.Component<Props, {}> {
   render() {
     return <Page className="regimens">
       <Row>
-        <Col xs={12} md={4}>
+        <Col xs={12} md={3}>
           <BulkSchedulerWidget
             selectedSequence={this.props.selectedSequence}
             dailyOffsetMs={this.props.dailyOffsetMs}
@@ -23,7 +23,7 @@ export class Regimens extends React.Component<Props, {}> {
             resources={this.props.resources}
             dispatch={this.props.dispatch} />
         </Col>
-        <Col xs={12} md={4}>
+        <Col xs={12} md={6}>
           <RegimenEditorWidget
             dispatch={this.props.dispatch}
             auth={this.props.auth}
@@ -32,7 +32,7 @@ export class Regimens extends React.Component<Props, {}> {
             current={this.props.current} />
         </Col>
         {isMobile() && <MobileRegimensNav />}
-        <Col xs={12} md={4}>
+        <Col xs={12} md={3}>
           <RegimensList
             dispatch={this.props.dispatch}
             regimens={this.props.regimens} />

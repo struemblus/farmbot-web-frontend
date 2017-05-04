@@ -54,8 +54,8 @@
         background-color: $brown;
     }
     &.gray-block {
-        background-color: $medium_gray;
-        color: $off_white;
+        background-color: $medium_gray !important;
+        color: $white !important;
     }
     &.red-block {
         background-color: $red;

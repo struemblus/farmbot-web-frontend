@@ -84,6 +84,7 @@ export class GardenMap
   }
 
   render() {
+    let { dispatch } = this.props;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
@@ -120,7 +121,7 @@ export class GardenMap
                 plant={p}
                 selected={selected}
                 dragging={selected && !!this.state.isDragging && this.isEditing}
-                onClick={(plant) => {
+                onClick={plant => {
                   this.props.dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
                 }} />
             </Link>;

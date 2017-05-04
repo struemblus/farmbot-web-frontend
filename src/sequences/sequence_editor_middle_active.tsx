@@ -46,7 +46,8 @@ export let performSeq = (dispatch: Function, s: TaggedSequence) => {
   };
 };
 
-export class SequenceEditorMiddleActive extends React.Component<ActiveMiddleProps, {}> {
+export class SequenceEditorMiddleActive
+  extends React.Component<ActiveMiddleProps, {}> {
   render() {
     let { sequences, dispatch, tools, sequence, slots, resources } = this.props;
     let fixThisToo = function (key: string) {

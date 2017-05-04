@@ -15,6 +15,8 @@ export function translateScreenToGarden(mouseX: number,
   mouseY: number,
   boxX: number,
   boxY: number) {
+  console.log(mouseX, mouseY, boxX, boxY);
+
   /** The offset of 50px is made for the setDragImage to make it in the
    * center of the mouse for accuracy which is why this is being done.
    * Once we get more dynamic with the values (different size plants),

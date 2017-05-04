@@ -24,6 +24,7 @@ input[type=time] {
 }
 
 body {
+    background: $gray !important;
     &.freeze {
         height: 100% !important;
         overflow: hidden !important;
@@ -120,10 +121,6 @@ a {
 
 .row {
     max-width: 160rem;
-}
-
-body {
-    background: $light_gray!important;
 }
 
 .full-width {

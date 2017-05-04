@@ -226,7 +226,9 @@
 }
 
 .plant-link-wrapper {
-    cursor: -webkit-grab !important;
+    &.is-chosen-true.is-editing-true {
+        cursor: -webkit-grab !important;
+    }
     &:active {
         cursor: -webkit-grabbing !important;
     }

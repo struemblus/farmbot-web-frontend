@@ -9,10 +9,12 @@
     }
 }
 
-@media screen and (min-width: 768px) {
-    .step-button-cluster-widget {
-        position: fixed;
-        width: 22%;
-        max-width: 35rem;
-    }
+.sequence-editor,
+.regimen-editor {
+    background: $light_gray;
+    margin: -3rem -1.5rem -6rem;
+    padding: 3rem 1.5rem 8rem;
+    min-height: 96vh;
+    overflow-y: scroll;
+    max-height: 96vh;
 }
