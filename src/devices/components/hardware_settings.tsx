@@ -82,6 +82,15 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_max_spd_z"}
                 bot={bot}
                 dispatch={dispatch} />
+              <NumericMCUInputGroup name={t("Minimum Speed (steps/s)")}
+                tooltip={t(`Minimum movement speed.
+                Also used for homing, calibration,
+                and movements across home.`)}
+                x={"movement_min_spd_x"}
+                y={"movement_min_spd_y"}
+                z={"movement_min_spd_z"}
+                bot={bot}
+                dispatch={dispatch} />
               <NumericMCUInputGroup name={t("ACCELERATE FOR (steps)")}
                 tooltip={t(`Number of steps used for acceleration
                         and deceleration.`)}
