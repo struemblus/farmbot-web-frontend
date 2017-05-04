@@ -12,6 +12,7 @@ export interface NumericMCUInputGroupProps {
   x: McuParamName;
   y: McuParamName;
   z: McuParamName;
+  hidden?: boolean;
 }
 
 export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
@@ -22,9 +23,10 @@ export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
     name,
     x,
     y,
-    z
+    z,
+    hidden
   } = props;
-  return <tr>
+  return <tr hidden={!!hidden}>
     <td>
       <label>{name}</label>
       <SpacePanelToolTip tooltip={tooltip} />

@@ -5,7 +5,7 @@ import { BotConfigInputBox } from "./step_per_mm_box";
 import { settingToggle, MCUFactoryReset } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
-import { HardwareSettingsProps } from "../interfaces";
+import { HardwareSettingsProps, HardwareSettingsState } from "../interfaces";
 import { HomingRow } from "./homing_row";
 import { MustBeOnline } from "../must_be_online";
 import { ZeroRow } from "./zero_row";
@@ -14,10 +14,23 @@ import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 import { ToolTips } from "../../constants";
 
-export class HardwareSettings extends React.Component<HardwareSettingsProps, {}> {
+export class HardwareSettings
+  extends React.Component<HardwareSettingsProps, HardwareSettingsState> {
+  constructor() {
+    super();
+    this.state = { showAdvancedSettings: false };
+  }
+
+  toggleAdvancedSettings = () => {
+    this.setState({ showAdvancedSettings: !this.state.showAdvancedSettings });
+  }
+
   render() {
     let { bot, dispatch } = this.props;
     let { mcu_params } = bot.hardware;
+    let { showAdvancedSettings } = this.state;
+    let iconString = showAdvancedSettings ? "minus" : "plus";
+
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
         <MustBeOnline fallback=" "
@@ -53,7 +66,16 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <NumericMCUInputGroup name={t("MAX SPEED (steps/s)")}
+                tooltip={t(`Maximum travel speed after acceleration
+                        in motor steps per second.`)}
+                x={"movement_max_spd_x"}
+                y={"movement_max_spd_y"}
+                z={"movement_max_spd_z"}
+                bot={this.props.bot}
+                dispatch={this.props.dispatch} />
+              <ZeroRow />
+              <tr hidden={!showAdvancedSettings}>
                 <td>
                   <label>{t("Steps per MM")}</label>
                   <div className="help">
@@ -74,15 +96,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   bot={bot}
                   dispatch={dispatch} />
               </tr>
-              <NumericMCUInputGroup name={t("MAX SPEED (steps/s)")}
-                tooltip={t(`Maximum travel speed after acceleration
-                        in motor steps per second.`)}
-                x={"movement_max_spd_x"}
-                y={"movement_max_spd_y"}
-                z={"movement_max_spd_z"}
-                bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("Minimum Speed (steps/s)")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("Minimum Speed (steps/s)")}
                 tooltip={t(`Minimum movement speed.
                 Also used for homing, calibration,
                 and movements across home.`)}
@@ -91,7 +106,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_min_spd_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("ACCELERATE FOR (steps)")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("ACCELERATE FOR (steps)")}
                 tooltip={t(`Number of steps used for acceleration
                         and deceleration.`)}
                 x={"movement_steps_acc_dec_x"}
@@ -99,7 +115,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_steps_acc_dec_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("TIMEOUT AFTER (seconds)")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("TIMEOUT AFTER (seconds)")}
                 tooltip={t(`Amount of time to wait for a command to
                         execute before stopping.`)}
                 x={"movement_timeout_x"}
@@ -107,7 +124,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_timeout_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("LENGTH (mm)")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("LENGTH (mm)")}
                 tooltip={t(`Coming Soon! Set the length of each axis to provide
                         software limits.`)}
                 x={"movement_axis_nr_steps_x"}
@@ -115,7 +133,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_axis_nr_steps_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("ENCODER SCALING")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("ENCODER SCALING")}
                 tooltip={t(`(Alpha) encoder scaling factor =
                         100 * (motor resolution * microsteps)
                         / (encoder resolution * 4)`)}
@@ -124,7 +143,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_scaling_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("Max missed steps")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("Max missed steps")}
                 tooltip={t(`(Alpha) Number of steps missed (determined by
                         encoder) before motor is considered to have stalled.`)}
                 x={"encoder_missed_steps_max_x"}
@@ -132,7 +152,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_missed_steps_max_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <NumericMCUInputGroup name={t("Encoder missed step decay")}
+              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("Encoder missed step decay")}
                 tooltip={t(`(Alpha) Reduction to missed step total for every
                             good step.`)}
                 x={"encoder_missed_steps_decay_x"}
@@ -140,17 +161,20 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_missed_steps_decay_z"}
                 bot={bot}
                 dispatch={dispatch} />
-              <CalibrationRow hardware={mcu_params} />
-              <HomingRow hardware={mcu_params} />
-              <ZeroRow />
-              <tr>
+              <CalibrationRow hidden={!showAdvancedSettings}
+                hardware={mcu_params} />
+              <HomingRow hidden={!showAdvancedSettings}
+                hardware={mcu_params} />
+              <tr hidden={!showAdvancedSettings}>
                 <td colSpan={100}>
                   <small>
-                    Firmware-level support for rotary encoders is still under development.
-                </small>
+                    {t(`Firmware-level support for rotary encoders is still 
+                        under development.`)}
+                  </small>
                 </td>
               </tr>
-              <BooleanMCUInputGroup name={t("ENABLE ENCODERS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("ENABLE ENCODERS")}
                 tooltip={t(`(Alpha) Enable use of rotary encoders during
                         calibration and homing.`)}
                 x={"encoder_enabled_x"}
@@ -158,7 +182,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_enabled_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("ALWAYS POWER MOTORS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("ALWAYS POWER MOTORS")}
                 tooltip={t(`(Alpha) Keep power applied to motors. Prevents
                 slipping from gravity in certain situations.`)}
                 x={"movement_keep_active_x"}
@@ -166,7 +191,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_keep_active_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("INVERT ENCODERS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("INVERT ENCODERS")}
                 tooltip={t(`(Alpha) Reverse the direction of encoder position
                         reading. FarmBot OS version 3.1.4 or later required.`)}
                 x={"encoder_invert_x"}
@@ -174,28 +200,32 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"encoder_invert_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("INVERT ENDPOINTS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("INVERT ENDPOINTS")}
                 tooltip={t(`Swap axis end-stops during calibration.`)}
                 x={"movement_invert_endpoints_x"}
                 y={"movement_invert_endpoints_y"}
                 z={"movement_invert_endpoints_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("INVERT MOTORS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("INVERT MOTORS")}
                 tooltip={t(`Invert direction of motor during calibration.`)}
                 x={"movement_invert_motor_x"}
                 y={"movement_invert_motor_y"}
                 z={"movement_invert_motor_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("NEGATIVE COORDINATES ONLY")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("NEGATIVE COORDINATES ONLY")}
                 tooltip={t(`Restrict travel to negative coordinate locations.`)}
                 x={"movement_home_up_x"}
                 y={"movement_home_up_y"}
                 z={"movement_home_up_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("ENABLE ENDSTOPS")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("ENABLE ENDSTOPS")}
                 tooltip={t(`Enable use of electronic end-stops during
                         calibration and homing.`)}
                 x={"movement_enable_endpoints_x"}
@@ -203,7 +233,8 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_enable_endpoints_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("Find Home on Boot")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("Find Home on Boot")}
                 tooltip={t(`Finds the home position when the device
                 powers on.`)}
                 x={"movement_home_at_boot_x"}
@@ -211,21 +242,22 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                 z={"movement_home_at_boot_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <BooleanMCUInputGroup name={t("Software limits")}
+              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                name={t("Software limits")}
                 tooltip={t(`Stop at home.`)}
                 x={"movement_stop_at_home_x"}
                 y={"movement_stop_at_home_y"}
                 z={"movement_stop_at_home_z"}
                 dispatch={dispatch}
                 bot={bot} />
-              <tr>
+              <tr hidden={!showAdvancedSettings}>
                 <td colSpan={100}>
                   <small>
-                    Second X Motor
-                </small>
+                    {t("Second X Motor")}
+                  </small>
                 </td>
               </tr>
-              <tr>
+              <tr hidden={!showAdvancedSettings}>
                 <td>
                   <label>{t("ENABLE MOTOR")}</label>
                   <div className="help">
@@ -242,7 +274,7 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                     toggleAction={() => settingToggle("movement_secondary_motor_x", bot)} />
                 </td>
               </tr>
-              <tr>
+              <tr hidden={!showAdvancedSettings}>
                 <td>
                   <label>{t("INVERT MOTOR")}</label>
                   <div className="help">
@@ -259,15 +291,16 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                       bot)} />
                 </td>
               </tr>
-              <tr>
+              <tr hidden={!showAdvancedSettings}>
                 <td>
-                  <label>RESET HARDWARE PARAMETER DEFAULTS</label>
+                  <label>{t("RESET HARDWARE PARAMETER DEFAULTS")}</label>
                 </td>
                 <td colSpan={2}>
                   <p>
-                    Restoring hardware parameter defaults will destroy the
-                  current settings, resetting them to default values.&nbsp;
-                  <b>Will reboot device.</b>
+                    {t(`Restoring hardware parameter defaults will destroy the
+                        current settings, resetting them to default values.`)}
+                    &nbsp;
+                  <b>{t("Will reboot device.")}</b>
                   </p>
                 </td>
                 <td>
@@ -276,10 +309,21 @@ export class HardwareSettings extends React.Component<HardwareSettingsProps, {}>
                   </button>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <label>
+                    [&nbsp;
+                      <i onClick={this.toggleAdvancedSettings}
+                      className={`fa fa-${iconString}`} />
+                    &nbsp;]&nbsp;
+                      {t("Advanced")}
+                  </label>
+                </td>
+              </tr>
             </tbody>
           </table>
         </MustBeOnline>
       </WidgetBody>
-    </Widget>;
+    </Widget >;
   }
 }

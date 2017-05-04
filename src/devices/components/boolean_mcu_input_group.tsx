@@ -13,6 +13,7 @@ export interface BooleanMCUInputGroupProps {
   x: McuParamName;
   y: McuParamName;
   z: McuParamName;
+  hidden?: boolean | undefined;
 }
 
 export function BooleanMCUInputGroup(props: BooleanMCUInputGroupProps) {
@@ -23,10 +24,11 @@ export function BooleanMCUInputGroup(props: BooleanMCUInputGroupProps) {
     name,
     x,
     y,
-    z
+    z,
+    hidden
   } = props;
   let { mcu_params } = bot.hardware;
-  return <tr>
+  return <tr hidden={!!hidden}>
     <td>
       <label>{name}</label>
       <SpacePanelToolTip tooltip={tooltip} />

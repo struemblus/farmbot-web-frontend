@@ -14,6 +14,7 @@ interface BIProps {
   disabled?: boolean;
   className?: string;
   placeholder?: string;
+  hidden?: boolean;
 }
 
 interface BIState {
@@ -46,6 +47,7 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
   render() {
     let value = this.state.isEditing ? this.state.buffer : this.props.value;
     return <input value={value}
+      hidden={!!this.props.hidden}
       onFocus={this.focus}
       onChange={this.updateBuffer}
       onBlur={this.maybeCommit}

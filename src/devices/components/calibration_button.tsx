@@ -12,8 +12,15 @@ function calibrate(axis: Axis) {
     .calibrate({ axis });
 }
 
-export function CalibrationRow({ hardware }: { hardware: McuParams }) {
-  return <tr>
+interface CalibrationRowProps {
+  hidden?: boolean | undefined;
+  hardware: McuParams;
+}
+
+export function CalibrationRow(props: CalibrationRowProps) {
+  let { hardware, hidden } = props;
+
+  return <tr hidden={!!hidden}>
     <td>
       <label>{t("CALIBRATION")}</label>
       <div className="help">

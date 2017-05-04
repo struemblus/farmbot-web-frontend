@@ -147,3 +147,7 @@ export interface HardwareSettingsProps {
   dispatch: Function;
   bot: BotState;
 }
+
+export interface HardwareSettingsState {
+  showAdvancedSettings: boolean;
+}

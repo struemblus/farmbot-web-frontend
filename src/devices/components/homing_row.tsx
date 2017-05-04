@@ -16,11 +16,14 @@ let findHome = (axis: Axis) => devices.current.findHome({ speed, axis });
 };*/
 
 interface HomingRowProps {
+  hidden?: boolean | undefined;
   hardware: McuParams;
 }
 
-export function HomingRow({ hardware }: { hardware: McuParams }) {
-  return <tr>
+export function HomingRow(props: HomingRowProps) {
+  let { hardware, hidden } = props;
+
+  return <tr hidden={!!hidden}>
     <td>
       <label>{t("HOMING")}</label>
       <div className="help">
