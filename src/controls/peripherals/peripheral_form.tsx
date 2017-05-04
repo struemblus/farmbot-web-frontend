@@ -8,8 +8,8 @@ export function PeripheralForm(props: PeripheralFormProps) {
   let { dispatch, peripherals } = props;
 
   return <div>
-    {sortResourcesById(peripherals).map(p => {
-      return <Row key={p.body.id}>
+    {sortResourcesById(peripherals).map((p, index) => {
+      return <Row key={p.body.id || index}>
         <Col xs={6}>
           <input type="text"
             placeholder="Label"

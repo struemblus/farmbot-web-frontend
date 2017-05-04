@@ -4,7 +4,6 @@ import { pinToggle } from "../../devices/actions";
 import { Row, Col } from "../../ui";
 import { PeripheralListProps } from "./interfaces";
 import { sortResourcesById } from "../../util";
-import * as _ from "lodash";
 
 export function PeripheralList(props: PeripheralListProps) {
   let { pins } = props;

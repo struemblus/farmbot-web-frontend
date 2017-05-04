@@ -19,5 +19,5 @@ export interface PeripheralFormProps {
 export interface PeripheralListProps {
   dispatch: Function;
   peripherals: TaggedPeripheral[];
-  pins: Pins
+  pins: Pins;
 }

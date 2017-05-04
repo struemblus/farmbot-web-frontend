@@ -1,10 +1,11 @@
 import * as React from "react";
 import { FallbackImg } from "../ui/fallback_img";
 import { PLACEHOLDER_FARMBOT, WEBCAM_ERROR } from "../images/index";
+import { t } from "i18next";
 
 export const showUrl = (url: string, dirty: boolean) => {
   if (dirty) {
-    return <p>Press save to view.</p>;
+    return <p>{t("Press save to view.")}</p>;
   } else {
     if (url.includes(PLACEHOLDER_FARMBOT)) {
       return <div className="webcam-stream-unavailable">
@@ -12,9 +13,9 @@ export const showUrl = (url: string, dirty: boolean) => {
           src={url}
           fallback={WEBCAM_ERROR} />
         <text>
-          Camera stream not available.
+          {t("Camera stream not available.")}
           <br />
-          Press <b>EDIT</b> to add a stream.
+          {t("Press ")}<b>{t("EDIT")}</b>{t(" to add a stream.")}
         </text>
       </div>;
     } else {

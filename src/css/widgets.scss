@@ -37,8 +37,13 @@
 }
 
 // ok... :(
-.peripherals-widget .widget-header button[class*="is-saving"] {
-    margin-right: 0;
+.peripherals-widget {
+    .widget-body div>.row:not(:last-child) {
+        margin-bottom: 1.2rem;
+    }
+    .widget-header button[class*="is-saving"] {
+        margin-right: 0;
+    }
 }
 
 @media (max-width: 600px) {
