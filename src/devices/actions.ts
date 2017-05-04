@@ -211,7 +211,7 @@ export function pinToggle(pin_number: number) {
   return devices
     .current
     .togglePin({ pin_number })
-    .then(commandOK(noun), commandErr(noun));
+    .then(_.noop, commandErr(noun));
 }
 
 export function homeAll(speed: number) {
