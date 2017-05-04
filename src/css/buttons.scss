@@ -57,7 +57,7 @@ button {
         }
     }
     &.gray {
-        background-color: $medium_gray;
+        background-color: $medium_gray !important;
         box-shadow: 0 2px 0px 0px $dark_gray;
         &:hover {
             background-color: darken($medium_gray, 5%) !important;
