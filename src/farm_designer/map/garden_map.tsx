@@ -51,9 +51,10 @@ export class GardenMap
     let el = document.querySelector("#drop-area > svg");
     if (el) {
       let box = el.getBoundingClientRect();
-      let { x, y } = translateScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
+      let params = { mouseX: e.pageX, mouseY: e.pageY, box, OFEntry };
+      let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlant = {
         kind: "plants",
         uuid: "--never",
@@ -84,7 +85,6 @@ export class GardenMap
   }
 
   render() {
-    let { dispatch } = this.props;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
