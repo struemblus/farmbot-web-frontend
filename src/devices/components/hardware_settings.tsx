@@ -176,14 +176,6 @@ export class HardwareSettings
                 hardware={mcu_params} />
               <HomingRow hidden={!showAdvancedSettings}
                 hardware={mcu_params} />
-              <tr hidden={!showAdvancedSettings}>
-                <td colSpan={100}>
-                  <small>
-                    {t(`Firmware-level support for rotary encoders is still 
-                        under development.`)}
-                  </small>
-                </td>
-              </tr>
               <BooleanMCUInputGroup hidden={!showAdvancedSettings}
                 name={t("ENABLE ENCODERS")}
                 tooltip={t(`(Alpha) Enable use of rotary encoders during
@@ -195,7 +187,7 @@ export class HardwareSettings
                 bot={bot} />
               <BooleanMCUInputGroup hidden={!showAdvancedSettings}
                 name={t("ALWAYS POWER MOTORS")}
-                tooltip={t(`(Alpha) Keep power applied to motors. Prevents
+                tooltip={t(`Keep power applied to motors. Prevents
                 slipping from gravity in certain situations.`)}
                 x={"movement_keep_active_x"}
                 y={"movement_keep_active_y"}
@@ -205,7 +197,7 @@ export class HardwareSettings
               <BooleanMCUInputGroup hidden={!showAdvancedSettings}
                 name={t("INVERT ENCODERS")}
                 tooltip={t(`(Alpha) Reverse the direction of encoder position
-                        reading. FarmBot OS version 3.1.4 or later required.`)}
+                        reading.`)}
                 x={"encoder_invert_x"}
                 y={"encoder_invert_y"}
                 z={"encoder_invert_z"}
@@ -229,7 +221,8 @@ export class HardwareSettings
                 bot={bot} />
               <BooleanMCUInputGroup hidden={!showAdvancedSettings}
                 name={t("NEGATIVE COORDINATES ONLY")}
-                tooltip={t(`Restrict travel to negative coordinate locations.`)}
+                tooltip={t(`Restrict travel to negative coordinate locations.
+                        Overridden by disabling software limits.`)}
                 x={"movement_home_up_x"}
                 y={"movement_home_up_y"}
                 z={"movement_home_up_z"}
