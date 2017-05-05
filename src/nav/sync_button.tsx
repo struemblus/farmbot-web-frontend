@@ -8,6 +8,7 @@ const COLOR_MAPPING: Partial<Record<SyncStatus, string>> = {
   "sync_now": "yellow",
   "syncing": "yellow",
   "sync_error": "red",
+  "locked": "red",
   "unknown": "red"
 };
 
@@ -16,6 +17,7 @@ const TEXT_MAPPING: Partial<Record<SyncStatus, string>> = {
   "sync_now": "SYNC NOW",
   "syncing": "SYNCING",
   "sync_error": "SYNC ERROR",
+  "locked": "LOCKED",
   "unknown": "DISCONNECTED"
 };
 
