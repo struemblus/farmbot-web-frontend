@@ -137,7 +137,7 @@ export interface PeripheralsProps {
   dispatch: Function;
 }
 
-export interface WeedDetectorProps {
+export interface FarmwareProps {
   bot: BotState;
   dispatch: Function;
   images: TaggedImage[];
