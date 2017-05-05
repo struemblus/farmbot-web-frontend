@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/FarmBot/farmbot-web-frontend.svg?branch=master)](https://travis-ci.org/FarmBot/farmbot-web-frontend)
+[![codebeat badge](https://codebeat.co/badges/73a8b8b6-2683-4bea-a759-e3a07210e4ca)](https://codebeat.co/projects/github-com-rickcarlino-farmbot-web-frontend-master)
 [![Coverage Status](https://coveralls.io/repos/github/FarmBot/farmbot-web-frontend/badge.svg?branch=master)](https://coveralls.io/github/FarmBot/farmbot-web-frontend?branch=master) (we're working on it)
 # Do I need this?
 

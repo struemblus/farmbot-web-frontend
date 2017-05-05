@@ -9,14 +9,14 @@ import { resetWeedDetection } from "./actions";
 import { Progress } from "../util";
 import { Pair } from "farmbot/dist";
 import { HSV } from "./index";
-import { WeedDetectorProps } from "../devices/interfaces";
+import { FarmwareProps } from "../devices/interfaces";
 import { connect } from "react-redux";
-import { mapStateToProps } from "./state_to_props";
+import { mapStateToProps } from "../farmware/state_to_props";
 const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
 @connect(mapStateToProps)
 export class WeedDetector
-  extends React.Component<WeedDetectorProps, Partial<DetectorState>> {
+  extends React.Component<FarmwareProps, Partial<DetectorState>> {
   constructor() {
     super();
     this.state = { remoteFarmwareSettings: {} };
