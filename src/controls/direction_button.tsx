@@ -17,7 +17,14 @@ export class DirectionButton extends React.Component<DirectionButtonProps, {}> {
   render() {
     let { direction } = this.props;
     let classes = `fa fa-2x arrow-button radius fa-arrow-${direction}`;
-    return <button onClick={this.sendCommand} className={classes}>
-    </button>;
+    let title = `move ${this.props.axis} axis`;
+    return (
+      <button
+        onClick={this.sendCommand}
+        className={classes}
+        title={title}
+        >
+      </button>
+    );
   }
 }
