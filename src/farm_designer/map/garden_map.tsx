@@ -122,8 +122,12 @@ export class GardenMap
                 selected={selected}
                 dragging={selected && !!this.state.isDragging && this.isEditing}
                 onClick={plant => {
-                  this.props.dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
-                }} />
+                  this
+                    .props
+                    .dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
+                }}
+                showSpread={this.props.showSpread}
+              />
             </Link>;
           })}
 
