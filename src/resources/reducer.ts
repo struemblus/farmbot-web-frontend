@@ -52,7 +52,6 @@ export function emptyState(): RestResources {
         points: [],
         regimens: [],
         sequences: [],
-        tool_bays: [],
         tool_slots: [],
         tools: [],
         users: []
@@ -128,7 +127,6 @@ export let resourceReducer = generateReducer
       case "crops":
       case "regimens":
       case "sequences":
-      case "tool_bays":
       case "tool_slots":
       case "tools":
         removeFromIndex(state.index, resource);

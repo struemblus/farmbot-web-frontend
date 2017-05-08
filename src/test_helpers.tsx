@@ -101,7 +101,7 @@ export function fakeState(dispatcher: Function = noop): Everything {
           current: undefined
         },
         "farm_designer": {
-          "selectedPlant":undefined,
+          "selectedPlant": undefined,
           "cropSearchQuery": "",
           "cropSearchResults": []
         }
@@ -116,7 +116,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
         "points",
         "regimens",
         "sequences",
-        "tool_bays",
         "tools",
         "tool_slots"
       ],
@@ -447,9 +446,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
             "sequences.74.145",
             "sequences.75.146"
           ],
-          "tool_bays": [
-            "tool_bays.44.147"
-          ],
           "tool_slots": [
             "tool_slots.39.149"
           ],
@@ -606,7 +602,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
           "regimens.13": "regimens.13.144",
           "sequences.74": "sequences.74.145",
           "sequences.75": "sequences.75.146",
-          "tool_bays.44": "tool_bays.44.147",
           "tools.33": "tools.33.148",
           "tool_slots.39": "tool_slots.39.149"
         },
@@ -3137,15 +3132,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
               "kind": "sequence"
             },
             "uuid": "sequences.75.146"
-          },
-          "tool_bays.44.147": {
-            "kind": "tool_bays",
-            "body": {
-              "id": 44,
-              "name": "Tool Bay 1",
-              "device_id": 169
-            },
-            "uuid": "tool_bays.44.147"
           },
           "tools.33.148": {
             "kind": "tools",
