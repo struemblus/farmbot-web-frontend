@@ -11,6 +11,13 @@ import {
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 
+export interface State {
+  zoomLvl: number;
+  showPlants: boolean;
+  showPoints: boolean;
+  showSpread: boolean;
+}
+
 export interface Props {
   dispatch: Function;
   selectedPlant: TaggedPlant | undefined;
