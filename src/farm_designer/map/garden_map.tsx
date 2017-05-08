@@ -13,6 +13,9 @@ import { translateScreenToGarden, round } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
 
+const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
+  handleDrop() method in garden_map.tsx`;
+
 export class GardenMap
   extends React.Component<GardenMapProps, Partial<GardenMapState>> {
   constructor() {
@@ -49,11 +52,14 @@ export class GardenMap
   handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     let el = document.querySelector("#drop-area > svg");
-    if (el) {
+    let map = document.querySelector(".farm-designer-map");
+    if (el && map) {
+      let zoomLvl = parseInt(window.getComputedStyle(map).zoom || DROP_ERROR);
       let box = el.getBoundingClientRect();
-      let { x, y } = translateScreenToGarden(e.pageX, e.pageY, box.left, box.top);
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
+      let params = { mouseX: e.pageX, mouseY: e.pageY, box, OFEntry, zoomLvl };
+      let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlant = {
         kind: "plants",
         uuid: "--never",
@@ -84,7 +90,6 @@ export class GardenMap
   }
 
   render() {
-    let { dispatch } = this.props;
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
@@ -122,8 +127,12 @@ export class GardenMap
                 selected={selected}
                 dragging={selected && !!this.state.isDragging && this.isEditing}
                 onClick={plant => {
-                  this.props.dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
-                }} />
+                  this
+                    .props
+                    .dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
+                }}
+                showSpread={this.props.showSpread}
+              />
             </Link>;
           })}
 

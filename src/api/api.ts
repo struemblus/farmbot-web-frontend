@@ -10,7 +10,7 @@ interface UrlInfo {
   search: string;
   hash: string;
   host: string;
-};
+}
 
 /** Store all API endpoints in one place for the sake of DRYness.
  * API.current is probably the instance you want to use. */
@@ -108,7 +108,7 @@ export class API {
   get usersPath() { return `${this.baseUrl}/api/users/`; };
   /** /api/peripherals/ */
   get peripheralsPath() { return `${this.baseUrl}/api/peripherals/`; };
-  /** /api/plants/ */
+  /** /api/farm_events/ */
   get farmEventsPath() { return `${this.baseUrl}/api/farm_events/`; };
   /** /api/plants/ */
   get plantsPath() { return `${this.baseUrl}/api/plants/`; };

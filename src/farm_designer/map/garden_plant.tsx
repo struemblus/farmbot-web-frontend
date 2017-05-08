@@ -17,13 +17,13 @@ export class GardenPlant
   }
 
   render() {
-    let { dragging, selected, plant } = this.props;
+    let { dragging, selected, plant, showSpread } = this.props;
     let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
     return <g>
       <SpreadCircle x={offsetX} y={offsetY} r={radius} selected={selected} />
-      {selected && dragging && (
+      {((selected && dragging) || showSpread) && (
         <g>
           <circle
             cx={round(offsetX)}
