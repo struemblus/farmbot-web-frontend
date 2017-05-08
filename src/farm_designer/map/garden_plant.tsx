@@ -23,7 +23,7 @@ export class GardenPlant
     let offsetY = y + radius;
     return <g>
       <SpreadCircle x={offsetX} y={offsetY} r={radius} selected={selected} />
-      {(selected && dragging) || showSpread && (
+      {((selected && dragging) || showSpread) && (
         <g>
           <circle
             cx={round(offsetX)}
