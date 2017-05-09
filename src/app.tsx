@@ -39,7 +39,7 @@ function mapStateToProps(props: Everything): AppProps {
     bot: props.bot,
     logs: _(selectAllLogs(props.resources.index))
       .map(x => x.body)
-      .sortBy("id")
+      .sortBy("created_at")
       .reverse()
       .value(),
     loaded: props.resources.loaded
