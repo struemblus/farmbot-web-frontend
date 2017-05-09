@@ -268,7 +268,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
           "regimens.13.144",
           "sequences.74.145",
           "sequences.75.146",
-          "tool_bays.44.147",
           "tools.33.148",
           "tool_slots.39.149",
           "crops.0.150",
@@ -3146,7 +3145,6 @@ export function fakeState(dispatcher: Function = noop): Everything {
             "kind": "tool_slots",
             "body": {
               "id": 39,
-              "tool_bay_id": 44,
               "tool_id": 33,
               "name": "Slot One.",
               "x": 10,
