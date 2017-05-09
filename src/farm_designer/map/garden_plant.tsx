@@ -32,7 +32,8 @@ export class GardenPlant
             fillOpacity={0.2}
             fill="green"
             stroke="green"
-            strokeWidth="1.5" />
+            strokeWidth="1.5"
+          />
 
           <circle
             cx={round(offsetX)}
@@ -40,7 +41,8 @@ export class GardenPlant
             r={scale(radius)}
             fill="none"
             stroke="green"
-            strokeWidth="1.5" />
+            strokeWidth="1.5"
+          />
         </g>
       )}
 
@@ -51,7 +53,8 @@ export class GardenPlant
         height={radius * 2}
         width={radius * 2}
         x={round(x)}
-        y={round(y)} />
+        y={round(y)}
+      />
     </g>
   }
 }

@@ -13,23 +13,34 @@ export function round(num: number) {
   return (Math.round(num / SNAP) * SNAP);
 }
 
-interface Params {
-  mouseX: number;
-  mouseY: number;
+export interface ScreenToGardenParams {
+  pageX: number;
+  pageY: number;
   box: ClientRect;
   OFEntry: CropLiveSearchResult;
+  zoomLvl: number;
 }
 
-export function translateScreenToGarden(params: Params) {
-  let { mouseX, mouseY, box, OFEntry } = params;
+export function translateScreenToGarden(params: ScreenToGardenParams) {
+  let { pageX, pageY, box, OFEntry, zoomLvl } = params;
 
-  let theDiff = (OFEntry.crop.height && OFEntry.crop.height / 2) || 25;
-  let newMouseX = mouseX - theDiff;
-  let newMouseY = mouseY - theDiff;
+  // let theDiff = (OFEntry.crop.height && (OFEntry.crop.height / 4));
+  let rawX = (pageX - 320)// + (theDiff || 0);
+  let rawY = (pageY - 110)// + (theDiff || 0);
 
-  let rawX = newMouseX - box.left;
-  let rawY = newMouseY - box.top;
+  let count = 0;
 
-  return { x: rawX, y: rawY };
+  if (zoomLvl < 1) {
+    for (zoomLvl; zoomLvl < 1; zoomLvl + 0.1) {
+      zoomLvl = Math.max(Math.ceil((zoomLvl += 0.1) * 10) / 10);
+      count++;
+    }
+  }
+
+  console.log("count", count)
+  console.log("raw", rawX, rawY)
+  console.log("page", pageX, pageY)
+
+  return { x: (rawX + (count * 110)), y: rawY };
 }
 
