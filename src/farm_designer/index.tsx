@@ -55,8 +55,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
     let { zoomLvl, showPlants, showPoints, showSpread } = this.state;
 
-    let plusBtnColor = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
-    let minusBtnColor = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
+    let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
+    let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
 
     let plantsBtnColor = showPlants ? "green" : "red";
     let pointsBtnColor = showPoints ? "green" : "red";
@@ -65,11 +65,11 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     return <div className="farm-designer">
 
       <div className="garden-map-legend" style={{ zoom: 1 }}>
-        <button className={"plus-button green " + plusBtnColor}
+        <button className={"plus-button green " + plusBtnClass}
           onClick={() => this.zoom(0.1)}>
           <i className="fa fa-2x fa-plus" />
         </button>
-        <button className={"plus-button green " + minusBtnColor}
+        <button className={"plus-button green " + minusBtnClass}
           onClick={() => this.zoom(-0.1)}>
           <i className="fa fa-2x fa-minus" />
         </button>
