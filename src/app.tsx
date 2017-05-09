@@ -38,10 +38,10 @@ function mapStateToProps(props: Everything): AppProps {
     auth: props.auth,
     bot: props.bot,
     logs: _(selectAllLogs(props.resources.index))
-    .map(x => x.body)
-    .sortBy("id")
-    .reverse()
-    .value(),
+      .map(x => x.body)
+      .sortBy("id")
+      .reverse()
+      .value(),
     loaded: props.resources.loaded
   };
 }
