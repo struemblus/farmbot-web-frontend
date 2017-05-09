@@ -24,6 +24,7 @@ import {
 } from "../farm_designer/reducer";
 import { ResourceReadyPayl } from "../sync/actions";
 import { OFCropResponse } from "../open_farm/index";
+import * as moment from "moment";
 
 let consumerReducer = combineReducers({
   regimens,
@@ -180,6 +181,15 @@ export let resourceReducer = generateReducer
   .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
     let tr = a.payload;
     let uuid = tr.uuid;
+    // TEMPORARY STUB:
+    // Problem:   Old versions of FBOS send timestamp as 8601 string.
+    //            New versions send it as a unix timestamp
+    //            This creates backwards compat issues.
+    // SOLUTINON: Convert strings to unix timestamps at runtime.
+    // NOTE:      Remove this in June 2017.
+    if (tr.kind === "logs" && (typeof tr.body.created_at === "string")) {
+      tr.body.created_at = moment(tr.body.created_at).unix();
+    }
     reindexResource(s.index, tr);
     if (tr.kind === "logs") {
       // Since logs don't come from the API all the time, they are the only
