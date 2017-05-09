@@ -9,7 +9,7 @@ import { history } from "../../history";
 import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlant } from "../../resources/tagged_resources";
 import { Link } from "react-router";
-import { translateScreenToGarden, round } from "./util";
+import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
 
@@ -54,11 +54,18 @@ export class GardenMap
     let el = document.querySelector("#drop-area > svg");
     let map = document.querySelector(".farm-designer-map");
     if (el && map) {
-      let zoomLvl = parseInt(window.getComputedStyle(map).zoom || DROP_ERROR);
+      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
+      let { pageX, pageY } = e;
       let box = el.getBoundingClientRect();
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
-      let params = { mouseX: e.pageX, mouseY: e.pageY, box, OFEntry, zoomLvl };
+      let params: ScreenToGardenParams = {
+        pageX,
+        pageY,
+        box,
+        OFEntry,
+        zoomLvl
+      };
       let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlant = {
         kind: "plants",
@@ -72,7 +79,7 @@ export class GardenMap
           planted_at: moment().toISOString(),
           spread: OFEntry.crop.spread
         })
-      }
+      };
       this.props.dispatch(initSave(p));
     } else {
       throw new Error("never");
@@ -95,7 +102,6 @@ export class GardenMap
       onDrop={this.handleDrop}
       onDragEnter={this.handleDragEnter}
       onDragOver={this.handleDragOver}>
-
       <svg id="drop-area-svg"
         onMouseUp={this.endDrag}
         onMouseDown={this.startDrag}
@@ -117,7 +123,7 @@ export class GardenMap
             let currentPlant = this.getPlant();
             let selected = !!(currentPlant && (p.uuid === currentPlant.uuid));
 
-            return <Link className="plant-link-wrapper"
+            return <Link className={"plant-link-wrapper"}
               to={"/app/designer/plants/" + plantId}
               id={plantId || "NOT_SAVED"}
               onClick={noop}
@@ -125,19 +131,18 @@ export class GardenMap
               <GardenPlant
                 plant={p}
                 selected={selected}
+                showSpread={this.props.showSpread}
                 dragging={selected && !!this.state.isDragging && this.isEditing}
                 onClick={plant => {
                   this
                     .props
                     .dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
                 }}
-                showSpread={this.props.showSpread}
               />
             </Link>;
           })}
 
       </svg>
-
     </div>;
   }
 }
