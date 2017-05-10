@@ -110,9 +110,7 @@ export class GardenMap
         {this.props.showPoints && this
           .props
           .points
-          .map(p => {
-            return <GardenPoint point={p} key={p.body.id} />;
-          })}
+          .map(p => { return <GardenPoint point={p} key={p.body.id} />; })}
 
         {this.props.showPlants && this
           .props
