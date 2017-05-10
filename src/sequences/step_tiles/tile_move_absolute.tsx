@@ -65,7 +65,13 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
       throw new Error("Impossible celery node detected.");
     }
   }
-  get location(): Tool | Coordinate { return this.args.location; }
+  get location(): Tool | Coordinate {
+    if (this.args.location.kind !== "point") {
+      return this.args.location;
+    } else {
+      throw new Error("A `point` node snuck in. Still WIP");
+    }
+  }
   getOffsetValue = (val: Xyz) => {
     return (this.args.offset.args[val] || 0).toString();
   }
