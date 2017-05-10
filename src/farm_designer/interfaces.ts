@@ -214,12 +214,5 @@ export interface DraggableEvent {
 }
 
 export interface OFSearchProps {
-  dispatch: Function;
   cropSearchResults: CropLiveSearchResult[];
-  query: string;
 }
-
-export interface OFSearchState {
-  results: CropLiveSearchResult[];
-}
-

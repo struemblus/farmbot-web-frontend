@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
-import { SpreadCircle } from "./radius_circle";
+import { Circle } from "./circle";
 import { round, scale } from "./util";
 
 export class GardenPlant
@@ -21,29 +21,26 @@ export class GardenPlant
     let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
-    return <g>
-      <SpreadCircle x={offsetX} y={offsetY} r={radius} selected={selected} />
-      {((selected && dragging) || showSpread) && (
-        <g>
-          <circle
-            cx={round(offsetX)}
-            cy={round(offsetY)}
-            r={scale(radius)}
-            fillOpacity={0.2}
-            fill="green"
-            stroke="green"
-            strokeWidth="1.5"
-          />
 
-          <circle
-            cx={round(offsetX)}
-            cy={round(offsetY)}
-            r={scale(radius)}
-            fill="none"
-            stroke="green"
-            strokeWidth="1.5"
-          />
-        </g>
+    return <g>
+      <Circle
+        className={"plant-indicator"}
+        x={offsetX}
+        y={offsetY}
+        r={radius}
+        selected={selected}
+      />
+
+      {((selected && dragging) || showSpread) && (
+        <circle
+          cx={round(offsetX)}
+          cy={round(offsetY)}
+          r={scale(radius)}
+          fillOpacity={0.2}
+          fill={"green"}
+          stroke={"green"}
+          strokeWidth={"1.5"}
+        />
       )}
 
       <image

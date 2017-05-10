@@ -1,6 +1,6 @@
 import * as React from "react";
 
-interface RadiusCircleProps {
+interface CircleProps {
   x: number;
   y: number;
   r: number;
@@ -9,16 +9,17 @@ interface RadiusCircleProps {
   className?: string;
 }
 
-export function SpreadCircle(props: RadiusCircleProps) {
+export function Circle(props: CircleProps) {
   let { x, y, r, selected } = props;
   let cn = props.className;
   return <circle
-    className={"plant-indicator is-chosen-" + !!selected + " " + (cn ? cn : "")}
+    className={"is-chosen-" + !!selected + " " + (cn ? cn : "")}
     cx={x}
     cy={y}
     r={selected ? r : 0}
     stroke="green"
     strokeWidth={selected ? 4 : 0}
     strokeDasharray={selected ? 8 : 0}
-    fill="none" />;
+    fill="none"
+  />;
 }
