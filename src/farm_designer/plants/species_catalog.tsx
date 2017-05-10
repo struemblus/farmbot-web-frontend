@@ -47,7 +47,7 @@ function mapStateToProps(props: Everything): SpeciesCatalogProps {
 
         let payload = resp.data.data.map(datum => {
           let crop = datum.attributes;
-          let id = _.get<string>(datum, "relationships.pictures.data[0].id");
+          let id = _.get(datum, "relationships.pictures.data[0].id", "");
           return { crop, image: (images[id] || DEFAULT_ICON) };
         });
 
