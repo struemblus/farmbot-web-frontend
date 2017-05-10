@@ -77,10 +77,9 @@ export class HardwareSettings
               <ZeroRow />
               <tr>
                 <td>
-                  <label>
+                  <label onClick={this.toggleAdvancedSettings}>
                     [&nbsp;
-                      <i onClick={this.toggleAdvancedSettings}
-                      className={`fa fa-${iconString}`} />
+                      <i className={`fa fa-${iconString}`} />
                     &nbsp;]&nbsp;
                       {t("Advanced")}
                   </label>
