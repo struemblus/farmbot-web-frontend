@@ -149,5 +149,5 @@ export interface HardwareSettingsProps {
 }
 
 export interface HardwareSettingsState {
-  showAdvancedSettings: boolean;
+  showMenu: boolean;
 }
