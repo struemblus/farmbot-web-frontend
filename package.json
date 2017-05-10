@@ -79,7 +79,8 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.2.0-rc.3",
     "webpack-uglify-js-plugin": "^1.1.9",
-    "weinre": "^2.0.0-pre-I0Z7U9OV"
+    "weinre": "^2.0.0-pre-I0Z7U9OV",
+    "yarn": "^0.23.4"
   },
   "devDependencies": {
     "jscpd": "^0.6.10",
