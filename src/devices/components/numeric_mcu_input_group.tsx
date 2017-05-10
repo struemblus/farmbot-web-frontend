@@ -16,16 +16,7 @@ export interface NumericMCUInputGroupProps {
 }
 
 export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
-  let {
-    bot,
-    dispatch,
-    tooltip,
-    name,
-    x,
-    y,
-    z,
-    hidden
-  } = props;
+  let { bot, dispatch, tooltip, name, x, y, z, hidden } = props;
   return <tr hidden={!!hidden}>
     <td>
       <label>{name}</label>

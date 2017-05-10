@@ -13,6 +13,10 @@ import { SaveBtn } from "../../ui/save_button";
 import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 import { ToolTips } from "../../constants";
+import { McuParamName } from "farmbot/dist";
+
+const MSMX = "movement_secondary_motor_x";
+const MSMInvert: McuParamName = "movement_secondary_motor_invert_x";
 
 export class HardwareSettings
   extends React.Component<HardwareSettingsProps, HardwareSettingsState> {
@@ -33,7 +37,8 @@ export class HardwareSettings
 
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
-        <MustBeOnline fallback=" "
+        <MustBeOnline
+          fallback=" "
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
           <SaveBtn
@@ -43,7 +48,8 @@ export class HardwareSettings
             dirtyText={" "}
             savingText={"Updating..."}
             savedText={"saved"}
-            hidden={false} />
+            hidden={false}
+          />
         </MustBeOnline>
       </WidgetHeader>
       <WidgetBody>
@@ -66,14 +72,15 @@ export class HardwareSettings
               </tr>
             </thead>
             <tbody>
-              <NumericMCUInputGroup name={t("MAX SPEED (steps/s)")}
-                tooltip={t(`Maximum travel speed after acceleration
-                        in motor steps per second.`)}
+              <NumericMCUInputGroup
+                name={t("Max Speed (steps/s)")}
+                tooltip={t(ToolTips.MAX_SPEED)}
                 x={"movement_max_spd_x"}
                 y={"movement_max_spd_y"}
                 z={"movement_max_spd_z"}
                 bot={this.props.bot}
-                dispatch={this.props.dispatch} />
+                dispatch={this.props.dispatch}
+              />
               <ZeroRow />
               <tr>
                 <td>
@@ -91,22 +98,25 @@ export class HardwareSettings
                   <div className="help">
                     <i className="fa fa-question-circle help-icon" />
                     <div className="help-text">
-                      {t(`The number of motor steps required to move the axis
-                        one millimeter.`)}
+                      {t(ToolTips.STEPS_PER_MM)}
                     </div>
                   </div>
                 </td>
                 <BotConfigInputBox setting="steps_per_mm_x"
                   bot={bot}
-                  dispatch={dispatch} />
+                  dispatch={dispatch}
+                />
                 <BotConfigInputBox setting="steps_per_mm_y"
                   bot={bot}
-                  dispatch={dispatch} />
+                  dispatch={dispatch}
+                />
                 <BotConfigInputBox setting="steps_per_mm_z"
                   bot={bot}
-                  dispatch={dispatch} />
+                  dispatch={dispatch}
+                />
               </tr>
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
                 name={t("Minimum Speed (steps/s)")}
                 tooltip={t(`Minimum movement speed.
                 Also used for homing, calibration,
@@ -115,144 +125,165 @@ export class HardwareSettings
                 y={"movement_min_spd_y"}
                 z={"movement_min_spd_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("ACCELERATE FOR (steps)")}
-                tooltip={t(`Number of steps used for acceleration
-                        and deceleration.`)}
+                dispatch={dispatch}
+              />
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Accelerate for (steps)")}
+                tooltip={t(ToolTips.ACCELERATE_FOR)}
                 x={"movement_steps_acc_dec_x"}
                 y={"movement_steps_acc_dec_y"}
                 z={"movement_steps_acc_dec_z"}
                 bot={bot}
-                dispatch={dispatch} />
+                dispatch={dispatch}
+              />
               <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("TIMEOUT AFTER (seconds)")}
-                tooltip={t(`Amount of time to wait for a command to
-                        execute before stopping.`)}
+                name={t("Timeout after (seconds)")}
+                tooltip={t(ToolTips.TIMEOUT_AFTER)}
                 x={"movement_timeout_x"}
                 y={"movement_timeout_y"}
                 z={"movement_timeout_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("LENGTH (mm)")}
-                tooltip={t(`Coming Soon! Set the length of each axis to provide
-                        software limits.`)}
+                dispatch={dispatch}
+              />
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Length (mm)")}
+                tooltip={t(ToolTips.LENGTH)}
                 x={"movement_axis_nr_steps_x"}
                 y={"movement_axis_nr_steps_y"}
                 z={"movement_axis_nr_steps_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("ENCODER SCALING")}
-                tooltip={t(`(Alpha) encoder scaling factor =
-                        100 * (motor resolution * microsteps)
-                        / (encoder resolution * 4)`)}
+                dispatch={dispatch}
+              />
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Encoder Scaling")}
+                tooltip={t(ToolTips.ENCODER_SCALING)}
                 x={"encoder_scaling_x"}
                 y={"encoder_scaling_y"}
                 z={"encoder_scaling_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("Max missed steps")}
-                tooltip={t(`(Alpha) Number of steps missed (determined by
-                        encoder) before motor is considered to have stalled.`)}
+                dispatch={dispatch}
+              />
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Max Missed Steps")}
+                tooltip={t(ToolTips.MAX_MISSED_STEPS)}
                 x={"encoder_missed_steps_max_x"}
                 y={"encoder_missed_steps_max_y"}
                 z={"encoder_missed_steps_max_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <NumericMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("Encoder missed step decay")}
-                tooltip={t(`(Alpha) Reduction to missed step total for every
-                            good step.`)}
+                dispatch={dispatch}
+              />
+              <NumericMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Encoder Missed Step Decay")}
+                tooltip={t(ToolTips.ENCODER_MISSED_STEP_DECAY)}
                 x={"encoder_missed_steps_decay_x"}
                 y={"encoder_missed_steps_decay_y"}
                 z={"encoder_missed_steps_decay_z"}
                 bot={bot}
-                dispatch={dispatch} />
-              <CalibrationRow hidden={!showAdvancedSettings}
-                hardware={mcu_params} />
-              <HomingRow hidden={!showAdvancedSettings}
-                hardware={mcu_params} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("ENABLE ENCODERS")}
-                tooltip={t(`(Alpha) Enable use of rotary encoders during
-                        calibration and homing.`)}
+                dispatch={dispatch}
+              />
+              <CalibrationRow
+                hidden={!showAdvancedSettings}
+                hardware={mcu_params}
+              />
+              <HomingRow
+                hidden={!showAdvancedSettings}
+                hardware={mcu_params}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Enable Encoders")}
+                tooltip={t(ToolTips.ENABLE_ENCODERS)}
                 x={"encoder_enabled_x"}
                 y={"encoder_enabled_y"}
                 z={"encoder_enabled_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("ALWAYS POWER MOTORS")}
-                tooltip={t(`Keep power applied to motors. Prevents
-                slipping from gravity in certain situations.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Always Power Motors")}
+                tooltip={t(ToolTips.ALWAYS_POWER_MOTORS)}
                 x={"movement_keep_active_x"}
                 y={"movement_keep_active_y"}
                 z={"movement_keep_active_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("INVERT ENCODERS")}
-                tooltip={t(`(Alpha) Reverse the direction of encoder position
-                        reading.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Invert Encoders")}
+                tooltip={t(ToolTips.INVERT_ENCODERS)}
                 x={"encoder_invert_x"}
                 y={"encoder_invert_y"}
                 z={"encoder_invert_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("INVERT ENDPOINTS")}
-                tooltip={t(`Swap axis end-stops during calibration.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Invert Endpoints")}
+                tooltip={t(ToolTips.INVERT_ENDPOINTS)}
                 x={"movement_invert_endpoints_x"}
                 y={"movement_invert_endpoints_y"}
                 z={"movement_invert_endpoints_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("INVERT MOTORS")}
-                tooltip={t(`Invert direction of motor during calibration.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Invert Motors")}
+                tooltip={t(ToolTips.INVERT_MOTORS)}
                 x={"movement_invert_motor_x"}
                 y={"movement_invert_motor_y"}
                 z={"movement_invert_motor_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("NEGATIVE COORDINATES ONLY")}
-                tooltip={t(`Restrict travel to negative coordinate locations.
-                        Overridden by disabling software limits.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Negative Coordinates Only")}
+                tooltip={t(ToolTips.NEGATIVE_COORDINATES_ONLY)}
                 x={"movement_home_up_x"}
                 y={"movement_home_up_y"}
                 z={"movement_home_up_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("ENABLE ENDSTOPS")}
-                tooltip={t(`Enable use of electronic end-stops during
-                        calibration and homing.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Enable Endstops")}
+                tooltip={t(ToolTips.ENABLE_ENDSTOPS)}
                 x={"movement_enable_endpoints_x"}
                 y={"movement_enable_endpoints_y"}
                 z={"movement_enable_endpoints_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
                 name={t("Find Home on Boot")}
-                tooltip={t(`Finds the home position when the device
-                powers on.`)}
+                tooltip={t(ToolTips.FIND_HOME_ON_BOOT)}
                 x={"movement_home_at_boot_x"}
                 y={"movement_home_at_boot_y"}
                 z={"movement_home_at_boot_z"}
                 dispatch={dispatch}
-                bot={bot} />
-              <BooleanMCUInputGroup hidden={!showAdvancedSettings}
-                name={t("Software limits")}
-                tooltip={t(`Stop at home.`)}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={!showAdvancedSettings}
+                name={t("Software Limits")}
+                tooltip={t(ToolTips.SOFTWARE_LIMITS)}
                 x={"movement_stop_at_home_x"}
                 y={"movement_stop_at_home_y"}
                 z={"movement_stop_at_home_z"}
                 dispatch={dispatch}
-                bot={bot} />
+                bot={bot}
+              />
               <tr hidden={!showAdvancedSettings}>
                 <td colSpan={100}>
                   <small>
@@ -262,24 +293,24 @@ export class HardwareSettings
               </tr>
               <tr hidden={!showAdvancedSettings}>
                 <td>
-                  <label>{t("ENABLE MOTOR")}</label>
+                  <label>{t("Enable Motor")}</label>
                   <div className="help">
                     <i className="fa fa-question-circle help-icon" />
                     <div className="help-text">
-                      {t(`Enable use of a second x-axis motor.
-                        Connects to E0 on RAMPS.`)}
+                      {t(ToolTips.ENABLE_MOTOR)}
                     </div>
                   </div>
                 </td>
                 <td>
                   <ToggleButton
                     toggleval={mcu_params.movement_secondary_motor_x}
-                    toggleAction={() => settingToggle("movement_secondary_motor_x", bot)} />
+                    toggleAction={() => settingToggle(MSMX, bot)}
+                  />
                 </td>
               </tr>
               <tr hidden={!showAdvancedSettings}>
                 <td>
-                  <label>{t("INVERT MOTOR")}</label>
+                  <label>{t("Invert Motor")}</label>
                   <div className="help">
                     <i className="fa fa-question-circle help-icon" />
                     <div className="help-text">
@@ -290,13 +321,13 @@ export class HardwareSettings
                 <td>
                   <ToggleButton
                     toggleval={mcu_params.movement_secondary_motor_invert_x}
-                    toggleAction={() => settingToggle("movement_secondary_motor_invert_x",
-                      bot)} />
+                    toggleAction={() => settingToggle(MSMInvert, bot)}
+                  />
                 </td>
               </tr>
               <tr hidden={!showAdvancedSettings}>
                 <td>
-                  <label>{t("RESET HARDWARE PARAMETER DEFAULTS")}</label>
+                  <label>{t("Reset hardware parameter defaults")}</label>
                 </td>
                 <td colSpan={2}>
                   <p>
