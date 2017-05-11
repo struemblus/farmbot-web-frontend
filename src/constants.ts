@@ -27,6 +27,64 @@ export namespace ToolTips {
     few sequences to verify that everything works as expected. Note: Currently 
     not all settings can be changed.`
 
+  export const MAX_SPEED =
+    `Maximum travel speed after acceleration in motor steps per second.`
+
+  export const STEPS_PER_MM =
+    `The number of motor steps required to move the axis one millimeter.`
+
+  export const ACCELERATE_FOR =
+    `Number of steps used for acceleration and deceleration.`
+
+  export const TIMEOUT_AFTER =
+    `Amount of time to wait for a command to execute before stopping.`
+
+  export const LENGTH =
+    `Coming Soon! Set the length of each axis to provide software limits.`
+
+  export const ENCODER_SCALING =
+    `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) / 
+    (encoder resolution * 4)`
+
+  export const MAX_MISSED_STEPS =
+    `(Alpha) Number of steps missed (determined by encoder) before motor is 
+    considered to have stalled.`
+
+  export const ENCODER_MISSED_STEP_DECAY =
+    `(Alpha) Reduction to missed step total for every good step.`
+
+  export const ENABLE_ENCODERS =
+    `(Alpha) Enable use of rotary encoders during calibration and homing.`
+
+  export const ALWAYS_POWER_MOTORS =
+    `Keep power applied to motors. Prevents slipping from gravity in certain 
+    situations.`
+
+  export const INVERT_ENCODERS =
+    `(Alpha) Reverse the direction of encoder position reading.`
+
+  export const INVERT_ENDPOINTS =
+    `Swap axis end-stops during calibration.`
+
+  export const INVERT_MOTORS =
+    `Invert direction of motor during calibration.`
+
+  export const NEGATIVE_COORDINATES_ONLY =
+    `Restrict travel to negative coordinate locations. Overridden by disabling 
+    software limits.`
+
+  export const ENABLE_ENDSTOPS =
+    `Enable use of electronic end-stops during calibration and homing.`
+
+  export const FIND_HOME_ON_BOOT =
+    `Finds the home position when the device powers on.`
+
+  export const SOFTWARE_LIMITS =
+    `Stop at home.`
+
+  export const ENABLE_MOTOR =
+    `Enable use of a second x-axis motor. Connects to E0 on RAMPS.`
+
   // Farmware
   export const FARMWARE =
     `This widget shows Farmware (plugin) information.`

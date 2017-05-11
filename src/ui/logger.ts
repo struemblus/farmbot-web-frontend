@@ -1,45 +1,25 @@
-let lastMsg = "Prevent Annoying Duplicates";
-
-// Warnings fire once, to avoid bombarding the user with repetitious errors
+// Warnings and errors fire once, to avoid bombarding the user with repetition.
 // Eg: "Can"t connect to server!" might get repetitive.
-export function warning(message: string, title = "Warning", color = "yellow") {
-  if (lastMsg === message) {
-    console.warn(message);
-  } else {
-    createToast(message, title, color);
-  };
-  lastMsg = message;
-}
+let lastMsg = "Prevent annoying duplicates.";
 
-// Errors can fire multiple times for situations such as password guessing
-export function error(message: string, title = "Error", color = "red") {
-  createToast(message, title, color);
-}
-
-export function success(message: string, title = "Success", color = "green") {
-  createToast(message, title, color);
-}
-
-export function info(message: string, title = "FYI", color = "blue") {
-  createToast(message, title, color);
-}
-
-export function fun(message: string, title = "Did you know?", color = "dark-blue") {
-  createToast(message, title, color);
-}
-
+// The function responsible for attaching the messages to the container.
 let createToast = (message: string, title: string, color: string) => {
-  /** Get container */
+
+  // Container element for all of the messages created from init().
   let tc = document.querySelector(".toast-container");
 
   if (!tc) {
-    throw (Error("toast-container is null."));
+    // If there's no container created from the init() function, throw an error.
+    throw new Error("toast-container is null.");
   } else {
-    /** Instantiate */
+
+    // Amount of time before each element is removed.
     let timer = 7;
+
+    // Declare if the user's mouse is hovering over the message.
     let isHovered = false;
 
-    /** Create necessary elements */
+    // Create elements.
     let toastEl = document.createElement("div");
     let titleEl = document.createElement("h4");
     let messageEl = document.createElement("div");
@@ -48,11 +28,11 @@ let createToast = (message: string, title: string, color: string) => {
     let rightLoaderEl = document.createElement("div");
     let spinnerLoaderEl = document.createElement("div");
 
-    /** Fill the contents */
+    // Fill contents.
     titleEl.innerText = title;
     messageEl.innerText = message;
 
-    /** Add the classes */
+    // Add classes.
     toastEl.classList.add("toast");
     toastEl.classList.add(color);
     titleEl.classList.add("toast-title");
@@ -63,10 +43,10 @@ let createToast = (message: string, title: string, color: string) => {
     rightLoaderEl.classList.add("toast-loader-right");
     spinnerLoaderEl.classList.add("toast-loader-spinner");
 
-    /** Add events */
-    toastEl.addEventListener("click", function (e) {
+    // Click (makes the message go away entirely).
+    toastEl.addEventListener("click", e => {
       (e.currentTarget as Element).classList.add("poof");
-      setTimeout(function () {
+      setTimeout(() => {
         if (!tc) {
           throw (Error("toast-container is null."));
         } else {
@@ -74,14 +54,18 @@ let createToast = (message: string, title: string, color: string) => {
         }
       }, 200);
     });
-    toastEl.addEventListener("mouseenter", function (e) {
+
+    // MouseEnter (pauses the timer).
+    toastEl.addEventListener("mouseenter", e => {
       let children = (e.currentTarget as HTMLElement).children[2].children;
       for (let i = 0; i < children.length; i++) {
         (children[i] as HTMLElement).style.animationPlayState = "paused";
       }
       isHovered = true;
     });
-    toastEl.addEventListener("mouseleave", function (e) {
+
+    // MouseLeave (resumes the timer).
+    toastEl.addEventListener("mouseleave", e => {
       let children = (e.currentTarget as HTMLElement).children[2].children;
       for (let i = 0; i < children.length; i++) {
         (children[i] as HTMLElement).style.animationPlayState = "running";
@@ -89,7 +73,7 @@ let createToast = (message: string, title: string, color: string) => {
       isHovered = false;
     });
 
-    /** Append the children */
+    // Append children.
     loaderEl.appendChild(leftLoaderEl);
     loaderEl.appendChild(rightLoaderEl);
     loaderEl.appendChild(spinnerLoaderEl);
@@ -98,8 +82,8 @@ let createToast = (message: string, title: string, color: string) => {
     toastEl.appendChild(loaderEl);
     tc.appendChild(toastEl);
 
-    /** Start */
-    let int = setInterval(function () {
+    // Start timer.
+    let interval = setInterval(() => {
       if (timer <= 7) {
         toastEl.classList.add("active");
       }
@@ -109,7 +93,7 @@ let createToast = (message: string, title: string, color: string) => {
       if (!isHovered) {
         timer -= 0.100;
         if (timer <= 0) {
-          clearInterval(int);
+          clearInterval(interval);
           if (toastEl && toastEl.parentNode === tc) {
             if (!tc) {
               throw (Error("toast-container is null."));
@@ -124,9 +108,64 @@ let createToast = (message: string, title: string, color: string) => {
 
 };
 
+/** Yellow message with "Warning" as the default title. */
+export let warning = (
+  message: string,
+  title = "Warning",
+  color = "yellow"
+) => {
+  if (lastMsg === message) {
+    console.warn(message);
+  } else {
+    createToast(message, title, color);
+  }
+  lastMsg = message;
+}
+
+/** Red message with "Error" as the default title. */
+export let error = (
+  message: string,
+  title = "Error",
+  color = "red"
+) => {
+  if (lastMsg === message) {
+    console.error(message);
+  } else {
+    createToast(message, title, color);
+  }
+  lastMsg = message;
+}
+
+/** Green message with "Success" as the default title. */
+export let success = (
+  message: string,
+  title = "Success",
+  color = "green"
+) => {
+  createToast(message, title, color);
+}
+
+/** Red message with "FYI" as the default title. */
+export let info = (
+  message: string,
+  title = "FYI",
+  color = "blue"
+) => {
+  createToast(message, title, color);
+}
+
+/** Blue message with "Did you know?" as the default title. */
+export let fun = (
+  message: string,
+  title = "Did you know?",
+  color = "dark-blue"
+) => {
+  createToast(message, title, color);
+}
+
 /** Adds a secret container div for holding toast messages. */
-export function init() {
-  /** Create container and append it */
+export let init = () => {
+  // Create container and append it.
   let toastContainer = document.createElement("div");
   toastContainer.classList.add("toast-container");
   document.body.appendChild(toastContainer);
