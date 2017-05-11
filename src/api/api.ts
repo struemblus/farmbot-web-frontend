@@ -110,14 +110,10 @@ export class API {
   get peripheralsPath() { return `${this.baseUrl}/api/peripherals/`; };
   /** /api/farm_events/ */
   get farmEventsPath() { return `${this.baseUrl}/api/farm_events/`; };
-  /** /api/plants/ */
-  get plantsPath() { return `${this.baseUrl}/api/plants/`; };
   /** /api/regimens/ */
   get regimensPath() { return `${this.baseUrl}/api/regimens/`; };
   /** /api/sequences/ */
   get sequencesPath() { return `${this.baseUrl}/api/sequences/`; };
-  /** /api/tool_slots/ */
-  get toolSlotsPath() { return `${this.baseUrl}/api/tool_slots/`; };
   /** /api/tools/ */
   get toolsPath() { return `${this.baseUrl}/api/tools/`; };
   /** /api/images/ */

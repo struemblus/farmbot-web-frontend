@@ -21,15 +21,6 @@ export interface Props {
   changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
 }
 
-export interface ToolSlot {
-  id?: number | undefined;
-  tool_id?: number | undefined;
-  created_at?: string;
-  x: number;
-  y: number;
-  z: number;
-}
-
 export interface Tool {
   id?: number | undefined;
   name: string;

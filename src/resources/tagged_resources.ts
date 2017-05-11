@@ -1,14 +1,15 @@
 import { Sequence } from "../sequences/interfaces";
-import { Tool, ToolSlot } from "../tools/interfaces";
+import { Tool } from "../tools/interfaces";
 import { Regimen } from "../regimens/interfaces";
-import { Plant, FarmEvent, Point, Crop } from "../farm_designer/interfaces";
+import { FarmEvent, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/index";
-import { Log } from "../interfaces";
+import { Log, Plant, ToolSlot } from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { isObject, isString, get } from "lodash";
+import { Point } from "farmbot/dist";
 
 export type ResourceName =
   | "device"
@@ -16,12 +17,10 @@ export type ResourceName =
   | "images"
   | "logs"
   | "peripherals"
-  | "plants"
   | "crops"
   | "points"
   | "regimens"
   | "sequences"
-  | "tool_slots"
   | "tools"
   | "users";
 
@@ -60,15 +59,19 @@ export type TaggedResource =
 
 export type TaggedRegimen = Resource<"regimens", Regimen>;
 export type TaggedTool = Resource<"tools", Tool>;
-export type TaggedToolSlot = Resource<"tool_slots", ToolSlot>;
 export type TaggedSequence = Resource<"sequences", Sequence>;
-export type TaggedPlant = Resource<"plants", Plant>;
 export type TaggedCrop = Resource<"crops", Crop>;
 export type TaggedFarmEvent = Resource<"farm_events", FarmEvent>;
 export type TaggedImage = Resource<"images", Image>;
 export type TaggedLog = Resource<"logs", Log>;
 export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
-export type TaggedPoint = Resource<"points", Point>;
+export type TaggedGenericPointer = Resource<"points", Point>;
+export type TaggedPlant = Resource<"points", Plant>;
+export type TaggedToolSlot = Resource<"points", ToolSlot>;
+export type TaggedPoint =
+  | TaggedGenericPointer
+  | TaggedPlant
+  | TaggedToolSlot;
 export type TaggedUser = Resource<"users", User>;
 export type TaggedDevice = Resource<"device", DeviceAccountSettings>;
 
@@ -105,10 +108,6 @@ export let isTaggedSequence =
   (x: object): x is TaggedSequence => is("sequences")(x);
 export let isTaggedTool =
   (x: object): x is TaggedTool => is("tools")(x);
-export let isTaggedToolSlot =
-  (x: object): x is TaggedToolSlot => is("tool_slots")(x);
-export let isTaggedPlant =
-  (x: object): x is TaggedPlant => is("plants")(x);
 export let isTaggedCrop =
   (x: object): x is TaggedCrop => is("crops")(x);
 export let isTaggedPoint =

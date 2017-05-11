@@ -68,19 +68,6 @@ export interface CropLiveSearchResult {
   image: string;
 }
 
-export interface Plant {
-  created_at?: string | undefined;
-  id?: number;
-  dirty?: boolean | undefined;
-  planted_at?: string | undefined;
-  name: string;
-  x: number;
-  y: number;
-  radius: number;
-  spread?: number | undefined;
-  openfarm_slug: string;
-}
-
 export interface Crop {
   id?: undefined;
   svg_icon?: string | undefined;
@@ -92,16 +79,6 @@ export interface DesignerState {
   selectedPlant: string | undefined;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
-}
-
-export interface Point {
-  id: number;
-  x: number;
-  y: number;
-  z: number;
-  radius: number;
-  created_at: string;
-  meta: { [key: string]: (string | undefined) };
 }
 
 export type TaggedExecutable = TaggedSequence | TaggedRegimen;

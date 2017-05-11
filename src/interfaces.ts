@@ -82,3 +82,36 @@ export interface CustomOptionProps {
  *  quiet down the linter and to let others know it is inherently unsafe.
  */
 export type UnsafeError = any;
+
+interface BasePoint {
+  id?: number | undefined;
+  dirty?: boolean | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
+  radius: number;
+  x: number;
+  y: number;
+  z: number;
+  device_id: number;
+  meta: { [key: string]: (string | undefined) };
+  name: string;
+}
+
+export interface Plant extends BasePoint {
+  openfarm_slug: string;
+  point_type: "Plant";
+}
+
+export interface ToolSlot extends BasePoint {
+  tool_id: number | undefined;
+  point_type: "ToolSlot";
+}
+
+export interface GenericPointer extends BasePoint {
+  point_type: "GenericPointer";
+}
+
+export type Point =
+  | GenericPointer
+  | ToolSlot
+  | Plant;
