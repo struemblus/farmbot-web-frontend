@@ -28,12 +28,14 @@ export class FallbackImg extends React.Component<Props, State> {
     (next.src !== this.props.src) && this.setState({ needsFallback: false });
   }
 
-  fallback = () => <div className="webcam-stream-unavailable">
-    <img src={this.props.fallback} style={{ maxWidth: "100%" }} />;
-    <text>
-      {t("Unable to load webcam feed.")}
-    </text>
-  </div>;
+  fallback = () => {
+    return <div className="webcam-stream-unavailable">
+      <img src={this.props.fallback} style={{ maxWidth: "100%" }} />
+      <text>
+        {t("Unable to load webcam feed.")}
+      </text>
+    </div>;
+  }
 
   dontFallback = () => {
     let imgProps = defensiveClone(this.props);
