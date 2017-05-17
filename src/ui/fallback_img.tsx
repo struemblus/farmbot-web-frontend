@@ -1,5 +1,6 @@
 import * as React from "react";
 import { defensiveClone } from "../util";
+import { t } from "i18next";
 type ImgTag = React.HTMLProps<HTMLImageElement>;
 interface Props extends ImgTag {
   src: string;
@@ -27,13 +28,20 @@ export class FallbackImg extends React.Component<Props, State> {
     (next.src !== this.props.src) && this.setState({ needsFallback: false });
   }
 
-  fallback = () => <img src={this.props.fallback} style={{ maxWidth: "100%" }} />;
+  fallback = () => {
+    return <div className="webcam-stream-unavailable">
+      <img src={this.props.fallback} style={{ maxWidth: "100%" }} />
+      <text>
+        {t("Unable to load webcam feed.")}
+      </text>
+    </div>;
+  }
 
   dontFallback = () => {
     let imgProps = defensiveClone(this.props);
     delete imgProps.fallback; // React will complain otherwise.
     return <img onError={() => this.setState({ needsFallback: true })}
-      src={this.props.src} />;
+      src={this.props.src} style={{ maxWidth: "100%" }} />;
   }
 
   render() {
