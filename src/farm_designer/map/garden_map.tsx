@@ -76,8 +76,8 @@ export class GardenMap
           y,
           openfarm_slug: OFEntry.crop.slug,
           name: OFEntry.crop.name || "Mystery Crop",
-          planted_at: moment().toISOString(),
-          spread: OFEntry.crop.spread
+          created_at: moment().toISOString(),
+          radius: OFEntry.crop.spread
         })
       };
       this.props.dispatch(initSave(p));

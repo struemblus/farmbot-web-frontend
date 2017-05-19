@@ -48,12 +48,10 @@ export function emptyState(): RestResources {
         images: [],
         logs: [],
         peripherals: [],
-        plants: [],
         crops: [],
         points: [],
         regimens: [],
         sequences: [],
-        tool_slots: [],
         tools: [],
         users: []
       },
@@ -100,11 +98,9 @@ export let resourceReducer = generateReducer
         case "farm_events":
         case "logs":
         case "peripherals":
-        case "plants":
         case "crops":
         case "regimens":
         case "sequences":
-        case "tool_slots":
         case "tools":
           reindexResource(state.index, resource);
           state.index.references[resource.uuid] = resource;
@@ -124,11 +120,9 @@ export let resourceReducer = generateReducer
       case "farm_events":
       case "logs":
       case "peripherals":
-      case "plants":
       case "crops":
       case "regimens":
       case "sequences":
-      case "tool_slots":
       case "tools":
         removeFromIndex(state.index, resource);
         break;
