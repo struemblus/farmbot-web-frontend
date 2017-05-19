@@ -2,10 +2,10 @@ import { Log } from "../interfaces";
 import { API } from "../api";
 import * as axios from "axios";
 import { Sequence } from "../sequences/interfaces";
-import { Tool, ToolSlot } from "../tools/interfaces";
+import { Tool } from "../tools/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
-import { FarmEvent, Plant, Point, Crop } from "../farm_designer/interfaces";
+import { FarmEvent, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { ResourceName } from "../resources/tagged_resources";
@@ -54,7 +54,6 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<Regimen[]>("regimens", API.current.regimensPath);
   fetch<Sequence[]>("sequences", API.current.sequencesPath);
   fetch<Tool[]>("tools", API.current.toolsPath);
-  fetch<ToolSlot[]>("tool_slots", API.current.toolSlotsPath);
 }
 
 export function fetchDeprecatedSyncDataOk(payload: {}) {

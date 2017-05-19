@@ -34,7 +34,7 @@ export interface FormattedPlantInfo {
 
 export function formatPlantInfo(resource: TaggedPlantPointer): FormattedPlantInfo {
   let p = resource.body;
-  let t = p.planted_at ? moment(p.planted_at) : moment();
+  let t = p.created_at ? moment(p.created_at) : moment();
   let currentDay = moment();
   let plantedAt = p.created_at || moment();
   let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;

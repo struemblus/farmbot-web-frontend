@@ -1,17 +1,17 @@
 import * as Axios from "axios";
 import { Thunk } from "../redux/interfaces";
-import { Point } from "../farm_designer/interfaces";
 import { API } from "../api";
 import { success, error } from "../ui";
 import { t } from "i18next";
 import { Progress, ProgressCallback } from "../util";
+import { GenericPointer } from "../interfaces";
 const QUERY = { meta: { created_by: "plant-detection" } };
 const URL = API.current.pointSearchPath;
 
 export function resetWeedDetection(cb: ProgressCallback): Thunk {
   return async function (dispatch, getState) {
     try {
-      let { data } = await Axios.post<Point[]>(URL, QUERY);
+      let { data } = await Axios.post<GenericPointer[]>(URL, QUERY);
       let ids = data.map(x => x.id);
       // If you delete too many points, you will violate the URL length
       // limitation of 2,083. Chunking helps fix that.
