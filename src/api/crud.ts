@@ -100,8 +100,6 @@ export function urlFor(tag: ResourceName) {
   const OPTIONS: Partial<Record<ResourceName, string>> = {
     sequences: API.current.sequencesPath,
     tools: API.current.toolsPath,
-    tool_slots: API.current.toolSlotsPath,
-    plants: API.current.plantsPath,
     farm_events: API.current.farmEventsPath,
     regimens: API.current.regimensPath,
     peripherals: API.current.peripheralsPath,

@@ -5,7 +5,7 @@ import {
   TaggedFarmEvent,
   TaggedSequence,
   TaggedRegimen,
-  TaggedPoint,
+  TaggedGenericPointer,
   TaggedPlantPointer,
   TaggedCrop
 } from "../resources/tagged_resources";
@@ -22,7 +22,7 @@ export interface Props {
   dispatch: Function;
   selectedPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
-  points: TaggedPoint[];
+  points: TaggedGenericPointer[];
   plants: TaggedPlantPointer[];
   crops: TaggedCrop[];
 }
@@ -132,7 +132,7 @@ export interface GardenMapProps {
   showSpread: boolean | undefined;
   dispatch: Function;
   designer: DesignerState;
-  points: TaggedPoint[];
+  points: TaggedGenericPointer[];
   plants: TaggedPlantPointer[];
   selectedPlant: TaggedPlantPointer | undefined;
   crops: TaggedCrop[];
@@ -157,7 +157,7 @@ export interface GardenPlantState {
 }
 
 export interface GardenPointProps {
-  point: TaggedPoint;
+  point: TaggedGenericPointer;
 }
 
 export type PlantOptions = Partial<Plant>;

@@ -68,7 +68,7 @@ export class GardenMap
       };
       let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlantPointer = {
-        kind: "plants",
+        kind: "points",
         uuid: "--never",
         dirty: true,
         body: Plant({

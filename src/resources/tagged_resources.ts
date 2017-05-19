@@ -3,13 +3,17 @@ import { Tool } from "../tools/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { FarmEvent, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/index";
-import { Log, PlantPointer, ToolSlotPointer } from "../interfaces";
+import {
+  Log,
+  GenericPointer,
+  PlantPointer,
+  ToolSlotPointer,
+} from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { isObject, isString, get } from "lodash";
-import { Point } from "farmbot/dist";
 
 export type ResourceName =
   | "device"
@@ -65,13 +69,9 @@ export type TaggedFarmEvent = Resource<"farm_events", FarmEvent>;
 export type TaggedImage = Resource<"images", Image>;
 export type TaggedLog = Resource<"logs", Log>;
 export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
-export type TaggedGenericPointer = Resource<"points", Point>;
+export type TaggedGenericPointer = Resource<"points", GenericPointer>;
 export type TaggedPlantPointer = Resource<"points", PlantPointer>;
 export type TaggedToolSlotPointer = Resource<"points", ToolSlotPointer>;
-// export type TaggedPoint =
-//   | TaggedGenericPointer
-//   | TaggedPlantPointer
-//   | TaggedToolSlotPointer;
 export type TaggedUser = Resource<"users", User>;
 export type TaggedDevice = Resource<"device", DeviceAccountSettings>;
 
@@ -110,6 +110,10 @@ export let isTaggedTool =
   (x: object): x is TaggedTool => is("tools")(x);
 export let isTaggedCrop =
   (x: object): x is TaggedCrop => is("crops")(x);
+/** @private */
+function isTaggedPoint(x: any) {
+
+}
 export function isTaggedGenericPointer(x: any):
   x is TaggedGenericPointer {
   if (x
