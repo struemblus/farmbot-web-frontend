@@ -92,7 +92,7 @@ export function isTaggedResource(x: object): x is TaggedResource {
     && isObject(get(x, "body")))
 }
 
-let is = (r: ResourceName) => function isOfTag(x: object) {
+let is = (r: ResourceName) => function isOfTag(x: object): x is TaggedResource {
   let safe = (sanityCheck(x) && isTaggedResource(x) && x.kind == r);
   if (!safe) {
     if (x) {
@@ -101,6 +101,15 @@ let is = (r: ResourceName) => function isOfTag(x: object) {
   }
   return safe;
 };
+/** Don't export me! Determine if a mystery obj. is one of
+ *  TaggedToolSlotPoint|TaggedPointPoint|TaggedPlantPointer */
+type PointerType =
+  | TaggedToolSlotPointer
+  | TaggedGenericPointer
+  | TaggedPlantPointer;
+function isTaggedPoint(x: any): x is PointerType {
+  return (is("points")(x)) && (x.kind === "points");
+}
 
 export let isTaggedRegimen =
   (x: object): x is TaggedRegimen => is("regimens")(x);
@@ -110,24 +119,19 @@ export let isTaggedTool =
   (x: object): x is TaggedTool => is("tools")(x);
 export let isTaggedCrop =
   (x: object): x is TaggedCrop => is("crops")(x);
-/** @private */
-function isTaggedPoint(x: any) {
-
-}
-export function isTaggedGenericPointer(x: any):
-  x is TaggedGenericPointer {
-  if (x
-    && (typeof x === "object")
-    && (typeof x.kind === "string")
-    && (x.kind === "points")
-    && (x.body)
-    && (typeof x.body === "object")) {
-    return true;
-  } else {
-    return false;
-  }
-}
 export let isTaggedFarmEvent =
   (x: object): x is TaggedFarmEvent => is("farm_events")(x);
 export let isTaggedLog =
   (x: object): x is TaggedLog => is("logs")(x);
+export let isTaggedToolSlotPointer =
+  (x: object): x is TaggedToolSlotPointer => {
+    return isTaggedPoint(x) && (x.body.point_type === "ToolSlot")
+  };
+export let isTaggedPlantPointer =
+  (x: object): x is TaggedToolSlotPointer => {
+    return isTaggedPoint(x) && (x.body.point_type === "Plant")
+  };
+export let isTaggedGenericPointer =
+  (x: object): x is TaggedToolSlotPointer => {
+    return isTaggedPoint(x) && (x.body.point_type === "GenericPointer")
+  }

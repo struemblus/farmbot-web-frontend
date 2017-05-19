@@ -10,6 +10,7 @@ import {
   TaggedCrop
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
+import { PlantPointer } from "../interfaces";
 
 export interface State {
   zoomLvl: number;
@@ -160,7 +161,7 @@ export interface GardenPointProps {
   point: TaggedGenericPointer;
 }
 
-export type PlantOptions = Partial<Plant>;
+export type PlantOptions = Partial<PlantPointer>;
 
 export interface SpeciesInfoProps {
   cropSearchResults: CropLiveSearchResult[];

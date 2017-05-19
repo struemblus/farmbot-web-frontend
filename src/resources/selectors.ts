@@ -64,10 +64,8 @@ export function selectAllPoints(index: ResourceIndex) {
 }
 
 export function selectAllGenericPointers(index: ResourceIndex) {
-  return selectAllPoints(index)
-    .map(p => {
-      if (p.body.pointer_type)
-           })
+  fixthis.wrong;
+  return selectAllPoints(index);
 }
 
 export function selectAllPlants(index: ResourceIndex) {
@@ -214,7 +212,7 @@ export function indexBySlotId(index: ResourceIndex) {
   uuids.map(uuid => {
     assertUuid("tool_slots", uuid);
     let tool_slot = index.references[uuid];
-    if (tool_slot && isTaggedToolSlot(tool_slot) && tool_slot.body.id) {
+    if (tool_slot && isTaggedToolSlotPointer(tool_slot) && tool_slot.body.id) {
       output[tool_slot.body.id] = tool_slot;
     }
   });
@@ -266,7 +264,7 @@ export function findSlotWhere(index: ResourceIndex, body: object):
    *        currently, this method will accept any old object, which might be
    *        unsafe. */
   let x = _.findWhere(toArray(index), { kind: "tool_slots", body });
-  return (x && isTaggedToolSlot(x)) ? x : undefined;
+  return (x && isTaggedToolSlotPointer(x)) ? x : undefined;
 }
 
 /** GIVEN: a slot UUID.
@@ -352,12 +350,12 @@ export let findSlotById = byId<TaggedToolSlotPointer>("tool_slots");
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
   let tool = findToolById(index, tool_id);
   let filter = (x: TaggedResource) => {
-    if (x && isTaggedToolSlot(x)) {
+    if (x && isTaggedToolSlotPointer(x)) {
       return x.body.tool_id === tool_id;
     }
   }
   let tts = where(index, { tool_id: tool.body.id }).filter(filter)[0];
-  if (tts && isTaggedToolSlot(tts) && sanityCheck(tts)) {
+  if (tts && isTaggedToolSlotPointer(tts) && sanityCheck(tts)) {
     return tts;
   } else {
     return undefined;
@@ -381,9 +379,9 @@ export function maybeGetRegimen(index: ResourceIndex,
 
 /** Unlike other findById methods, this one allows undefined (missed) values */
 export function maybeFindPlantById(index: ResourceIndex, id: number) {
-  let uuid = index.byKindAndId[joinKindAndId("plants", id)];
+  let uuid = index.byKindAndId[joinKindAndId("points", id)];
   let resource = index.references[uuid || "nope"];
-  if (resource && isTaggedPlant(resource)) { return resource; }
+  if (resource && isTaggedPlantPointer(resource)) { return resource; }
 }
 
 export function getDeviceAccountSettings(index: ResourceIndex) {
