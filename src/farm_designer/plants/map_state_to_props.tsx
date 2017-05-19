@@ -3,7 +3,7 @@ import { EditPlantInfoProps } from "../interfaces";
 import { maybeFindPlantById } from "../../resources/selectors";
 import { history } from "../../history";
 import * as moment from "moment";
-import { TaggedPlant } from "../../resources/tagged_resources";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): EditPlantInfoProps {
   let findPlant = (id: string | undefined) => {
@@ -32,7 +32,7 @@ export interface FormattedPlantInfo {
   plantedAt: string;
 }
 
-export function formatPlantInfo(resource: TaggedPlant): FormattedPlantInfo {
+export function formatPlantInfo(resource: TaggedPlantPointer): FormattedPlantInfo {
   let p = resource.body;
   let t = p.planted_at ? moment(p.planted_at) : moment();
   let currentDay = moment();

@@ -7,7 +7,7 @@ import { GardenPlant } from "./garden_plant";
 import { GardenPoint } from "./garden_point";
 import { history } from "../../history";
 import { initSave, save, edit } from "../../api/crud";
-import { TaggedPlant } from "../../resources/tagged_resources";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 import { Link } from "react-router";
 import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
 import { findBySlug } from "../search_selectors";
@@ -36,7 +36,7 @@ export class GardenMap
 
   get isEditing() { return location.pathname.includes("edit"); }
 
-  getPlant = (): TaggedPlant | undefined => this.props.selectedPlant;
+  getPlant = (): TaggedPlantPointer | undefined => this.props.selectedPlant;
 
   handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
@@ -67,7 +67,7 @@ export class GardenMap
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);
-      let p: TaggedPlant = {
+      let p: TaggedPlantPointer = {
         kind: "plants",
         uuid: "--never",
         dirty: true,

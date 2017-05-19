@@ -53,7 +53,7 @@ const MUST_LOAD: ResourceName[] = [
   "sequences",
   "regimens",
   "farm_events",
-  "plants"
+  "points"
 ];
 
 @connect(mapStateToProps)

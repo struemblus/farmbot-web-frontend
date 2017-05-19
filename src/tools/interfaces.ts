@@ -1,7 +1,7 @@
 import { DropDownItem } from "../ui/fb_select";
 import {
   TaggedTool,
-  TaggedToolSlot,
+  TaggedToolSlotPointer,
 } from "../resources/tagged_resources";
 
 export interface ToolsState {
@@ -10,15 +10,15 @@ export interface ToolsState {
 }
 
 export interface Props {
-  toolSlots: TaggedToolSlot[];
+  toolSlots: TaggedToolSlotPointer[];
   tools: TaggedTool[];
   getToolOptions(): DropDownItem[];
   getChosenToolOption(toolSlotUuid: string): DropDownItem;
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
-  getToolSlots(): TaggedToolSlot[];
+  getToolSlots(): TaggedToolSlotPointer[];
   dispatch: Function;
   isActive: (tool: TaggedTool) => boolean;
-  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
+  changeToolSlot(t: TaggedToolSlotPointer, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface Tool {
@@ -30,17 +30,17 @@ export interface ToolBayListProps {
   dispatch: Function;
   toggle(): void;
   getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
-  getToolSlots(): TaggedToolSlot[];
+  getToolSlots(): TaggedToolSlotPointer[];
 }
 
 export interface ToolBayFormProps {
   dispatch: Function;
-  toolSlots: TaggedToolSlot[];
+  toolSlots: TaggedToolSlotPointer[];
   toggle(): void;
   getToolOptions(): DropDownItem[];
   getChosenToolOption(uuid: string): DropDownItem;
-  getToolSlots(): TaggedToolSlot[];
-  changeToolSlot(t: TaggedToolSlot, dispatch: Function): (d: DropDownItem) => void;
+  getToolSlots(): TaggedToolSlotPointer[];
+  changeToolSlot(t: TaggedToolSlotPointer, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface ToolListProps {

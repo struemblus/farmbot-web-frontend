@@ -2,7 +2,7 @@ import * as React from "react";
 import { BackArrow } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
-import { TaggedPlant } from "../../resources/tagged_resources";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
 import { PlantInfoBase } from "./plant_info_base";
 import { PlantPanel } from "./plant_panel";
@@ -10,7 +10,7 @@ import { PlantPanel } from "./plant_panel";
 
 @connect(mapStateToProps)
 export class EditPlantInfo extends PlantInfoBase {
-  default = (plant_info: TaggedPlant) => {
+  default = (plant_info: TaggedPlantPointer) => {
     let info = formatPlantInfo(plant_info);
     return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">

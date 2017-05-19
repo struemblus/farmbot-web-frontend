@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   TaggedResource,
   TaggedResourceBase,
-  TaggedPlant
+  TaggedPlantPointer
 } from "../resources/tagged_resources";
 
 interface Props {
@@ -68,7 +68,7 @@ export class CustomFBSelect extends React.Component<Props, Partial<State>> {
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>
-        {list && list.map((x: TaggedPlant) => {
+        {list && list.map((x: TaggedPlantPointer) => {
           let comp = this.props.optionComponent;
           let name = x.body.name.toLowerCase();
           let input = this.state.input.toLowerCase();

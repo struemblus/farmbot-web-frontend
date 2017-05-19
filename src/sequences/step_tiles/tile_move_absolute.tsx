@@ -23,7 +23,7 @@ import { StepTitleBar } from "./step_title_bar";
 import {
   isTaggedSequence,
   TaggedTool,
-  TaggedToolSlot
+  TaggedToolSlotPointer
 } from "../../resources/tagged_resources";
 import {
   toolsInUse,
@@ -52,7 +52,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     }
   }
   get tool_id() { return this.tool && this.tool.body.id; }
-  get slot(): TaggedToolSlot | undefined {
+  get slot(): TaggedToolSlotPointer | undefined {
     return (this.tool_id) ?
       findSlotByToolId(this.resources, this.tool_id) : undefined;
   }

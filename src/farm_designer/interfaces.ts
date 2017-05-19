@@ -6,7 +6,7 @@ import {
   TaggedSequence,
   TaggedRegimen,
   TaggedPoint,
-  TaggedPlant,
+  TaggedPlantPointer,
   TaggedCrop
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
@@ -20,10 +20,10 @@ export interface State {
 
 export interface Props {
   dispatch: Function;
-  selectedPlant: TaggedPlant | undefined;
+  selectedPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
   points: TaggedPoint[];
-  plants: TaggedPlant[];
+  plants: TaggedPlantPointer[];
   crops: TaggedCrop[];
 }
 
@@ -59,7 +59,7 @@ export interface FarmEvent {
 export interface MovePlantProps {
   deltaX: number;
   deltaY: number;
-  plant: TaggedPlant;
+  plant: TaggedPlantPointer;
 }
 
 /** OFCrop bundled with corresponding profile image from OpenFarm API. */
@@ -133,8 +133,8 @@ export interface GardenMapProps {
   dispatch: Function;
   designer: DesignerState;
   points: TaggedPoint[];
-  plants: TaggedPlant[];
-  selectedPlant: TaggedPlant | undefined;
+  plants: TaggedPlantPointer[];
+  selectedPlant: TaggedPlantPointer | undefined;
   crops: TaggedCrop[];
 }
 
@@ -146,10 +146,10 @@ export interface GardenMapState {
 
 export interface GardenPlantProps {
   showSpread: boolean | undefined;
-  plant: Readonly<TaggedPlant>;
+  plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
   dragging: boolean;
-  onClick: (plant: Readonly<TaggedPlant>) => void;
+  onClick: (plant: Readonly<TaggedPlantPointer>) => void;
 }
 
 export interface GardenPlantState {
@@ -178,7 +178,7 @@ export interface PlantData {
 export interface EditPlantInfoProps {
   push(url: string): void;
   dispatch: Function;
-  findPlant(stringyID: string | undefined): TaggedPlant | undefined;
+  findPlant(stringyID: string | undefined): TaggedPlantPointer | undefined;
 }
 
 export interface DNDSpeciesMobileState {

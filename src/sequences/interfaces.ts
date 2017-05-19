@@ -13,7 +13,7 @@ import { StepMoveDataXfer, StepSpliceDataXfer } from "../draggable/interfaces";
 import {
   TaggedSequence,
   TaggedTool,
-  TaggedToolSlot
+  TaggedToolSlotPointer
 } from "../resources/tagged_resources";
 import { ResourceIndex } from "../resources/interfaces";
 
@@ -21,7 +21,7 @@ export interface Props {
   dispatch: Function;
   sequences: TaggedSequence[];
   tools: TaggedTool[];
-  slots: TaggedToolSlot[];
+  slots: TaggedToolSlotPointer[];
   sequence: TaggedSequence | undefined;
   auth: AuthState | undefined;
   resources: ResourceIndex;
@@ -35,7 +35,7 @@ export interface SequenceEditorMiddleProps {
   /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
   /** @deprecated Use props.resources now. */
-  slots: TaggedToolSlot[];
+  slots: TaggedToolSlotPointer[];
   resources: ResourceIndex;
 }
 
@@ -227,6 +227,6 @@ export interface StepParams {
   /** @deprecated Use props.resources now. */
   tools: TaggedTool[];
   /** @deprecated Use props.resources now. */
-  slots: TaggedToolSlot[];
+  slots: TaggedToolSlotPointer[];
   resources: ResourceIndex;
 }

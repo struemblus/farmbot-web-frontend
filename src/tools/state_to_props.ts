@@ -11,7 +11,7 @@ import {
 import {
   isTaggedTool,
   TaggedTool,
-  TaggedToolSlot
+  TaggedToolSlotPointer
 } from "../resources/tagged_resources";
 import { edit } from "../api/crud";
 import { DropDownItem } from "../ui/index";
@@ -55,7 +55,7 @@ export function mapStateToProps(props: Everything): Props {
     }
   };
 
-  let changeToolSlot = (t: TaggedToolSlot,
+  let changeToolSlot = (t: TaggedToolSlotPointer,
     dispatch: Function) =>
     (d: DropDownItem) => {
       let tool_id = d.value ? d.value : (null as any); // Move "" to undefined;

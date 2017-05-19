@@ -1,27 +1,27 @@
 import { ResourceIndex } from "./interfaces";
 import { joinKindAndId } from "./reducer";
 import {
-  ResourceName,
-  TaggedFarmEvent,
-  TaggedResource,
-  TaggedPoint,
-  TaggedPlant,
-  TaggedTool,
-  TaggedToolSlot,
-  TaggedImage,
-  TaggedRegimen,
-  TaggedSequence,
-  isTaggedSequence,
-  isTaggedRegimen,
-  isTaggedTool,
-  isTaggedToolSlot,
-  isTaggedResource,
-  sanityCheck,
   isTaggedFarmEvent,
-  TaggedPeripheral,
-  isTaggedPlant,
+  isTaggedPlantPointer,
+  isTaggedRegimen,
+  isTaggedResource,
+  isTaggedSequence,
+  isTaggedTool,
+  isTaggedToolSlotPointer,
+  ResourceName,
+  sanityCheck,
+  TaggedCrop,
+  TaggedFarmEvent,
+  TaggedGenericPointer,
+  TaggedImage,
   TaggedLog,
-  TaggedCrop
+  TaggedPeripheral,
+  TaggedPlantPointer,
+  TaggedRegimen,
+  TaggedResource,
+  TaggedSequence,
+  TaggedTool,
+  TaggedToolSlotPointer
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
@@ -59,11 +59,19 @@ export function selectAllFarmEvents(index: ResourceIndex) {
 }
 
 export function selectAllPoints(index: ResourceIndex) {
-  return findAll(index, "points") as TaggedPoint[];
+  return findAll(index, "points") as
+    (TaggedGenericPointer | TaggedPlantPointer | TaggedToolSlotPointer)[];
+}
+
+export function selectAllGenericPointers(index: ResourceIndex) {
+  return selectAllPoints(index)
+    .map(p => {
+      if (p.body.pointer_type)
+           })
 }
 
 export function selectAllPlants(index: ResourceIndex) {
-  return findAll(index, "plants") as TaggedPlant[];
+  return findAll(index, "plants") as TaggedPlantPointer[];
 }
 
 export function selectAllTools(index: ResourceIndex) {
@@ -71,7 +79,7 @@ export function selectAllTools(index: ResourceIndex) {
 }
 
 export function selectAllToolSlots(index: ResourceIndex) {
-  return findAll(index, "tool_slots") as TaggedToolSlot[];
+  return findAll(index, "tool_slots") as TaggedToolSlotPointer[];
 }
 
 export function selectAllPeripherals(index: ResourceIndex) {
@@ -102,7 +110,7 @@ let find = (r: ResourceName) =>
     }
   };
 
-export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlot>;
+export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlotPointer>;
 export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
 export let findRegimen = find("regimens") as Finder<TaggedRegimen>;
@@ -200,7 +208,7 @@ export function indexByToolId(index: ResourceIndex) {
 }
 
 export function indexBySlotId(index: ResourceIndex) {
-  let output: CowardlyDictionary<TaggedToolSlot> = {};
+  let output: CowardlyDictionary<TaggedToolSlotPointer> = {};
 
   let uuids = index.byKind.tool_slots;
   uuids.map(uuid => {
@@ -253,7 +261,7 @@ export function findWhere(index: ResourceIndex,
 }
 
 export function findSlotWhere(index: ResourceIndex, body: object):
-  TaggedToolSlot | undefined {
+  TaggedToolSlotPointer | undefined {
   /** TODO: Find a way to add type safety.
    *        currently, this method will accept any old object, which might be
    *        unsafe. */
@@ -339,7 +347,7 @@ export let findRegimenById = (ri: ResourceIndex, regimen_id: number) => {
   }
 };
 
-export let findSlotById = byId<TaggedToolSlot>("tool_slots");
+export let findSlotById = byId<TaggedToolSlotPointer>("tool_slots");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
   let tool = findToolById(index, tool_id);

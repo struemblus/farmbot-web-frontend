@@ -1,7 +1,7 @@
 import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
 import {
-  selectAllPoints,
+  selectAllGenericPointers,
   selectAllPlants,
   selectAllCrops
 } from "../resources/selectors";
@@ -15,7 +15,7 @@ export function mapStateToProps(props: Everything): Props {
     dispatch: props.dispatch,
     selectedPlant,
     designer: props.resources.consumers.farm_designer,
-    points: selectAllPoints(props.resources.index),
+    points: selectAllGenericPointers(props.resources.index),
     plants
   };
 }

@@ -2,13 +2,13 @@ import * as React from "react";
 import { DEFAULT_ICON, cachedIcon } from "../../open_farm/index";
 import * as moment from "moment";
 import { t } from "i18next";
-import { TaggedPlant } from "../../resources/tagged_resources";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 import { push } from "../../history";
 
 type IMGEvent = React.SyntheticEvent<HTMLImageElement>
 
 // The inidividual plants that show up in the farm designer sub nav.
-export function PlantInventoryItem(props: TaggedPlant) {
+export function PlantInventoryItem(props: TaggedPlantPointer) {
 
   // For brevity's sake.
   let plant = props.body;

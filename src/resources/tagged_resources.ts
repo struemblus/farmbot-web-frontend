@@ -3,7 +3,7 @@ import { Tool } from "../tools/interfaces";
 import { Regimen } from "../regimens/interfaces";
 import { FarmEvent, Crop } from "../farm_designer/interfaces";
 import { Image } from "../images/index";
-import { Log, Plant, ToolSlot } from "../interfaces";
+import { Log, PlantPointer, ToolSlotPointer } from "../interfaces";
 import { Peripheral } from "../controls/peripherals/interfaces";
 import { User } from "../auth/interfaces";
 import { assertUuid } from "./selectors";
@@ -43,18 +43,18 @@ export interface Resource<T extends ResourceName, U extends object>
 }
 
 export type TaggedResource =
+  | TaggedCrop
   | TaggedDevice
   | TaggedFarmEvent
+  | TaggedGenericPointer
   | TaggedImage
   | TaggedLog
   | TaggedPeripheral
-  | TaggedPlant
-  | TaggedCrop
-  | TaggedPoint
+  | TaggedPlantPointer
   | TaggedRegimen
   | TaggedSequence
   | TaggedTool
-  | TaggedToolSlot
+  | TaggedToolSlotPointer
   | TaggedUser;
 
 export type TaggedRegimen = Resource<"regimens", Regimen>;
@@ -66,12 +66,12 @@ export type TaggedImage = Resource<"images", Image>;
 export type TaggedLog = Resource<"logs", Log>;
 export type TaggedPeripheral = Resource<"peripherals", Peripheral>;
 export type TaggedGenericPointer = Resource<"points", Point>;
-export type TaggedPlant = Resource<"points", Plant>;
-export type TaggedToolSlot = Resource<"points", ToolSlot>;
-export type TaggedPoint =
-  | TaggedGenericPointer
-  | TaggedPlant
-  | TaggedToolSlot;
+export type TaggedPlantPointer = Resource<"points", PlantPointer>;
+export type TaggedToolSlotPointer = Resource<"points", ToolSlotPointer>;
+// export type TaggedPoint =
+//   | TaggedGenericPointer
+//   | TaggedPlantPointer
+//   | TaggedToolSlotPointer;
 export type TaggedUser = Resource<"users", User>;
 export type TaggedDevice = Resource<"device", DeviceAccountSettings>;
 
@@ -110,8 +110,19 @@ export let isTaggedTool =
   (x: object): x is TaggedTool => is("tools")(x);
 export let isTaggedCrop =
   (x: object): x is TaggedCrop => is("crops")(x);
-export let isTaggedPoint =
-  (x: object): x is TaggedPoint => is("points")(x);
+export function isTaggedGenericPointer(x: any):
+  x is TaggedGenericPointer {
+  if (x
+    && (typeof x === "object")
+    && (typeof x.kind === "string")
+    && (x.kind === "points")
+    && (x.body)
+    && (typeof x.body === "object")) {
+    return true;
+  } else {
+    return false;
+  }
+}
 export let isTaggedFarmEvent =
   (x: object): x is TaggedFarmEvent => is("farm_events")(x);
 export let isTaggedLog =

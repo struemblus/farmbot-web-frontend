@@ -2,7 +2,7 @@ import * as React from "react";
 import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { t } from "i18next";
 import { ToolBayListProps } from "../interfaces";
-import { TaggedToolSlot } from "../../resources/tagged_resources";
+import { TaggedToolSlotPointer } from "../../resources/tagged_resources";
 import { ToolBayHeader } from "./toolbay_header";
 import { ToolTips } from "../../constants";
 
@@ -22,7 +22,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
         <WidgetBody>
           <ToolBayHeader />
           {getToolSlots().map(
-            (slot: TaggedToolSlot, index: number) => {
+            (slot: TaggedToolSlotPointer, index: number) => {
               let tool = getToolByToolSlotUUID(slot.uuid);
               let name = (tool && tool.body.name) || "None";
               return <Row key={slot.body.id}>
