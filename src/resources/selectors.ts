@@ -216,9 +216,9 @@ export function indexByToolId(index: ResourceIndex) {
 export function indexBySlotId(index: ResourceIndex) {
   let output: CowardlyDictionary<TaggedToolSlotPointer> = {};
 
-  let uuids = index.byKind.tool_slots;
+  let uuids = index.byKind.points;
   uuids.map(uuid => {
-    assertUuid("tool_slots", uuid);
+    assertUuid("points", uuid);
     let tool_slot = index.references[uuid];
     if (tool_slot && isTaggedToolSlotPointer(tool_slot) && tool_slot.body.id) {
       output[tool_slot.body.id] = tool_slot;
@@ -353,7 +353,7 @@ export let findRegimenById = (ri: ResourceIndex, regimen_id: number) => {
   }
 };
 
-export let findSlotById = byId<TaggedToolSlotPointer>("tool_slots");
+export let findSlotById = byId<TaggedToolSlotPointer>("points");
 /** Find a Tool's corresponding Slot. */
 export let findSlotByToolId = (index: ResourceIndex, tool_id: number) => {
   let tool = findToolById(index, tool_id);

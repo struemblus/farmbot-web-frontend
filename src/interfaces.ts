@@ -111,7 +111,7 @@ export interface GenericPointer extends BasePoint {
   point_type: "GenericPointer";
 }
 
-export type Point =
+export type AnyPointer =
   | GenericPointer
   | ToolSlotPointer
   | PlantPointer;

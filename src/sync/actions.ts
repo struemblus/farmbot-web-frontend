@@ -1,4 +1,4 @@
-import { Log } from "../interfaces";
+import { Log, AnyPointer } from "../interfaces";
 import { API } from "../api";
 import * as axios from "axios";
 import { Sequence } from "../sequences/interfaces";
@@ -38,19 +38,18 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<Image[]>("images", API.current.imagesPath);
   fetch<Log[]>("logs", API.current.logsPath);
   fetch<Peripheral[]>("peripherals", API.current.peripheralsPath);
-  fetch<Plant[]>("plants", API.current.plantsPath)
+  fetch<AnyPointer[]>("points", API.current.pointsPath)
     .then(action => {
       let slugs = _(action.payload.data)
         .pluck<string>("openfarm_slug")
         .uniq()
         .compact()
-        .value();
-      slugs.map((slug) => {
-        let url = OpenFarmAPI.OFBaseURL + slug;
-        fetch<Crop>("crops", url, "SAVE_SPECIAL_RESOURCE");
-      })
+        .value()
+        .map((slug) => {
+          let url = OpenFarmAPI.OFBaseURL + slug;
+          fetch<Crop>("crops", url, "SAVE_SPECIAL_RESOURCE");
+        })
     });
-  fetch<Point[]>("points", API.current.pointsPath);
   fetch<Regimen[]>("regimens", API.current.regimensPath);
   fetch<Sequence[]>("sequences", API.current.sequencesPath);
   fetch<Tool[]>("tools", API.current.toolsPath);
