@@ -3,6 +3,7 @@ import { McuInputBoxProps } from "../interfaces";
 import { updateMCU } from "../actions";
 import { BlurableInput } from "../../ui/index";
 import { Dictionary } from "farmbot";
+import { error } from "../../ui/logger";
 
 let maxValues: Readonly<Dictionary<number>> = {
   "x": 141,
@@ -16,27 +17,33 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
     return this.props.setting;
   }
 
-  baseString = (name: string) => {
-    return "movement_axis_nr_steps_";
-  }
-
-  hasMax = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    /** Not a fan of this at all, but right now this is the only input that
-    requires a condition. */
-    let n = e.currentTarget.name;
-    let condition = this.props.setting.includes(this.baseString(n));
-    if (condition) { return maxValues[n]; }
-  }
-
   get value() {
     let v = this.props.bot.hardware.mcu_params[this.key];
     return _.isUndefined(v) ? "" : (v || 0).toString();
   }
 
+  get baseString() {
+    /** Not a fan of this at all, but right now this is the only input that
+     * requires a condition. */
+    return "movement_axis_nr_steps_";
+  }
+
+  isValid = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let { setting, name } = this.props;
+    let value = parseInt(e.currentTarget.value);
+    let condition = setting.includes(this.baseString);
+    let invalid = name && value > maxValues[name];
+    if (condition && invalid) {
+      error(`Invalid ${name} for bot length, ${value} is too large.`);
+    } else {
+      return true;
+    }
+  }
+
   commit = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    this.hasMax(e);
-    if (this.value !== e.currentTarget.value) {
-      this.props.dispatch(updateMCU(this.key, e.currentTarget.value));
+    let t = e.currentTarget;
+    if (this.value !== t.value && this.isValid(e)) {
+      this.props.dispatch(updateMCU(this.key, t.value));
     }
   }
 

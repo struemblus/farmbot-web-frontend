@@ -25,8 +25,8 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
   let { pageX, pageY, box, OFEntry, zoomLvl } = params;
 
   // let theDiff = (OFEntry.crop.height && (OFEntry.crop.height / 4));
-  let rawX = (pageX - 320)// + (theDiff || 0);
-  let rawY = (pageY - 110)// + (theDiff || 0);
+  let rawX = (pageX - 320);
+  let rawY = (pageY - 110);
 
   let count = 0;
 
@@ -36,10 +36,6 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
       count++;
     }
   }
-
-  console.log("count", count)
-  console.log("raw", rawX, rawY)
-  console.log("page", pageX, pageY)
 
   return { x: (rawX + (count * 110)), y: rawY };
 }

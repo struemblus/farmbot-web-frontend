@@ -26,14 +26,6 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
 
   state = { buffer: "", isEditing: false };
 
-  get max() {
-    return this.props.max;
-  }
-
-  get min() {
-    return this.props.min;
-  }
-
   /** Called on blur. */
   maybeCommit = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let shouldPassToParent = (this.state.buffer || (this.props.allowEmpty));
@@ -59,13 +51,10 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
       onBlur={this.maybeCommit}
       name={this.props.name}
       id={this.props.id}
-      min={this.props.min}
-      max={this.props.max}
       type={this.props.type || "text"}
       disabled={this.props.disabled}
       className={this.props.className}
       placeholder={this.props.placeholder}
-      maxLength={this.max && this.max}
-      minLength={this.min && this.min} />;
+    />;
   }
 }
