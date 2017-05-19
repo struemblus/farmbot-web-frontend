@@ -4,7 +4,7 @@ import {
   selectAllSequences,
   selectAllTools,
   findSequence,
-  selectAllToolSlots
+  selectAllToolSlotPointers
 } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
@@ -13,7 +13,7 @@ export function mapStateToProps(props: Everything): Props {
     dispatch: props.dispatch,
     sequences: selectAllSequences(props.resources.index),
     tools: selectAllTools(props.resources.index),
-    slots: selectAllToolSlots(props.resources.index),
+    slots: selectAllToolSlotPointers(props.resources.index),
     sequence: (uuid) ? findSequence(props.resources.index, uuid) : undefined,
     auth: props.auth,
     resources: props.resources.index

@@ -128,10 +128,10 @@ export let isTaggedToolSlotPointer =
     return isTaggedPoint(x) && (x.body.point_type === "ToolSlot")
   };
 export let isTaggedPlantPointer =
-  (x: object): x is TaggedToolSlotPointer => {
+  (x: object): x is TaggedPlantPointer => {
     return isTaggedPoint(x) && (x.body.point_type === "Plant")
   };
 export let isTaggedGenericPointer =
-  (x: object): x is TaggedToolSlotPointer => {
+  (x: object): x is TaggedGenericPointer => {
     return isTaggedPoint(x) && (x.body.point_type === "GenericPointer")
   }

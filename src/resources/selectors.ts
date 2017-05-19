@@ -3,6 +3,7 @@ import { joinKindAndId } from "./reducer";
 import {
   isTaggedFarmEvent,
   isTaggedPlantPointer,
+  isTaggedGenericPointer,
   isTaggedRegimen,
   isTaggedResource,
   isTaggedSequence,
@@ -63,21 +64,28 @@ export function selectAllPoints(index: ResourceIndex) {
     (TaggedGenericPointer | TaggedPlantPointer | TaggedToolSlotPointer)[];
 }
 
-export function selectAllGenericPointers(index: ResourceIndex) {
-  fixthis.wrong;
-  return selectAllPoints(index);
+export function selectAllGenericPointers(index: ResourceIndex):
+  TaggedGenericPointer[] {
+  let genericPointers = selectAllPoints(index)
+    .map(p => (isTaggedGenericPointer(p)) ? p : undefined);
+  return betterCompact(genericPointers);
 }
 
-export function selectAllPlants(index: ResourceIndex) {
-  return findAll(index, "plants") as TaggedPlantPointer[];
+export function selectAllPlantPointers(index: ResourceIndex): TaggedPlantPointer[] {
+  let genericPointers = selectAllPoints(index)
+    .map(p => (isTaggedPlantPointer(p)) ? p : undefined);
+  return betterCompact(genericPointers);
+}
+
+export function selectAllToolSlotPointers(index: ResourceIndex):
+  TaggedToolSlotPointer[] {
+  let genericPointers = selectAllPoints(index)
+    .map(p => (isTaggedToolSlotPointer(p)) ? p : undefined);
+  return betterCompact(genericPointers);
 }
 
 export function selectAllTools(index: ResourceIndex) {
   return findAll(index, "tools") as TaggedTool[];
-}
-
-export function selectAllToolSlots(index: ResourceIndex) {
-  return findAll(index, "tool_slots") as TaggedToolSlotPointer[];
 }
 
 export function selectAllPeripherals(index: ResourceIndex) {
@@ -291,7 +299,7 @@ export function findAllById(i: ResourceIndex, ids: number[], k: ResourceName) {
 
 /** FINDS: All tools that are in use. */
 export function toolsInUse(index: ResourceIndex): TaggedTool[] {
-  let ids = betterCompact(selectAllToolSlots(index).map(ts => ts.body.tool_id));
+  let ids = betterCompact(selectAllToolSlotPointers(index).map(ts => ts.body.tool_id));
   return findAllById(index, ids, "tools") as TaggedTool[];
 }
 

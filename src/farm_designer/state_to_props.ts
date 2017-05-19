@@ -2,12 +2,12 @@ import { Everything } from "../interfaces";
 import { Props } from "./interfaces";
 import {
   selectAllGenericPointers,
-  selectAllPlants,
+  selectAllPlantPointers,
   selectAllCrops
 } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
-  let plants = selectAllPlants(props.resources.index);
+  let plants = selectAllPlantPointers(props.resources.index);
   let selectedPlant = plants
     .filter(x => x.uuid === props.resources.consumers.farm_designer.selectedPlant)[0];
   return {

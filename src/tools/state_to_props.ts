@@ -3,7 +3,7 @@ import { Props } from "./interfaces";
 import * as _ from "lodash";
 import { NULL_CHOICE } from "../ui/fb_select";
 import {
-  selectAllToolSlots,
+  selectAllToolSlotPointers,
   selectAllTools,
   currentToolInSlot,
   findSlotWhere
@@ -17,7 +17,7 @@ import { edit } from "../api/crud";
 import { DropDownItem } from "../ui/index";
 
 export function mapStateToProps(props: Everything): Props {
-  let toolSlots = selectAllToolSlots(props.resources.index);
+  let toolSlots = selectAllToolSlotPointers(props.resources.index);
   let tools = selectAllTools(props.resources.index);
 
   /** Returns sorted tool slots specific to the tool bay id passed. */

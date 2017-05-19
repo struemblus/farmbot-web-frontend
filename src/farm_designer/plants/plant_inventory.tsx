@@ -4,14 +4,14 @@ import { Everything } from "../../interfaces";
 import { CustomFBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
-import { selectAllPlants } from "../../resources/selectors";
+import { selectAllPlantPointers } from "../../resources/selectors";
 import { PlantInventoryItem } from "./plant_inventory_item";
 
 @connect((state: Everything) => state)
 export class Plants extends React.Component<Everything, {}> {
 
   render() {
-    let plants = selectAllPlants(this.props.resources.index);
+    let plants = selectAllPlantPointers(this.props.resources.index);
 
     return <div className="panel-container green-panel plant-inventory-panel">
       <div className="panel-header green-panel">
