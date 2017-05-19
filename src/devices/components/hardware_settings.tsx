@@ -32,7 +32,7 @@ export class HardwareSettings
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
         <MustBeOnline
-          fallback=" "
+          fallback="Not aavailable when device is offline."
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
           <SaveBtn
