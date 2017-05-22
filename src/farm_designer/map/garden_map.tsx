@@ -97,9 +97,6 @@ export class GardenMap
   }
 
   render() {
-    if (this.props.points.length > 1) {
-      debugger;
-    }
     return <div className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
