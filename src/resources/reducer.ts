@@ -102,6 +102,7 @@ export let resourceReducer = generateReducer
         case "regimens":
         case "sequences":
         case "tools":
+        case "points":
           reindexResource(state.index, resource);
           state.index.references[resource.uuid] = resource;
           break;
@@ -124,6 +125,7 @@ export let resourceReducer = generateReducer
       case "regimens":
       case "sequences":
       case "tools":
+      case "points":
         removeFromIndex(state.index, resource);
         break;
       default:

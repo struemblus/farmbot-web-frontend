@@ -65,6 +65,7 @@ function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
     return err.response.data;
   } else {
     console.warn("Last error message wasn't formatted like an API error.");
+    console.dir(err);
     return { problem: "Farmbot Web App hit an unhandled exception." };
   }
 }
