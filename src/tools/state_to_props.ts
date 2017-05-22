@@ -39,8 +39,9 @@ export function mapStateToProps(props: Everything): Props {
       .value();
   };
 
-  let isActive = (t: TaggedTool) => !!findSlotWhere(props.resources.index,
-    { tool_id: t.body.id });
+  let activeTools = _(toolSlots).map(x => x.body.tool_id).compact().value()
+
+  let isActive = (t: TaggedTool) => activeTools.includes(t.body.id);
 
   let getToolByToolSlotUUID = currentToolInSlot(props.resources.index);
 
