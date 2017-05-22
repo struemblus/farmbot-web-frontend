@@ -70,6 +70,11 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
       throw new Error("A `point` node snuck in. Still WIP");
     }
   }
+  get xyzDisabled(): boolean {
+    let isPoint = this.args.location.kind === "point";
+    let isTool = this.args.location.kind === "tool";
+    return !!(isPoint || isTool);
+  }
   getOffsetValue = (val: Xyz) => {
     return (this.args.offset.args[val] || 0).toString();
   }
@@ -171,7 +176,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 </label>
                 <BlurableInput
                   onCommit={this.updateInputValue("x", "location")}
-                  disabled={!!this.tool}
+                  disabled={this.xyzDisabled}
                   type="number"
                   name="location-x"
                   value={this.getAxisValue("x")} />
@@ -183,7 +188,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <BlurableInput
                   onCommit={this.updateInputValue("y", "location")}
                   type="number"
-                  disabled={!!this.tool}
+                  disabled={this.xyzDisabled}
                   name="location-y"
                   value={this.getAxisValue("y")} />
               </Col>
@@ -195,7 +200,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   onCommit={this.updateInputValue("z", "location")}
                   type="number"
                   name="location-z"
-                  disabled={!!this.tool}
+                  disabled={this.xyzDisabled}
                   value={this.getAxisValue("z")} />
               </Col>
               <Col xs={3}>

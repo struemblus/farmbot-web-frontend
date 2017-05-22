@@ -41,7 +41,9 @@ let handleSelect = (ri: ResourceIndex, cb: CALLBACK) => (d: DropDownItem) => {
     switch (heading) {
       case TOOL:
         return cb({ kind: "tool", args: { tool_id: d.value } });
-      case "ToolSlot": case "Plant": case "GenericPointer":
+      case "ToolSlot":
+      case "Plant":
+      case "GenericPointer":
         return cb({
           kind: "point",
           args: { pointer_type: heading, pointer_id: d.value }
@@ -53,7 +55,10 @@ let handleSelect = (ri: ResourceIndex, cb: CALLBACK) => (d: DropDownItem) => {
         });
     }
   } else {
-    throw new Error("No id; panicking.");
+    return cb({
+      kind: "coordinate",
+      args: { x: 0, y: 0, z: 0, }
+    });
   }
 }
 
