@@ -23,10 +23,8 @@ interface BIState {
 }
 
 export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
-  constructor(props: BIProps) {
-    super();
-    this.state = { buffer: "", isEditing: false };
-  }
+
+  state = { buffer: "", isEditing: false };
 
   /** Called on blur. */
   maybeCommit = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -53,11 +51,10 @@ export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
       onBlur={this.maybeCommit}
       name={this.props.name}
       id={this.props.id}
-      min={this.props.min}
-      max={this.props.max}
       type={this.props.type || "text"}
       disabled={this.props.disabled}
       className={this.props.className}
-      placeholder={this.props.placeholder} />;
+      placeholder={this.props.placeholder}
+    />;
   }
 }
