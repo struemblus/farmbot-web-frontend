@@ -94,21 +94,6 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     return (number || 0).toString();
   }
 
-  clearTool = () => {
-    this.updateArgs({
-      location: { kind: "coordinate", args: { x: 0, y: 0, z: 0 } }
-    });
-  }
-
-  selectTool = (tool: DropDownItem) => {
-    let tool_id = tool.value;
-    if (_.isNumber(tool_id)) {
-      this.updateArgs({ location: { kind: "tool", args: { tool_id } } });
-    } else {
-      this.clearTool();
-    }
-  }
-
   updateInputValue = (axis: Xyz, place: LocationArg) =>
     (e: React.SyntheticEvent<HTMLInputElement>) => {
       let num = parseInt(e.currentTarget.value, 10);

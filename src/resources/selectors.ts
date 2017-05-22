@@ -22,10 +22,12 @@ import {
   TaggedResource,
   TaggedSequence,
   TaggedTool,
-  TaggedToolSlotPointer
+  TaggedToolSlotPointer,
+  PointerType
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
+import { PointerTypeName } from "../interfaces";
 
 export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
@@ -62,6 +64,15 @@ export function selectAllFarmEvents(index: ResourceIndex) {
 export function selectAllPoints(index: ResourceIndex) {
   return findAll(index, "points") as
     (TaggedGenericPointer | TaggedPlantPointer | TaggedToolSlotPointer)[];
+}
+
+export function groupPointsByType(index: ResourceIndex) {
+  return _(selectAllPoints(index))
+    // If this fiails to compile....
+    .tap(x => x[0].body.pointer_type)
+    // ... this line must be updated:
+    .groupBy("body.pointer_type")
+    .value();
 }
 
 export function selectAllGenericPointers(index: ResourceIndex):

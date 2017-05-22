@@ -101,10 +101,12 @@ let is = (r: ResourceName) => function isOfTag(x: object): x is TaggedResource {
   }
   return safe;
 };
+
 export type PointerType =
   | TaggedToolSlotPointer
   | TaggedGenericPointer
   | TaggedPlantPointer;
+
 function isTaggedPoint(x: any): x is PointerType {
   return (is("points")(x)) && (x.kind === "points");
 }

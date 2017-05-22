@@ -115,3 +115,11 @@ export type AnyPointer =
   | GenericPointer
   | ToolSlotPointer
   | PlantPointer;
+
+export type PointerTypeName = AnyPointer["pointer_type"];
+
+export const POINTER_NAMES: Readonly<PointerTypeName>[] = [
+  "Plant",
+  "GenericPointer",
+  "ToolSlot"
+];
