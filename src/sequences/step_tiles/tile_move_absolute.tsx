@@ -4,8 +4,6 @@ import { StepParams } from "../interfaces";
 import { splice, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
 import {
-  Vector3,
-  SequenceBodyItem,
   Tool,
   Coordinate,
   LegalSequenceKind
@@ -15,7 +13,6 @@ import {
   Col,
   BlurableInput,
   DropDownItem,
-  NULL_CHOICE
 } from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
@@ -26,14 +23,13 @@ import {
   TaggedToolSlotPointer
 } from "../../resources/tagged_resources";
 import {
-  toolsInUse,
   findToolById,
   findSlotByToolId
 } from "../../resources/selectors";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { Xyz } from "../../devices/interfaces";
-import { FBSelect } from "../../ui/new_fb_select";
+import { TileMoveAbsSelect } from "./tile_move_abs_select";
 
 interface Args {
   location: Tool | Coordinate;
@@ -113,33 +109,12 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
     }
   }
 
-  updateToolSelect = (tool: DropDownItem) => {
-    (Object.is(NULL_CHOICE, tool)) ? this.clearTool() : this.selectTool(tool);
-  }
-
   updateInputValue = (axis: Xyz, place: LocationArg) =>
     (e: React.SyntheticEvent<HTMLInputElement>) => {
       let num = parseInt(e.currentTarget.value, 10);
       let update = { [place]: { args: { [axis]: num } } };
       this.updateArgs(_.merge({}, this.args, update));
     }
-
-  initialDropDownSequenceValue = () => {
-    if (this.tool && this.tool_id) {
-      return { label: this.tool.body.name, value: this.tool_id }
-    }
-    return { label: "---", value: 0 };
-  }
-
-  get options(): DropDownItem[] {
-    let choices: DropDownItem[] = [];
-    toolsInUse(this.props.resources).map(x => {
-      if (_.isNumber(x.body.id)) {
-        choices.push({ value: x.body.id, label: x.body.name })
-      }
-    })
-    return choices;
-  };
 
   render() {
     let { currentStep, dispatch, index, currentSequence } = this.props;
@@ -190,11 +165,10 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <Row>
               <Col md={12}>
                 <label>Import coordinates from</label>
-                <FBSelect
-                  allowEmpty={true}
-                  list={this.options}
-                  selectedItem={this.initialDropDownSequenceValue()}
-                  onChange={this.updateToolSelect} />
+                <TileMoveAbsSelect
+                  resources={this.resources}
+                  selectedItem={this.args.location}
+                  onChange={(x) => console.error("BRB!")} />
               </Col>
               <Col xs={3}>
                 <label>

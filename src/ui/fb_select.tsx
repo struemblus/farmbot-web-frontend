@@ -12,6 +12,8 @@ export interface DropDownItem {
   hidden?: boolean;
   /** To determine group-by styling on rendered lists. */
   heading?: boolean;
+  /** A unique ID to group headings by. */
+  headingId?: string | undefined;
 }
 
 export interface SelectProps {
