@@ -7,7 +7,7 @@ export function Plant(options: PlantOptions): PlantPointer {
   let openfarm_slug = options.openfarm_slug || "not-set";
   return {
     id: options.id,
-    point_type: "Plant",
+    pointer_type: "Plant",
     created_at: (options.created_at || ""),
     name: (options.name || "Untitled Plant"),
     meta: {},

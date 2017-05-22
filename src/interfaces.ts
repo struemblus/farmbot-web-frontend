@@ -99,16 +99,16 @@ interface BasePoint {
 
 export interface PlantPointer extends BasePoint {
   openfarm_slug: string;
-  point_type: "Plant";
+  pointer_type: "Plant";
 }
 
 export interface ToolSlotPointer extends BasePoint {
   tool_id: number | undefined;
-  point_type: "ToolSlot";
+  pointer_type: "ToolSlot";
 }
 
 export interface GenericPointer extends BasePoint {
-  point_type: "GenericPointer";
+  pointer_type: "GenericPointer";
 }
 
 export type AnyPointer =

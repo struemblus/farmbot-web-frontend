@@ -101,9 +101,7 @@ let is = (r: ResourceName) => function isOfTag(x: object): x is TaggedResource {
   }
   return safe;
 };
-/** Don't export me! Determine if a mystery obj. is one of
- *  TaggedToolSlotPoint|TaggedPointPoint|TaggedPlantPointer */
-type PointerType =
+export type PointerType =
   | TaggedToolSlotPointer
   | TaggedGenericPointer
   | TaggedPlantPointer;
@@ -125,13 +123,13 @@ export let isTaggedLog =
   (x: object): x is TaggedLog => is("logs")(x);
 export let isTaggedToolSlotPointer =
   (x: object): x is TaggedToolSlotPointer => {
-    return isTaggedPoint(x) && (x.body.point_type === "ToolSlot")
+    return isTaggedPoint(x) && (x.body.pointer_type === "ToolSlot")
   };
 export let isTaggedPlantPointer =
   (x: object): x is TaggedPlantPointer => {
-    return isTaggedPoint(x) && (x.body.point_type === "Plant")
+    return isTaggedPoint(x) && (x.body.pointer_type === "Plant")
   };
 export let isTaggedGenericPointer =
   (x: object): x is TaggedGenericPointer => {
-    return isTaggedPoint(x) && (x.body.point_type === "GenericPointer")
+    return isTaggedPoint(x) && (x.body.pointer_type === "GenericPointer")
   }
