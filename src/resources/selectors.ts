@@ -75,6 +75,20 @@ export function groupPointsByType(index: ResourceIndex) {
     .value();
 }
 
+export function findPointerByTypeAndId(index: ResourceIndex,
+  type_: string,
+  id: number) {
+  let p = selectAllPoints(index)
+    .filter(({ body }) => (body.id === id) && (body.pointer_type === type_))[0];
+  if (p) {
+    return p;
+  } else {
+    // We might have a sequence dependency leak if this exception is ever
+    // thrown.
+    throw new Error(`Tried to fetch bad point ${type_} ${id}`);
+  }
+}
+
 export function selectAllGenericPointers(index: ResourceIndex):
   TaggedGenericPointer[] {
   let genericPointers = selectAllPoints(index)

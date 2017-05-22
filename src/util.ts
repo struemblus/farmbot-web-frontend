@@ -343,4 +343,3 @@ export function update(component: any, property: string, value: string) {
     ));
   }
 }
-

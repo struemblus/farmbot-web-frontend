@@ -6,7 +6,8 @@ import { MoveAbsState } from "../interfaces";
 import {
   Tool,
   Coordinate,
-  LegalSequenceKind
+  LegalSequenceKind,
+  Point
 } from "farmbot";
 import {
   Row,
@@ -24,7 +25,8 @@ import {
 } from "../../resources/tagged_resources";
 import {
   findToolById,
-  findSlotByToolId
+  findSlotByToolId,
+  findPointerByTypeAndId
 } from "../../resources/selectors";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
@@ -32,7 +34,7 @@ import { Xyz } from "../../devices/interfaces";
 import { TileMoveAbsSelect } from "./tile_move_abs_select";
 
 interface Args {
-  location: Tool | Coordinate;
+  location: Tool | Coordinate | Point;
   speed: number;
   offset: Coordinate;
 }
@@ -85,11 +87,19 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
 
   getAxisValue = (axis: Xyz): string => {
     let number: number | undefined;
-    switch (this.args.location.kind) {
-      case "coordinate": number = this.args.location.args[axis];
+    let l = this.args.location;
+    switch (l.kind) {
+      case "coordinate":
+        number = l.args[axis];
         break;
-      case "tool": number = (this.slot) ? this.slot.body[axis] : undefined;
+      case "tool":
+        number = (this.slot) ? this.slot.body[axis] : undefined;
         break;
+      case "point":
+        let { pointer_id, pointer_type } = l.args;
+        number = findPointerByTypeAndId(this.resources,
+          pointer_type,
+          pointer_id).body[axis];
     }
     return (number || 0).toString();
   }
@@ -153,7 +163,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 <TileMoveAbsSelect
                   resources={this.resources}
                   selectedItem={this.args.location}
-                  onChange={(x) => console.error("BRB!")} />
+                  onChange={(x) => this.updateArgs({ location: x })} />
               </Col>
               <Col xs={3}>
                 <label>

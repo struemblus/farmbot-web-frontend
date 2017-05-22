@@ -93,6 +93,7 @@ interface BasePoint {
   y: number;
   z: number;
   // device_id: number;
+  pointer_id?: number | undefined;
   meta: { [key: string]: (string | undefined) };
   name: string;
 }
