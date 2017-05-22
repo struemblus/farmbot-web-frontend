@@ -116,14 +116,26 @@ let find = (r: ResourceName) =>
     }
   };
 
-export let findToolSlot = find("tool_slots") as Finder<TaggedToolSlotPointer>;
+export function findToolSlot(i: ResourceIndex, uuid: string): TaggedToolSlotPointer {
+  let ts = selectAllToolSlotPointers(i).filter(x => x.uuid === uuid)[0];
+  if (ts) {
+    return ts;
+  } else {
+    throw new Error("ToolSlotPointer not found: " + uuid);
+  }
+}
 export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
 export let findRegimen = find("regimens") as Finder<TaggedRegimen>;
 export let findFarmEvent = find("farm_events") as Finder<TaggedFarmEvent>;
 
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
-  return index.references[uuid];
+  let x = index.references[uuid];
+  if (x && isTaggedToolSlotPointer(x)) {
+    return x;
+  } else {
+    throw new Error("selectCurrentToolSlot: Not a tool slot: ");
+  }
 }
 
 export function selectAllImages(index: ResourceIndex) {
@@ -280,7 +292,8 @@ export function findSlotWhere(index: ResourceIndex, body: object):
 export let currentToolInSlot = (index: ResourceIndex) =>
   (toolSlotUUID: string): TaggedTool | undefined => {
     let currentSlot = selectCurrentToolSlot(index, toolSlotUUID);
-    if (currentSlot && currentSlot.kind === "tool_slots") {
+    if (currentSlot
+      && currentSlot.kind === "points") {
       let toolUUID = index
         .byKindAndId[joinKindAndId("tools", currentSlot.body.tool_id)];
       let tool = index.references[toolUUID || "NOPE!"];
