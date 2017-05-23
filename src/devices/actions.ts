@@ -152,18 +152,21 @@ export let fetchReleases =
       });
   };
 
-export function save(input: Partial<DeviceAccountSettings>) {
+export function save(input: TaggedDevice) {
   return function (dispatch: Function, getState: GetState) {
     return Axios
-      .put<User>(API.current.devicePath, input)
+      .put<User>(API.current.devicePath, input.body)
       .then(resp => dispatch({ type: "SAVE_DEVICE_OK", payload: resp.data }))
       .catch(resp => error("Error saving device settings."))
   }
 }
 
 export function changeDevice(device: TaggedDevice,
-  update: Partial<DeviceAccountSettings>) {
-  return edit(device, update);
+  update: Partial<DeviceAccountSettings>): Thunk {
+  return function (dispatch, getState) {
+    dispatch(edit(device, update));
+    dispatch(save(getDeviceAccountSettings(getState().resources.index)));
+  }
 }
 
 

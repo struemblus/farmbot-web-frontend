@@ -34,9 +34,9 @@ export class Controls extends Component<Props, Partial<ControlsState>> {
   }
 
   saveURL = () => {
-    this.setState({ isEditingCameraURL: false });
     let update = { webcam_url: this.state.url };
     this.props.dispatch(changeDevice(this.props.account, update));
+    this.setState({ isEditingCameraURL: false });
   }
 
   render() {
