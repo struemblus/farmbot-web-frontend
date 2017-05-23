@@ -18,7 +18,8 @@ function translate(input: Step): string {
     "_if": t("If Statement"),
     "execute": t("Execute Sequence"),
     "execute_script": t("Run Farmware"),
-    "take_photo": t("Take a Photo")
+    "take_photo": t("Take a Photo"),
+    "find_home": t("Find Home")
   };
 
   return TRANSLATIONS[input.kind] || input.kind;

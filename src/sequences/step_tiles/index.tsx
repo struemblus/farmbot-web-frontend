@@ -17,6 +17,7 @@ import * as _ from "lodash";
 import { CeleryNode, LegalSequenceKind, LegalArgString, If, Execute, Nothing } from "farmbot";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { overwrite } from "../../api/crud";
+import { TileFindHome } from "./tile_find_home";
 
 interface MoveParams {
   step: Step;
@@ -114,6 +115,7 @@ export function renderCeleryNode(kind: LegalSequenceKind, props: StepParams) {
     case "read_pin": return <TileReadPin {...props} />;
     case "execute_script": return <TileExecuteScript {...props} />;
     case "take_photo": return <TileTakePhoto {...props} />;
+    case "find_home": return <TileFindHome {...props} />;
     default: return <div><hr /> ? Unknown step ? <hr /></div>;
   }
 };

@@ -92,6 +92,18 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
     <StepButton dispatch={dispatch}
       current={current}
       step={{
+        kind: "find_home",
+        args: {
+          axis: "all",
+          speed: 800
+        }
+      }}
+      color="blue">
+      {t("Find Home")}
+    </StepButton>,
+    <StepButton dispatch={dispatch}
+      current={current}
+      step={{
         kind: "_if",
         args: {
           lhs: "x",
@@ -128,7 +140,7 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
         kind: "take_photo",
         args: {}
       }}
-      color="pink">
+      color="brown">
       {t("TAKE PHOTO")}
     </StepButton>
   ];

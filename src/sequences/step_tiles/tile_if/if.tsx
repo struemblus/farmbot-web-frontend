@@ -19,7 +19,6 @@ export function If_(props: IfParams) {
   let { op, lhs } = currentStep.args;
   function updateField(field: "lhs" | "op") {
     return (e: DropDownItem) => {
-      console.log("TEST123");
       let stepCopy = defensiveClone(step);
       let seqCopy = defensiveClone(sequence).body;
       let val = e.value;
