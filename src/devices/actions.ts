@@ -161,6 +161,11 @@ export function save(input: TaggedDevice) {
   }
 }
 
+/** Opens and closes the gigantic settings panel. */
+export function toggleControlPanel() {
+  return { type: "TOGGLE_CONTROL_PANEL", payload: undefined };
+}
+
 export function changeDevice(device: TaggedDevice,
   update: Partial<DeviceAccountSettings>): Thunk {
   return function (dispatch, getState) {

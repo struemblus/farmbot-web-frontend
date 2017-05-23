@@ -20,6 +20,7 @@ export class Devices extends React.Component<Props, {}> {
         </Col>
         <Col xs={12} sm={6}>
           <HardwareSettings
+            controlPanelOpen={this.props.bot.controlPanelOpen}
             dispatch={this.props.dispatch}
             bot={this.props.bot} />
         </Col>

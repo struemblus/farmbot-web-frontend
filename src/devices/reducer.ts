@@ -15,6 +15,7 @@ export function versionOK(stringyVersion = "0.0.0",
 }
 let initialState: BotState = {
   stepSize: 100,
+  controlPanelOpen: false,
   hardware: {
     mcu_params: {},
     location: [-1, -1, -1],
@@ -34,6 +35,10 @@ let initialState: BotState = {
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
+  .add<void>("TOGGLE_CONTROL_PANEL", function (s, a) {
+    s.controlPanelOpen = !s.controlPanelOpen;
+    return s;
+  })
   .add<number>("CHANGE_STEP_SIZE", function (s, a) {
     return Object.assign({}, s, {
       stepSize: a.payload
