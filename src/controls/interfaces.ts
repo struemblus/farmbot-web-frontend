@@ -1,7 +1,7 @@
 import { BotState, Xyz } from "../devices/interfaces";
 import { Vector3 } from "farmbot/dist";
 
-export interface ControlsState {
+export interface WebcamPanelState {
   isEditingCameraURL: boolean;
   url: string;
 }
