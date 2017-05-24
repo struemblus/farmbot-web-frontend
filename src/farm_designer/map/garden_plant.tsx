@@ -2,7 +2,7 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { Circle } from "./circle";
-import { round, scale } from "./util";
+import { round } from "./util";
 
 export class GardenPlant
   extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
@@ -17,7 +17,7 @@ export class GardenPlant
   }
 
   render() {
-    let { dragging, selected, plant, showSpread, onClick } = this.props;
+    let { selected, plant, onClick } = this.props;
     let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
@@ -30,18 +30,6 @@ export class GardenPlant
         r={radius}
         selected={selected}
       />
-
-      {((selected && dragging) || showSpread) && (
-        <circle
-          cx={round(offsetX)}
-          cy={round(offsetY)}
-          r={scale(radius)}
-          fillOpacity={0.2}
-          fill={"green"}
-          stroke={"green"}
-          strokeWidth={"1.5"}
-        />
-      )}
 
       <image
         className={"plant-image is-chosen-" + selected}

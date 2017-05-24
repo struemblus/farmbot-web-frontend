@@ -7,8 +7,7 @@ import { PlantLayerProps, CropSpreadDict } from "../interfaces";
 let cropSpreadDict: CropSpreadDict = {};
 
 export function PlantLayer(p: PlantLayerProps) {
-  let { crops, plants, dispatch, visible, currentPlant, dragging, editing,
-    temporaryShowSpread } = p;
+  let { crops, plants, dispatch, visible, currentPlant, dragging, editing } = p;
 
   crops
     .filter(c => !!c.body.spread)
@@ -36,7 +35,6 @@ export function PlantLayer(p: PlantLayerProps) {
             <GardenPlant
               plant={props.plant}
               selected={props.selected}
-              showSpread={temporaryShowSpread}
               dragging={props.selected && dragging && editing}
               onClick={() => dispatch(action)}
             />

@@ -1,4 +1,4 @@
-import { ResourceIndex } from "./interfaces";
+import { ResourceIndex, SlotWithTool } from "./interfaces";
 import { joinKindAndId } from "./reducer";
 import {
   isTaggedFarmEvent,
@@ -27,7 +27,6 @@ import {
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
-import { PointerTypeName } from "../interfaces";
 
 export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
@@ -363,9 +362,18 @@ export let findFarmEventById = (ri: ResourceIndex, fe_id: number) => {
   }
 };
 
-export let findToolById = (ri: ResourceIndex, tool_id: number) => {
-  let tool = byId("tools")(ri, tool_id);
+export let maybeFindToolById = (ri: ResourceIndex, tool_id?: number) => {
+  let tool = tool_id && byId("tools")(ri, tool_id);
   if (tool && isTaggedTool(tool) && sanityCheck(tool)) {
+    return tool;
+  } else {
+    return undefined;
+  }
+};
+
+export let findToolById = (ri: ResourceIndex, tool_id: number) => {
+  let tool = maybeFindToolById(ri, tool_id);
+  if (tool) {
     return tool;
   } else {
     throw new Error("Bad tool id: " + tool_id);
@@ -446,4 +454,15 @@ export function getDeviceAccountSettings(index: ResourceIndex) {
 
 export function all(index: ResourceIndex) {
   return betterCompact(index.all.map(uuid => index.references[uuid]));
+}
+
+/** For those times that you need to ref a tool and slot together. */
+export function joinToolsAndSlot(index: ResourceIndex): SlotWithTool[] {
+  return selectAllToolSlotPointers(index)
+    .map(function (toolSlot) {
+      return {
+        toolSlot,
+        tool: maybeFindToolById(index, toolSlot.body.tool_id)
+      }
+    });
 }
