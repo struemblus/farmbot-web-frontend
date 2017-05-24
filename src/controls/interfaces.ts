@@ -27,7 +27,15 @@ export interface WebcamPanelState {
 export interface DirectionButtonProps {
   axis: Xyz;
   direction: "up" | "down" | "left" | "right";
+  isInverted: boolean;
   steps: number;
+}
+
+export interface Payl {
+  speed: number;
+  x: number;
+  y: number;
+  z: number;
 }
 
 export type Vector = Vector3;
@@ -61,6 +69,7 @@ export interface StepSizeSelectorProps {
 }
 
 export interface JogMovementControlsProps {
+  invertedStatus: State;
   bot: BotState;
 }
 

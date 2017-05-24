@@ -13,13 +13,23 @@ import { StepSizeSelector } from "./step_size_selector";
 import { MustBeOnline } from "../devices/must_be_online";
 import { ToolTips } from "../constants";
 import { WebcamPanel } from "./webcam_panel";
-import { Props } from "./interfaces";
+import { Props, State } from "./interfaces";
 
 @connect(mapStateToProps)
-export class Controls extends Component<Props, {}> {
+export class Controls extends Component<Props, Partial<State>> {
+
+  state: State = {
+    x_axis_inverted: false,
+    y_axis_inverted: false,
+    z_axis_inverted: false
+  }
 
   render() {
     let { sync_status } = this.props.bot.hardware.informational_settings;
+    let { x_axis_inverted, y_axis_inverted, z_axis_inverted } = this.state;
+    let xBtnColor = x_axis_inverted ? "green" : "red";
+    let yBtnColor = y_axis_inverted ? "green" : "red";
+    let zBtnColor = z_axis_inverted ? "green" : "red";
 
     return <Page className="controls">
       <Row>
@@ -40,8 +50,10 @@ export class Controls extends Component<Props, {}> {
                         {t("X Axis")}
                       </label>
                       <button
-                        className={"toggle-button yellow"}
-                        onClick={e => console.log("LOL")}
+                        className={"toggle-button " + xBtnColor}
+                        onClick={() => this.setState({
+                          x_axis_inverted: !x_axis_inverted
+                        })}
                       />
                     </fieldset>
                     <fieldset>
@@ -49,8 +61,10 @@ export class Controls extends Component<Props, {}> {
                         {t("Y Axis")}
                       </label>
                       <button
-                        className={"toggle-button yellow"}
-                        onClick={e => console.log("LOL")}
+                        className={"toggle-button " + yBtnColor}
+                        onClick={() => this.setState({
+                          y_axis_inverted: !y_axis_inverted
+                        })}
                       />
                     </fieldset>
                     <fieldset>
@@ -58,8 +72,10 @@ export class Controls extends Component<Props, {}> {
                         {t("Z Axis")}
                       </label>
                       <button
-                        className={"toggle-button yellow"}
-                        onClick={e => console.log("LOL")}
+                        className={"toggle-button " + zBtnColor}
+                        onClick={() => this.setState({
+                          z_axis_inverted: !z_axis_inverted
+                        })}
                       />
                     </fieldset>
                   </div>
@@ -67,7 +83,8 @@ export class Controls extends Component<Props, {}> {
               </div>
               <EStopButton
                 bot={this.props.bot}
-                auth={this.props.auth} />
+                auth={this.props.auth}
+              />
             </WidgetHeader>
             <WidgetBody>
               <MustBeOnline
@@ -79,12 +96,17 @@ export class Controls extends Component<Props, {}> {
                 </label>
                 <StepSizeSelector
                   choices={[1, 10, 100, 1000, 10000]}
-                  selector={(num: number) => this.props.dispatch(changeStepSize(num))}
-                  selected={this.props.bot.stepSize} />
-                <JogButtons bot={this.props.bot} />
+                  selector={num => this.props.dispatch(changeStepSize(num))}
+                  selected={this.props.bot.stepSize}
+                />
+                <JogButtons
+                  bot={this.props.bot}
+                  invertedStatus={this.state}
+                />
                 <AxisInputBoxGroup
                   bot={this.props.bot}
-                  onCommit={input => moveAbs(input)} />
+                  onCommit={input => moveAbs(input)}
+                />
               </MustBeOnline>
             </WidgetBody>
           </Widget>
@@ -92,7 +114,8 @@ export class Controls extends Component<Props, {}> {
             bot={this.props.bot}
             peripherals={this.props.peripherals}
             dispatch={this.props.dispatch}
-            resources={this.props.resources} />
+            resources={this.props.resources}
+          />
         </Col>
         <Col xs={12} sm={6}>
           <WebcamPanel {...this.props} />
