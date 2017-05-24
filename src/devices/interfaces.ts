@@ -63,7 +63,7 @@ export interface BotState {
   /** Hardware settings auto update on blur. Tells the UI if it should load a
    * spinner or not. */
   isUpdating?: boolean;
-  controlPanelOpen: boolean;
+  controlPanelClosed: boolean;
 }
 
 export interface BotProp {
@@ -146,7 +146,7 @@ export interface FarmwareProps {
 }
 
 export interface HardwareSettingsProps {
-  controlPanelOpen: boolean;
+  controlPanelClosed: boolean;
   dispatch: Function;
   bot: BotState;
 }

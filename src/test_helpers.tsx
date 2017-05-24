@@ -52,7 +52,7 @@ export function fakeState(dispatcher: Function = noop): Everything {
 
   let bot: Everything["bot"] = {
     "stepSize": 100,
-    "controlPanelOpen": false,
+    "controlPanelClosed": false,
     "hardware": {
       "mcu_params": {},
       "location": [

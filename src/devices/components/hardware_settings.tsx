@@ -28,6 +28,7 @@ export class HardwareSettings
     let { mcu_params } = bot.hardware;
     let { showMenu } = this.state;
     let iconString = showMenu ? "minus" : "plus";
+    let hidePanel = this.props.controlPanelClosed;
 
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
@@ -88,7 +89,7 @@ export class HardwareSettings
                   </label>
                 </td>
               </tr>
-              <tr hidden={this.props.controlPanelOpen}>
+              <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Steps per MM")}</label>
                   <div className="help">
@@ -112,7 +113,7 @@ export class HardwareSettings
                 />
               </tr>
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Minimum Speed (steps/s)")}
                 tooltip={t(`Minimum movement speed.
                 Also used for homing, calibration,
@@ -124,7 +125,7 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Accelerate for (steps)")}
                 tooltip={t(ToolTips.ACCELERATE_FOR)}
                 x={"movement_steps_acc_dec_x"}
@@ -133,7 +134,7 @@ export class HardwareSettings
                 bot={bot}
                 dispatch={dispatch}
               />
-              <NumericMCUInputGroup hidden={this.props.controlPanelOpen}
+              <NumericMCUInputGroup hidden={hidePanel}
                 name={t("Timeout after (seconds)")}
                 tooltip={t(ToolTips.TIMEOUT_AFTER)}
                 x={"movement_timeout_x"}
@@ -143,7 +144,7 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Length (mm)")}
                 tooltip={t(ToolTips.LENGTH)}
                 x={"movement_axis_nr_steps_x"}
@@ -153,7 +154,7 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Encoder Scaling")}
                 tooltip={t(ToolTips.ENCODER_SCALING)}
                 x={"encoder_scaling_x"}
@@ -163,7 +164,7 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Max Missed Steps")}
                 tooltip={t(ToolTips.MAX_MISSED_STEPS)}
                 x={"encoder_missed_steps_max_x"}
@@ -173,7 +174,7 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <NumericMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Encoder Missed Step Decay")}
                 tooltip={t(ToolTips.ENCODER_MISSED_STEP_DECAY)}
                 x={"encoder_missed_steps_decay_x"}
@@ -183,15 +184,15 @@ export class HardwareSettings
                 dispatch={dispatch}
               />
               <CalibrationRow
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 hardware={mcu_params}
               />
               <HomingRow
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 hardware={mcu_params}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Enable Encoders")}
                 tooltip={t(ToolTips.ENABLE_ENCODERS)}
                 x={"encoder_enabled_x"}
@@ -201,7 +202,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Always Power Motors")}
                 tooltip={t(ToolTips.ALWAYS_POWER_MOTORS)}
                 x={"movement_keep_active_x"}
@@ -211,7 +212,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Invert Encoders")}
                 tooltip={t(ToolTips.INVERT_ENCODERS)}
                 x={"encoder_invert_x"}
@@ -221,7 +222,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Invert Endpoints")}
                 tooltip={t(ToolTips.INVERT_ENDPOINTS)}
                 x={"movement_invert_endpoints_x"}
@@ -231,7 +232,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Invert Motors")}
                 tooltip={t(ToolTips.INVERT_MOTORS)}
                 x={"movement_invert_motor_x"}
@@ -241,7 +242,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Negative Coordinates Only")}
                 tooltip={t(ToolTips.NEGATIVE_COORDINATES_ONLY)}
                 x={"movement_home_up_x"}
@@ -251,7 +252,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Enable Endstops")}
                 tooltip={t(ToolTips.ENABLE_ENDSTOPS)}
                 x={"movement_enable_endpoints_x"}
@@ -261,7 +262,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Find Home on Boot")}
                 tooltip={t(ToolTips.FIND_HOME_ON_BOOT)}
                 x={"movement_home_at_boot_x"}
@@ -271,7 +272,7 @@ export class HardwareSettings
                 bot={bot}
               />
               <BooleanMCUInputGroup
-                hidden={this.props.controlPanelOpen}
+                hidden={hidePanel}
                 name={t("Software Limits")}
                 tooltip={t(ToolTips.SOFTWARE_LIMITS)}
                 x={"movement_stop_at_home_x"}
@@ -280,14 +281,14 @@ export class HardwareSettings
                 dispatch={dispatch}
                 bot={bot}
               />
-              <tr hidden={this.props.controlPanelOpen}>
+              <tr hidden={hidePanel}>
                 <td colSpan={100}>
                   <small>
                     {t("Second X Motor")}
                   </small>
                 </td>
               </tr>
-              <tr hidden={this.props.controlPanelOpen}>
+              <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Enable Motor")}</label>
                   <div className="help">
@@ -304,7 +305,7 @@ export class HardwareSettings
                   />
                 </td>
               </tr>
-              <tr hidden={this.props.controlPanelOpen}>
+              <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Invert Motor")}</label>
                   <div className="help">
@@ -321,7 +322,7 @@ export class HardwareSettings
                   />
                 </td>
               </tr>
-              <tr hidden={this.props.controlPanelOpen}>
+              <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Reset hardware parameter defaults")}</label>
                 </td>
