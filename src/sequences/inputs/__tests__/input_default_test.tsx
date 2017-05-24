@@ -2,10 +2,11 @@ jest.unmock("../../step_tiles/index");
 import * as React from "react";
 import { InputDefault } from "../input_default";
 import { mount } from "enzyme";
-import { fakeState, Wrapper } from "../../../test_helpers";
 import { TaggedSequence } from "../../../resources/tagged_resources";
 import { MoveAbsolute } from "farmbot/dist";
 import { updateStep } from "../../step_tiles/index";
+import { fakeState } from "../../../__test_support__/fake_state";
+import { Wrapper } from "../../../__test_support__/wrapper";
 
 describe("<InputDefault/>", () => {
   it("updates the step", () => {

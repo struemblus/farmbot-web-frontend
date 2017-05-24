@@ -3,7 +3,7 @@ jest.mock("i18next", () => ({ t: (i: string) => i }))
 jest.mock("../../../ui/index", () => ({ error: errorStub }));
 
 import { commitBulkEditor } from "../actions";
-import { fakeState } from "../../../test_helpers";
+import { fakeState } from "../../../__test_support__/fake_state";
 
 describe("commitBulkEditor()", () => {
   it("does nothing if no regimen is selected", () => {
