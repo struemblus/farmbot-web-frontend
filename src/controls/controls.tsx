@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import { changeStepSize, moveAbs, changeDevice } from "../devices/actions";
+import { changeStepSize, moveAbs } from "../devices/actions";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { Peripherals } from "./peripherals";
@@ -24,13 +24,53 @@ export class Controls extends Component<Props, {}> {
       <Row>
         <Col xs={12} sm={6} md={4} mdOffset={1}>
           <Widget>
-            <WidgetHeader title="Move" helpText={ToolTips.MOVE}>
+            <WidgetHeader
+              title="Move"
+              helpText={ToolTips.MOVE}>
+              <div className="invert-controls-menu-outer">
+                <div className="invert-controls-menu-inner">
+                  <i className="fa fa-gear" />
+                  <div className="content">
+                    <label>
+                      {t("Invert Jog Buttons")}
+                    </label>
+                    <fieldset>
+                      <label>
+                        {t("X Axis")}
+                      </label>
+                      <button
+                        className={"toggle-button yellow"}
+                        onClick={e => console.log("LOL")}
+                      />
+                    </fieldset>
+                    <fieldset>
+                      <label>
+                        {t("Y Axis")}
+                      </label>
+                      <button
+                        className={"toggle-button yellow"}
+                        onClick={e => console.log("LOL")}
+                      />
+                    </fieldset>
+                    <fieldset>
+                      <label>
+                        {t("Z Axis")}
+                      </label>
+                      <button
+                        className={"toggle-button yellow"}
+                        onClick={e => console.log("LOL")}
+                      />
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
               <EStopButton
                 bot={this.props.bot}
                 auth={this.props.auth} />
             </WidgetHeader>
             <WidgetBody>
-              <MustBeOnline fallback="Bot is offline."
+              <MustBeOnline
+                fallback="Bot is offline."
                 lockOpen={process.env.NODE_ENV !== "production"}
                 status={sync_status}>
                 <label className="text-center">
@@ -43,7 +83,7 @@ export class Controls extends Component<Props, {}> {
                 <JogButtons bot={this.props.bot} />
                 <AxisInputBoxGroup
                   bot={this.props.bot}
-                  onCommit={(input) => { moveAbs(input); }} />
+                  onCommit={input => moveAbs(input)} />
               </MustBeOnline>
             </WidgetBody>
           </Widget>
@@ -60,3 +100,4 @@ export class Controls extends Component<Props, {}> {
     </Page>;
   }
 };
+
