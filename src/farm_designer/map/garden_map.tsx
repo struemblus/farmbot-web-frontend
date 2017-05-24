@@ -3,16 +3,13 @@ import { Plant } from "../plant";
 import { movePlant } from "../actions";
 import * as moment from "moment";
 import { GardenMapProps, GardenMapState } from "../interfaces";
-import { GardenPlant } from "./garden_plant";
-import { GardenPoint } from "./garden_point";
 import { history } from "../../history";
 import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlantPointer } from "../../resources/tagged_resources";
-import { Link } from "react-router";
 import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
 import { findBySlug } from "../search_selectors";
-import { noop } from "lodash";
 import { PlantLayer } from "./layers/plant_layer";
+import { PointLayer } from "./layers/point_layer";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -107,14 +104,16 @@ export class GardenMap
         onMouseUp={this.endDrag}
         onMouseDown={this.startDrag}
         onMouseMove={this.drag}>
-
-        {this.props.showPoints && this
-          .props
-          .points
-          .map(p => { return <GardenPoint point={p} key={p.body.id} />; })}
+        <PointLayer visible={!!this.props.showPoints}
+          points={this.props.points} />
         <PlantLayer
+          dispatch={this.props.dispatch}
           visible={!!this.props.showPlants}
-          plants={this.props.plants} />
+          plants={this.props.plants}
+          currentPlant={this.getPlant()}
+          dragging={!!this.state.isDragging}
+          editing={!!this.isEditing}
+          temporaryShowSpread={!!this.props.showSpread} />
       </svg>
     </div>;
   }

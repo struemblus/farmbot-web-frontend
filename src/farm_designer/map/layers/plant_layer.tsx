@@ -5,33 +5,41 @@ import { Link } from "react-router";
 import * as _ from "lodash";
 interface PlantLayerProps {
   plants: TaggedPlantPointer[];
+  currentPlant: TaggedPlantPointer | undefined;
+  dragging: boolean;
+  editing: boolean;
   visible: boolean;
+  temporaryShowSpread: boolean;
+  dispatch: Function;
 }
 
-export function PlantLayer({ plants, visible }: PlantLayerProps) {
+export function PlantLayer(p: PlantLayerProps) {
+  let { plants, dispatch, visible, currentPlant, dragging, editing, temporaryShowSpread } = p;
+
   if (visible) {
     return <g>{plants
       .filter(x => !!x.body.id)
-      .map((p, index) => {
-        let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
-        let currentPlant = this.getPlant();
-        let selected = !!(currentPlant && (p.uuid === currentPlant.uuid));
-
-        return <Link className={"plant-link-wrapper"}
-          to={"/app/designer/plants/" + plantId}
-          id={plantId || "NOT_SAVED"}
+      .map(p => {
+        return {
+          selected: !!(currentPlant && (p.uuid === currentPlant.uuid)),
+          plantId: (p.body.id || "IMPOSSIBLE_ERR_NO_PLANT_ID").toString(),
+          uuid: p.uuid,
+          plant: p
+        }
+      })
+      .map((props, index) => {
+        let action = { type: "SELECT_PLANT", payload: props.uuid };
+        return <Link className="plant-link-wrapper"
+          to={"/app/designer/plants/" + props.plantId}
+          id={props.plantId}
           onClick={_.noop}
-          key={(plantId || index)}>
+          key={props.plantId}>
           <GardenPlant
-            plant={p}
-            selected={selected}
-            showSpread={this.props.showSpread}
-            dragging={selected && !!this.state.isDragging && this.isEditing}
-            onClick={plant => {
-              this
-                .props
-                .dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
-            }}
+            plant={props.plant}
+            selected={props.selected}
+            showSpread={temporaryShowSpread}
+            dragging={props.selected && dragging && editing}
+            onClick={() => dispatch(action)}
           />
         </Link>;
       })}</g>
