@@ -12,7 +12,7 @@ export function TileTakePhoto({ dispatch, currentStep, index, currentSequence }:
     <div className="step-wrapper">
       <div className="row">
         <div className="col-sm-12">
-          <div className="step-header wait-step">
+          <div className="step-header take-photo-step">
             <StepTitleBar index={index}
               dispatch={dispatch}
               step={currentStep} />
@@ -25,7 +25,8 @@ export function TileTakePhoto({ dispatch, currentStep, index, currentSequence }:
               }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-            <Help text={(`Snaps a photo from the boroscope.`)} />
+            <Help text={(`Snaps a photo using the device camera.
+                          Select the camera type on the Device page.`)} />
           </div>
         </div>
       </div>
