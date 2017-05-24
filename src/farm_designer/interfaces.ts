@@ -8,10 +8,10 @@ import {
   TaggedGenericPointer,
   TaggedPlantPointer,
   TaggedCrop,
-  TaggedToolSlotPointer
 } from "../resources/tagged_resources";
 import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
 import { PlantPointer } from "../interfaces";
+import { SlotWithTool } from "../resources/interfaces";
 
 export interface State {
   zoomLvl: number;
@@ -27,7 +27,7 @@ export interface Props {
   designer: DesignerState;
   points: TaggedGenericPointer[];
   plants: TaggedPlantPointer[];
-  toolSlots: TaggedToolSlotPointer[];
+  toolSlots: SlotWithTool[];
   crops: TaggedCrop[];
 }
 
@@ -139,7 +139,7 @@ export interface GardenMapProps {
   designer: DesignerState;
   points: TaggedGenericPointer[];
   plants: TaggedPlantPointer[];
-  toolSlots: TaggedToolSlotPointer[];
+  toolSlots: SlotWithTool[];
   selectedPlant: TaggedPlantPointer | undefined;
   crops: TaggedCrop[];
 }

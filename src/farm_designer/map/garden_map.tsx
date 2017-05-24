@@ -11,6 +11,7 @@ import { findBySlug } from "../search_selectors";
 import { PlantLayer } from "./layers/plant_layer";
 import { PointLayer } from "./layers/point_layer";
 import { SpreadLayer } from "./layers/spread_layer";
+import { ToolSlotLayer } from "./layers/tool_slot_layer";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -110,6 +111,8 @@ export class GardenMap
           visible={!!this.props.showSpread} />
         <PointLayer visible={!!this.props.showPoints}
           points={this.props.points} />
+        <ToolSlotLayer visible={!!this.props.showFarmbot}
+          slots={this.props.toolSlots} />
         <PlantLayer
           dispatch={this.props.dispatch}
           visible={!!this.props.showPlants}
