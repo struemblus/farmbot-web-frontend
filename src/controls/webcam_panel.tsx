@@ -1,15 +1,13 @@
 import * as React from "react";
 import { Widget, WidgetHeader } from "../ui";
-import { WebcamPanelState } from "./interfaces";
+import { WebcamPanelState, Props } from "./interfaces";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
 import { showUrl } from "./show_url";
 import { t } from "i18next";
-import { Props } from "./state_to_props";
 import { changeDevice } from "../devices/actions";
 import { ToolTips } from "../constants";
 
-export
-  class WebcamPanel
+export class WebcamPanel
   extends React.Component<Props, Partial<WebcamPanelState>> {
 
   constructor() {

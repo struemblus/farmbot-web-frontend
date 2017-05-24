@@ -1,5 +1,23 @@
 import { BotState, Xyz } from "../devices/interfaces";
 import { Vector3 } from "farmbot/dist";
+import { AuthState } from "../auth/interfaces";
+import { TaggedPeripheral, TaggedDevice } from "../resources/tagged_resources";
+import { RestResources } from "../resources/interfaces";
+
+export interface Props {
+  dispatch: Function;
+  bot: BotState;
+  account: TaggedDevice;
+  auth: AuthState | undefined;
+  peripherals: TaggedPeripheral[];
+  resources: RestResources;
+}
+
+export interface State {
+  x_axis_inverted: boolean;
+  y_axis_inverted: boolean;
+  z_axis_inverted: boolean;
+}
 
 export interface WebcamPanelState {
   isEditingCameraURL: boolean;

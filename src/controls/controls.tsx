@@ -8,11 +8,12 @@ import { EStopButton } from "../devices/components/e_stop_btn";
 import { JogButtons } from "./jog_buttons";
 import { AxisInputBoxGroup } from "./axis_input_box_group";
 import { Row, Page, Col, Widget, WidgetBody, WidgetHeader } from "../ui";
-import { mapStateToProps, Props } from "./state_to_props";
+import { mapStateToProps } from "./state_to_props";
 import { StepSizeSelector } from "./step_size_selector";
 import { MustBeOnline } from "../devices/must_be_online";
 import { ToolTips } from "../constants";
 import { WebcamPanel } from "./webcam_panel";
+import { Props } from "./interfaces";
 
 @connect(mapStateToProps)
 export class Controls extends Component<Props, {}> {
