@@ -102,16 +102,20 @@ export class GardenMap
       onDrop={this.handleDrop}
       onDragEnter={this.handleDragEnter}
       onDragOver={this.handleDragOver}>
-      <svg id="drop-area-svg"
+      <svg
+        id="drop-area-svg"
         onMouseUp={this.endDrag}
         onMouseDown={this.startDrag}
         onMouseMove={this.drag}>
-        <SpreadLayer plants={this.props.plants}
+        <SpreadLayer
+          plants={this.props.plants}
           currentPlant={this.getPlant()}
           visible={!!this.props.showSpread} />
-        <PointLayer visible={!!this.props.showPoints}
+        <PointLayer
+          visible={!!this.props.showPoints}
           points={this.props.points} />
-        <ToolSlotLayer visible={!!this.props.showFarmbot}
+        <ToolSlotLayer
+          visible={!!this.props.showFarmbot}
           slots={this.props.toolSlots} />
         <PlantLayer
           dispatch={this.props.dispatch}

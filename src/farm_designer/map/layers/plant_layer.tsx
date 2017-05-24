@@ -18,6 +18,10 @@ export function PlantLayer(p: PlantLayerProps) {
       {plants
         .filter(x => !!x.body.id)
         .map(p => {
+          p.body.spread = cropSpreadDict[p.body.openfarm_slug] || p.body.radius;
+          return p;
+        })
+        .map(p => {
           return {
             selected: !!(currentPlant && (p.uuid === currentPlant.uuid)),
             plantId: (p.body.id || "IMPOSSIBLE_ERR_NO_PLANT_ID").toString(),
