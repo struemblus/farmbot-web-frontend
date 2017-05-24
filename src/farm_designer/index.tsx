@@ -1,8 +1,8 @@
 import * as React from "react";
-import { GardenMap } from "./map/garden_map";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
+import { GardenMap } from "./map/garden_map";
 import { Props, State } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
@@ -17,14 +17,12 @@ type ShowOptions =
 
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
-  constructor() {
-    super();
-    this.state = {
-      zoomLvl: 0.6,
-      showPlants: true,
-      showPoints: true,
-      showSpread: false
-    };
+
+  state = {
+    zoomLvl: 0.6,
+    showPlants: true,
+    showPoints: true,
+    showSpread: false
   }
 
   zoom = (zoomNumber: number) => {
@@ -40,7 +38,11 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   toggle = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     let name = "show" + _.capitalize(e.currentTarget.name);
-    this.setState({ [name]: !this.state[name as ShowOptions] });
+    if (this.state.hasOwnProperty(name)) {
+      this.setState({ [name]: !this.state[name as ShowOptions] });
+    } else {
+      throw new Error(`${name} is not a valid property name in ${this.state}`);
+    }
   }
 
   render() {
@@ -79,7 +81,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Plants?")}</span>
               <button
                 className={"toggle-button " + plantsBtnColor}
-                onClick={(e) => this.toggle(e)}
+                onClick={e => this.toggle(e)}
                 name={"plants"}
               />
             </label>
@@ -89,7 +91,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Points?")}</span>
               <button
                 className={"toggle-button " + pointsBtnColor}
-                onClick={(e) => this.toggle(e)}
+                onClick={e => this.toggle(e)}
                 name={"points"}
               />
             </label>
@@ -99,7 +101,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Spread?")}</span>
               <button
                 className={"toggle-button " + spreadBtnColor}
-                onClick={(e) => this.toggle(e)}
+                onClick={e => this.toggle(e)}
                 name={"spread"}
               />
             </label>
