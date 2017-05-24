@@ -1,3 +1,9 @@
+/**
+ * Seems like a better idea to keep content and tooltips centralized. If we have
+ * the ability to keep the app safer from possible accidental breakages by
+ * avoiding going into components for copy changes, why not right? ¯\_(ツ)_/¯
+ */
+
 export namespace ToolTips {
 
   // Controls
@@ -137,15 +143,20 @@ export namespace ToolTips {
     that you can put your Tools in, which should be reflective of your real 
     FarmBot hardware configuration.`
 
-  // Account
-  export const ACCOUNT_SETTINGS =
-    ``
+}
 
-  export const ACCOUNT_CHANGE_PW =
-    ``
+export namespace Content {
 
-  export const ACCOUNT_DELETE =
-    `Enter your password to delete your account.`
+  export const ACCOUNT_DELETE_WARNING =
+    `WARNING! Deleting your account will permanently delete all of your 
+    Sequences , Regimens, Events, and Farm Designer data.Upon deleting your 
+    account, FarmBot will cease to function and become inaccessible until it is 
+    paired with another web app account. To do this, you will need to reboot 
+    your FarmBot so that is goes back into configuration mode for pairing with 
+    another user account. When this happens, all of the data on your FarmBot 
+    will be overwritten with the new account's data. If the account is brand 
+    new, then FarmBot will become a blank slate.`
 
 }
+
 
