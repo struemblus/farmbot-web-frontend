@@ -11,7 +11,7 @@ export function TileExecuteScript({ dispatch, currentStep, index, currentSequenc
       <div className="step-wrapper">
         <div className="row">
           <div className="col-sm-12">
-            <div className="step-header send-message-step">
+            <div className="step-header execute-script-step">
               <StepTitleBar index={index}
                 dispatch={dispatch}
                 step={currentStep} />
@@ -24,8 +24,8 @@ export function TileExecuteScript({ dispatch, currentStep, index, currentSequenc
                 }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-              <Help text={(`The 'Run Farmware' block runs a
-                                FarmWare package. The weed detection script is
+              <Help text={(`The Run Farmware step runs a
+                                Farmware package. The weed detection script is
                                 the only script supported at the moment, but user
                                 definable script support is coming soon!`)} />
             </div>
@@ -34,7 +34,7 @@ export function TileExecuteScript({ dispatch, currentStep, index, currentSequenc
 
         <div className="row">
           <div className="col-sm-12">
-            <div className="step-content wait-step">
+            <div className="step-content execute-script-step">
               <div className="row">
                 <div className="col-xs-6 col-md-8">
                   <label>{t("Package Name")}</label>
