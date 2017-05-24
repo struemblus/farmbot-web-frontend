@@ -9,7 +9,6 @@ export interface PlantLayerProps {
   dragging: boolean;
   editing: boolean;
   visible: boolean;
-  temporaryShowSpread: boolean;
   crops: TaggedCrop[];
   dispatch: Function;
 }
