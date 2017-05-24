@@ -8,6 +8,7 @@ import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
 import { isMobile } from "../util";
+import { LayerToggle } from "./map/layer_toggle";
 
 // The toggle-able options in the legend
 type ShowOptions =
@@ -62,11 +63,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
     let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
 
-    let plantsBtnColor = showPlants ? "green" : "red";
-    let pointsBtnColor = showPoints ? "green" : "red";
-    let spreadBtnColor = showSpread ? "green" : "red";
-    let farmbotBtnColor = showFarmbot ? "green" : "red";
-
     return <div className="farm-designer">
 
       <div className="garden-map-legend" style={{ zoom: 1 }}>
@@ -79,42 +75,18 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
           <i className="fa fa-2x fa-minus" />
         </button>
         <div className="map-layers">
-          <fieldset>
-            <label>
-              <span>{t("Plants?")}</span>
-              <button
-                className={"toggle-button " + plantsBtnColor}
-                onClick={this.toggle("showPlants")}
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>
-              <span>{t("Points?")}</span>
-              <button
-                className={"toggle-button " + pointsBtnColor}
-                onClick={this.toggle("showPoints")}
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>
-              <span>{t("Spread?")}</span>
-              <button
-                className={"toggle-button " + spreadBtnColor}
-                onClick={this.toggle("showSpread")}
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>
-              <span>{t("FarmBot?")}</span>
-              <button
-                className={"toggle-button " + farmbotBtnColor}
-                onClick={this.toggle("showFarmbot")}
-              />
-            </label>
-          </fieldset>
+          <LayerToggle value={this.state.showPlants}
+            label={t("Plants?")}
+            onClick={this.toggle("showPlants")} />
+          <LayerToggle value={this.state.showPoints}
+            label={t("Points?")}
+            onClick={this.toggle("showPoints")} />
+          <LayerToggle value={this.state.showSpread}
+            label={t("Spread?")}
+            onClick={this.toggle("showSpread")} />
+          <LayerToggle value={this.state.showFarmbot}
+            label={t("FarmBot?")}
+            onClick={this.toggle("showFarmbot")} />
         </div>
       </div>
 
