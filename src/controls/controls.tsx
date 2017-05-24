@@ -1,8 +1,8 @@
 import * as React from "react";
-import { Component } from "react";
-import { changeStepSize, moveAbs } from "../devices/actions";
-import { connect } from "react-redux";
 import { t } from "i18next";
+import { Component } from "react";
+import { connect } from "react-redux";
+import { changeStepSize, moveAbs } from "../devices/actions";
 import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
 import { JogButtons } from "./jog_buttons";
