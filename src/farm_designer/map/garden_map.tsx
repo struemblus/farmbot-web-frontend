@@ -12,6 +12,7 @@ import { Link } from "react-router";
 import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
 import { findBySlug } from "../search_selectors";
 import { noop } from "lodash";
+import { PlantLayer } from "./layers/plant_layer";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -111,35 +112,9 @@ export class GardenMap
           .props
           .points
           .map(p => { return <GardenPoint point={p} key={p.body.id} />; })}
-
-        {this.props.showPlants && this
-          .props
-          .plants
-          .filter(x => !!x.body.id)
-          .map((p, index) => {
-            let plantId = (p.body.id || "ERR_NO_PLANT_ID").toString();
-            let currentPlant = this.getPlant();
-            let selected = !!(currentPlant && (p.uuid === currentPlant.uuid));
-
-            return <Link className={"plant-link-wrapper"}
-              to={"/app/designer/plants/" + plantId}
-              id={plantId || "NOT_SAVED"}
-              onClick={noop}
-              key={(plantId || index)}>
-              <GardenPlant
-                plant={p}
-                selected={selected}
-                showSpread={this.props.showSpread}
-                dragging={selected && !!this.state.isDragging && this.isEditing}
-                onClick={plant => {
-                  this
-                    .props
-                    .dispatch({ type: "SELECT_PLANT", payload: plant.uuid });
-                }}
-              />
-            </Link>;
-          })}
-
+        <PlantLayer
+          visible={!!this.props.showPlants}
+          plants={this.props.plants} />
       </svg>
     </div>;
   }
