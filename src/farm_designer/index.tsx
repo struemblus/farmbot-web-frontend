@@ -13,7 +13,8 @@ import { isMobile } from "../util";
 type ShowOptions =
   | "showPlants"
   | "showPoints"
-  | "showSpread";
+  | "showSpread"
+  | "showFarmbot";
 
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
@@ -22,7 +23,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     zoomLvl: 0.6,
     showPlants: true,
     showPoints: true,
-    showSpread: false
+    showSpread: false,
+    showFarmbot: true
   }
 
   zoom = (zoomNumber: number) => {
@@ -36,14 +38,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     return this.props.children || fallback;
   }
 
-  toggle = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    let name = "show" + _.capitalize(e.currentTarget.name);
-    if (this.state.hasOwnProperty(name)) {
-      this.setState({ [name]: !this.state[name as ShowOptions] });
-    } else {
-      throw new Error(`${name} is not a valid property name in ${this.state}`);
-    }
-  }
+  toggle = (name: keyof State) =>
+    () => this.setState({ [name]: !this.state[name] });
 
   render() {
     // Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
@@ -55,7 +51,13 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
       document.body.classList.remove("designer-tab");
     }
 
-    let { zoomLvl, showPlants, showPoints, showSpread } = this.state;
+    let {
+      zoomLvl,
+      showPlants,
+      showPoints,
+      showSpread,
+      showFarmbot
+    } = this.state;
 
     let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
     let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
@@ -63,6 +65,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let plantsBtnColor = showPlants ? "green" : "red";
     let pointsBtnColor = showPoints ? "green" : "red";
     let spreadBtnColor = showSpread ? "green" : "red";
+    let farmbotBtnColor = showFarmbot ? "green" : "red";
 
     return <div className="farm-designer">
 
@@ -81,8 +84,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Plants?")}</span>
               <button
                 className={"toggle-button " + plantsBtnColor}
-                onClick={e => this.toggle(e)}
-                name={"plants"}
+                onClick={this.toggle("showPlants")}
               />
             </label>
           </fieldset>
@@ -91,8 +93,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Points?")}</span>
               <button
                 className={"toggle-button " + pointsBtnColor}
-                onClick={e => this.toggle(e)}
-                name={"points"}
+                onClick={this.toggle("showPoints")}
               />
             </label>
           </fieldset>
@@ -101,8 +102,16 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
               <span>{t("Spread?")}</span>
               <button
                 className={"toggle-button " + spreadBtnColor}
-                onClick={e => this.toggle(e)}
-                name={"spread"}
+                onClick={this.toggle("showSpread")}
+              />
+            </label>
+          </fieldset>
+          <fieldset>
+            <label>
+              <span>{t("FarmBot?")}</span>
+              <button
+                className={"toggle-button " + farmbotBtnColor}
+                onClick={this.toggle("showFarmbot")}
               />
             </label>
           </fieldset>
@@ -131,12 +140,14 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
           showPoints={showPoints}
           showPlants={showPlants}
           showSpread={showSpread}
+          showFarmbot={showFarmbot}
           selectedPlant={this.props.selectedPlant}
           crops={this.props.crops}
           dispatch={this.props.dispatch}
           designer={this.props.designer}
           plants={this.props.plants}
           points={this.props.points}
+          toolSlots={this.props.toolSlots}
         />
       </div>
     </div>

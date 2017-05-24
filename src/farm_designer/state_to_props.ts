@@ -3,7 +3,8 @@ import { Props } from "./interfaces";
 import {
   selectAllGenericPointers,
   selectAllPlantPointers,
-  selectAllCrops
+  selectAllCrops,
+  selectAllToolSlotPointers
 } from "../resources/selectors";
 
 export function mapStateToProps(props: Everything): Props {
@@ -16,6 +17,7 @@ export function mapStateToProps(props: Everything): Props {
     selectedPlant,
     designer: props.resources.consumers.farm_designer,
     points: selectAllGenericPointers(props.resources.index),
+    toolSlots: selectAllToolSlotPointers(props.resources.index),
     plants
   };
 }
