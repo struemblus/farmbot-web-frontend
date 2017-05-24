@@ -17,7 +17,7 @@ export class GardenPlant
   }
 
   render() {
-    let { dragging, selected, plant, showSpread } = this.props;
+    let { dragging, selected, plant, showSpread, onClick } = this.props;
     let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
@@ -46,7 +46,7 @@ export class GardenPlant
       <image
         className={"plant-image is-chosen-" + selected}
         href={this.state.icon}
-        onClick={() => { this.props.onClick(this.props.plant); }}
+        onClick={() => onClick(this.props.plant)}
         height={radius * 2}
         width={radius * 2}
         x={round(x)}

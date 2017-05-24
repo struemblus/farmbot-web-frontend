@@ -110,6 +110,7 @@ export class GardenMap
           dispatch={this.props.dispatch}
           visible={!!this.props.showPlants}
           plants={this.props.plants}
+          crops={this.props.crops}
           currentPlant={this.getPlant()}
           dragging={!!this.state.isDragging}
           editing={!!this.isEditing}

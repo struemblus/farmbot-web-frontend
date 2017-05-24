@@ -75,16 +75,20 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
           <i className="fa fa-2x fa-minus" />
         </button>
         <div className="map-layers">
-          <LayerToggle value={this.state.showPlants}
+          <LayerToggle
+            value={showPlants}
             label={t("Plants?")}
             onClick={this.toggle("showPlants")} />
-          <LayerToggle value={this.state.showPoints}
+          <LayerToggle
+            value={showPoints}
             label={t("Points?")}
             onClick={this.toggle("showPoints")} />
-          <LayerToggle value={this.state.showSpread}
+          <LayerToggle
+            value={showSpread}
             label={t("Spread?")}
             onClick={this.toggle("showSpread")} />
-          <LayerToggle value={this.state.showFarmbot}
+          <LayerToggle
+            value={showFarmbot}
             label={t("FarmBot?")}
             onClick={this.toggle("showFarmbot")} />
         </div>
