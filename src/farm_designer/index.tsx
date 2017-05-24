@@ -18,7 +18,7 @@ type ShowOptions =
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
-  state = {
+  state: State = {
     zoomLvl: 0.6,
     showPlants: true,
     showPoints: true,

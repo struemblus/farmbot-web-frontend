@@ -22,7 +22,7 @@ export interface SyncResponse {
   payload: ResourceReadyPayl;
 }
 
-export function fetchDeprecatedSyncData(dispatch: Function) {
+export function fetchSyncData(dispatch: Function) {
   let fetch = <T>(name: ResourceName, url: string, type = "RESOURCE_READY") =>
     axios
       .get<T>(url)
@@ -55,13 +55,13 @@ export function fetchDeprecatedSyncData(dispatch: Function) {
   fetch<Tool[]>("tools", API.current.toolsPath);
 }
 
-export function fetchDeprecatedSyncDataOk(payload: {}) {
+export function fetchSyncDataOk(payload: {}) {
   return {
     type: "FETCH_SYNC_OK", payload
   };
 }
 
-export function fetchDeprecatedSyncDataNo(err: Error) {
+export function fetchSyncDataNo(err: Error) {
   return {
     type: "FETCH_SYNC_NO",
     payload: {}

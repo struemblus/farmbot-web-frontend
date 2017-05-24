@@ -77,7 +77,6 @@ export let resourceReducer = generateReducer
   .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
     let data = arrayWrap(a.payload);
     let kind = a.payload.name;
-    // TODO: How to clean this up? TS is not liking the object[]...
     data.map((body: ResourceReadyPayl) => {
       let crop = body.data as OFCropResponse;
       if (crop.data) {
