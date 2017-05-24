@@ -9,12 +9,11 @@ interface PlantLayerProps {
   dragging: boolean;
   editing: boolean;
   visible: boolean;
-  temporaryShowSpread: boolean;
   dispatch: Function;
 }
 
 export function PlantLayer(p: PlantLayerProps) {
-  let { plants, dispatch, visible, currentPlant, dragging, editing, temporaryShowSpread } = p;
+  let { plants, dispatch, visible, currentPlant, dragging, editing } = p;
 
   if (visible) {
     return <g>{plants
@@ -37,7 +36,6 @@ export function PlantLayer(p: PlantLayerProps) {
           <GardenPlant
             plant={props.plant}
             selected={props.selected}
-            showSpread={temporaryShowSpread}
             dragging={props.selected && dragging && editing}
             onClick={() => dispatch(action)}
           />

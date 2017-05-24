@@ -10,6 +10,7 @@ import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
 import { findBySlug } from "../search_selectors";
 import { PlantLayer } from "./layers/plant_layer";
 import { PointLayer } from "./layers/point_layer";
+import { SpreadLayer } from "./layers/spread_layer";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -104,6 +105,9 @@ export class GardenMap
         onMouseUp={this.endDrag}
         onMouseDown={this.startDrag}
         onMouseMove={this.drag}>
+        <SpreadLayer plants={this.props.plants}
+          currentPlant={this.getPlant()}
+          visible={!!this.props.showSpread} />
         <PointLayer visible={!!this.props.showPoints}
           points={this.props.points} />
         <PlantLayer
@@ -112,8 +116,7 @@ export class GardenMap
           plants={this.props.plants}
           currentPlant={this.getPlant()}
           dragging={!!this.state.isDragging}
-          editing={!!this.isEditing}
-          temporaryShowSpread={!!this.props.showSpread} />
+          editing={!!this.isEditing} />
       </svg>
     </div>;
   }

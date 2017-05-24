@@ -151,7 +151,6 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
-  showSpread: boolean | undefined;
   plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
   dragging: boolean;
