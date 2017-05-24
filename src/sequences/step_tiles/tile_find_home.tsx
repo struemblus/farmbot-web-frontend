@@ -53,7 +53,7 @@ class InnerFindHome extends React.Component<FindHomeParams, {}> {
       <div className="step-wrapper">
         <div className="row">
           <div className="col-sm-12">
-            <div className="step-header send-message-step">
+            <div className="step-header find-home-step">
               <StepTitleBar index={index}
                 dispatch={dispatch}
                 step={currentStep} />
@@ -66,18 +66,15 @@ class InnerFindHome extends React.Component<FindHomeParams, {}> {
                 }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-              <Help text={(`The Send Message step instructs
-                            FarmBot to send a custom message to the logs.
-                            This can help you with debugging your sequences.
-                            Eventually you will be able to receive push
-                            notifications and email alerts of these
-                            messages!`)} />
+              <Help text={(`The Find Home step instructs the device to perform
+                            a homing command to find and set zero for the chosen
+                            axis or axes.`)} />
             </div>
           </div>
         </div>
         <div className="row">
           <div className="col-sm-12">
-            <div className="step-content send-message-step">
+            <div className="step-content find-home-step">
               <div className="row">
                 <div className="col-xs-12">
                   <div className="bottom-content">
