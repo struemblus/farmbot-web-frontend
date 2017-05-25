@@ -12,6 +12,7 @@ import { PlantLayer } from "./layers/plant_layer";
 import { PointLayer } from "./layers/point_layer";
 import { SpreadLayer } from "./layers/spread_layer";
 import { ToolSlotLayer } from "./layers/tool_slot_layer";
+import { SelectedPlantLayer } from "./layers/selected_plant_layer";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -43,7 +44,7 @@ export class GardenMap
     e.dataTransfer.dropEffect = "move";
   }
 
-  handleDragEnter(e: React.DragEvent<HTMLElement>) { e.preventDefault(); }
+  handleDragEnter = (e: React.DragEvent<HTMLElement>) => e.preventDefault();
 
   findCrop(slug?: string) {
     return findBySlug(this.props.designer.cropSearchResults || [], slug);
@@ -110,13 +111,16 @@ export class GardenMap
         <SpreadLayer
           plants={this.props.plants}
           currentPlant={this.getPlant()}
-          visible={!!this.props.showSpread} />
+          visible={!!this.props.showSpread}
+        />
         <PointLayer
           visible={!!this.props.showPoints}
-          points={this.props.points} />
+          points={this.props.points}
+        />
         <ToolSlotLayer
           visible={!!this.props.showFarmbot}
-          slots={this.props.toolSlots} />
+          slots={this.props.toolSlots}
+        />
         <PlantLayer
           dispatch={this.props.dispatch}
           visible={!!this.props.showPlants}
@@ -124,7 +128,9 @@ export class GardenMap
           crops={this.props.crops}
           currentPlant={this.getPlant()}
           dragging={!!this.state.isDragging}
-          editing={!!this.isEditing} />
+          editing={!!this.isEditing}
+        />
+        <SelectedPlantLayer currentPlant={this.getPlant()} />
       </svg>
     </div>;
   }

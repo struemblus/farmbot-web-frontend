@@ -1,18 +1,32 @@
 import * as React from "react";
 import { Link } from "react-router";
-import { Everything } from "../../interfaces";
-import { CustomFBSelect } from "../../ui";
 import { connect } from "react-redux";
 import { t } from "i18next";
+import { Everything } from "../../interfaces";
+import { CustomFBSelect } from "../../ui";
 import { selectAllPlantPointers } from "../../resources/selectors";
 import { PlantInventoryItem } from "./plant_inventory_item";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
-@connect((state: Everything) => state)
-export class Plants extends React.Component<Everything, {}> {
+interface PlantsProps {
+  plants: TaggedPlantPointer[];
+}
+
+// ehhh...
+export interface TPPWithDispatch extends TaggedPlantPointer {
+  dispatch: Function;
+}
+
+function mapStateToProps(props: Everything): PlantsProps {
+  let plants = selectAllPlantPointers(props.resources.index);
+  plants.map((p: TPPWithDispatch) => p.dispatch = props.dispatch);
+  return { plants };
+}
+
+@connect(mapStateToProps)
+export class Plants extends React.Component<PlantsProps, {}> {
 
   render() {
-    let plants = selectAllPlantPointers(this.props.resources.index);
-
     return <div className="panel-container green-panel plant-inventory-panel">
       <div className="panel-header green-panel">
         <div className="panel-tabs">
@@ -32,11 +46,11 @@ export class Plants extends React.Component<Everything, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <CustomFBSelect
-            resourceList={plants}
+          <CustomFBSelect resourceList={this.props.plants}
             optionComponent={PlantInventoryItem}
             forceOpen={true}
-            placeholder="Search Plants" />
+            placeholder="Search Plants"
+          />
         </div>
 
       </div>

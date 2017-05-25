@@ -27,8 +27,9 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
   }
 
   childComponent() {
+    console.log(this.props)
     let fallback = isMobile() ?
-      undefined : React.createElement(Plants, this.props as any);
+      undefined : React.createElement(Plants, this.props);
     return this.props.children || fallback;
   }
 

@@ -1,3 +1,4 @@
+import { Dictionary } from "farmbot/dist";
 /** Like Dictionary<T>, except more cautious about null values. */
 import { SequenceReducerState } from "../sequences/interfaces";
 import { DesignerState } from "../farm_designer/interfaces";
@@ -8,7 +9,6 @@ import {
   TaggedToolSlotPointer,
   TaggedTool
 } from "./tagged_resources";
-import { Dictionary } from "farmbot/dist";
 import { RegimenState } from "../regimens/reducer";
 
 type UUID = string;
