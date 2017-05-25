@@ -10,13 +10,6 @@ import { Plants } from "./plants/plant_inventory";
 import { isMobile } from "../util";
 import { LayerToggle } from "./map/layer_toggle";
 
-// The toggle-able options in the legend
-type ShowOptions =
-  | "showPlants"
-  | "showPoints"
-  | "showSpread"
-  | "showFarmbot";
-
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
@@ -102,7 +95,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
           <Link to="/app/designer/plants">
             {t("Plants")}
           </Link>
-          <Link to="/app/designer/farm_events" >
+          <Link to="/app/designer/farm_events">
             {t("Farm Events")}
           </Link>
         </div>

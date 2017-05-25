@@ -20,7 +20,7 @@ export interface State {
 }
 
 export interface WebcamPanelState {
-  isEditingCameraURL: boolean;
+  isEditing: boolean;
   url: string;
 }
 

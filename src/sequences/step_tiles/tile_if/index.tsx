@@ -105,7 +105,9 @@ export function InnerIf(props: IfParams) {
               onClick={() => splice(stuff)} />
             <i className="fa fa-trash step-control"
               onClick={() => remove(stuff)} />
-            <Help text={(`Detailed documentation coming soon`)} />
+            <Help text={(`Execute a sequence if a condition is satisfied. If the
+                          condition is not satisfied, chose to do nothing
+                          or execute a different sequence.`)} />
             {recursive && (
               <span>
                 <i className="fa fa-exclamation-triangle"></i>

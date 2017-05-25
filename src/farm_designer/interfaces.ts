@@ -9,7 +9,9 @@ import {
   TaggedPlantPointer,
   TaggedCrop,
 } from "../resources/tagged_resources";
-import { TightlyCoupledFarmEventDropDown } from "./farm_events/map_state_to_props_add_edit";
+import {
+  TightlyCoupledFarmEventDropDown
+} from "./farm_events/map_state_to_props_add_edit";
 import { PlantPointer } from "../interfaces";
 import { SlotWithTool } from "../resources/interfaces";
 

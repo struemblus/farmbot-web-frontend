@@ -51,7 +51,7 @@ export function If_(props: IfParams) {
         selectedItem={{ label: op, value: op }} />
     </Col>
     <Col xs={4}>
-      <label>{t("Right hand side")}</label>
+      <label>{t("Value")}</label>
       <StepInputBox dispatch={dispatch}
         step={currentStep}
         sequence={sequence}
