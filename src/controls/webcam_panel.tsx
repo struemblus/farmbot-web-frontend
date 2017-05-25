@@ -1,29 +1,24 @@
 import * as React from "react";
+import { t } from "i18next";
 import { Widget, WidgetHeader } from "../ui";
 import { WebcamPanelState, Props } from "./interfaces";
 import { PLACEHOLDER_FARMBOT } from "../images/index";
 import { showUrl } from "./show_url";
-import { t } from "i18next";
 import { changeDevice } from "../devices/actions";
 import { ToolTips } from "../constants";
 
 export class WebcamPanel
   extends React.Component<Props, Partial<WebcamPanelState>> {
 
-  constructor() {
-    super();
-    this.state = { isEditingCameraURL: false, url: "" };
-  }
+  state = { isEditing: false, url: "http://" };
 
-  toggleCameraURLEdit = () => {
-    this.setState({ isEditingCameraURL: !this.state.isEditingCameraURL });
-  }
+  edit = () => this.setState({ isEditing: !this.state.isEditing });
 
   clearURL = () => {
     this
       .props
       .dispatch(changeDevice(this.props.account, { webcam_url: "" }));
-    this.setState({ url: "" });
+    this.setState({ url: "http://" });
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
@@ -32,29 +27,27 @@ export class WebcamPanel
     this
       .props
       .dispatch(changeDevice(this.props.account, update));
-    this.setState({ isEditingCameraURL: false });
+    this.setState({ isEditing: false });
   }
 
   render() {
-    let fallback = PLACEHOLDER_FARMBOT;
-    let custom = this.props.account.body.webcam_url;
-    let url = custom || fallback;
+    let url = this.props.account.body.webcam_url || PLACEHOLDER_FARMBOT;
     let dirty = !!this.props.bot.dirty;
-    let { isEditingCameraURL } = this.state;
+    let { isEditing } = this.state;
 
     return <Widget>
       <WidgetHeader title="Camera" helpText={ToolTips.WEBCAM_SAVE}>
-        {isEditingCameraURL ?
+        {isEditing ?
           <button className="green" onClick={this.saveURL}>
             {t("Save")}
           </button>
           :
-          <button className="gray" onClick={this.toggleCameraURLEdit}>
+          <button className="gray" onClick={this.edit}>
             {t("Edit")}
           </button>
         }
       </WidgetHeader>
-      {isEditingCameraURL && (
+      {isEditing &&
         <div>
           <label>{t("Set Webcam URL:")}</label>
           <button
@@ -62,13 +55,14 @@ export class WebcamPanel
             onClick={this.clearURL}>
             <i className="fa fa-times"></i>
           </button>
-          <input type="text"
+          <input
+            type="text"
             onChange={e => this.setState({ url: e.currentTarget.value })}
             placeholder="http://"
             value={this.state.url || this.props.account.body.webcam_url}
             className="webcam-url-input" />
         </div>
-      )}
+      }
       {showUrl(url, dirty)}
     </Widget>
   }
