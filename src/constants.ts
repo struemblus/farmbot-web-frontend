@@ -157,6 +157,14 @@ export namespace Content {
     will be overwritten with the new account's data. If the account is brand 
     new, then FarmBot will become a blank slate.`
 
+  export const FACTORY_RESET_WARNING =
+    `Factory resetting your FarmBot will destroy all data on the device, 
+    revoking your FarmBot's abilily to connect to your web app account and your 
+    home wifi. Upon factory resetting, your device will restart into 
+    Configurator mode. Factory resetting your FarmBot will not affect any data 
+    or settings from your web app account, allowing you to do a complete restore 
+    to your device once it is back online and paired with your web app account.`
+
 }
 
 

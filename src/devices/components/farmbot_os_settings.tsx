@@ -25,7 +25,7 @@ import {
 } from "../../ui/index";
 import { save } from "../../api/crud";
 import { MustBeOnline } from "../must_be_online";
-import { ToolTips } from "../../constants";
+import { ToolTips, Content } from "../../constants";
 
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
@@ -170,14 +170,7 @@ export class FarmbotOsSettings
               </Col>
               <Col xs={7}>
                 <p>
-                  {t(`Factory resetting your FarmBot will destroy all data on
-                    the device, revoking your FarmBot's abilily to connect to
-                    your web app account and your home wifi. Upon factory
-                    resetting, your device will restart into Conflgurator
-                    mode. Factory resetting your FarmBot will not affect any
-                    data or settings from your web app account, allowing you
-                    to do a complete restore to your device once it is back
-                    online and paired with your web app account.`)}
+                  {t(Content.FACTORY_RESET_WARNING)}
                 </p>
               </Col>
               <Col xs={3}>
