@@ -18,7 +18,10 @@ import {
   WidgetBody,
   Row,
   Col,
-  SaveBtn
+  SaveBtn,
+  info,
+  error,
+  success
 } from "../../ui/index";
 import { save } from "../../api/crud";
 import { MustBeOnline } from "../must_be_online";
@@ -29,16 +32,12 @@ const CAMERA_CHOICES = [
   { label: "Raspberry Pi Camera", value: "RPI" }
 ];
 
-export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
-  FarmbotOsState> {
-  constructor() {
-    super();
-    this.state = { cameraStatus: "" };
-  }
+export class FarmbotOsSettings
+  extends React.Component<FarmbotOsProps, FarmbotOsState> {
 
   changeBot = (e: React.MouseEvent<HTMLInputElement>) => {
-    let action = changeDevice(this.props.account, { name: e.currentTarget.value });
-    this.props.dispatch(action);
+    let { account, dispatch } = this.props;
+    dispatch(changeDevice(account, { name: e.currentTarget.value }));
   }
 
   saveBot(e: React.MouseEvent<{}>) {
@@ -52,13 +51,12 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
 
   sendOffConfig = (e: DropDownItem) => {
     let message = { "camera": JSON.stringify(e.value) };
-    this.setState({ cameraStatus: "sending" });
-    setTimeout(this.setState({ cameraStatus: "" }), 10000);
+    info(t("Sending camera configuration..."), t("Sending"))
     devices
       .current
       .setUserEnv(message)
-      .then(() => { this.setState({ cameraStatus: "done" }); })
-      .catch(() => { this.setState({ cameraStatus: "error" }); });
+      .then(() => success(t("Successfully configured camera!")))
+      .catch(() => error(t("An error occurred during configuration.")));
   }
 
   render() {
@@ -85,25 +83,33 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
               </label>
             </Col>
             <Col xs={10}>
-              <input name="name"
+              <input
+                name="name"
                 onChange={this.changeBot}
                 value={this.props.account.body.name} />
             </Col>
           </Row>
           <Row>
             <Col xs={2}>
-              <label>{t("NETWORK")}</label>
+              <label>
+                {t("NETWORK")}
+              </label>
             </Col>
             <Col xs={10}>
-              <p>{`mqtt://${this.props.auth.token.unencoded.mqtt}`}</p>
+              <p>
+                {`mqtt://${this.props.auth.token.unencoded.mqtt}`}
+              </p>
             </Col>
           </Row>
-          <MustBeOnline fallback="Some settings are not available when FarmBot is offline."
+          <MustBeOnline
+            fallback="Some settings are not available when FarmBot is offline."
             status={this.props.bot.hardware.informational_settings.sync_status}
             lockOpen={process.env.NODE_ENV !== "production"}>
             <Row>
               <Col xs={2}>
-                <label>{t("FARMBOT OS")}</label>
+                <label>
+                  {t("FARMBOT OS")}
+                </label>
               </Col>
               <Col xs={3}>
                 <p>
@@ -122,7 +128,9 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Row>
             <Row>
               <Col xs={2}>
-                <label>{t("RESTART FARMBOT")} </label>
+                <label>
+                  {t("RESTART FARMBOT")}
+                </label>
               </Col>
               <Col xs={7}>
                 <p>
@@ -138,7 +146,9 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Row>
             <Row>
               <Col xs={2}>
-                <label>{t("SHUTDOWN FARMBOT")}</label>
+                <label>
+                  {t("SHUTDOWN FARMBOT")}
+                </label>
               </Col>
               <Col xs={7}>
                 <p>
@@ -154,7 +164,9 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Row>
             <Row>
               <Col xs={2}>
-                <label>{t("Factory Reset")}</label>
+                <label>
+                  {t("Factory Reset")}
+                </label>
               </Col>
               <Col xs={7}>
                 <p>
@@ -176,18 +188,18 @@ export class FarmbotOsSettings extends React.Component<FarmbotOsProps,
             </Row>
             <Row>
               <Col xs={2}>
-                <label>{t("CAMERA")}</label>
+                <label>
+                  {t("CAMERA")}
+                </label>
               </Col>
               <Col xs={7}>
                 <div>
-                  <DeprecatedFBSelect allowEmpty={true}
+                  <DeprecatedFBSelect
+                    allowEmpty={true}
                     list={CAMERA_CHOICES}
                     placeholder="Select a camera..."
                     onChange={this.sendOffConfig} />
                 </div>
-              </Col>
-              <Col xs={3}>
-                {this.state.cameraStatus}
               </Col>
             </Row>
           </MustBeOnline>
