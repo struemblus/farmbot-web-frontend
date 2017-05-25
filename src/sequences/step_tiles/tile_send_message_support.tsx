@@ -1,21 +1,21 @@
-import { SendMessage, Channel } from "farmbot/dist";
-import * as React from "react";
-import { pairs } from "lodash";
+import { ALLOWED_CHANNEL_NAMES, Channel } from "farmbot/dist";
 
-/** Communication channels that we hope to support one day, but don't today. */
-export const DISABLED = ["email", "sms", "twitter"]
-export const THE_ONLY_CHANNEL: Channel = {
-  kind: "channel",
-  args: {
-    channel_name: "toast"
-  }
-};
-export const CHANNELS = pairs<{}, string>({
-  "toast": "Toast Notification",
-  "email": "Email",
-  "sms": "SMS",
-  "twitter": "Twitter"
-});
+/** All the attributes/config you need to render a Channel */
+interface ChanInfo {
+  /** Always check it? */
+  alwaysOn: boolean;
+  /** CeleryScript name */
+  name: ALLOWED_CHANNEL_NAMES;
+  /** Human readable name */
+  label: string;
+}
+
+export const EACH_CHANNEL: ChanInfo[] = [
+  { alwaysOn: true, name: "ticker", label: "Ticker notification" },
+  { alwaysOn: false, name: "toast", label: "Toast popup" },
+  { alwaysOn: false, name: "email", label: "Email" }
+];
+
 export const MESSAGE_STATUSES = [
   { value: "success", label: "Success" },
   { value: "busy", label: "Busy" },
@@ -25,26 +25,6 @@ export const MESSAGE_STATUSES = [
   { value: "fun", label: "Fun" }
 ];
 
-interface ChoiceProps {
-  currentStep: SendMessage;
-  onChange: (e: React.SyntheticEvent<HTMLInputElement>) => void;
-}
-
-export let ChannelChoices = ({
-      currentStep,
-  onChange
-}: ChoiceProps) => {
-  return <div>{CHANNELS.map(function (pair, key) {
-    let name_list = (currentStep.body || []).map(x => x.args.channel_name);
-    let [name, label] = pair;
-    return <fieldset key={key}>
-      <label htmlFor={name}> {label}</label>
-      <input type="checkbox"
-        id={name}
-        disabled={DISABLED.includes(name)}
-        onChange={onChange}
-        checked={name_list.includes(name)}
-      />
-    </fieldset>;
-  })}</div>;
+export function channel(channel_name: ALLOWED_CHANNEL_NAMES): Channel {
+  return { kind: "channel", args: { channel_name } }
 }

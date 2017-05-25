@@ -4,20 +4,19 @@ import { StepTitleBar } from "./step_title_bar";
 import { Help, DropDownItem } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
-import { SendMessage } from "farmbot";
+import { SendMessage, ALLOWED_CHANNEL_NAMES } from "farmbot";
 import * as _ from "lodash";
 import { StepParams, Sequence } from "../interfaces";
-import {
-  MESSAGE_STATUSES,
-  ChannelChoices,
-  THE_ONLY_CHANNEL
-} from "./tile_send_message_support";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { FBSelect } from "../../ui/new_fb_select";
-
+import {
+  MESSAGE_STATUSES,
+  EACH_CHANNEL
+} from "./tile_send_message_support";
+type ChannelName = ALLOWED_CHANNEL_NAMES;
 export function TileSendMessage(props: StepParams) {
   if (props.currentStep.kind === "send_message") {
     return <RefactoredSendMessage
@@ -30,6 +29,7 @@ export function TileSendMessage(props: StepParams) {
     throw new Error("TileSendMessage expects send_message");
   }
 }
+
 interface SendMessageParams {
   currentStep: SendMessage;
   currentSequence: TaggedSequence;
@@ -44,50 +44,23 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   get message_type() { return this.args.message_type }
   get label() { return _.capitalize(this.message_type) }
   get step() { return this.props.currentStep; }
+  get stepBody() { return (this.step.body || []); }
   get dispatch() { return this.props.dispatch }
   get sequence() { return this.props.currentSequence; }
   get index() { return this.props.index }
-  get currentSelection(): DropDownItem {
+  get nameList() {
+    return this.stepBody.map(x => x.args.channel_name) as ChannelName[];
+  }
+  get currentSelection() {
     return { label: this.label, value: this.message_type };
   };
-
-  /** Clone the sequence and step in preparation for dispatch. */
-  freshCopy = () => {
-    return {
-      stepCpy: defensiveClone(this.step),
-      seqCpy: defensiveClone(this.sequence).body
-    }
+  add = (name: ChannelName) => {
+    console.log("ADD ITEM");
   }
-
-  overwriteSequence = (seqCpy: Sequence) =>
-    this.dispatch(overwrite(this.sequence, seqCpy));
-
-  setMessageType = (newValue: DropDownItem) => {
-    let { stepCpy, seqCpy } = this.freshCopy();
-    let { value } = newValue;
-    if (_.isString(value)) { stepCpy.args.message_type = value; }
-    seqCpy.body = seqCpy.body || []
-    seqCpy.body[this.index] = stepCpy;
-    this.overwriteSequence(seqCpy);
-  }
-
-  removeChan = () => {
-    let { stepCpy, seqCpy } = this.freshCopy();
-    stepCpy.body = [];
-    (seqCpy.body || [])[this.props.index] = stepCpy;
-    this.overwriteSequence(seqCpy);
-  }
-
-  addChan = () => {
-    let { stepCpy, seqCpy } = this.freshCopy();
-    stepCpy.body = [THE_ONLY_CHANNEL]; // We only support "toast" today.
-    (seqCpy.body || [])[this.props.index] = stepCpy;
-    this.overwriteSequence(seqCpy);
-  }
-
-  toggleToastChan = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    ((e.currentTarget.checked) ? this.addChan : this.removeChan)();
-  }
+  remove = (name: ChannelName) => console.log("REMOVE ITEM");
+  toggle = (name: ChannelName) =>
+    () => (this.nameList.includes(name)) ? this.remove(name) : this.add(name);
+  setMsgType = (x: DropDownItem) => "";
 
   render() {
     let { dispatch, index, currentStep, currentSequence } = this.props;
@@ -136,20 +109,24 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                   <div className="bottom-content">
                     <div className="channel-options">
                       <FBSelect
-                        onChange={this.setMessageType}
+                        onChange={this.setMsgType}
                         selectedItem={this.currentSelection}
                         list={MESSAGE_STATUSES} />
                     </div>
                     <div className="channel-fields">
-                      <fieldset>
-                        <label>
-                          {t("Status Ticker/Logs")}
-                          <input type="checkbox" disabled checked />
-                        </label>
-                      </fieldset>
-                      <ChannelChoices
-                        currentStep={this.props.currentStep}
-                        onChange={this.toggleToastChan} />
+                      <div>{EACH_CHANNEL.map((chan, inx) => {
+                        let checked = this.nameList.includes(name);
+                        return <fieldset key={inx}>
+                          <label htmlFor={chan.name}>
+                            {chan.label}
+                          </label>
+                          <input type="checkbox"
+                            id={chan.name}
+                            onChange={this.toggle(chan.name)}
+                            checked={checked || chan.alwaysOn}
+                            disabled={chan.alwaysOn} />
+                        </fieldset>;
+                      })}</div>
                     </div>
                   </div>
                 </div>
