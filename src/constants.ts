@@ -147,6 +147,7 @@ export namespace ToolTips {
 
 export namespace Content {
 
+  // Account
   export const ACCOUNT_DELETE_WARNING =
     `WARNING! Deleting your account will permanently delete all of your 
     Sequences , Regimens, Events, and Farm Designer data.Upon deleting your 
@@ -157,6 +158,7 @@ export namespace Content {
     will be overwritten with the new account's data. If the account is brand 
     new, then FarmBot will become a blank slate.`
 
+  // Controls
   export const FACTORY_RESET_WARNING =
     `Factory resetting your FarmBot will destroy all data on the device, 
     revoking your FarmBot's abilily to connect to your web app account and your 
