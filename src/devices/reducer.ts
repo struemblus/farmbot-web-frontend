@@ -7,9 +7,13 @@ export function versionOK(stringyVersion = "0.0.0",
   let [actual_major, actual_minor] = stringyVersion
     .split(".")
     .map(x => parseInt(x, 10));
-  let majorOK = (actual_major >= EXPECTED_MAJOR);
-  let minorOK = (actual_minor >= EXPECTED_MINOR);
-  return (majorOK && minorOK);
+  if (actual_major > EXPECTED_MAJOR) {
+    return true;
+  } else {
+    let majorOK = (actual_major == EXPECTED_MAJOR);
+    let minorOK = (actual_minor >= EXPECTED_MINOR);
+    return (majorOK && minorOK);
+  }
 }
 let initialState: BotState = {
   stepSize: 100,
