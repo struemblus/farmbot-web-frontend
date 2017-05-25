@@ -11,14 +11,15 @@ interface SpreadLayerProps {
 export function SpreadLayer(props: SpreadLayerProps) {
   let { plants, visible, currentPlant } = props;
 
-  return <g> {
-    plants.map(function (p, index) {
-      let isSelected = p === currentPlant;
-      return (visible || isSelected) ?
-        <SpreadCircle plant={p} key={index} /> : <g key={index} />;
-    })
-  }</g>
-
+  return <g>
+    {
+      plants.map((p, index) => {
+        let isSelected = p === currentPlant;
+        return (visible || isSelected) ?
+          <SpreadCircle plant={p} key={index} /> : <g key={index} />;
+      })
+    }
+  </g>
 }
 
 interface SpreadCircleProps {
@@ -26,11 +27,11 @@ interface SpreadCircleProps {
 }
 
 export function SpreadCircle({ plant }: SpreadCircleProps) {
-  let { radius, x, y } = plant.body;
+  let { radius, x, y, spread } = plant.body;
   return <circle
     cx={round(x + radius)}
     cy={round(y + radius)}
-    r={scale(radius)}
+    r={scale(spread || radius)}
     fillOpacity={0.2}
     fill={"green"}
     stroke={"green"}

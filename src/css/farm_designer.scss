@@ -219,12 +219,6 @@
     }
 }
 
-.plant-spread {
-    fill: $green;
-    opacity: 0.2;
-    pointer-events: none;
-}
-
 .plant-link-wrapper {
     &.is-chosen-true.is-editing-true {
         cursor: -webkit-grab !important;
