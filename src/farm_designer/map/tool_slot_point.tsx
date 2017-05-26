@@ -9,12 +9,14 @@ interface TSPState {
   hovered: boolean;
 }
 
-export class ToolSlotPoint extends React.Component<TSPProps, Partial<TSPState>> {
-  get slot() { return this.props.slot; }
+export class ToolSlotPoint
+  extends React.Component<TSPProps, Partial<TSPState>> {
 
   state: TSPState = {
     hovered: false
   };
+
+  get slot() { return this.props.slot; }
 
   render() {
     return <g>

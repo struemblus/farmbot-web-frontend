@@ -6,13 +6,12 @@ interface ToolSlotLayerProps {
   visible: boolean;
   slots: SlotWithTool[];
 }
+
 export function ToolSlotLayer(props: ToolSlotLayerProps) {
   let { slots, visible } = props;
-  if (visible) {
-    return <g>{
-      slots.map(slot => <ToolSlotPoint slot={slot} key={slot.toolSlot.uuid} />)}
-      }</g>;
-  } else {
-    return <g />;
-  }
+  return visible ? <g>
+    {slots.map(slot =>
+      <ToolSlotPoint key={slot.toolSlot.uuid} slot={slot} />
+    )}}
+      </g> : <g />; // fallback
 }

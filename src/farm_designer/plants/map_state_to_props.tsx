@@ -1,8 +1,8 @@
+import * as moment from "moment";
 import { Everything } from "../../interfaces";
 import { EditPlantInfoProps } from "../interfaces";
 import { maybeFindPlantById } from "../../resources/selectors";
 import { history } from "../../history";
-import * as moment from "moment";
 import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
 export function mapStateToProps(props: Everything): EditPlantInfoProps {
@@ -17,7 +17,7 @@ export function mapStateToProps(props: Everything): EditPlantInfoProps {
     findPlant,
     push: history.push,
     dispatch: props.dispatch,
-  }
+  };
 }
 
 /** All of the info a user would need to know about a plant, formatted and
@@ -46,5 +46,5 @@ export function formatPlantInfo(resource: TaggedPlantPointer): FormattedPlantInf
     y: p.y,
     uuid: resource.uuid,
     plantedAt: moment(t).format("MMMM Do YYYY, h:mma")
-  }
+  };
 }
