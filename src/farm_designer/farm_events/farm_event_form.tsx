@@ -98,6 +98,7 @@ export class EditFEForm extends React.Component<Props, State> {
     super();
     this.state = { fe: {}, localCopyDirty: false }
   }
+  get isOneTime() { return this.fieldGet("time_unit") === "never"; }
   get dispatch() { return this.props.dispatch; }
   get viewModel() {
     return destructureFarmEvent(this.props.farmEvent);
@@ -198,7 +199,7 @@ export class EditFEForm extends React.Component<Props, State> {
         <Row>
           <Col xs={4}>
             <BlurableInput
-              disabled={this.fieldGet("time_unit") === "never"}
+              disabled={this.isOneTime}
               placeholder="(Number)"
               type="number"
               className="add-event-repeat-frequency"
@@ -222,6 +223,7 @@ export class EditFEForm extends React.Component<Props, State> {
         <Row>
           <Col xs={6}>
             <BlurableInput
+              disabled={this.isOneTime}
               type="date"
               className="add-event-end-date"
               name="end_date"
@@ -230,6 +232,7 @@ export class EditFEForm extends React.Component<Props, State> {
           </Col>
           <Col xs={6}>
             <BlurableInput
+              disabled={this.isOneTime}
               type="time"
               name="end_time"
               className="add-event-end-time"
