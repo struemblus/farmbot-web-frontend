@@ -150,7 +150,3 @@ export interface HardwareSettingsProps {
   dispatch: Function;
   bot: BotState;
 }
-
-export interface HardwareSettingsState {
-  showMenu: boolean;
-}

@@ -5,7 +5,7 @@ import { BotConfigInputBox } from "./step_per_mm_box";
 import { settingToggle, MCUFactoryReset, toggleControlPanel } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
-import { HardwareSettingsProps, HardwareSettingsState } from "../interfaces";
+import { HardwareSettingsProps } from "../interfaces";
 import { HomingRow } from "./homing_row";
 import { MustBeOnline } from "../must_be_online";
 import { ZeroRow } from "./zero_row";
@@ -18,16 +18,13 @@ const MSMX = "movement_secondary_motor_x";
 const MSMInvert = "movement_secondary_motor_invert_x";
 
 export class HardwareSettings
-  extends React.Component<HardwareSettingsProps, HardwareSettingsState> {
-
-  state: HardwareSettingsState = { showMenu: false };
+  extends React.Component<HardwareSettingsProps, {}> {
 
   render() {
     let { bot, dispatch } = this.props;
     let { mcu_params } = bot.hardware;
-    let { showMenu } = this.state;
-    let iconString = showMenu ? "minus" : "plus";
     let hidePanel = this.props.controlPanelClosed;
+    let iconString = hidePanel ? "plus" : "minus";
 
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
@@ -78,9 +75,7 @@ export class HardwareSettings
               <ZeroRow />
               <tr>
                 <td>
-                  <label onClick={() => {
-                    this.props.dispatch(toggleControlPanel());
-                  }}>
+                  <label onClick={() => dispatch(toggleControlPanel())}>
                     [&nbsp;
                       <i className={`fa fa-${iconString}`} />
                     &nbsp;]&nbsp;
@@ -343,6 +338,6 @@ export class HardwareSettings
           </table>
         </MustBeOnline>
       </WidgetBody>
-    </Widget >;
+    </Widget>;
   }
 }
