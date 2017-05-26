@@ -13,6 +13,9 @@ export interface BooleanMCUInputGroupProps {
   x: McuParamName;
   y: McuParamName;
   z: McuParamName;
+  disableX?: boolean | undefined;
+  disableY?: boolean | undefined;
+  disableZ?: boolean | undefined;
   hidden?: boolean | undefined;
 }
 
@@ -25,6 +28,9 @@ export function BooleanMCUInputGroup(props: BooleanMCUInputGroupProps) {
     x,
     y,
     z,
+    disableX,
+    disableY,
+    disableZ,
     hidden
   } = props;
   let { mcu_params } = bot.hardware;
@@ -34,15 +40,18 @@ export function BooleanMCUInputGroup(props: BooleanMCUInputGroupProps) {
       <SpacePanelToolTip tooltip={tooltip} />
     </td>
     <td>
-      <ToggleButton toggleval={mcu_params[x]}
+      <ToggleButton disabled={disableX}
+        toggleval={mcu_params[x]}
         toggleAction={() => settingToggle(x, bot)} />
     </td>
     <td>
-      <ToggleButton toggleval={mcu_params[y]}
+      <ToggleButton disabled={disableY}
+        toggleval={mcu_params[y]}
         toggleAction={() => settingToggle(y, bot)} />
     </td>
     <td>
-      <ToggleButton toggleval={mcu_params[z]}
+      <ToggleButton disabled={disableZ}
+        toggleval={mcu_params[z]}
         toggleAction={() => settingToggle(z, bot)} />
     </td>
   </tr>;

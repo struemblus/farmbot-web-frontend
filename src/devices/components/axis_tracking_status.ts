@@ -19,18 +19,15 @@ interface AxisStatus {
  * to proceed with certain actions that could damage the bot.
  */
 export function axisTrackingStatus(h: McuParams): AxisStatus[] {
-  return [
-    {
-      axis: "x",
-      disabled: !(h.encoder_enabled_x || h.movement_enable_endpoints_x)
-    },
-    {
-      axis: "y",
-      disabled: !(h.encoder_enabled_y || h.movement_enable_endpoints_y)
-    },
-    {
-      axis: "z",
-      disabled: !(h.encoder_enabled_z || h.movement_enable_endpoints_z)
-    }
-  ];
+  let stats = enabledAxisMap(h);
+  let mapper = (a: keyof typeof stats) => ({ axis: a, disabled: !stats[a] });
+  return Object.keys(stats).map(mapper);
+}
+
+export function enabledAxisMap(h: McuParams): Record<Xyz, boolean> {
+  return {
+    x: !!(h.encoder_enabled_x || h.movement_enable_endpoints_x),
+    y: !!(h.encoder_enabled_y || h.movement_enable_endpoints_y),
+    z: !!(h.encoder_enabled_z || h.movement_enable_endpoints_z)
+  }
 }

@@ -14,6 +14,7 @@ import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 import { ToolTips } from "../../constants";
 import { toggle } from "../../util";
+import { enabledAxisMap } from "./axis_tracking_status";
 
 const MSMX = "movement_secondary_motor_x";
 const MSMInvert = "movement_secondary_motor_invert_x";
@@ -29,7 +30,9 @@ export class HardwareSettings
     let { showMenu } = this.state;
     let iconString = showMenu ? "minus" : "plus";
     let hidePanel = this.props.controlPanelClosed;
-
+    /** Tells us if X/Y/Z have a means of checking their position.
+     * FARMBOT WILL CRASH INTO WALLS IF THIS IS WRONG! BE CAREFUL */
+    let enabled = enabledAxisMap(mcu_params)
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
         <MustBeOnline
@@ -115,9 +118,8 @@ export class HardwareSettings
               <NumericMCUInputGroup
                 hidden={hidePanel}
                 name={t("Minimum Speed (steps/s)")}
-                tooltip={t(`Minimum movement speed.
-                Also used for homing, calibration,
-                and movements across home.`)}
+                tooltip={t(`Minimum movement speed. Also used for homing,
+                calibration, and movements across home.`)}
                 x={"movement_min_spd_x"}
                 y={"movement_min_spd_y"}
                 z={"movement_min_spd_z"}
@@ -265,6 +267,9 @@ export class HardwareSettings
                 hidden={hidePanel}
                 name={t("Find Home on Boot")}
                 tooltip={t(ToolTips.FIND_HOME_ON_BOOT)}
+                disableX={!enabled.x}
+                disableY={!enabled.y}
+                disableZ={!enabled.z}
                 x={"movement_home_at_boot_x"}
                 y={"movement_home_at_boot_y"}
                 z={"movement_home_at_boot_z"}
