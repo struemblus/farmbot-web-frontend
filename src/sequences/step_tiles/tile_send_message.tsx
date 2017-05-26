@@ -55,6 +55,8 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
     return { label: this.label, value: this.message_type };
   };
   add = (name: ChannelName) => {
+    debugger;
+    console.warn("Stooped here.")
     console.log("ADD ITEM");
   }
   remove = (name: ChannelName) => console.log("REMOVE ITEM");
