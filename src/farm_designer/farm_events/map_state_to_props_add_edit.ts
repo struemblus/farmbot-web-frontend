@@ -93,15 +93,17 @@ export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps
 
 
   let repeatOptions = [
-    // Removing this for now until prod. deploy is over.
-    //   - R.C. Mar 2017
-    // { label: "Do not repeat", value: "never", name: "time_unit" },
-    { label: "minutes", value: "minutely", name: "time_unit" },
-    { label: "hours", value: "hourly", name: "time_unit" },
-    { label: "days", value: "daily", name: "time_unit" },
-    { label: "weeks", value: "weekly", name: "time_unit" },
-    { label: "months", value: "monthly", name: "time_unit" },
-    { label: "years", value: "yearly", name: "time_unit" }
+    { label: "Minutes", value: "minutely", name: "time_unit" },
+    { label: "Hours", value: "hourly", name: "time_unit" },
+    { label: "Days", value: "daily", name: "time_unit" },
+    { label: "Weeks", value: "weekly", name: "time_unit" },
+    { label: "Months", value: "monthly", name: "time_unit" },
+    { label: "Years", value: "yearly", name: "time_unit" },
+    {
+      label: "No Repeat (One Time Event)",
+      value: "never",
+      name: "time_unit"
+    }
   ];
 
   let executableOptions: TightlyCoupledFarmEventDropDown[] = [];

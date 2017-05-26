@@ -38,10 +38,7 @@ export class GardenPlant
         height={radius * 2}
         width={radius * 2}
         x={round(x)}
-        y={round(y)}
-        onMouseEnter={e => console.log(e.currentTarget)}
-        onMouseLeave={e => console.log(e.currentTarget)}
-      />
+        y={round(y)} />
     </g>
   }
 }

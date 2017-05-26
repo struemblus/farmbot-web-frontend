@@ -198,6 +198,7 @@ export class EditFEForm extends React.Component<Props, State> {
         <Row>
           <Col xs={4}>
             <BlurableInput
+              disabled={this.fieldGet("time_unit") === "never"}
               placeholder="(Number)"
               type="number"
               className="add-event-repeat-frequency"
