@@ -14,7 +14,7 @@ const NO_INDEX = new Error(`
 export class ImageFlipper
   extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
 
-  state = { currentInx: 0, isLoaded: false };
+  state: ImageFlipperState = { currentInx: 0, isLoaded: false };
 
   componentDidMount() {
     this.setState({ currentInx: this.props.images.length - 1 });

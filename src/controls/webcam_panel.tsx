@@ -10,7 +10,7 @@ import { ToolTips } from "../constants";
 export class WebcamPanel
   extends React.Component<Props, Partial<WebcamPanelState>> {
 
-  state = { isEditing: false, url: "http://" };
+  state: WebcamPanelState = { isEditing: false, url: "http://" };
 
   edit = () => this.setState({ isEditing: !this.state.isEditing });
 

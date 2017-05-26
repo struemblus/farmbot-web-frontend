@@ -2,8 +2,8 @@ import * as React from "react";
 import { isNaN } from "lodash";
 import { AxisInputBoxProps, AxisInputBoxState } from "./interfaces";
 
-export class AxisInputBox extends React.Component<AxisInputBoxProps,
-  AxisInputBoxState> {
+export class AxisInputBox
+  extends React.Component<AxisInputBoxProps, AxisInputBoxState> {
   constructor() {
     super();
     this.state = { value: undefined };
