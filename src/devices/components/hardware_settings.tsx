@@ -13,7 +13,6 @@ import { SaveBtn } from "../../ui/save_button";
 import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 import { ToolTips } from "../../constants";
-import { toggle } from "../../util";
 
 const MSMX = "movement_secondary_motor_x";
 const MSMInvert = "movement_secondary_motor_invert_x";
