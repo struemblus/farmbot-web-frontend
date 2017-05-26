@@ -11,14 +11,15 @@ export class ToggleButton extends React.Component<ToggleButtonProps, {}> {
       "1": i18next.t("yes"),
       "true": i18next.t("yes"),
       "on": i18next.t("yes"),
-      "undefined": "---",
-      "-1": "---"
+      "undefined": "🚫",
+      "-1": "🚫"
     };
     let togval = String(this.props.toggleval);
     return captions[togval] || "---";
   }
 
   css() {
+    if (this.props.disabled) { return "toggle-button gray"; }
     let redCSS = "toggle-button red";
     let greenCSS = "toggle-button green";
     let yellowCSS = "toggle-button yellow";
@@ -37,9 +38,10 @@ export class ToggleButton extends React.Component<ToggleButtonProps, {}> {
   }
 
   render() {
+    let cb = () => { !this.props.disabled && this.props.toggleAction };
     return <button
-      disabled={true}
+      disabled={!!this.props.disabled}
       className={this.css()}
-      onClick={this.props.toggleAction}> {this.caption()}</button>;
+      onClick={cb}> {this.caption()}</button>;
   }
 }
