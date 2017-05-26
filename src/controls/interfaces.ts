@@ -77,6 +77,7 @@ export interface ToggleButtonProps {
   /** Function that is executed when the toggle button is clicked */
   toggleAction: () => void;
   toggleval: number | string | undefined;
+  disabled?: boolean | undefined;
 }
 
 
