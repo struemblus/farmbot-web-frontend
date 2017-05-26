@@ -65,15 +65,15 @@ export class AddFarmEvent
   /** No executables. Can't load form. */
   none() {
     return <p>
-      You haven't made any regimens or sequences yet.
-          Please create a <Link to="/app/sequences">sequence</Link> or
-          <Link to="/app/regimen">regimen</Link> first.
-        </p>;
+      {t("You haven't made any regimens or sequences yet. Please create a")}
+      <Link to="/app/sequences">{t("sequence")}</Link> {t(" or")}
+      <Link to="/app/regimen">{t("regimen")}</Link> {t("first.")}
+    </p>;
   }
 
   /** User has executales to create FarmEvents with, has not loaded yet. */
   loading() {
-    return <p>Loading...</p>;
+    return <p>{t("Loading")}...</p>;
   }
 
   render() {
