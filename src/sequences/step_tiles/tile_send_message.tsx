@@ -6,7 +6,7 @@ import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { SendMessage, ALLOWED_CHANNEL_NAMES } from "farmbot";
 import * as _ from "lodash";
-import { StepParams, Sequence } from "../interfaces";
+import { StepParams } from "../interfaces";
 import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { editStep } from "../../api/crud";
@@ -42,13 +42,12 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   get args() { return this.props.currentStep.args; }
   get message() { return this.args.message };
   get message_type() { return this.args.message_type }
-  get label() { return _.capitalize(this.message_type) }
   get step() { return this.props.currentStep; }
   get dispatch() { return this.props.dispatch }
   get sequence() { return this.props.currentSequence; }
   get index() { return this.props.index }
   get currentSelection() {
-    return { label: this.label, value: this.message_type };
+    return { label: _.capitalize(this.message_type), value: this.message_type };
   };
   get channels() { return (this.step.body || []).map(x => x.args.channel_name) }
   hasChannel = (name: ChannelName) => {
@@ -56,26 +55,37 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
   }
 
   add = (name: ChannelName) => (s: SendMessage) => {
-    console.log("ADD");
     s.body = s.body || [];
     s.body.push(channel(name));
   }
 
   remove = (name: ChannelName) => (s: SendMessage) => {
-    console.log("REM");
     s.body = (s.body || []).filter(x => x.args.channel_name !== name);
   }
 
   toggle = (n: ChannelName) => () => {
-    console.log(this.channels);
     this.dispatch(editStep({
       sequence: this.sequence,
       step: this.step,
       index: this.index,
-      executor: (this.hasChannel(n)) ? this.remove(n) : this.add(n)
+      executor: this.hasChannel(n) ? this.remove(n) : this.add(n)
     }));
   }
-  setMsgType = (x: DropDownItem) => "";
+
+  setMsgType = (x: DropDownItem) => {
+    this.dispatch(editStep({
+      sequence: this.sequence,
+      step: this.step,
+      index: this.index,
+      executor: (step: SendMessage) => {
+        if (_.isString(x.value)) {
+          step.args.message_type = x.value
+        } else {
+          throw new Error("Strings only in send_message.");
+        }
+      }
+    }));
+  };
 
   render() {
     let { dispatch, index, currentStep, currentSequence } = this.props;
@@ -130,8 +140,6 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                     </div>
                     <div className="channel-fields">
                       <div>{EACH_CHANNEL.map((chan, inx) => {
-                        let checked = this.hasChannel(chan.name);
-                        console.log(` ${chan} is ${chan.name ? "" : "NOT"} checked`);
                         return <fieldset key={inx}>
                           <label htmlFor={chan.name}>
                             {chan.label}
@@ -139,8 +147,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                           <input type="checkbox"
                             id={chan.name}
                             onChange={this.toggle(chan.name)}
-                            value={"" + checked}
-                            checked={checked || chan.alwaysOn}
+                            checked={this.hasChannel(chan.name) || chan.alwaysOn}
                             disabled={chan.alwaysOn} />
                         </fieldset>;
                       })}</div>

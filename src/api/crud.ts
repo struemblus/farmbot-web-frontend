@@ -54,7 +54,6 @@ export function editStep({ step, sequence, index, executor }: EditStepProps) {
   executor(nextStep);
   nextSeq.body.body = nextSeq.body.body || [];
   nextSeq.body.body[index] = nextStep;
-  console.dir(nextStep);
   return overwrite(sequence, nextSeq.body);
 }
 

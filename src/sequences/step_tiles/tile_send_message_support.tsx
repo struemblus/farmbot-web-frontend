@@ -21,8 +21,7 @@ export const MESSAGE_STATUSES = [
   { value: "busy", label: "Busy" },
   { value: "warn", label: "Warning" },
   { value: "error", label: "Error" },
-  { value: "info", label: "Info" },
-  { value: "fun", label: "Fun" }
+  { value: "info", label: "Info" }
 ];
 
 export function channel(channel_name: ALLOWED_CHANNEL_NAMES): Channel {
