@@ -2,6 +2,7 @@ import {
   TaggedResource,
   ResourceName,
   isTaggedResource,
+  TaggedSequence,
 } from "../resources/tagged_resources";
 import { GetState, ReduxAction } from "../redux/interfaces";
 import { API } from "./index";
@@ -13,6 +14,7 @@ import { generateUuid } from "../resources/util";
 import { defensiveClone } from "../util";
 import { EditResourceParams } from "./interfaces";
 import { ResourceIndex } from "../resources/interfaces";
+import { SequenceBodyItem } from "farmbot/dist";
 
 export function edit(tr: TaggedResource, update: Partial<typeof tr.body>):
   ReduxAction<EditResourceParams> {
@@ -30,6 +32,30 @@ export function overwrite(tr: TaggedResource, update: typeof tr.body):
     type: "OVERWRITE_RESOURCE",
     payload: { uuid: tr.uuid, update: update }
   };
+}
+
+interface EditStepProps {
+  step: Readonly<SequenceBodyItem>;
+  sequence: Readonly<TaggedSequence>;
+  index: number;
+  /** Callback provides a fresh, defensively cloned copy of the
+   * original step. Perform modifications to the resource within this
+   * callback */
+  executor(stepCopy: SequenceBodyItem): void;
+}
+
+/** Editing sequence steps is a tedious process. Use this function in place
+ * of `edit()` or `overwrite`. */
+export function editStep({ step, sequence, index, executor }: EditStepProps) {
+  // https://en.wikipedia.org/wiki/NeXTSTEP
+  let nextStep = defensiveClone(step);
+  let nextSeq = defensiveClone(sequence);
+  // Let the developer safely perform mutations here:
+  executor(nextStep);
+  nextSeq.body.body = nextSeq.body.body || [];
+  nextSeq.body.body[index] = nextStep;
+  console.dir(nextStep);
+  return overwrite(sequence, nextSeq.body);
 }
 
 /** Initialize (but don't save) an indexed / tagged resource. */

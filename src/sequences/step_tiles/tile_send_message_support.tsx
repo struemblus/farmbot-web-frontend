@@ -11,8 +11,8 @@ interface ChanInfo {
 }
 
 export const EACH_CHANNEL: ChanInfo[] = [
-  { alwaysOn: true, name: "ticker", label: "Ticker notification" },
-  { alwaysOn: false, name: "toast", label: "Toast popup" },
+  { alwaysOn: true, name: "ticker", label: "Ticker Notification" },
+  { alwaysOn: false, name: "toast", label: "Toast Pop Up" },
   { alwaysOn: false, name: "email", label: "Email" }
 ];
 
