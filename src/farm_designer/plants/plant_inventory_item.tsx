@@ -14,7 +14,7 @@ export function PlantInventoryItem(props: TPPWithDispatch) {
   let plantId = (plant.id || "ERR_NO_PLANT_ID").toString();
 
   let toggle = ({ currentTarget }: React.SyntheticEvent<HTMLDivElement>) => {
-    props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget });
+    // props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget });
   }
 
   let click = () => push("/app/designer/plants/" + plantId);
