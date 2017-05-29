@@ -1,4 +1,6 @@
 import * as React from "react";
+import * as moment from "moment";
+import { t } from "i18next";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
 import {
   TimeUnit,
@@ -16,7 +18,8 @@ import {
   Col,
   Row,
   success,
-  SaveBtn
+  SaveBtn,
+  error
 } from "../../ui/index";
 import { FBSelect } from "../../ui/new_fb_select";
 import {
@@ -24,13 +27,10 @@ import {
   save,
   edit
 } from "../../api/crud";
-import { t } from "i18next";
 import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
-import * as moment from "moment";
 // TIL: http://stackoverflow.com/a/24900248/1064917
 import { betterMerge } from "../../util";
-import { error } from "../../ui/logger";
 
 type FormEvent = React.SyntheticEvent<HTMLInputElement>;
 /** Seperate each of the form fields into their own interface. Recombined later
@@ -113,7 +113,6 @@ export class EditFEForm extends React.Component<Props, State> {
       throw new Error(`${t} is not a valid executable_type`);
     }
   }
-
 
   executableSet = (e: TightlyCoupledFarmEventDropDown) => {
     if (e.value) {

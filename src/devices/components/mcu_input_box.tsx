@@ -3,7 +3,7 @@ import { McuInputBoxProps } from "../interfaces";
 import { updateMCU } from "../actions";
 import { BlurableInput } from "../../ui/index";
 import { Dictionary } from "farmbot";
-import { error } from "../../ui/logger";
+import { error } from "../../ui";
 
 let maxValues: Readonly<Dictionary<number>> = {
   "x": 141,

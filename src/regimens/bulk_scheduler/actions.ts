@@ -6,7 +6,7 @@ import { error } from "../../ui/index";
 import { t } from "i18next";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
-import { warning } from "../../ui/logger";
+import { warning } from "../../ui";
 import { isNaN, isNumber } from "lodash";
 
 export function pushWeek() {
@@ -20,8 +20,6 @@ export function popWeek() {
     type: "POP_WEEK"
   };
 }
-
-const MINUTES_MS = 1000 * 60;
 
 /** Sets daily offset of a regimen */
 export function setTimeOffset(ms: number) {
@@ -49,7 +47,7 @@ export function setSequence(uuid: string): ReduxAction<string> {
 };
 
 export function commitBulkEditor(): Thunk {
-  return function (dispatch, getState) {
+  return function(dispatch, getState) {
     let res = getState().resources;
     let { weeks, dailyOffsetMs, selectedSequenceUUID, currentRegimen } =
       res.consumers.regimens;
