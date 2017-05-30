@@ -1,8 +1,8 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { ToolsState, Props } from "./interfaces";
 import { Col, Row, Page } from "../ui";
 import { ToolBayList, ToolBayForm, ToolList, ToolForm } from "./components";
-import { connect } from "react-redux";
 import { mapStateToProps } from "./state_to_props";
 
 @connect(mapStateToProps)
@@ -21,36 +21,40 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
     return <Page className="tools">
       <Row>
         <Col sm={7}>
-          {!isEditingBays && <ToolBayList
-            toggle={this.toggleBays}
-            dispatch={this.props.dispatch}
-            getToolByToolSlotUUID={this.props.getToolByToolSlotUUID}
-            getToolSlots={this.props.getToolSlots}
-          />}
-          {isEditingBays && <ToolBayForm
-            toggle={this.toggleBays}
-            dispatch={this.props.dispatch}
-            toolSlots={this.props.toolSlots}
-            getToolSlots={this.props.getToolSlots}
-            getChosenToolOption={this.props.getChosenToolOption}
-            getToolOptions={this.props.getToolOptions}
-            changeToolSlot={this.props.changeToolSlot}
-          />}
+          {!isEditingBays &&
+            <ToolBayList
+              toggle={this.toggleBays}
+              dispatch={this.props.dispatch}
+              getToolByToolSlotUUID={this.props.getToolByToolSlotUUID}
+              getToolSlots={this.props.getToolSlots}
+            />}
+          {isEditingBays &&
+            <ToolBayForm
+              toggle={this.toggleBays}
+              dispatch={this.props.dispatch}
+              toolSlots={this.props.toolSlots}
+              getToolSlots={this.props.getToolSlots}
+              getChosenToolOption={this.props.getChosenToolOption}
+              getToolOptions={this.props.getToolOptions}
+              changeToolSlot={this.props.changeToolSlot}
+            />}
         </Col>
         <Col sm={5}>
-          {!isEditingTools && <ToolList
-            isActive={this.props.isActive}
-            toggle={this.toggleTools}
-            dispatch={this.props.dispatch}
-            tools={this.props.tools}
-          />}
-          {isEditingTools && <ToolForm
-            toggle={this.toggleTools}
-            dispatch={this.props.dispatch}
-            tools={this.props.tools}
-          />}
+          {!isEditingTools &&
+            <ToolList
+              isActive={this.props.isActive}
+              toggle={this.toggleTools}
+              dispatch={this.props.dispatch}
+              tools={this.props.tools}
+            />}
+          {isEditingTools &&
+            <ToolForm
+              toggle={this.toggleTools}
+              dispatch={this.props.dispatch}
+              tools={this.props.tools}
+            />}
         </Col>
       </Row>
-    </Page>;
+    </Page>
   }
 }

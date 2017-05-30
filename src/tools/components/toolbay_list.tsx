@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { t } from "i18next";
+import { Row, Col, Widget, WidgetBody, WidgetHeader } from "../../ui";
 import { ToolBayListProps } from "../interfaces";
 import { TaggedToolSlotPointer } from "../../resources/tagged_resources";
 import { ToolBayHeader } from "./toolbay_header";
@@ -38,7 +38,7 @@ export class ToolBayList extends React.Component<ToolBayListProps, {}> {
               </Row>;
             })}
         </WidgetBody>
-      </Widget>;
+      </Widget>
     </div>;
   }
 };
