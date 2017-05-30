@@ -34,7 +34,7 @@ export const NULL_CHOICE: DropDownItem = Object.freeze({
 
 export class FBSelect extends React.Component<Props, Partial<State>> {
 
-  state = { isOpen: false };
+  state: State = { isOpen: false };
 
   get list() {
     let orig = this.props.list;

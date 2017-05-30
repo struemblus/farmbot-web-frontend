@@ -10,7 +10,7 @@ import { Image } from "../images/interfaces";
 import { DeviceAccountSettings } from "../devices/interfaces";
 import { ResourceName } from "../resources/tagged_resources";
 import { warning } from "../ui/logger";
-import { OpenFarmAPI } from "../open_farm/index";
+// import { OpenFarmAPI } from "../open_farm/index";
 
 export interface ResourceReadyPayl {
   name: ResourceName;
@@ -39,17 +39,18 @@ export function fetchSyncData(dispatch: Function) {
   fetch<Log[]>("logs", API.current.logsPath);
   fetch<Peripheral[]>("peripherals", API.current.peripheralsPath);
   fetch<AnyPointer[]>("points", API.current.pointsPath)
-    .then(action => {
-      let slugs = _(action.payload.data)
-        .pluck<string>("openfarm_slug")
-        .uniq()
-        .compact()
-        .value()
-        .map((slug) => {
-          let url = OpenFarmAPI.OFBaseURL + slug;
-          fetch<Crop>("crops", url, "SAVE_SPECIAL_RESOURCE");
-        })
-    });
+  /** Eligible refactor? - unused as of 05/2017 */
+  // .then(action => {
+  //   let slugs = _(action.payload.data)
+  //     .pluck<string>("openfarm_slug")
+  //     .uniq()
+  //     .compact()
+  //     .value()
+  //     .map((slug) => {
+  //       let url = OpenFarmAPI.OFBaseURL + slug;
+  //       fetch<Crop>("crops", url, "SAVE_SPECIAL_RESOURCE");
+  //     })
+  // });
   fetch<Regimen[]>("regimens", API.current.regimensPath);
   fetch<Sequence[]>("sequences", API.current.sequencesPath);
   fetch<Tool[]>("tools", API.current.toolsPath);

@@ -11,7 +11,7 @@ import { t } from "i18next";
 export class EditFarmEvent extends React.Component<AddEditFarmEventProps, {}> {
   redirect() {
     history.push("/app/designer/farm_events");
-    return <div>Loading...</div>;
+    return <div>{t("Loading")}...</div>;
   }
 
   renderForm(fe: TaggedFarmEvent) {

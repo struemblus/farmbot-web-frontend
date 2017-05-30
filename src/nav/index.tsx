@@ -67,7 +67,7 @@ let links = [
 
 export class NavBar extends React.Component<NavBarProps, NavBarState> {
 
-  state = { mobileNavExpanded: false, tickerExpanded: false };
+  state: NavBarState = { mobileNavExpanded: false, tickerExpanded: false };
 
   toggleMobileNav = () => {
     let { mobileNavExpanded } = this.state;
@@ -152,11 +152,11 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
         </div>
 
         <div className={`ticker-list ${tickerClass}`} onClick={toggleTicker}>
-          {this.props.logs.map(log => {
+          {this.props.logs.map((log, index) => {
             let isFiltered = log.message.toLowerCase().includes("filtered");
             let time = moment.unix(log.created_at).local().format("h:mm a");
             if (!isFiltered) {
-              return <div key={log.id} className="status-ticker-wrapper">
+              return <div key={index} className="status-ticker-wrapper">
                 <div className={`saucer ${log.meta.type}`} />
                 <label className="status-ticker-message">
                   <Markdown>

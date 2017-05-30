@@ -46,7 +46,7 @@ export const CUSTOM_NULL_CHOICE: TaggedResourceBase = {
 
 export class CustomFBSelect extends React.Component<Props, Partial<State>> {
 
-  state = { isOpen: true, input: "" };
+  state: State = { isOpen: true, input: "" };
 
   handleChange = (input: string) => this.setState({ input });
 

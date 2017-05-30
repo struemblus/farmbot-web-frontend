@@ -37,11 +37,11 @@ let initialState: BotState = {
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<void>("TOGGLE_CONTROL_PANEL", function (s, a) {
+  .add<void>("TOGGLE_CONTROL_PANEL", function(s, a) {
     s.controlPanelClosed = !s.controlPanelClosed;
     return s;
   })
-  .add<number>("CHANGE_STEP_SIZE", function (s, a) {
+  .add<number>("CHANGE_STEP_SIZE", function(s, a) {
     return Object.assign({}, s, {
       stepSize: a.payload
     });
@@ -55,17 +55,17 @@ export let botReducer = generateReducer<BotState>(initialState)
     return s;
   })
   .add<HardwareState>("BOT_CHANGE",
-  function (s, a) {
+  function(s, a) {
     let nextState = a.payload;
     s.hardware = nextState;
     versionOK(nextState.informational_settings.controller_version);
     return s;
   })
-  .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {
+  .add<string>("FETCH_OS_UPDATE_INFO_OK", function(s, a) {
     s.currentOSVersion = a.payload;
     return s;
   })
-  .add<string>("FETCH_FW_UPDATE_INFO_OK", function (s, a) {
+  .add<string>("FETCH_FW_UPDATE_INFO_OK", function(s, a) {
     s.currentFWVersion = a.payload;
     return s;
   });
