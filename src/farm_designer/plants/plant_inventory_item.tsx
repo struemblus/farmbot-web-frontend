@@ -3,7 +3,7 @@ import { t } from "i18next";
 import * as moment from "moment";
 import { DEFAULT_ICON, cachedIcon } from "../../open_farm/index";
 import { push } from "../../history";
-import { TPPWithDispatch } from "./plant_inventory";
+import { TPPWithDispatch } from "../state_to_props";
 
 type IMGEvent = React.SyntheticEvent<HTMLImageElement>
 

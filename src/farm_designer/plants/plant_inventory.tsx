@@ -2,24 +2,17 @@ import * as React from "react";
 import { Link } from "react-router";
 import { connect } from "react-redux";
 import { t } from "i18next";
-import { Everything } from "../../interfaces";
 import { CustomFBSelect } from "../../ui";
 import { selectAllPlantPointers } from "../../resources/selectors";
 import { PlantInventoryItem } from "./plant_inventory_item";
-import { TaggedPlantPointer } from "../../resources/tagged_resources";
+import { Everything } from "../../interfaces";
 
 interface PlantsProps {
-  plants: TaggedPlantPointer[];
-}
-
-// ehhh...
-export interface TPPWithDispatch extends TaggedPlantPointer {
-  dispatch: Function;
+  plants: any;
 }
 
 function mapStateToProps(props: Everything): PlantsProps {
   let plants = selectAllPlantPointers(props.resources.index);
-  plants.map((p: TPPWithDispatch) => p.dispatch = props.dispatch);
   return { plants };
 }
 
@@ -46,7 +39,8 @@ export class Plants extends React.Component<PlantsProps, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <CustomFBSelect resourceList={this.props.plants}
+          <CustomFBSelect
+            resourceList={this.props.plants}
             optionComponent={PlantInventoryItem}
             forceOpen={true}
             placeholder="Search Plants"

@@ -18,7 +18,8 @@ fastClick.attach(document.body);
 init();
 
 /** If the sync object takes more than 10s to load, the user will be granted
- * access into the app, but still warned. */
+ * access into the app, but still warned.
+ */
 const TIMEOUT_MESSAGE = `App could not be fully loaded, 
 we recommend you try refreshing the page.`;
 
