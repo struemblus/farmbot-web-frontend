@@ -26,8 +26,8 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <Help text={(`The Read Pin step instructs FarmBot to
                       read the current value of the specified pin.
-                      A Pin Mode of 0 is for on/off control, while
-                      a Pin Mode of 1 is for PWM (pulse width modulation).`)} />
+                      A Pin Mode of 0 is for digital (on/off), while
+                      a Pin Mode of 1 is for analog (0-1023 for 0-5V).`)} />
           </div>
         </div>
       </div>
