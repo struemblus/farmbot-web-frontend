@@ -48,16 +48,11 @@ export type CHANNEL_NAME = "toast" | "ticker";
 export const NUMERIC_FIELDS = ["milliseconds", "pin_mode", "pin_number",
   "pin_value", "rhs", "sequence_id", "speed", "x", "y", "z"];
 
-/** CeleryScript nodes allowed within a Sequence node's `body` attr. */
-export type SequenceBodyMember = SequenceBodyItem;
-
 export interface Sequence extends CeleryScriptSequence {
   id?: number;
   color: Color;
   name: string;
 }
-
-export type SequenceOptions = Partial<Sequence>;
 
 export interface SequenceReducerState {
   current: string | undefined;
@@ -69,17 +64,7 @@ export interface SequencesListProps {
   auth: AuthState | undefined;
 }
 
-export interface NamedVector3 extends Vector3 {
-  name: string;
-}
-
-/** Used when dispatching ADD_CHANNEL / REMOVE_CHANNEL actions. */
-export interface ChanParams {
-  channel_name: string;
-  index: number;
-}
-
-// /** Used when dispatching an updated message type. */
+/** Used when dispatching an updated message type. */
 export interface MessageParams {
   value: string | number;
   index: number;
@@ -97,20 +82,6 @@ export interface PickerState {
 export interface MoveAbsState {
   isToolSelected: boolean;
 }
-
-export interface ChangeMoveAbsSelect {
-  index: number;
-  tool: DropDownItem;
-  step: MoveAbsolute;
-}
-
-export interface ChangeMoveAbsInput {
-  kind: string;
-  index: number;
-  value: string;
-}
-
-export type StatelessInput = (p: StepInputProps) => JSX.Element;
 
 export interface StepButtonParams {
   current: TaggedSequence | undefined;
@@ -138,13 +109,6 @@ export interface RemoveParams {
   dispatch: Function;
 }
 
-export interface UpdateStepParams {
-  dispatch: Function;
-  step: CeleryNode;
-  index: number;
-  field: string;
-}
-
 export interface StepInputProps {
   step: SequenceBodyItem;
   sequence: TaggedSequence;
@@ -153,39 +117,13 @@ export interface StepInputProps {
   index: number;
 }
 
-export type StepTile = (input: StepParams) => JSX.Element;
-
 export interface StepTitleBarProps {
   step: SequenceBodyItem;
   index: number;
   dispatch: Function;
 }
 
-export interface EditCurrentSequence {
-  name?: string;
-  color?: Color;
-};
-
-export interface SpliceStepPayl {
-  insertBefore: number;
-  step: CeleryNode;
-}
-
-export interface MoveStepPayl {
-  step: CeleryNode;
-  from: number;
-  to: number;
-}
-
 export type CHANGE_STEP = "CHANGE_STEP";
-
-export interface ChangeStep {
-  type: CHANGE_STEP;
-  payload: {
-    step: CeleryNode;
-    index: number;
-  };
-}
 
 export type CHANGE_STEP_SELECT = "CHANGE_STEP_SELECT" | "UPDATE_SUB_SEQUENCE";
 
@@ -199,18 +137,9 @@ export interface ChangeStepSelect {
   };
 }
 
-export interface SaveSequenceOk {
-  type: string;
-  payload: Sequence;
-}
-
 export interface SelectSequence {
   type: "SELECT_SEQUENCE";
   payload: string;
-}
-
-export interface SequenceApiResponse {
-  sequence?: string;
 }
 
 export type DataXferObj = StepMoveDataXfer | StepSpliceDataXfer;

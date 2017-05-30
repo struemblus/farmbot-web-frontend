@@ -40,15 +40,6 @@ interface Meta {
   z: number | undefined;
 }
 
-/** Typescript does not have partial types yet.
- *  When it does, we can pull this out*/
-export interface DeviceAccountSettingsUpdate {
-  id?: number;
-  name?: string;
-  uuid?: string;
-  webcam_url?: string;
-};
-
 export interface BotState {
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
@@ -73,19 +64,8 @@ export interface BotProp {
 /** Status registers for the bot's status */
 export type HardwareState = BotStateTree;
 
-export interface MqttMessage {
-  error?: string | undefined;
-  id?: string | undefined;
-  result: HardwareState;
-}
-
 export interface GithubRelease {
   tag_name: string;
-}
-
-export interface ChangeSettingsBuffer {
-  key: McuParamName;
-  val: number;
 }
 
 export interface MoveRelProps {
