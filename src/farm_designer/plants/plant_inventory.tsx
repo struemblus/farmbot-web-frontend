@@ -12,14 +12,8 @@ interface PlantsProps {
   plants: TaggedPlantPointer[];
 }
 
-// ehhh...
-export interface TPPWithDispatch extends TaggedPlantPointer {
-  dispatch: Function;
-}
-
 function mapStateToProps(props: Everything): PlantsProps {
   let plants = selectAllPlantPointers(props.resources.index);
-  plants.map((p: TPPWithDispatch) => p.dispatch = props.dispatch);
   return { plants };
 }
 
@@ -46,7 +40,8 @@ export class Plants extends React.Component<PlantsProps, {}> {
 
         <div className="thin-search-wrapper">
           <i className="fa fa-search"></i>
-          <CustomFBSelect resourceList={this.props.plants}
+          <CustomFBSelect
+            resourceList={this.props.plants}
             optionComponent={PlantInventoryItem}
             forceOpen={true}
             placeholder="Search Plants"

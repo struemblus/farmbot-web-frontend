@@ -3,12 +3,12 @@ import { t } from "i18next";
 import * as moment from "moment";
 import { DEFAULT_ICON, cachedIcon } from "../../open_farm/index";
 import { push } from "../../history";
-import { TPPWithDispatch } from "./plant_inventory";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
 type IMGEvent = React.SyntheticEvent<HTMLImageElement>
 
 // The inidividual plants that show up in the farm designer sub nav.
-export function PlantInventoryItem(props: TPPWithDispatch) {
+export function PlantInventoryItem(props: TaggedPlantPointer) {
 
   let plant = props.body;
   let plantId = (plant.id || "ERR_NO_PLANT_ID").toString();
