@@ -7,8 +7,7 @@ interface ToolSlotLayerProps {
   slots: SlotWithTool[];
 }
 
-export function ToolSlotLayer(props: ToolSlotLayerProps) {
-  let { slots, visible } = props;
+export function ToolSlotLayer({ slots, visible }: ToolSlotLayerProps) {
   return visible ? <g>
     {slots.map(slot =>
       <ToolSlotPoint key={slot.toolSlot.uuid} slot={slot} />

@@ -8,11 +8,7 @@ interface PointLayerProps {
 }
 
 export function PointLayer({ visible, points }: PointLayerProps) {
-  if (visible) {
-    return <g>{
-      points.map(p => { return <GardenPoint point={p} key={p.body.id} />; })
-    }</g>;
-  } else {
-    return <g />;
-  }
+  return visible ? <g>
+    {points.map(p => <GardenPoint point={p} key={p.body.id} />)}}
+  </g> : <g />; // fallback
 }
