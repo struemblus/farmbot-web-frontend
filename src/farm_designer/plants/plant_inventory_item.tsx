@@ -19,9 +19,12 @@ export function PlantInventoryItem(props: Props) {
 
   let toggle = ({ currentTarget }: React.SyntheticEvent<HTMLDivElement>) => {
     props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget.id });
-  }
+  };
 
-  let click = () => push("/app/designer/plants/" + plantId);
+  let click = () => {
+    push("/app/designer/plants/" + plantId);
+    props.dispatch({ type: "SELECT_PLANT", payload: props.tpp.uuid });
+  };
 
   // See `cachedIcon` for more details on this.
   function maybeGetCachedIcon(e: IMGEvent) {
