@@ -146,6 +146,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  dispatch: Function;
   plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
   dragging: boolean;

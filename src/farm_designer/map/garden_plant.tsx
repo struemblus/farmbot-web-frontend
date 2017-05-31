@@ -4,12 +4,10 @@ import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { Circle } from "./circle";
 import { round } from "./util";
 
-export class GardenPlant
-  extends React.Component<GardenPlantProps, Partial<GardenPlantState>> {
-  constructor() {
-    super();
-    this.state = { icon: DEFAULT_ICON };
-  }
+export class GardenPlant extends
+  React.Component<GardenPlantProps, Partial<GardenPlantState>> {
+
+  state: GardenPlantState = { icon: DEFAULT_ICON }
 
   componentDidMount() {
     let OFS = this.props.plant.body.openfarm_slug;
@@ -17,10 +15,11 @@ export class GardenPlant
   }
 
   render() {
-    let { selected, plant, onClick } = this.props;
+    let { selected, plant, onClick, dispatch } = this.props;
     let { radius, x, y } = plant.body;
     let offsetX = x + radius;
     let offsetY = y + radius;
+    let action = { type: "TOGGLE_HOVERED_PLANT", payload: plant };
 
     return <g>
       <Circle
@@ -35,6 +34,8 @@ export class GardenPlant
         className={"plant-image is-chosen-" + selected}
         href={this.state.icon}
         onClick={() => onClick(this.props.plant)}
+        onMouseEnter={() => dispatch(action)}
+        onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
         x={round(x)}
