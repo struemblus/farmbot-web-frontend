@@ -17,8 +17,8 @@ export function PlantInventoryItem(props: Props) {
   let plant = props.tpp.body;
   let plantId = (plant.id || "ERR_NO_PLANT_ID").toString();
 
-  let toggle = ({ currentTarget }: React.SyntheticEvent<HTMLDivElement>) => {
-    props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget.id });
+  let toggle = () => {
+    props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: props.tpp });
   };
 
   let click = () => {
@@ -48,8 +48,8 @@ export function PlantInventoryItem(props: Props) {
   return <div
     className="plant-search-item"
     key={plantId}
-    onMouseEnter={e => toggle(e)}
-    onMouseLeave={e => toggle(e)}
+    onMouseEnter={toggle}
+    onMouseLeave={toggle}
     onClick={click}>
     <img
       className="plant-search-item-image"

@@ -6,27 +6,31 @@ import { TaggedResource } from "../resources/tagged_resources";
 
 export let initialState: DesignerState = {
   selectedPlant: undefined,
+  hoveredPlant: undefined,
   cropSearchQuery: "",
   cropSearchResults: []
 };
 
 export let designer = generateReducer<DesignerState>(initialState)
-  .add<string>("SEARCH_QUERY_CHANGE", function (s, { payload }) {
+  .add<string>("SEARCH_QUERY_CHANGE", function(s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchQuery = payload;
     return state;
   })
-  .add<string | undefined>("SELECT_PLANT", (s, a) => {
-    s.selectedPlant = a.payload;
+  .add<string | undefined>("SELECT_PLANT", (s, { payload }) => {
+    s.selectedPlant = payload;
+    return s;
+  })
+  .add<string | undefined>("TOGGLE_HOVERED_PLANT", (s, { payload }) => {
     return s;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK",
-  function (s, { payload }) {
+  function(s, { payload }) {
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;
   })
-  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (s, a) {
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function(s, a) {
     if (a.payload.uuid === s.selectedPlant) { s.selectedPlant = undefined; }
     return s;
   });

@@ -76,6 +76,7 @@ export interface Crop {
 
 export interface DesignerState {
   selectedPlant: string | undefined;
+  hoveredPlant: string | undefined;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
