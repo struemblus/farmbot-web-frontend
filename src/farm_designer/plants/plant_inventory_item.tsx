@@ -24,9 +24,9 @@ export function PlantInventoryItem(props: TPPWithDispatch) {
     let OFS = props.body.openfarm_slug;
     let img = e.currentTarget;
     OFS && cachedIcon(OFS)
-      .then(i => {
-        if (i === img.getAttribute("src")) { return; }
-        img.setAttribute("src", i);
+      .then((i: string) => {
+        i !== img.getAttribute("src") &&
+          img.setAttribute("src", i);
       });
   }
 
