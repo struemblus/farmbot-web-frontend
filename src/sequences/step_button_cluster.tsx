@@ -146,7 +146,9 @@ export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
   ];
 
   return <div className="step-button-cluster-widget">
-    <h3><i>{t("Commands")}</i></h3>
+    <h3>
+      <i>{t("Commands")}</i>
+    </h3>
     <ToolTip helpText={ToolTips.SEQUENCE_COMMANDS} />
     <div>
       <Row>
