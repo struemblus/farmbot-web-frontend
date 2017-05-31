@@ -13,7 +13,7 @@ export class GardenPlant
 
   componentDidMount() {
     let OFS = this.props.plant.body.openfarm_slug;
-    cachedIcon(OFS).then(icon => this.setState({ icon }));
+    cachedIcon(OFS).then((icon: string) => this.setState({ icon }));
   }
 
   render() {
