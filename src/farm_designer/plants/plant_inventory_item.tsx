@@ -38,12 +38,14 @@ export function PlantInventoryItem(props: TPPWithDispatch) {
   let currentDay = moment();
   let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;
 
-  return <div className="plant-search-item"
+  return <div
+    className="plant-search-item"
     key={plantId}
     onMouseEnter={e => toggle(e)}
     onMouseLeave={e => toggle(e)}
-    onClick={() => click}>
-    <img className="plant-search-item-image"
+    onClick={click}>
+    <img
+      className="plant-search-item-image"
       src={DEFAULT_ICON}
       onLoad={maybeGetCachedIcon} />
     <span className="plant-search-item-name">

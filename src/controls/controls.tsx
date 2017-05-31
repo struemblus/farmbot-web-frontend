@@ -1,7 +1,6 @@
 import * as React from "react";
-import { t } from "i18next";
-import { Component } from "react";
 import { connect } from "react-redux";
+import { t } from "i18next";
 import { changeStepSize, moveAbs } from "../devices/actions";
 import { Peripherals } from "./peripherals";
 import { EStopButton } from "../devices/components/e_stop_btn";
@@ -16,7 +15,7 @@ import { WebcamPanel } from "./webcam_panel";
 import { Props, State } from "./interfaces";
 
 @connect(mapStateToProps)
-export class Controls extends Component<Props, Partial<State>> {
+export class Controls extends React.Component<Props, Partial<State>> {
 
   state: State = {
     x_axis_inverted: false,
