@@ -7,21 +7,25 @@ import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
 type IMGEvent = React.SyntheticEvent<HTMLImageElement>
 
-// The inidividual plants that show up in the farm designer sub nav.
-export function PlantInventoryItem(props: TaggedPlantPointer) {
+interface Props {
+  tpp: TaggedPlantPointer;
+  dispatch: Function;
+}
 
-  let plant = props.body;
+// The inidividual plants that show up in the farm designer sub nav.
+export function PlantInventoryItem(props: Props) {
+  let plant = props.tpp.body;
   let plantId = (plant.id || "ERR_NO_PLANT_ID").toString();
 
   let toggle = ({ currentTarget }: React.SyntheticEvent<HTMLDivElement>) => {
-    // props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget });
+    props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget.id });
   }
 
   let click = () => push("/app/designer/plants/" + plantId);
 
   // See `cachedIcon` for more details on this.
   function maybeGetCachedIcon(e: IMGEvent) {
-    let OFS = props.body.openfarm_slug;
+    let OFS = props.tpp.body.openfarm_slug;
     let img = e.currentTarget;
     OFS && cachedIcon(OFS)
       .then((i: string) => {

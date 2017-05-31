@@ -1,24 +1,37 @@
 import * as React from "react";
-import { Link } from "react-router";
 import { connect } from "react-redux";
+import { Link } from "react-router";
 import { t } from "i18next";
 import { Everything } from "../../interfaces";
-import { CustomFBSelect } from "../../ui";
 import { selectAllPlantPointers } from "../../resources/selectors";
 import { PlantInventoryItem } from "./plant_inventory_item";
 import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
-interface PlantsProps {
+interface Props {
   plants: TaggedPlantPointer[];
+  dispatch: Function;
 }
 
-function mapStateToProps(props: Everything): PlantsProps {
+interface State {
+  searchTerm: string;
+}
+
+function mapStateToProps(props: Everything): Props {
   let plants = selectAllPlantPointers(props.resources.index);
-  return { plants };
+  return {
+    plants,
+    dispatch: props.dispatch
+  };
 }
 
 @connect(mapStateToProps)
-export class Plants extends React.Component<PlantsProps, {}> {
+export class Plants extends React.Component<Props, State> {
+
+  state: State = { searchTerm: "" };
+
+  update = ({ currentTarget }: React.SyntheticEvent<HTMLInputElement>) => {
+    this.setState({ searchTerm: currentTarget.value });
+  }
 
   render() {
     return <div className="panel-container green-panel plant-inventory-panel">
@@ -30,7 +43,7 @@ export class Plants extends React.Component<PlantsProps, {}> {
           <Link to="/app/designer/plants" className="active">
             {t("Plants")}
           </Link>
-          <Link to="/app/designer/farm_events" >
+          <Link to="/app/designer/farm_events">
             {t("Farm Events")}
           </Link>
         </div>
@@ -39,13 +52,19 @@ export class Plants extends React.Component<PlantsProps, {}> {
       <div className="panel-content row">
 
         <div className="thin-search-wrapper">
-          <i className="fa fa-search"></i>
-          <CustomFBSelect
-            resourceList={this.props.plants}
-            optionComponent={PlantInventoryItem}
-            forceOpen={true}
-            placeholder="Search Plants"
-          />
+          <div className="text-input-wrapper">
+            <i className="fa fa-search"></i>
+            <input type="text" onChange={this.update} />
+          </div>
+          {
+            this.props.plants
+              .filter(p => p.body.name.includes(this.state.searchTerm))
+              .map((p, i) => <PlantInventoryItem
+                key={p.uuid}
+                tpp={p}
+                dispatch={this.props.dispatch}
+              />)
+          }
         </div>
 
       </div>

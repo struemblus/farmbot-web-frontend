@@ -134,27 +134,30 @@
 }
 
 .thin-search-wrapper {
-    position: relative;
-    border-bottom: 1px solid #000;
-    &:before,
-    &:after {
-        content: "";
-        position: absolute;
-        background: #000;
-        width: 1px;
-        height: 10px;
-        bottom: 0;
-    }
-    &:before {
-        left: 0;
-    }
-    &:after {
-        right: 0;
-    }
-    .fa-search {
-        position: absolute;
-        top: 0.8rem;
-        left: 1rem;
+    .text-input-wrapper {
+        margin-bottom: 1rem;
+        position: relative;
+        border-bottom: 1px solid #000;
+        &:before,
+        &:after {
+            content: "";
+            position: absolute;
+            background: #000;
+            width: 1px;
+            height: 10px;
+            bottom: 0;
+        }
+        &:before {
+            left: 0;
+        }
+        &:after {
+            right: 0;
+        }
+        .fa-search {
+            position: absolute;
+            top: 0.8rem;
+            left: 1rem;
+        }
     }
     input {
         background: transparent;
