@@ -63,7 +63,7 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
     let choices = farmwares.map((x, i) => {
-      return { value: i, label: x.name };
+      return { value: i, label: x.uuid };
     });
     return choices;
   }
