@@ -1787,9 +1787,9 @@ fancy-log@^1.1.0:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
 
-farmbot@3.9.9:
-  version "3.9.9"
-  resolved "https://registry.yarnpkg.com/farmbot/-/farmbot-3.9.9.tgz#130cc4e1050f45431535b82561dc6f933f75e4d5"
+farmbot@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/farmbot/-/farmbot-4.0.0.tgz#8a93a0632d0824721945b767b7716c8b81a772d4"
   dependencies:
     mqtt "^1.7.4"
     typescript "^2.1.5"

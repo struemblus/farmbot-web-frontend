@@ -16,9 +16,7 @@ export let bot: Everything["bot"] = {
     "informational_settings": {},
     "user_env": {},
     "process_info": {
-      "farmwares": [],
-      "regimens": [],
-      "farm_events": []
+      "farmwares": []
     }
   },
   "dirty": false,
