@@ -11,12 +11,16 @@ import { PlantPanel } from "./plant_panel";
 export class PlantInfo extends PlantInfoBase {
 
   default = (plant_info: TaggedPlantPointer) => {
+    let action = { type: "SELECT_PLANT", payload: undefined };
     let info = formatPlantInfo(plant_info);
     return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
           <Link to="/app/designer/plants" className="back-arrow">
-            <i className="fa fa-arrow-left" />
+            <i
+              className="fa fa-arrow-left"
+              onClick={() => this.props.dispatch(action)}
+            />
           </Link>
           <span className="title">{info.name}</span>
           <Link to={`/app/designer/plants/` + (info.id || "BROKEN")

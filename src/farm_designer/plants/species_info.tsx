@@ -1,6 +1,7 @@
 import * as React from "react";
 import { BackArrow } from "../../ui";
 import { t } from "i18next";
+import * as _ from "lodash";
 import { isMobile } from "../../util";
 import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
 import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
@@ -38,8 +39,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   render() {
     let species = history.getCurrentLocation().pathname.split("/")[5];
     let result =
-      findBySlug(this.props.cropSearchResults,
-        species || "PLANT_NOT_FOUND");
+      findBySlug(this.props.cropSearchResults, species || "PLANT_NOT_FOUND");
 
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
@@ -86,7 +86,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   "main_image_path"
                 ])
                 .pairs()
-                .map(function (pair, i) {
+                .map(function(pair, i) {
                   let key = pair[0] as string;
                   let value = pair[1];
                   return <li key={i}>
@@ -98,14 +98,12 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                      * and has a value, render the elements needed, or "Not
                      * set". Any other keys receive the default behavior.
                      */}
-                    {key === "svg_icon" && value && (
+                    {key === "svg_icon" && value &&
                       <div>
                         <img src={DATA_URI + value} width={100} height={100} />
                       </div>
-                    ) || key === "svg_icon" && !value && ("Not set")}
-                    {key !== "svg_icon" && (
-                      value || "Not set"
-                    )}
+                      || key === "svg_icon" && !value && ("Not set")}
+                    {key !== "svg_icon" && value || "Not set"}
                   </li>;
                 }).value()
             }
