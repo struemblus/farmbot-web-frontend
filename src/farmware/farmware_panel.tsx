@@ -63,7 +63,7 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
     let choices = farmwares.map((x, i) => {
-      return { value: i, label: x.name };
+      return { value: x.uuid, label: x.name };
     });
     return choices;
   }
@@ -97,7 +97,14 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
           <Row>
             <Col xs={12}>
               <DeprecatedFBSelect list={this.fwList()}
-                onChange={(x) => this.setState({ selectedFarmware: x.label })}
+                onChange={(x) => {
+                  let selectedFarmware = x.value;
+                  if (_.isString(selectedFarmware)) {
+                    this.setState({ selectedFarmware });
+                  } else {
+                    throw new Error(`Bad farmware UUID: ${x.value}`)
+                  }
+                }}
                 placeholder="Installed Farmware Packages" />
             </Col>
             <Col xs={12}>
