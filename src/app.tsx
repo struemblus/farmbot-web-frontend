@@ -1,12 +1,12 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import * as _ from "lodash";
 import { NavBar } from "./nav";
 import { Everything, Log } from "./interfaces";
 import { init, error } from "./ui";
-import { connect } from "react-redux";
 import { Spinner } from "./spinner";
 import { AuthState } from "./auth/interfaces";
 import { BotState } from "./devices/interfaces";
-import * as _ from "lodash";
 import { ResourceName } from "./resources/tagged_resources";
 import { selectAllLogs } from "./resources/selectors";
 
@@ -20,8 +20,8 @@ init();
 /** If the sync object takes more than 10s to load, the user will be granted
  * access into the app, but still warned.
  */
-const TIMEOUT_MESSAGE = `App could not be fully loaded, 
-we recommend you try refreshing the page.`;
+const TIMEOUT_MESSAGE = `App could not be fully loaded, we recommend you try 
+refreshing the page.`;
 
 interface AppProps {
   dispatch: Function;
@@ -32,10 +32,8 @@ interface AppProps {
 }
 
 function mapStateToProps(props: Everything): AppProps {
-  let dispatch = props.dispatch;
-
   return {
-    dispatch,
+    dispatch: props.dispatch,
     auth: props.auth,
     bot: props.bot,
     logs: _(selectAllLogs(props.resources.index))
@@ -49,7 +47,7 @@ function mapStateToProps(props: Everything): AppProps {
 
 /** Relational resources that *must* load before app starts.
  * App will crash at load time if they are not pre-loaded.
-*/
+ */
 const MUST_LOAD: ResourceName[] = [
   "sequences",
   "regimens",
@@ -81,7 +79,8 @@ export default class App extends React.Component<AppProps, {}> {
         auth={this.props.auth}
         bot={this.props.bot}
         dispatch={this.props.dispatch}
-        logs={this.props.logs} />
+        logs={this.props.logs}
+      />
       {!syncLoaded && <Spinner radius={33} strokeWidth={6} />}
       {syncLoaded && this.props.children}
     </div>;

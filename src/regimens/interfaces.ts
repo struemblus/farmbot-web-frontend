@@ -72,12 +72,6 @@ export interface RegimenItem {
   time_offset: number;
 }
 
-/** Used by regimen reducer to route incoming stream of Redux actions */
-export interface RegimensActionHandler {
-  [actionName: string]: (state: RegimenState,
-    action: ReduxAction<any>) => RegimenState;
-}
-
 export interface AddRegimenProps {
   dispatch: Function;
   className?: string;

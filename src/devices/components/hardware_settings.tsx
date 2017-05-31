@@ -1,6 +1,6 @@
 import * as React from "react";
-import { CalibrationRow } from "./calibration_button";
 import { t } from "i18next";
+import { CalibrationRow } from "./calibration_button";
 import { BotConfigInputBox } from "./step_per_mm_box";
 import { settingToggle, MCUFactoryReset, toggleControlPanel } from "../actions";
 import { ToggleButton } from "../../controls/toggle_button";
@@ -34,7 +34,7 @@ export class HardwareSettings
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
         <MustBeOnline
-          fallback="Not aavailable when device is offline."
+          fallback="Not available when device is offline."
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
           <SaveBtn
@@ -74,8 +74,8 @@ export class HardwareSettings
                 x={"movement_max_spd_x"}
                 y={"movement_max_spd_y"}
                 z={"movement_max_spd_z"}
-                bot={this.props.bot}
-                dispatch={this.props.dispatch}
+                bot={bot}
+                dispatch={dispatch}
               />
               <ZeroRow />
               <tr>

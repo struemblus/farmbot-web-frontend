@@ -33,13 +33,6 @@ export interface Props {
   crops: TaggedCrop[];
 }
 
-export interface UpdateSequenceOrRegimenProps {
-  label: string;
-  value: number;
-  kind: string;
-  farm_event_id: number;
-}
-
 export type TimeUnit =
   | "never"
   | "minutely"
@@ -171,15 +164,6 @@ export type PlantOptions = Partial<PlantPointer>;
 
 export interface SpeciesInfoProps {
   cropSearchResults: CropLiveSearchResult[];
-}
-
-export interface PlantData {
-  name: string;
-  x: number;
-  y: number;
-  planted_at?: string | undefined;
-  uuid: string;
-  id?: number;
 }
 
 export interface EditPlantInfoProps {
