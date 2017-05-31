@@ -1,8 +1,8 @@
 import { draggableReducer } from "../reducer";
-import { DragableState } from "../interfaces";
+import { DraggableState } from "../interfaces";
 
 describe("draggableReducer", () => {
-  function emptyState(): DragableState {
+  function emptyState(): DraggableState {
     return {
       dataTransfer: {
         "BAR": {
