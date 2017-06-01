@@ -63,7 +63,11 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
     let choices = farmwares.map((x, i) => {
-      return { value: x.uuid, label: x.name };
+      let hasVers = (x.meta && _.isString(x.meta.version));
+      // Guard against legacy Farmwares. Can be removed in a month.
+      // -- RC June 2017.
+      let label = hasVers ? `${x.name} ${x.meta.version}` : x.name;
+      return { value: x.uuid, label };
     });
     return choices;
   }
