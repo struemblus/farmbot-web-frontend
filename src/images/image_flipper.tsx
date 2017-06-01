@@ -58,8 +58,14 @@ export class ImageFlipper
   go = (increment: -1 | 1) => () => {
     let { images, currentImage } = this.props;
     let uuids = images.map(x => x.uuid);
-    let uuid = (currentImage && currentImage.uuid);
-    let nextImg = uuid ? uuids[uuids.indexOf(uuid) + increment] : undefined;
+    let nextImg: string | undefined;
+    if (currentImage) {
+      let uuid = currentImage.uuid;
+      let index = uuids.indexOf(uuid);
+      if (index !== -1) { nextImg = uuids[index + increment]; };
+    } else {
+
+    }
     this.props.onFlip(nextImg);
   }
 
