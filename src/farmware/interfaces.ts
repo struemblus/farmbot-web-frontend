@@ -10,16 +10,16 @@ export interface FWProps {
   bot: BotState;
 }
 
-export interface State { }
-
 export interface Props {
   bot: BotState;
   dispatch: Function;
   images: TaggedImage[];
+  currentImage: string | undefined;
 }
 
 export interface PhotosProps {
   images: TaggedImage[];
+  currentImage: string | undefined;
 }
 
 export interface CameraCalibrationState {
@@ -28,4 +28,8 @@ export interface CameraCalibrationState {
 
 export interface CameraCalibrationProps {
   images: TaggedImage[];
+}
+
+export interface FarmwareState {
+  currentImage: string | undefined;
 }

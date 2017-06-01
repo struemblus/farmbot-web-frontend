@@ -9,15 +9,17 @@ export interface Props {
 }
 
 /** JSON form that gets POSTed to the API when user updates their info. */
-export interface State {
-  name?: string;
-  email?: string;
-  password?: string;
-  new_password?: string;
-  new_password_confirmation?: string;
+export interface UserInfo {
+  name: string;
+  email: string;
+  password: string;
+  new_password: string;
+  new_password_confirmation: string;
   /** User must enter password confirmation to delete their account. */
-  deletion_confirmation?: string;
+  deletion_confirmation: string;
 }
+
+export type State = Partial<UserInfo>;
 
 export interface DeletionRequest {
   password: string;

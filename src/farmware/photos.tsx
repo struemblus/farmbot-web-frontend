@@ -2,12 +2,11 @@ import * as React from "react";
 import { Widget, WidgetHeader, WidgetBody, success, error } from "../ui/index";
 import { ImageFlipper } from "../images/index";
 import { PhotosProps } from "./interfaces";
-import { State } from "../account/interfaces";
 import { devices } from "../device";
 import { t } from "i18next";
 import { ToolTips } from "../constants";
 
-export class Photos extends React.Component<PhotosProps, State> {
+export class Photos extends React.Component<PhotosProps, void> {
   takePhoto = () => {
     let ok = () => success(t("Processing now. Refresh page to see result."));
     let no = () => error("Error taking photo");
@@ -19,8 +18,8 @@ export class Photos extends React.Component<PhotosProps, State> {
       <WidgetHeader helpText={ToolTips.PHOTOS} title={"Photos"}>
         <button className="gray"
           onClick={this.takePhoto}
-          hidden={this.props.images.length > 0}>
-          {t("Run Detector on Photo")}
+          hidden={!this.props.images.length}>
+          {t("Process Photo")}
         </button>
         <button className="gray" onClick={this.takePhoto}>
           {t("Take Photo")}

@@ -10,6 +10,7 @@ import {
   TaggedTool
 } from "./tagged_resources";
 import { RegimenState } from "../regimens/reducer";
+import { FarmwareState } from "../farmware/interfaces";
 
 type UUID = string;
 
@@ -29,6 +30,7 @@ export interface RestResources {
     sequences: SequenceReducerState;
     regimens: RegimenState;
     farm_designer: DesignerState;
+    farmware: FarmwareState;
   }
 }
 

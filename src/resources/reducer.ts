@@ -25,11 +25,16 @@ import {
 import { ResourceReadyPayl } from "../sync/actions";
 import { OFCropResponse } from "../open_farm/index";
 import * as moment from "moment";
+import {
+  famrwareReducer as farmware,
+  farmwareState
+} from "../farmware/reducer";
 
 let consumerReducer = combineReducers({
   regimens,
   sequences,
-  farm_designer
+  farm_designer,
+  farmware
 });
 
 export function emptyState(): RestResources {
@@ -37,7 +42,8 @@ export function emptyState(): RestResources {
     consumers: {
       sequences: sequenceState,
       regimens: regimenState,
-      farm_designer: designerState
+      farm_designer: designerState,
+      farmware: farmwareState
     },
     loaded: [],
     index: {
@@ -66,7 +72,8 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
   state.consumers = consumerReducer({
     sequences: state.consumers.sequences,
     regimens: state.consumers.regimens,
-    farm_designer: state.consumers.farm_designer
+    farm_designer: state.consumers.farm_designer,
+    farmware: state.consumers.farmware
   }, a) as any;
   return state;
 };
