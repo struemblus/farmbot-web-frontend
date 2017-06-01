@@ -2,10 +2,10 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
-import { Everything } from "../../interfaces";
 import { selectAllPlantPointers } from "../../resources/selectors";
 import { PlantInventoryItem } from "./plant_inventory_item";
 import { TaggedPlantPointer } from "../../resources/tagged_resources";
+import { Everything } from "../../interfaces";
 
 interface Props {
   plants: TaggedPlantPointer[];
