@@ -24,16 +24,12 @@ export class FarmwarePage extends React.Component<Props, State> {
           <Photos images={this.props.images} />
         </Col>
         <Col xs={12} sm={4}>
-          <CameraCalibration
-            images={this.props.images}
-          />
+          <CameraCalibration images={this.props.images} />
         </Col>
       </Row>
       <Row>
         <Col xs={12} sm={3}>
-          <FarmwarePanel
-            bot={this.props.bot}
-          />
+          <FarmwarePanel bot={this.props.bot} />
         </Col>
       </Row>
     </Page>;

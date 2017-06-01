@@ -17,14 +17,17 @@ export class Photos extends React.Component<PhotosProps, State> {
   render() {
     return <Widget className="photos-widget">
       <WidgetHeader helpText={ToolTips.PHOTOS} title={"Photos"}>
+        <button className="gray"
+          onClick={this.takePhoto}
+          hidden={this.props.images.length > 0}>
+          {t("Run Detector on Photo")}
+        </button>
         <button className="gray" onClick={this.takePhoto}>
           {t("Take Photo")}
         </button>
       </WidgetHeader>
       <WidgetBody>
-        <ImageFlipper
-          images={this.props.images}
-        />
+        <ImageFlipper images={this.props.images} />
       </WidgetBody>
     </Widget>
   }
