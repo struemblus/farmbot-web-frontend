@@ -44,6 +44,7 @@ const DEFAULTS = {
 };
 
 interface Props {
+  currentImage: TaggedImage | undefined;
   images: TaggedImage[];
   H: undefined | (number | undefined)[];
   S: undefined | (number | undefined)[];
@@ -63,7 +64,8 @@ export function WeedDetectorBody({
   H,
   S,
   V,
-  onSliderChange
+  onSliderChange,
+  currentImage
 }: Props) {
 
   let h_lo = (H || [])[0] || DEFAULTS.H.FALLBACK_LO;
@@ -150,6 +152,8 @@ export function WeedDetectorBody({
           value={"" + DEFAULTS.ITERATION.FALLBACK} />
       </div>
     </div>
-    <ImageFlipper images={images} />
+    <ImageFlipper
+      images={images}
+      currentImage={currentImage} />
   </div>;
 }

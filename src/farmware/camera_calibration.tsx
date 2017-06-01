@@ -43,6 +43,7 @@ export class CameraCalibration
             <Col sm={12}>
               <WeedDetectorBody
                 images={this.props.images}
+                currentImage={this.props.currentImage}
                 onSliderChange={this.sliderChange}
                 H={this.STUBS.H}
                 S={this.STUBS.S}

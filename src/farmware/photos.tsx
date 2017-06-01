@@ -26,7 +26,9 @@ export class Photos extends React.Component<PhotosProps, void> {
         </button>
       </WidgetHeader>
       <WidgetBody>
-        <ImageFlipper images={this.props.images} />
+        <ImageFlipper
+          currentImage={this.props.currentImage}
+          images={this.props.images} />
       </WidgetBody>
     </Widget>
   }

@@ -1,13 +1,17 @@
 import { Everything } from "../interfaces";
 import { selectAllImages } from "../resources/selectors";
-import { Props } from "./interfaces";
+import { FarmwareProps } from "../devices/interfaces";
 
-export function mapStateToProps(props: Everything): Props {
+export function mapStateToProps(props: Everything): FarmwareProps {
+  let images = selectAllImages(props.resources.index);
+  let currentImage = images
+    .filter(i => i.uuid === props.resources.consumers.farmware.currentImage)[0];
+
   return {
     bot: props.bot,
     dispatch: props.dispatch,
-    currentImage: props.resources.consumers.farmware.currentImage,
-    images: selectAllImages(props.resources.index)
+    currentImage,
+    images
   };
 }
 

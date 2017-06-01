@@ -98,6 +98,7 @@ export class WeedDetector
           <Row>
             <Col sm={12}>
               <WeedDetectorBody
+                currentImage={this.props.currentImage}
                 images={this.props.images}
                 onSliderChange={this.sliderChange}
                 H={this.farmwareSettings.H}

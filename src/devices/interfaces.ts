@@ -123,6 +123,7 @@ export interface FarmwareProps {
   bot: BotState;
   dispatch: Function;
   images: TaggedImage[];
+  currentImage: TaggedImage | undefined;
 }
 
 export interface HardwareSettingsProps {

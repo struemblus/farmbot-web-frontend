@@ -14,12 +14,12 @@ export interface Props {
   bot: BotState;
   dispatch: Function;
   images: TaggedImage[];
-  currentImage: string | undefined;
+  currentImage: TaggedImage | undefined;
 }
 
 export interface PhotosProps {
   images: TaggedImage[];
-  currentImage: string | undefined;
+  currentImage: TaggedImage | undefined;
 }
 
 export interface CameraCalibrationState {
@@ -28,6 +28,7 @@ export interface CameraCalibrationState {
 
 export interface CameraCalibrationProps {
   images: TaggedImage[];
+  currentImage: TaggedImage | undefined;
 }
 
 export interface FarmwareState {
