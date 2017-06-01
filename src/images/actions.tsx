@@ -8,6 +8,10 @@ import { GenericPointer } from "../interfaces";
 const QUERY = { meta: { created_by: "plant-detection" } };
 const URL = API.current.pointSearchPath;
 
+export function selectImage(uuid: string) {
+  return { type: "SELECT_IMAGE", payload: uuid };
+}
+
 export function resetWeedDetection(cb: ProgressCallback): Thunk {
   return async function (dispatch, getState) {
     try {
