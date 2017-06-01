@@ -4,6 +4,7 @@ import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
 import { selectImage } from "./actions";
+import { TaggedImage } from "../resources/tagged_resources";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
 
@@ -13,8 +14,8 @@ export class ImageFlipper
   state: ImageFlipperState = { isLoaded: false };
 
   imageJSX = () => {
-    let i = this.props.currentImage;
-    if (i && this.props.images.length > 0) {
+    if (this.props.images.length > 0) {
+      let i = this.props.currentImage || this.props.images[0];
       let url: string;
       url = (i.body.attachment_processed_at) ?
         i.body.attachment_url : PLACEHOLDER_FARMBOT;
@@ -57,10 +58,9 @@ export class ImageFlipper
   go = (increment: -1 | 1) => () => {
     let { images, currentImage } = this.props;
     let uuids = images.map(x => x.uuid);
-    if (currentImage) {
-      let nextImg = images[uuids.indexOf(currentImage.uuid) + increment];
-      nextImg && console.log(selectImage(nextImg.uuid));
-    }
+    let uuid = (currentImage && currentImage.uuid);
+    let nextImg = uuid ? uuids[uuids.indexOf(uuid) + increment] : undefined;
+    this.props.onFlip(nextImg);
   }
 
   render() {

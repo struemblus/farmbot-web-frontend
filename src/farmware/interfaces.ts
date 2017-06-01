@@ -18,6 +18,7 @@ export interface Props {
 }
 
 export interface PhotosProps {
+  dispatch: Function;
   images: TaggedImage[];
   currentImage: TaggedImage | undefined;
 }

@@ -6,14 +6,14 @@ import { t } from "i18next";
 import { Progress, ProgressCallback } from "../util";
 import { GenericPointer } from "../interfaces";
 const QUERY = { meta: { created_by: "plant-detection" } };
-const URL = API.current.pointSearchPath;
 
-export function selectImage(uuid: string) {
+export function selectImage(uuid: string | undefined) {
   return { type: "SELECT_IMAGE", payload: uuid };
 }
 
 export function resetWeedDetection(cb: ProgressCallback): Thunk {
   return async function (dispatch, getState) {
+    const URL = API.current.pointSearchPath;
     try {
       let { data } = await Axios.post<GenericPointer[]>(URL, QUERY);
       let ids = data.map(x => x.id);

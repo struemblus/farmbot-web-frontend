@@ -30,7 +30,7 @@ import {
   farmwareState
 } from "../farmware/reducer";
 
-let consumerReducer = combineReducers({
+let consumerReducer = combineReducers<RestResources["consumers"]>({
   regimens,
   sequences,
   farm_designer,
@@ -68,13 +68,14 @@ export function emptyState(): RestResources {
 }
 
 let initialState: RestResources = emptyState();
+
 let afterEach = (state: RestResources, a: ReduxAction<any>) => {
   state.consumers = consumerReducer({
     sequences: state.consumers.sequences,
     regimens: state.consumers.regimens,
     farm_designer: state.consumers.farm_designer,
     farmware: state.consumers.farmware
-  }, a) as any;
+  }, a);
   return state;
 };
 

@@ -63,6 +63,7 @@ export interface EnvSliderState extends Partial<HiLo> {
 }
 
 export interface ImageFlipperProps {
+  onFlip(uuid: string | undefined): void;
   images: TaggedImage[];
   currentImage: TaggedImage | undefined;
 }

@@ -15,19 +15,11 @@ export class CameraCalibration
     this.setState({ settingsMenuOpen: !this.state.settingsMenuOpen });
   }
 
-  sliderChange = () => {
+  sliderChange = () => { }
 
-  }
+  calibrate = () => { }
 
-  calibrate = () => {
-
-  }
-
-  STUBS = {
-    H: [0],
-    S: [0],
-    V: [0]
-  }
+  STUBS = { H: [0], S: [0], V: [0] }
 
   render() {
     return <Widget className="weed-detector-widget coming-soon">
@@ -42,6 +34,7 @@ export class CameraCalibration
           <Row>
             <Col sm={12}>
               <WeedDetectorBody
+                onFlip={(u) => { this.props }}
                 images={this.props.images}
                 currentImage={this.props.currentImage}
                 onSliderChange={this.sliderChange}

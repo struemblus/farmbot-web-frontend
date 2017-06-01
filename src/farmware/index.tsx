@@ -22,7 +22,9 @@ export class FarmwarePage extends React.Component<FarmwareProps, void> {
             images={this.props.images} />
         </Col>
         <Col xs={12} sm={4}>
-          <Photos images={this.props.images}
+          <Photos
+            dispatch={this.props.dispatch}
+            images={this.props.images}
             currentImage={this.props.currentImage} />
         </Col>
         <Col xs={12} sm={4}>

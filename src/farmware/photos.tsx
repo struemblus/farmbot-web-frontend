@@ -5,6 +5,7 @@ import { PhotosProps } from "./interfaces";
 import { devices } from "../device";
 import { t } from "i18next";
 import { ToolTips } from "../constants";
+import { selectImage } from "../images/actions";
 
 export class Photos extends React.Component<PhotosProps, void> {
   takePhoto = () => {
@@ -27,6 +28,7 @@ export class Photos extends React.Component<PhotosProps, void> {
       </WidgetHeader>
       <WidgetBody>
         <ImageFlipper
+          onFlip={(id) => { this.props.dispatch(selectImage(id)) }}
           currentImage={this.props.currentImage}
           images={this.props.images} />
       </WidgetBody>
