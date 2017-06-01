@@ -2,7 +2,7 @@ import { AuthState } from "./auth/interfaces";
 import { ConfigState } from "./config/interfaces";
 import { BotState } from "./devices/interfaces";
 import { Color as FarmBotJsColor } from "farmbot";
-import { DragableState } from "./draggable/interfaces";
+import { DraggableState } from "./draggable/interfaces";
 import { PeripheralState } from "./controls/peripherals/interfaces";
 import { RestResources } from "./resources/interfaces";
 
@@ -51,7 +51,7 @@ export interface Everything {
   dispatch: Function;
   bot: BotState;
   location: Location;
-  draggable: DragableState;
+  draggable: DraggableState;
   peripherals: PeripheralState;
   resources: RestResources;
   router: {

@@ -3,30 +3,37 @@ import { t } from "i18next";
 import * as moment from "moment";
 import { DEFAULT_ICON, cachedIcon } from "../../open_farm/index";
 import { push } from "../../history";
-import { TPPWithDispatch } from "../state_to_props";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
 
 type IMGEvent = React.SyntheticEvent<HTMLImageElement>
 
-// The inidividual plants that show up in the farm designer sub nav.
-export function PlantInventoryItem(props: TPPWithDispatch) {
+interface Props {
+  tpp: TaggedPlantPointer;
+  dispatch: Function;
+}
 
-  let plant = props.body;
+// The inidividual plants that show up in the farm designer sub nav.
+export function PlantInventoryItem(props: Props) {
+  let plant = props.tpp.body;
   let plantId = (plant.id || "ERR_NO_PLANT_ID").toString();
 
-  let toggle = ({ currentTarget }: React.SyntheticEvent<HTMLDivElement>) => {
-    // props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: currentTarget });
-  }
+  let toggle = () => {
+    props.dispatch({ type: "TOGGLE_HOVERED_PLANT", payload: props.tpp });
+  };
 
-  let click = () => push("/app/designer/plants/" + plantId);
+  let click = () => {
+    push("/app/designer/plants/" + plantId);
+    props.dispatch({ type: "SELECT_PLANT", payload: props.tpp.uuid });
+  };
 
   // See `cachedIcon` for more details on this.
   function maybeGetCachedIcon(e: IMGEvent) {
-    let OFS = props.body.openfarm_slug;
+    let OFS = props.tpp.body.openfarm_slug;
     let img = e.currentTarget;
     OFS && cachedIcon(OFS)
-      .then(i => {
-        if (i === img.getAttribute("src")) { return; }
-        img.setAttribute("src", i);
+      .then((i: string) => {
+        i !== img.getAttribute("src") &&
+          img.setAttribute("src", i);
       });
   }
 
@@ -38,12 +45,14 @@ export function PlantInventoryItem(props: TPPWithDispatch) {
   let currentDay = moment();
   let daysOld = currentDay.diff(moment(plantedAt), "days") + 1;
 
-  return <div className="plant-search-item"
+  return <div
+    className="plant-search-item"
     key={plantId}
-    onMouseEnter={e => toggle(e)}
-    onMouseLeave={e => toggle(e)}
-    onClick={() => click}>
-    <img className="plant-search-item-image"
+    onMouseEnter={toggle}
+    onMouseLeave={toggle}
+    onClick={click}>
+    <img
+      className="plant-search-item-image"
       src={DEFAULT_ICON}
       onLoad={maybeGetCachedIcon} />
     <span className="plant-search-item-name">

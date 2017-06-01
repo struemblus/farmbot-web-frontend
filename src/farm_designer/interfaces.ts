@@ -76,6 +76,7 @@ export interface Crop {
 
 export interface DesignerState {
   selectedPlant: string | undefined;
+  hoveredPlant: string | undefined;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -146,6 +147,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  dispatch: Function;
   plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
   dragging: boolean;
