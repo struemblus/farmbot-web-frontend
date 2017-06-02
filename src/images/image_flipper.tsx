@@ -56,12 +56,10 @@ export class ImageFlipper
   go = (increment: -1 | 1) => () => {
     let { images, currentImage } = this.props;
     let uuids = images.map(x => x.uuid);
-    let uuid = currentImage ? currentImage.uuid : "";
-    // When `uuid` is undefined, the UI defaults to `images[0]`.
-    // This forces the user to click "next" twice for the first image.
-    // extraOffset will skip element 0 of the carousel if no image is selected.
-    let extraOffset = uuid ? 0 : 1;
-    this.props.onFlip(uuids[uuids.indexOf(uuid) + increment + extraOffset]);
+    let currentIndex = uuids.indexOf(currentImage ? currentImage.uuid : "");
+    // If currentIndex can't be found, send the user to index 1 (not index 0)
+    let nextIndex = (currentIndex === -1) ? 1 : (currentIndex + increment);
+    this.props.onFlip(uuids[nextIndex]);
   }
 
   render() {
@@ -71,7 +69,7 @@ export class ImageFlipper
       <div className="row">
         <div className="col-sm-12">
           <div className="image-flipper">
-            {image} {i ? i.uuid : "NONE"}
+            {image}
             <button
               onClick={this.go(-1)}
               className="image-flipper-left">
