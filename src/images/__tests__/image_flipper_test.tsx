@@ -16,6 +16,18 @@ describe("<ImageFlipper/>", () => {
 
   describe("up/down flipping", () => {
 
+    // UP (Return the one above it, or undefined)
+    //Xundefined, []      => undefined;
+    // undefined, [1,2,3] => 1
+    // 2,         [1,2,3] => 3;
+
+    // DOWN
+    //Xundefined, []      => undefined;
+    // undefined, [1,2,3] => undefined;
+    // 2,         [1,2,3] => 1;
+
+
+
     it("none selected, no images.", () => {
       let onFlip = jest.fn();
       let x = new ImageFlipper();
@@ -23,9 +35,9 @@ describe("<ImageFlipper/>", () => {
       x.props = { images: [], currentImage, onFlip };
       let up = x.go(1);
       let down = x.go(-1);
-      down();
-      expect(onFlip).toHaveBeenCalledWith(undefined);
       up();
+      expect(onFlip).toHaveBeenCalledWith(undefined);
+      down();
       expect(onFlip).toHaveBeenCalledWith(undefined);
       up();
       expect(onFlip).toHaveBeenCalledWith(undefined);
@@ -42,7 +54,7 @@ describe("<ImageFlipper/>", () => {
       expect(onFlip).toHaveBeenCalledWith(undefined);
       onFlip.mockClear();
       up();
-      expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
+      expect(onFlip).toHaveBeenCalledWith(images[0].uuid);
       onFlip.mockClear();
       down();
       expect(onFlip).toHaveBeenCalledWith(undefined);
@@ -59,7 +71,7 @@ describe("<ImageFlipper/>", () => {
       expect(onFlip).toHaveBeenCalledWith(images[0].uuid);
       onFlip.mockClear();
       up();
-      expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
+      expect(onFlip).toHaveBeenCalledWith(images[2].uuid);
     });
 
     it("flips past last item");
