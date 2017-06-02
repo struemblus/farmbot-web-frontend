@@ -12,8 +12,6 @@ import {
 import {
   Row,
   Col,
-  BlurableInput,
-  DropDownItem,
 } from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
@@ -31,7 +29,8 @@ import {
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
 import { Xyz } from "../../devices/interfaces";
-import { TileMoveAbsSelect } from "./tile_move_abs_select";
+import { TileMoveAbsSelect } from "./tile_move_absolute/select";
+import { InputBox } from "./tile_move_absolute/input_box";
 
 interface Args {
   location: Tool | Coordinate | Point;
@@ -172,39 +171,24 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   selectedItem={this.args.location}
                   onChange={(x) => this.updateArgs({ location: x })} />
               </Col>
-              <Col xs={3}>
-                <label>
-                  {t("X (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("x", "location")}
-                  disabled={this.xyzDisabled}
-                  type="number"
-                  name="location-x"
-                  value={this.getAxisValue("x")} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Y (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("y", "location")}
-                  type="number"
-                  disabled={this.xyzDisabled}
-                  name="location-y"
-                  value={this.getAxisValue("y")} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Z (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("z", "location")}
-                  type="number"
-                  name="location-z"
-                  disabled={this.xyzDisabled}
-                  value={this.getAxisValue("z")} />
-              </Col>
+              <InputBox onCommit={this.updateInputValue("x", "location")}
+                disabled={this.xyzDisabled}
+                name="location-x"
+                value={this.getAxisValue("x")}>
+                {t("X (mm)")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("y", "location")}
+                disabled={this.xyzDisabled}
+                name="location-y"
+                value={this.getAxisValue("y")}>
+                {t("Y (mm)")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("z", "location")}
+                name="location-z"
+                disabled={this.xyzDisabled}
+                value={this.getAxisValue("z")}>
+                {t("Z (mm)")}
+              </InputBox>
               <Col xs={3}>
                 <label>
                   {t("Speed")}
@@ -216,36 +200,21 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   dispatch={this.props.dispatch}
                   sequence={this.props.currentSequence} />
               </Col>
-              <Col xs={3}>
-                <label>
-                  {t("X-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("x", "offset")}
-                  type="number"
-                  name="offset-x"
-                  value={this.getOffsetValue("x")} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Y-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("y", "offset")}
-                  type="number"
-                  name="offset-y"
-                  value={this.getOffsetValue("y")} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Z-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue("z", "offset")}
-                  type="number"
-                  name="offset-z"
-                  value={this.getOffsetValue("z")} />
-              </Col>
+              <InputBox onCommit={this.updateInputValue("x", "offset")}
+                name="offset-x"
+                value={this.getOffsetValue("x")}>
+                {t("X-Offset")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("y", "offset")}
+                name="offset-y"
+                value={this.getOffsetValue("y")}>
+                {t("Y-Offset")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("z", "offset")}
+                name="offset-z"
+                value={this.getOffsetValue("z")}>
+                {t("Z-Offset")}
+              </InputBox>
             </Row>
           </div>
         </Col>
