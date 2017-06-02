@@ -44,6 +44,7 @@
     "boxed_value": "^1.0.0",
     "coveralls": "^2.13.0",
     "css-loader": "^0.25.0",
+    "deep-freeze": "^0.0.1",
     "enzyme": "^2.8.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.5",
     "farmbot": "4.0.0",
