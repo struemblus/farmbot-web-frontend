@@ -1,14 +1,7 @@
 import * as React from "react";
 import { Col } from "../../../ui/index";
 import { BlurableInput } from "../../../ui/blurable_input";
-
-interface InputBoxProps {
-  onCommit(e: React.SyntheticEvent<HTMLInputElement>): void;
-  children?: JSX.Element;
-  disabled?: boolean;
-  name: string;
-  value: string;
-}
+import { InputBoxProps } from "./interfaces";
 
 export function InputBox(p: InputBoxProps) {
   return <Col xs={3}>
