@@ -3,8 +3,6 @@ import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
-import { selectImage } from "./actions";
-import { TaggedImage } from "../resources/tagged_resources";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
 
@@ -58,9 +56,12 @@ export class ImageFlipper
   go = (increment: -1 | 1) => () => {
     let { images, currentImage } = this.props;
     let uuids = images.map(x => x.uuid);
-    let nextImg: string | undefined;
     let uuid = currentImage ? currentImage.uuid : "";
-    this.props.onFlip(uuids[uuids.indexOf(uuid) + increment]);
+    // When `uuid` is undefined, the UI defaults to `images[0]`.
+    // This forces the user to click "next" twice for the first image.
+    // extraOffset will skip element 0 of the carousel if no image is selected.
+    let extraOffset = uuid ? 0 : 1;
+    this.props.onFlip(uuids[uuids.indexOf(uuid) + increment + extraOffset]);
   }
 
   render() {
@@ -70,7 +71,7 @@ export class ImageFlipper
       <div className="row">
         <div className="col-sm-12">
           <div className="image-flipper">
-            {image}
+            {image} {i ? i.uuid : "NONE"}
             <button
               onClick={this.go(-1)}
               className="image-flipper-left">
