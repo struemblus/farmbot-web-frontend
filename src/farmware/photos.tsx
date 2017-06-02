@@ -5,9 +5,16 @@ import { PhotosProps } from "./interfaces";
 import { devices } from "../device";
 import { t } from "i18next";
 import { ToolTips } from "../constants";
-import { selectImage } from "../images/actions";
+import { selectImage, detectWeeds } from "../images/actions";
+
+const imgEnvVar = "PLANT_DETECTION_selected_image";
 
 export class Photos extends React.Component<PhotosProps, void> {
+  processPhoto = () => {
+    let img = this.props.currentImage || this.props.images[0];
+    if (img && img.body.id) { detectWeeds({ [imgEnvVar]: img.body.id }); }
+  }
+
   takePhoto = () => {
     let ok = () => success(t("Processing now. Refresh page to see result."));
     let no = () => error("Error taking photo");
@@ -18,9 +25,9 @@ export class Photos extends React.Component<PhotosProps, void> {
     return <Widget className="photos-widget">
       <WidgetHeader helpText={ToolTips.PHOTOS} title={"Photos"}>
         <button className="gray"
-          onClick={this.takePhoto}
+          onClick={this.processPhoto}
           hidden={!this.props.images.length}>
-          {t("Process Photo")}
+          {t("Scan")}
         </button>
         <button className="gray" onClick={this.takePhoto}>
           {t("Take Photo")}

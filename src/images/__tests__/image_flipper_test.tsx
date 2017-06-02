@@ -51,13 +51,13 @@ describe("<ImageFlipper/>", () => {
       let up = x.go(1);
       let down = x.go(-1);
       down();
-      expect(onFlip).toHaveBeenCalledWith(undefined);
+      expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
       onFlip.mockClear();
       up();
-      expect(onFlip).toHaveBeenCalledWith(images[0].uuid);
+      expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
       onFlip.mockClear();
       down();
-      expect(onFlip).toHaveBeenCalledWith(undefined);
+      expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
     });
 
     it("flips past current selected item", () => {
