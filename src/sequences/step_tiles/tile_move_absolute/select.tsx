@@ -1,18 +1,30 @@
 import * as React from "react";
-import { Tool, Coordinate, Point, Dictionary } from "farmbot/dist";
-import { ResourceIndex } from "../../resources/interfaces";
-import { FBSelect } from "../../ui/new_fb_select";
-import { DropDownItem } from "../../ui/fb_select";
+import {
+  Tool,
+  Coordinate,
+  Point,
+  Dictionary
+} from "farmbot/dist";
+import { ResourceIndex } from "../../../resources/interfaces";
+import { FBSelect } from "../../../ui/new_fb_select";
+import { DropDownItem } from "../../../ui/fb_select";
 import {
   groupPointsByType,
   findPointerByTypeAndId,
   findToolById
-} from "../../resources/selectors";
-import { POINTER_NAMES, PointerTypeName, AnyPointer } from "../../interfaces";
-import { PointerType, TaggedTool } from "../../resources/tagged_resources";
-import { NULL_CHOICE } from "../../ui/index";
+} from "../../../resources/selectors";
+import {
+  POINTER_NAMES,
+  PointerTypeName,
+  AnyPointer
+} from "../../../interfaces";
+import {
+  PointerType,
+  TaggedTool
+} from "../../../resources/tagged_resources";
+import { NULL_CHOICE } from "../../../ui/index";
 const TOOL = "TOOL";
-const NAME_MAP: Record<PointerTypeName, (string | undefined)> = {
+const NAME_MAP: Record<PointerTypeName, string> = {
   "GenericPointer": "Map Point",
   "Plant": "Plant",
   "ToolSlot": "Tool Slot",
