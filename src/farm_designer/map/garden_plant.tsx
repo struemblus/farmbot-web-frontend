@@ -38,8 +38,8 @@ export class GardenPlant extends
         onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
-        x={round(x)}
-        y={round(y)} />
+        x={round(x) - radius}
+        y={round(y) - radius} />
     </g>
   }
 }
