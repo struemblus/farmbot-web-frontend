@@ -70,11 +70,13 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
       throw new Error("A `point` node snuck in. Still WIP");
     }
   }
+
   get xyzDisabled(): boolean {
     let isPoint = this.args.location.kind === "point";
     let isTool = this.args.location.kind === "tool";
     return !!(isPoint || isTool);
   }
+
   getOffsetValue = (val: Xyz) => {
     return (this.args.offset.args[val] || 0).toString();
   }

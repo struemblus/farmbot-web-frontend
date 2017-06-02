@@ -3,30 +3,17 @@ import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
-import { TaggedImage } from "../resources/tagged_resources";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
-const NO_INDEX = new Error(`
-  Attempted getting this.state.currentInx and expected a number.
-  It was not a number.
-`);
 
 export class ImageFlipper
   extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
 
-  state: ImageFlipperState = { currentInx: 0, isLoaded: false };
-
-  componentDidMount() {
-    this.setState({ currentInx: this.props.images.length - 1 });
-  }
-
-  current(): TaggedImage | undefined {
-    return this.props.images[this.state.currentInx || 0];
-  }
+  state: ImageFlipperState = { isLoaded: false };
 
   imageJSX = () => {
-    let i = this.current();
-    if (i && this.props.images.length > 0) {
+    if (this.props.images.length > 0) {
+      let i = this.props.currentImage || this.props.images[0];
       let url: string;
       url = (i.body.attachment_processed_at) ?
         i.body.attachment_url : PLACEHOLDER_FARMBOT;
@@ -54,38 +41,8 @@ export class ImageFlipper
     }
   }
 
-  /** Clever trick to avoid type check errors and report problems. */
-  useIndex<T>(cb: (num: number) => T): T {
-    if (_.isNumber(this.state.currentInx)) {
-      return cb(this.state.currentInx);
-    } else {
-      throw NO_INDEX;
-    }
-  }
-
-  get next() { return this.useIndex(n => this.props.images[n + 1]); }
-
-  get prev() { return this.useIndex(n => this.props.images[n - 1]); }
-
-  up = () => {
-    if (this.next) {
-      let num = this.useIndex(n => n + 1);
-      this.setState({
-        currentInx: _.min([this.props.images.length - 1, num]),
-        isLoaded: false
-      });
-    }
-  }
-
-  down = () => {
-    if (this.prev) {
-      let num = this.useIndex(n => n - 1);
-      this.setState({ currentInx: _.max([0, num]), isLoaded: false });
-    }
-  }
-
   metaDatas() {
-    let i = this.current();
+    let i = this.props.currentImage;
     if (i) {
       let { meta } = i.body;
       return Object.keys(meta).sort().map(function (key, index) {
@@ -96,21 +53,30 @@ export class ImageFlipper
     }
   }
 
+  go = (increment: -1 | 1) => () => {
+    let { images, currentImage } = this.props;
+    let uuids = images.map(x => x.uuid);
+    let currentIndex = uuids.indexOf(currentImage ? currentImage.uuid : "");
+    // If currentIndex can't be found, send the user to index 1 (not index 0)
+    let nextIndex = (currentIndex === -1) ? 1 : (currentIndex + increment);
+    this.props.onFlip(uuids[nextIndex]);
+  }
+
   render() {
     let image = this.imageJSX();
-    let i = this.current();
+    let i = this.props.currentImage;
     return <div>
       <div className="row">
         <div className="col-sm-12">
           <div className="image-flipper">
             {image}
             <button
-              onClick={this.down}
+              onClick={this.go(-1)}
               className="image-flipper-left">
               {t("Prev")}
             </button>
             <button
-              onClick={this.up}
+              onClick={this.go(1)}
               className="image-flipper-right">
               {t("Next")}
             </button>

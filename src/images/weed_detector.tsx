@@ -5,7 +5,7 @@ import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
 import { success, error, Row, Col, Widget } from "../ui/index";
 import { t } from "i18next";
-import { resetWeedDetection } from "./actions";
+import { resetWeedDetection, selectImage } from "./actions";
 import { Progress } from "../util";
 import { Pair } from "farmbot/dist";
 import { HSV } from "./index";
@@ -98,6 +98,8 @@ export class WeedDetector
           <Row>
             <Col sm={12}>
               <WeedDetectorBody
+                onFlip={(uuid) => this.props.dispatch(selectImage(uuid))}
+                currentImage={this.props.currentImage}
                 images={this.props.images}
                 onSliderChange={this.sliderChange}
                 H={this.farmwareSettings.H}

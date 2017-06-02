@@ -5,11 +5,17 @@ import { success, error } from "../ui";
 import { t } from "i18next";
 import { Progress, ProgressCallback } from "../util";
 import { GenericPointer } from "../interfaces";
+import { Pair } from "farmbot/dist";
+import { devices } from "../device";
 const QUERY = { meta: { created_by: "plant-detection" } };
-const URL = API.current.pointSearchPath;
+
+export function selectImage(uuid: string | undefined) {
+  return { type: "SELECT_IMAGE", payload: uuid };
+}
 
 export function resetWeedDetection(cb: ProgressCallback): Thunk {
   return async function (dispatch, getState) {
+    const URL = API.current.pointSearchPath;
     try {
       let { data } = await Axios.post<GenericPointer[]>(URL, QUERY);
       let ids = data.map(x => x.id);
@@ -26,7 +32,8 @@ export function resetWeedDetection(cb: ProgressCallback): Thunk {
             return x;
           });
       });
-      Promise.all(promises)
+      Promise
+        .all(promises)
         .then(function () {
           dispatch({
             type: "DELETE_POINT_OK",
@@ -44,3 +51,13 @@ export function resetWeedDetection(cb: ProgressCallback): Thunk {
     }
   };
 };
+
+export function detectWeeds(settings: object) {
+  let pairs = Object
+    .keys(settings)
+    .map<Pair>(function (value: string, index) {
+      let label = JSON.stringify(_.get(settings, value, "null"));
+      return { kind: "pair", args: { value, label } };
+    });
+  return devices.current.execScript("plant-detection", pairs);
+}
