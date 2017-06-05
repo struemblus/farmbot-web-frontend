@@ -29,8 +29,8 @@ interface SpreadCircleProps {
 export function SpreadCircle({ plant }: SpreadCircleProps) {
   let { radius, x, y, spread } = plant.body;
   return <circle
-    cx={round(x + radius)}
-    cy={round(y + radius)}
+    cx={round(x)}
+    cy={round(y)}
     r={scale(spread || radius)}
     fillOpacity={0.2}
     fill={"green"}
