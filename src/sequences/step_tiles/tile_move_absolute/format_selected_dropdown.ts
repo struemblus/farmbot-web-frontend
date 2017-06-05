@@ -13,9 +13,12 @@ export function formatSelectedDropdown(ri: ResourceIndex, ld: LocationData): Dro
       label = dropDownName("Tool", tool.name);
       return { label, value: tool.id || -999 }
     case "point":
-      let p =
-        findPointerByTypeAndId(ri, ld.args.pointer_type, ld.args.pointer_id).body;
-      label = dropDownName(p.pointer_type, " ", { x: p.x, y: p.y, z: p.z })
+      let p = findPointerByTypeAndId(ri,
+        ld.args.pointer_type,
+        ld.args.pointer_id).body;
+      label = dropDownName(p.pointer_type,
+        p.name,
+        { x: p.x, y: p.y, z: p.z });
       return { label, value: p.id || -999 }
     case "coordinate":
     default: return NULL_CHOICE;

@@ -33,8 +33,7 @@ export let handleSelect = (index: ResourceIndex, input: DropDownItem): LocationD
         return { kind: "coordinate", args: { x: 0, y: 0, z: 0 } };
     }
   } else {
-    debugger;
-    return bail("Need a numeric ID here");
+    return bail("Need a numeric ID here: " + JSON.stringify(input));
   }
 }
 
