@@ -1,6 +1,6 @@
 import { ImageFlipperProps, ImageFlipperState } from "./interfaces";
 import * as React from "react";
-import { safeStringFetch } from "../util";
+import { safeStringFetch, fancyDebug } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
 
@@ -56,10 +56,14 @@ export class ImageFlipper
   go = (increment: -1 | 1) => () => {
     let { images, currentImage } = this.props;
     let uuids = images.map(x => x.uuid);
-    let currentIndex = uuids.indexOf(currentImage ? currentImage.uuid : "");
-    // If currentIndex can't be found, send the user to index 1 (not index 0)
-    let nextIndex = (currentIndex === -1) ? 1 : (currentIndex + increment);
-    this.props.onFlip(uuids[nextIndex]);
+    let currentIndex = currentImage ? uuids.indexOf(currentImage.uuid) : 0;
+    let nextIndex = currentIndex + increment;
+    let tooHigh = nextIndex >= (uuids.length - 1);
+    let tooLow = nextIndex < 0;
+
+    if (!tooHigh || !tooLow) {
+      this.props.onFlip(uuids[nextIndex]);
+    }
   }
 
   render() {
