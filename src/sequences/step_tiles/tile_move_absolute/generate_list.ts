@@ -59,6 +59,6 @@ let formatTools = (t: TaggedTool) => {
 export function dropDownName(kind: string, name: string, v?: Vector3) {
   let formattedKind = _.get(NAME_MAP, kind, kind);
   let label = `${formattedKind} '${name || "untitled"}'`;
-  if (v) { label += ` (${v.x}, ${v.y}.${v.z}) `; }
+  if (v) { label += ` (${v.x}, ${v.y}, ${v.z}) `; }
   return label;
 }
