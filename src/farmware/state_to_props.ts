@@ -3,7 +3,9 @@ import { selectAllImages } from "../resources/selectors";
 import { FarmwareProps } from "../devices/interfaces";
 
 export function mapStateToProps(props: Everything): FarmwareProps {
-  let images = selectAllImages(props.resources.index);
+  let images = _(selectAllImages(props.resources.index))
+    .sortBy(x => x.body.id)
+    .value();
   let currentImage = images
     .filter(i => i.uuid === props.resources.consumers.farmware.currentImage)[0];
 

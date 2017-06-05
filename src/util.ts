@@ -249,7 +249,12 @@ export function fancyDebug(t: any) {
   if (Object.entries) { // Object.entries is an "experimental" API.
     var next = Object
       .entries(t)
-      .map((x: any) => `${_.padRight(x[0], 20, " ")} => ${JSON.stringify(x[1]).slice(0, 52)}`)
+      .map((x: any) => {
+        let key = _.padRight(x[0], 20, " ");
+        let val = (JSON.stringify(x[1]) || "Nothing").slice(0, 52);
+
+        return `${key} => ${val}`;
+      })
       .join("\n");
     if (last === next) {
     } else {
