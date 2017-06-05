@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import * as _ from "lodash";
 import { GardenPlant } from "../garden_plant";
 import { PlantLayerProps, CropSpreadDict } from "../interfaces";
+import { defensiveClone } from "../../../util";
 
 let cropSpreadDict: CropSpreadDict = {};
 
@@ -17,6 +18,7 @@ export function PlantLayer(p: PlantLayerProps) {
     return <g>
       {plants
         .filter(x => !!x.body.id)
+        .map(p => defensiveClone(p))
         .map(p => {
           p.body.spread = cropSpreadDict[p.body.openfarm_slug] || p.body.radius;
           return p;
