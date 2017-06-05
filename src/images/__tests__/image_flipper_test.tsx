@@ -21,9 +21,8 @@ describe("<ImageFlipper/>", () => {
     let currentImage = undefined;
     x.props = { images, currentImage, onFlip };
     let up = x.go(1);
-    let down = x.go(-1);
     up();
-    expect(onFlip).toHaveBeenCalledWith(images[0].uuid);
+    expect(onFlip).toHaveBeenCalledWith(images[1].uuid);
   });
 
   it("stops at end");
