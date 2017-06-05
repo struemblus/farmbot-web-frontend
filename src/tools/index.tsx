@@ -7,13 +7,11 @@ import { mapStateToProps } from "./state_to_props";
 
 @connect(mapStateToProps)
 export class Tools extends React.Component<Props, Partial<ToolsState>> {
-  constructor() {
-    super();
-    this.state = {};
-  }
 
-  toggleBays = () => this.setState({ editingBays: !this.state.editingBays });
-  toggleTools = () => this.setState({ editingTools: !this.state.editingTools });
+  state: ToolsState = { editingBays: false, editingTools: false };
+
+  toggle = (name: keyof ToolsState) =>
+    () => this.setState({ [name]: !this.state[name] });
 
   render() {
     let isEditingBays = this.state.editingBays;
@@ -23,14 +21,14 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
         <Col sm={7}>
           {!isEditingBays &&
             <ToolBayList
-              toggle={this.toggleBays}
+              toggle={this.toggle("editingBays")}
               dispatch={this.props.dispatch}
               getToolByToolSlotUUID={this.props.getToolByToolSlotUUID}
               getToolSlots={this.props.getToolSlots}
             />}
           {isEditingBays &&
             <ToolBayForm
-              toggle={this.toggleBays}
+              toggle={this.toggle("editingBays")}
               dispatch={this.props.dispatch}
               toolSlots={this.props.toolSlots}
               getToolSlots={this.props.getToolSlots}
@@ -43,13 +41,13 @@ export class Tools extends React.Component<Props, Partial<ToolsState>> {
           {!isEditingTools &&
             <ToolList
               isActive={this.props.isActive}
-              toggle={this.toggleTools}
+              toggle={this.toggle("editingTools")}
               dispatch={this.props.dispatch}
               tools={this.props.tools}
             />}
           {isEditingTools &&
             <ToolForm
-              toggle={this.toggleTools}
+              toggle={this.toggle("editingTools")}
               dispatch={this.props.dispatch}
               tools={this.props.tools}
             />}
