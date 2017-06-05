@@ -2,7 +2,6 @@ import * as React from "react";
 import { BackArrow } from "../../ui";
 import { t } from "i18next";
 import * as _ from "lodash";
-import { isMobile } from "../../util";
 import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
 import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
 import { history } from "../../history";
@@ -17,7 +16,7 @@ function mapStateToProps(props: Everything): SpeciesInfoProps {
       .consumers
       .farm_designer
       .cropSearchResults || []
-  }
+  };
 }
 
 @connect(mapStateToProps)
@@ -44,12 +43,12 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
     /** rgba arguments are a more mobile-friendly way apply filters */
-    let backgroundURL = isMobile() ? `linear-gradient(
-      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${result.image})` : "";
+    let backgroundURL = `linear-gradient(
+      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${result.image})`;
 
     return <div className="panel-container green-panel species-info-panel">
       <div className="panel-header green-panel"
-        style={{ background: backgroundURL }}>
+        style={{ background: backgroundURL, backgroundSize: "100%" }}>
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
           <a className="right-button mobile-only"
