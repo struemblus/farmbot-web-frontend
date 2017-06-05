@@ -321,25 +321,3 @@ export function attachToRoot<P>(type: React.ComponentClass<P>,
     throw new Error("Add a div with id `root` to the page first.");
   };
 }
-
-/** Takes in a component instance and the boolean-type property to toggle. */
-export function toggle(component: any, property: string) {
-  if (!_.isEmpty(safeStringFetch(component.state, property))) {
-    component.setState({ [property]: !component.state[property] });
-  } else {
-    throw new Error(t(
-      `Error toggling ${property} in ${JSON.stringify(component.state)}`
-    ));
-  }
-}
-
-/** Takes in a component instance and it's property to update. */
-export function update(component: any, property: string, value: string) {
-  if (!_.isEmpty(safeStringFetch(component.state, property))) {
-    component.setState({ [property]: value });
-  } else {
-    throw new Error(t(
-      `Error updating ${property} in ${JSON.stringify(component.state)}`
-    ));
-  }
-}
