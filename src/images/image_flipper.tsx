@@ -58,12 +58,9 @@ export class ImageFlipper
     let uuids = images.map(x => x.uuid);
     let currentIndex = currentImage ? uuids.indexOf(currentImage.uuid) : 0;
     let nextIndex = currentIndex + increment;
-    let tooHigh = nextIndex >= (uuids.length - 1);
+    let tooHigh = nextIndex > (uuids.length - 1);
     let tooLow = nextIndex < 0;
-
-    if (!tooHigh || !tooLow) {
-      this.props.onFlip(uuids[nextIndex]);
-    }
+    if (!tooHigh && !tooLow) { this.props.onFlip(uuids[nextIndex]); }
   }
 
   render() {
