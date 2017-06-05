@@ -102,7 +102,6 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                         <img src={DATA_URI + value} width={100} height={100} />
                       </div>
                       || key === "svg_icon" && !value && ("Not set")}
-                    {key !== "svg_icon" && value || "Not set"}
                   </li>;
                 }).value()
             }
