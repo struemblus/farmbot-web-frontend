@@ -27,6 +27,7 @@ import {
 } from "./tagged_resources";
 import { CowardlyDictionary, betterCompact, sortResourcesById } from "../util";
 import { error } from "../ui/logger";
+type StringMap = CowardlyDictionary<string>;
 
 export let findId = (index: ResourceIndex, kind: ResourceName, id: number) => {
 
@@ -465,4 +466,10 @@ export function joinToolsAndSlot(index: ResourceIndex): SlotWithTool[] {
         tool: maybeFindToolById(index, toolSlot.body.tool_id)
       }
     });
+}
+
+export function mapToolIdToName(input: ResourceIndex) {
+  return selectAllTools(input)
+    .map(x => ({ key: "" + x.body.id, val: x.body.name }))
+    .reduce((x, y) => ({ ...{ [y.key]: y.val, ...x } }), {} as StringMap);
 }

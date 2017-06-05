@@ -42,6 +42,8 @@ export const LHSOptions: DropDownItem[] = [
   { value: "pin11", label: "Pin 11" },
   { value: "pin12", label: "Pin 12" },
   { value: "pin13", label: "Pin 13" },
+  { value: "pin59", label: "Pin 59" },
+  { value: "pin63", label: "Pin 63" },
   { value: "x", label: "X position" },
   { value: "y", label: "Y Position" },
   { value: "z", label: "Z position" }

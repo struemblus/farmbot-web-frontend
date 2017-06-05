@@ -17,15 +17,13 @@ export class GardenPlant extends
   render() {
     let { selected, plant, onClick, dispatch } = this.props;
     let { radius, x, y } = plant.body;
-    let offsetX = x + radius;
-    let offsetY = y + radius;
     let action = { type: "TOGGLE_HOVERED_PLANT", payload: plant };
 
     return <g>
       <Circle
         className={"plant-indicator"}
-        x={offsetX}
-        y={offsetY}
+        x={round(x)}
+        y={round(y)}
         r={radius}
         selected={selected}
       />
@@ -38,8 +36,8 @@ export class GardenPlant extends
         onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
-        x={round(x)}
-        y={round(y)} />
+        x={round(x) - radius}
+        y={round(y) - radius} />
     </g>
   }
 }

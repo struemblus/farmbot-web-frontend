@@ -26,7 +26,7 @@ let initialState: BotState = {
     informational_settings: {},
     user_env: {},
     process_info: {
-      farmwares: [],
+      farmwares: {},
     }
   },
   dirty: false,
