@@ -64,9 +64,9 @@ function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
   if (err && err.response && err.response.data) {
     return err.response.data;
   } else {
-    console.warn("Last error message wasn't formatted like an API error.");
+    console.warn(t("Last error message wasn't formatted like an API error."));
     console.dir(err);
-    return { problem: "Farmbot Web App hit an unhandled exception." };
+    return { problem: t("Farmbot Web App hit an unhandled exception.") };
   }
 }
 
@@ -135,7 +135,7 @@ export function safeStringFetch(obj: any, key: string): string {
     case "boolean":
       return (boxed.value) ? "true" : "false";
     default:
-      let msg = `Numbers strings and null only (got ${boxed.kind}).`;
+      let msg = t(`Numbers strings and null only (got ${boxed.kind}).`);
       throw new Error(msg);
   }
 }
@@ -147,7 +147,7 @@ export function stopIE() {
   function flunk() {
     // Can't use i18next here, because old IE versions don't have promises,
     // so English only here, unfortunatly.
-    alert("This app only works with modern browsers.");
+    alert(t("This app only works with modern browsers."));
     window.location.href = "https://www.google.com/chrome/";
   }
 
@@ -318,6 +318,6 @@ export function attachToRoot<P>(type: React.ComponentClass<P>,
   if (domElem) {
     render(reactElem, domElem);
   } else {
-    throw new Error("Add a div with id `root` to the page first.");
+    throw new Error(t("Add a <div> with id `root` to the page first."));
   };
 }
