@@ -21,14 +21,14 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     showFarmbot: true
   }
 
-  zoom = (zoomNumber: number) => {
-    let zl = this.state.zoomLvl;
-    zl && this.setState({ zoomLvl: zl + zoomNumber });
+  zoom = (zoomNumber: number) => () => {
+    let { zoomLvl } = this.state;
+    zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
   }
 
-  childComponent() {
-    let fallback = isMobile() ?
-      undefined : React.createElement(Plants, this.props);
+  childComponent(props: Props) {
+    let fallback = isMobile() ? undefined
+      : React.createElement(Plants, props);
     return this.props.children || fallback;
   }
 
@@ -59,31 +59,37 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     return <div className="farm-designer">
 
       <div className="garden-map-legend" style={{ zoom: 1 }}>
-        <button className={"plus-button green " + plusBtnClass}
-          onClick={() => this.zoom(0.1)}>
+        <button
+          className={"plus-button green " + plusBtnClass}
+          onClick={this.zoom(0.1)}>
           <i className="fa fa-2x fa-plus" />
         </button>
-        <button className={"plus-button green " + minusBtnClass}
-          onClick={() => this.zoom(-0.1)}>
+        <button
+          className={"plus-button green " + minusBtnClass}
+          onClick={this.zoom(-0.1)}>
           <i className="fa fa-2x fa-minus" />
         </button>
         <div className="map-layers">
           <LayerToggle
             value={showPlants}
             label={t("Plants?")}
-            onClick={this.toggle("showPlants")} />
+            onClick={this.toggle("showPlants")}
+          />
           <LayerToggle
             value={showPoints}
             label={t("Points?")}
-            onClick={this.toggle("showPoints")} />
+            onClick={this.toggle("showPoints")}
+          />
           <LayerToggle
             value={showSpread}
             label={t("Spread?")}
-            onClick={this.toggle("showSpread")} />
+            onClick={this.toggle("showSpread")}
+          />
           <LayerToggle
             value={showFarmbot}
             label={t("FarmBot?")}
-            onClick={this.toggle("showFarmbot")} />
+            onClick={this.toggle("showFarmbot")}
+          />
         </div>
       </div>
 
@@ -101,7 +107,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         </div>
       </div>
       <div className="farm-designer-panels">
-        {this.childComponent()}
+        {this.childComponent(this.props)}
       </div>
 
       <div className="farm-designer-map" style={{ zoom: this.state.zoomLvl }}>

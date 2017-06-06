@@ -16,6 +16,18 @@
     }
 }
 
+.species-info-panel {
+    .panel-header {
+        background-size: 100% !important;
+        background-repeat: no-repeat !important;
+        background-position: center center !important;
+        position: inherit;
+    }
+    .panel-content {
+        padding: 2rem 1rem 6rem;
+    }
+}
+
 @media (max-width: 568px) {
     .designer-tab {
         .farm-designer-panels {
@@ -46,7 +58,6 @@
     .species-info-panel .panel-header,
     .dnd-species-mobile-panel .panel-header {
         background-repeat: no-repeat !important;
-        background-size: 100% !important;
         background-position: center center !important;
         height: 12rem;
         overflow-y: scroll;

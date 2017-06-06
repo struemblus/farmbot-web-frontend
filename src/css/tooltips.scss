@@ -26,14 +26,14 @@
 .title-help {
     display: inline;
     .fa {
-        color: $gray;
+        color: $dark_gray;
     }
     &:hover {
         .fa {
             color: $black;
         }
         .title-help-text {
-            max-height: 12rem;
+            max-height: 16rem;
             transition-delay: 0.5s;
             color: $black;
             transition: all 0.8s ease;

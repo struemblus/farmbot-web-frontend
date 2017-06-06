@@ -77,15 +77,18 @@ export class SpeciesCatalog extends React.Component<SpeciesCatalogProps, {}> {
           <BackArrow /> {t("Choose a species")}
         </p>
       </div>
-      <div className="panel-content">
+      <div className="panel-top">
         <div className="thin-search-wrapper">
-          <i className="fa fa-search"></i>
-          <div className="thin-search">
-            <input value={this.props.cropSearchQuery}
-              onChange={(e) => { this.props.srch(e)(this.props.dispatch); }}
-              className="search"
-              placeholder="Search OpenFarm" />
+          <div className="text-input-wrapper">
+            <i className="fa fa-search"></i>
+            <div className="thin-search">
+              <input value={this.props.cropSearchQuery}
+                onChange={e => this.props.srch(e)(this.props.dispatch)}
+                className="search"
+                placeholder="Search OpenFarm" />
+            </div>
           </div>
+
         </div>
         <div className="panel-content">
           <div className="crop-search-result-wrapper row">

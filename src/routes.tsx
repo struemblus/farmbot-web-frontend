@@ -83,7 +83,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
    * based on the device (mobile or desktop) for optimization/css purposes.
    * Open to revision.
    */
-  replaceDesignerModules(next: RouterState, replace: RedirectFunction) {
+  maybeReplaceDesignerModules(next: RouterState, replace: RedirectFunction) {
     if (next.location.pathname === "/app/designer" && !isMobile()) {
       replace(`${next.location.pathname}/plants`);
     }
@@ -138,7 +138,7 @@ export class RootComponent extends React.Component<RootComponentProps, {}> {
       },
       {
         path: "app/designer",
-        onEnter: this.replaceDesignerModules.bind(this),
+        onEnter: this.maybeReplaceDesignerModules.bind(this),
         getComponent(location: any, cb: any) {
           System.import("./farm_designer/index.tsx").then(
             (module: any) => cb(null, module.FarmDesigner)

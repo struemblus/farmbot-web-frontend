@@ -6,7 +6,6 @@ import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as Sync from "../sync/actions";
 import * as Axios from "axios";
 import { t } from "i18next";
-import * as _ from "lodash";
 import { API } from "../api";
 import { toastErrors } from "../util";
 import { Session } from "../session";

@@ -8,7 +8,13 @@ import { defensiveClone } from "../../../util";
 let cropSpreadDict: CropSpreadDict = {};
 
 export function PlantLayer(p: PlantLayerProps) {
-  let { crops, plants, dispatch, visible, currentPlant, dragging, editing } = p;
+  let { crops,
+    plants,
+    dispatch,
+    visible,
+    currentPlant,
+    dragging,
+    editing } = p;
 
   crops
     .filter(c => !!c.body.spread)
