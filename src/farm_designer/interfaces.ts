@@ -17,6 +17,7 @@ import { SlotWithTool } from "../resources/interfaces";
 
 export interface State {
   zoomLvl: number;
+  legendMenuOpen: boolean;
   showPlants: boolean;
   showPoints: boolean;
   showSpread: boolean;

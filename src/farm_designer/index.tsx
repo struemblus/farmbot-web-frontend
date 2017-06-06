@@ -15,6 +15,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
     zoomLvl: 1,
+    legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
     showSpread: false,
@@ -36,9 +37,11 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     () => this.setState({ [name]: !this.state[name] });
 
   render() {
-    // Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
-    // This one just makes sure the designer can click it's panel tabs without
-    // the other headers getting in the way. There's more re-usability in this.
+    /**
+     * Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
+     * This one just makes sure the designer can click it's panel tabs without
+     * the other headers getting in the way. There's more re-usability in this.
+     */
     if (history.getCurrentLocation().pathname === "/app/designer") {
       document.body.classList.add("designer-tab");
     } else {
@@ -47,6 +50,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
     let {
       zoomLvl,
+      legendMenuOpen,
       showPlants,
       showPoints,
       showSpread,
@@ -59,6 +63,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         zoom={this.zoom}
         toggle={this.toggle}
         zoomLvl={zoomLvl}
+        legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}
         showPoints={showPoints}
         showSpread={showSpread}
