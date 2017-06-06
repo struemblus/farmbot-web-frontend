@@ -28,7 +28,6 @@ export type Operator = "lhs"
   | "_else";
 
 export const LHSOptions: DropDownItem[] = [
-  { value: "pin0", label: "Pin 0" },
   { value: "pin1", label: "Pin 1" },
   { value: "pin2", label: "Pin 2" },
   { value: "pin3", label: "Pin 3" },

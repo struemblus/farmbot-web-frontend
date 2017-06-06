@@ -2,7 +2,7 @@ import * as React from "react";
 import { IfParams, LHSOptions, operatorOptions } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../../inputs/step_input_box";
-import { FBSelect } from "../../../ui/new_fb_select";
+import { FBSelect, NULL_CHOICE } from "../../../ui/new_fb_select";
 import { DropDownItem } from "../../../ui/fb_select";
 import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
@@ -39,7 +39,7 @@ export function If_(props: IfParams) {
         list={LHSOptions}
         placeholder="Left hand side"
         onChange={updateField("lhs")}
-        selectedItem={{ label: lhs, value: lhs }}
+        selectedItem={LHSOptions.filter(x => x.value === lhs)[0] || NULL_CHOICE}
       />
     </Col>
     <Col xs={4}>
