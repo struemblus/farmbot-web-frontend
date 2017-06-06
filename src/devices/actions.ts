@@ -4,12 +4,18 @@ import { get } from "axios";
 import * as Axios from "axios";
 import * as _ from "lodash";
 import { devices } from "../device";
-import { error, success, warning } from "../ui";
+import { success, warning, info, error } from "../ui";
 import { Log } from "../interfaces";
 import { GithubRelease, MoveRelProps } from "./interfaces";
 import { Thunk, GetState } from "../redux/interfaces";
 import { DeviceAccountSettings, BotState } from "../devices/interfaces";
-import { McuParams, Configuration, BotStateTree } from "farmbot";
+import {
+  McuParams,
+  Configuration,
+  BotStateTree,
+  ALLOWED_CHANNEL_NAMES,
+  ALLOWED_MESSAGE_TYPES
+} from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import { HardwareState } from "../devices/interfaces";
 import { API } from "../api/index";
@@ -258,6 +264,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
           .catch(() => { });
         bot.on("logs", function (msg: Log) {
           if (isLog(msg) && !oneOf(BAD_WORDS, msg.message.toUpperCase())) {
+            maybeShowLog(msg);
             dispatch(init({ kind: "logs", uuid: "MUST_CHANGE", body: msg }));
           } else {
             throw new Error("Refusing to display log: " + JSON.stringify(msg));
@@ -341,4 +348,27 @@ export function changeStepSize(integer: number) {
     type: "CHANGE_STEP_SIZE",
     payload: integer
   };
+}
+
+const CHANNELS: keyof Log = "channels";
+const TOAST: ALLOWED_CHANNEL_NAMES = "toast";
+
+function maybeShowLog(log: Log) {
+  let chanList = _.get(log, CHANNELS, ["ERROR FETCHING CHANNELS"]);
+  let t = log.meta.type as ALLOWED_MESSAGE_TYPES;
+  const TITLE = "New message from bot"
+  if (chanList.includes(TOAST)) {
+    switch (t) {
+      case "success":
+        return success(log.message, TITLE)
+      case "busy":
+      case "warn":
+      case "error":
+        return error(log.message, TITLE)
+      case "fun":
+      case "info":
+      default:
+        return info(log.message, TITLE);
+    }
+  }
 }
