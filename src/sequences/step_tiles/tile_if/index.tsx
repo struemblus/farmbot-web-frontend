@@ -31,8 +31,7 @@ export const LHSOptions: DropDownItem[] = [
   { value: "x", label: "X position" },
   { value: "y", label: "Y Position" },
   { value: "z", label: "Z position" }
-].concat(_.range(0, 69)
-  .map(x => ({ value: `pin${x}`, label: `Pin ${x}` })))
+].concat(_.range(0, 70).map(x => ({ value: `pin${x}`, label: `Pin ${x}` })))
 
 export const operatorOptions: DropDownItem[] = [
   { value: "<", label: "is less than" },
