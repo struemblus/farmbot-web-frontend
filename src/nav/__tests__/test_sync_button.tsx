@@ -5,6 +5,7 @@ import { defensiveClone } from "../../util";
 import { render } from "enzyme";
 
 let FAKE_BOT_STATE = defensiveClone(bot);
+
 describe("<SyncButton/>", function () {
   it("renders nothing when not given a bot", function () {
     let dispatcher = jest.fn();
