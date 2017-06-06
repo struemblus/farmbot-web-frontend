@@ -2,6 +2,7 @@ import {
   TaggedPlantPointer,
   TaggedCrop
 } from "../../resources/tagged_resources";
+import { State } from "../interfaces";
 
 export interface PlantLayerProps {
   plants: TaggedPlantPointer[];
@@ -16,3 +17,16 @@ export interface PlantLayerProps {
 export interface CropSpreadDict {
   [key: string]: number | undefined;
 }
+
+export interface GardenMapLegendProps {
+  zoom: (value: number) => () => void;
+  toggle: (property: keyof State) => () => void;
+  zoomLvl: number;
+  legendMenuOpen: boolean;
+  showPlants: boolean;
+  showPoints: boolean;
+  showSpread: boolean;
+  showFarmbot: boolean;
+}
+
+export interface GardenMapLegendState { }

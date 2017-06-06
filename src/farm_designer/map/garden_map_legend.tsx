@@ -1,20 +1,7 @@
 import * as React from "react";
 import { t } from "i18next";
 import { LayerToggle } from "./layer_toggle";
-import { State } from "../interfaces";
-
-interface GardenMapLegendProps {
-  zoom: (value: number) => () => void;
-  toggle: (property: keyof State) => () => void;
-  zoomLvl: number;
-  legendMenuOpen: boolean;
-  showPlants: boolean;
-  showPoints: boolean;
-  showSpread: boolean;
-  showFarmbot: boolean;
-}
-
-interface GardenMapLegendState { }
+import { GardenMapLegendProps, GardenMapLegendState } from "./interfaces";
 
 export class GardenMapLegend extends
   React.Component<GardenMapLegendProps, Partial<GardenMapLegendState>> {

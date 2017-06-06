@@ -58,9 +58,10 @@ export class GardenMap
       let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
       let { pageX, pageY } = e;
       /**
-       * TODO: .getBoundClientRect() might be needed for mobile farm designer
+       * TODO: .getBoundingClientRect() might be needed for mobile farm designer
        * implementations. It will take some testing with different browsers, but
        * for now we are focusing on desktop-only.
+       *
        * let box = el.getBoundingClientRect();
        */
       let species = history.getCurrentLocation().pathname.split("/")[5];
@@ -76,8 +77,7 @@ export class GardenMap
           y,
           openfarm_slug: OFEntry.crop.slug,
           name: OFEntry.crop.name || "Mystery Crop",
-          created_at: moment().toISOString(),
-          radius: OFEntry.crop.spread
+          created_at: moment().toISOString()
         })
       };
       this.props.dispatch(initSave(p));

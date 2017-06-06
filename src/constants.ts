@@ -120,8 +120,10 @@ export namespace ToolTips {
 
   // Regimens
   export const BULK_SCHEDULER =
-    `Use this tool to schedule sequences to run on one or many days of your
-    regimen.`
+    `Add sequences to your regimen by selecting a sequence from the drop down, 
+    specifying a time, choosing which days it should run on, and then clicking 
+    the + button. For example: a Seeding sequence might be scheduled for Day 1, 
+    while a Watering sequence would be scheduled to run every other day.`
 
   export const REGIMEN_EDITOR =
     `Regimens allow FarmBot to take care of a plant throughout its entire life.

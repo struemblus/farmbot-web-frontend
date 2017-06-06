@@ -14,7 +14,7 @@ export function Plant(options: PlantOptions): PlantPointer {
     x: (options.x || 0),
     y: (options.y || 0),
     z: 0,
-    radius: (options.radius || 25),
+    radius: (options.radius || 50),
     openfarm_slug
   };
 }
