@@ -24,7 +24,7 @@ export interface SelectOptionsParams {
 export interface Log {
   id?: number | undefined;
   message: string;
-  meta: { type: string[]; };
+  meta: { type: string; };
   channels: string[];
   created_at: number;
 }

@@ -12,6 +12,7 @@ import { Else } from "./else";
 import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
 import { NULL_CHOICE } from "../../../ui/fb_select";
+import { range } from "lodash";
 
 export interface IfParams {
   currentSequence: TaggedSequence;
@@ -28,25 +29,10 @@ export type Operator = "lhs"
   | "_else";
 
 export const LHSOptions: DropDownItem[] = [
-  { value: "pin1", label: "Pin 1" },
-  { value: "pin2", label: "Pin 2" },
-  { value: "pin3", label: "Pin 3" },
-  { value: "pin4", label: "Pin 4" },
-  { value: "pin5", label: "Pin 5" },
-  { value: "pin6", label: "Pin 6" },
-  { value: "pin7", label: "Pin 7" },
-  { value: "pin8", label: "Pin 8" },
-  { value: "pin9", label: "Pin 9" },
-  { value: "pin10", label: "Pin 10" },
-  { value: "pin11", label: "Pin 11" },
-  { value: "pin12", label: "Pin 12" },
-  { value: "pin13", label: "Pin 13" },
-  { value: "pin59", label: "Pin 59" },
-  { value: "pin63", label: "Pin 63" },
   { value: "x", label: "X position" },
   { value: "y", label: "Y Position" },
   { value: "z", label: "Z position" }
-];
+].concat(range(0, 70).map(x => ({ value: `pin${x}`, label: `Pin ${x}` })))
 
 export const operatorOptions: DropDownItem[] = [
   { value: "<", label: "is less than" },

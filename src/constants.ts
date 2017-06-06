@@ -8,9 +8,9 @@ export namespace ToolTips {
 
   // Controls
   export const MOVE =
-    `Use these manual control buttons to move FarmBot in realtime. Press the 
+    `Use these manual control buttons to move FarmBot in realtime. Press the
     arrows for relative movements or type in new coordinates and press GO for an
-    absolute movement. Tip: Press the Home button when you are done so FarmBot 
+    absolute movement. Tip: Press the Home button when you are done so FarmBot
     is ready to get back to work.`
 
   export const WEBCAM_SAVE =
@@ -26,11 +26,11 @@ export namespace ToolTips {
     `This widget shows device information.`
 
   export const HW_SETTINGS =
-    `Change settings of your FarmBot hardware with the fields below. Caution: 
-    Changing these settings to extreme values can cause hardware malfunction. 
-    Make sure to test any new settings before letting your FarmBot use them 
-    unsupervised. Tip: Recalibrate FarmBot after changing settings and test a 
-    few sequences to verify that everything works as expected. Note: Currently 
+    `Change settings of your FarmBot hardware with the fields below. Caution:
+    Changing these settings to extreme values can cause hardware malfunction.
+    Make sure to test any new settings before letting your FarmBot use them
+    unsupervised. Tip: Recalibrate FarmBot after changing settings and test a
+    few sequences to verify that everything works as expected. Note: Currently
     not all settings can be changed.`
 
   export const MAX_SPEED =
@@ -49,11 +49,11 @@ export namespace ToolTips {
     `Coming Soon! Set the length of each axis to provide software limits.`
 
   export const ENCODER_SCALING =
-    `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) / 
+    `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) /
     (encoder resolution * 4)`
 
   export const MAX_MISSED_STEPS =
-    `(Alpha) Number of steps missed (determined by encoder) before motor is 
+    `(Alpha) Number of steps missed (determined by encoder) before motor is
     considered to have stalled.`
 
   export const ENCODER_MISSED_STEP_DECAY =
@@ -63,7 +63,7 @@ export namespace ToolTips {
     `(Alpha) Enable use of rotary encoders during calibration and homing.`
 
   export const ALWAYS_POWER_MOTORS =
-    `Keep power applied to motors. Prevents slipping from gravity in certain 
+    `Keep power applied to motors. Prevents slipping from gravity in certain
     situations.`
 
   export const INVERT_ENCODERS =
@@ -76,7 +76,7 @@ export namespace ToolTips {
     `Invert direction of motor during calibration.`
 
   export const NEGATIVE_COORDINATES_ONLY =
-    `Restrict travel to negative coordinate locations. Overridden by disabling 
+    `Restrict travel to negative coordinate locations. Overridden by disabling
     software limits.`
 
   export const ENABLE_ENDSTOPS =
@@ -104,15 +104,15 @@ export namespace ToolTips {
 
   // Sequences
   export const SEQUENCE_COMMANDS =
-    `These are the most basic commands FarmBot can execute. Drag and drop them 
-    to create sequences for watering, planting seeds, measuring soil properties, 
+    `These are the most basic commands FarmBot can execute. Drag and drop them
+    to create sequences for watering, planting seeds, measuring soil properties,
     and more.`
 
   export const SEQUENCE_EDITOR =
-    `Drag and drop commands here to create sequences for watering, planting 
-    seeds, measuring soil properties, and more. Press the Test button to 
-    immediately try your sequence with FarmBot. You can also edit, copy, and 
-    delete existing sequences; assign a color; and give your commands custom 
+    `Drag and drop commands here to create sequences for watering, planting
+    seeds, measuring soil properties, and more. Press the Test button to
+    immediately try your sequence with FarmBot. You can also edit, copy, and
+    delete existing sequences; assign a color; and give your commands custom
     names.`
 
   export const SEQUENCE_LIST =
@@ -120,14 +120,14 @@ export namespace ToolTips {
 
   // Regimens
   export const BULK_SCHEDULER =
-    `Use this tool to schedule sequences to run on one or many days of your 
+    `Use this tool to schedule sequences to run on one or many days of your
     regimen.`
 
   export const REGIMEN_EDITOR =
-    `Regimens allow FarmBot to take care of a plant throughout its entire life. 
-    A regimen consists of many sequences that are scheduled to run based on the 
-    age of the plant. Regimens are applied to plants from the farm designer 
-    (coming soon) and can be re-used on many plants growing at the same or 
+    `Regimens allow FarmBot to take care of a plant throughout its entire life.
+    A regimen consists of many sequences that are scheduled to run based on the
+    age of the plant. Regimens are applied to plants from the farm designer
+    (coming soon) and can be re-used on many plants growing at the same or
     different times. Multiple regimens can be applied to any one plant.`
 
   export const REGIMEN_LIST =
@@ -135,38 +135,39 @@ export namespace ToolTips {
 
   // Tools
   export const TOOL_LIST =
-    `This is a list of all your FarmBot Tools. Click the Edit button to add, 
+    `This is a list of all your FarmBot Tools. Click the Edit button to add,
     edit, or delete tools.`
 
   export const TOOLBAY_LIST =
-    `Toolbays are where you store your FarmBot Tools. Each Toolbay has Slots 
-    that you can put your Tools in, which should be reflective of your real 
+    `Toolbays are where you store your FarmBot Tools. Each Toolbay has Slots
+    that you can put your Tools in, which should be reflective of your real
     FarmBot hardware configuration.`
 
+  export const STOP_AT_MAX = `Stop at max.`
+  export const ENCODER_POSITIONING = `Use encoders for positioning.`
 }
 
 export namespace Content {
 
   // Account
   export const ACCOUNT_DELETE_WARNING =
-    `WARNING! Deleting your account will permanently delete all of your 
-    Sequences , Regimens, Events, and Farm Designer data.Upon deleting your 
-    account, FarmBot will cease to function and become inaccessible until it is 
-    paired with another web app account. To do this, you will need to reboot 
-    your FarmBot so that is goes back into configuration mode for pairing with 
-    another user account. When this happens, all of the data on your FarmBot 
-    will be overwritten with the new account's data. If the account is brand 
+    `WARNING! Deleting your account will permanently delete all of your
+    Sequences , Regimens, Events, and Farm Designer data.Upon deleting your
+    account, FarmBot will cease to function and become inaccessible until it is
+    paired with another web app account. To do this, you will need to reboot
+    your FarmBot so that is goes back into configuration mode for pairing with
+    another user account. When this happens, all of the data on your FarmBot
+    will be overwritten with the new account's data. If the account is brand
     new, then FarmBot will become a blank slate.`
 
   // Controls
   export const FACTORY_RESET_WARNING =
-    `Factory resetting your FarmBot will destroy all data on the device, 
-    revoking your FarmBot's abilily to connect to your web app account and your 
-    home wifi. Upon factory resetting, your device will restart into 
-    Configurator mode. Factory resetting your FarmBot will not affect any data 
-    or settings from your web app account, allowing you to do a complete restore 
+    `Factory resetting your FarmBot will destroy all data on the device,
+    revoking your FarmBot's abilily to connect to your web app account and your
+    home wifi. Upon factory resetting, your device will restart into
+    Configurator mode. Factory resetting your FarmBot will not affect any data
+    or settings from your web app account, allowing you to do a complete restore
     to your device once it is back online and paired with your web app account.`
-
 }
 
 
