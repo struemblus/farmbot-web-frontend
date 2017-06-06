@@ -33,9 +33,9 @@ export class GardenMap
     this.setState({ isDragging: false, pageX: 0, pageY: 0 });
   }
 
-  startDrag = () => this.setState({ isDragging: true });
+  startDrag = (): void => this.setState({ isDragging: true });
 
-  get isEditing() { return location.pathname.includes("edit"); }
+  get isEditing(): boolean { return location.pathname.includes("edit"); }
 
   getPlant = (): TaggedPlantPointer | undefined => this.props.selectedPlant;
 
@@ -57,14 +57,17 @@ export class GardenMap
     if (el && map) {
       let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
       let { pageX, pageY } = e;
-      let box = el.getBoundingClientRect();
+      /**
+       * TODO: .getBoundClientRect() might be needed for mobile farm designer
+       * implementations. It will take some testing with different browsers, but
+       * for now we are focusing on desktop-only.
+       * let box = el.getBoundingClientRect();
+       */
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
       let params: ScreenToGardenParams = {
         pageX,
         pageY,
-        box,
-        OFEntry,
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);

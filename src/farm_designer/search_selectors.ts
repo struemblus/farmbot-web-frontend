@@ -1,3 +1,4 @@
+import * as _ from "lodash";
 import { CropLiveSearchResult } from "./interfaces";
 
 export function findBySlug(crops: CropLiveSearchResult[], slug?: string): CropLiveSearchResult {

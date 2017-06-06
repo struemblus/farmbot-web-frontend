@@ -8,4 +8,4 @@ export function movePlant(payload: MovePlantProps) {
   update.x += payload.deltaX;
   update.y += payload.deltaY;
   return edit(tr, update);
-};
+}

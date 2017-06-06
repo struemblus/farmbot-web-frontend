@@ -14,7 +14,7 @@ import { LayerToggle } from "./map/layer_toggle";
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
-    zoomLvl: 0.5,
+    zoomLvl: 1,
     showPlants: true,
     showPoints: true,
     showSpread: false,
@@ -110,7 +110,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         {this.childComponent(this.props)}
       </div>
 
-      <div className="farm-designer-map">
+      <div className="farm-designer-map" style={{ zoom: this.state.zoomLvl }}>
         <GardenMap
           showPoints={showPoints}
           showPlants={showPlants}

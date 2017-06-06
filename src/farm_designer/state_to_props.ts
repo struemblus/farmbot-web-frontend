@@ -22,7 +22,6 @@ export function mapStateToProps(props: Everything): Props {
       .consumers
       .farm_designer
       .selectedPlant)[0];
-  // let plantz = plants.map((p: TPPWithDispatch) => p.dispatch = props.dispatch);
 
   return {
     crops: selectAllCrops(props.resources.index),
