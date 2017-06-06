@@ -7,8 +7,8 @@ import { Props, State } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
+import { GardenMapLegend } from "./map/garden_map_legend";
 import { isMobile } from "../util";
-import { LayerToggle } from "./map/layer_toggle";
 
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
@@ -53,45 +53,17 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
       showFarmbot
     } = this.state;
 
-    let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
-    let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
-
     return <div className="farm-designer">
 
-      <div className="garden-map-legend" style={{ zoom: 1 }}>
-        <button
-          className={"plus-button green " + plusBtnClass}
-          onClick={this.zoom(0.1)}>
-          <i className="fa fa-2x fa-plus" />
-        </button>
-        <button
-          className={"plus-button green " + minusBtnClass}
-          onClick={this.zoom(-0.1)}>
-          <i className="fa fa-2x fa-minus" />
-        </button>
-        <div className="map-layers">
-          <LayerToggle
-            value={showPlants}
-            label={t("Plants?")}
-            onClick={this.toggle("showPlants")}
-          />
-          <LayerToggle
-            value={showPoints}
-            label={t("Points?")}
-            onClick={this.toggle("showPoints")}
-          />
-          <LayerToggle
-            value={showSpread}
-            label={t("Spread?")}
-            onClick={this.toggle("showSpread")}
-          />
-          <LayerToggle
-            value={showFarmbot}
-            label={t("FarmBot?")}
-            onClick={this.toggle("showFarmbot")}
-          />
-        </div>
-      </div>
+      <GardenMapLegend
+        zoom={this.zoom}
+        toggle={this.toggle}
+        zoomLvl={zoomLvl}
+        showPlants={showPlants}
+        showPoints={showPoints}
+        showSpread={showSpread}
+        showFarmbot={showFarmbot}
+      />
 
       <div className="panel-header gray-panel designer-mobile-nav">
         <div className="panel-tabs">
