@@ -65,11 +65,7 @@ export class GardenMap
        */
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
-      let params: ScreenToGardenParams = {
-        pageX,
-        pageY,
-        zoomLvl
-      };
+      let params: ScreenToGardenParams = { pageX, pageY, zoomLvl };
       let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlantPointer = {
         kind: "points",

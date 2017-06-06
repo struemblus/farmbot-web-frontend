@@ -4,8 +4,8 @@ import { history } from "../../history";
 import { destroy } from "../../api/crud";
 import { error } from "../../ui";
 
-export abstract class PlantInfoBase
-  extends React.Component<EditPlantInfoProps, {}> {
+export abstract class PlantInfoBase extends
+  React.Component<EditPlantInfoProps, {}> {
 
   get stringyID() {
     // TODO: ("We should put this into a query object incase the URL changes")
