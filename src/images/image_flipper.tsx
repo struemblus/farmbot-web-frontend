@@ -72,12 +72,12 @@ export class ImageFlipper
           <div className="image-flipper">
             {image}
             <button
-              onClick={this.go(-1)}
+              onClick={this.go(1)}
               className="image-flipper-left">
               {t("Prev")}
             </button>
             <button
-              onClick={this.go(1)}
+              onClick={this.go(-1)}
               className="image-flipper-right">
               {t("Next")}
             </button>

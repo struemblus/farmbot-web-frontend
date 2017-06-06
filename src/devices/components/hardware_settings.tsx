@@ -142,7 +142,7 @@ export class HardwareSettings
               />
               <NumericMCUInputGroup
                 hidden={hidePanel}
-                name={t("Length (mm)")}
+                name={t("Axis Length (steps)")}
                 tooltip={t(ToolTips.LENGTH)}
                 x={"movement_axis_nr_steps_x"}
                 y={"movement_axis_nr_steps_y"}
@@ -278,6 +278,26 @@ export class HardwareSettings
                 x={"movement_stop_at_home_x"}
                 y={"movement_stop_at_home_y"}
                 z={"movement_stop_at_home_z"}
+                dispatch={dispatch}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={hidePanel}
+                name={t("Stop at Max")}
+                tooltip={t(ToolTips.STOP_AT_MAX)}
+                x={"movement_stop_at_max_x"}
+                y={"movement_stop_at_max_y"}
+                z={"movement_stop_at_max_z"}
+                dispatch={dispatch}
+                bot={bot}
+              />
+              <BooleanMCUInputGroup
+                hidden={hidePanel}
+                name={t("Use Encoders for Positioning")}
+                tooltip={t(ToolTips.ENCODER_POSITIONING)}
+                x={"encoder_use_for_pos_x"}
+                y={"encoder_use_for_pos_y"}
+                z={"encoder_use_for_pos_z"}
                 dispatch={dispatch}
                 bot={bot}
               />
