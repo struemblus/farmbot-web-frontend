@@ -58,8 +58,9 @@ export class Plants extends React.Component<Props, State> {
           </div>
           {
             this.props.plants
-              .filter(p => p.body.name.includes(this.state.searchTerm))
-              .map((p, i) => <PlantInventoryItem
+              .filter(p => p.body.name.toLowerCase()
+                .includes(this.state.searchTerm.toLowerCase()))
+              .map(p => <PlantInventoryItem
                 key={p.uuid}
                 tpp={p}
                 dispatch={this.props.dispatch}
