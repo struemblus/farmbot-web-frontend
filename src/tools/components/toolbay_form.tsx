@@ -47,7 +47,7 @@ export class ToolBayForm extends React.Component<ToolBayFormProps, {}> {
     let isSaved = !isSaving && !isDirty;
     return <div>
       <Widget>
-        <WidgetHeader helpText={ToolTips.TOOLBAY_LIST} title="ToolBay 1">
+        <WidgetHeader helpText={ToolTips.TOOLBAY_LIST} title="Tool Slots">
           <button
             className="gray"
             hidden={!isSaved}
