@@ -8,8 +8,8 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
   let {
     zoom,
     toggle,
-    updateBotOrigin,
-    botOrigin,
+    updateBotOriginQuadrant,
+    botOriginQuadrant,
     zoomLvl,
     legendMenuOpen,
     showPlants,
@@ -74,20 +74,20 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
         </label>
         <div className="quadrants">
           <div
-            className={"quadrant " + (botOrigin === 2 && "selected")}
-            onClick={updateBotOrigin(2)}
+            className={"quadrant " + (botOriginQuadrant === 2 && "selected")}
+            onClick={updateBotOriginQuadrant(2)}
           />
           <div
-            className={"quadrant " + (botOrigin === 1 && "selected")}
-            onClick={updateBotOrigin(1)}
+            className={"quadrant " + (botOriginQuadrant === 1 && "selected")}
+            onClick={updateBotOriginQuadrant(1)}
           />
           <div
-            className={"quadrant " + (botOrigin === 3 && "selected")}
-            onClick={updateBotOrigin(3)}
+            className={"quadrant " + (botOriginQuadrant === 3 && "selected")}
+            onClick={updateBotOriginQuadrant(3)}
           />
           <div
-            className={"quadrant " + (botOrigin === 4 && "selected")}
-            onClick={updateBotOrigin(4)}
+            className={"quadrant " + (botOriginQuadrant === 4 && "selected")}
+            onClick={updateBotOriginQuadrant(4)}
           />
         </div>
       </div>

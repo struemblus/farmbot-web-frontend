@@ -10,6 +10,7 @@ export let initialState: DesignerState = {
     plant: undefined,
     icon: ""
   },
+  botOriginQuadrant: 2,
   cropSearchQuery: "",
   cropSearchResults: []
 };

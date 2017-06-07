@@ -15,12 +15,12 @@ import {
 import { PlantPointer } from "../interfaces";
 import { SlotWithTool } from "../resources/interfaces";
 
-export type BotOrigin = 1 | 2 | 3 | 4;
+export type BotOriginQuadrant = 1 | 2 | 3 | 4;
 
 export interface State {
   zoomLvl: number;
   legendMenuOpen: boolean;
-  botOrigin: BotOrigin;
+  botOriginQuadrant: BotOriginQuadrant;
   showPlants: boolean;
   showPoints: boolean;
   showSpread: boolean;
@@ -81,6 +81,7 @@ export interface Crop {
 export interface DesignerState {
   selectedPlant: string | undefined;
   hoveredPlant: HoveredPlantPayl;
+  botOriginQuadrant: BotOriginQuadrant;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -146,6 +147,7 @@ export interface GardenMapProps {
 
 export interface GardenMapState {
   isDragging: boolean | undefined;
+  botOriginQuadrant: BotOriginQuadrant;
   pageX: number | undefined;
   pageY: number | undefined;
 }
