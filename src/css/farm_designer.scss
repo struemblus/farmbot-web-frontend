@@ -290,8 +290,14 @@
         align-items: center;
     }
     .farmbot-origin {
-        div {
-            border: 1px solid black;
+        .quadrants {
+            border: 1px solid $dark_gray;
+        }
+        .quadrant {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px), linear-gradient(rgba(0, 0, 0, 0.05) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 0, 0, 0.05) 2px, transparent 2px);
+            background-size: 4px 4px, 4px 4px, 100px 100px, 100px 100px;
+            cursor: pointer;
+            border: 1px solid $dark_gray;
             width: 50%;
             display: inline-block;
         }

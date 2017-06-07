@@ -11,6 +11,7 @@ export class GardenMapLegend extends
   render() {
     let { zoom,
       toggle,
+      updateBotOrigin,
       zoomLvl,
       legendMenuOpen,
       showPlants,
@@ -69,18 +70,30 @@ export class GardenMapLegend extends
           />
         </div>
         <div className="farmbot-origin">
-          <label>{t("Origin")}</label>
-          <div>
-            1
-          </div>
-          <div>
-            2
-          </div>
-          <div>
-            3
-          </div>
-          <div>
-            4
+          <label>
+            {t("Origin")}
+          </label>
+          <div className="quadrants">
+            <div
+              className="quadrant"
+              onClick={updateBotOrigin(2)}>
+              2
+            </div>
+            <div
+              className="quadrant"
+              onClick={updateBotOrigin(1)}>
+              1
+            </div>
+            <div
+              className="quadrant"
+              onClick={updateBotOrigin(3)}>
+              3
+            </div>
+            <div
+              className="quadrant"
+              onClick={updateBotOrigin(4)}>
+              4
+            </div>
           </div>
         </div>
       </div>

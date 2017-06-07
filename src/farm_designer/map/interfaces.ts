@@ -21,6 +21,7 @@ export interface CropSpreadDict {
 export interface GardenMapLegendProps {
   zoom: (value: number) => () => void;
   toggle: (property: keyof State) => () => void;
+  updateBotOrigin: (quadrant: number) => () => void;
   zoomLvl: number;
   legendMenuOpen: boolean;
   showPlants: boolean;

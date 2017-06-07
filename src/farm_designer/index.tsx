@@ -27,14 +27,17 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
   }
 
-  childComponent(props: Props) {
-    let fallback = isMobile() ? undefined
-      : React.createElement(Plants, props);
-    return this.props.children || fallback;
-  }
-
   toggle = (name: keyof State) =>
     () => this.setState({ [name]: !this.state[name] });
+
+  updateBotOrigin = (quadrant: number) => () => {
+    console.log(quadrant)
+  }
+
+  childComponent(props: Props) {
+    let fallback = isMobile() ? undefined : React.createElement(Plants, props);
+    return this.props.children || fallback;
+  }
 
   render() {
     /**
@@ -62,6 +65,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
       <GardenMapLegend
         zoom={this.zoom}
         toggle={this.toggle}
+        updateBotOrigin={this.updateBotOrigin}
         zoomLvl={zoomLvl}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}
