@@ -147,6 +147,16 @@
                 margin: 1.4rem 0 0.4rem;
             }
         }
+
+        // CHRIS HALP!
+        // Modifications for check box on "if"
+        // block.
+        // -RC
+        input[type=checkbox] {
+          height: 17px;
+          box-shadow: none;
+        }
+
         input {
             height: 34px;
         }
