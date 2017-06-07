@@ -1,4 +1,5 @@
 import * as React from "react";
+import { t } from "i18next";
 import { DropDownItem, Help } from "../../../ui";
 import { TaggedSequence } from "../../../resources/tagged_resources";
 import { If, Execute, Nothing } from "farmbot/dist";
@@ -13,6 +14,7 @@ import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
 import { NULL_CHOICE } from "../../../ui/fb_select";
 import { range } from "lodash";
+import { ToolTips } from "../../../constants";
 
 export interface IfParams {
   currentSequence: TaggedSequence;
@@ -92,9 +94,7 @@ export function InnerIf(props: IfParams) {
               onClick={() => splice(stuff)} />
             <i className="fa fa-trash step-control"
               onClick={() => remove(stuff)} />
-            <Help text={(`Execute a sequence if a condition is satisfied. If the
-                          condition is not satisfied, chose to do nothing
-                          or execute a different sequence.`)} />
+            <Help text={t(ToolTips.IF)} />
             {recursive && (
               <span>
                 <i className="fa fa-exclamation-triangle"></i>

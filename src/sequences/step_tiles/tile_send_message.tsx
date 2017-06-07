@@ -11,6 +11,7 @@ import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { editStep } from "../../api/crud";
 import { FBSelect } from "../../ui/new_fb_select";
+import { ToolTips } from "../../constants";
 import {
   MESSAGE_STATUSES,
   EACH_CHANNEL,
@@ -107,12 +108,7 @@ class RefactoredSendMessage extends React.Component<SendMessageParams, {}> {
                 }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-              <Help text={(`The Send Message step instructs
-                            FarmBot to send a custom message to the logs.
-                            This can help you with debugging your sequences.
-                            Eventually you will be able to receive push
-                            notifications and email alerts of these
-                            messages!`)} />
+              <Help text={t(ToolTips.SEND_MESSAGE)} />
             </div>
           </div>
         </div>

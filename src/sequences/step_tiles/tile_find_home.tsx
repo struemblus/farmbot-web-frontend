@@ -1,4 +1,5 @@
 import * as React from "react";
+import { t } from "i18next";
 import { splice, remove } from "./index";
 import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
@@ -9,6 +10,7 @@ import { TaggedSequence } from "../../resources/tagged_resources";
 import { ResourceIndex } from "../../resources/interfaces";
 import { edit, overwrite } from "../../api/crud";
 import { defensiveClone } from "../../util";
+import { ToolTips } from "../../constants";
 
 export function TileFindHome(props: StepParams) {
   if (props.currentStep.kind === "find_home") {
@@ -66,9 +68,7 @@ class InnerFindHome extends React.Component<FindHomeParams, {}> {
                 }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-              <Help text={(`The Find Home step instructs the device to perform
-                            a homing command to find and set zero for the chosen
-                            axis or axes.`)} />
+              <Help text={t(ToolTips.FIND_HOME)} />
             </div>
           </div>
         </div>

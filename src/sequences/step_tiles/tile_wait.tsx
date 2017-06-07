@@ -5,6 +5,7 @@ import { splice, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { StepParams } from "../interfaces";
+import { ToolTips } from "../../constants";
 
 export function TileWait({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
@@ -24,10 +25,7 @@ export function TileWait({ dispatch, currentStep, index, currentSequence }: Step
               }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-            <Help text={(`The Wait step instructs FarmBot to wait
-                            for the specified amount of time. Use it in
-                            combination with the Pin Write step to water for a
-                            length of time.`)} />
+            <Help text={t(ToolTips.WAIT)} />
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ export function BulkSchedulerWidget(props: BulkEditorProps) {
     <h3>
       <i>{t("Scheduler")}</i>
     </h3>
-    <ToolTip helpText={ToolTips.SEQUENCE_EDITOR} />
+    <ToolTip helpText={ToolTips.BULK_SCHEDULER} />
     <AddButton active={active}
       click={() => { dispatch(commitBulkEditor()); }} />
     <Row>

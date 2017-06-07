@@ -5,6 +5,7 @@ import { Help } from "../../ui";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { StepParams } from "../interfaces";
+import { ToolTips } from "../../constants";
 
 export function TileReadPin({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
@@ -24,10 +25,7 @@ export function TileReadPin({ dispatch, currentStep, index, currentSequence }: S
               }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-            <Help text={(`The Read Pin step instructs FarmBot to
-                      read the current value of the specified pin.
-                      A Pin Mode of 0 is for digital (on/off), while
-                      a Pin Mode of 1 is for analog (0-1023 for 0-5V).`)} />
+            <Help text={t(ToolTips.READ_PIN)} />
           </div>
         </div>
       </div>

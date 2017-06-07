@@ -31,6 +31,7 @@ import { overwrite } from "../../api/crud";
 import { Xyz } from "../../devices/interfaces";
 import { TileMoveAbsSelect } from "./tile_move_absolute/select";
 import { InputBox } from "./tile_move_absolute/input_box";
+import { ToolTips } from "../../constants";
 
 interface Args {
   location: Tool | Coordinate | Point;
@@ -140,21 +141,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
             <div className="help">
               <i className="fa fa-question-circle help-icon" />
               <div className="help-text">
-                {t(`The Move Absolute step instructs
-                FarmBot to move to the specified coordinate
-                regardless of the current position. For example,
-                if FarmBot is currently at X=1000, Y=1000 and it
-                receives a Move Absolute where X=0 and Y=3000,
-                then FarmBot will move to X=0, Y=3000. If
-                FarmBot must move in multiple directions, it
-                will move diagonally. If you require straight
-                movements along one axis at a time, use multiple
-                Move Absolute steps. Coming soon: Offsets allow
-                you to more easily instruct FarmBot to move to a
-                location, but offset from it by the specified
-                amount. For example moving to just above where a
-                peripheral is located. Using offsets lets
-                FarmBot do the math for you.`)}
+                {t(ToolTips.MOVE_ABSOLUTE)}
               </div>
             </div>
           </div>
