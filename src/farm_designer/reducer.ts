@@ -1,6 +1,10 @@
 import { CropLiveSearchResult } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { DesignerState, HoveredPlantPayl } from "./interfaces";
+import {
+  DesignerState,
+  HoveredPlantPayl,
+  BotOriginQuadrant
+} from "./interfaces";
 import { cloneDeep } from "lodash";
 import { TaggedResource } from "../resources/tagged_resources";
 
@@ -27,6 +31,10 @@ export let designer = generateReducer<DesignerState>(initialState)
   })
   .add<HoveredPlantPayl>("TOGGLE_HOVERED_PLANT", (s, { payload }) => {
     s.hoveredPlant = payload;
+    return s;
+  })
+  .add<BotOriginQuadrant>("UPDATE_BOT_ORIGIN_QUADRANT", (s, { payload }) => {
+    s.botOriginQuadrant = payload;
     return s;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", (s, { payload }) => {

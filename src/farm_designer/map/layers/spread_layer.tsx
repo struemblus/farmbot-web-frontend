@@ -1,11 +1,13 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
 import { round, scale } from "../util";
+import { BotOriginQuadrant } from "../../interfaces";
 
 interface SpreadLayerProps {
   visible: boolean;
   plants: TaggedPlantPointer[];
   currentPlant: TaggedPlantPointer | undefined;
+  botOriginQuadrant: BotOriginQuadrant;
 }
 
 export function SpreadLayer(props: SpreadLayerProps) {
