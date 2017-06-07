@@ -36,8 +36,8 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
     });
   }
 
-  set(name: keyof FrontPageState) {
-    return function (event: React.FormEvent<HTMLInputElement>) {
+  set = (name: keyof FrontPageState) =>
+    (event: React.FormEvent<HTMLInputElement>) => {
       let state: { [name: string]: string } = {};
       state[name] = (event.currentTarget).value;
       // WHY THE 2 ms timeout you ask????
@@ -46,7 +46,6 @@ export class FrontPage extends React.Component<{}, Partial<FrontPageState>> {
       // checked. Some sort of race condtion. ¯\_(ツ)_/¯
       setTimeout(() => this.setState(state), 2);
     };
-  }
 
   submitLogin(e: React.FormEvent<{}>) {
     e.preventDefault();

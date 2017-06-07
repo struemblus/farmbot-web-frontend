@@ -35,17 +35,15 @@ export class Wow extends React.Component<Props, Partial<State>> {
     };
   }
 
-  toggleServerOpts() {
+  toggleServerOpts = () => {
     this.setState({ hideServerSettings: !this.state.hideServerSettings })
   }
 
-  set(name: keyof State) {
-    return function (event: React.FormEvent<HTMLInputElement>) {
-      let state: { [name: string]: State[keyof State] } = {};
-      state[name] = (event.currentTarget).value;
-      this.setState(state);
-    };
-  }
+  set = (name: keyof State) => (event: React.FormEvent<HTMLInputElement>) => {
+    let state: { [name: string]: State[keyof State] } = {};
+    state[name] = (event.currentTarget).value;
+    this.setState(state);
+  };
 
   submit(e: React.SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -95,7 +93,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
       return <div className="static-page">
         <div className="all-content-wrapper">
           <div className="row">
-            <div className={`widget-wrapper col-md-6 col-md-offset-3 
+            <div className={`widget-wrapper col-md-6 col-md-offset-3
                         col-sm-6 col-sm-offset-3`}>
               <div className="row">
                 <div className="col-sm-12">
@@ -131,7 +129,7 @@ export class Wow extends React.Component<Props, Partial<State>> {
     return <div className="static-page">
       <div className="all-content-wrapper">
         <div className="row">
-          <div className={`widget-wrapper col-md-6 col-md-offset-3 
+          <div className={`widget-wrapper col-md-6 col-md-offset-3
                         col-sm-6 col-sm-offset-3`}>
             <div className="row">
               <div className="col-sm-12">

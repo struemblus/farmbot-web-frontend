@@ -7,14 +7,15 @@ import { devices } from "../device";
 import { success, warning, info, error } from "../ui";
 import { Log } from "../interfaces";
 import { GithubRelease, MoveRelProps } from "./interfaces";
-import { Thunk, GetState } from "../redux/interfaces";
+import { Thunk, GetState, ReduxAction } from "../redux/interfaces";
 import { DeviceAccountSettings, BotState } from "../devices/interfaces";
 import {
   McuParams,
   Configuration,
   BotStateTree,
   ALLOWED_CHANNEL_NAMES,
-  ALLOWED_MESSAGE_TYPES
+  ALLOWED_MESSAGE_TYPES,
+  SyncStatus
 } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
 import { HardwareState } from "../devices/interfaces";
@@ -100,14 +101,16 @@ export function emergencyUnlock() {
 export function sync(): Thunk {
   let noun = "Sync";
   return function (dispatch, getState) {
+    dispatch(setSyncStatus("syncing"));
     devices
       .current
       .sync()
       .then(() => {
         commandOK(noun);
-        dispatch({ type: "BOT_SYNC_OK", payload: {} });
+        dispatch(setSyncStatus("synced"));
       }).catch(() => {
         commandErr(noun);
+        dispatch(setSyncStatus("sync_error"));
       });
   };
 }
@@ -277,7 +280,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
               .bot
               .hardware
               .informational_settings
-              .controller_version, 3, 1);
+              .controller_version, 4, 0);
             if (!IS_OK) {
               error("You are running an old version of FarmBot OS. Please update.")
             }
@@ -371,4 +374,8 @@ function maybeShowLog(log: Log) {
         return info(log.message, TITLE);
     }
   }
+}
+
+export function setSyncStatus(payload: SyncStatus) {
+  return { type: "SET_SYNC_STATUS", payload }
 }
