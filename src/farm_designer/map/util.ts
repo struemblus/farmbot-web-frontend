@@ -61,6 +61,6 @@ export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
 
 export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
-  console.log(value, quadrant);
+  // console.log(value, quadrant);
 }
 
