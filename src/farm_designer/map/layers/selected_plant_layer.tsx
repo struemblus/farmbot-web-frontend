@@ -1,6 +1,11 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
 import { DesignerState, BotOriginQuadrant } from "../../interfaces";
+import {
+  calculateXBasedOnQuadrant,
+  calculateYBasedOnQuadrant,
+  round
+} from "../util";
 
 /**
  * PROBLEM: The plants are rendered via svg in a certain order. When a user
@@ -22,10 +27,21 @@ interface SelectedPlantLayerProps {
 
 export function SelectedPlantLayer(props: SelectedPlantLayerProps) {
   let { plant, icon } = props.designer.hoveredPlant;
+  let { botOriginQuadrant } = props;
+  let x = plant && plant.body.x || 0;
+  let y = plant && plant.body.y || 0;
+  let newX = calculateXBasedOnQuadrant({
+    value: round(x),
+    quadrant: botOriginQuadrant
+  });
+  let newY = calculateYBasedOnQuadrant({
+    value: round(y),
+    quadrant: botOriginQuadrant
+  });
   return <image
     hidden={true} // Temp stub
-    x={plant && plant.body.x}
-    y={plant && plant.body.y}
+    x={newX}
+    y={newY}
     width={plant && plant.body.radius * 2}
     height={plant && plant.body.radius * 2}
     href={icon}

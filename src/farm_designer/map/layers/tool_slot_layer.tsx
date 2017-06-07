@@ -9,10 +9,15 @@ interface ToolSlotLayerProps {
   botOriginQuadrant: BotOriginQuadrant;
 }
 
-export function ToolSlotLayer({ slots, visible }: ToolSlotLayerProps) {
+export function ToolSlotLayer(props: ToolSlotLayerProps) {
+  let { slots, visible, botOriginQuadrant } = props;
   return visible ? <g>
     {slots.map(slot =>
-      <ToolSlotPoint key={slot.toolSlot.uuid} slot={slot} />
+      <ToolSlotPoint
+        key={slot.toolSlot.uuid}
+        slot={slot}
+        quadrant={botOriginQuadrant}
+      />
     )}}
       </g> : <g />; // fallback
 }

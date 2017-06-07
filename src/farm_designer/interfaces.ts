@@ -153,6 +153,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  quadrant: BotOriginQuadrant;
   dispatch: Function;
   plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
@@ -165,6 +166,7 @@ export interface GardenPlantState {
 }
 
 export interface GardenPointProps {
+  quadrant: BotOriginQuadrant;
   point: TaggedGenericPointer;
 }
 
