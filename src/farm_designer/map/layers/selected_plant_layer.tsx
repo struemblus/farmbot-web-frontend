@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
-import { DesignerState } from "../../interfaces";
+import { DesignerState, BotOriginQuadrant } from "../../interfaces";
 
 /**
  * PROBLEM: The plants are rendered via svg in a certain order. When a user
@@ -17,6 +17,7 @@ import { DesignerState } from "../../interfaces";
 interface SelectedPlantLayerProps {
   currentPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
+  botOriginQuadrant: BotOriginQuadrant;
 }
 
 export function SelectedPlantLayer(props: SelectedPlantLayerProps) {

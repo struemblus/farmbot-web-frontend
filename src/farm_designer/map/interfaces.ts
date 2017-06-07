@@ -2,7 +2,7 @@ import {
   TaggedPlantPointer,
   TaggedCrop
 } from "../../resources/tagged_resources";
-import { State } from "../interfaces";
+import { State, BotOriginQuadrant } from "../interfaces";
 
 export interface PlantLayerProps {
   plants: TaggedPlantPointer[];
@@ -12,6 +12,7 @@ export interface PlantLayerProps {
   visible: boolean;
   crops: TaggedCrop[];
   dispatch: Function;
+  botOriginQuadrant: BotOriginQuadrant;
 }
 
 export interface CropSpreadDict {
@@ -21,6 +22,8 @@ export interface CropSpreadDict {
 export interface GardenMapLegendProps {
   zoom: (value: number) => () => void;
   toggle: (property: keyof State) => () => void;
+  updateBotOriginQuadrant: (quadrant: number) => () => void;
+  botOriginQuadrant: number;
   zoomLvl: number;
   legendMenuOpen: boolean;
   showPlants: boolean;
@@ -28,5 +31,3 @@ export interface GardenMapLegendProps {
   showSpread: boolean;
   showFarmbot: boolean;
 }
-
-export interface GardenMapLegendState { }

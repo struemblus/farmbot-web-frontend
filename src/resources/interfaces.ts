@@ -16,8 +16,7 @@ type UUID = string;
 
 export interface ResourceIndex {
   all: UUID[];
-  byKind: Record<ResourceName,
-  UUID[]>;
+  byKind: Record<ResourceName, UUID[]>;
   byKindAndId: CowardlyDictionary<UUID>;
   references: Dictionary<TaggedResource | undefined>;
 }

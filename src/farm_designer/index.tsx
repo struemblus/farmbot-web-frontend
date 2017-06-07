@@ -3,18 +3,21 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
 import { GardenMap } from "./map/garden_map";
-import { Props, State } from "./interfaces";
+import { Props, State, BotOriginQuadrant } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
 import { GardenMapLegend } from "./map/garden_map_legend";
 import { isMobile } from "../util";
 
+export const BOT_ORIGIN = "bot_origin";
+
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
     zoomLvl: 1,
+    botOriginQuadrant: 2,
     legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
@@ -27,14 +30,19 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
   }
 
-  childComponent(props: Props) {
-    let fallback = isMobile() ? undefined
-      : React.createElement(Plants, props);
-    return this.props.children || fallback;
-  }
-
   toggle = (name: keyof State) =>
     () => this.setState({ [name]: !this.state[name] });
+
+  updateBotOriginQuadrant = (quadrant: BotOriginQuadrant) => () => {
+    localStorage[BOT_ORIGIN] = JSON.stringify(quadrant);
+    let action = { type: "UPDATE_BOT_ORIGIN_QUADRANT", payload: quadrant };
+    this.props.dispatch(action);
+  }
+
+  childComponent(props: Props) {
+    let fallback = isMobile() ? undefined : React.createElement(Plants, props);
+    return this.props.children || fallback;
+  }
 
   render() {
     /**
@@ -51,6 +59,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let {
       zoomLvl,
       legendMenuOpen,
+      botOriginQuadrant,
       showPlants,
       showPoints,
       showSpread,
@@ -62,6 +71,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
       <GardenMapLegend
         zoom={this.zoom}
         toggle={this.toggle}
+        updateBotOriginQuadrant={this.updateBotOriginQuadrant}
+        botOriginQuadrant={botOriginQuadrant}
         zoomLvl={zoomLvl}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}

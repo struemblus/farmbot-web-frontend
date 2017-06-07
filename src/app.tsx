@@ -17,7 +17,8 @@ fastClick.attach(document.body);
 /** For the logger module */
 init();
 
-/** If the sync object takes more than 10s to load, the user will be granted
+/**
+ * If the sync object takes more than 10s to load, the user will be granted
  * access into the app, but still warned.
  */
 const TIMEOUT_MESSAGE = `App could not be fully loaded, we recommend you try 
@@ -45,7 +46,8 @@ function mapStateToProps(props: Everything): AppProps {
   };
 }
 
-/** Relational resources that *must* load before app starts.
+/**
+ * Relational resources that *must* load before app starts.
  * App will crash at load time if they are not pre-loaded.
  */
 const MUST_LOAD: ResourceName[] = [

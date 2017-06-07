@@ -1,10 +1,12 @@
 import * as React from "react";
 import { TaggedGenericPointer } from "../../../resources/tagged_resources";
 import { GardenPoint } from "../garden_point";
+import { BotOriginQuadrant } from "../../interfaces";
 
 interface PointLayerProps {
   visible: boolean;
   points: TaggedGenericPointer[];
+  botOriginQuadrant: BotOriginQuadrant;
 }
 
 export function PointLayer({ visible, points }: PointLayerProps) {
