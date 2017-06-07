@@ -149,12 +149,12 @@
         }
 
         // CHRIS HALP!
-        // Modifications for check box on "if"
-        // block.
-        // -RC
+        // Modifications for check box on "if" block.
+        // -RC 7 June 17
         input[type=checkbox] {
-          height: 17px;
+          width: inherit;
           box-shadow: none;
+          vertical-align: middle;
         }
 
         input {
