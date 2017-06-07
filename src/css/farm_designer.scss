@@ -255,12 +255,46 @@
 .garden-map-legend {
     position: fixed;
     top: 11rem;
-    right: -8rem;
-    display: flex;
-    flex-direction: column;
+    right: -12rem;
     transition: all 0.4s ease;
+    box-shadow: 0px 1px 4px #555;
     &.active {
-        transform: translateX(-10rem);
+        transform: translateX(-14rem);
+    }
+    .content {
+        background: $light_green;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        >*+* {
+            margin-top: 1rem;
+        }
+        label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .plus-button {
+            position: initial;
+            margin: 0 auto;
+        }
+        .toggle-button {
+            height: 1.8rem;
+        }
+    }
+    .toggle-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .farmbot-origin {
+        div {
+            border: 1px solid black;
+            width: 50%;
+            display: inline-block;
+        }
     }
     .menu-pullout {
         color: $white;
@@ -268,9 +302,11 @@
         position: absolute;
         left: -4.5rem;
         transition: all 0.4s ease;
+        text-shadow: 0px 1px 1px #555;
         &.active {
             left: -4.5rem;
             transform: rotate(180deg);
+            text-shadow: 1px 0px 0px #555;
             &:hover {
                 left: -4.5rem;
                 span {
@@ -292,29 +328,6 @@
             left: -4.6rem;
             top: 0.6rem;
         }
-    }
-    .plus-button {
-        position: initial;
-        margin: 0 auto;
-        &.top {
-            margin-bottom: 1rem;
-        }
-    }
-    .map-layers {
-        background: $light_green;
-        padding: 1rem;
-        border-radius: 0.5rem;
-        margin-top: 1rem;
-        >*+* {
-            margin-top: 1rem;
-        }
-        button {
-            height: 1.8rem;
-        }
-    }
-    label {
-        display: flex;
-        flex-direction: column;
     }
 }
 

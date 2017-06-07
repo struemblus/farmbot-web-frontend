@@ -9,8 +9,7 @@ export class GardenMapLegend extends
   state: GardenMapLegendState = {}
 
   render() {
-    let {
-      zoom,
+    let { zoom,
       toggle,
       zoomLvl,
       legendMenuOpen,
@@ -34,37 +33,56 @@ export class GardenMapLegend extends
         </span>
         <i className={"fa fa-2x fa-arrow-left"} />
       </div>
-      <button
-        className={"plus-button green top " + plusBtnClass}
-        onClick={zoom(0.1)}>
-        <i className="fa fa-2x fa-plus" />
-      </button>
-      <button
-        className={"plus-button green bottom " + minusBtnClass}
-        onClick={zoom(-0.1)}>
-        <i className="fa fa-2x fa-minus" />
-      </button>
-      <div className="map-layers">
-        <LayerToggle
-          value={showPlants}
-          label={t("Plants?")}
-          onClick={toggle("showPlants")}
-        />
-        <LayerToggle
-          value={showPoints}
-          label={t("Points?")}
-          onClick={toggle("showPoints")}
-        />
-        <LayerToggle
-          value={showSpread}
-          label={t("Spread?")}
-          onClick={toggle("showSpread")}
-        />
-        <LayerToggle
-          value={showFarmbot}
-          label={t("FarmBot?")}
-          onClick={toggle("showFarmbot")}
-        />
+      <div className="content">
+        <div className="zoom-buttons">
+          <button
+            className={"plus-button green top " + plusBtnClass}
+            onClick={zoom(0.1)}>
+            <i className="fa fa-2x fa-plus" />
+          </button>
+          <button
+            className={"plus-button green bottom " + minusBtnClass}
+            onClick={zoom(-0.1)}>
+            <i className="fa fa-2x fa-minus" />
+          </button>
+        </div>
+        <div className="toggle-buttons">
+          <LayerToggle
+            value={showPlants}
+            label={t("Plants?")}
+            onClick={toggle("showPlants")}
+          />
+          <LayerToggle
+            value={showPoints}
+            label={t("Points?")}
+            onClick={toggle("showPoints")}
+          />
+          <LayerToggle
+            value={showSpread}
+            label={t("Spread?")}
+            onClick={toggle("showSpread")}
+          />
+          <LayerToggle
+            value={showFarmbot}
+            label={t("FarmBot?")}
+            onClick={toggle("showFarmbot")}
+          />
+        </div>
+        <div className="farmbot-origin">
+          <label>{t("Origin")}</label>
+          <div>
+            1
+          </div>
+          <div>
+            2
+          </div>
+          <div>
+            3
+          </div>
+          <div>
+            4
+          </div>
+        </div>
       </div>
     </div>
   }
