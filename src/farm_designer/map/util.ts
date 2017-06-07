@@ -27,11 +27,14 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
   let rawX = (pageX - 320);
   let rawY = (pageY - 110);
 
+  let diffX = ((rawX / 10) + 10);
+  let diffY = (rawY / 10);
+
   if (zoomLvl < 1) {
     for (zoomLvl; zoomLvl < 1; zoomLvl + 0.1) {
       zoomLvl = Math.max(Math.ceil((zoomLvl += 0.1) * 10) / 10);
-      rawX += 20;
-      rawY += 10;
+      rawX += (diffX * zoomLvl);
+      rawY += (diffY * zoomLvl);
     }
   }
 
