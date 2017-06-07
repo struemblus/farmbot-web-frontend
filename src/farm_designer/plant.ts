@@ -1,8 +1,9 @@
 import { PlantOptions } from "./interfaces";
 import { PlantPointer } from "../interfaces";
 
-/** @deprecated
- * Factory function for Plant types. */
+export const DEFAULT_PLANT_RADIUS = 25;
+
+/** Factory function for Plant types. */
 export function Plant(options: PlantOptions): PlantPointer {
   let openfarm_slug = options.openfarm_slug || "not-set";
   return {
@@ -14,7 +15,7 @@ export function Plant(options: PlantOptions): PlantPointer {
     x: (options.x || 0),
     y: (options.y || 0),
     z: 0,
-    radius: (options.radius || 50),
+    radius: (options.radius || DEFAULT_PLANT_RADIUS),
     openfarm_slug
   };
 }

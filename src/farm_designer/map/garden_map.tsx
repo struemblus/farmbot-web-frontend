@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plant } from "../plant";
+import { Plant, DEFAULT_PLANT_RADIUS } from "../plant";
 import { movePlant } from "../actions";
 import * as moment from "moment";
 import { GardenMapProps, GardenMapState } from "../interfaces";
@@ -78,11 +78,7 @@ export class GardenMap extends
           openfarm_slug: OFEntry.crop.slug,
           name: OFEntry.crop.name || "Mystery Crop",
           created_at: moment().toISOString(),
-          /**
-           * TODO: Temp fix so that each dropped plant has the same initial
-           * radius until the growth can be tracked by the api.
-           */
-          radius: 25
+          radius: DEFAULT_PLANT_RADIUS
         })
       };
       this.props.dispatch(initSave(p));
