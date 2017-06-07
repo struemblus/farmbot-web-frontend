@@ -1,3 +1,5 @@
+import { BotOriginQuadrant } from "../interfaces";
+
 const SNAP = 10;
 const SCALE_FACTOR = 9.8;
 
@@ -34,5 +36,31 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
   }
 
   return { x: rawX, y: rawY };
+}
+
+interface CalculateQuadrantParams {
+  value: number;
+  quadrant: BotOriginQuadrant;
+}
+
+export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
+  let { value, quadrant } = params;
+  switch (quadrant) {
+    case 1:
+      return value;
+    case 2:
+      return value;
+    case 3:
+      return value;
+    case 4:
+      return value;
+    default:
+      throw new Error("Invalid bot origin quadrant.");
+  }
+}
+
+export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
+  let { value, quadrant } = params;
+  console.log(value, quadrant);
 }
 
