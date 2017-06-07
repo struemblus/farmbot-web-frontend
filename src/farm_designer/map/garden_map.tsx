@@ -17,8 +17,8 @@ import { SelectedPlantLayer } from "./layers/selected_plant_layer";
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
 
-export class GardenMap
-  extends React.Component<GardenMapProps, Partial<GardenMapState>> {
+export class GardenMap extends
+  React.Component<GardenMapProps, Partial<GardenMapState>> {
   constructor() {
     super();
     this.state = {};
@@ -134,7 +134,10 @@ export class GardenMap
           dragging={!!this.state.isDragging}
           editing={!!this.isEditing}
         />
-        <SelectedPlantLayer currentPlant={this.getPlant()} />
+        <SelectedPlantLayer
+          currentPlant={this.getPlant()}
+          designer={this.props.designer}
+        />
       </svg>
     </div>;
   }

@@ -17,7 +17,9 @@ export class GardenPlant extends
   render() {
     let { selected, plant, onClick, dispatch } = this.props;
     let { radius, x, y } = plant.body;
-    let action = { type: "TOGGLE_HOVERED_PLANT", payload: plant };
+    let { icon } = this.state;
+
+    let action = { type: "TOGGLE_HOVERED_PLANT", payload: { plant, icon } };
 
     return <g>
       <Circle

@@ -77,7 +77,7 @@ export interface Crop {
 
 export interface DesignerState {
   selectedPlant: string | undefined;
-  hoveredPlant: string | undefined;
+  hoveredPlant: HoveredPlantPayl;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }
@@ -186,4 +186,9 @@ export interface DraggableEvent {
 
 export interface OFSearchProps {
   cropSearchResults: CropLiveSearchResult[];
+}
+
+export interface HoveredPlantPayl {
+  tpp: TaggedPlantPointer | undefined;
+  icon: string;
 }
