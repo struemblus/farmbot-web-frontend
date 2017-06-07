@@ -22,23 +22,8 @@ export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
       <label>{name}</label>
       <SpacePanelToolTip tooltip={tooltip} />
     </td>
-    <McuInputBox
-      name={"x"}
-      setting={x}
-      bot={bot}
-      dispatch={dispatch}
-    />
-    <McuInputBox
-      name={"y"}
-      setting={y}
-      bot={bot}
-      dispatch={dispatch}
-    />
-    <McuInputBox
-      name={"z"}
-      setting={z}
-      bot={bot}
-      dispatch={dispatch}
-    />
+    <McuInputBox setting={x} bot={bot} dispatch={dispatch} />
+    <McuInputBox setting={y} bot={bot} dispatch={dispatch} />
+    <McuInputBox setting={z} bot={bot} dispatch={dispatch} />
   </tr>;
 }

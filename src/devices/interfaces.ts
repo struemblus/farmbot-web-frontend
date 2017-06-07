@@ -104,7 +104,6 @@ export interface McuInputBoxProps {
   bot: BotState;
   setting: McuParamName;
   dispatch: Function;
-  name?: string;
 }
 
 export interface EStopButtonProps {

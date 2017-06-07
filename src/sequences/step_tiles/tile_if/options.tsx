@@ -20,19 +20,26 @@ export function Options(props: IfParams) {
       }
     }));
   }
+
+  function maybeShowOptions() {
+    switch (props.currentStep.args.lhs) {
+      case "x": case "y": case "z": return <span />;
+      default:
+        let checked =
+          !!(props.currentStep.body && props.currentStep.body.length);
+        return <div className="col-xs-12 col-md-12">
+          <label htmlFor={MAGIC_PAIR_NAME}>
+            <input type="checkbox"
+              id={MAGIC_PAIR_NAME}
+              onChange={toggleOptions}
+              checked={checked} />
+            Read pin before running this step?
+         </label>
+        </div>;
+    }
+  }
+
   return <div>
-    <div className="col-xs-12 col-md-12">
-      <h4>Options</h4>
-    </div>
-    <div className="col-xs-12 col-md-12">
-      <label htmlFor={MAGIC_PAIR_NAME}>
-        <input type="checkbox"
-          id={MAGIC_PAIR_NAME}
-          onChange={toggleOptions}
-          checked={!!(props.currentStep.body && props.currentStep.body.length)}
-        />
-        Read pin before running this block?
-      </label>
-    </div>
+    {maybeShowOptions()}
   </div>
 }
