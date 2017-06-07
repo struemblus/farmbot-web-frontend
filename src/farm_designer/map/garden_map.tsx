@@ -82,7 +82,7 @@ export class GardenMap extends
            * TODO: Temp fix so that each dropped plant has the same initial
            * radius until the growth can be tracked by the api.
            */
-          radius: 50
+          radius: 25
         })
       };
       this.props.dispatch(initSave(p));
