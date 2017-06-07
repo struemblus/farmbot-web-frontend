@@ -10,6 +10,8 @@ import { Plants } from "./plants/plant_inventory";
 import { GardenMapLegend } from "./map/garden_map_legend";
 import { isMobile } from "../util";
 
+export const BOT_ORIGIN = "bot_origin";
+
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
@@ -31,7 +33,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     () => this.setState({ [name]: !this.state[name] });
 
   updateBotOrigin = (quadrant: number) => () => {
-    console.log(quadrant)
+    localStorage[BOT_ORIGIN] = JSON.stringify(quadrant);
   }
 
   childComponent(props: Props) {

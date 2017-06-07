@@ -29,5 +29,3 @@ export interface GardenMapLegendProps {
   showSpread: boolean;
   showFarmbot: boolean;
 }
-
-export interface GardenMapLegendState { }
