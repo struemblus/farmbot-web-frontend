@@ -21,7 +21,7 @@ export class ToolSlotPoint extends
 
   render() {
     let { x, y, name } = this.slot.toolSlot.body;
-    console.log(x);
+    // console.log(x);
     return <g>
       <circle key={this.slot.toolSlot.uuid}
         onMouseOver={() => this.setState({ hovered: true })}
