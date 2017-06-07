@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
 import { GardenMap } from "./map/garden_map";
-import { Props, State } from "./interfaces";
+import { Props, State, BotOrigin } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
@@ -17,6 +17,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
     zoomLvl: 1,
+    botOrigin: 1,
     legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
@@ -32,8 +33,9 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
   toggle = (name: keyof State) =>
     () => this.setState({ [name]: !this.state[name] });
 
-  updateBotOrigin = (quadrant: number) => () => {
+  updateBotOrigin = (quadrant: BotOrigin) => () => {
     localStorage[BOT_ORIGIN] = JSON.stringify(quadrant);
+    this.setState({ botOrigin: quadrant });
   }
 
   childComponent(props: Props) {
@@ -56,6 +58,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let {
       zoomLvl,
       legendMenuOpen,
+      botOrigin,
       showPlants,
       showPoints,
       showSpread,
@@ -68,6 +71,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         zoom={this.zoom}
         toggle={this.toggle}
         updateBotOrigin={this.updateBotOrigin}
+        botOrigin={botOrigin}
         zoomLvl={zoomLvl}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}

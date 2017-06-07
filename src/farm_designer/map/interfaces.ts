@@ -22,6 +22,7 @@ export interface GardenMapLegendProps {
   zoom: (value: number) => () => void;
   toggle: (property: keyof State) => () => void;
   updateBotOrigin: (quadrant: number) => () => void;
+  botOrigin: number;
   zoomLvl: number;
   legendMenuOpen: boolean;
   showPlants: boolean;

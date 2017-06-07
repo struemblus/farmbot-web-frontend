@@ -2,7 +2,6 @@ import * as React from "react";
 import { t } from "i18next";
 import { LayerToggle } from "./layer_toggle";
 import { GardenMapLegendProps } from "./interfaces";
-import { BOT_ORIGIN } from "../index";
 
 export function GardenMapLegend(props: GardenMapLegendProps) {
 
@@ -10,6 +9,7 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
     zoom,
     toggle,
     updateBotOrigin,
+    botOrigin,
     zoomLvl,
     legendMenuOpen,
     showPlants,
@@ -21,7 +21,6 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
   let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
   let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
   let menuClass = legendMenuOpen ? "active" : "";
-  let botOrigin = localStorage.getItem(BOT_ORIGIN);
 
   return <div
     className={"garden-map-legend " + menuClass}
@@ -75,19 +74,19 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
         </label>
         <div className="quadrants">
           <div
-            className={"quadrant " + (botOrigin === "2" && "selected")}
+            className={"quadrant " + (botOrigin === 2 && "selected")}
             onClick={updateBotOrigin(2)}
           />
           <div
-            className={"quadrant " + (botOrigin === "1" && "selected")}
+            className={"quadrant " + (botOrigin === 1 && "selected")}
             onClick={updateBotOrigin(1)}
           />
           <div
-            className={"quadrant " + (botOrigin === "3" && "selected")}
+            className={"quadrant " + (botOrigin === 3 && "selected")}
             onClick={updateBotOrigin(3)}
           />
           <div
-            className={"quadrant " + (botOrigin === "4" && "selected")}
+            className={"quadrant " + (botOrigin === 4 && "selected")}
             onClick={updateBotOrigin(4)}
           />
         </div>

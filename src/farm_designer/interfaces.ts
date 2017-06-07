@@ -15,11 +15,12 @@ import {
 import { PlantPointer } from "../interfaces";
 import { SlotWithTool } from "../resources/interfaces";
 
-export type BotOrigin = "1" | "2" | "3" | "4";
+export type BotOrigin = 1 | 2 | 3 | 4;
 
 export interface State {
   zoomLvl: number;
   legendMenuOpen: boolean;
+  botOrigin: BotOrigin;
   showPlants: boolean;
   showPoints: boolean;
   showSpread: boolean;
