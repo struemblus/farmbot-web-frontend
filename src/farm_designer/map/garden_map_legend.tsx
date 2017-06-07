@@ -76,27 +76,23 @@ export class GardenMapLegend extends
           <div className="quadrants">
             <div
               className="quadrant"
-              onClick={updateBotOrigin(2)}>
-              2
-            </div>
+              onClick={updateBotOrigin(2)}
+            />
             <div
               className="quadrant"
-              onClick={updateBotOrigin(1)}>
-              1
-            </div>
+              onClick={updateBotOrigin(1)}
+            />
             <div
               className="quadrant"
-              onClick={updateBotOrigin(3)}>
-              3
-            </div>
+              onClick={updateBotOrigin(3)}
+            />
             <div
               className="quadrant"
-              onClick={updateBotOrigin(4)}>
-              4
-            </div>
+              onClick={updateBotOrigin(4)}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </div >
   }
 }
