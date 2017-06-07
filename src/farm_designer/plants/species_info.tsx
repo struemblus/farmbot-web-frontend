@@ -48,7 +48,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
 
     return <div className="panel-container green-panel species-info-panel">
       <div className="panel-header green-panel"
-        style={{ background: backgroundURL, backgroundSize: "100%" }}>
+        style={{ background: backgroundURL }}>
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
           <a className="right-button mobile-only"
