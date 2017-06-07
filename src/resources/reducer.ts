@@ -82,7 +82,7 @@ let afterEach = (state: RestResources, a: ReduxAction<any>) => {
 /** Responsible for all RESTful resources. */
 export let resourceReducer = generateReducer
   <RestResources>(initialState, afterEach)
-  .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function (s, a) {
+  .add<ResourceReadyPayl>("SAVE_SPECIAL_RESOURCE", function(s, a) {
     let data = arrayWrap(a.payload);
     let kind = a.payload.name;
     data.map((body: ResourceReadyPayl) => {
@@ -94,8 +94,8 @@ export let resourceReducer = generateReducer
     })
     return s;
   })
-  .add<TaggedResource>("SAVE_RESOURCE_OK", function (state, action) {
-    let resource = action.payload;
+  .add<TaggedResource>("SAVE_RESOURCE_OK", function(s, a) {
+    let resource = a.payload;
     resource.dirty = false;
     resource.saving = false;
     if (resource
@@ -110,19 +110,19 @@ export let resourceReducer = generateReducer
         case "sequences":
         case "tools":
         case "points":
-          reindexResource(state.index, resource);
-          state.index.references[resource.uuid] = resource;
+          reindexResource(s.index, resource);
+          s.index.references[resource.uuid] = resource;
           break;
         default:
-          whoops("SAVE_RESOURCE_OK", action.payload.kind);
+          whoops("SAVE_RESOURCE_OK", a.payload.kind);
       }
     } else {
       throw new Error("Somehow, a resource was created without an ID?");
     }
-    return state;
+    return s;
   })
-  .add<TaggedResource>("DESTROY_RESOURCE_OK", function (state, action) {
-    let resource = action.payload;
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", function(s, a) {
+    let resource = a.payload;
     switch (resource.kind) {
       case "device":
       case "farm_events":
@@ -133,14 +133,14 @@ export let resourceReducer = generateReducer
       case "sequences":
       case "tools":
       case "points":
-        removeFromIndex(state.index, resource);
+        removeFromIndex(s.index, resource);
         break;
       default:
-        whoops("DESTROY_RESOURCE_OK", action.payload.kind);
+        whoops("DESTROY_RESOURCE_OK", a.payload.kind);
     }
-    return state;
+    return s;
   })
-  .add<TaggedResource>("UPDATE_RESOURCE_OK", function (s, a) {
+  .add<TaggedResource>("UPDATE_RESOURCE_OK", function(s, a) {
     let uuid = a.payload.uuid;
     s.index.references[uuid] = a.payload;
     let tr = s.index.references[uuid];
@@ -154,7 +154,7 @@ export let resourceReducer = generateReducer
       throw new Error("BAD UUID IN UPDATE_RESOURCE_OK");
     }
   })
-  .add<TaggedResource>("*_RESOURCE_NO", function (s, a) {
+  .add<TaggedResource>("*_RESOURCE_NO", function(s, a) {
     let uuid = a.payload.uuid;
     let tr = _.merge(findByUuid(s.index, uuid), a.payload);
     tr.dirty = true;
@@ -162,7 +162,7 @@ export let resourceReducer = generateReducer
     sanityCheck(tr);
     return s;
   })
-  .add<EditResourceParams>("EDIT_RESOURCE", function (s, a) {
+  .add<EditResourceParams>("EDIT_RESOURCE", function(s, a) {
     let uuid = a.payload.uuid;
     let { update } = a.payload;
     let source = _.merge<TaggedResource>(findByUuid(s.index, uuid),
@@ -172,7 +172,7 @@ export let resourceReducer = generateReducer
     a && isTaggedResource(source);
     return s;
   })
-  .add<EditResourceParams>("OVERWRITE_RESOURCE", function (s, a) {
+  .add<EditResourceParams>("OVERWRITE_RESOURCE", function(s, a) {
     let uuid = a.payload.uuid;
     let original = findByUuid(s.index, uuid);
     original.body = a.payload.update as typeof original.body;
@@ -181,7 +181,7 @@ export let resourceReducer = generateReducer
     a && isTaggedResource(original);
     return s;
   })
-  .add<TaggedResource>("INIT_RESOURCE", function (s, a) {
+  .add<TaggedResource>("INIT_RESOURCE", function(s, a) {
     let tr = a.payload;
     let uuid = tr.uuid;
     // TEMPORARY STUB:
@@ -204,13 +204,13 @@ export let resourceReducer = generateReducer
     sanityCheck(tr);
     return s;
   })
-  .add<TaggedResource>("SAVE_RESOURCE_START", function (s, a) {
+  .add<TaggedResource>("SAVE_RESOURCE_START", function(s, a) {
     let resource = findByUuid(s.index, a.payload.uuid);
     resource.saving = true;
     if (!resource.body.id) { delete resource.body.id; }
     return s;
   })
-  .add<ResourceReadyPayl>("RESOURCE_READY", function (state, action) {
+  .add<ResourceReadyPayl>("RESOURCE_READY", function(state, action) {
     let { name } = action.payload;
     /** Problem:  Most API resources are plural (array wrapped) resource.
      *            A small subset are singular (`device` and a few others),
@@ -235,7 +235,7 @@ interface HasID {
 function addAllToIndex<T extends HasID>(i: ResourceIndex,
   kind: ResourceName,
   all: T[]) {
-  all.map(function (tr) {
+  all.map(function(tr) {
     return addToIndex(i, kind, tr, generateUuid(tr.id, kind));
   });
 }
