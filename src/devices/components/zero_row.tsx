@@ -2,6 +2,7 @@ import * as React from "react";
 import { t } from "i18next";
 import { devices } from "../../device";
 import { Axis } from "../interfaces";
+import { ToolTips } from "../../constants";
 
 const zero = (axis: Axis) => devices.current.setZero(axis);
 const AXES: Axis[] = ["x", "y", "z"];
@@ -19,7 +20,7 @@ export function ZeroRow() {
       <div className="help">
         <i className="fa fa-question-circle help-icon" />
         <div className="help-text">
-          {t(`Set the current location as zero.`)}
+          {t(ToolTips.SET_ZERO_POSITION)}
         </div>
       </div>
     </td>

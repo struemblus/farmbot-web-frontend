@@ -113,8 +113,7 @@ export class HardwareSettings
               <NumericMCUInputGroup
                 hidden={hidePanel}
                 name={t("Minimum Speed (steps/s)")}
-                tooltip={t(`Minimum movement speed. Also used for homing,
-                calibration, and movements across home.`)}
+                tooltip={t(ToolTips.MIN_SPEED)}
                 x={"movement_min_spd_x"}
                 y={"movement_min_spd_y"}
                 z={"movement_min_spd_z"}
@@ -273,8 +272,8 @@ export class HardwareSettings
               />
               <BooleanMCUInputGroup
                 hidden={hidePanel}
-                name={t("Software Limits")}
-                tooltip={t(ToolTips.SOFTWARE_LIMITS)}
+                name={t("Stop at Home")}
+                tooltip={t(ToolTips.STOP_AT_HOME)}
                 x={"movement_stop_at_home_x"}
                 y={"movement_stop_at_home_y"}
                 z={"movement_stop_at_home_z"}
@@ -314,7 +313,7 @@ export class HardwareSettings
                   <div className="help">
                     <i className="fa fa-question-circle help-icon" />
                     <div className="help-text">
-                      {t(ToolTips.ENABLE_MOTOR)}
+                      {t(ToolTips.ENABLE_X2_MOTOR)}
                     </div>
                   </div>
                 </td>
@@ -331,7 +330,7 @@ export class HardwareSettings
                   <div className="help">
                     <i className="fa fa-question-circle help-icon" />
                     <div className="help-text">
-                      {t(`Change the direction of the motor during calibration.`)}
+                      {t(ToolTips.INVERT_MOTORS)}
                     </div>
                   </div>
                 </td>

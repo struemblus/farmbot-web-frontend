@@ -12,6 +12,7 @@ import { HSV } from "./index";
 import { FarmwareProps } from "../devices/interfaces";
 import { connect } from "react-redux";
 import { mapStateToProps } from "../farmware/state_to_props";
+import { ToolTips } from "../constants";
 const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
 @connect(mapStateToProps)
@@ -94,6 +95,7 @@ export class WeedDetector
             onSave={this.saveSettings}
             onTest={this.test}
             title={"Weed Detector"}
+            help={t(ToolTips.WEED_DETECTOR)}
           />
           <Row>
             <Col sm={12}>

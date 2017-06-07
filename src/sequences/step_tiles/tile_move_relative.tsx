@@ -5,6 +5,7 @@ import { splice, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { StepParams } from "../interfaces";
+import { ToolTips } from "../../constants";
 
 
 export function TileMoveRelative({ dispatch, currentStep, index, currentSequence }: StepParams) {
@@ -25,17 +26,7 @@ export function TileMoveRelative({ dispatch, currentStep, index, currentSequence
               }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-            <Help text={(`The Move Relative step instructs FarmBot \
-                        to move the specified distance from its current \
-                        location. For example, if FarmBot is currently at \
-                        X=1000, Y=1000 and it receives a Move Relative where \
-                        X=0 and Y=3000, then FarmBot will move to X=1000, \
-                        Y=4000. If FarmBot must move in multiple directions, \
-                        it will move diagonally. If you require straight \
-                        movements along one axis at a time, use  multiple \
-                        Move Relative steps. Move Relative steps should be \
-                        preceded by a Move Absolute step to ensure you are \
-                        starting from a known location.`)} />
+            <Help text={t(ToolTips.MOVE_RELATIVE)} />
           </div>
         </div>
       </div>

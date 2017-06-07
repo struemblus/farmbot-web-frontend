@@ -123,4 +123,3 @@ export class Controls extends React.Component<Props, Partial<State>> {
     </Page>;
   }
 };
-

@@ -4,6 +4,7 @@ import { StepTitleBar } from "./step_title_bar";
 import { Help } from "../../ui";
 import { splice, remove } from "./index";
 import { t } from "i18next";
+import { ToolTips } from "../../constants";
 
 export function TileExecuteScript({ dispatch, currentStep, index, currentSequence }: StepParams) {
   if (currentStep.kind === "execute_script") {
@@ -24,10 +25,7 @@ export function TileExecuteScript({ dispatch, currentStep, index, currentSequenc
                 }))} />
               <i className="fa fa-trash step-control"
                 onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-              <Help text={(`The Run Farmware step runs a
-                                Farmware package. The weed detection script is
-                                the only script supported at the moment, but user
-                                definable script support is coming soon!`)} />
+              <Help text={t(ToolTips.EXECUTE_SCRIPT)} />
             </div>
           </div>
         </div>

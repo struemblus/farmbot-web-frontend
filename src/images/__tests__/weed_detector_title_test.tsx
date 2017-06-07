@@ -11,7 +11,8 @@ describe("<TitleBar/>", () => {
       onSettingToggle: jest.fn(),
       onDeletionClick: jest.fn(),
       settingsMenuOpen: false,
-      title: "Test"
+      title: "Test",
+      help: "help text"
     }
     let tb = mount(<TitleBar {...props} />);
     expect(tb.text().toLowerCase()).toContain("clear weeds");

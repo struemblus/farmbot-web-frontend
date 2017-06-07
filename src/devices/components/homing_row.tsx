@@ -5,6 +5,7 @@ import { Axis } from "../interfaces";
 import { Farmbot, McuParams } from "farmbot/dist";
 import { LockableButton } from "./lockable_button";
 import { axisTrackingStatus } from "./axis_tracking_status";
+import { ToolTips } from "../../constants";
 
 const speed = Farmbot.defaults.speed;
 let findHome = (axis: Axis) => devices.current.findHome({ speed, axis });
@@ -29,8 +30,7 @@ export function HomingRow(props: HomingRowProps) {
       <div className="help">
         <i className="fa fa-question-circle help-icon" />
         <div className="help-text">
-          {t(`(Alpha) If encoders or end-stops are enabled,
-            home axis (find zero).`)}
+          {t(ToolTips.HOMING)}
         </div>
       </div>
     </td>

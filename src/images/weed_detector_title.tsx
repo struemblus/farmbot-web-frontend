@@ -2,7 +2,6 @@ import * as React from "react";
 import { t } from "i18next";
 import { additionalSettingsMenu } from "./weed_detector_config";
 import { WidgetHeader } from "../ui/index";
-import { ToolTips } from "../constants";
 
 interface Props {
   onSave?(): void;
@@ -13,6 +12,7 @@ interface Props {
   deletionProgress?: string | undefined;
   settingsMenuOpen?: boolean;
   title: string;
+  help: string;
 }
 
 export function TitleBar({
@@ -23,9 +23,10 @@ export function TitleBar({
   deletionProgress,
   onDeletionClick,
   onCalibrate,
-  title
+  title,
+  help
 }: Props) {
-  return <WidgetHeader helpText={ToolTips.WEED_DETECTOR} title={title}>
+  return <WidgetHeader helpText={help} title={title}>
     <button
       hidden={!onSave}
       onClick={onSave}

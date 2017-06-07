@@ -23,7 +23,7 @@ export namespace ToolTips {
 
   // Device
   export const OS_SETTINGS =
-    `This widget shows device information.`
+    `View and change device settings.`
 
   export const HW_SETTINGS =
     `Change settings of your FarmBot hardware with the fields below. Caution:
@@ -36,8 +36,15 @@ export namespace ToolTips {
   export const MAX_SPEED =
     `Maximum travel speed after acceleration in motor steps per second.`
 
+  export const SET_ZERO_POSITION =
+    `Set the current location as zero.`
+
   export const STEPS_PER_MM =
     `The number of motor steps required to move the axis one millimeter.`
+
+  export const MIN_SPEED =
+    `Minimum movement speed. Also used for homing, calibration, and movements
+    across home.`
 
   export const ACCELERATE_FOR =
     `Number of steps used for acceleration and deceleration.`
@@ -46,11 +53,12 @@ export namespace ToolTips {
     `Amount of time to wait for a command to execute before stopping.`
 
   export const LENGTH =
-    `Coming Soon! Set the length of each axis to provide software limits.`
+    `Set the length of each axis to provide software limits. Used only if
+    STOP AT MAX is enabled.`
 
   export const ENCODER_SCALING =
     `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) /
-    (encoder resolution * 4)`
+    (encoder resolution)`
 
   export const MAX_MISSED_STEPS =
     `(Alpha) Number of steps missed (determined by encoder) before motor is
@@ -58,6 +66,13 @@ export namespace ToolTips {
 
   export const ENCODER_MISSED_STEP_DECAY =
     `(Alpha) Reduction to missed step total for every good step.`
+
+  export const CALIBRATION =
+    `(Alpha) If encoders or end-stops are enabled, home axis and determine
+    maximum.`
+
+  export const HOMING =
+    `(Alpha) If encoders or end-stops are enabled, home axis (find zero).`
 
   export const ENABLE_ENCODERS =
     `(Alpha) Enable use of rotary encoders during calibration and homing.`
@@ -77,23 +92,30 @@ export namespace ToolTips {
 
   export const NEGATIVE_COORDINATES_ONLY =
     `Restrict travel to negative coordinate locations. Overridden by disabling
-    software limits.`
+    STOP AT HOME.`
 
   export const ENABLE_ENDSTOPS =
     `Enable use of electronic end-stops during calibration and homing.`
 
   export const FIND_HOME_ON_BOOT =
-    `Finds the home position when the device powers on.`
+    `If encoders or end-stops are enabled, find the home position when the
+    device powers on.`
 
-  export const SOFTWARE_LIMITS =
-    `Stop at home.`
+  export const STOP_AT_HOME =
+    `Stop at the home location of the axis.`
 
-  export const ENABLE_MOTOR =
+  export const STOP_AT_MAX =
+    `Don't allow movement past the maximum value provided in AXIS LENGTH.`
+
+  export const ENCODER_POSITIONING =
+    `[EXPERIMENTAL] Use encoders for positioning.`
+
+  export const ENABLE_X2_MOTOR =
     `Enable use of a second x-axis motor. Connects to E0 on RAMPS.`
 
   // Farmware
   export const FARMWARE =
-    `This widget shows Farmware (plugin) information.`
+    `Manage Farmware (plugins).`
 
   export const PHOTOS =
     `Take and view photos with your FarmBot's camera.`
@@ -101,6 +123,9 @@ export namespace ToolTips {
   export const WEED_DETECTOR =
     `Detect weeds using FarmBot's camera and display them on the Farm Designer
     map.`
+
+  export const CAMERA_CALIBRATION =
+    `Calibrate FarmBot's camera for use in the weed detection software.`
 
   // Sequences
   export const SEQUENCE_COMMANDS =
@@ -118,11 +143,70 @@ export namespace ToolTips {
   export const SEQUENCE_LIST =
     `Here is the list of all of your sequences. Click one to edit.`
 
+  export const MOVE_ABSOLUTE =
+    `The Move Absolute step instructs FarmBot to move to the specified
+    coordinate regardless of the current position. For example, if FarmBot is
+    currently at X=1000, Y=1000 and it receives a Move Absolute where X=0 and
+    Y=3000, then FarmBot will move to X=0, Y=3000. If FarmBot must move in
+    multiple directions, it will move diagonally. If you require straight
+    movements along one axis at a time, use multiple Move Absolute steps.
+    Offsets allow you to more easily instruct FarmBot to move to a location,
+    but offset from it by the specified amount. For example moving to just
+    above where a peripheral is located. Using offsets lets FarmBot do the
+    math for you.`
+
+  export const MOVE_RELATIVE =
+    `The Move Relative step instructs FarmBot to move the specified distance
+    from its current location. For example, if FarmBot is currently at X=1000,
+    Y=1000 and it receives a Move Relative where X=0 and Y=3000, then FarmBot
+    will move to X=1000, Y=4000. If FarmBot must move in multiple directions,
+    it will move diagonally. If you require straight movements along one axis
+    at a time, use  multiple Move Relative steps. Move Relative steps should be
+    preceded by a Move Absolute step to ensure you are starting from a known
+    location.`
+
+  export const WRITE_PIN =
+    `The Write Pin step instructs FarmBot to set the specified pin on the
+    Arduino to the specified mode and value. A Pin Mode of 0 is for on/off
+    control, while a Pin Mode of 1 is for PWM (pulse width modulation) (0-255).`
+
+  export const READ_PIN =
+    `The Read Pin step instructs FarmBot to read the current value of the
+    specified pin. A Pin Mode of 0 is for digital (on/off), while a Pin Mode
+    of 1 is for analog (0-1023 for 0-5V).`
+
+  export const WAIT =
+    `The Wait step instructs FarmBot to wait for the specified amount of time.
+    Use it in combination with the Pin Write step to water for a length of
+    time.`
+
+  export const SEND_MESSAGE =
+    `The Send Message step instructs FarmBot to send a custom message to the
+    logs (and toast message and/or email, if selected). This can help you with
+    debugging your sequences.`
+
+  export const FIND_HOME =
+    `The Find Home step instructs the device to perform a homing command to
+    find and set zero for the chosen axis or axes.`
+
+  export const IF =
+    `Execute a sequence if a condition is satisfied. If the condition is not
+    satisfied, chose to do nothing or execute a different sequence.`
+
+  export const EXECUTE_SCRIPT =
+    `The Run Farmware step runs a Farmware package. The weed detection script
+    is the only script supported at the moment, but user definable script
+    support is coming soon!`
+
+  export const TAKE_PHOTO =
+    `Snaps a photo using the device camera. Select the camera type on the
+    Device page.`
+
   // Regimens
   export const BULK_SCHEDULER =
-    `Add sequences to your regimen by selecting a sequence from the drop down, 
-    specifying a time, choosing which days it should run on, and then clicking 
-    the + button. For example: a Seeding sequence might be scheduled for Day 1, 
+    `Add sequences to your regimen by selecting a sequence from the drop down,
+    specifying a time, choosing which days it should run on, and then clicking
+    the + button. For example: a Seeding sequence might be scheduled for Day 1,
     while a Watering sequence would be scheduled to run every other day.`
 
   export const REGIMEN_EDITOR =
@@ -144,9 +228,6 @@ export namespace ToolTips {
     `Toolbays are where you store your FarmBot Tools. Each Toolbay has Slots
     that you can put your Tools in, which should be reflective of your real
     FarmBot hardware configuration.`
-
-  export const STOP_AT_MAX = `Stop at max.`
-  export const ENCODER_POSITIONING = `Use encoders for positioning.`
 }
 
 export namespace Content {
@@ -171,5 +252,3 @@ export namespace Content {
     or settings from your web app account, allowing you to do a complete restore
     to your device once it is back online and paired with your web app account.`
 }
-
-

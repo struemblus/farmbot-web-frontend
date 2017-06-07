@@ -6,6 +6,7 @@ import { splice, remove } from "./index";
 import { t } from "i18next";
 import { StepInputBox } from "../inputs/step_input_box";
 import { Link } from "react-router";
+import { ToolTips } from "../../constants";
 
 export function TileTakePhoto({ dispatch, currentStep, index, currentSequence }: StepParams) {
   return (<div>
@@ -25,8 +26,7 @@ export function TileTakePhoto({ dispatch, currentStep, index, currentSequence }:
               }))} />
             <i className="fa fa-trash step-control"
               onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
-            <Help text={(`Snaps a photo using the device camera.
-                          Select the camera type on the Device page.`)} />
+            <Help text={t(ToolTips.TAKE_PHOTO)} />
           </div>
         </div>
       </div>

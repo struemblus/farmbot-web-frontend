@@ -5,6 +5,7 @@ import { Axis } from "../interfaces";
 import { McuParams } from "farmbot/dist";
 import { LockableButton } from "./lockable_button";
 import { axisTrackingStatus } from "./axis_tracking_status";
+import { ToolTips } from "../../constants";
 
 function calibrate(axis: Axis) {
   devices
@@ -26,8 +27,7 @@ export function CalibrationRow(props: CalibrationRowProps) {
       <div className="help">
         <i className="fa fa-question-circle help-icon" />
         <div className="help-text">
-          {t(`(Alpha) If encoders or end-stops are enabled,
-            home axis and determine maximum.`)}
+          {t(ToolTips.CALIBRATION)}
         </div>
       </div>
     </td>
