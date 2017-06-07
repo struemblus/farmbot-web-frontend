@@ -1,5 +1,6 @@
 import { BotState, HardwareState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
+import { SyncStatus } from "farmbot/dist";
 
 export function versionOK(stringyVersion = "0.0.0",
   EXPECTED_MAJOR = 4,
@@ -65,5 +66,9 @@ export let botReducer = generateReducer<BotState>(initialState)
   })
   .add<string>("FETCH_FW_UPDATE_INFO_OK", function (s, a) {
     s.currentFWVersion = a.payload;
+    return s;
+  })
+  .add<SyncStatus>("SET_SYNC_STATUS", (s, a) => {
+    s.hardware.informational_settings.sync_status = a.payload;
     return s;
   });
