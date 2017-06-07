@@ -189,6 +189,6 @@ export interface OFSearchProps {
 }
 
 export interface HoveredPlantPayl {
-  tpp: TaggedPlantPointer | undefined;
+  plant: TaggedPlantPointer | undefined;
   icon: string;
 }

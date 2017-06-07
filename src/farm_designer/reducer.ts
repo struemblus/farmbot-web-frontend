@@ -7,7 +7,7 @@ import { TaggedResource } from "../resources/tagged_resources";
 export let initialState: DesignerState = {
   selectedPlant: undefined,
   hoveredPlant: {
-    tpp: undefined,
+    plant: undefined,
     icon: ""
   },
   cropSearchQuery: "",

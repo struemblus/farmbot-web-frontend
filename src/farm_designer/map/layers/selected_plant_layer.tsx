@@ -1,4 +1,6 @@
 import * as React from "react";
+import { TaggedPlantPointer } from "../../../resources/tagged_resources";
+import { DesignerState } from "../../interfaces";
 
 /**
  * PROBLEM: The plants are rendered via svg in a certain order. When a user
@@ -12,7 +14,19 @@ import * as React from "react";
  * achieve this effect.
  */
 
-export function SelectedPlantLayer(props: any) {
-  return <g></g>
-  // return <circle cx="100" cy="100" r="100" fill="transparent" />
+interface SelectedPlantLayerProps {
+  currentPlant: TaggedPlantPointer | undefined;
+  designer: DesignerState;
+}
+
+export function SelectedPlantLayer(props: SelectedPlantLayerProps) {
+  let { plant, icon } = props.designer.hoveredPlant;
+  return <image
+    hidden={true} // Temp stub
+    x={plant && plant.body.x}
+    y={plant && plant.body.y}
+    width={plant && plant.body.radius * 2}
+    height={plant && plant.body.radius * 2}
+    href={icon}
+  />
 }
