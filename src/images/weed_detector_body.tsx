@@ -6,6 +6,7 @@ import { HSV } from "./interfaces";
 import { WeedDetectorSlider } from "./weed_detector_slider";
 import { TaggedImage } from "../resources/tagged_resources";
 import { t } from "i18next";
+import { detectWeeds } from "./actions";
 
 const DEFAULTS = {
   H: {
@@ -42,6 +43,8 @@ const DEFAULTS = {
     FALLBACK: 4
   },
 };
+
+const imgEnvVar = "PLANT_DETECTION_selected_image";
 
 interface Props {
   onFlip(uuid: string | undefined): void;
@@ -83,6 +86,17 @@ export function WeedDetectorBody({
     };
   };
 
+  let processPhoto = () => {
+    let img = currentImage || images[0];
+    if (img && img.body.id) { detectWeeds({ [imgEnvVar]: img.body.id }); }
+  }
+
+  /** Chris- I don't want to mess up your conventions in the CSS or
+   * add rules that might already exist. Feel free to pull this out and put it
+   * in a better place.
+   *   -RC 7 JUN 17
+   */
+  const CHRIS_HALP = { "marginTop": 25 }
   return <div className="widget-content">
     <div className="row">
       <div className="col-md-6 col-sm-12">
@@ -154,6 +168,13 @@ export function WeedDetectorBody({
           value={"" + DEFAULTS.ITERATION.FALLBACK} />
       </div>
     </div>
+    <button className="green"
+      style={CHRIS_HALP}
+      title="Scan this image for Weeds"
+      onClick={processPhoto}
+      hidden={!images.length}>
+      {t("Scan for Weeds")}
+    </button>
     <ImageFlipper
       onFlip={onFlip}
       images={images}
