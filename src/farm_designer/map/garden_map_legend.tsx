@@ -75,7 +75,7 @@ export class GardenMapLegend extends
           </label>
           <div className="quadrants">
             <div
-              className="quadrant"
+              className="quadrant selected"
               onClick={updateBotOrigin(2)}
             />
             <div
