@@ -277,7 +277,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
               .bot
               .hardware
               .informational_settings
-              .controller_version, 3, 1);
+              .controller_version, 4, 0);
             if (!IS_OK) {
               error("You are running an old version of FarmBot OS. Please update.")
             }

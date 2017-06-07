@@ -10,5 +10,6 @@ describe("safeStringFetch", () => {
     expect(versionOK("2.0.-", 3, 0)).toBeFalsy();
     expect(versionOK("2.9.4", 3, 0)).toBeFalsy();
     expect(versionOK("1.9.6", 3, 0)).toBeFalsy();
+    expect(versionOK("3.1.6", 4, 0)).toBeFalsy();
   });
 });

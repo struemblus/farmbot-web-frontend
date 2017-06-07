@@ -2,8 +2,8 @@ import { BotState, HardwareState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 
 export function versionOK(stringyVersion = "0.0.0",
-  EXPECTED_MAJOR = 3,
-  EXPECTED_MINOR = 1) {
+  EXPECTED_MAJOR = 4,
+  EXPECTED_MINOR = 0) {
   let [actual_major, actual_minor] = stringyVersion
     .split(".")
     .map(x => parseInt(x, 10));
