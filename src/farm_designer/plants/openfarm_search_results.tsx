@@ -12,9 +12,9 @@ export class OpenFarmResults extends React.Component<OFSearchProps, {}> {
           to={`/app/designer/plants/crop_search/` + crop.slug.toString()}>
           <div className="plant-catalog-tile col-xs-6">
             <label>{crop.name}</label>
-            <img
+            <div
               className="plant-catalog-image"
-              src={image}
+              style={{ background: `url(${image}) top center no-repeat` }}
               draggable={false}
             />
           </div>
