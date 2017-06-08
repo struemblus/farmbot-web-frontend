@@ -15,7 +15,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="y"
               direction="up"
-              isInverted={this.props.invertedStatus.y_axis_inverted}
+              isInverted={this.props.y_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>
@@ -25,7 +25,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="z"
               direction="up"
-              isInverted={this.props.invertedStatus.z_axis_inverted}
+              isInverted={this.props.z_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>
@@ -40,7 +40,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="x"
               direction="left"
-              isInverted={this.props.invertedStatus.x_axis_inverted}
+              isInverted={this.props.x_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>
@@ -48,7 +48,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="y"
               direction="down"
-              isInverted={this.props.invertedStatus.y_axis_inverted}
+              isInverted={this.props.y_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>
@@ -56,7 +56,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="x"
               direction="right"
-              isInverted={this.props.invertedStatus.x_axis_inverted}
+              isInverted={this.props.x_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>
@@ -65,7 +65,7 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
             <DirectionButton
               axis="z"
               direction="down"
-              isInverted={this.props.invertedStatus.z_axis_inverted}
+              isInverted={this.props.z_axis_inverted}
               steps={this.props.bot.stepSize || 1000}
             />
           </td>

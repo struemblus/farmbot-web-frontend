@@ -13,12 +13,6 @@ export interface Props {
   resources: RestResources;
 }
 
-export interface State {
-  x_axis_inverted: boolean;
-  y_axis_inverted: boolean;
-  z_axis_inverted: boolean;
-}
-
 export interface WebcamPanelState {
   isEditing: boolean;
   url: string;
@@ -69,7 +63,9 @@ export interface StepSizeSelectorProps {
 }
 
 export interface JogMovementControlsProps {
-  invertedStatus: State;
+  x_axis_inverted: boolean;
+  y_axis_inverted: boolean;
+  z_axis_inverted: boolean;
   bot: BotState;
 }
 

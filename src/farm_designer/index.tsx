@@ -31,8 +31,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
   }
 
-  toggle = (name: keyof State) =>
-    () => this.setState({ [name]: !this.state[name] });
+  toggle = (name: keyof State) => () =>
+    this.setState({ [name]: !this.state[name] });
 
   updateBotOriginQuadrant = (quadrant: BotOriginQuadrant) => () => {
     let action = { type: "UPDATE_BOT_ORIGIN_QUADRANT", payload: quadrant };

@@ -55,6 +55,10 @@ export interface BotState {
    * spinner or not. */
   isUpdating?: boolean;
   controlPanelClosed: boolean;
+  /** The inversions for the jog buttons on the controls page. */
+  x_axis_inverted: boolean;
+  y_axis_inverted: boolean;
+  z_axis_inverted: boolean;
 }
 
 export interface BotProp {
