@@ -13,6 +13,7 @@ import { PointLayer } from "./layers/point_layer";
 import { SpreadLayer } from "./layers/spread_layer";
 import { ToolSlotLayer } from "./layers/tool_slot_layer";
 import { SelectedPlantLayer } from "./layers/selected_plant_layer";
+import { fancyDebug } from "../../util";
 
 const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
   handleDrop() method in garden_map.tsx`;
@@ -57,16 +58,15 @@ export class GardenMap extends
     if (el && map) {
       let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
       let { pageX, pageY } = e;
-      /**
-       * TODO: .getBoundingClientRect() might be needed for mobile farm designer
-       * implementations. It will take some testing with different browsers, but
-       * for now we are focusing on desktop-only.
-       *
-       * let box = el.getBoundingClientRect();
-       */
+      let box = el.getBoundingClientRect();
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
-      let params: ScreenToGardenParams = { pageX, pageY, zoomLvl };
+      fancyDebug(box);
+      let params: ScreenToGardenParams = {
+        pageX,
+        pageY,
+        zoomLvl
+      };
       let { x, y } = translateScreenToGarden(params);
       let p: TaggedPlantPointer = {
         kind: "points",

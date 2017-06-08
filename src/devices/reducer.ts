@@ -84,7 +84,7 @@ export let botReducer = generateReducer<BotState>(initialState)
       case "x":
         s.x_axis_inverted = !s.x_axis_inverted;
         localStorage.setItem(X_AXIS_INVERTED,
-          JSON.stringify(localStorageBoolFetch(X_AXIS_INVERTED));
+          JSON.stringify(localStorageBoolFetch(X_AXIS_INVERTED)));
         return s;
       case "y":
         s.y_axis_inverted = !s.y_axis_inverted;
