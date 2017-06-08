@@ -20,7 +20,6 @@ export type BotOriginQuadrant = 1 | 2 | 3 | 4;
 export interface State {
   zoomLvl: number;
   legendMenuOpen: boolean;
-  botOriginQuadrant: BotOriginQuadrant;
   showPlants: boolean;
   showPoints: boolean;
   showSpread: boolean;

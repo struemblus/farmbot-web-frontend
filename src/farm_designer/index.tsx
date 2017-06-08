@@ -17,7 +17,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
     zoomLvl: 1,
-    botOriginQuadrant: 2,
     legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
@@ -62,7 +61,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let {
       zoomLvl,
       legendMenuOpen,
-      botOriginQuadrant,
       showPlants,
       showPoints,
       showSpread,
@@ -75,7 +73,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         zoom={this.zoom}
         toggle={this.toggle}
         updateBotOriginQuadrant={this.updateBotOriginQuadrant}
-        botOriginQuadrant={botOriginQuadrant}
+        botOriginQuadrant={this.props.designer.botOriginQuadrant}
         zoomLvl={zoomLvl}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}
