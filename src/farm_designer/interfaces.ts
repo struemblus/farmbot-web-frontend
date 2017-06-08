@@ -16,7 +16,10 @@ import { PlantPointer } from "../interfaces";
 import { SlotWithTool } from "../resources/interfaces";
 
 export type BotOriginQuadrant = 1 | 2 | 3 | 4;
-
+export function isBotOriginQuadrant(mystery: any):
+  mystery is BotOriginQuadrant {
+  return [1, 2, 3, 4].includes(mystery);
+}
 export interface State {
   zoomLvl: number;
   legendMenuOpen: boolean;

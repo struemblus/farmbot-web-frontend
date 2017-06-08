@@ -1,6 +1,7 @@
 import { BotState, HardwareState, Xyz } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { SyncStatus } from "farmbot/dist";
+import { localStorageBoolFetch } from "../util";
 
 export const X_AXIS_INVERTED = "x_axis_inverted";
 export const Y_AXIS_INVERTED = "y_axis_inverted";
@@ -37,17 +38,17 @@ let initialState: BotState = {
   dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
-  x_axis_inverted: JSON.parse(localStorage[X_AXIS_INVERTED]) || false,
-  y_axis_inverted: JSON.parse(localStorage[Y_AXIS_INVERTED]) || false,
-  z_axis_inverted: JSON.parse(localStorage[Z_AXIS_INVERTED]) || false
+  x_axis_inverted: localStorageBoolFetch(X_AXIS_INVERTED),
+  y_axis_inverted: localStorageBoolFetch(Y_AXIS_INVERTED),
+  z_axis_inverted: localStorageBoolFetch(Z_AXIS_INVERTED)
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<void>("TOGGLE_CONTROL_PANEL", function(s, a) {
+  .add<void>("TOGGLE_CONTROL_PANEL", function (s, a) {
     s.controlPanelClosed = !s.controlPanelClosed;
     return s;
   })
-  .add<number>("CHANGE_STEP_SIZE", function(s, a) {
+  .add<number>("CHANGE_STEP_SIZE", function (s, a) {
     return Object.assign({}, s, {
       stepSize: a.payload
     });
@@ -60,17 +61,17 @@ export let botReducer = generateReducer<BotState>(initialState)
     s.isUpdating = false;
     return s;
   })
-  .add<HardwareState>("BOT_CHANGE", function(s, a) {
+  .add<HardwareState>("BOT_CHANGE", function (s, a) {
     let nextState = a.payload;
     s.hardware = nextState;
     versionOK(nextState.informational_settings.controller_version);
     return s;
   })
-  .add<string>("FETCH_OS_UPDATE_INFO_OK", function(s, a) {
+  .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {
     s.currentOSVersion = a.payload;
     return s;
   })
-  .add<string>("FETCH_FW_UPDATE_INFO_OK", function(s, a) {
+  .add<string>("FETCH_FW_UPDATE_INFO_OK", function (s, a) {
     s.currentFWVersion = a.payload;
     return s;
   })
@@ -83,17 +84,17 @@ export let botReducer = generateReducer<BotState>(initialState)
       case "x":
         s.x_axis_inverted = !s.x_axis_inverted;
         localStorage.setItem(X_AXIS_INVERTED,
-          JSON.stringify(s.x_axis_inverted));
+          JSON.stringify(localStorageBoolFetch(X_AXIS_INVERTED));
         return s;
       case "y":
         s.y_axis_inverted = !s.y_axis_inverted;
         localStorage.setItem(Y_AXIS_INVERTED,
-          JSON.stringify(s.y_axis_inverted));
+          JSON.stringify(localStorageBoolFetch(Y_AXIS_INVERTED)))
         return s;
       case "z":
         s.z_axis_inverted = !s.z_axis_inverted;
         localStorage.setItem(Z_AXIS_INVERTED,
-          JSON.stringify(s.z_axis_inverted));
+          JSON.stringify(localStorageBoolFetch(Z_AXIS_INVERTED)));
         return s;
       default:
         throw new Error("Attempted to invert invalid jog button direction.")

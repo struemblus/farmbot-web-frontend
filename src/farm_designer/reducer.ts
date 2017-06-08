@@ -3,12 +3,16 @@ import { generateReducer } from "../redux/generate_reducer";
 import {
   DesignerState,
   HoveredPlantPayl,
-  BotOriginQuadrant
+  BotOriginQuadrant,
+  isBotOriginQuadrant
 } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { TaggedResource } from "../resources/tagged_resources";
+import { localStorageNumFetch } from "../util";
 
 export const BOT_ORIGIN_QUADRANT = "bot_origin_quadrant";
+let storedVal = localStorageNumFetch(BOT_ORIGIN_QUADRANT);
+let botOriginQuadrant = isBotOriginQuadrant(storedVal) ? storedVal : 2;
 
 export let initialState: DesignerState = {
   selectedPlant: undefined,
@@ -16,7 +20,7 @@ export let initialState: DesignerState = {
     plant: undefined,
     icon: ""
   },
-  botOriginQuadrant: JSON.parse(localStorage[BOT_ORIGIN_QUADRANT]) || 2,
+  botOriginQuadrant,
   cropSearchQuery: "",
   cropSearchResults: []
 };

@@ -3,7 +3,6 @@ const actions = require("../../auth/actions");
 let didLogin = jest.fn();
 jest.mock("../../session", () => ({ Session: { get: () => false } }));
 actions.didLogin = didLogin;
-
 import { ready } from "../actions";
 
 const STUB_STATE = { auth: "FOO BAR BAZ" };

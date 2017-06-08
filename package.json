@@ -89,6 +89,9 @@
     "webpack-notifier": "^1.5.0"
   },
   "jest": {
+    "setupFiles": [
+      "./src/__test_support__/locastorage.js"
+    ],
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
