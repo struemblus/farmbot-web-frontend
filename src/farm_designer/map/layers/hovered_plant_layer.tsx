@@ -25,14 +25,13 @@ interface HoveredPlantLayerProps {
   designer: DesignerState;
   botOriginQuadrant: BotOriginQuadrant;
   dispatch: Function;
+  isEditing: boolean;
 }
 
-interface HoveredPlantLayerState {
-  isHovered: boolean;
-}
+interface HoveredPlantLayerState { isHovered: boolean; }
 
 export class HoveredPlantLayer extends
-  React.Component<HoveredPlantLayerProps, HoveredPlantLayerState> {
+  React.Component<HoveredPlantLayerProps, Partial<HoveredPlantLayerState>> {
 
   state: HoveredPlantLayerState = { isHovered: false }
 
@@ -65,6 +64,7 @@ export class HoveredPlantLayer extends
     let scaleFactor = (this.state.isHovered) ? "1.3, 1.3" : "1, 1";
 
     return <image
+      hidden={this.props.isEditing}
       style={{ transform: "scale(" + scaleFactor + ")" }}
       className={"hovered-plant-copy"}
       x={newX - (plant && plant.body.radius || 1)}

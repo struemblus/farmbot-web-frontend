@@ -135,6 +135,7 @@ export class GardenMap extends
           slots={this.props.toolSlots}
         />
         <HoveredPlantLayer
+          isEditing={this.isEditing}
           botOriginQuadrant={this.props.designer.botOriginQuadrant}
           currentPlant={this.getPlant()}
           designer={this.props.designer}
