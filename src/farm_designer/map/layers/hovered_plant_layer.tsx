@@ -6,7 +6,7 @@ import {
   calculateYBasedOnQuadrant,
   round
 } from "../util";
-import { push, history } from "../../../history";
+import { push } from "../../../history";
 
 /**
  * PROBLEM: The plants are rendered via svg in a certain order. When a user
