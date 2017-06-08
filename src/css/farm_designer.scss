@@ -225,6 +225,11 @@
     }
 }
 
+.hovered-plant-copy {
+    cursor: pointer;
+    transform-origin: center;
+}
+
 .plant-link-wrapper {
     &.is-chosen-true.is-editing-true {
         cursor: -webkit-grab !important;
@@ -234,9 +239,6 @@
     }
     &:hover {
         image {
-            transform-origin: center;
-            transform: scale(1.3, 1.3);
-            transition: all 0.2s ease;
             &.is-chosen-true {
                 transform: scale(1, 1);
             }
