@@ -38,9 +38,9 @@ let initialState: BotState = {
   dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
-  x_axis_inverted: localStorageBoolFetch(X_AXIS_INVERTED),
-  y_axis_inverted: localStorageBoolFetch(Y_AXIS_INVERTED),
-  z_axis_inverted: localStorageBoolFetch(Z_AXIS_INVERTED)
+  x_axis_inverted: !localStorageBoolFetch(X_AXIS_INVERTED),
+  y_axis_inverted: !localStorageBoolFetch(Y_AXIS_INVERTED),
+  z_axis_inverted: !localStorageBoolFetch(Z_AXIS_INVERTED)
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
