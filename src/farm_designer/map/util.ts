@@ -1,5 +1,4 @@
 import { BotOriginQuadrant } from "../interfaces";
-import { fancyDebug } from "../../util";
 
 const SNAP = 10;
 const SCALE_FACTOR = 9.8;
@@ -29,7 +28,6 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
   let rawY = ((pageY) - 110) / zoomLvl;
 
   let output = { x: rawX, y: rawY };
-  fancyDebug({ ...output, ...params });
   return output;
 }
 
