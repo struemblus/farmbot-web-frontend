@@ -15,11 +15,10 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
   }
 
   commit = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let val = e.currentTarget;
-    let actuallyDifferent = this.value !== val.value;
+    let { value } = e.currentTarget;
+    let actuallyDifferent = this.value !== value;
     if (actuallyDifferent) {
-      console.log("Hello?")
-      let result = clampUnsignedInteger(val.value);
+      let result = clampUnsignedInteger(value);
       switch (result.outcome) {
         case "ok": break;
         case "high":

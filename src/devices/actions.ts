@@ -101,17 +101,27 @@ export function emergencyUnlock() {
 export function sync(): Thunk {
   let noun = "Sync";
   return function (dispatch, getState) {
-    dispatch(setSyncStatus("syncing"));
-    devices
-      .current
-      .sync()
-      .then(() => {
-        commandOK(noun);
-        dispatch(setSyncStatus("synced"));
-      }).catch(() => {
-        commandErr(noun);
-        dispatch(setSyncStatus("sync_error"));
-      });
+    let IS_OK = versionOK(getState()
+      .bot
+      .hardware
+      .informational_settings
+      .controller_version, 4, 0);
+    if (IS_OK) {
+      dispatch(setSyncStatus("syncing"));
+      devices
+        .current
+        .sync()
+        .then(() => {
+          commandOK(noun);
+          dispatch(setSyncStatus("synced"));
+        }).catch(() => {
+          commandErr(noun);
+          dispatch(setSyncStatus("sync_error"));
+        });
+    } else {
+      error("You are running an old version of FarmBot OS. Please update.")
+
+    }
   };
 }
 

@@ -342,11 +342,10 @@ export type ClampResult = High | Low | Malformed | Ok;
 export function clampUnsignedInteger(input: string): ClampResult {
   let result = Math.round(parseInt(input, 10));
 
-
   // Clamp to prevent overflow.
   if (_.isNaN(result)) { return { outcome: "malformed", result: undefined }; };
   if (result > MAX_INPUT) { return { outcome: "high", result: MAX_INPUT }; }
   if (result < MIN_INPUT) { return { outcome: "low", result: MIN_INPUT }; }
 
-  return { outcome: "ok", result: MIN_INPUT };
+  return { outcome: "ok", result };
 }
