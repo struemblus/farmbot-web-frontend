@@ -93,8 +93,8 @@ export function emergencyUnlock() {
   if (confirm("Are you sure you want to unlock the device?")) {
     devices
       .current
-      .emergencyUnlock()
-      .then(commandOK(noun), commandErr(noun));
+      .reboot() // .emergencyUnlock is broke ATM RC 8 Jun 2017
+      .then(commandOK(noun), _.noop); // REMOVE NOOP WHEN YOU PUT BACK UNLOCK RC - June 8 2017
   }
 }
 
