@@ -9,18 +9,6 @@ const EAGER_LOADING_OPTIONS: Pair[] = [
 ];
 
 export class Options extends React.Component<IfParams, {}> {
-  componentDidMount() {
-    let step = this.props.currentStep;
-    if (_.isUndefined(step.body)) {
-      this.props.dispatch(editStep({
-        sequence: this.props.currentSequence,
-        step: step,
-        index: this.props.index,
-        executor: (s: typeof step) => (s.body = EAGER_LOADING_OPTIONS)
-      }));
-    }
-  }
-
   render() {
     let toggleOptions = () => {
       this.props.dispatch(editStep({

@@ -335,11 +335,11 @@ interface High { outcome: "high"; result: number; }
 interface Low { outcome: "low"; result: number; }
 interface Malformed { outcome: "malformed"; result: undefined; }
 interface Ok { outcome: "ok", result: number; }
-type ConversionResult = High | Low | Malformed | Ok;
+export type ClampResult = High | Low | Malformed | Ok;
 
 /** Handle all the possible ways a user could give us bad data or cause an
  * integer overflow in the firmware. */
-export function clampUnsignedInteger(input: string): ConversionResult {
+export function clampUnsignedInteger(input: string): ClampResult {
   let result = Math.round(parseInt(input, 10));
 
 
