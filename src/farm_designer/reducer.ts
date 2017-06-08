@@ -8,13 +8,15 @@ import {
 import { cloneDeep } from "lodash";
 import { TaggedResource } from "../resources/tagged_resources";
 
+export const BOT_ORIGIN_QUADRANT = "bot_origin_quadrant";
+
 export let initialState: DesignerState = {
   selectedPlant: undefined,
   hoveredPlant: {
     plant: undefined,
     icon: ""
   },
-  botOriginQuadrant: 2,
+  botOriginQuadrant: JSON.parse(localStorage[BOT_ORIGIN_QUADRANT]) || 2,
   cropSearchQuery: "",
   cropSearchResults: []
 };
@@ -34,6 +36,7 @@ export let designer = generateReducer<DesignerState>(initialState)
     return s;
   })
   .add<BotOriginQuadrant>("UPDATE_BOT_ORIGIN_QUADRANT", (s, { payload }) => {
+    localStorage.setItem(BOT_ORIGIN_QUADRANT, JSON.stringify(payload));
     s.botOriginQuadrant = payload;
     return s;
   })

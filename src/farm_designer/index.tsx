@@ -10,8 +10,6 @@ import { Plants } from "./plants/plant_inventory";
 import { GardenMapLegend } from "./map/garden_map_legend";
 import { isMobile } from "../util";
 
-export const BOT_ORIGIN = "bot_origin";
-
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
@@ -24,8 +22,8 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     showFarmbot: true
   }
 
-  componentWillMount() {
-    this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant);
+  componentDidMount() {
+    this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant)();
   }
 
   zoom = (zoomNumber: number) => () => {
