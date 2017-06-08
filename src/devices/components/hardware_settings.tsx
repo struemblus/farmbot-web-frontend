@@ -14,6 +14,7 @@ import { NumericMCUInputGroup } from "./numeric_mcu_input_group";
 import { BooleanMCUInputGroup } from "./boolean_mcu_input_group";
 import { ToolTips } from "../../constants";
 import { enabledAxisMap } from "./axis_tracking_status";
+import { SpacePanelToolTip } from "./space_panel_tool_tip";
 
 const MSMX = "movement_secondary_motor_x";
 const MSMInvert = "movement_secondary_motor_invert_x";
@@ -90,12 +91,7 @@ export class HardwareSettings
               <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Steps per MM")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(ToolTips.STEPS_PER_MM)}
-                    </div>
-                  </div>
+                  <SpacePanelToolTip tooltip={t(ToolTips.STEPS_PER_MM)} />
                 </td>
                 <BotConfigInputBox setting="steps_per_mm_x"
                   bot={bot}
@@ -310,12 +306,7 @@ export class HardwareSettings
               <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Enable Motor")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(ToolTips.ENABLE_X2_MOTOR)}
-                    </div>
-                  </div>
+                  <SpacePanelToolTip tooltip={t(ToolTips.ENABLE_X2_MOTOR)} />
                 </td>
                 <td>
                   <ToggleButton
@@ -327,12 +318,7 @@ export class HardwareSettings
               <tr hidden={hidePanel}>
                 <td>
                   <label>{t("Invert Motor")}</label>
-                  <div className="help">
-                    <i className="fa fa-question-circle help-icon" />
-                    <div className="help-text">
-                      {t(ToolTips.INVERT_MOTORS)}
-                    </div>
-                  </div>
+                  <SpacePanelToolTip tooltip={t(ToolTips.INVERT_MOTORS)} />
                 </td>
                 <td>
                   <ToggleButton
