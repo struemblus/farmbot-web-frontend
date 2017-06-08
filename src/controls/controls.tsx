@@ -12,20 +12,18 @@ import { StepSizeSelector } from "./step_size_selector";
 import { MustBeOnline } from "../devices/must_be_online";
 import { ToolTips } from "../constants";
 import { WebcamPanel } from "./webcam_panel";
-import { Props, State } from "./interfaces";
+import { Props } from "./interfaces";
+import { Xyz } from "../devices/interfaces";
 
 @connect(mapStateToProps)
-export class Controls extends React.Component<Props, Partial<State>> {
+export class Controls extends React.Component<Props, {}> {
 
-  state: State = {
-    x_axis_inverted: false,
-    y_axis_inverted: false,
-    z_axis_inverted: false
-  }
+  toggle = (name: Xyz) => () =>
+    this.props.dispatch({ type: "INVERT_JOG_BUTTON", payload: name });
 
   render() {
     let { sync_status } = this.props.bot.hardware.informational_settings;
-    let { x_axis_inverted, y_axis_inverted, z_axis_inverted } = this.state;
+    let { x_axis_inverted, y_axis_inverted, z_axis_inverted } = this.props.bot;
     let xBtnColor = x_axis_inverted ? "green" : "red";
     let yBtnColor = y_axis_inverted ? "green" : "red";
     let zBtnColor = z_axis_inverted ? "green" : "red";
@@ -50,9 +48,7 @@ export class Controls extends React.Component<Props, Partial<State>> {
                       </label>
                       <button
                         className={"toggle-button " + xBtnColor}
-                        onClick={() => this.setState({
-                          x_axis_inverted: !x_axis_inverted
-                        })}
+                        onClick={this.toggle("x")}
                       />
                     </fieldset>
                     <fieldset>
@@ -61,9 +57,7 @@ export class Controls extends React.Component<Props, Partial<State>> {
                       </label>
                       <button
                         className={"toggle-button " + yBtnColor}
-                        onClick={() => this.setState({
-                          y_axis_inverted: !y_axis_inverted
-                        })}
+                        onClick={this.toggle("y")}
                       />
                     </fieldset>
                     <fieldset>
@@ -72,9 +66,7 @@ export class Controls extends React.Component<Props, Partial<State>> {
                       </label>
                       <button
                         className={"toggle-button " + zBtnColor}
-                        onClick={() => this.setState({
-                          z_axis_inverted: !z_axis_inverted
-                        })}
+                        onClick={this.toggle("z")}
                       />
                     </fieldset>
                   </div>
@@ -100,7 +92,9 @@ export class Controls extends React.Component<Props, Partial<State>> {
                 />
                 <JogButtons
                   bot={this.props.bot}
-                  invertedStatus={this.state}
+                  x_axis_inverted={x_axis_inverted}
+                  y_axis_inverted={y_axis_inverted}
+                  z_axis_inverted={z_axis_inverted}
                 />
                 <AxisInputBoxGroup
                   bot={this.props.bot}

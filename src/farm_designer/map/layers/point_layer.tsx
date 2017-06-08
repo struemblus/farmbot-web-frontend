@@ -9,8 +9,15 @@ interface PointLayerProps {
   botOriginQuadrant: BotOriginQuadrant;
 }
 
-export function PointLayer({ visible, points }: PointLayerProps) {
+export function PointLayer(props: PointLayerProps) {
+  let { visible, points, botOriginQuadrant } = props;
   return visible ? <g>
-    {points.map(p => <GardenPoint point={p} key={p.body.id} />)}}
+    {points.map(p =>
+      <GardenPoint
+        point={p}
+        key={p.body.id}
+        quadrant={botOriginQuadrant}
+      />
+    )}}
   </g> : <g />; // fallback
 }

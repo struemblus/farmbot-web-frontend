@@ -19,6 +19,9 @@ export let bot: Everything["bot"] = {
       "farmwares": {}
     }
   },
+  "x_axis_inverted": false,
+  "y_axis_inverted": false,
+  "z_axis_inverted": false,
   "dirty": false,
   "currentOSVersion": "3.1.6"
 };

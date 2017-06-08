@@ -20,7 +20,6 @@ export type BotOriginQuadrant = 1 | 2 | 3 | 4;
 export interface State {
   zoomLvl: number;
   legendMenuOpen: boolean;
-  botOriginQuadrant: BotOriginQuadrant;
   showPlants: boolean;
   showPoints: boolean;
   showSpread: boolean;
@@ -153,6 +152,7 @@ export interface GardenMapState {
 }
 
 export interface GardenPlantProps {
+  quadrant: BotOriginQuadrant;
   dispatch: Function;
   plant: Readonly<TaggedPlantPointer>;
   selected: boolean;
@@ -165,6 +165,7 @@ export interface GardenPlantState {
 }
 
 export interface GardenPointProps {
+  quadrant: BotOriginQuadrant;
   point: TaggedGenericPointer;
 }
 

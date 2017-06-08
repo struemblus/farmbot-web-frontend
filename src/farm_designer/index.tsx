@@ -10,14 +10,11 @@ import { Plants } from "./plants/plant_inventory";
 import { GardenMapLegend } from "./map/garden_map_legend";
 import { isMobile } from "../util";
 
-export const BOT_ORIGIN = "bot_origin";
-
 @connect(mapStateToProps)
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
     zoomLvl: 1,
-    botOriginQuadrant: 2,
     legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
@@ -25,16 +22,19 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     showFarmbot: true
   }
 
+  componentDidMount() {
+    this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant)();
+  }
+
   zoom = (zoomNumber: number) => () => {
     let { zoomLvl } = this.state;
     zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
   }
 
-  toggle = (name: keyof State) =>
-    () => this.setState({ [name]: !this.state[name] });
+  toggle = (name: keyof State) => () =>
+    this.setState({ [name]: !this.state[name] });
 
   updateBotOriginQuadrant = (quadrant: BotOriginQuadrant) => () => {
-    localStorage[BOT_ORIGIN] = JSON.stringify(quadrant);
     let action = { type: "UPDATE_BOT_ORIGIN_QUADRANT", payload: quadrant };
     this.props.dispatch(action);
   }
@@ -59,7 +59,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     let {
       zoomLvl,
       legendMenuOpen,
-      botOriginQuadrant,
       showPlants,
       showPoints,
       showSpread,
@@ -72,7 +71,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         zoom={this.zoom}
         toggle={this.toggle}
         updateBotOriginQuadrant={this.updateBotOriginQuadrant}
-        botOriginQuadrant={botOriginQuadrant}
+        botOriginQuadrant={this.props.designer.botOriginQuadrant}
         zoomLvl={zoomLvl}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}

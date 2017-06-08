@@ -8,13 +8,16 @@ import { defensiveClone } from "../../../util";
 let cropSpreadDict: CropSpreadDict = {};
 
 export function PlantLayer(p: PlantLayerProps) {
-  let { crops,
+  let {
+    crops,
     plants,
     dispatch,
     visible,
     currentPlant,
     dragging,
-    editing } = p;
+    editing,
+    botOriginQuadrant
+  } = p;
 
   crops
     .filter(c => !!c.body.spread)
@@ -45,6 +48,7 @@ export function PlantLayer(p: PlantLayerProps) {
             onClick={_.noop}
             key={props.plantId}>
             <GardenPlant
+              quadrant={botOriginQuadrant}
               plant={props.plant}
               selected={props.selected}
               dragging={props.selected && dragging && editing}

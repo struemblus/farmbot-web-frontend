@@ -1,4 +1,5 @@
 import { BotOriginQuadrant } from "../interfaces";
+import { fancyDebug } from "../../util";
 
 const SNAP = 10;
 const SCALE_FACTOR = 9.8;
@@ -28,6 +29,7 @@ export function translateScreenToGarden(params: ScreenToGardenParams) {
   let rawY = Math.round(((pageY) - 110) / zoomLvl);
 
   let output = { x: rawX, y: rawY };
+  fancyDebug({ ...output, ...params });
   return output;
 }
 
@@ -54,6 +56,16 @@ export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
 
 export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
-  // console.log(value, quadrant);
+  switch (quadrant) {
+    case 1:
+      return value;
+    case 2:
+      return value;
+    case 3:
+      return value;
+    case 4:
+      return value;
+    default:
+      throw new Error("Invalid bot origin quadrant.");
+  }
 }
-

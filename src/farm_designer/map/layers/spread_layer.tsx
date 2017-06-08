@@ -1,6 +1,11 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
-import { round, scale } from "../util";
+import {
+  round,
+  scale,
+  calculateXBasedOnQuadrant,
+  calculateYBasedOnQuadrant
+} from "../util";
 import { BotOriginQuadrant } from "../../interfaces";
 
 interface SpreadLayerProps {
@@ -11,14 +16,18 @@ interface SpreadLayerProps {
 }
 
 export function SpreadLayer(props: SpreadLayerProps) {
-  let { plants, visible, currentPlant } = props;
+  let { plants, visible, currentPlant, botOriginQuadrant } = props;
 
   return <g>
     {
       plants.map((p, index) => {
         let isSelected = p === currentPlant;
         return (visible || isSelected) ?
-          <SpreadCircle plant={p} key={index} /> : <g key={index} />;
+          <SpreadCircle
+            plant={p}
+            key={index}
+            quadrant={botOriginQuadrant}
+          /> : <g key={index} />;
       })
     }
   </g>
@@ -26,16 +35,19 @@ export function SpreadLayer(props: SpreadLayerProps) {
 
 interface SpreadCircleProps {
   plant: TaggedPlantPointer;
+  quadrant: BotOriginQuadrant;
 }
 
-export function SpreadCircle({ plant }: SpreadCircleProps) {
-  let { radius, x, y, spread } = plant.body;
+export function SpreadCircle(props: SpreadCircleProps) {
+  let { radius, x, y, spread } = props.plant.body;
+  let { quadrant } = props;
   return <circle
-    cx={round(x)}
-    cy={round(y)}
+    cx={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
+    cy={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
     r={scale(spread || radius)}
     fillOpacity={0.2}
     fill={"green"}
     stroke={"green"}
-    strokeWidth={"1.5"} />;
+    strokeWidth={"1.5"}
+  />;
 }

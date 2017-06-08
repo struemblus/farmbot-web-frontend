@@ -119,11 +119,6 @@ export class GardenMap extends
           visible={!!this.props.showPoints}
           points={this.props.points}
         />
-        <ToolSlotLayer
-          botOriginQuadrant={this.props.designer.botOriginQuadrant}
-          visible={!!this.props.showFarmbot}
-          slots={this.props.toolSlots}
-        />
         <PlantLayer
           botOriginQuadrant={this.props.designer.botOriginQuadrant}
           dispatch={this.props.dispatch}
@@ -133,6 +128,11 @@ export class GardenMap extends
           currentPlant={this.getPlant()}
           dragging={!!this.state.isDragging}
           editing={!!this.isEditing}
+        />
+        <ToolSlotLayer
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          visible={!!this.props.showFarmbot}
+          slots={this.props.toolSlots}
         />
         <SelectedPlantLayer
           botOriginQuadrant={this.props.designer.botOriginQuadrant}
