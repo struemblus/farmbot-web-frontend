@@ -34,7 +34,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     () => this.setState({ [name]: !this.state[name] });
 
   updateBotOriginQuadrant = (quadrant: BotOriginQuadrant) => () => {
-    localStorage[BOT_ORIGIN] = JSON.stringify(quadrant);
     let action = { type: "UPDATE_BOT_ORIGIN_QUADRANT", payload: quadrant };
     this.props.dispatch(action);
   }

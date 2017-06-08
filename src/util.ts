@@ -326,3 +326,27 @@ export function attachToRoot<P>(type: React.ComponentClass<P>,
     throw new Error(t("Add a <div> with id `root` to the page first."));
   };
 }
+
+/** The firmware will have an integer overflow if you don't check this one. */
+const MAX_INPUT = 32000;
+const MIN_INPUT = 0;
+
+interface High { outcome: "high"; result: number; }
+interface Low { outcome: "low"; result: number; }
+interface Malformed { outcome: "malformed"; result: undefined; }
+interface Ok { outcome: "ok", result: number; }
+type ConversionResult = High | Low | Malformed | Ok;
+
+/** Handle all the possible ways a user could give us bad data or cause an
+ * integer overflow in the firmware. */
+export function clampUnsignedInteger(input: string): ConversionResult {
+  let result = Math.round(parseInt(input, 10));
+
+
+  // Clamp to prevent overflow.
+  if (_.isNaN(result)) { return { outcome: "malformed", result: undefined }; };
+  if (result > MAX_INPUT) { return { outcome: "high", result: MAX_INPUT }; }
+  if (result < MIN_INPUT) { return { outcome: "low", result: MIN_INPUT }; }
+
+  return { outcome: "ok", result: MIN_INPUT };
+}

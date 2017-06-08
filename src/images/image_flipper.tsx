@@ -1,6 +1,6 @@
 import { ImageFlipperProps, ImageFlipperState } from "./interfaces";
 import * as React from "react";
-import { safeStringFetch, fancyDebug } from "../util";
+import { safeStringFetch } from "../util";
 import { t } from "i18next";
 import * as moment from "moment";
 

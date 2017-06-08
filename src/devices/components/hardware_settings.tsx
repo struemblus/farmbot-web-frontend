@@ -219,7 +219,7 @@ export class HardwareSettings
               />
               <BooleanMCUInputGroup
                 hidden={hidePanel}
-                name={t("Invert Endpoints")}
+                name={t("Invert Endstops")}
                 tooltip={t(ToolTips.INVERT_ENDPOINTS)}
                 x={"movement_invert_endpoints_x"}
                 y={"movement_invert_endpoints_y"}
