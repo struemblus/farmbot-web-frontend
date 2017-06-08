@@ -1,4 +1,4 @@
-import { BotOriginQuadrant } from "../interfaces";
+import { BotOriginQuadrant, isBotOriginQuadrant } from "../interfaces";
 import { fancyDebug } from "../../util";
 
 const SNAP = 10;
@@ -40,32 +40,18 @@ interface CalculateQuadrantParams {
 
 export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
-  switch (quadrant) {
-    case 1:
-      return value;
-    case 2:
-      return value;
-    case 3:
-      return value;
-    case 4:
-      return value;
-    default:
-      throw new Error("Invalid bot origin quadrant.");
+  if (isBotOriginQuadrant(quadrant)) {
+    return value;
+  } else {
+    throw new Error("Invalid bot origin quadrant.");
   }
 }
 
 export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
-  switch (quadrant) {
-    case 1:
-      return value;
-    case 2:
-      return value;
-    case 3:
-      return value;
-    case 4:
-      return value;
-    default:
-      throw new Error("Invalid bot origin quadrant.");
+  if (isBotOriginQuadrant(quadrant)) {
+    return value;
+  } else {
+    throw new Error("Invalid bot origin quadrant.");
   }
 }
