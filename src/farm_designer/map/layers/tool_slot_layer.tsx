@@ -18,6 +18,6 @@ export function ToolSlotLayer(props: ToolSlotLayerProps) {
         slot={slot}
         quadrant={botOriginQuadrant}
       />
-    )}}
-      </g> : <g />; // fallback
+    )}
+  </g> : <g />; // fallback
 }
