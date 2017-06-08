@@ -25,6 +25,10 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     showFarmbot: true
   }
 
+  componentWillMount() {
+    this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant);
+  }
+
   zoom = (zoomNumber: number) => () => {
     let { zoomLvl } = this.state;
     zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });

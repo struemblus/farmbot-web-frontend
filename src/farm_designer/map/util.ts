@@ -56,5 +56,16 @@ export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
 
 export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
-  // console.log(value, quadrant);
+  switch (quadrant) {
+    case 1:
+      return value;
+    case 2:
+      return value;
+    case 3:
+      return value;
+    case 4:
+      return value;
+    default:
+      throw new Error("Invalid bot origin quadrant.");
+  }
 }

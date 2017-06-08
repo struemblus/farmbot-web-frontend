@@ -35,7 +35,6 @@ export let designer = generateReducer<DesignerState>(initialState)
   })
   .add<BotOriginQuadrant>("UPDATE_BOT_ORIGIN_QUADRANT", (s, { payload }) => {
     s.botOriginQuadrant = payload;
-    console.log(payload);
     return s;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", (s, { payload }) => {
