@@ -42,8 +42,8 @@ export function SpreadCircle(props: SpreadCircleProps) {
   let { radius, x, y, spread } = props.plant.body;
   let { quadrant } = props;
   return <circle
-    cx={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-    cy={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+    cx={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) + radius)}
+    cy={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) + radius)}
     r={scale(spread || radius)}
     fillOpacity={0.2}
     fill={"green"}

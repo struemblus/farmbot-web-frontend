@@ -28,8 +28,8 @@ export class GardenPlant extends
     return <g>
       <Circle
         className={"plant-indicator"}
-        x={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-        y={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+        x={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) + radius)}
+        y={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) + radius)}
         r={radius}
         selected={selected}
       />
