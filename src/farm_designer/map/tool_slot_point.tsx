@@ -22,7 +22,7 @@ export class ToolSlotPoint extends
   get slot() { return this.props.slot; }
 
   render() {
-    let { x, y, name } = this.slot.toolSlot.body;
+    let { x, y } = this.slot.toolSlot.body;
     let { quadrant } = this.props;
     return <g>
       <circle key={this.slot.toolSlot.uuid}
@@ -41,7 +41,7 @@ export class ToolSlotPoint extends
         dy={10}
         fontSize={24}
         fill={"#434343"}>
-        {this.slot.tool ? name : "no tool"}
+        {this.slot.tool ? this.slot.tool.body.name : "no tool"}
       </text>
     </g>
   }
