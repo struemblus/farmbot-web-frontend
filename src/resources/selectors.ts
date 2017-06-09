@@ -373,7 +373,8 @@ export let findFarmEventById = (ri: ResourceIndex, fe_id: number) => {
   }
 };
 
-export let maybeFindToolById = (ri: ResourceIndex, tool_id?: number) => {
+export let maybeFindToolById = (ri: ResourceIndex, tool_id?: number):
+  TaggedTool | undefined => {
   let tool = tool_id && byId("tools")(ri, tool_id);
   if (tool && isTaggedTool(tool) && sanityCheck(tool)) {
     return tool;
@@ -482,4 +483,28 @@ export function mapToolIdToName(input: ResourceIndex) {
   return selectAllTools(input)
     .map(x => ({ key: "" + x.body.id, val: x.body.name }))
     .reduce((x, y) => ({ ...{ [y.key]: y.val, ...x } }), {} as StringMap);
+}
+/** I dislike this method. */
+export function findToolBySlotId(input: ResourceIndex, tool_slot_id: number):
+  TaggedTool | undefined {
+  let wow = input
+    .byKind
+    .points
+    .map(x => input.references[x])
+    .map((x) => {
+      if (x
+        && (x.kind === "points")
+        && x.body.pointer_type === "ToolSlot"
+        && x.body.tool_id) {
+        return maybeFindToolById(input, x.body.tool_id);
+      } else {
+        return undefined;
+      }
+    })
+    .filter(x => x)[0];
+  if (wow && wow.kind === "tools") {
+    return wow;
+  } else {
+    return undefined;
+  }
 }

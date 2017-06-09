@@ -35,7 +35,7 @@ let formatPoint = (toolNames: CowardlyDictionary<string>) =>
     // Special formatting rules for tool slots
     if (p.body.pointer_type === "ToolSlot") {
       let tool = (p.body.tool_id && toolNames[p.body.tool_id]) || undefined;
-      name = tool ? `using '${tool}'` : "no tool";
+      name = tool ? `using '${tool}'` : "(no tool)";
     }
 
     return {
@@ -58,7 +58,7 @@ let formatTools = (t: TaggedTool) => {
 /** Uniformly generate a label for things that have an X/Y/Z value. */
 export function dropDownName(kind: string, name: string, v?: Vector3) {
   let formattedKind = _.get(NAME_MAP, kind, kind);
-  let label = `${formattedKind} '${name || "untitled"}'`;
+  let label = `${formattedKind} ${name || "untitled"}`;
   if (v) { label += ` (${v.x}, ${v.y}, ${v.z}) `; }
   return label;
 }
