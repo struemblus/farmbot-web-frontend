@@ -388,7 +388,5 @@ export function setSyncStatus(payload: SyncStatus) {
 }
 
 function badVersion() {
-  warning("You are running an old version of FarmBot OS.",
-    "Please Update",
-    "red");
+  info("You are running an old version of FarmBot OS.", "Please Update", "red");
 }
