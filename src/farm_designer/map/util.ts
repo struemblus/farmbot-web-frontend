@@ -36,10 +36,22 @@ interface CalculateQuadrantParams {
   quadrant: BotOriginQuadrant;
 }
 
+export const FARMBOT_DEFAULT_LENGTH = 3000;
+export const FARMBOT_DEFAULT_WIDTH = 1500;
+
 export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
   if (isBotOriginQuadrant(quadrant)) {
-    return value;
+    switch (quadrant) {
+      case 1:
+      case 4:
+        return FARMBOT_DEFAULT_LENGTH - value;
+      case 2:
+      case 3:
+        return value;
+      default:
+        throw new Error("Something went wrong calculating the X origin.");
+    }
   } else {
     throw new Error("Invalid bot origin quadrant.");
   }
@@ -48,7 +60,16 @@ export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
 export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
   if (isBotOriginQuadrant(quadrant)) {
-    return value;
+    switch (quadrant) {
+      case 3:
+      case 4:
+        return FARMBOT_DEFAULT_WIDTH - value;
+      case 1:
+      case 2:
+        return value;
+      default:
+        throw new Error("Something went wrong calculating the Y origin.");
+    }
   } else {
     throw new Error("Invalid bot origin quadrant.");
   }
