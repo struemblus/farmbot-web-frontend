@@ -24,6 +24,7 @@ interface HoveredPlantLayerProps {
   currentPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
   botOriginQuadrant: BotOriginQuadrant;
+  hoveredPlant: TaggedPlantPointer | undefined;
   dispatch: Function;
   isEditing: boolean;
 }
@@ -36,28 +37,36 @@ export class HoveredPlantLayer extends
   state: HoveredPlantLayerState = { isHovered: false }
 
   onClick = () => {
-    let { plant } = this.props.designer.hoveredPlant;
-    push("/app/designer/plants/" + (plant && plant.body.id));
-    let action = { type: "SELECT_PLANT", payload: plant && plant.uuid };
-    this.props.dispatch(action);
+    let plant = this.props.hoveredPlant;
+    if (plant) {
+      push("/app/designer/plants/" + (plant.body.id));
+      let action = { type: "SELECT_PLANT", payload: plant.uuid };
+      this.props.dispatch(action);
+    }
   }
 
   toggle = (bool: keyof HoveredPlantLayerState) => () =>
     this.setState({ isHovered: !this.state.isHovered })
 
+  /** Safe fallbacks if no hovered plant is found. */
+  get plantInfo() {
+    if (this.props.hoveredPlant) {
+      let { x, y, radius } = this.props.hoveredPlant.body;
+      return { x, y, radius };
+    } else {
+      return { x: 0, y: 0, radius: 1 };
+    }
+  }
   render() {
-    let { plant, icon } = this.props.designer.hoveredPlant;
+    let { icon } = this.props.designer.hoveredPlant;
     let { botOriginQuadrant } = this.props;
 
-    let x = plant && plant.body.x || 0;
-    let y = plant && plant.body.y || 0;
-
     let newX = calculateXBasedOnQuadrant({
-      value: round(x),
+      value: round(this.plantInfo.x),
       quadrant: botOriginQuadrant
     });
     let newY = calculateYBasedOnQuadrant({
-      value: round(y),
+      value: round(this.plantInfo.y),
       quadrant: botOriginQuadrant
     });
 
@@ -67,13 +76,13 @@ export class HoveredPlantLayer extends
       hidden={this.props.isEditing}
       style={{ transform: "scale(" + scaleFactor + ")" }}
       className={"hovered-plant-copy"}
-      x={newX - (plant && plant.body.radius || 1)}
-      y={newY - (plant && plant.body.radius || 1)}
+      x={newX - (this.plantInfo.radius)}
+      y={newY - (this.plantInfo.radius)}
       onMouseEnter={this.toggle("isHovered")}
       onMouseLeave={this.toggle("isHovered")}
       onClick={this.onClick}
-      width={plant && plant.body.radius * 2}
-      height={plant && plant.body.radius * 2}
+      width={this.plantInfo.radius * 2}
+      height={this.plantInfo.radius * 2}
       href={icon}
     />
   }

@@ -17,7 +17,7 @@ let botOriginQuadrant = isBotOriginQuadrant(storedVal) ? storedVal : 2;
 export let initialState: DesignerState = {
   selectedPlant: undefined,
   hoveredPlant: {
-    plant: undefined,
+    plantUUID: undefined,
     icon: ""
   },
   botOriginQuadrant,

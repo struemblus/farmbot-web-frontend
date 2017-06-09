@@ -139,6 +139,7 @@ export class GardenMap extends
           currentPlant={this.getPlant()}
           designer={this.props.designer}
           dispatch={this.props.dispatch}
+          hoveredPlant={this.props.hoveredPlant}
         />
       </svg>
     </div>;

@@ -153,7 +153,17 @@ export let findTool = find("tools") as Finder<TaggedTool>;
 export let findSequence = find("sequences") as Finder<TaggedSequence>;
 export let findRegimen = find("regimens") as Finder<TaggedRegimen>;
 export let findFarmEvent = find("farm_events") as Finder<TaggedFarmEvent>;
+export let findPoints = find("points") as Finder<TaggedPlantPointer>;
 
+export function findPlant(i: ResourceIndex, uuid: string):
+  TaggedPlantPointer {
+  let point = findPoints(i, uuid);
+  if (point && sanityCheck(point) && point.body.pointer_type === "Plant") {
+    return point;
+  } else {
+    throw new Error("That is not a true plant pointer");
+  }
+}
 export function selectCurrentToolSlot(index: ResourceIndex, uuid: string) {
   let x = index.references[uuid];
   if (x && isTaggedToolSlotPointer(x)) {

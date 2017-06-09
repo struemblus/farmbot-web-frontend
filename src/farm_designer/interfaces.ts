@@ -33,6 +33,7 @@ export interface Props {
   dispatch: Function;
   selectedPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
+  hoveredPlant: TaggedPlantPointer | undefined;
   points: TaggedGenericPointer[];
   plants: TaggedPlantPointer[];
   toolSlots: SlotWithTool[];
@@ -144,6 +145,7 @@ export interface GardenMapProps {
   plants: TaggedPlantPointer[];
   toolSlots: SlotWithTool[];
   selectedPlant: TaggedPlantPointer | undefined;
+  hoveredPlant: TaggedPlantPointer | undefined;
   crops: TaggedCrop[];
 }
 
@@ -198,6 +200,7 @@ export interface OFSearchProps {
 }
 
 export interface HoveredPlantPayl {
-  plant: TaggedPlantPointer | undefined;
+  /* Use UUID here to prevent denormalization? */
+  plantUUID: string | undefined;
   icon: string;
 }
