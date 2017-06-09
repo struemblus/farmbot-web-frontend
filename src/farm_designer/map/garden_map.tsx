@@ -61,10 +61,9 @@ export class GardenMap extends
       let box = el.getBoundingClientRect();
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
-      fancyDebug(box);
       let params: ScreenToGardenParams = {
-        pageX,
-        pageY,
+        pageX: pageY - document.body.scrollLeft,
+        pageY: pageY - document.body.scrollTop,
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);
@@ -140,6 +139,7 @@ export class GardenMap extends
           currentPlant={this.getPlant()}
           designer={this.props.designer}
           dispatch={this.props.dispatch}
+          hoveredPlant={this.props.hoveredPlant}
         />
       </svg>
     </div>;
