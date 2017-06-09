@@ -41,7 +41,7 @@ export class ToolSlotPoint extends
         dy={10}
         fontSize={24}
         fill={"#434343"}>
-        {this.slot.tool ? name : "(no tool)"}
+        {this.slot.tool ? name : "no tool"}
       </text>
     </g>
   }
