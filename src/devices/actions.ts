@@ -119,8 +119,7 @@ export function sync(): Thunk {
           dispatch(setSyncStatus("sync_error"));
         });
     } else {
-      error("You are running an old version of FarmBot OS. Please update.")
-
+      badVersion();
     }
   };
 }
@@ -291,9 +290,7 @@ export function connectDevice(token: string): {} | ((dispatch: Function) => any)
               .hardware
               .informational_settings
               .controller_version, 4, 0);
-            if (!IS_OK) {
-              error("You are running an old version of FarmBot OS. Please update.")
-            }
+            if (!IS_OK) { badVersion(); }
             NEED_VERSION_CHECK = false;
           }
 
@@ -388,4 +385,10 @@ function maybeShowLog(log: Log) {
 
 export function setSyncStatus(payload: SyncStatus) {
   return { type: "SET_SYNC_STATUS", payload }
+}
+
+function badVersion() {
+  warning("You are running an old version of FarmBot OS.",
+    "Please Update",
+    "red");
 }
