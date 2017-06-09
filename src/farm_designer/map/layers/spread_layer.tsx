@@ -1,12 +1,12 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
+import { BotOriginQuadrant } from "../../interfaces";
 import {
   round,
   scale,
   calculateXBasedOnQuadrant,
   calculateYBasedOnQuadrant
 } from "../util";
-import { BotOriginQuadrant } from "../../interfaces";
 
 interface SpreadLayerProps {
   visible: boolean;

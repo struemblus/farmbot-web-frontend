@@ -36,8 +36,8 @@ interface CalculateQuadrantParams {
   quadrant: BotOriginQuadrant;
 }
 
-export const FARMBOT_DEFAULT_LENGTH = 3000;
-export const FARMBOT_DEFAULT_WIDTH = 1500;
+export const FARMBOT_DEFAULT_LENGTH = 3002;
+export const FARMBOT_DEFAULT_WIDTH = 1502;
 
 export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
