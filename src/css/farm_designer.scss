@@ -11,6 +11,12 @@
     padding: 2rem 2rem 2rem 31.8rem;
     height: 100%;
     overflow: scroll;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    *::-webkit-scrollbar {
+        display: none;
+    }
 }
 
 .drop-area {
