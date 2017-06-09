@@ -9,31 +9,27 @@ import { findPointerByTypeAndId, findToolById } from "../../../resources/selecto
  * for MoveAbsolute["args"]["location"] */
 export let handleSelect = (index: ResourceIndex, input: DropDownItem): LocationData => {
   let tag = input.headingId as KnownGroupTag;
-  if (input.value) {
-    let id = parseInt("" + input.value);
-    switch (tag) {
-      case "ToolSlot":
-      case "GenericPointer":
-      case "Plant":
-        let p = findPointerByTypeAndId(index, tag, id);
-        if (p && p.body.id) {
-          return {
-            kind: "point",
-            args: { pointer_type: tag, pointer_id: p.body.id }
-          };
-        } else {
-          return bail("Bad point_id: " + JSON.stringify(p));
-        }
-      case "Tool":
-        let tool_id = findToolById(index, id)
-          .body
-          .id || bail("No id");
-        return { kind: "tool", args: { tool_id } };
-      default:
-        return { kind: "coordinate", args: { x: 0, y: 0, z: 0 } };
-    }
-  } else {
-    return bail("Need a numeric ID here: " + JSON.stringify(input));
+  let id = parseInt("" + input.value);
+  switch (tag) {
+    case "ToolSlot":
+    case "GenericPointer":
+    case "Plant":
+      let p = findPointerByTypeAndId(index, tag, id);
+      if (p && p.body.id) {
+        return {
+          kind: "point",
+          args: { pointer_type: tag, pointer_id: p.body.id }
+        };
+      } else {
+        return bail("Bad point_id: " + JSON.stringify(p));
+      }
+    case "Tool":
+      let tool_id = findToolById(index, id)
+        .body
+        .id || bail("No id");
+      return { kind: "tool", args: { tool_id } };
+    default:
+      return { kind: "coordinate", args: { x: 0, y: 0, z: 0 } };
   }
 }
 
