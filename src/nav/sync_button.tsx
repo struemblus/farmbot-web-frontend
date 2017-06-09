@@ -3,22 +3,24 @@ import { SyncStatus } from "farmbot/dist";
 import { NavButtonProps } from "./interfaces";
 import { sync } from "../devices/actions";
 
-const COLOR_MAPPING: Partial<Record<SyncStatus, string>> = {
+const COLOR_MAPPING: Record<SyncStatus, string> = {
   "synced": "green",
   "sync_now": "yellow",
   "syncing": "yellow",
   "sync_error": "red",
   "locked": "red",
+  "maintenance": "yellow",
   "unknown": "red"
 };
 
-const TEXT_MAPPING: Partial<Record<SyncStatus, string>> = {
+const TEXT_MAPPING: Record<SyncStatus, string> = {
   "synced": "SYNCED",
   "sync_now": "SYNC NOW",
   "syncing": "SYNCING",
   "sync_error": "SYNC ERROR",
   "locked": "LOCKED",
-  "unknown": "DISCONNECTED"
+  "unknown": "DISCONNECTED",
+  "maintenance": "MAINTENANCE DOWNTIME"
 };
 
 export function SyncButton({ auth, bot, dispatch }: NavButtonProps) {
