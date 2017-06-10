@@ -24,8 +24,8 @@ export interface ScreenToGardenParams {
 export function translateScreenToGarden(params: ScreenToGardenParams) {
   let { pageX, pageY, zoomLvl } = params;
 
-  let rawX = Math.round(((pageX) - 320) / zoomLvl);
-  let rawY = Math.round(((pageY) - 110) / zoomLvl);
+  let rawX = round(((pageX) - 320) / zoomLvl);
+  let rawY = round(((pageY) - 110) / zoomLvl);
 
   let output = { x: rawX, y: rawY };
   return output;
