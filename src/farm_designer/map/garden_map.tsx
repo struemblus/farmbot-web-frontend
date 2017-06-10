@@ -61,7 +61,7 @@ export class GardenMap extends
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
       let params: ScreenToGardenParams = {
-        pageX: pageY - document.body.scrollLeft,
+        pageX: pageX - document.body.scrollLeft,
         pageY: pageY - document.body.scrollTop,
         zoomLvl
       };
