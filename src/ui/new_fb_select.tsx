@@ -48,24 +48,31 @@ export class FBSelect extends React.Component<Props, Partial<State>> {
   render() {
     let { isOpen } = this.state;
     let placeholder = this.props.placeholder || "Search...";
+
     return <div className="select" onClick={this.toggleDropdown}>
       <div className="select-search-container">
-        <input type="text"
+        <input
+          type="text"
           readOnly={true}
           placeholder={placeholder}
-          value={this.item.label} />
+          value={this.item.label}
+        />
       </div>
       <div
         className={"select-results-container is-open-" + !!isOpen}>
         {this.list.map((option: DropDownItem, i) => {
           let { label } = option;
-          return <div key={i}
-            className="select-result"
+          let isHeading = option.heading ? "is-heading" : "";
+          return <div
+            key={i}
+            className={"select-result " + isHeading}
             onMouseDown={() => {
               this.setState({ isOpen: false });
               this.props.onChange(option);
             }}>
-            <label>{label}</label>
+            <label>
+              {label}
+            </label>
           </div>;
         })}
       </div>

@@ -42,8 +42,8 @@ export class GardenPlant extends
         onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
-        x={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-        y={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+        x={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) - radius)}
+        y={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) - radius)}
       />
     </g>
   }

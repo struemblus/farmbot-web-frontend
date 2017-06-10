@@ -54,15 +54,16 @@ export class GardenMap extends
     e.preventDefault();
     let el = document.querySelector("#drop-area > svg");
     let map = document.querySelector(".farm-designer-map");
-    if (el && map) {
+    let page = document.querySelector(".farm-designer");
+    if (el && map && page) {
       let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
       let { pageX, pageY } = e;
       let box = el.getBoundingClientRect();
       let species = history.getCurrentLocation().pathname.split("/")[5];
       let OFEntry = this.findCrop(species);
       let params: ScreenToGardenParams = {
-        pageX: pageY - document.body.scrollLeft,
-        pageY: pageY - document.body.scrollTop,
+        pageX: pageX + page.scrollLeft,
+        pageY: pageY + map.scrollTop,
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);
