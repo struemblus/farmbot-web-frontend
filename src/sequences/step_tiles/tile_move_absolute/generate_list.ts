@@ -15,6 +15,7 @@ export function generateList(input: ResourceIndex): DropDownItem[] {
   let toolNameById = mapToolIdToName(input);
   let SORT_KEY: keyof DropDownItem = "headingId";
   return _(selectAllPoints(input).filter(x => !!x.body.id))
+    .filter(x => (x.body.pointer_type !== "ToolSlot"))
     .map(formatPoint(toolNameById))
     .sortBy(SORT_KEY)
     .reverse()
