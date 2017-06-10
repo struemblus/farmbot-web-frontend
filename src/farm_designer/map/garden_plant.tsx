@@ -28,8 +28,8 @@ export class GardenPlant extends
     return <g>
       <Circle
         className={"plant-indicator"}
-        x={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) + radius)}
-        y={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) + radius)}
+        x={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
+        y={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
         r={radius}
         selected={selected}
       />
@@ -42,8 +42,8 @@ export class GardenPlant extends
         onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
-        x={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-        y={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+        x={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) - radius)}
+        y={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) - radius)}
       />
     </g>
   }
