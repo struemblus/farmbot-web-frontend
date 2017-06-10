@@ -259,15 +259,13 @@ ul {
         &.is-hidden {
             display: none;
         }
-        &.is-header {
-            text-transform: uppercase;
-            padding-left: 1rem;
-            border-bottom: none;
-            pointer-events: none;
+        padding-left: 1rem !important;
+        &.is-heading {
+            pointer-events: none !important;
             label {
+                font-weight: bold !important;
                 text-transform: uppercase;
-                font-weight: bold;
-                padding-left: 0px;
+                padding-left: 0 !important;
             }
         }
         label {

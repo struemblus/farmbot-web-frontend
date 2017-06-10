@@ -21,22 +21,24 @@ interface State {
 @connect(mapStateToPropsAddEdit)
 export class AddFarmEvent
   extends React.Component<AddEditFarmEventProps, Partial<State>> {
+
+  constructor() {
+    super();
+    this.state = {};
+  }
+
   get sequences() { return betterCompact(entries(this.props.sequencesById)); }
+
   get regimens() { return betterCompact(entries(this.props.regimensById)); }
+
   get executables() {
     return ([] as TaggedExecutable[])
       .concat(this.sequences)
       .concat(this.regimens)
       .filter(x => x.body.id);
   }
-  get executable(): TaggedExecutable | undefined {
-    return this.executables[0];
-  }
 
-  constructor() {
-    super();
-    this.state = {};
-  }
+  get executable(): TaggedExecutable | undefined { return this.executables[0]; }
 
   componentDidMount() {
     if (this.executable) {
@@ -88,7 +90,8 @@ export class AddFarmEvent
         executableOptions={this.props.executableOptions}
         dispatch={this.props.dispatch}
         findExecutable={this.props.findExecutable}
-        title={t("Add Farm Event")} />;
+        title={t("Add Farm Event")}
+      />;
     } else {
       return ((this.executable) ? this.loading : this.none)();
     }

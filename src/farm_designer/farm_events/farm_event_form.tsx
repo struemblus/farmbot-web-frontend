@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as moment from "moment";
+import * as _ from "lodash";
 import { t } from "i18next";
 import { TaggedFarmEvent } from "../../resources/tagged_resources";
 import {
@@ -94,15 +95,17 @@ interface State {
 };
 
 export class EditFEForm extends React.Component<Props, State> {
+
   constructor() {
     super();
     this.state = { fe: {}, localCopyDirty: false }
   }
+
   get isOneTime() { return this.fieldGet("time_unit") === "never"; }
+
   get dispatch() { return this.props.dispatch; }
-  get viewModel() {
-    return destructureFarmEvent(this.props.farmEvent);
-  }
+
+  get viewModel() { return destructureFarmEvent(this.props.farmEvent); }
 
   get executable() {
     let t = this.fieldGet("executable_type");
@@ -166,17 +169,23 @@ export class EditFEForm extends React.Component<Props, State> {
     let isDirty = fe.dirty || this.state.localCopyDirty;
     let isSaved = !isSaving && !isDirty;
     let options = _.indexBy(this.props.repeatOptions, "value");
+
     return <div className="panel-container magenta-panel add-farm-event-panel">
       <div className="panel-header magenta-panel">
         <p className="panel-title"> <BackArrow /> {this.props.title} </p>
       </div>
       <div className="panel-content">
-        <label>{t("Sequence or Regimen")}</label>
+        <label>
+          {t("Sequence or Regimen")}
+        </label>
         <FBSelect
           list={this.props.executableOptions}
           onChange={this.executableSet}
-          selectedItem={this.executableGet()} />
-        <label>{t("Starts")}</label>
+          selectedItem={this.executableGet()}
+        />
+        <label>
+          {t("Starts")}
+        </label>
         <Row>
           <Col xs={6}>
             <BlurableInput
@@ -184,17 +193,21 @@ export class EditFEForm extends React.Component<Props, State> {
               className="add-event-start-date"
               name="start_date"
               value={this.fieldGet("start_date")}
-              onCommit={this.fieldSet("start_date")} />
+              onCommit={this.fieldSet("start_date")}
+            />
           </Col>
           <Col xs={6}>
             <BlurableInput type="time"
               className="add-event-start-time"
               name="start_time"
               value={this.fieldGet("start_time")}
-              onCommit={this.fieldSet("start_time")} />
+              onCommit={this.fieldSet("start_time")}
+            />
           </Col>
         </Row>
-        <label>{t("Repeats Every")}</label>
+        <label>
+          {t("Repeats Every")}
+        </label>
         <Row>
           <Col xs={4}>
             <BlurableInput
@@ -204,21 +217,23 @@ export class EditFEForm extends React.Component<Props, State> {
               className="add-event-repeat-frequency"
               name="repeat"
               value={this.fieldGet("repeat")}
-              onCommit={this.fieldSet("repeat")} />
+              onCommit={this.fieldSet("repeat")}
+            />
           </Col>
           <Col xs={8}>
             <FBSelect
               list={this.props.repeatOptions}
               onChange={(e) => this.setState(betterMerge(this.state, {
-                fe: {
-                  time_unit: (e.value || "hourly").toString()
-                },
+                fe: { time_unit: (e.value || "hourly").toString() },
                 localCopyDirty: true
               }))}
-              selectedItem={options[this.fieldGet("time_unit")]} />
+              selectedItem={options[this.fieldGet("time_unit")]}
+            />
           </Col>
         </Row>
-        <label>{t("Until")}</label>
+        <label>
+          {t("Until")}
+        </label>
         <Row>
           <Col xs={6}>
             <BlurableInput
@@ -227,7 +242,8 @@ export class EditFEForm extends React.Component<Props, State> {
               className="add-event-end-date"
               name="end_date"
               value={this.fieldGet("end_date")}
-              onCommit={this.fieldSet("end_date")} />
+              onCommit={this.fieldSet("end_date")}
+            />
           </Col>
           <Col xs={6}>
             <BlurableInput
@@ -236,7 +252,8 @@ export class EditFEForm extends React.Component<Props, State> {
               name="end_time"
               className="add-event-end-time"
               value={this.fieldGet("end_time")}
-              onCommit={this.fieldSet("end_time")} />
+              onCommit={this.fieldSet("end_time")}
+            />
           </Col>
         </Row>
         <SaveBtn
@@ -244,7 +261,8 @@ export class EditFEForm extends React.Component<Props, State> {
           isDirty={isDirty}
           isSaving={isSaving}
           isSaved={isSaved}
-          onClick={this.commitViewModel} />
+          onClick={this.commitViewModel}
+        />
         <button className="red"
           onClick={() => {
             this.dispatch(destroy(fe.uuid)).then(() => {
