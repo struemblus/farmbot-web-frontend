@@ -21,7 +21,7 @@ function mapStateToProps(props: Everything): SpeciesInfoProps {
 
 @connect(mapStateToProps)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
-  handleDragStart(e: DraggableEvent) {
+  handleDragStart = (e: DraggableEvent) => {
     let icon = e.currentTarget.getAttribute("data-icon-url");
     let img = document.createElement("img");
     icon ? img.src = DATA_URI + icon : DEFAULT_ICON;
@@ -31,8 +31,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     img.height = 50;
     img.width = 50;
 
-    e.dataTransfer.setDragImage
-      && e.dataTransfer.setDragImage(img, 50, 50);
+    e.dataTransfer.setDragImage && e.dataTransfer.setDragImage(img, 50, 50);
   }
 
   render() {
@@ -63,7 +62,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
       <div className="panel-content">
         <div className="crop-drag-info-tile">
           <img className="crop-drag-info-image"
-            onDragStart={this.handleDragStart.bind(this)}
+            onDragStart={this.handleDragStart}
             draggable={true}
             src={result.image}
             data-icon-url={result.crop.svg_icon} />
@@ -85,7 +84,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   "main_image_path"
                 ])
                 .pairs()
-                .map(function (pair, i) {
+                .map((pair, i) => {
                   let key = pair[0] as string;
                   let value = pair[1];
                   return <li key={i}>

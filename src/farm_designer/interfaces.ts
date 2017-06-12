@@ -194,7 +194,9 @@ export interface DNDSpeciesMobileState {
 
 export interface DraggableEvent {
   currentTarget: HTMLImageElement;
-  dataTransfer: { setDragImage: Function; };
+  dataTransfer: {
+    setDragImage: Function;
+  };
 }
 
 export interface OFSearchProps {

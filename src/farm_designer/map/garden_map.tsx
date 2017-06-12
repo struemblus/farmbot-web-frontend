@@ -6,7 +6,13 @@ import { GardenMapProps, GardenMapState } from "../interfaces";
 import { history } from "../../history";
 import { initSave, save, edit } from "../../api/crud";
 import { TaggedPlantPointer } from "../../resources/tagged_resources";
-import { translateScreenToGarden, round, ScreenToGardenParams } from "./util";
+import {
+  translateScreenToGarden,
+  round,
+  ScreenToGardenParams,
+  calculateXBasedOnQuadrant,
+  calculateYBasedOnQuadrant
+} from "./util";
 import { findBySlug } from "../search_selectors";
 import { PlantLayer } from "./layers/plant_layer";
 import { PointLayer } from "./layers/point_layer";
@@ -89,11 +95,24 @@ export class GardenMap extends
 
   drag = (e: React.MouseEvent<SVGElement>) => {
     let plant = this.getPlant();
+    let { botOriginQuadrant } = this.props.designer;
     if (this.isEditing && this.state.isDragging && plant) {
-      let deltaX = e.pageX - (this.state.pageX || e.pageX);
-      let deltaY = e.pageY - (this.state.pageY || e.pageY);
-      this.setState({ pageX: e.pageX, pageY: e.pageY });
-      this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
+      let pageX = calculateXBasedOnQuadrant({
+        value: e.pageX,
+        quadrant: botOriginQuadrant
+      })
+      let pageY = calculateYBasedOnQuadrant({
+        value: e.pageY,
+        quadrant: botOriginQuadrant
+      })
+      let deltaX = pageX - (this.state.pageX || pageX);
+      let deltaY = pageY - (this.state.pageY || pageY);
+      this.setState({ pageX, pageY });
+      this.props.dispatch(movePlant({
+        deltaX,
+        deltaY,
+        plant
+      }));
     }
   }
 
