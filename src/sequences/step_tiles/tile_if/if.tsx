@@ -7,7 +7,16 @@ import { DropDownItem } from "../../../ui/fb_select";
 import { defensiveClone } from "../../../util";
 import { overwrite } from "../../../api/crud";
 import { Col } from "../../../ui/index";
+import { ALLOWED_OPS } from "farmbot/dist";
 
+const IS_UNDEFINED: ALLOWED_OPS = "is_undefined";
+const label_ops: Record<ALLOWED_OPS, string> = {
+  "is_undefined": "is unknown",
+  ">": "is greater than",
+  "<": "is less than",
+  "is": "is",
+  "not": "is not"
+}
 export function If_(props: IfParams) {
   let {
     dispatch,
@@ -48,9 +57,9 @@ export function If_(props: IfParams) {
         list={operatorOptions}
         placeholder="Operation"
         onChange={updateField("op")}
-        selectedItem={{ label: op, value: op }} />
+        selectedItem={{ label: label_ops[op as ALLOWED_OPS] || op, value: op }} />
     </Col>
-    <Col xs={4}>
+    <Col xs={4} hidden={op === IS_UNDEFINED}>
       <label>{t("Value")}</label>
       <StepInputBox dispatch={dispatch}
         step={currentStep}
