@@ -13,6 +13,7 @@ describe("Utils", () => {
   it("translates garden coords to screen coords", () => {
 
     let cornerCase = translateScreenToGarden({
+      quadrant: 2,
       pageX: 520,
       pageY: 212,
       zoomLvl: 1
@@ -21,6 +22,7 @@ describe("Utils", () => {
     expect(cornerCase.y).toEqual(100);
 
     let edgeCase = translateScreenToGarden({
+      quadrant: 2,
       pageX: 1132,
       pageY: 382,
       zoomLvl: 0.3

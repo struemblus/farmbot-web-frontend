@@ -16,19 +16,22 @@ export function round(num: number) {
 }
 
 export interface ScreenToGardenParams {
+  quadrant: BotOriginQuadrant;
   pageX: number;
   pageY: number;
   zoomLvl: number;
 }
 
 export function translateScreenToGarden(params: ScreenToGardenParams) {
-  let { pageX, pageY, zoomLvl } = params;
+  let { pageX, pageY, zoomLvl, quadrant } = params;
 
   let rawX = round(((pageX) - 320) / zoomLvl);
   let rawY = round(((pageY) - 110) / zoomLvl);
 
-  let output = { x: rawX, y: rawY };
-  return output;
+  let x = calculateXBasedOnQuadrant({ value: rawX, quadrant });
+  let y = calculateYBasedOnQuadrant({ value: rawY, quadrant });
+
+  return { x, y };
 }
 
 interface CalculateQuadrantParams {
