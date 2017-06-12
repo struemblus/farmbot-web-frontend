@@ -1795,9 +1795,9 @@ fancy-log@^1.1.0:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
 
-farmbot@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/farmbot/-/farmbot-4.0.4.tgz#bddc072ff7565ae51753535dd91239df6159fb5a"
+farmbot@4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/farmbot/-/farmbot-4.0.5.tgz#7116e280ae3ace07711bbd8585f5e998161c3d3c"
   dependencies:
     mqtt "^1.7.4"
     typescript "^2.1.5"
@@ -5494,7 +5494,7 @@ through2-filter@^2.0.0:
     through2 "~2.0.0"
     xtend "~4.0.0"
 
-through2@2.0.1, through2@^2.0.1:
+through2@2.0.1, through2@^2.0.0, through2@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.1.tgz#384e75314d49f32de12eebb8136b8eb6b5d59da9"
   dependencies:
@@ -5508,7 +5508,7 @@ through2@^0.6.3:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
 
-through2@^2.0.0, through2@^2.0.2, through2@~2.0.0:
+through2@^2.0.2, through2@~2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
   dependencies:

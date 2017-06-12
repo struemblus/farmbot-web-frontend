@@ -41,7 +41,8 @@ export const operatorOptions: DropDownItem[] = [
   { value: "<", label: "is less than" },
   { value: ">", label: "is greater than" },
   { value: "is", label: "is equal to" },
-  { value: "not", label: "is not equal to" }
+  { value: "not", label: "is not equal to" },
+  { value: "is_undefined", label: "is unknown" }
 ];
 
 export function seqDropDown(i: ResourceIndex) {
