@@ -70,7 +70,7 @@ export class GardenMap extends
       let params: ScreenToGardenParams = {
         quadrant: this.props.designer.botOriginQuadrant,
         pageX: pageX + page.scrollLeft,
-        pageY: pageY + map.scrollTop,
+        pageY: pageY + map.scrollTop * zoomLvl,
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);
