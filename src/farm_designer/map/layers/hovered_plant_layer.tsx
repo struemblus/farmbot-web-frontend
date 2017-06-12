@@ -1,11 +1,7 @@
 import * as React from "react";
 import { TaggedPlantPointer } from "../../../resources/tagged_resources";
 import { DesignerState, BotOriginQuadrant } from "../../interfaces";
-import {
-  calculateXBasedOnQuadrant,
-  calculateYBasedOnQuadrant,
-  round
-} from "../util";
+import { getXYFromQuadrant, round } from "../util";
 import { push } from "../../../history";
 
 /**
@@ -60,24 +56,16 @@ export class HoveredPlantLayer extends
   render() {
     let { icon } = this.props.designer.hoveredPlant;
     let { botOriginQuadrant } = this.props;
-
-    let newX = calculateXBasedOnQuadrant({
-      value: round(this.plantInfo.x),
-      quadrant: botOriginQuadrant
-    });
-    let newY = calculateYBasedOnQuadrant({
-      value: round(this.plantInfo.y),
-      quadrant: botOriginQuadrant
-    });
-
+    let { x, y } = this.plantInfo;
+    let { qx, qy } = getXYFromQuadrant(round(x), round(y), botOriginQuadrant);
     let scaleFactor = (this.state.isHovered) ? "1.3, 1.3" : "1, 1";
 
     return <image
       hidden={this.props.isEditing}
       style={{ transform: "scale(" + scaleFactor + ")" }}
       className={"hovered-plant-copy"}
-      x={newX - (this.plantInfo.radius)}
-      y={newY - (this.plantInfo.radius)}
+      x={qx - (this.plantInfo.radius)}
+      y={qy - (this.plantInfo.radius)}
       onMouseEnter={this.toggle("isHovered")}
       onMouseLeave={this.toggle("isHovered")}
       onClick={this.onClick}

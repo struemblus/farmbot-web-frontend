@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GardenPointProps } from "../interfaces";
 import { defensiveClone } from "../../util";
-import { calculateXBasedOnQuadrant, calculateYBasedOnQuadrant } from "./util";
+import { getXYFromQuadrant } from "./util";
 
 const POINT_STYLES = {
   stroke: "green",
@@ -12,18 +12,12 @@ const POINT_STYLES = {
 
 export function GardenPoint(props: GardenPointProps) {
   let { point, quadrant } = props;
+  let { x, y } = point.body;
   let styles = defensiveClone(POINT_STYLES);
   styles.stroke = point.body.meta.color || "green";
+  let { qx, qy } = getXYFromQuadrant(x, y, quadrant);
   return <g>
-    <circle
-      cx={calculateXBasedOnQuadrant({ value: point.body.x, quadrant })}
-      cy={calculateYBasedOnQuadrant({ value: point.body.y, quadrant })}
-      r={point.body.radius}
-      {...styles} />
-    <circle
-      cx={calculateXBasedOnQuadrant({ value: point.body.x, quadrant })}
-      cy={calculateYBasedOnQuadrant({ value: point.body.y, quadrant })}
-      r={2}
-      {...styles} />
+    <circle cx={qx} cy={qy} r={point.body.radius} {...styles} />
+    <circle cx={qx} cy={qy} r={2} {...styles} />
   </g>;
 }

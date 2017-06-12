@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SlotWithTool } from "../../resources/interfaces";
-import { calculateXBasedOnQuadrant, calculateYBasedOnQuadrant } from "./util";
+import { getXYFromQuadrant } from "./util";
 import { BotOriginQuadrant } from "../interfaces";
 
 interface TSPProps {
@@ -24,19 +24,20 @@ export class ToolSlotPoint extends
   render() {
     let { x, y } = this.slot.toolSlot.body;
     let { quadrant } = this.props;
+    let { qx, qy } = getXYFromQuadrant(x, y, quadrant);
     return <g>
       <circle key={this.slot.toolSlot.uuid}
         onMouseOver={() => this.setState({ hovered: true })}
         onMouseLeave={() => this.setState({ hovered: false })}
-        cx={calculateXBasedOnQuadrant({ value: x, quadrant })}
-        cy={calculateYBasedOnQuadrant({ value: y, quadrant })}
+        cx={qx}
+        cy={qy}
         r={35}
         fillOpacity={0.5}
         fill={this.state.hovered ? "#434343" : "#666666"} />
       <text
         hidden={!this.state.hovered}
-        x={calculateXBasedOnQuadrant({ value: x, quadrant })}
-        y={calculateYBasedOnQuadrant({ value: y, quadrant })}
+        x={qx}
+        y={qy}
         dx={40}
         dy={10}
         fontSize={24}

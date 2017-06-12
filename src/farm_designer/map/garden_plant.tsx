@@ -2,11 +2,7 @@ import * as React from "react";
 import { GardenPlantProps, GardenPlantState } from "../interfaces";
 import { cachedIcon, DEFAULT_ICON } from "../../open_farm/index";
 import { Circle } from "./circle";
-import {
-  round,
-  calculateYBasedOnQuadrant,
-  calculateXBasedOnQuadrant
-} from "./util";
+import { round, getXYFromQuadrant } from "./util";
 
 export class GardenPlant extends
   React.Component<GardenPlantProps, Partial<GardenPlantState>> {
@@ -24,12 +20,13 @@ export class GardenPlant extends
     let { icon } = this.state;
 
     let action = { type: "TOGGLE_HOVERED_PLANT", payload: { plant, icon } };
+    let { qx, qy } = getXYFromQuadrant(round(x), round(y), quadrant);
 
     return <g>
       <Circle
-        className={"plant-indicator"}
-        x={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-        y={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+        className="plant-indicator"
+        x={qx}
+        y={qy}
         r={radius}
         selected={selected}
       />
@@ -42,8 +39,8 @@ export class GardenPlant extends
         onMouseLeave={() => dispatch(action)}
         height={radius * 2}
         width={radius * 2}
-        x={(calculateXBasedOnQuadrant({ value: round(x), quadrant }) - radius)}
-        y={(calculateYBasedOnQuadrant({ value: round(y), quadrant }) - radius)}
+        x={qx - radius}
+        y={qy - radius}
       />
     </g>
   }
