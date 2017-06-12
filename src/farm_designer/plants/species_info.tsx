@@ -44,7 +44,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
 
     /** rgba arguments are a more mobile-friendly way apply filters */
     let backgroundURL = `linear-gradient(
-      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${result.image})`;
+      rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${result.image})`;
 
     return <div className="panel-container green-panel species-info-panel">
       <div className="panel-header green-panel"
@@ -85,7 +85,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   "main_image_path"
                 ])
                 .pairs()
-                .map(function(pair, i) {
+                .map(function (pair, i) {
                   let key = pair[0] as string;
                   let value = pair[1];
                   return <li key={i}>
