@@ -221,6 +221,11 @@
         float: right;
     }
     .plant-search-item-name {
+        white-space: nowrap;
+        width: 10em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
         margin-left: 1rem;
     }
 }

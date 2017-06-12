@@ -96,6 +96,10 @@
         color: white;
         font-size: 1.8rem;
         margin-top: 0.4rem;
+        white-space: nowrap;
+        width: 10em;
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: inline-block;
     }
     .right-button {
