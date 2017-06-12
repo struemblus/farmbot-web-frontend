@@ -18,7 +18,7 @@ describe("Utils", () => {
       zoomLvl: 1
     });
     expect(cornerCase.x).toEqual(200);
-    expect(cornerCase.y).toEqual(102);
+    expect(cornerCase.y).toEqual(100);
 
     let edgeCase = translateScreenToGarden({
       pageX: 1132,
@@ -26,7 +26,7 @@ describe("Utils", () => {
       zoomLvl: 0.3
     });
 
-    expect(Math.round(edgeCase.x)).toEqual(2707);
-    expect(Math.round(edgeCase.y)).toEqual(907);
+    expect(Math.round(edgeCase.x)).toEqual(2710);
+    expect(Math.round(edgeCase.y)).toEqual(910);
   });
 });
