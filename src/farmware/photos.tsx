@@ -5,7 +5,7 @@ import { PhotosProps } from "./interfaces";
 import { devices } from "../device";
 import { t } from "i18next";
 import { ToolTips } from "../constants";
-import { selectImage, detectWeeds } from "../images/actions";
+import { selectImage } from "../images/actions";
 
 export class Photos extends React.Component<PhotosProps, void> {
 

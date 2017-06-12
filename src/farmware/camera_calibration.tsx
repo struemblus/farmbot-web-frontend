@@ -37,6 +37,7 @@ export class CameraCalibration
           <Row>
             <Col sm={12}>
               <WeedDetectorBody
+                onProcessPhoto={this.props.onProcessPhoto}
                 onFlip={(u) => { this.props }}
                 images={this.props.images}
                 currentImage={this.props.currentImage}

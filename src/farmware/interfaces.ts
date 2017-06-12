@@ -30,6 +30,7 @@ export interface CameraCalibrationState {
 export interface CameraCalibrationProps {
   images: TaggedImage[];
   currentImage: TaggedImage | undefined;
+  onProcessPhoto(id: number): void;
 }
 
 export interface FarmwareState {

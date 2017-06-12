@@ -1,6 +1,5 @@
 import * as React from "react";
 import { DetectorState, WeedDetectorENV } from "./interfaces";
-import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
 import { success, error, Row, Col, Widget } from "../ui/index";
@@ -99,7 +98,7 @@ export class WeedDetector
           />
           <Row>
             <Col sm={12}>
-              <WeedDetectorBody
+              {/*<WeedDetectorBody
                 onFlip={(uuid) => this.props.dispatch(selectImage(uuid))}
                 currentImage={this.props.currentImage}
                 images={this.props.images}
@@ -107,7 +106,7 @@ export class WeedDetector
                 H={this.farmwareSettings.H}
                 S={this.farmwareSettings.S}
                 V={this.farmwareSettings.V}
-              />
+              />*/}
             </Col>
           </Row>
         </Col>
