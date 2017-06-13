@@ -13,10 +13,9 @@ export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
       // let START_TIME = new Date(fe.start_time).toString().slice(0, 11).trim();
       var NOW = moment();
       var START_TIME = moment(fe.start_time);
-      var MIDNIGHT = NOW.subtract(1, 'days').startOf('day');
+      var MIDNIGHT = NOW.clone().subtract(1, 'days').startOf('day');
       let LOLSTRING = "YYYY-MM-DD";
 
-      debugger;
       // Step 2.5 Continue checking if the farm event is supposed to run today.
       //          since running a farmevent the day it is scheduled runs a risk
       //          of missed tasks.
@@ -34,10 +33,7 @@ export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
 
         // STEP 3: If task loss is possible, warn the user by calling CB.
         if (FIRST_TASK.diff(NOW) < 0) {
-          // I think this one will trigger.
-          console.log("THE TOP ONE IS HERE");
-        } else {
-          console.log("BOTTOM ONE IS HERE.");
+          cb();
         }
       }
     }
