@@ -20,7 +20,8 @@ import {
   Row,
   success,
   SaveBtn,
-  error
+  error,
+  warning
 } from "../../ui/index";
 import { FBSelect } from "../../ui/new_fb_select";
 import {
@@ -166,7 +167,10 @@ export class EditFEForm extends React.Component<Props, State> {
           success(`This Farm Event will run ${moment(nextRun).fromNow()},` +
             ` but you must first SYNC YOUR DEVICE. If you do not sync, ` +
             ` The event will not run.`);
-          this.props.dispatch(maybeWarnAboutMissedTasks(frmEvnt, _.noop))
+          this.props.dispatch(maybeWarnAboutMissedTasks(frmEvnt, function () {
+            warning("You scheduled this regimen too late in the day- " +
+              "some items in the regimen will be skipped! ", "Danger! Danger!")
+          }))
         } else {
           error("This Farm Event does not appear to have a valid run time." +
             " Perhaps you entered bad dates?");
