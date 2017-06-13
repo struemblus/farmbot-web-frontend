@@ -31,15 +31,9 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
       </span>
     </h4>
     <div hidden={hidePanel}>
-      <BooleanMCUInputGroup
+      <HomingRow
         hidden={hidePanel}
-        name={t("Stop at Home")}
-        tooltip={t(ToolTips.STOP_AT_HOME)}
-        x={"movement_stop_at_home_x"}
-        y={"movement_stop_at_home_y"}
-        z={"movement_stop_at_home_z"}
-        dispatch={dispatch}
-        bot={bot}
+        hardware={mcu_params}
       />
       <CalibrationRow
         hidden={hidePanel}
@@ -61,11 +55,11 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
       />
       <BooleanMCUInputGroup
         hidden={hidePanel}
-        name={t("Negative Coordinates Only")}
-        tooltip={t(ToolTips.NEGATIVE_COORDINATES_ONLY)}
-        x={"movement_home_up_x"}
-        y={"movement_home_up_y"}
-        z={"movement_home_up_z"}
+        name={t("Stop at Home")}
+        tooltip={t(ToolTips.STOP_AT_HOME)}
+        x={"movement_stop_at_home_x"}
+        y={"movement_stop_at_home_y"}
+        z={"movement_stop_at_home_z"}
         dispatch={dispatch}
         bot={bot}
       />
@@ -79,6 +73,16 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
         dispatch={dispatch}
         bot={bot}
       />
+      <BooleanMCUInputGroup
+        hidden={hidePanel}
+        name={t("Negative Coordinates Only")}
+        tooltip={t(ToolTips.NEGATIVE_COORDINATES_ONLY)}
+        x={"movement_home_up_x"}
+        y={"movement_home_up_y"}
+        z={"movement_home_up_z"}
+        dispatch={dispatch}
+        bot={bot}
+      />
       <NumericMCUInputGroup
         hidden={hidePanel}
         name={t("Axis Length (steps)")}
@@ -89,9 +93,15 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
         bot={bot}
         dispatch={dispatch}
       />
-      <HomingRow
+      <NumericMCUInputGroup
         hidden={hidePanel}
-        hardware={mcu_params}
+        name={t("Timeout after (seconds)")}
+        tooltip={t(ToolTips.TIMEOUT_AFTER)}
+        x={"movement_timeout_x"}
+        y={"movement_timeout_y"}
+        z={"movement_timeout_z"}
+        bot={bot}
+        dispatch={dispatch}
       />
     </div>
   </div>;
