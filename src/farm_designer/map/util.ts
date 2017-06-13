@@ -42,7 +42,7 @@ interface CalculateQuadrantParams {
 export const FARMBOT_DEFAULT_LENGTH = 3002;
 export const FARMBOT_DEFAULT_WIDTH = 1502;
 
-export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
+function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
   if (isBotOriginQuadrant(quadrant)) {
     switch (quadrant) {
@@ -60,7 +60,7 @@ export function calculateXBasedOnQuadrant(params: CalculateQuadrantParams) {
   }
 }
 
-export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
+function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
   let { value, quadrant } = params;
   if (isBotOriginQuadrant(quadrant)) {
     switch (quadrant) {
@@ -75,5 +75,16 @@ export function calculateYBasedOnQuadrant(params: CalculateQuadrantParams) {
     }
   } else {
     throw new Error("Invalid bot origin quadrant.");
+  }
+}
+
+export function getXYFromQuadrant(
+  x: number,
+  y: number,
+  q: BotOriginQuadrant
+): { qx: number, qy: number } {
+  return {
+    qx: calculateXBasedOnQuadrant({ value: x, quadrant: q }),
+    qy: calculateYBasedOnQuadrant({ value: y, quadrant: q })
   }
 }

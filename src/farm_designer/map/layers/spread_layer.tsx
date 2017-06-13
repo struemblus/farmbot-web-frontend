@@ -4,8 +4,7 @@ import { BotOriginQuadrant } from "../../interfaces";
 import {
   round,
   scale,
-  calculateXBasedOnQuadrant,
-  calculateYBasedOnQuadrant
+  getXYFromQuadrant
 } from "../util";
 
 interface SpreadLayerProps {
@@ -41,9 +40,10 @@ interface SpreadCircleProps {
 export function SpreadCircle(props: SpreadCircleProps) {
   let { radius, x, y, spread } = props.plant.body;
   let { quadrant } = props;
+  let { qx, qy } = getXYFromQuadrant(round(x), round(y), quadrant);
   return <circle
-    cx={calculateXBasedOnQuadrant({ value: round(x), quadrant })}
-    cy={calculateYBasedOnQuadrant({ value: round(y), quadrant })}
+    cx={qx}
+    cy={qy}
     r={scale(spread || radius)}
     fillOpacity={0.2}
     fill={"green"}
