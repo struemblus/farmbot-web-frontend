@@ -1,14 +1,13 @@
 import * as React from "react";
 import { t } from "i18next";
-import { MCUFactoryReset, toggleControlPanel } from "../actions";
+import { MCUFactoryReset } from "../actions";
 import { Widget, WidgetHeader, WidgetBody } from "../../ui/index";
 import { HardwareSettingsProps } from "../interfaces";
 import { MustBeOnline } from "../must_be_online";
 import { SaveBtn } from "../../ui/save_button";
 import { ToolTips } from "../../constants";
 import { DangerZone } from "./hardware_settings/danger_zone";
-import { EndStops } from "./hardware_settings/end_stops";
-import { Encoders } from "./hardware_settings/encoders";
+import { EncodersAndEndStops } from "./hardware_settings/encoders_and_endstops";
 import { Motors } from "./hardware_settings/motors";
 import { HomingAndCalibration } from "./hardware_settings/homing_and_calibration";
 import { SpacePanelHeader } from "./hardware_settings/space_panel_header";
@@ -25,7 +24,6 @@ export class HardwareSettings extends
       encoders_and_endstops,
       danger_zone
     } = controlPanelState;
-    // let iconString = hidePanel ? "plus" : "minus";
 
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
@@ -61,12 +59,7 @@ export class HardwareSettings extends
             dispatch={dispatch}
             bot={bot}
           />
-          <Encoders
-            hidePanel={encoders_and_endstops}
-            dispatch={dispatch}
-            bot={bot}
-          />
-          <EndStops
+          <EncodersAndEndStops
             hidePanel={encoders_and_endstops}
             dispatch={dispatch}
             bot={bot}

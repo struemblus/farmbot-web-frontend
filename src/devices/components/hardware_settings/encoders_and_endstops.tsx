@@ -2,18 +2,24 @@ import * as React from "react";
 import { t } from "i18next";
 import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
-import { BotState } from "../../interfaces";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
+import { EncodersProps } from "../interfaces";
+import { toggleControlPanel } from "../../actions";
 
-interface EncodersProps {
-  hidePanel: boolean;
-  dispatch: Function;
-  bot: BotState;
-}
-export function Encoders({ hidePanel, dispatch, bot }: EncodersProps) {
-  return <div hidden={hidePanel}>
-    <h2>Encoders</h2>
-    <table>
+export function EncodersAndEndStops(props: EncodersProps) {
+
+  let { encoders_and_endstops } = props.bot.controlPanelState;
+  let { hidePanel, dispatch, bot } = props;
+  let icon_string = encoders_and_endstops ? "minus" : "plus";
+
+  return <div>
+    <h4 onClick={() => dispatch(toggleControlPanel("encoders_and_endstops"))}>
+      {t("Encoders and Endstops")}
+      <span className="icon-toggle">
+        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
+      </span>
+    </h4>
+    <div hidden={hidePanel}>
       <NumericMCUInputGroup
         hidden={hidePanel}
         name={t("Max Missed Steps")}
@@ -74,6 +80,26 @@ export function Encoders({ hidePanel, dispatch, bot }: EncodersProps) {
         dispatch={dispatch}
         bot={bot}
       />
-    </table>
+      <BooleanMCUInputGroup
+        hidden={hidePanel}
+        name={t("Invert Endstops")}
+        tooltip={t(ToolTips.INVERT_ENDPOINTS)}
+        x={"movement_invert_endpoints_x"}
+        y={"movement_invert_endpoints_y"}
+        z={"movement_invert_endpoints_z"}
+        dispatch={dispatch}
+        bot={bot}
+      />
+      <BooleanMCUInputGroup
+        hidden={hidePanel}
+        name={t("Enable Endstops")}
+        tooltip={t(ToolTips.ENABLE_ENDSTOPS)}
+        x={"movement_enable_endpoints_x"}
+        y={"movement_enable_endpoints_y"}
+        z={"movement_enable_endpoints_z"}
+        dispatch={dispatch}
+        bot={bot}
+      />
+    </div>
   </div>;
 }

@@ -47,3 +47,9 @@ export interface MotorsProps {
   dispatch: Function;
   bot: BotState;
 }
+
+export interface EncodersProps {
+  hidePanel: boolean;
+  dispatch: Function;
+  bot: BotState;
+}
