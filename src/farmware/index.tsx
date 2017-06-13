@@ -31,6 +31,9 @@ export class FarmwarePage extends React.Component<FarmwareProps, void> {
         </Col>
       </Row>
       <Row>
+        <Col xs={12} sm={6}>
+          <WeedDetector {...this.props} />
+        </Col>
       </Row>
     </Page>;
   }
