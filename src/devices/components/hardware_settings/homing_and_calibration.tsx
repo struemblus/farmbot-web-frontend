@@ -26,7 +26,9 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
   return <div>
     <h4 onClick={() => dispatch(toggleControlPanel("homing_and_calibration"))}>
       {t("Homing and Calibration")}
-      &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
+      <span className="icon-toggle">
+        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
+      </span>
     </h4>
     <div hidden={hidePanel}>
       <BooleanMCUInputGroup

@@ -2,25 +2,30 @@ import * as React from "react";
 import { t } from "i18next";
 import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
-import { BotState } from "../../interfaces";
 import { SpacePanelToolTip } from "../space_panel_tool_tip";
 import { ToggleButton } from "../../../controls/toggle_button";
-import { settingToggle } from "../../actions";
+import { settingToggle, toggleControlPanel } from "../../actions";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { BotConfigInputBox } from "../step_per_mm_box";
+import { MotorsProps } from "../interfaces";
+import { Row, Col } from "../../../ui/index";
 
-interface MotorsProps {
-  hidePanel: boolean;
-  dispatch: Function;
-  bot: BotState;
-}
 export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
-  let { mcu_params } = bot.hardware;
 
-  return <div hidden={hidePanel}>
-    <h2>Motors</h2>
-    <table>
-      <NumericMCUInputGroup hidden={hidePanel}
+  let { mcu_params } = bot.hardware;
+  let { motors } = bot.controlPanelState;
+  let icon_string = motors ? "minus" : "plus";
+
+  return <div>
+    <h4 onClick={() => dispatch(toggleControlPanel("motors"))}>
+      {t("Motors")}
+      <span className="icon-toggle">
+        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
+      </span>
+    </h4>
+    <div hidden={hidePanel}>
+      <NumericMCUInputGroup
+        hidden={hidePanel}
         name={t("Timeout after (seconds)")}
         tooltip={t(ToolTips.TIMEOUT_AFTER)}
         x={"movement_timeout_x"}
@@ -59,69 +64,84 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         dispatch={dispatch}
         bot={bot}
       />
-      <tr hidden={hidePanel}>
-        <td colSpan={100}>
-          <small>
-            {t("Second X Motor")}
-          </small>
-        </td>
-      </tr>
-      <tr hidden={hidePanel}>
-        <td>
-          <label>{t("Enable Motor")}</label>
+      <Row>
+        <Col xs={6}>
+          <label>
+            {t("Enable Motor")}
+          </label>
           <SpacePanelToolTip tooltip={t(ToolTips.ENABLE_X2_MOTOR)} />
-        </td>
-        <td>
+        </Col>
+        <Col xs={2}>
           <ToggleButton
             toggleval={mcu_params.movement_secondary_motor_x}
-            toggleAction={() => settingToggle("movement_secondary_motor_x", bot)}
+            toggleAction={() =>
+              settingToggle("movement_secondary_motor_x", bot)}
           />
-        </td>
-      </tr>
-      <tr hidden={hidePanel}>
-        <td>
-          <label>{t("Invert Motor")}</label>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={6}>
+          <label>
+            {t("Invert Motor")}
+          </label>
           <SpacePanelToolTip tooltip={t(ToolTips.INVERT_MOTORS)} />
-        </td>
-        <td>
+        </Col>
+        <Col xs={2}>
           <ToggleButton
             toggleval={mcu_params.movement_secondary_motor_invert_x}
-            toggleAction={() => settingToggle("movement_secondary_motor_invert_x", bot)}
+            toggleAction={() =>
+              settingToggle("movement_secondary_motor_invert_x", bot)}
           />
-        </td>
-      </tr>
-      <tr hidden={hidePanel}>
-        <NumericMCUInputGroup
-          name={t("Max Speed (steps/s)")}
-          tooltip={t(ToolTips.MAX_SPEED)}
-          x={"movement_max_spd_x"}
-          y={"movement_max_spd_y"}
-          z={"movement_max_spd_z"}
-          bot={bot}
-          dispatch={dispatch} />
-        <NumericMCUInputGroup
-          hidden={hidePanel}
-          name={t("Accelerate for (steps)")}
-          tooltip={t(ToolTips.ACCELERATE_FOR)}
-          x={"movement_steps_acc_dec_x"}
-          y={"movement_steps_acc_dec_y"}
-          z={"movement_steps_acc_dec_z"}
-          bot={bot}
-          dispatch={dispatch} />
-        <td>
-          <label>{t("Steps per MM")}</label>
+        </Col>
+      </Row>
+      <NumericMCUInputGroup
+        name={t("Max Speed (steps/s)")}
+        tooltip={t(ToolTips.MAX_SPEED)}
+        x={"movement_max_spd_x"}
+        y={"movement_max_spd_y"}
+        z={"movement_max_spd_z"}
+        bot={bot}
+        dispatch={dispatch}
+      />
+      <NumericMCUInputGroup
+        hidden={hidePanel}
+        name={t("Accelerate for (steps)")}
+        tooltip={t(ToolTips.ACCELERATE_FOR)}
+        x={"movement_steps_acc_dec_x"}
+        y={"movement_steps_acc_dec_y"}
+        z={"movement_steps_acc_dec_z"}
+        bot={bot}
+        dispatch={dispatch}
+      />
+      <Row>
+        <Col xs={6}>
+          <label>
+            {t("Steps per MM")}
+          </label>
           <SpacePanelToolTip tooltip={t(ToolTips.STEPS_PER_MM)} />
-        </td>
-        <BotConfigInputBox setting="steps_per_mm_x"
-          bot={bot}
-          dispatch={dispatch} />
-        <BotConfigInputBox setting="steps_per_mm_y"
-          bot={bot}
-          dispatch={dispatch} />
-        <BotConfigInputBox setting="steps_per_mm_z"
-          bot={bot}
-          dispatch={dispatch} />
-      </tr>
-    </table>
+        </Col>
+        <Col xs={2}>
+          <BotConfigInputBox
+            setting="steps_per_mm_x"
+            bot={bot}
+            dispatch={dispatch}
+          />
+        </Col>
+        <Col xs={2}>
+          <BotConfigInputBox
+            setting="steps_per_mm_y"
+            bot={bot}
+            dispatch={dispatch}
+          />
+        </Col>
+        <Col xs={2}>
+          <BotConfigInputBox
+            setting="steps_per_mm_z"
+            bot={bot}
+            dispatch={dispatch}
+          />
+        </Col>
+      </Row>
+    </div>
   </div>;
 }

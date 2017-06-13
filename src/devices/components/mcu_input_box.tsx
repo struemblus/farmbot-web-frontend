@@ -1,12 +1,14 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { McuInputBoxProps } from "../interfaces";
 import { updateMCU } from "../actions";
-import { BlurableInput } from "../../ui/index";
+import { BlurableInput, Col } from "../../ui/index";
 import { clampUnsignedInteger } from "../../util";
 import { warning } from "../../ui/logger";
 import { t } from "i18next";
 
 export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
+
   get key() { return this.props.setting; }
 
   get value() {
@@ -20,7 +22,8 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
     if (actuallyDifferent) {
       let result = clampUnsignedInteger(value);
       switch (result.outcome) {
-        case "ok": break;
+        case "ok":
+          break;
         case "high":
           warning(t("Maximum input is 32,000. Rounding down."));
           break;
@@ -36,8 +39,10 @@ export class McuInputBox extends React.Component<McuInputBoxProps, {}> {
   }
 
   render() {
-    return <td>
-      <BlurableInput type="number" value={this.value} onCommit={this.commit} />
-    </td>;
+    return <BlurableInput
+      type="number"
+      value={this.value}
+      onCommit={this.commit}
+    />;
   }
 }

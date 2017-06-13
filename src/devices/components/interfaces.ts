@@ -41,3 +41,9 @@ export interface NumericMCUInputGroupProps {
   z: McuParamName;
   hidden?: boolean;
 }
+
+export interface MotorsProps {
+  hidePanel: boolean;
+  dispatch: Function;
+  bot: BotState;
+}
