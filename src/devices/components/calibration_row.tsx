@@ -2,34 +2,43 @@ import * as React from "react";
 import { t } from "i18next";
 import { devices } from "../../device";
 import { Axis } from "../interfaces";
-import { HomingRowProps } from "./interfaces";
-import { Farmbot } from "farmbot/dist";
 import { LockableButton } from "./lockable_button";
 import { axisTrackingStatus } from "./axis_tracking_status";
 import { ToolTips } from "../../constants";
-import { SpacePanelToolTip } from "./space_panel_tool_tip";
 import { Row, Col } from "../../ui/index";
+import { CalibrationRowProps } from "./interfaces";
 
-const speed = Farmbot.defaults.speed;
-let findHome = (axis: Axis) => devices.current.findHome({ speed, axis });
+function calibrate(axis: Axis) {
+  devices
+    .current
+    .calibrate({ axis });
+}
 
-export function HomingRow(props: HomingRowProps) {
+export function CalibrationRow(props: CalibrationRowProps) {
+
   let { hardware, hidden } = props;
 
   return <div hidden={!!hidden}>
     <Row>
       <Col xs={6}>
         <label>
-          {t("HOMING")}
+          {t("CALIBRATION")}
         </label>
-        <SpacePanelToolTip tooltip={t(ToolTips.HOMING)} />
+        <div className="help">
+          <i className="fa fa-question-circle help-icon" />
+          <div className="help-text">
+            {t(ToolTips.CALIBRATION)}
+          </div>
+        </div>
       </Col>
       {axisTrackingStatus(hardware)
-        .map((row) => {
+        .map(row => {
           let { axis, disabled } = row;
           return <Col xs={2} key={axis}>
-            <LockableButton disabled={disabled} onClick={() => findHome(axis)}>
-              {t("HOME {{axis}}", { axis })}
+            <LockableButton
+              disabled={disabled}
+              onClick={() => calibrate(axis)}>
+              {t("CALIBRATE {{axis}}", { axis })}
             </LockableButton>
           </Col>
         })}

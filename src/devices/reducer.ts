@@ -49,8 +49,8 @@ let initialState: BotState = {
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<keyof ControlPanelState>("TOGGLE_CONTROL_PANEL_OPTION", (s, { payload }) => {
-    console.log(payload);
+  .add<keyof ControlPanelState>("TOGGLE_CONTROL_PANEL_OPTION", (s, a) => {
+    s.controlPanelState[a.payload] = !s.controlPanelState[a.payload];
     return s;
   })
   .add<number>("CHANGE_STEP_SIZE", (s, a) => {

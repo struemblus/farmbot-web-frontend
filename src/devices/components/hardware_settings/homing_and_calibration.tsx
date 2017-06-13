@@ -2,27 +2,33 @@ import * as React from "react";
 import { t } from "i18next";
 import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
-import { BotState } from "../../interfaces";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { HomingRow } from "../homing_row";
-import { CalibrationRow } from "../calibration_button";
+import { CalibrationRow } from "../calibration_row";
 import { ZeroRow } from "../zero_row";
 import { enabledAxisMap } from "../axis_tracking_status";
+import { HomingAndCalibrationProps } from "../interfaces";
+import { toggleControlPanel } from "../../actions";
 
-interface HomingAndCalibrationProps {
-  hidePanel: boolean;
-  dispatch: Function;
-  bot: BotState;
-}
-export function HomingAndCalibration({ hidePanel, dispatch, bot }: HomingAndCalibrationProps) {
+export function HomingAndCalibration(props: HomingAndCalibrationProps) {
+
+  let { hidePanel, dispatch, bot } = props;
   let { mcu_params } = bot.hardware;
+  let { homing_and_calibration } = props.bot.controlPanelState;
+  let icon_string = homing_and_calibration ? "minus" : "plus";
 
-  /** Tells us if X/Y/Z have a means of checking their position.
-   * FARMBOT WILL CRASH INTO WALLS IF THIS IS WRONG! BE CAREFUL */
-  let enabled = enabledAxisMap(mcu_params)
-  return <div hidden={hidePanel}>
-    <h2>Homing and Calibration</h2>
-    <table>
+  /**
+   * Tells us if X/Y/Z have a means of checking their position.
+   * FARMBOT WILL CRASH INTO WALLS IF THIS IS WRONG! BE CAREFUL.
+   */
+  let enabled = enabledAxisMap(mcu_params);
+
+  return <div>
+    <h4 onClick={() => dispatch(toggleControlPanel("homing_and_calibration"))}>
+      {t("Homing and Calibration")}
+      &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
+    </h4>
+    <div hidden={hidePanel}>
       <BooleanMCUInputGroup
         hidden={hidePanel}
         name={t("Stop at Home")}
@@ -31,10 +37,12 @@ export function HomingAndCalibration({ hidePanel, dispatch, bot }: HomingAndCali
         y={"movement_stop_at_home_y"}
         z={"movement_stop_at_home_z"}
         dispatch={dispatch}
-        bot={bot} />
+        bot={bot}
+      />
       <CalibrationRow
         hidden={hidePanel}
-        hardware={mcu_params} />
+        hardware={mcu_params}
+      />
       <ZeroRow />
       <BooleanMCUInputGroup
         hidden={hidePanel}
@@ -81,7 +89,8 @@ export function HomingAndCalibration({ hidePanel, dispatch, bot }: HomingAndCali
       />
       <HomingRow
         hidden={hidePanel}
-        hardware={mcu_params} />
-    </table>
+        hardware={mcu_params}
+      />
+    </div>
   </div>;
 }

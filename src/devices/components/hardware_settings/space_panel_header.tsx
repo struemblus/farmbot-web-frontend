@@ -9,24 +9,20 @@ interface SpacePanelHeaderProps {
 
 export function SpacePanelHeader({ children, hidden }: SpacePanelHeaderProps) {
   return <Row>
-    <Col xs={4}>
+    <Col xs={2} xsOffset={6}>
       <label>
         {t("X AXIS")}
       </label>
     </Col>
-    <Col xs={4}>
+    <Col xs={2}>
       <label>
         {t("Y AXIS")}
       </label>
     </Col>
-    <Col xs={4}>
+    <Col xs={2}>
       <label>
         {t("Z AXIS")}
       </label>
     </Col>
-    <label>
-      [&nbsp;<i className={`fa fa-iconString`} />&nbsp;]&nbsp;
-      {children}
-    </label>
   </Row>
 }

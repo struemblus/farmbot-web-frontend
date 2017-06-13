@@ -20,6 +20,7 @@ interface ColumnProps {
   /** {lg-col-size-offset} */
   lgOffset?: number;
   hidden?: boolean;
+  key?: string | number;
 }
 
 export function Col(props: ColumnProps) {
