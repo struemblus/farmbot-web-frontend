@@ -58,10 +58,15 @@ export function commitBulkEditor(): Thunk {
       if (selectedSequenceUUID) {
         let seq = findSequence(res.index, selectedSequenceUUID).body;
         const regimenItems = groupRegimenItemsByWeek(weeks, dailyOffsetMs, seq);
-        let reg = findRegimen(res.index, currentRegimen);
-        let update = defensiveClone(reg).body;
-        update.regimen_items = update.regimen_items.concat(regimenItems);
-        dispatch(overwrite(reg, update));
+        // Proceed only if days are selcted in the scheduler.
+        if (regimenItems.length > 0) {
+          let reg = findRegimen(res.index, currentRegimen);
+          let update = defensiveClone(reg).body;
+          update.regimen_items = update.regimen_items.concat(regimenItems);
+          dispatch(overwrite(reg, update));
+        } else {
+          return error(t("No day(s) selected."));
+        }
       } else {
         return error(t("Select a sequence from the dropdown first."));
       }
