@@ -21,6 +21,7 @@ interface ColumnProps {
   lgOffset?: number;
   hidden?: boolean;
   key?: string | number;
+  className?: string;
 }
 
 export function Col(props: ColumnProps) {

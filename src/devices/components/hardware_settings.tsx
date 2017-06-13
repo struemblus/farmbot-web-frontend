@@ -46,9 +46,11 @@ export class HardwareSettings extends
           fallback="Device is offline."
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
-          <SpacePanelHeader>
-            {t("Advanced")}
-          </SpacePanelHeader>
+          <div className="label-headings">
+            <SpacePanelHeader>
+              {t("Advanced")}
+            </SpacePanelHeader>
+          </div>
           <HomingAndCalibration
             hidePanel={homing_and_calibration}
             dispatch={dispatch}
