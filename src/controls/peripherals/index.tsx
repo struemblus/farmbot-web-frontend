@@ -23,13 +23,19 @@ export class Peripherals extends React.Component<PeripheralsProps, PeripheralSta
     let { peripherals } = this.props;
     let pinNums = peripherals.map(x => x.body.pin);
     let positivePins = pinNums.filter(x => x && x > 0);
+    let smallPins = pinNums.filter(x => x && x < 1000);
     // I hate adding client side validation, but this is a wonky endpoint - RC.
     let allAreUniq = _.uniq(pinNums).length === pinNums.length;
-    let allArePositive = positivePins.length === pinNums.length
+    let allArePositive = positivePins.length === pinNums.length;
+    let allAreSmall = smallPins.length === pinNums.length;
     if (allAreUniq && allArePositive) {
-      this.props.dispatch(saveAll(this.props.peripherals, this.toggle));
+      if (allAreSmall) {
+        this.props.dispatch(saveAll(this.props.peripherals, this.toggle));
+      } else {
+        error("Pin numbers must be less than 1000.");
+      }
     } else {
-      error("Pin numbers are required and must be unique.");
+      error("Pin numbers are required and must be positive and unique.");
     }
   }
 
