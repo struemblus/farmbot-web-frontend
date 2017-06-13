@@ -13,8 +13,8 @@ import { Motors } from "./hardware_settings/motors";
 import { HomingAndCalibration } from "./hardware_settings/homing_and_calibration";
 import { SpacePanelHeader } from "./hardware_settings/space_panel_header";
 
-export class HardwareSettings
-  extends React.Component<HardwareSettingsProps, {}> {
+export class HardwareSettings extends
+  React.Component<HardwareSettingsProps, {}> {
 
   render() {
     let { bot, dispatch } = this.props;

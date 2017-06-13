@@ -8,7 +8,6 @@ interface SpacePanelHeaderProps {
 }
 
 export function SpacePanelHeader({ children, hidden }: SpacePanelHeaderProps) {
-  let iconString = hidden ? "plus" : "minus";
   return <Row>
     <Col xs={4}>
       <label>
@@ -26,7 +25,7 @@ export function SpacePanelHeader({ children, hidden }: SpacePanelHeaderProps) {
       </label>
     </Col>
     <label>
-      [&nbsp;<i className={`fa fa-${iconString}`} />&nbsp;]&nbsp;
+      [&nbsp;<i className={`fa fa-iconString`} />&nbsp;]&nbsp;
       {children}
     </label>
   </Row>
