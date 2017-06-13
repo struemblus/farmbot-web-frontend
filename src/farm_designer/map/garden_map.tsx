@@ -10,8 +10,7 @@ import {
   translateScreenToGarden,
   round,
   ScreenToGardenParams,
-  getXYFromQuadrant,
-  getMouseXY
+  getXYFromQuadrant
 } from "./util";
 import { findBySlug } from "../search_selectors";
 import { PlantLayer } from "./layers/plant_layer";
@@ -93,8 +92,7 @@ export class GardenMap extends
     }
   }
 
-  drag = (e: MouseEvent) => {
-    let { mx, my } = getMouseXY(e);
+  drag = (e: React.MouseEvent<SVGElement>) => {
     let plant = this.getPlant();
     let map = document.querySelector(".farm-designer-map");
     let { botOriginQuadrant } = this.props.designer;
