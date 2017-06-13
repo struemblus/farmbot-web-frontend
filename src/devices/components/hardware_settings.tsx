@@ -53,22 +53,22 @@ export class HardwareSettings extends
           </SpacePanelHeader>
           <HomingAndCalibration
             hidePanel={homing_and_calibration}
-            dispatch={this.props.dispatch}
+            dispatch={dispatch}
             bot={bot}
           />
           <Motors
             hidePanel={motors}
-            dispatch={this.props.dispatch}
+            dispatch={dispatch}
             bot={bot}
           />
           <Encoders
             hidePanel={encoders_and_endstops}
-            dispatch={this.props.dispatch}
+            dispatch={dispatch}
             bot={bot}
           />
           <EndStops
             hidePanel={encoders_and_endstops}
-            dispatch={this.props.dispatch}
+            dispatch={dispatch}
             bot={bot}
           />
           <DangerZone
