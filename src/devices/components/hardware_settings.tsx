@@ -66,6 +66,8 @@ export class HardwareSettings extends
           />
           <DangerZone
             hidePanel={danger_zone}
+            dispatch={dispatch}
+            bot={bot}
             onReset={MCUFactoryReset}
           />
         </MustBeOnline>

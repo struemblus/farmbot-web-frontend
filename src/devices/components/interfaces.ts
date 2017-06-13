@@ -53,3 +53,10 @@ export interface EncodersProps {
   dispatch: Function;
   bot: BotState;
 }
+
+export interface DangerZoneProps {
+  dispatch: Function;
+  bot: BotState;
+  hidePanel: boolean;
+  onReset(): void;
+}
