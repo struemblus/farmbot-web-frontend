@@ -32,6 +32,7 @@ import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
 // TIL: http://stackoverflow.com/a/24900248/1064917
 import { betterMerge } from "../../util";
+import { info } from "../../ui/logger";
 
 type FormEvent = React.SyntheticEvent<HTMLInputElement>;
 /** Seperate each of the form fields into their own interface. Recombined later
@@ -153,10 +154,23 @@ export class EditFEForm extends React.Component<Props, State> {
   commitViewModel = () => {
     let partial = recombine(betterMerge(this.viewModel, this.state.fe));
     this.dispatch(edit(this.props.farmEvent, partial));
-    this.dispatch(save(this.props.farmEvent.uuid)).then(() => {
-      history.push("/app/designer/farm_events");
-      success("Saved farm event.", "Saved");
-    })
+    this
+      .dispatch(save(this.props.farmEvent.uuid))
+      .then(() => {
+        history.push("/app/designer/farm_events");
+        let qqq = this.props.farmEvent;
+        let nextRun = qqq.body.calendar && qqq.body.calendar[0];
+        if (nextRun) {
+          // TODO: Internationalizing this will be a challenge.
+          success(`This Farm Event will run ${moment(nextRun).fromNow()},` +
+            ` but you must first SYNC YOUR DEVICE. If you do not sync, ` +
+            ` The event will not run.`);
+          debugger;
+        } else {
+          error("This Farm Event does not appear to have a valid run time." +
+            " Perhaps you entered bad dates?");
+        }
+      })
       .catch(() => {
         error("Unable to save farm event.");
         this.setState(betterMerge(this.state, { localCopyDirty: false }));
