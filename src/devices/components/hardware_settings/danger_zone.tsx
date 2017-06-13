@@ -1,22 +1,21 @@
 import * as React from "react";
 import { t } from "i18next";
 import { DangerZoneProps } from "../interfaces";
-import { toggleControlPanel } from "../../actions";
 import { Row, Col } from "../../../ui/index";
+import { Header } from "./Header";
 
 export function DangerZone(props: DangerZoneProps) {
 
   let { hidePanel, dispatch, bot, onReset } = props;
   let { danger_zone } = bot.controlPanelState;
-  let icon_string = danger_zone ? "minus" : "plus";
 
   return <div>
-    <h4 onClick={() => dispatch(toggleControlPanel("danger_zone"))}>
-      {t("Danger Zone")}
-      <span className="icon-toggle">
-        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
-      </span>
-    </h4>
+    <Header
+      bool={danger_zone}
+      title={"Danger Zone"}
+      name={"danger_zone"}
+      dispatch={dispatch}
+    />
     <div hidden={hidePanel}>
       <Row>
         <Col xs={4}>

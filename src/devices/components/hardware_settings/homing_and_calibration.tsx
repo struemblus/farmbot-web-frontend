@@ -8,14 +8,13 @@ import { CalibrationRow } from "../calibration_row";
 import { ZeroRow } from "../zero_row";
 import { enabledAxisMap } from "../axis_tracking_status";
 import { HomingAndCalibrationProps } from "../interfaces";
-import { toggleControlPanel } from "../../actions";
+import { Header } from "./Header";
 
 export function HomingAndCalibration(props: HomingAndCalibrationProps) {
 
   let { hidePanel, dispatch, bot } = props;
   let { mcu_params } = bot.hardware;
   let { homing_and_calibration } = props.bot.controlPanelState;
-  let icon_string = homing_and_calibration ? "minus" : "plus";
 
   /**
    * Tells us if X/Y/Z have a means of checking their position.
@@ -24,12 +23,12 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
   let enabled = enabledAxisMap(mcu_params);
 
   return <div>
-    <h4 onClick={() => dispatch(toggleControlPanel("homing_and_calibration"))}>
-      {t("Homing and Calibration")}
-      <span className="icon-toggle">
-        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
-      </span>
-    </h4>
+    <Header
+      title={"Homing and Calibration"}
+      name={"homing_and_calibration"}
+      dispatch={dispatch}
+      bool={homing_and_calibration}
+    />
     <div hidden={hidePanel}>
       <HomingRow hardware={mcu_params} />
       <CalibrationRow hardware={mcu_params} />

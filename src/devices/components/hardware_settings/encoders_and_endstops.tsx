@@ -4,21 +4,20 @@ import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { EncodersProps } from "../interfaces";
-import { toggleControlPanel } from "../../actions";
+import { Header } from "./Header";
 
 export function EncodersAndEndStops(props: EncodersProps) {
 
   let { encoders_and_endstops } = props.bot.controlPanelState;
   let { hidePanel, dispatch, bot } = props;
-  let icon_string = encoders_and_endstops ? "minus" : "plus";
 
   return <div>
-    <h4 onClick={() => dispatch(toggleControlPanel("encoders_and_endstops"))}>
-      {t("Encoders and Endstops")}
-      <span className="icon-toggle">
-        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
-      </span>
-    </h4>
+    <Header
+      bool={encoders_and_endstops}
+      title={"Encoders and Endstops"}
+      name={"encoders_and_endstops"}
+      dispatch={dispatch}
+    />
     <div hidden={hidePanel}>
       <BooleanMCUInputGroup
         name={t("Enable Encoders")}

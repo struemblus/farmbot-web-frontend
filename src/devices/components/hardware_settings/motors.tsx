@@ -4,25 +4,25 @@ import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
 import { SpacePanelToolTip } from "../space_panel_tool_tip";
 import { ToggleButton } from "../../../controls/toggle_button";
-import { settingToggle, toggleControlPanel } from "../../actions";
+import { settingToggle } from "../../actions";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { BotConfigInputBox } from "../step_per_mm_box";
 import { MotorsProps } from "../interfaces";
 import { Row, Col } from "../../../ui/index";
+import { Header } from "./Header";
 
 export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
 
   let { mcu_params } = bot.hardware;
   let { motors } = bot.controlPanelState;
-  let icon_string = motors ? "minus" : "plus";
 
   return <div>
-    <h4 onClick={() => dispatch(toggleControlPanel("motors"))}>
-      {t("Motors")}
-      <span className="icon-toggle">
-        &nbsp;&nbsp;[<i className={`fa fa-${icon_string}`} />]
-      </span>
-    </h4>
+    <Header
+      bool={motors}
+      title={"Motors"}
+      name={"motors"}
+      dispatch={dispatch}
+    />
     <div hidden={hidePanel}>
       <NumericMCUInputGroup
         name={t("Max Speed (steps/s)")}
