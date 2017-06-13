@@ -1,4 +1,4 @@
-import { BotState, HardwareState, Xyz } from "./interfaces";
+import { BotState, HardwareState, Xyz, ControlPanelState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
 import { SyncStatus } from "farmbot/dist";
 import { localStorageBoolFetch } from "../util";
@@ -23,7 +23,12 @@ export function versionOK(stringyVersion = "0.0.0",
 }
 let initialState: BotState = {
   stepSize: 100,
-  controlPanelClosed: true,
+  controlPanelState: {
+    homing_and_calibration: false,
+    motors: false,
+    encoders_and_endstops: false,
+    danger_zone: false
+  },
   hardware: {
     mcu_params: {},
     location: [-1, -1, -1],
@@ -44,11 +49,11 @@ let initialState: BotState = {
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<void>("TOGGLE_CONTROL_PANEL", function(s, a) {
-    s.controlPanelClosed = !s.controlPanelClosed;
+  .add<keyof ControlPanelState>("TOGGLE_CONTROL_PANEL_OPTION", (s, { payload }) => {
+    console.log(payload);
     return s;
   })
-  .add<number>("CHANGE_STEP_SIZE", function(s, a) {
+  .add<number>("CHANGE_STEP_SIZE", (s, a) => {
     return Object.assign({}, s, {
       stepSize: a.payload
     });
@@ -61,22 +66,22 @@ export let botReducer = generateReducer<BotState>(initialState)
     s.isUpdating = false;
     return s;
   })
-  .add<HardwareState>("BOT_CHANGE", function(s, a) {
-    let nextState = a.payload;
+  .add<HardwareState>("BOT_CHANGE", (s, { payload }) => {
+    let nextState = payload;
     s.hardware = nextState;
     versionOK(nextState.informational_settings.controller_version);
     return s;
   })
-  .add<string>("FETCH_OS_UPDATE_INFO_OK", function(s, a) {
-    s.currentOSVersion = a.payload;
+  .add<string>("FETCH_OS_UPDATE_INFO_OK", (s, { payload }) => {
+    s.currentOSVersion = payload;
     return s;
   })
-  .add<string>("FETCH_FW_UPDATE_INFO_OK", function(s, a) {
-    s.currentFWVersion = a.payload;
+  .add<string>("FETCH_FW_UPDATE_INFO_OK", (s, { payload }) => {
+    s.currentFWVersion = payload;
     return s;
   })
-  .add<SyncStatus>("SET_SYNC_STATUS", (s, a) => {
-    s.hardware.informational_settings.sync_status = a.payload;
+  .add<SyncStatus>("SET_SYNC_STATUS", (s, { payload }) => {
+    s.hardware.informational_settings.sync_status = payload;
     return s;
   })
   .add<Xyz>("INVERT_JOG_BUTTON", (s, { payload }) => {

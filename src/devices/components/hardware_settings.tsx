@@ -18,8 +18,14 @@ export class HardwareSettings
 
   render() {
     let { bot, dispatch } = this.props;
-    let hidePanel = this.props.controlPanelClosed;
-    let iconString = hidePanel ? "plus" : "minus";
+    let controlPanelState = this.props.controlPanelState;
+    let {
+      homing_and_calibration,
+      motors,
+      encoders_and_endstops,
+      danger_zone
+    } = controlPanelState;
+    // let iconString = hidePanel ? "plus" : "minus";
 
     return <Widget className="hardware-widget">
       <WidgetHeader title="Hardware" helpText={ToolTips.HW_SETTINGS}>
@@ -38,25 +44,37 @@ export class HardwareSettings
         </MustBeOnline>
       </WidgetHeader>
       <WidgetBody>
-        <MustBeOnline fallback="Device is offline."
+        <MustBeOnline
+          fallback="Device is offline."
           status={bot.hardware.informational_settings.sync_status}
           lockOpen={process.env.NODE_ENV !== "production"}>
-          <SpacePanelHeader onClick={() => dispatch(toggleControlPanel())}>
+          <SpacePanelHeader>
             {t("Advanced")}
           </SpacePanelHeader>
-          <HomingAndCalibration hidePanel={hidePanel}
+          <HomingAndCalibration
+            hidePanel={homing_and_calibration}
             dispatch={this.props.dispatch}
-            bot={bot} />
-          <Motors hidePanel={hidePanel}
+            bot={bot}
+          />
+          <Motors
+            hidePanel={motors}
             dispatch={this.props.dispatch}
-            bot={bot} />
-          <Encoders hidePanel={hidePanel}
+            bot={bot}
+          />
+          <Encoders
+            hidePanel={encoders_and_endstops}
             dispatch={this.props.dispatch}
-            bot={bot} />
-          <EndStops hidePanel={hidePanel}
+            bot={bot}
+          />
+          <EndStops
+            hidePanel={encoders_and_endstops}
             dispatch={this.props.dispatch}
-            bot={bot} />
-          <DangerZone hidePanel={hidePanel} onReset={MCUFactoryReset} />
+            bot={bot}
+          />
+          <DangerZone
+            hidePanel={danger_zone}
+            onReset={MCUFactoryReset}
+          />
         </MustBeOnline>
       </WidgetBody>
     </Widget>;

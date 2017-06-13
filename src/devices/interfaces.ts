@@ -54,7 +54,7 @@ export interface BotState {
   /** Hardware settings auto update on blur. Tells the UI if it should load a
    * spinner or not. */
   isUpdating?: boolean;
-  controlPanelClosed: boolean;
+  controlPanelState: ControlPanelState;
   /** The inversions for the jog buttons on the controls page. */
   x_axis_inverted: boolean;
   y_axis_inverted: boolean;
@@ -130,7 +130,14 @@ export interface FarmwareProps {
 }
 
 export interface HardwareSettingsProps {
-  controlPanelClosed: boolean;
+  controlPanelState: ControlPanelState;
   dispatch: Function;
   bot: BotState;
+}
+
+export interface ControlPanelState {
+  homing_and_calibration: boolean;
+  motors: boolean;
+  encoders_and_endstops: boolean;
+  danger_zone: boolean;
 }

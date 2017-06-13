@@ -3,7 +3,12 @@ import { Everything } from "../../interfaces";
 
 export let bot: Everything["bot"] = {
   "stepSize": 100,
-  "controlPanelClosed": false,
+  "controlPanelState": {
+    "homing_and_calibration": false,
+    "motors": false,
+    "encoders_and_endstops": false,
+    "danger_zone": false
+  },
   "hardware": {
     "mcu_params": {},
     "location": [
