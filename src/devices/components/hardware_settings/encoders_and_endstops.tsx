@@ -21,7 +21,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
     </h4>
     <div hidden={hidePanel}>
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Enable Encoders")}
         tooltip={t(ToolTips.ENABLE_ENCODERS)}
         x={"encoder_enabled_x"}
@@ -31,7 +30,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         bot={bot}
       />
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Use Encoders for Positioning")}
         tooltip={t(ToolTips.ENCODER_POSITIONING)}
         x={"encoder_use_for_pos_x"}
@@ -41,7 +39,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         bot={bot}
       />
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Invert Encoders")}
         tooltip={t(ToolTips.INVERT_ENCODERS)}
         x={"encoder_invert_x"}
@@ -51,7 +48,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         bot={bot}
       />
       <NumericMCUInputGroup
-        hidden={hidePanel}
         name={t("Max Missed Steps")}
         tooltip={t(ToolTips.MAX_MISSED_STEPS)}
         x={"encoder_missed_steps_max_x"}
@@ -61,7 +57,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         dispatch={dispatch}
       />
       <NumericMCUInputGroup
-        hidden={hidePanel}
         name={t("Encoder Missed Step Decay")}
         tooltip={t(ToolTips.ENCODER_MISSED_STEP_DECAY)}
         x={"encoder_missed_steps_decay_x"}
@@ -71,7 +66,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         dispatch={dispatch}
       />
       <NumericMCUInputGroup
-        hidden={hidePanel}
         name={t("Encoder Scaling")}
         tooltip={t(ToolTips.ENCODER_SCALING)}
         x={"encoder_scaling_x"}
@@ -81,7 +75,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         dispatch={dispatch}
       />
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Enable Endstops")}
         tooltip={t(ToolTips.ENABLE_ENDSTOPS)}
         x={"movement_enable_endpoints_x"}
@@ -91,7 +84,6 @@ export function EncodersAndEndStops(props: EncodersProps) {
         bot={bot}
       />
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Invert Endstops")}
         tooltip={t(ToolTips.INVERT_ENDPOINTS)}
         x={"movement_invert_endpoints_x"}

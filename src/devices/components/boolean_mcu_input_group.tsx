@@ -17,41 +17,38 @@ export function BooleanMCUInputGroup(props: BooleanMCUInputGroupProps) {
     z,
     disableX,
     disableY,
-    disableZ,
-    hidden
+    disableZ
   } = props;
 
   let { mcu_params } = bot.hardware;
 
-  return <div hidden={!!hidden}>
-    <Row>
-      <Col xs={6}>
-        <label>
-          {name}
-        </label>
-        <SpacePanelToolTip tooltip={tooltip} />
-      </Col>
-      <Col xs={2}>
-        <ToggleButton
-          disabled={disableX}
-          toggleval={mcu_params[x]}
-          toggleAction={() => settingToggle(x, bot)}
-        />
-      </Col>
-      <Col xs={2}>
-        <ToggleButton
-          disabled={disableY}
-          toggleval={mcu_params[y]}
-          toggleAction={() => settingToggle(y, bot)}
-        />
-      </Col>
-      <Col xs={2}>
-        <ToggleButton
-          disabled={disableZ}
-          toggleval={mcu_params[z]}
-          toggleAction={() => settingToggle(z, bot)}
-        />
-      </Col>
-    </Row>
-  </div>;
+  return <Row>
+    <Col xs={6}>
+      <label>
+        {name}
+      </label>
+      <SpacePanelToolTip tooltip={tooltip} />
+    </Col>
+    <Col xs={2}>
+      <ToggleButton
+        disabled={disableX}
+        toggleval={mcu_params[x]}
+        toggleAction={() => settingToggle(x, bot)}
+      />
+    </Col>
+    <Col xs={2}>
+      <ToggleButton
+        disabled={disableY}
+        toggleval={mcu_params[y]}
+        toggleAction={() => settingToggle(y, bot)}
+      />
+    </Col>
+    <Col xs={2}>
+      <ToggleButton
+        disabled={disableZ}
+        toggleval={mcu_params[z]}
+        toggleAction={() => settingToggle(z, bot)}
+      />
+    </Col>
+  </Row>;
 }

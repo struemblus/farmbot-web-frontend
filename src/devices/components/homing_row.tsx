@@ -14,25 +14,23 @@ const speed = Farmbot.defaults.speed;
 let findHome = (axis: Axis) => devices.current.findHome({ speed, axis });
 
 export function HomingRow(props: HomingRowProps) {
-  let { hardware, hidden } = props;
+  let { hardware } = props;
 
-  return <div hidden={!!hidden}>
-    <Row>
-      <Col xs={6}>
-        <label>
-          {t("HOMING")}
-        </label>
-        <SpacePanelToolTip tooltip={t(ToolTips.HOMING)} />
-      </Col>
-      {axisTrackingStatus(hardware)
-        .map((row) => {
-          let { axis, disabled } = row;
-          return <Col xs={2} key={axis}>
-            <LockableButton disabled={disabled} onClick={() => findHome(axis)}>
-              {t("HOME {{axis}}", { axis })}
-            </LockableButton>
-          </Col>
-        })}
-    </Row>
-  </div>;
+  return <Row>
+    <Col xs={6}>
+      <label>
+        {t("HOMING")}
+      </label>
+      <SpacePanelToolTip tooltip={t(ToolTips.HOMING)} />
+    </Col>
+    {axisTrackingStatus(hardware)
+      .map((row) => {
+        let { axis, disabled } = row;
+        return <Col xs={2} key={axis}>
+          <LockableButton disabled={disabled} onClick={() => findHome(axis)}>
+            {t("HOME {{axis}}", { axis })}
+          </LockableButton>
+        </Col>
+      })}
+  </Row>;
 }

@@ -34,7 +34,6 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         dispatch={dispatch}
       />
       <NumericMCUInputGroup
-        hidden={hidePanel}
         name={t("Minimum Speed (steps/s)")}
         tooltip={t(ToolTips.MIN_SPEED)}
         x={"movement_min_spd_x"}
@@ -44,7 +43,6 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         dispatch={dispatch}
       />
       <NumericMCUInputGroup
-        hidden={hidePanel}
         name={t("Accelerate for (steps)")}
         tooltip={t(ToolTips.ACCELERATE_FOR)}
         x={"movement_steps_acc_dec_x"}
@@ -83,7 +81,6 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         </Col>
       </Row>
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Always Power Motors")}
         tooltip={t(ToolTips.ALWAYS_POWER_MOTORS)}
         x={"movement_keep_active_x"}
@@ -93,7 +90,6 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         bot={bot}
       />
       <BooleanMCUInputGroup
-        hidden={hidePanel}
         name={t("Invert Motors")}
         tooltip={t(ToolTips.INVERT_MOTORS)}
         x={"movement_invert_motor_x"}

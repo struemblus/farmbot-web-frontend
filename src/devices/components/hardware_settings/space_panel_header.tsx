@@ -4,10 +4,9 @@ import { Row, Col } from "../../../ui/index";
 
 interface SpacePanelHeaderProps {
   children?: JSX.Element | undefined;
-  hidden?: boolean;
 }
 
-export function SpacePanelHeader({ children, hidden }: SpacePanelHeaderProps) {
+export function SpacePanelHeader({ children }: SpacePanelHeaderProps) {
   return <Row>
     <Col xs={2} xsOffset={6}>
       <label>

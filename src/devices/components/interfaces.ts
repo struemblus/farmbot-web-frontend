@@ -2,7 +2,6 @@ import { BotState } from "../interfaces";
 import { McuParamName, McuParams } from "farmbot/dist";
 
 export interface HomingRowProps {
-  hidden?: boolean | undefined;
   hardware: McuParams;
 }
 
@@ -23,11 +22,9 @@ export interface BooleanMCUInputGroupProps {
   disableX?: boolean | undefined;
   disableY?: boolean | undefined;
   disableZ?: boolean | undefined;
-  hidden?: boolean | undefined;
 }
 
 export interface CalibrationRowProps {
-  hidden?: boolean | undefined;
   hardware: McuParams;
 }
 
@@ -39,7 +36,6 @@ export interface NumericMCUInputGroupProps {
   x: McuParamName;
   y: McuParamName;
   z: McuParamName;
-  hidden?: boolean;
 }
 
 export interface MotorsProps {

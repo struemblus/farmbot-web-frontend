@@ -7,37 +7,35 @@ import { Col } from "../../ui/index";
 
 export function NumericMCUInputGroup(props: NumericMCUInputGroupProps) {
 
-  let { bot, dispatch, tooltip, name, x, y, z, hidden } = props;
+  let { bot, dispatch, tooltip, name, x, y, z } = props;
 
-  return <div hidden={!!hidden}>
-    <Row>
-      <Col xs={6}>
-        <label>
-          {name}
-        </label>
-        <SpacePanelToolTip tooltip={tooltip} />
-      </Col>
-      <Col xs={2}>
-        <McuInputBox
-          setting={x}
-          bot={bot}
-          dispatch={dispatch}
-        />
-      </Col>
-      <Col xs={2}>
-        <McuInputBox
-          setting={y}
-          bot={bot}
-          dispatch={dispatch}
-        />
-      </Col>
-      <Col xs={2}>
-        <McuInputBox
-          setting={z}
-          bot={bot}
-          dispatch={dispatch}
-        />
-      </Col>
-    </Row>
-  </div>;
+  return <Row>
+    <Col xs={6}>
+      <label>
+        {name}
+      </label>
+      <SpacePanelToolTip tooltip={tooltip} />
+    </Col>
+    <Col xs={2}>
+      <McuInputBox
+        setting={x}
+        bot={bot}
+        dispatch={dispatch}
+      />
+    </Col>
+    <Col xs={2}>
+      <McuInputBox
+        setting={y}
+        bot={bot}
+        dispatch={dispatch}
+      />
+    </Col>
+    <Col xs={2}>
+      <McuInputBox
+        setting={z}
+        bot={bot}
+        dispatch={dispatch}
+      />
+    </Col>
+  </Row>;
 }
