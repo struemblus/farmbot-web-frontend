@@ -116,6 +116,18 @@ a {
 }
 
 .hardware-widget {
+  .icon-toggle {
+    font-size: 1.4rem;
+    vertical-align: top;
+    .fa {
+      font-size: 1.2rem;
+      vertical-align: top;
+      margin-top: 0.4rem;
+    }
+  }
+  .label-headings div[class*="col"] {
+    text-align: right;
+  }
   .row {
     margin-bottom: 0.6rem;
   }
