@@ -9,16 +9,19 @@ export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
     let fe = tfe.body;
     // STEP 1: Only do this check if it is a Regimen - sequences don't matter.
     if (fe.executable_type === "Regimen") {
-      const START_TIME = moment(fe.start_time);
-      const NOW = moment();
-      const MIDNIGHT = NOW.subtract(1, 'days').startOf('day');
-      const LOL_STRINGS = "MM-DD-YYYY";
+      // let NOW = new Date().toString().slice(0, 11).trim();
+      // let START_TIME = new Date(fe.start_time).toString().slice(0, 11).trim();
+      var NOW = moment();
+      var START_TIME = moment(fe.start_time);
+      var MIDNIGHT = NOW.subtract(1, 'days').startOf('day');
+      let LOLSTRING = "YYYY-MM-DD";
+
+      debugger;
       // Step 2.5 Continue checking if the farm event is supposed to run today.
       //          since running a farmevent the day it is scheduled runs a risk
       //          of missed tasks.
 
-      debugger;
-      if (START_TIME.format(LOL_STRINGS) === NOW.format(LOL_STRINGS)) {
+      if (START_TIME.format(LOLSTRING) === NOW.format(LOLSTRING)) {
         // STEP 2: Grab all the rgimen items and then...
         let reg_items = findRegimenById(state.resources.index, fe.executable_id)
           .body
