@@ -113,7 +113,6 @@ export function InnerIf(props: IfParams) {
               <If_ {...props} />
               <Then {...props} />
               <Else {...props} />
-              <Options {...props} />
             </div>
           </div>
         </div>
