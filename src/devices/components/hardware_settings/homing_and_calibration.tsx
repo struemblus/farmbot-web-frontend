@@ -29,7 +29,7 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
       dispatch={dispatch}
       bool={homing_and_calibration}
     />
-    <div hidden={hidePanel}>
+    <div className={`is-open-${!!homing_and_calibration}`}>
       <HomingRow hardware={mcu_params} />
       <CalibrationRow hardware={mcu_params} />
       <ZeroRow />

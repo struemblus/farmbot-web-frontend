@@ -23,7 +23,7 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
       name={"motors"}
       dispatch={dispatch}
     />
-    <div hidden={hidePanel}>
+    <div className={`is-open-${!!motors}`}>
       <NumericMCUInputGroup
         name={t("Max Speed (steps/s)")}
         tooltip={t(ToolTips.MAX_SPEED)}

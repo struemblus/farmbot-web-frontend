@@ -18,7 +18,7 @@ export function EncodersAndEndStops(props: EncodersProps) {
       name={"encoders_and_endstops"}
       dispatch={dispatch}
     />
-    <div hidden={hidePanel}>
+    <div className={`is-open-${!!encoders_and_endstops}`}>
       <BooleanMCUInputGroup
         name={t("Enable Encoders")}
         tooltip={t(ToolTips.ENABLE_ENCODERS)}

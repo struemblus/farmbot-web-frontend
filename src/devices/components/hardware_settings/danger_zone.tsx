@@ -16,10 +16,12 @@ export function DangerZone(props: DangerZoneProps) {
       name={"danger_zone"}
       dispatch={dispatch}
     />
-    <div hidden={hidePanel}>
+    <div className={`is-open-${!!danger_zone}`}>
       <Row>
         <Col xs={4}>
-          <label>{t("Reset hardware parameter defaults")}</label>
+          <label>
+            {t("Reset hardware parameter defaults")}
+          </label>
         </Col>
         <Col xs={6}>
           <p>
