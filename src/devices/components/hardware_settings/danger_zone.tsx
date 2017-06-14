@@ -26,7 +26,9 @@ export function DangerZone(props: DangerZoneProps) {
             {t(`Restoring hardware parameter defaults will destroy the
                 current settings, resetting them to default values.`)}
             <br />
-            <b>{t("Will reboot device.")}</b>
+            <b>
+              {t("Will reboot device.")}
+            </b>
           </p>
         </Col>
         <Col xs={2}>

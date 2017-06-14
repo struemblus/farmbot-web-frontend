@@ -12,7 +12,7 @@ interface Props {
 
 export function Header(props: Props) {
   let { dispatch, name, title, bool } = props;
-  let icon_string = bool ? "plus" : "minus";
+  let icon_string = bool ? "minus" : "plus";
   return <h4 onClick={() => dispatch(toggleControlPanel(name))}>
     {t(title)}
     <span className="icon-toggle">
