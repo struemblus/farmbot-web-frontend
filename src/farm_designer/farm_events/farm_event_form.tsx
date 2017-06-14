@@ -168,8 +168,10 @@ export class EditFEForm extends React.Component<Props, State> {
             ` but you must first SYNC YOUR DEVICE. If you do not sync, ` +
             ` The event will not run.`);
           this.props.dispatch(maybeWarnAboutMissedTasks(frmEvnt, function () {
-            warning("You scheduled this regimen too late in the day- " +
-              "some items in the regimen will be skipped! ", "Danger! Danger!")
+            alert("You are scheduling a regimen to run today. " +
+              "Be aware that running a regimen too late in the day " +
+              "may result in skipped regimen tasks. Consider rescheduling " +
+              "this event to tomorrow if this is a concern.");
           }))
         } else {
           error("This Farm Event does not appear to have a valid run time." +
