@@ -4,6 +4,7 @@ import { findRegimenById } from "../../resources/selectors";
 import * as moment from "moment";
 import { FarmEvent } from "../interfaces";
 import { RegimenItem } from "../../regimens/interfaces";
+import * as _ from "lodash";
 
 export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
   return function (dispatch: Function, getState: GetState) {
@@ -31,7 +32,7 @@ export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
         // ... Figure out when the first event runs....
         let first = _(regItems).pluck<number>(TIME_OFFSET).min() || 0;
         /** This is the first task time for the whole series of events. */
-        const FIRST_TASK = MIDNIGHT.add(first, "milliseconds");
+        const FIRST_TASK = MIDNIGHT.clone().add(first, "milliseconds");
 
         // STEP 3: If task loss is possible, warn the user by calling CB.
         if (FIRST_TASK.diff(NOW) < 0) {
@@ -42,7 +43,6 @@ export function maybeWarnAboutMissedTasks(tfe: TaggedFarmEvent, cb: Function) {
   }
 }
 
-console.info("TODO - RC")
 const timeFmt = "YYYY-MM-DD";
 
 export function taskLossIsPossible(fe: FarmEvent,
@@ -50,7 +50,6 @@ export function taskLossIsPossible(fe: FarmEvent,
   now = moment()) {
   var START_TIME = moment(fe.start_time);
   var MIDNIGHT = now.clone().subtract(1, 'days').startOf('day');
-
 
   if (fe.executable_type === "Regimen") {
     // Step 2.5 Continue checking if the farm event is supposed to run today.
@@ -61,15 +60,14 @@ export function taskLossIsPossible(fe: FarmEvent,
       // STEP 2: Grab all the rgimen items and then...
       const TIME_OFFSET: keyof typeof regItems[0] = "time_offset";
       // ... Figure out when the first event runs....
-      let first = _(regItems).pluck<number>(TIME_OFFSET).min() || -1;
-      if (first > -1) {
+      let ms_from_midnight = _(regItems).pluck<number>(TIME_OFFSET).min() || -1;
+      console.log(`ms_from_midnight: ${ms_from_midnight} (5 hours)`)
+      if (ms_from_midnight > -1) {
         /** This is the first task time for the whole series of events. */
-        const FIRST_TASK = MIDNIGHT.add(first, "milliseconds");
+        const FIRST_TASK = MIDNIGHT.clone().add(ms_from_midnight, "milliseconds");
 
         // STEP 3: If task loss is possible, warn the user by calling CB.
-        if (FIRST_TASK.diff(now) < 0) {
-          return true;
-        }
+        if (FIRST_TASK.diff(now) < 0) { return true; }
       }
     }
     return false;
