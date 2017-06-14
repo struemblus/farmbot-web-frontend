@@ -12,7 +12,7 @@ import { Header } from "./Header";
 
 export function HomingAndCalibration(props: HomingAndCalibrationProps) {
 
-  let { hidePanel, dispatch, bot } = props;
+  let { dispatch, bot } = props;
   let { mcu_params } = bot.hardware;
   let { homing_and_calibration } = props.bot.controlPanelState;
 

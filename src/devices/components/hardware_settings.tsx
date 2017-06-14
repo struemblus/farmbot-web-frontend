@@ -52,22 +52,18 @@ export class HardwareSettings extends
             </SpacePanelHeader>
           </div>
           <HomingAndCalibration
-            hidePanel={!homing_and_calibration}
             dispatch={dispatch}
             bot={bot}
           />
           <Motors
-            hidePanel={!motors}
             dispatch={dispatch}
             bot={bot}
           />
           <EncodersAndEndStops
-            hidePanel={!encoders_and_endstops}
             dispatch={dispatch}
             bot={bot}
           />
           <DangerZone
-            hidePanel={!danger_zone}
             dispatch={dispatch}
             bot={bot}
             onReset={MCUFactoryReset}

@@ -6,7 +6,6 @@ export interface HomingRowProps {
 }
 
 export interface HomingAndCalibrationProps {
-  hidePanel: boolean;
   dispatch: Function;
   bot: BotState;
 }
@@ -39,13 +38,11 @@ export interface NumericMCUInputGroupProps {
 }
 
 export interface MotorsProps {
-  hidePanel: boolean;
   dispatch: Function;
   bot: BotState;
 }
 
 export interface EncodersProps {
-  hidePanel: boolean;
   dispatch: Function;
   bot: BotState;
 }
@@ -53,6 +50,5 @@ export interface EncodersProps {
 export interface DangerZoneProps {
   dispatch: Function;
   bot: BotState;
-  hidePanel: boolean;
   onReset(): void;
 }

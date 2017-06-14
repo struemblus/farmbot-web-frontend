@@ -11,7 +11,7 @@ import { MotorsProps } from "../interfaces";
 import { Row, Col } from "../../../ui/index";
 import { Header } from "./Header";
 
-export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
+export function Motors({ dispatch, bot }: MotorsProps) {
 
   let { mcu_params } = bot.hardware;
   let { motors } = bot.controlPanelState;

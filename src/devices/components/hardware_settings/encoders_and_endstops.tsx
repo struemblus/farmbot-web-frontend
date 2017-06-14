@@ -9,7 +9,7 @@ import { Header } from "./Header";
 export function EncodersAndEndStops(props: EncodersProps) {
 
   let { encoders_and_endstops } = props.bot.controlPanelState;
-  let { hidePanel, dispatch, bot } = props;
+  let { dispatch, bot } = props;
 
   return <section>
     <Header

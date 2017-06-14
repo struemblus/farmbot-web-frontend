@@ -6,7 +6,7 @@ import { Header } from "./Header";
 
 export function DangerZone(props: DangerZoneProps) {
 
-  let { hidePanel, dispatch, bot, onReset } = props;
+  let { dispatch, bot, onReset } = props;
   let { danger_zone } = bot.controlPanelState;
 
   return <section>
