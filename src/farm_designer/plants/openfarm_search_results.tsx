@@ -7,7 +7,8 @@ export class OpenFarmResults extends React.Component<OFSearchProps, {}> {
     return <div>
       {this.props.cropSearchResults.map(resp => {
         let { crop, image } = resp;
-        return <Link key={resp.crop.slug}
+        return <Link
+          key={resp.crop.slug}
           draggable={false}
           to={`/app/designer/plants/crop_search/` + crop.slug.toString()}>
           <div className="plant-catalog-tile col-xs-6">

@@ -41,7 +41,6 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
 
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
-    /** rgba arguments are a more mobile-friendly way apply filters */
     let backgroundURL = `linear-gradient(
       rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${result.image})`;
 
@@ -81,27 +80,45 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   "slug",
                   "processing_pictures",
                   "description",
-                  "main_image_path"
+                  "main_image_path",
+                  "tags_array"
                 ])
                 .pairs()
-                .map((pair, i) => {
-                  let key = pair[0] as string;
+                .map((pair: string, i: number) => {
+                  let key = pair[0];
                   let value = pair[1];
-                  return <li key={i}>
-                    <strong>
-                      {_.startCase(key) + ": "}
-                    </strong>
+                  if (key !== "svg_icon") {
+                    return <li key={i}>
+                      <strong>
+                        {_.startCase(key)}:&nbsp;
+                      </strong>
+                      <span>
+                        {value || "Not Set"}
+                      </span>
+                    </li>
+                  } else {
                     {/**
-                     * Special use case for svgs here. If the key is the icon
-                     * and has a value, render the elements needed, or "Not
-                     * set". Any other keys receive the default behavior.
+                     * If there's a value, give
+                     * it an img element to render the actual graphic. If no
+                     * value, return "Not Set".
                      */}
-                    {key === "svg_icon" && value &&
-                      <div>
-                        <img src={DATA_URI + value} width={100} height={100} />
-                      </div>
-                      || key === "svg_icon" && !value && ("Not set")}
-                  </li>;
+                    return <li key={i}>
+                      <strong>{t("SVG Icon")}: </strong>
+                      {value ?
+                        <div>
+                          <img
+                            src={DATA_URI + value}
+                            width={100}
+                            height={100}
+                          />
+                        </div>
+                        :
+                        <span>
+                          {t("Not Set")}
+                        </span>
+                      }
+                    </li>
+                  }
                 }).value()
             }
           </ul>
