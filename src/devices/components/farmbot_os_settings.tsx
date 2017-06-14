@@ -108,6 +108,20 @@ export class FarmbotOsSettings
               </p>
             </Col>
           </Row>
+          <Row>
+            <Col xs={2}>
+              <label>
+                {t("TIME ZONE")}
+              </label>
+            </Col>
+            <Col xs={7}>
+              <div>
+                <TimezoneSelector
+                  currentTimezone={this.props.account.body.timezone}
+                  onUpdate={this.handleTimezone} />
+              </div>
+            </Col>
+          </Row>
           <MustBeOnline
             fallback="Some settings are not available when FarmBot is offline."
             status={this.props.bot.hardware.informational_settings.sync_status}
@@ -199,20 +213,6 @@ export class FarmbotOsSettings
                     list={CAMERA_CHOICES}
                     placeholder="Select a camera..."
                     onChange={this.sendOffConfig} />
-                </div>
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={2}>
-                <label>
-                  {t("TIME ZONE")}
-                </label>
-              </Col>
-              <Col xs={7}>
-                <div>
-                  <TimezoneSelector
-                    currentTimezone={this.props.account.body.timezone}
-                    onUpdate={this.handleTimezone} />
                 </div>
               </Col>
             </Row>
