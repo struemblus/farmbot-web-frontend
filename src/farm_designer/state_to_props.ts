@@ -1,6 +1,4 @@
 import { Everything } from "../interfaces";
-import { Props } from "./interfaces";
-import { TaggedPlantPointer } from "../resources/tagged_resources";
 import {
   selectAllGenericPointers,
   selectAllPlantPointers,
@@ -9,12 +7,7 @@ import {
   findPlant
 } from "../resources/selectors";
 
-// ehhh...
-export interface TPPWithDispatch extends TaggedPlantPointer {
-  dispatch: Function;
-}
-
-export function mapStateToProps(props: Everything): Props {
+export function mapStateToProps(props: Everything) {
 
   let plants = selectAllPlantPointers(props.resources.index);
   let selectedPlant = plants
@@ -26,10 +19,12 @@ export function mapStateToProps(props: Everything): Props {
   let { plantUUID } = props.resources.consumers.farm_designer.hoveredPlant;
   let hoveredPlant = plantUUID ?
     findPlant(props.resources.index, plantUUID) : undefined;
+
   return {
     crops: selectAllCrops(props.resources.index),
     dispatch: props.dispatch,
     selectedPlant,
+    zoomLevel: 1,
     designer: props.resources.consumers.farm_designer,
     points: selectAllGenericPointers(props.resources.index),
     toolSlots: joinToolsAndSlot(props.resources.index),

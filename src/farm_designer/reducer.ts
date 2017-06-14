@@ -4,15 +4,24 @@ import {
   DesignerState,
   HoveredPlantPayl,
   BotOriginQuadrant,
-  isBotOriginQuadrant
+  isBotOriginQuadrant,
+  isValidZoomLevel,
+  ZoomLevel
 } from "./interfaces";
 import { cloneDeep } from "lodash";
 import { TaggedResource } from "../resources/tagged_resources";
 import { localStorageNumFetch } from "../util";
 
 export const BOT_ORIGIN_QUADRANT = "bot_origin_quadrant";
-let storedVal = localStorageNumFetch(BOT_ORIGIN_QUADRANT);
-let botOriginQuadrant = isBotOriginQuadrant(storedVal) ? storedVal : 2;
+export const ZOOM_LEVEL = "zoom_level";
+
+let botOriginVal = localStorageNumFetch(BOT_ORIGIN_QUADRANT);
+let botOriginQuadrant = isBotOriginQuadrant(botOriginVal) ? botOriginVal : 2;
+
+let zoomLevelVal = localStorageNumFetch(ZOOM_LEVEL);
+let zoomLevel = isValidZoomLevel(zoomLevelVal) ? zoomLevelVal : 1;
+
+let roundUp = (num: ZoomLevel) => Math.max(Math.ceil(num * 10) / 10);
 
 export let initialState: DesignerState = {
   selectedPlant: undefined,
@@ -21,6 +30,7 @@ export let initialState: DesignerState = {
     icon: ""
   },
   botOriginQuadrant,
+  zoomLevel,
   cropSearchQuery: "",
   cropSearchResults: []
 };
@@ -42,6 +52,13 @@ export let designer = generateReducer<DesignerState>(initialState)
   .add<BotOriginQuadrant>("UPDATE_BOT_ORIGIN_QUADRANT", (s, { payload }) => {
     localStorage.setItem(BOT_ORIGIN_QUADRANT, JSON.stringify(payload));
     s.botOriginQuadrant = payload;
+    return s;
+  })
+  .add<ZoomLevel>("UPDATE_MAP_ZOOM_LEVEL", (s, { payload }) => {
+    console.log(1, s.zoomLevel)
+    s.zoomLevel = roundUp(payload) as ZoomLevel;
+    console.log(2, s.zoomLevel)
+    localStorage.setItem(ZOOM_LEVEL, JSON.stringify(payload));
     return s;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", (s, { payload }) => {

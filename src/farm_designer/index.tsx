@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
 import { GardenMap } from "./map/garden_map";
-import { Props, State, BotOriginQuadrant } from "./interfaces";
+import { Props, State, BotOriginQuadrant, ZoomLevel } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
@@ -14,7 +14,6 @@ import { isMobile } from "../util";
 export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   state: State = {
-    zoomLvl: 1,
     legendMenuOpen: false,
     showPlants: true,
     showPoints: true,
@@ -24,20 +23,17 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   componentDidMount() {
     this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant)();
-  }
-
-  zoom = (zoomNumber: number) => () => {
-    let { zoomLvl } = this.state;
-    zoomLvl && this.setState({ zoomLvl: zoomLvl + zoomNumber });
+    this.updateZoomLevel(this.props.designer.zoomLevel)();
   }
 
   toggle = (name: keyof State) => () =>
     this.setState({ [name]: !this.state[name] });
 
-  updateBotOriginQuadrant = (quadrant: BotOriginQuadrant) => () => {
-    let action = { type: "UPDATE_BOT_ORIGIN_QUADRANT", payload: quadrant };
-    this.props.dispatch(action);
-  }
+  updateBotOriginQuadrant = (payload: BotOriginQuadrant) => () =>
+    this.props.dispatch({ type: "UPDATE_BOT_ORIGIN_QUADRANT", payload });
+
+  updateZoomLevel = (payload: ZoomLevel) => () =>
+    this.props.dispatch({ type: "UPDATE_MAP_ZOOM_LEVEL", payload });
 
   childComponent(props: Props) {
     let fallback = isMobile() ? undefined : React.createElement(Plants, props);
@@ -57,7 +53,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     }
 
     let {
-      zoomLvl,
       legendMenuOpen,
       showPlants,
       showPoints,
@@ -68,11 +63,11 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
     return <div className="farm-designer">
 
       <GardenMapLegend
-        zoom={this.zoom}
+        zoom={this.updateZoomLevel}
         toggle={this.toggle}
         updateBotOriginQuadrant={this.updateBotOriginQuadrant}
         botOriginQuadrant={this.props.designer.botOriginQuadrant}
-        zoomLvl={zoomLvl}
+        zoomLvl={this.props.designer.zoomLevel}
         legendMenuOpen={legendMenuOpen}
         showPlants={showPlants}
         showPoints={showPoints}
@@ -97,7 +92,9 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
         {this.childComponent(this.props)}
       </div>
 
-      <div className="farm-designer-map" style={{ zoom: this.state.zoomLvl }}>
+      <div
+        className="farm-designer-map"
+        style={{ zoom: this.props.zoomLevel }}>
         <GardenMap
           showPoints={showPoints}
           showPlants={showPlants}
