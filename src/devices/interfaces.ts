@@ -27,6 +27,7 @@ export interface DeviceAccountSettings {
   id: number;
   name: string;
   webcam_url?: string;
+  timezone?: string | undefined;
 };
 
 /** Meta information about a log message. */

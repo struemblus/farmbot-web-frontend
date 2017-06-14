@@ -26,6 +26,7 @@ import {
 import { save } from "../../api/crud";
 import { MustBeOnline } from "../must_be_online";
 import { ToolTips, Content } from "../../constants";
+import { TimezoneSelector } from "../timezones/timezone_selector";
 
 const CAMERA_CHOICES = [
   { label: "USB Camera", value: "USB" },
@@ -57,6 +58,12 @@ export class FarmbotOsSettings
       .setUserEnv(message)
       .then(() => success(t("Successfully configured camera!")))
       .catch(() => error(t("An error occurred during configuration.")));
+  }
+
+  handleTimezone = (timezone: string) => {
+    let { account, dispatch } = this.props;
+    dispatch(changeDevice(account, { timezone }));
+    dispatch(save(account.uuid));
   }
 
   render() {
@@ -192,6 +199,20 @@ export class FarmbotOsSettings
                     list={CAMERA_CHOICES}
                     placeholder="Select a camera..."
                     onChange={this.sendOffConfig} />
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={2}>
+                <label>
+                  {t("TIME ZONE")}
+                </label>
+              </Col>
+              <Col xs={7}>
+                <div>
+                  <TimezoneSelector
+                    currentTimezone={this.props.account.body.timezone}
+                    onUpdate={this.handleTimezone} />
                 </div>
               </Col>
             </Row>
