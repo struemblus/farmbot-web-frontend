@@ -142,7 +142,7 @@ export let saveAccountChanges: Thunk = function (dispatch, getState) {
 
 let commandErr = (noun = "Command") => () => {
   let msg = noun + " request failed.";
-  error(msg, t("Farmbot Didn't Get That!"));
+  console.info("Took longer than 6 seconds: " + noun);
 };
 
 let commandOK = (noun = "Command") => () => {

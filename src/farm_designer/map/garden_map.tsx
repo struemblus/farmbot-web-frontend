@@ -10,8 +10,7 @@ import {
   translateScreenToGarden,
   round,
   ScreenToGardenParams,
-  calculateXBasedOnQuadrant,
-  calculateYBasedOnQuadrant
+  getXYFromQuadrant
 } from "./util";
 import { findBySlug } from "../search_selectors";
 import { PlantLayer } from "./layers/plant_layer";
@@ -20,8 +19,8 @@ import { SpreadLayer } from "./layers/spread_layer";
 import { ToolSlotLayer } from "./layers/tool_slot_layer";
 import { HoveredPlantLayer } from "./layers/hovered_plant_layer";
 
-const DROP_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
-  handleDrop() method in garden_map.tsx`;
+const DRAG_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
+  handleDrop() or drag() method in garden_map.tsx`;
 
 export class GardenMap extends
   React.Component<GardenMapProps, Partial<GardenMapState>> {
@@ -62,7 +61,7 @@ export class GardenMap extends
     let map = document.querySelector(".farm-designer-map");
     let page = document.querySelector(".farm-designer");
     if (el && map && page) {
-      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DROP_ERROR);
+      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DRAG_ERROR);
       let { pageX, pageY } = e;
       let box = el.getBoundingClientRect();
       let species = history.getCurrentLocation().pathname.split("/")[5];
@@ -70,7 +69,7 @@ export class GardenMap extends
       let params: ScreenToGardenParams = {
         quadrant: this.props.designer.botOriginQuadrant,
         pageX: pageX + page.scrollLeft,
-        pageY: pageY + map.scrollTop,
+        pageY: pageY + map.scrollTop * zoomLvl,
         zoomLvl
       };
       let { x, y } = translateScreenToGarden(params);
@@ -95,29 +94,21 @@ export class GardenMap extends
 
   drag = (e: React.MouseEvent<SVGElement>) => {
     let plant = this.getPlant();
+    let map = document.querySelector(".farm-designer-map");
     let { botOriginQuadrant } = this.props.designer;
-    if (this.isEditing && this.state.isDragging && plant) {
-      let pageX = calculateXBasedOnQuadrant({
-        value: e.pageX,
-        quadrant: botOriginQuadrant
-      })
-      let pageY = calculateYBasedOnQuadrant({
-        value: e.pageY,
-        quadrant: botOriginQuadrant
-      })
-      let deltaX = pageX - (this.state.pageX || pageX);
-      let deltaY = pageY - (this.state.pageY || pageY);
-      this.setState({ pageX, pageY });
-      this.props.dispatch(movePlant({
-        deltaX,
-        deltaY,
-        plant
-      }));
+    if (this.isEditing && this.state.isDragging && plant && map) {
+      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DRAG_ERROR);
+      let { qx, qy } = getXYFromQuadrant(e.pageX, e.pageY, botOriginQuadrant);
+      let deltaX = qx - (this.state.pageX || qx);
+      let deltaY = qy - (this.state.pageY || qy);
+      this.setState({ pageX: qx, pageY: qy });
+      this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
     }
   }
 
   render() {
-    return <div className="drop-area"
+    return <div
+      className="drop-area"
       id="drop-area"
       onDrop={this.handleDrop}
       onDragEnter={this.handleDragEnter}

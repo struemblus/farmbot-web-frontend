@@ -90,6 +90,7 @@
   },
   "jest": {
     "setupFiles": [
+      "./src/unmock_i18next.ts",
       "./src/__test_support__/locastorage.js"
     ],
     "transform": {

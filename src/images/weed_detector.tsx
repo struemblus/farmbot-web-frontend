@@ -1,11 +1,10 @@
 import * as React from "react";
 import { DetectorState, WeedDetectorENV } from "./interfaces";
-import { WeedDetectorBody } from "./weed_detector_body";
 import { TitleBar } from "./weed_detector_title";
 import { devices } from "../device";
 import { success, error, Row, Col, Widget } from "../ui/index";
 import { t } from "i18next";
-import { resetWeedDetection, selectImage } from "./actions";
+import { resetWeedDetection, selectImage, detectWeeds } from "./actions";
 import { Progress } from "../util";
 import { Pair } from "farmbot/dist";
 import { HSV } from "./index";
@@ -13,6 +12,7 @@ import { FarmwareProps } from "../devices/interfaces";
 import { connect } from "react-redux";
 import { mapStateToProps } from "../farmware/state_to_props";
 import { ToolTips } from "../constants";
+import { WeedDetectorBody } from "./weed_detector_body";
 const PLANT_DETECTION_OPTIONS_KEY = "PLANT_DETECTION_options";
 
 @connect(mapStateToProps)
@@ -100,6 +100,7 @@ export class WeedDetector
           <Row>
             <Col sm={12}>
               <WeedDetectorBody
+                onProcessPhoto={(id) => { this.props.dispatch(detectWeeds(id)); }}
                 onFlip={(uuid) => this.props.dispatch(selectImage(uuid))}
                 currentImage={this.props.currentImage}
                 images={this.props.images}

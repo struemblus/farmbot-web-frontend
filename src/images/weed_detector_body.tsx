@@ -6,7 +6,6 @@ import { HSV } from "./interfaces";
 import { WeedDetectorSlider } from "./weed_detector_slider";
 import { TaggedImage } from "../resources/tagged_resources";
 import { t } from "i18next";
-import { detectWeeds } from "./actions";
 
 const DEFAULTS = {
   H: {
@@ -44,10 +43,10 @@ const DEFAULTS = {
   },
 };
 
-const imgEnvVar = "PLANT_DETECTION_selected_image";
 
 interface Props {
   onFlip(uuid: string | undefined): void;
+  onProcessPhoto(image_id: number): void;
   currentImage: TaggedImage | undefined;
   images: TaggedImage[];
   H: undefined | (number | undefined)[];
@@ -69,6 +68,7 @@ export function WeedDetectorBody({
   S,
   V,
   onSliderChange,
+  onProcessPhoto,
   currentImage,
   onFlip
 }: Props) {
@@ -88,7 +88,9 @@ export function WeedDetectorBody({
 
   let processPhoto = () => {
     let img = currentImage || images[0];
-    if (img && img.body.id) { detectWeeds({ [imgEnvVar]: img.body.id }); }
+    if (img && img.body.id) {
+      onProcessPhoto(img.body.id);
+    }
   }
 
   /** Chris- I don't want to mess up your conventions in the CSS or

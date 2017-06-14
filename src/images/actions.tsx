@@ -1,5 +1,5 @@
 import * as Axios from "axios";
-import { Thunk } from "../redux/interfaces";
+import { Thunk, GetState } from "../redux/interfaces";
 import { API } from "../api";
 import { success, error } from "../ui";
 import { t } from "i18next";
@@ -52,12 +52,21 @@ export function resetWeedDetection(cb: ProgressCallback): Thunk {
   };
 };
 
-export function detectWeeds(settings: object) {
-  let pairs = Object
-    .keys(settings)
-    .map<Pair>(function (value: string, index) {
-      let label = JSON.stringify(_.get(settings, value, "null"));
-      return { kind: "pair", args: { value, label } };
-    });
-  return devices.current.execScript("plant-detection", pairs);
+const value = "PLANT_DETECTION_selected_image";
+
+export function detectWeeds(imageId: number) {
+  return function (dispatch: Function, getState: GetState) {
+    let dictionary = getState().bot.hardware.process_info.farmwares;
+    let processes = Object
+      .keys(dictionary)
+      .map(key => dictionary[key])
+      .filter(fw => fw.name === "take-photo")
+      .map(proc => {
+        devices
+          .current
+          .execScript(proc.uuid, [{
+            kind: "pair", args: { value, label: "" + imageId }
+          }]);
+      })
+  }
 }
