@@ -1,15 +1,17 @@
 
+import { warning } from "../../ui/index";
+
 export function inferTimezone(current: string | undefined): string {
   if (current) {
     return current;
   }
 
   if (Intl && Intl.DateTimeFormat) {
-    alert("This account did not have a timezone set. " +
+    warning("This account did not have a timezone set. " +
       "Farmbot requires a timezone to operate. " +
       "We have updated your timezone settings based on your browser. " +
       "Please verify these settings in the device settings panel. " +
-      "DEVICE SYNC IS RECOMMENDED.")
+      "Device sync is recommended.")
     // WARNING SIDE EFFECTS!!!
     return Intl
       .DateTimeFormat()
@@ -17,9 +19,9 @@ export function inferTimezone(current: string | undefined): string {
       .timeZone;
   }
 
-  alert("Warning: Farmbot could not guess your timezone. " +
+  warning("Warning: Farmbot could not guess your timezone. " +
     "Please select your timezone " +
     "from the dropdown. " +
-    "DEVICE SYNC IS RECOMMENDED AFTERWARD.");
+    "Device sync is recommended.");
   return "UTC";
 }
