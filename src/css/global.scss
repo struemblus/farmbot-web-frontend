@@ -143,14 +143,23 @@ a {
 
 .hardware-widget {
   overflow: hidden;
+  section {
+    overflow: hidden;
+  }
   h4 {
     cursor: pointer;
   }
   .is-open-false {
-    animation: collapse 0.4s normal forwards ease-in-out;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    // animation: collapse 0.4s normal forwards ease-in-out;
   }
   .is-open-true {
-    animation: expand 0.4s normal forwards ease-in-out;
+    max-height: 300px;
+    overflow: shown;
+    opacity: 1;
+    // animation: expand 0.4s normal forwards ease-in-out;
   }
   .icon-toggle {
     font-size: 1.4rem;

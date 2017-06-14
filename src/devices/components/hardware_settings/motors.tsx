@@ -16,7 +16,7 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
   let { mcu_params } = bot.hardware;
   let { motors } = bot.controlPanelState;
 
-  return <div>
+  return <section>
     <Header
       bool={motors}
       title={"Motors"}
@@ -129,5 +129,5 @@ export function Motors({ hidePanel, dispatch, bot }: MotorsProps) {
         </Col>
       </Row>
     </div>
-  </div>;
+  </section>;
 }

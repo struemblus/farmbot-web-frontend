@@ -22,7 +22,7 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
    */
   let enabled = enabledAxisMap(mcu_params);
 
-  return <div>
+  return <section>
     <Header
       title={"Homing and Calibration"}
       name={"homing_and_calibration"}
@@ -91,5 +91,5 @@ export function HomingAndCalibration(props: HomingAndCalibrationProps) {
         dispatch={dispatch}
       />
     </div>
-  </div>;
+  </section>;
 }

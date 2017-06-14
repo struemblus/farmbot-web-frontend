@@ -11,7 +11,7 @@ export function EncodersAndEndStops(props: EncodersProps) {
   let { encoders_and_endstops } = props.bot.controlPanelState;
   let { hidePanel, dispatch, bot } = props;
 
-  return <div>
+  return <section>
     <Header
       bool={encoders_and_endstops}
       title={"Encoders and Endstops"}
@@ -92,5 +92,5 @@ export function EncodersAndEndStops(props: EncodersProps) {
         bot={bot}
       />
     </div>
-  </div>;
+  </section>;
 }

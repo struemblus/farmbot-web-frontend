@@ -9,7 +9,7 @@ export function DangerZone(props: DangerZoneProps) {
   let { hidePanel, dispatch, bot, onReset } = props;
   let { danger_zone } = bot.controlPanelState;
 
-  return <div>
+  return <section>
     <Header
       bool={danger_zone}
       title={"Danger Zone"}
@@ -40,5 +40,5 @@ export function DangerZone(props: DangerZoneProps) {
         </Col>
       </Row>
     </div>
-  </div>;
+  </section>;
 }

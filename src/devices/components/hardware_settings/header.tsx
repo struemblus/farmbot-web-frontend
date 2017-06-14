@@ -10,7 +10,7 @@ interface Props {
   bool: boolean;
 }
 
-export function Header(props: Props) {
+export let Header = (props: Props) => {
   let { dispatch, name, title, bool } = props;
   let icon_string = bool ? "minus" : "plus";
   return <h4 onClick={() => dispatch(toggleControlPanel(name))}>
