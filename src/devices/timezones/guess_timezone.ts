@@ -8,7 +8,8 @@ export function inferTimezone(current: string | undefined): string {
     alert("This account did not have a timezone set. " +
       "Farmbot requires a timezone to operate. " +
       "We have updated your timezone settings based on your browser. " +
-      "Please verify these settings in the device settings panel.")
+      "Please verify these settings in the device settings panel. " +
+      "DEVICE SYNC IS RECOMMENDED.")
     // WARNING SIDE EFFECTS!!!
     return Intl
       .DateTimeFormat()
@@ -18,6 +19,7 @@ export function inferTimezone(current: string | undefined): string {
 
   alert("Warning: Farmbot could not guess your timezone. " +
     "Please select your timezone " +
-    "from the dropdown.");
+    "from the dropdown. " +
+    "DEVICE SYNC IS RECOMMENDED AFTERWARD.");
   return "UTC";
 }
