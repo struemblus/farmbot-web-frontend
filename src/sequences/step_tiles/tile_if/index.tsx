@@ -15,7 +15,6 @@ import { overwrite } from "../../../api/crud";
 import { NULL_CHOICE } from "../../../ui/fb_select";
 import { range } from "lodash";
 import { ToolTips } from "../../../constants";
-import { Options } from "./options";
 
 export interface IfParams {
   currentSequence: TaggedSequence;
@@ -113,7 +112,6 @@ export function InnerIf(props: IfParams) {
               <If_ {...props} />
               <Then {...props} />
               <Else {...props} />
-              <Options {...props} />
             </div>
           </div>
         </div>
