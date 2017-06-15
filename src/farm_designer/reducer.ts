@@ -55,7 +55,6 @@ export let designer = generateReducer<DesignerState>(initialState)
     return s;
   })
   .add<ZoomLevelPayl>("UPDATE_MAP_ZOOM_LEVEL", (s, { payload }) => {
-    console.log("state", s.zoomLevel);
     let value = roundUp(s.zoomLevel + payload);
     s.zoomLevel = value;
     localStorage.setItem(ZOOM_LEVEL, JSON.stringify(value));
