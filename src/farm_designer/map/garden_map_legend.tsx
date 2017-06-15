@@ -18,8 +18,8 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
     showFarmbot
   } = props;
 
-  let plusBtnClass = (zoomLvl && zoomLvl <= 0.9) ? "" : "disabled";
-  let minusBtnClass = (zoomLvl && zoomLvl >= 0.4) ? "" : "disabled";
+  let plusBtnClass = (zoomLvl && zoomLvl >= 1.8) ? "disabled" : "";
+  let minusBtnClass = (zoomLvl && zoomLvl <= 0.3) ? "disabled" : "";
   let menuClass = legendMenuOpen ? "active" : "";
 
   return <div
@@ -31,17 +31,17 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
       <span>
         {t("Menu")}
       </span>
-      <i className={"fa fa-2x fa-arrow-left"} />
+      <i className="fa fa-2x fa-arrow-left" />
     </div>
     <div className="content">
       <div className="zoom-buttons">
         <button
-          className={"plus-button green top "}
+          className={"plus-button green top " + plusBtnClass}
           onClick={zoom(0.1)}>
           <i className="fa fa-2x fa-plus" />
         </button>
         <button
-          className={"plus-button green bottom "}
+          className={"plus-button green bottom " + minusBtnClass}
           onClick={zoom(-0.1)}>
           <i className="fa fa-2x fa-minus" />
         </button>
