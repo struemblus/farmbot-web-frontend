@@ -1,5 +1,5 @@
 import { Everything } from "../interfaces";
-import { updateUser, deleteUser } from "./actions";
+import { deleteUser } from "./actions";
 import { Props, State } from "./interfaces";
 
 export function mapStateToProps(props: Everything): Props {

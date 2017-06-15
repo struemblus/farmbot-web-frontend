@@ -1,7 +1,7 @@
-import { AuthState } from "../auth/interfaces";
+import { AuthState, User } from "../auth/interfaces";
 
 export interface Props {
-  auth: AuthState | undefined;
+  user: User;
   dispatch: Function;
   saveUser: (data: State, dispatch: Function) => void;
   enactDeletion: (deletion_confirmation: string | undefined,
