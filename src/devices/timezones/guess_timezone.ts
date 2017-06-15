@@ -15,7 +15,7 @@ export function inferTimezone(current: string | undefined): string {
         "Farmbot requires a timezone to operate. " +
         "We have updated your timezone settings based on your browser. " +
         "Please verify these settings in the device settings panel. " +
-        "Device sync is recommended.");
+        "Device sync is recommended.", "Warning", "yellow", false);
       ONLY_ONCE.need_to_talk = false;
     }
     // WARNING SIDE EFFECTS!!!
