@@ -5,7 +5,8 @@
  */
 
 export namespace ToolTips {
-
+  export const MAX_RETRIES =
+    `Number of times to retry a movement before e-stopping.`
   // Controls
   export const MOVE =
     `Use these manual control buttons to move FarmBot in realtime. Press the

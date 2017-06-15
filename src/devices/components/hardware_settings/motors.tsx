@@ -24,6 +24,21 @@ export function Motors({ dispatch, bot }: MotorsProps) {
       dispatch={dispatch}
     />
     <div className={`is-open-${!!motors}`}>
+      <Row>
+        <Col xs={6}>
+          <label>
+            {t("Max Retries")}
+          </label>
+          <SpacePanelToolTip tooltip={t(ToolTips.MAX_RETRIES)} />
+        </Col>
+        <Col xs={6}>
+          <BotConfigInputBox
+            setting="max_retries"
+            bot={bot}
+            dispatch={dispatch}
+          />
+        </Col>
+      </Row>
       <NumericMCUInputGroup
         name={t("Max Speed (steps/s)")}
         tooltip={t(ToolTips.MAX_SPEED)}
