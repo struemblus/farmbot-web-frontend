@@ -10,7 +10,7 @@ import { ToolTips } from "../constants";
 export class WebcamPanel
   extends React.Component<Props, Partial<WebcamPanelState>> {
 
-  state: WebcamPanelState = { isEditing: false, url: "http://" };
+  state: WebcamPanelState = { isEditing: false, url: "https://" };
 
   edit = () => this.setState({ isEditing: !this.state.isEditing });
 
@@ -18,7 +18,7 @@ export class WebcamPanel
     this
       .props
       .dispatch(changeDevice(this.props.account, { webcam_url: "" }));
-    this.setState({ url: "http://" });
+    this.setState({ url: "https://" });
     (document.querySelector(".webcam-url-input") as HTMLInputElement).focus();
   }
 
@@ -58,7 +58,7 @@ export class WebcamPanel
           <input
             type="text"
             onChange={e => this.setState({ url: e.currentTarget.value })}
-            placeholder="http://"
+            placeholder="https://"
             value={this.state.url || this.props.account.body.webcam_url}
             className="webcam-url-input" />
         </div>

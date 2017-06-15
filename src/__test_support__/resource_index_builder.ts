@@ -58,7 +58,7 @@ let FAKE_RESOURCES: TaggedResource[] = [
       "attachment_processed_at": undefined,
       "updated_at": "2017-05-24T20:41:19.766Z",
       "created_at": "2017-05-24T20:41:19.766Z",
-      "attachment_url": "http://placehold.it/640%3Ftext=Processing...",
+      "attachment_url": "https://placehold.it/640%3Ftext=Processing...",
       "meta": {
         "x": 928,
         "y": 428,

@@ -16,6 +16,6 @@ export function findBySlug(crops: CropLiveSearchResult[], slug?: string): CropLi
       slug: "slug",
       sun_requirements: "sun_requirements"
     },
-    image: "http://placehold.it/350x150"
+    image: "https://placehold.it/350x150"
   };
 }

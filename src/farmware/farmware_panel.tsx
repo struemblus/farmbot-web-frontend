@@ -85,7 +85,7 @@ export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
             <fieldset>
               <Col xs={12}>
                 <input type="url"
-                  placeholder={"http://...."}
+                  placeholder={"https://...."}
                   value={this.state.packageUrl || ""}
                   onChange={(e) => {
                     this.setState({ packageUrl: e.currentTarget.value });

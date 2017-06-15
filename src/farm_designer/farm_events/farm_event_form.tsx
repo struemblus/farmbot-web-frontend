@@ -31,7 +31,7 @@ import {
 } from "../../api/crud";
 import { DropDownItem } from "../../ui/fb_select";
 import { history } from "../../history";
-// TIL: http://stackoverflow.com/a/24900248/1064917
+// TIL: https://stackoverflow.com/a/24900248/1064917
 import { betterMerge } from "../../util";
 import { info } from "../../ui/logger";
 import { maybeWarnAboutMissedTasks } from "./util";
