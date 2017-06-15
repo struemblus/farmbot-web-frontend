@@ -33,13 +33,20 @@ export function notifyBotOfChanges(url: string | undefined, action: DataChangeTy
 /** More nasty hacks until we have time to implement proper API push state
  * notifications. */
 function inferUpdateId(url: string) {
-  let ids = url
-    .split("/")
-    .filter(x => x.includes(",")) // Dont allow batch endpoints to participate.
-    .map(x => parseInt(x))
-    .filter(x => !_.isNaN(x));
+  try {
+    let ids = url
+      .split("/")
+      .filter(x => x.includes(",")) // Dont allow batch endpoints to participate.
+      .map(x => parseInt(x, 10))
+      .filter(x => !_.isNaN(x));
+    let id: number | undefined = ids[0];
+    let isNum = _.isNumber(id);
+    let onlyOne = ids.length === 1;
 
-  return ids.length === 1 ? ("" + ids[0]) : "*";
+    return (isNum && onlyOne) ? ("" + id) : "*";
+  } catch (error) { // Dont crash- just keep moving along. This is a temp patch.
+    return "*";
+  }
 }
 
 /** The input of an axios error interceptor is an "any" type.
