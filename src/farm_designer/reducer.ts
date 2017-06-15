@@ -21,8 +21,6 @@ let botOriginQuadrant = isBotOriginQuadrant(botOriginVal) ? botOriginVal : 2;
 let zoomLevelVal = localStorageNumFetch(ZOOM_LEVEL);
 let zoomLevel = isValidZoomLevel(zoomLevelVal) ? zoomLevelVal : 1;
 
-let roundUp = (num: number) => Math.max(Math.ceil(num * 10) / 10);
-
 export let initialState: DesignerState = {
   selectedPlant: undefined,
   hoveredPlant: {
@@ -55,7 +53,7 @@ export let designer = generateReducer<DesignerState>(initialState)
     return s;
   })
   .add<ZoomLevelPayl>("UPDATE_MAP_ZOOM_LEVEL", (s, { payload }) => {
-    let value = roundUp(s.zoomLevel + payload);
+    let value = s.zoomLevel + payload;
     s.zoomLevel = value;
     localStorage.setItem(ZOOM_LEVEL, JSON.stringify(value));
     return s;
