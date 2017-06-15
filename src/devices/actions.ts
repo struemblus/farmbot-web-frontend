@@ -7,7 +7,7 @@ import { devices } from "../device";
 import { success, warning, info, error } from "../ui";
 import { Log } from "../interfaces";
 import { GithubRelease, MoveRelProps } from "./interfaces";
-import { Thunk, GetState, ReduxAction } from "../redux/interfaces";
+import { Thunk, GetState } from "../redux/interfaces";
 import { DeviceAccountSettings, BotState } from "../devices/interfaces";
 import {
   McuParams,
@@ -18,7 +18,7 @@ import {
   SyncStatus
 } from "farmbot";
 import { Sequence } from "../sequences/interfaces";
-import { HardwareState } from "../devices/interfaces";
+import { HardwareState, ControlPanelState } from "../devices/interfaces";
 import { API } from "../api/index";
 import { User } from "../auth/interfaces";
 import { init, edit } from "../api/crud";
@@ -179,9 +179,12 @@ export function save(input: TaggedDevice) {
   }
 }
 
-/** Opens and closes the gigantic settings panel. */
-export function toggleControlPanel() {
-  return { type: "TOGGLE_CONTROL_PANEL", payload: undefined };
+/**
+ * Toggles visibility of individual sections in the giant controls panel
+ * found on the Devices page.
+ */
+export function toggleControlPanel(payload: keyof ControlPanelState) {
+  return { type: "TOGGLE_CONTROL_PANEL_OPTION", payload };
 }
 
 export function changeDevice(device: TaggedDevice,

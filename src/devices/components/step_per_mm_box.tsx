@@ -1,14 +1,19 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { BlurableInput } from "../../ui/index";
 import { StepsPerMMBoxProps } from "../interfaces";
 import { ConfigurationName } from "farmbot/dist";
 import { updateConfig } from "../actions";
 
-/** Steps per mm is not an actual Arduino command.
+/**
+ * Steps per mm is not an actual Arduino command.
  * We needed to fake it on the UI layer to give the appearance that the settings
- * all come from the same place. */
+ * all come from the same place.
+ */
 export class BotConfigInputBox extends React.Component<StepsPerMMBoxProps, {}> {
+
   get setting() { return this.props.setting; }
+
   get config() { return this.props.bot.hardware.configuration; }
 
   change = (key: ConfigurationName, dispatch: Function) => {
@@ -22,10 +27,10 @@ export class BotConfigInputBox extends React.Component<StepsPerMMBoxProps, {}> {
   }
 
   render() {
-    return <td>
-      <BlurableInput type="number"
-        onCommit={this.change(this.props.setting, this.props.dispatch)}
-        value={(this.config[this.setting] || "").toString()} />
-    </td>;
+    return <BlurableInput
+      type="number"
+      onCommit={this.change(this.props.setting, this.props.dispatch)}
+      value={(this.config[this.setting] || "").toString()}
+    />;
   }
 }
