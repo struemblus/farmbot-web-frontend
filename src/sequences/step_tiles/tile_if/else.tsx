@@ -16,8 +16,9 @@ export function Else(props: IfParams) {
     <div className="col-xs-12 col-md-12">
       <label>{t("Execute Sequence")}</label>
       <FBSelect
+        allowEmpty={true}
         list={seqDropDown(props.resources)}
-        placeholder="None (continue to next step)"
+        placeholder="Sequence..."
         onChange={onChange}
         selectedItem={selectedItem()} />
     </div>
