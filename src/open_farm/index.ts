@@ -37,5 +37,5 @@ export function cachedIcon(slug: string): Axios.IPromise<string> {
 let cacheTheIcon = (slug: string) =>
   (resp: Axios.AxiosXHR<OFCropResponse>) => {
     let text = _.get(resp, "data.data.attributes.svg_icon", "");
-    return (text) ? DATA_URI + text : DEFAULT_ICON;
+    return (text) ? DATA_URI + encodeURIComponent(text) : DEFAULT_ICON;
   };
