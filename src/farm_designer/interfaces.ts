@@ -23,7 +23,7 @@ export function isBotOriginQuadrant(mystery: any):
   return [1, 2, 3, 4].includes(mystery);
 }
 
-let zoomLevelArray = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
+let zoomLevelArray = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2];
 
 export function isValidZoomLevel(mystery: any) {
   return zoomLevelArray.includes(mystery);
@@ -76,7 +76,9 @@ export interface MovePlantProps {
   plant: TaggedPlantPointer;
 }
 
-/** OFCrop bundled with corresponding profile image from OpenFarm API. */
+/**
+ * OFCrop bundled with corresponding profile image from OpenFarm API.
+ */
 export interface CropLiveSearchResult {
   crop: OpenFarm.OFCrop;
   image: string;
@@ -115,9 +117,11 @@ export interface AddEditFarmEventProps {
   findExecutable: ExecutableQuery;
 }
 
-/** One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
+/**
+ * One CalendarDay has many CalendarOccurrences. For instance, a FarmEvent
  * that executes every 8 hours will create 3 CalendarOccurrences in a single
- * CalendarDay */
+ * CalendarDay.
+ */
 export interface CalendarOccurrence {
   sortKey: number;
   timeStr: string;
