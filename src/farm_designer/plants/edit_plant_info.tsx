@@ -16,7 +16,9 @@ export class EditPlantInfo extends PlantInfoBase {
       <div className="panel-header green-panel">
         <p className="panel-title">
           <BackArrow />
-          <span className="title">{t("Edit")} {info.name}</span>
+          <span className="title">
+            {t("Edit")} {info.name}
+          </span>
         </p>
       </div>
       <PlantPanel info={info} onDestroy={this.destroy} />

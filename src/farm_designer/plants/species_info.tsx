@@ -64,7 +64,8 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
             onDragStart={this.handleDragStart}
             draggable={true}
             src={result.image}
-            data-icon-url={result.crop.svg_icon} />
+            data-icon-url={result.crop.svg_icon}
+          />
           <div className="crop-info-overlay">
             {t("Drag and drop into map")}
           </div>
@@ -97,11 +98,13 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                       </span>
                     </li>
                   } else {
-                    {/**
+                    {
+                      /**
                      * If there's a value, give
                      * it an img element to render the actual graphic. If no
                      * value, return "Not Set".
-                     */}
+                     */
+                    }
                     return <li key={i}>
                       <strong>{t("SVG Icon")}: </strong>
                       {value ?
