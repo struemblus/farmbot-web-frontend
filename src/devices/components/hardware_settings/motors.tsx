@@ -33,10 +33,9 @@ export function Motors({ dispatch, bot }: MotorsProps) {
         </Col>
         <Col xs={6}>
           <BotConfigInputBox
-            setting="max_retries"
+            setting="max_movement_retries"
             bot={bot}
-            dispatch={dispatch}
-          />
+            dispatch={dispatch} />
         </Col>
       </Row>
       <NumericMCUInputGroup
