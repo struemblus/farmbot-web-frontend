@@ -36,15 +36,16 @@ function inferUpdateId(url: string) {
   try {
     let ids = url
       .split("/")
-      .filter(x => x.includes(",")) // Dont allow batch endpoints to participate.
+      .filter(x => !x.includes(",")) // Dont allow batch endpoints to participate.
       .map(x => parseInt(x, 10))
       .filter(x => !_.isNaN(x));
     let id: number | undefined = ids[0];
     let isNum = _.isNumber(id);
     let onlyOne = ids.length === 1;
-
+    debugger;
     return (isNum && onlyOne) ? ("" + id) : "*";
   } catch (error) { // Dont crash- just keep moving along. This is a temp patch.
+    debugger;
     return "*";
   }
 }
