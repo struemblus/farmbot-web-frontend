@@ -465,15 +465,15 @@ export function getDeviceAccountSettings(index: ResourceIndex) {
   }
 }
 
-export function maybeFetchUser(index: ResourceIndex): TaggedUser | undefined {
-  let list = index.byKind.device;
+export function maybeFetchUser(index: ResourceIndex):
+TaggedUser | undefined {
+  let list = index.byKind.users;
   let uuid = list[0];
   let user = index.references[uuid || -1];
 
   if (user && sanityCheck(user) && list.length > 1) {
     throw new Error("Index is broke. Expected exactly 1 user.");
   };
-
   if ((list.length === 1) && user && user.kind === "users") {
     return user;
   } else {
