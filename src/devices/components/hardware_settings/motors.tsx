@@ -29,7 +29,7 @@ export function Motors({ dispatch, bot }: MotorsProps) {
           <label>
             {t("Max Retries")}
           </label>
-          <SpacePanelToolTip tooltip={t(ToolTips.MAX_RETRIES)} />
+          <SpacePanelToolTip tooltip={t(ToolTips.MAX_MOVEMENT_RETRIES)} />
         </Col>
         <Col xs={6}>
           <BotConfigInputBox
