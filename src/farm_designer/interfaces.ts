@@ -105,7 +105,7 @@ export interface DesignerState {
   selectedPlant: string | undefined;
   hoveredPlant: HoveredPlantPayl;
   botOriginQuadrant: BotOriginQuadrant;
-  zoomLevel: ZoomLevel;
+  zoomLevel: ZoomLevel | number;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }

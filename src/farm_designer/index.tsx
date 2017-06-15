@@ -32,7 +32,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
   updateBotOriginQuadrant = (payload: BotOriginQuadrant) => () =>
     this.props.dispatch({ type: "UPDATE_BOT_ORIGIN_QUADRANT", payload });
 
-  updateZoomLevel = (payload: ZoomLevel) => () =>
+  updateZoomLevel = (payload: number) => () =>
     this.props.dispatch({ type: "UPDATE_MAP_ZOOM_LEVEL", payload });
 
   childComponent(props: Props) {
@@ -41,6 +41,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
   }
 
   render() {
+    // console.log(this.props.zoomLevel)
     /**
      * Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
      * This one just makes sure the designer can click it's panel tabs without
