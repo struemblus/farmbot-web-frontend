@@ -16,7 +16,7 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
 
   // Displaying the user's name in the top right of the screen if available.
   let hasName = auth.user && auth.user.name;
-  let greeting = hasName ? `${hasName} ▾` : "";
+  let greeting = hasName ? `${hasName} ▾` : "▾";
 
   // The bit shown while hovering over username in top right of screen.
   return <div className="nav-dropdown">
@@ -176,13 +176,16 @@ export class NavBar extends React.Component<NavBarProps, NavBarState> {
           <SyncButton
             bot={this.props.bot}
             auth={this.props.auth}
-            dispatch={this.props.dispatch} />
+            dispatch={this.props.dispatch}
+          />
           <EStopButton
             bot={this.props.bot}
-            auth={this.props.auth} />
+            auth={this.props.auth}
+          />
           <DropDown
             onClick={logout}
-            auth={this.props.auth} />
+            auth={this.props.auth}
+          />
         </div>
 
         {/** The darkish opaque backdrop when mobile/tablet is open */}

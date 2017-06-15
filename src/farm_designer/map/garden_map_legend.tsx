@@ -19,7 +19,7 @@ export function GardenMapLegend(props: GardenMapLegendProps) {
   } = props;
 
   let plusBtnClass = (zoomLvl && zoomLvl >= 1.8) ? "disabled" : "";
-  let minusBtnClass = (zoomLvl && zoomLvl <= 0.3) ? "disabled" : "";
+  let minusBtnClass = (zoomLvl && zoomLvl <= 0.4) ? "disabled" : "";
   let menuClass = legendMenuOpen ? "active" : "";
 
   return <div
