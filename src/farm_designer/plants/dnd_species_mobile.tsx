@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { BackArrow } from "../../ui";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
@@ -80,8 +81,8 @@ export class DNDSpeciesMobile
               _(result.crop)
                 .omit(["slug", "processing_pictures", "description"])
                 .pairs()
-                .map(function (pair, i) {
-                  let key = pair[0] as string;
+                .map((pair: string, i: number) => {
+                  let key = pair[0];
                   let value = pair[1];
                   return <li key={i}>
                     <strong>

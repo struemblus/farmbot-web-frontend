@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { t } from "i18next";
 import { FormattedPlantInfo } from "./map_state_to_props";
 
@@ -12,12 +13,31 @@ export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
   return <div className="panel-content">
     <label>{t("Plant Info")}</label>
     <ul>
-      <li>{t("Started")}: {info.plantedAt}</li>
-      <li>{t("Age")}: {info.daysOld}</li>
-      <li>{t("Location")}: ({info.x}, {info.y})</li>
+      <li>
+        <b>{t("Full Name")}: </b>
+        <span>{_.startCase(info.name)}</span>
+      </li>
+      <li>
+        <b>{t("Plant Type")}: </b>
+        <span>{_.startCase(info.slug)}</span>
+      </li>
+      <li>
+        <b>{t("Started")}: </b>
+        <span>{info.plantedAt}</span>
+      </li>
+      <li>
+        <b>{t("Age")}: </b>
+        <span>{info.daysOld} {("days old")}</span>
+      </li>
+      <li>
+        <b>{t("Location")}: </b>
+        <span>({info.x}, {info.y})</span>
+      </li>
     </ul>
     <div>
-      <label hidden={!onDestroy}>{t("Delete this plant")}</label>
+      <label hidden={!onDestroy}>
+        {t("Delete this plant")}
+      </label>
     </div>
     <button className="red"
       hidden={!onDestroy}
