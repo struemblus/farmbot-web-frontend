@@ -25,7 +25,7 @@ export class Account extends React.Component<Props, State> {
   }
 
   savePassword = () => {
-    this.props.saveUser(this.state);
+    this.props.saveUser(this.props.dispatch, this.state);
 
     this.setState({
       password: "",
@@ -41,7 +41,7 @@ export class Account extends React.Component<Props, State> {
           <Settings name={this.state.name || ""}
             email={this.state.email || ""}
             set={this.set}
-            save={() => this.props.saveUser(this.state)} />
+            save={() => this.props.saveUser(this.props.dispatch, this.state)} />
         </Row>
         <Row>
           <ChangePassword
@@ -59,7 +59,7 @@ export class Account extends React.Component<Props, State> {
             set={this.set}
             save={() => this
             .props
-            .enactDeletion(this.state.deletion_confirmation)} />
+            .enactDeletion(this.props.dispatch, this.state.deletion_confirmation)} />
         </Row>
       </Col>
     </Page>;

@@ -4,8 +4,8 @@ import { TaggedUser } from "../resources/tagged_resources";
 export interface Props {
   user: TaggedUser;
   dispatch: Function;
-  saveUser: (update: Partial<User>) => void;
-  enactDeletion: (deletion_confirmation: string | undefined) => void;
+  saveUser(dispatch: Function, update: Partial<User>): void;
+  enactDeletion(dispatch: Function, deletion_confirmation: string | undefined): void;
 }
 
 /** JSON form that gets POSTed to the API when user updates their info. */

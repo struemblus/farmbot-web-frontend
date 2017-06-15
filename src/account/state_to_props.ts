@@ -7,15 +7,16 @@ import { edit } from "../api/crud";
 
 export function mapStateToProps(props: Everything): Props {
   let user = getUserAccountSettings(props.resources.index);
-  let dispatch = props.dispatch;
 
   return {
     user,
-    saveUser: (update: Partial<User>) => dispatch(edit(user, update)),
-    enactDeletion: (password: string | undefined) => {
+    saveUser(dispatch: Function, update: Partial<User>) {
+      dispatch(edit(user, update));
+    },
+    enactDeletion(dispatch: Function, password: string | undefined) {
       dispatch(deleteUser({ password: password || "NEVER SET" }));
     },
-    dispatch: Function
+    dispatch: () => { throw new Error("NEVER SHOULD HAPPEN"); }
   };
 }
 
