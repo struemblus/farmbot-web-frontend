@@ -1,24 +1,20 @@
 import { Everything } from "../interfaces";
 import { deleteUser } from "./actions";
-import { Props, State } from "./interfaces";
+import { Props } from "./interfaces";
+import { getUserAccountSettings } from "../resources/selectors";
+import { User } from "../auth/interfaces";
+import { edit } from "../api/crud";
 
 export function mapStateToProps(props: Everything): Props {
-  let auth = props.auth;
-
-  let saveUser = (data: State, dispatch: Function) => {
-    dispatch(updateUser(data));
-  };
-
-  // Hear ye, hear ye!
-  let enactDeletion = (deletion_confirmation: string, dispatch: Function) => {
-    let password = deletion_confirmation || "NEVER SET";
-    dispatch(deleteUser({ password }));
-  };
+  let user = getUserAccountSettings(props.resources.index);
+  let dispatch = props.dispatch;
 
   return {
-    auth,
-    saveUser,
-    enactDeletion,
+    user,
+    saveUser: (update: Partial<User>) => dispatch(edit(user, update)),
+    enactDeletion: (password: string | undefined) => {
+      dispatch(deleteUser({ password: password || "NEVER SET" }));
+    },
     dispatch: Function
   };
 }
