@@ -99,8 +99,8 @@ export class GardenMap extends
     if (this.isEditing && this.state.isDragging && plant && map) {
       let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DRAG_ERROR);
       let { qx, qy } = getXYFromQuadrant(e.pageX, e.pageY, botOriginQuadrant);
-      let deltaX = qx - (this.state.pageX || qx);
-      let deltaY = qy - (this.state.pageY || qy);
+      let deltaX = Math.round((qx - (this.state.pageX || qx)) / zoomLvl);
+      let deltaY = Math.round((qy - (this.state.pageY || qy)) / zoomLvl);
       this.setState({ pageX: qx, pageY: qy });
       this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
     }

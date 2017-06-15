@@ -143,6 +143,10 @@
 
 .panel-content {
   padding: 6rem 1rem;
+  a {
+    color: $black;
+    text-decoration: underline !important;
+  }
 }
 
 .add-farm-event-panel button,
