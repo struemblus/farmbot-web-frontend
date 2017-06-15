@@ -16,11 +16,14 @@ let DropDown = ({ auth, onClick }: DropDownProps) => {
 
   // Displaying the user's name in the top right of the screen if available.
   let hasName = auth.user && auth.user.name;
-  let greeting = hasName ? `${hasName} ▾` : "▾";
+  let fullName = hasName ? `${hasName}` : "";
+  let firstName = fullName.split(" ")[0] + " ▾";
 
   // The bit shown while hovering over username in top right of screen.
   return <div className="nav-dropdown">
-    <span>{greeting}</span>
+    <span className="name">
+      {firstName}
+    </span>
     <div className="nav-dropdown-content">
       <ul>
         <li>
