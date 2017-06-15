@@ -8,7 +8,7 @@ import { CalibrationRow } from "../calibration_row";
 import { ZeroRow } from "../zero_row";
 import { enabledAxisMap } from "../axis_tracking_status";
 import { HomingAndCalibrationProps } from "../interfaces";
-import { Header } from "./Header";
+import { Header } from "./header";
 
 export function HomingAndCalibration(props: HomingAndCalibrationProps) {
 

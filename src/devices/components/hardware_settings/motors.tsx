@@ -9,7 +9,7 @@ import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { BotConfigInputBox } from "../step_per_mm_box";
 import { MotorsProps } from "../interfaces";
 import { Row, Col } from "../../../ui/index";
-import { Header } from "./Header";
+import { Header } from "./header";
 
 export function Motors({ dispatch, bot }: MotorsProps) {
 

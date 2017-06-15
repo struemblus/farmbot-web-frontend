@@ -23,6 +23,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   componentDidMount() {
     this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant)();
+    this.updateZoomLevel(0)();
   }
 
   toggle = (name: keyof State) => () =>

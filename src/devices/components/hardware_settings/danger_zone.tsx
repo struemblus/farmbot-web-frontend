@@ -2,7 +2,7 @@ import * as React from "react";
 import { t } from "i18next";
 import { DangerZoneProps } from "../interfaces";
 import { Row, Col } from "../../../ui/index";
-import { Header } from "./Header";
+import { Header } from "./header";
 
 export function DangerZone(props: DangerZoneProps) {
 

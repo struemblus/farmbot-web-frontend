@@ -4,7 +4,7 @@ import { BooleanMCUInputGroup } from "../boolean_mcu_input_group";
 import { ToolTips } from "../../../constants";
 import { NumericMCUInputGroup } from "../numeric_mcu_input_group";
 import { EncodersProps } from "../interfaces";
-import { Header } from "./Header";
+import { Header } from "./header";
 
 export function EncodersAndEndStops(props: EncodersProps) {
 
