@@ -16,17 +16,7 @@ import { PlantPointer } from "../interfaces";
 import { SlotWithTool } from "../resources/interfaces";
 
 export type BotOriginQuadrant = 1 | 2 | 3 | 4;
-export type ZoomLevel =
-  | 0.1
-  | 0.2
-  | 0.3
-  | 0.4
-  | 0.5
-  | 0.6
-  | 0.7
-  | 0.8
-  | 0.9
-  | 1;
+export type ZoomLevelPayl = 0.1 | -0.1;
 
 export function isBotOriginQuadrant(mystery: any):
   mystery is BotOriginQuadrant {
@@ -35,8 +25,7 @@ export function isBotOriginQuadrant(mystery: any):
 
 let zoomLevelArray = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1];
 
-export function isValidZoomLevel(mystery: any):
-  mystery is ZoomLevel {
+export function isValidZoomLevel(mystery: any) {
   return zoomLevelArray.includes(mystery);
 }
 
@@ -49,7 +38,6 @@ export interface State {
 }
 
 export interface Props {
-  zoomLevel: ZoomLevel;
   dispatch: Function;
   selectedPlant: TaggedPlantPointer | undefined;
   designer: DesignerState;
@@ -105,7 +93,7 @@ export interface DesignerState {
   selectedPlant: string | undefined;
   hoveredPlant: HoveredPlantPayl;
   botOriginQuadrant: BotOriginQuadrant;
-  zoomLevel: ZoomLevel | number;
+  zoomLevel: number;
   cropSearchQuery: string;
   cropSearchResults: CropLiveSearchResult[];
 }

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router";
 import { t } from "i18next";
 import { GardenMap } from "./map/garden_map";
-import { Props, State, BotOriginQuadrant, ZoomLevel } from "./interfaces";
+import { Props, State, BotOriginQuadrant } from "./interfaces";
 import { mapStateToProps } from "./state_to_props";
 import { history } from "../history";
 import { Plants } from "./plants/plant_inventory";
@@ -23,7 +23,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
   componentDidMount() {
     this.updateBotOriginQuadrant(this.props.designer.botOriginQuadrant)();
-    this.updateZoomLevel(this.props.designer.zoomLevel)();
   }
 
   toggle = (name: keyof State) => () =>
@@ -41,7 +40,6 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
   }
 
   render() {
-    // console.log(this.props.zoomLevel)
     /**
      * Kinda nasty, similar to the old q="NoTab" we used to determine no panels.
      * This one just makes sure the designer can click it's panel tabs without
@@ -95,7 +93,7 @@ export class FarmDesigner extends React.Component<Props, Partial<State>> {
 
       <div
         className="farm-designer-map"
-        style={{ zoom: this.props.zoomLevel }}>
+        style={{ zoom: this.props.designer.zoomLevel }}>
         <GardenMap
           showPoints={showPoints}
           showPlants={showPlants}
