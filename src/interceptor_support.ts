@@ -42,10 +42,8 @@ function inferUpdateId(url: string) {
     let id: number | undefined = ids[0];
     let isNum = _.isNumber(id);
     let onlyOne = ids.length === 1;
-    debugger;
     return (isNum && onlyOne) ? ("" + id) : "*";
   } catch (error) { // Dont crash- just keep moving along. This is a temp patch.
-    debugger;
     return "*";
   }
 }
