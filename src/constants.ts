@@ -5,8 +5,7 @@
  */
 
 export namespace ToolTips {
-  export const MAX_RETRIES =
-    `Number of times to retry a movement before e-stopping.`
+
   // Controls
   export const MOVE =
     `Use these manual control buttons to move FarmBot in realtime. Press the
@@ -34,69 +33,16 @@ export namespace ToolTips {
     few sequences to verify that everything works as expected. Note: Currently
     not all settings can be changed.`
 
-  export const MAX_SPEED =
-    `Maximum travel speed after acceleration in motor steps per second.`
-
-  export const SET_ZERO_POSITION =
-    `Set the current location as zero.`
-
-  export const STEPS_PER_MM =
-    `The number of motor steps required to move the axis one millimeter.`
-
-  export const MIN_SPEED =
-    `Minimum movement speed. Also used for homing, calibration, and movements
-    across home.`
-
-  export const ACCELERATE_FOR =
-    `Number of steps used for acceleration and deceleration.`
-
-  export const TIMEOUT_AFTER =
-    `Amount of time to wait for a command to execute before stopping.`
-
-  export const LENGTH =
-    `Set the length of each axis to provide software limits. Used only if
-    STOP AT MAX is enabled.`
-
-  export const ENCODER_SCALING =
-    `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) /
-    (encoder resolution)`
-
-  export const MAX_MISSED_STEPS =
-    `(Alpha) Number of steps missed (determined by encoder) before motor is
-    considered to have stalled.`
-
-  export const ENCODER_MISSED_STEP_DECAY =
-    `(Alpha) Reduction to missed step total for every good step.`
+  // Hardware Settings: Homing and Calibration
+  export const HOMING =
+    `(Alpha) If encoders or end-stops are enabled, home axis (find zero).`
 
   export const CALIBRATION =
     `(Alpha) If encoders or end-stops are enabled, home axis and determine
     maximum.`
 
-  export const HOMING =
-    `(Alpha) If encoders or end-stops are enabled, home axis (find zero).`
-
-  export const ENABLE_ENCODERS =
-    `(Alpha) Enable use of rotary encoders during calibration and homing.`
-
-  export const ALWAYS_POWER_MOTORS =
-    `Keep power applied to motors. Prevents slipping from gravity in certain
-    situations.`
-
-  export const INVERT_ENCODERS =
-    `(Alpha) Reverse the direction of encoder position reading.`
-
-  export const INVERT_ENDPOINTS =
-    `Swap axis end-stops during calibration.`
-
-  export const INVERT_MOTORS =
-    `Invert direction of motor during calibration.`
-
-  export const NEGATIVE_COORDINATES_ONLY =
-    `Restrict travel to negative coordinate locations. Overridden by disabling
-    STOP AT HOME.`
-
-  export const ENABLE_ENDSTOPS =
-    `Enable use of electronic end-stops during calibration and homing.`
+  export const SET_ZERO_POSITION =
+    `Set the current location as zero.`
 
   export const FIND_HOME_ON_BOOT =
     `If encoders or end-stops are enabled, find the home position when the
@@ -108,11 +54,70 @@ export namespace ToolTips {
   export const STOP_AT_MAX =
     `Don't allow movement past the maximum value provided in AXIS LENGTH.`
 
-  export const ENCODER_POSITIONING =
-    `[EXPERIMENTAL] Use encoders for positioning.`
+  export const NEGATIVE_COORDINATES_ONLY =
+    `Restrict travel to negative coordinate locations. Overridden by disabling
+    STOP AT HOME.`
+
+  export const LENGTH =
+    `Set the length of each axis to provide software limits. Used only if
+    STOP AT MAX is enabled.`
+
+  export const TIMEOUT_AFTER =
+    `Amount of time to wait for a command to execute before stopping.`
+
+  // Hardware Settings: Motors
+  export const MAX_MOVEMENT_RETRIES =
+    `Number of times to retry a movement before stopping.`
+
+  export const MAX_SPEED =
+    `Maximum travel speed after acceleration in motor steps per second.`
+
+  export const MIN_SPEED =
+    `Minimum movement speed. Also used for homing, calibration, and movements
+    across home.`
+
+  export const ACCELERATE_FOR =
+    `Number of steps used for acceleration and deceleration.`
+
+  export const STEPS_PER_MM =
+    `The number of motor steps required to move the axis one millimeter.`
+
+  export const ALWAYS_POWER_MOTORS =
+    `Keep power applied to motors. Prevents slipping from gravity in certain
+    situations.`
+
+  export const INVERT_MOTORS =
+    `Invert direction of motor during calibration.`
 
   export const ENABLE_X2_MOTOR =
     `Enable use of a second x-axis motor. Connects to E0 on RAMPS.`
+
+  // Hardware Settings: Encoders and Endstops
+  export const ENABLE_ENCODERS =
+    `(Alpha) Enable use of rotary encoders during calibration and homing.`
+
+  export const ENCODER_POSITIONING =
+    `[EXPERIMENTAL] Use encoders for positioning.`
+
+  export const INVERT_ENCODERS =
+    `(Alpha) Reverse the direction of encoder position reading.`
+
+  export const MAX_MISSED_STEPS =
+    `(Alpha) Number of steps missed (determined by encoder) before motor is
+    considered to have stalled.`
+
+  export const ENCODER_MISSED_STEP_DECAY =
+    `(Alpha) Reduction to missed step total for every good step.`
+
+  export const ENCODER_SCALING =
+    `(Alpha) encoder scaling factor = 100 * (motor resolution * microsteps) /
+    (encoder resolution)`
+
+  export const ENABLE_ENDSTOPS =
+    `Enable use of electronic end-stops during calibration and homing.`
+
+  export const INVERT_ENDPOINTS =
+    `Swap axis end-stops during calibration.`
 
   // Farmware
   export const FARMWARE =
