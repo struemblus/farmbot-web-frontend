@@ -13,18 +13,33 @@ export let METHOD_MAP: Dictionary<DataChangeType> = {
 export let METHODS = ["post", "put", "patch", "delete"];
 export let RESOURCES: ResourceName[] = [
   "images", "plants", "regimens", "peripherals", "logs", "sequences",
-  "farm_events", "tool_slots", "tools", "points", "users", "device"];
+  "farm_events", "tool_slots", "tools", "points", "device"];
 
 // PROBLEM:       The bot doesn't know if the user has changed any of the data.
 // GOOD SOLUTION: Create a push notification system on the API.
 // FAST SOLUTION: Ping the bot every time we push "save" or "update".
 //                Our hope is to eventually move this logic into the API.
-export function notifyBotOfChanges(url: string, action: DataChangeType) {
-  (url || "").split("/").filter((chunk: ResourceName) => {
-    return RESOURCES.includes(chunk);
-  }).map(async function (resource) {
-    devices.current.dataUpdate(action, { [resource]: "*" });
-  });
+export function notifyBotOfChanges(url: string | undefined, action: DataChangeType) {
+  console.log("URL IS: " + url);
+  if (url) {
+    url.split("/").filter((chunk: ResourceName) => {
+      return RESOURCES.includes(chunk);
+    }).map(async function (resource: ResourceName) {
+      devices.current.dataUpdate(action, { [resource]: inferUpdateId(url) });
+    });
+  }
+}
+
+/** More nasty hacks until we have time to implement proper API push state
+ * notifications. */
+function inferUpdateId(url: string) {
+  let ids = url
+    .split("/")
+    .filter(x => x.includes(",")) // Dont allow batch endpoints to participate.
+    .map(x => parseInt(x))
+    .filter(x => !_.isNaN(x));
+
+  return ids.length === 1 ? ("" + ids[0]) : "*";
 }
 
 /** The input of an axios error interceptor is an "any" type.
