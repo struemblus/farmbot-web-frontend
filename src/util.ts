@@ -359,3 +359,37 @@ export function clampUnsignedInteger(input: string): ClampResult {
 
   return { outcome: "ok", result };
 }
+
+export enum SemverResult {
+  LEFT_IS_GREATER = 1,
+  RIGHT_IS_GREATER = -1,
+  EQUAL = 0
+}
+// CREDIT: https://github.com/substack/semver-compare
+export function semverCompare(left: string, right: string): SemverResult {
+  var pa: Array<string | undefined> = left.split(".");
+  var pb: Array<string | undefined> = right.split(".");
+  for (var i = 0; i < 3; i++) {
+    var num_left = Number(pa[i]);
+    var num_right = Number(pb[i]);
+
+    if (num_left > num_right) {
+      return SemverResult.LEFT_IS_GREATER;
+    }
+
+    if (num_right > num_left) {
+      return SemverResult.RIGHT_IS_GREATER;
+    }
+
+    if (!isNaN(num_left) && isNaN(num_right)) {
+      return SemverResult.LEFT_IS_GREATER
+    };
+
+    if (isNaN(num_left) && !isNaN(num_right)) {
+      return SemverResult.RIGHT_IS_GREATER
+    };
+
+  }
+
+  return SemverResult.EQUAL;
+};
