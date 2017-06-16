@@ -5,7 +5,6 @@ import {
   HoveredPlantPayl,
   BotOriginQuadrant,
   isBotOriginQuadrant,
-  isValidZoomLevel,
   ZoomLevelPayl
 } from "./interfaces";
 import { cloneDeep } from "lodash";
@@ -19,7 +18,7 @@ let botOriginVal = localStorageNumFetch(BOT_ORIGIN_QUADRANT);
 let botOriginQuadrant = isBotOriginQuadrant(botOriginVal) ? botOriginVal : 2;
 
 let zoomLevelVal = localStorageNumFetch(ZOOM_LEVEL);
-let zoomLevel = isValidZoomLevel(zoomLevelVal) ? zoomLevelVal : 1;
+let zoomLevel = zoomLevelVal ? zoomLevelVal : 1;
 
 export let initialState: DesignerState = {
   selectedPlant: undefined,
@@ -55,7 +54,7 @@ export let designer = generateReducer<DesignerState>(initialState)
   .add<ZoomLevelPayl>("UPDATE_MAP_ZOOM_LEVEL", (s, { payload }) => {
     let value = s.zoomLevel + payload;
     s.zoomLevel = value;
-    localStorage.setItem(ZOOM_LEVEL, JSON.stringify(value));
+    localStorage.setItem(ZOOM_LEVEL, value.toString());
     return s;
   })
   .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", (s, { payload }) => {

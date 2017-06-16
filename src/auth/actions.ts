@@ -10,7 +10,11 @@ import { API } from "../api";
 import { toastErrors } from "../util";
 import { Session } from "../session";
 import { UnsafeError } from "../interfaces";
-import { responseFulfilled, responseRejected, requestFulfilled } from "../interceptors";
+import {
+  responseFulfilled,
+  responseRejected,
+  requestFulfilled
+} from "../interceptors";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
   API.setBaseUrl(authState.token.unencoded.iss);

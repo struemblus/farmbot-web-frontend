@@ -23,12 +23,6 @@ export function isBotOriginQuadrant(mystery: any):
   return [1, 2, 3, 4].includes(mystery);
 }
 
-let zoomLevelArray = [0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2];
-
-export function isValidZoomLevel(mystery: any) {
-  return zoomLevelArray.includes(mystery);
-}
-
 export interface State {
   legendMenuOpen: boolean;
   showPlants: boolean;
