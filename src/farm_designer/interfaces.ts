@@ -97,6 +97,7 @@ export interface DesignerState {
 export type TaggedExecutable = TaggedSequence | TaggedRegimen;
 export type ExecutableQuery = (kind: ExecutableType, id: number) => TaggedExecutable;
 export interface AddEditFarmEventProps {
+  deviceTimezone: string | undefined;
   executableOptions: TightlyCoupledFarmEventDropDown[];
   repeatOptions: DropDownItem[];
   farmEvents: TaggedFarmEvent[];
