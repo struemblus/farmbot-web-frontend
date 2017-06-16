@@ -29,7 +29,7 @@ export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
       </li>
       <li>
         <b>{t("Age")}: </b>
-        <span>{info.daysOld} {("days old")}</span>
+        <span>{info.daysOld} {t("days old")}</span>
       </li>
       <li>
         <b>{t("Location")}: </b>
