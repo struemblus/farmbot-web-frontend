@@ -19,6 +19,8 @@ function mapStateToProps(props: Everything): SpeciesInfoProps {
   };
 }
 
+const OPENFARM_URL = "https://openfarm.cc/crops/";
+
 @connect(mapStateToProps)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
   handleDragStart = (e: DraggableEvent) => {
@@ -39,7 +41,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     let result =
       findBySlug(this.props.cropSearchResults, species || "PLANT_NOT_FOUND");
 
-    let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
+    let basePath = "/app/designer/plants/crop_search/";
 
     let backgroundURL = `linear-gradient(
       rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${result.image})`;
@@ -50,7 +52,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
           <a className="right-button mobile-only"
-            onClick={() => history.push(addSpeciesPath)}>
+            onClick={() => history.push(basePath + species + "/add")}>
             {t("Add to map")}
           </a>
         </p>
@@ -70,6 +72,14 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
             {t("Drag and drop into map")}
           </div>
         </div>
+        <span>
+          {t("Edit on")}&nbsp;
+        </span>
+        <a
+          href={OPENFARM_URL + result.crop.slug}
+          target="_blank">
+          OpenFarm
+        </a>
         <div className="object-list">
           <label>
             {t("Crop Info")}
@@ -100,10 +110,10 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   } else {
                     {
                       /**
-                     * If there's a value, give
-                     * it an img element to render the actual graphic. If no
-                     * value, return "Not Set".
-                     */
+                       * If there's a value, give
+                       * it an img element to render the actual graphic. If no
+                       * value, return "Not Set".
+                       */
                     }
                     return <li key={i}>
                       <strong>{t("SVG Icon")}: </strong>

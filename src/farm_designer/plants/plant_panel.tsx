@@ -8,8 +8,6 @@ interface PlantPanelProps {
   onDestroy?(uuid: string): void;
 }
 
-const OPENFARM_URL = "https://openfarm.cc/crops/";
-
 export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
   let destroy = () => onDestroy && onDestroy(info.uuid);
   return <div className="panel-content">
@@ -36,14 +34,6 @@ export function PlantPanel({ info, onDestroy }: PlantPanelProps) {
         <span>({info.x}, {info.y})</span>
       </li>
     </ul>
-    <span>
-      {t("Edit on")}&nbsp;
-    </span>
-    <a
-      href={OPENFARM_URL + info.slug}
-      target="_blank">
-      OpenFarm
-    </a>
     <div>
       <label hidden={!onDestroy}>
         {t("Delete this plant")}
