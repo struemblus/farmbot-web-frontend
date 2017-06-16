@@ -26,13 +26,11 @@ export class PasswordReset extends React.Component<Props, State> {
     });
   }
 
-  set(name: string) {
-    return function (event: React.FormEvent<HTMLInputElement>) {
-      let state: { [name: string]: string } = {};
-      state[name] = (event.currentTarget).value;
-      this.setState(state);
-    };
-  }
+  set = (name: string) => (event: React.FormEvent<HTMLInputElement>) => {
+    let state: { [name: string]: string } = {};
+    state[name] = (event.currentTarget).value;
+    this.setState(state);
+  };
 
   submit(e: React.SyntheticEvent<HTMLInputElement>) {
     e.preventDefault();
@@ -54,7 +52,7 @@ export class PasswordReset extends React.Component<Props, State> {
       <h1>{t("Reset your password")}</h1>
       <div className="all-content-wrapper">
         <div className="row">
-          <div className={`widget-wrapper col-md-6 col-md-offset-3 
+          <div className={`widget-wrapper col-md-6 col-md-offset-3
                         col-sm-6 col-sm-offset-3`}>
             <div className="row">
               <div className="col-sm-12">
@@ -84,7 +82,7 @@ export class PasswordReset extends React.Component<Props, State> {
                     </div>
                     <div className="row">
                       <div className="col-xs-12">
-                        <button className={`button-like button green login`}>
+                        <button className="green">
                           {t("Reset")}
                         </button>
                       </div>

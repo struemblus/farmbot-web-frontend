@@ -1,200 +1,175 @@
-// Styles for BUTTONS
 button {
-    font-size: 1rem!important;
+    font-size: 1rem;
     float: right;
-    text-transform: uppercase!important;
+    text-transform: uppercase;
     text-align: center;
-    font-family: $roboto;
-    font-weight: 700!important;
-    padding-top: .2rem;
-    padding-bottom: .2rem;
-    padding-left: .8rem;
-    padding-right: .8rem;
+    font-weight: 700;
+    padding: .2rem .8rem;
     border-radius: 3px;
-    border-bottom-width: 2px!important;
     border: none;
-    margin-bottom: 0px;
-    &.left {
-        float: left;
+    position: relative;
+    color: $off_white;
+    transition: all 0.1s ease-in-out !important;
+    &.disabled {
+        background: $gray !important;
+        box-shadow: 0 2px 0px 0px lighten($gray, 5%) !important;
+        pointer-events: none !important;
+        cursor: not-allowed !important;
     }
-    &.stop {
-        background-color: $red;
+    &.is-saved,
+    &.is-saving {
+        background: $medium_gray !important;
+        box-shadow: 0 2px 0px 0px $dark_gray !important;
+        pointer-events: none;
+    }
+    .btn-spinner {
+        width: 0.8rem;
+        height: 0.8rem;
+        animation: rotate 0.8s infinite linear;
+        border: 1px solid #fff;
+        border-right-color: transparent;
+        border-radius: 50%;
+        float: right;
+        margin: 0.2rem 0px 0 0.6rem;
+    }
+    &:active:not(.toggle-button) {
+        box-shadow: none;
+        transform: translateY(2px);
     }
     &.go {
         background-color: $green;
-        margin-top: 24px;
+        margin-top: 2.4rem;
         padding: .4rem .8rem;
-        font-size: 1.2rem!important;
-    }
-    &.restart {
-        background-color: $orange;
+        font-size: 1.2rem;
     }
     &.green {
         background-color: $green;
-        color: $off_white;
-        border-bottom: solid $dark_green;
+        box-shadow: 0 2px 0px 0px $dark_green;
         &:hover {
-            background-color: darken($green, 5%);
+            background-color: darken($green, 5%) !important;
         }
     }
     &.red {
         background-color: $red;
-        color: $off_white;
-        border-bottom: solid $dark_red;
+        box-shadow: 0 2px 0px 0px $dark_red;
         &:hover {
-            background-color: darken($red, 5%);
+            background-color: darken($red, 5%) !important;
         }
     }
     &.gray {
-        background-color: $medium_gray;
-        float: right;
-        color: $off_white;
-        border-bottom: solid $dark_gray;
+        background-color: $medium_gray !important;
+        box-shadow: 0 2px 0px 0px $dark_gray;
         &:hover {
-            background-color: darken($medium_gray, 5%);
+            background-color: darken($medium_gray, 5%) !important;
         }
     }
     &.yellow {
         background-color: $yellow;
-        float: right;
         color: $dark_gray;
-        border-bottom: solid $gold;
+        box-shadow: 0 2px 0px 0px $gold;
         &:hover {
-            background-color: darken($yellow, 10%);
+            background-color: darken($yellow, 10%) !important;
         }
     }
     &.orange {
         background-color: $orange;
-        float: right;
         color: $dark_gray;
-        border-bottom: solid $dark_orange;
+        box-shadow: 0 2px 0px 0px $dark_orange;
         &:hover {
-            background-color: darken($orange, 10%);
+            background-color: darken($orange, 10%) !important;
         }
     }
     &.cyan {
         background-color: $cyan;
-        float: right;
-        color: $off_white;
-        border-bottom: solid darken($cyan, 10%);
+        box-shadow: 0 2px 0px 0px darken($cyan, 10%);
         &:hover {
-            background-color: darken($cyan, 3%);
-        }
-        &:active {
-            background-color: darken($cyan, 5%);
+            background-color: darken($cyan, 3%) !important;
         }
     }
     &.brown {
         background-color: $dark_brown;
-        float: right;
-        color: $off_white;
-        border-bottom: solid darken($dark_brown, 10%);
+        box-shadow: 0 2px 0px 0px darken($dark_brown, 10%);
         &:hover {
-            background-color: darken($dark_brown, 3%);
-        }
-        &:active {
-            background-color: darken($dark_brown, 5%);
+            background-color: darken($dark_brown, 3%) !important;
         }
     }
     &.magenta {
         background-color: $magenta;
-        float: right;
-        color: $off_white;
-        border-bottom: solid darken($magenta, 10%);
+        box-shadow: 0 2px 0px 0px darken($magenta, 10%);
         &:hover {
-            background-color: darken($magenta, 3%);
+            background-color: darken($magenta, 3%) !important;
         }
-        &:active {
-            background-color: darken($magenta, 5%);
-        }
-    }
-    &.login,
-    &.create-account {
-        margin-top: 1.5rem;
-        padding: .5rem 1.6rem;
-        font-size: 1.2rem!important;
-    }
-    &.add-week {
-        margin-top: 0.5rem;
-        float: left;
     }
 }
 
-.button-like {
-    &:active:not(.toggle-button) {
-        border-bottom-width: 1px!important;
-        border-top: 1px solid transparent!important;
-        transform: translateY(1px);
+.toggle-button {
+    position: relative;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    padding: 0.3rem 0.10rem;
+    border-radius: 10px;
+    width: 5rem;
+    border-bottom: none;
+    position: relative;
+    transition: all 0.4s ease;
+    &.yellow {
+        &:after {
+            content: '';
+            position: absolute;
+            height: 1.6rem;
+            width: 1.6rem;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 0.1rem;
+            box-shadow: inset rgba(0, 0, 0, 0.03) 0px 0px 3px 3px;
+        }
+        &:before {
+            content: '';
+            position: absolute;
+            height: 1.6rem;
+            width: 1.6rem;
+            border-radius: 50%;
+            top: 0.1rem;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
+        }
     }
-    &.toggle-button {
-        padding: 0.3rem 0.10rem;
-        border-radius: 10px;
-        width: 5rem;
-        border-bottom: none;
-        position: relative;
-        transition: all 0.4s ease;
-        &.yellow {
-            &:after {
-                content: '';
-                position: absolute;
-                height: 1.6rem;
-                width: 1.6rem;
-                background: white;
-                border-radius: 50%;
-                margin: 0 auto;
-                left: 0;
-                right: 0;
-                top: 0.1rem;
-                box-shadow: inset rgba(0, 0, 0, 0.03) 0px 0px 3px 3px;
-            }
-            &:before {
-                content: '';
-                position: absolute;
-                height: 1.6rem;
-                width: 1.6rem;
-                border-radius: 50%;
-                top: 0.1rem;
-                margin: 0 auto;
-                left: 0;
-                right: 0;
-                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
-            }
+    &.green {
+        text-align: left;
+        padding-left: 0.6rem;
+        &:after {
+            content: '';
+            position: absolute;
+            height: 1.6rem;
+            width: 1.6rem;
+            background: white;
+            border-radius: 50%;
+            top: 0.1rem;
+            right: 0.2rem;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
         }
-        &.green {
-            text-align: left;
-            padding-left: 0.6rem;
-            &:after {
-                content: '';
-                position: absolute;
-                height: 1.6rem;
-                width: 1.6rem;
-                background: white;
-                border-radius: 50%;
-                top: 0.1rem;
-                right: 0.2rem;
-                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
-            }
-            &:hover {
-                background: $green;
-            }
+        &:hover {
+            background: $green;
         }
-        &.red {
-            text-align: right !important;
-            padding-right: 0.8rem;
-            &:after {
-                content: '';
-                position: absolute;
-                height: 1.6rem;
-                width: 1.6rem;
-                background: white;
-                border-radius: 50%;
-                top: 0.1rem;
-                left: 0.2rem;
-                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
-            }
-            &:hover {
-                background: $dark_red;
-            }
+    }
+    &.red {
+        text-align: right !important;
+        padding-right: 0.8rem;
+        &:after {
+            content: '';
+            position: absolute;
+            height: 1.6rem;
+            width: 1.6rem;
+            background: white;
+            border-radius: 50%;
+            top: 0.1rem;
+            left: 0.2rem;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0px 0 rgba(0, 0, 0, 0.04), 0 4px 9px rgba(0, 0, 0, 0.13), 0 3px 3px rgba(0, 0, 0, 0.05);
         }
     }
 }
@@ -209,31 +184,24 @@ button {
     margin-left: 12rem;
     text-align: center;
     cursor: pointer;
-    border-bottom-width: 3px!important;
+    box-shadow: 0 3px 0px 0px $dark_green;
     position: fixed;
     left: 0;
     right: 0;
+    &:active {
+        box-shadow: none !important;
+        transform: translateY(2px);
+    }
+    &:hover {
+        background: darken($green, 5%) !important;
+    }
     i {
         line-height: 5rem;
     }
-    &.add-plant {
-        background-color: $dark_green;
-        border-bottom: solid darken($dark_green, 10%);
+    &.magenta {
+        box-shadow: 0 3px 0px 0px darken($magenta, 10%);
         &:hover {
-            background-color: darken($dark_green, 3%);
-        }
-        &:active {
-            background-color: darken($dark_green, 5%);
-        }
-    }
-    &.add-event {
-        background-color: $magenta;
-        border-bottom: solid darken($magenta, 10%);
-        &:hover {
-            background-color: darken($magenta, 3%);
-        }
-        &:active {
-            background-color: darken($magenta, 5%);
+            background: darken($magenta, 5%) !important;
         }
     }
 }

@@ -1,13 +1,62 @@
-import { AddEditFarmEventProps } from "../interfaces";
+import { AddEditFarmEventProps, ExecutableType } from "../interfaces";
 import { Everything } from "../../interfaces";
 import * as moment from "moment";
-import { DropDownItem } from "../../ui";
+import { history } from "../../history";
 import { t } from "i18next";
-import { saveFarmEvent, destroyFarmEvent, updateFarmEvent } from "../actions";
+import {
+  selectAllFarmEvents,
+  indexRegimenById,
+  indexSequenceById,
+  indexFarmEventById,
+  findFarmEventById,
+  selectAllRegimens,
+  selectAllSequences,
+  hasId,
+  findSequenceById,
+  findRegimenById
+} from "../../resources/selectors";
+import {
+  TaggedFarmEvent,
+  TaggedSequence,
+  TaggedRegimen
+} from "../../resources/tagged_resources";
 
-export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps {
+/** TODO: Not a fan of this one, but don't have time to refactor today.
+ *  DropDownItem[]s should not know what a Regimen is. - RC Apr '17.
+ *
+ * PROBLEM: Drop down item had an id of '6'. But that `id` could have been for a
+ *          "regimen" or a "sequence". There's no way to diferentiate as a user
+ *          of <FBSelect/>
+ *
+ * Fast Solution:  Tack extra information into DropDownItem. This results in
+ *                 us needing to do type casts and coupling DropDownItem to
+ *                 FarmEvent, which is unsafe and won't be totally obvious to
+ *                 new devs.
+ *
+ * Ideal solution: Add a `parentHeading: string;` field to DropDownItem. It
+ *                 would tell us which heading the DropDownItem came from. we
+ *                 could infer the `executable_type` based on the heading it
+ *                 was under. Then do a `groupBy` inside
+ *                 of <FBSelect/>*/
+export interface TightlyCoupledFarmEventDropDown {
+  label: string;
+  executable_type: "Regimen" | "Sequence";
+  value: number;
+  heading?: undefined | boolean;
+}
+
+export let formatTime = (input: string) => {
+  let iso = new Date(input).toISOString();
+  return moment(iso).format("HH:mm");
+};
+
+export let formatDate = (input: string) => {
+  let iso = new Date(input).toISOString();
+  return moment(iso).format("YYYY-MM-DD");
+};
+
+export function mapStateToPropsAddEdit(props: Everything): AddEditFarmEventProps {
   let handleTime = (e: React.SyntheticEvent<HTMLInputElement>, currentISO: string) => {
-    // Am I really doing this right now? How else?
     let incomingTime = e.currentTarget.value.split(":");
     let hours = parseInt(incomingTime[0]) || 0;
     let minutes = parseInt(incomingTime[1]) || 0;
@@ -42,86 +91,95 @@ export function mapStateToPropsAddEdit(state: Everything): AddEditFarmEventProps
     }
   };
 
-  let formatTime = (input: string) => {
-    let iso = new Date(input).toISOString();
-    return moment(iso).format("HH:mm");
-  };
-
-  let formatDate = (input: string) => {
-    let iso = new Date(input).toISOString();
-    return moment(iso).format("YYYY-MM-DD");
-  };
 
   let repeatOptions = [
-    // Removing this for now until prod. deploy is over.
-    //   - R.C. Mar 2017
-    // { label: "Do not repeat", value: "never", name: "time_unit" },
-    { label: "minutes", value: "minutely", name: "time_unit" },
-    { label: "hours", value: "hourly", name: "time_unit" },
-    { label: "days", value: "daily", name: "time_unit" },
-    { label: "weeks", value: "weekly", name: "time_unit" },
-    { label: "months", value: "monthly", name: "time_unit" },
-    { label: "years", value: "yearly", name: "time_unit" }
+    { label: "Minutes", value: "minutely", name: "time_unit" },
+    { label: "Hours", value: "hourly", name: "time_unit" },
+    { label: "Days", value: "daily", name: "time_unit" },
+    { label: "Weeks", value: "weekly", name: "time_unit" },
+    { label: "Months", value: "monthly", name: "time_unit" },
+    { label: "Years", value: "yearly", name: "time_unit" },
+    {
+      label: "No Repeat (One Time Event)",
+      value: "never",
+      name: "time_unit"
+    }
   ];
 
-  let selectOptions: DropDownItem[] = [];
+  let executableOptions: TightlyCoupledFarmEventDropDown[] = [];
 
-  selectOptions.push({ label: t("REGIMENS"), heading: true, value: "Regimens" });
-  state.sync.regimens.map((regimen, index) => {
+  executableOptions.push({
+    label: t("REGIMENS"),
+    heading: true,
+    value: 0,
+    executable_type: "Regimen"
+  });
+  selectAllRegimens(props.resources.index).map(regimen => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (regimen.id) {
-      let item = {
-        label: regimen.name,
+    if (regimen.kind === "regimens" && regimen.body.id) {
+      executableOptions.push({
+        label: regimen.body.name,
         executable_type: "Regimen",
-        executable_id: regimen.id,
-        value: regimen.id
-      };
-      selectOptions.push(item);
+        value: regimen.body.id
+      });
     }
   });
 
-  selectOptions.push({ label: t("SEQUENCES"), heading: true, value: "Sequences" });
-  state.sync.sequences.map((sequence, index) => {
+  executableOptions.push({
+    label: t("SEQUENCES"),
+    heading: true,
+    value: 0,
+    executable_type: "Sequence"
+  });
+  selectAllSequences(props.resources.index).map(sequence => {
     // TODO: Remove executable_type from obj since it's
     // not declared in the interface.
-    if (sequence.id) {
-      let item = {
-        label: sequence.name,
+    if (sequence.kind === "sequences" && sequence.body.id) {
+      executableOptions.push({
+        label: sequence.body.name,
         executable_type: "Sequence",
-        executable_id: sequence.id,
-        value: sequence.id
-      };
-      selectOptions.push(item);
+        value: sequence.body.id
+      });
     }
   });
 
-  let farmEvents = state.sync.farm_events;
-  let sequenceById = _.indexBy(state.sequences.all, "id");
-  let regimenById = _.indexBy(state.regimens.all, "id");
+  let regimensById = indexRegimenById(props.resources.index);
+  let sequencesById = indexSequenceById(props.resources.index);
+  let farmEventsById = indexFarmEventById(props.resources.index);
+
+  let farmEvents = selectAllFarmEvents(props.resources.index);
+
+  let getFarmEvent = (): TaggedFarmEvent | undefined => {
+    let url = history.getCurrentLocation().pathname;
+    let id = parseInt(url.split("/")[4]);
+    if (id && hasId(props.resources.index, "farm_events", id)) {
+      return findFarmEventById(props.resources.index, id);
+    } else {
+      history.push("/app/designer/farm_events");
+    }
+  }
+
+  let findExecutable = (kind: ExecutableType, id: number):
+    TaggedSequence | TaggedRegimen => {
+    switch (kind) {
+      case "Sequence": return findSequenceById(props.resources.index, id)
+      case "Regimen": return findRegimenById(props.resources.index, id)
+      default: throw new Error("GOT A BAD `KIND` STRING");
+    }
+  }
   return {
-    selectOptions,
+    dispatch: props.dispatch,
+    regimensById,
+    sequencesById,
+    farmEventsById,
+    executableOptions,
     repeatOptions,
     formatDate,
     formatTime,
     handleTime,
     farmEvents,
-    sequenceById,
-    regimenById,
-    save(fe) {
-      this.dispatch(saveFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
-    update(fe) {
-      this.dispatch(updateFarmEvent(fe, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
-    delete(farm_event_id) {
-      this.dispatch(destroyFarmEvent(farm_event_id, () => {
-        this.router.push("/app/designer/farm_events");
-      }));
-    },
+    getFarmEvent,
+    findExecutable
   };
 }

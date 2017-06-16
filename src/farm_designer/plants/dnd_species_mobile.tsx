@@ -1,20 +1,23 @@
 import * as React from "react";
+import * as _ from "lodash";
 import { BackArrow } from "../../ui";
 import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
 import { t } from "i18next";
 import { isMobile } from "../../util";
+import { history } from "../../history";
 import { DEFAULT_ICON } from "../../open_farm/index";
 import {
   SpeciesInfoProps,
   DNDSpeciesMobileState,
   DraggableEvent
 } from "../interfaces";
+import { findBySlug } from "../search_selectors";
 
 @connect((state: Everything) => state)
 /** DND => "drag and drop" */
-export class DNDSpeciesMobile extends React.Component<SpeciesInfoProps,
-DNDSpeciesMobileState> {
+export class DNDSpeciesMobile
+  extends React.Component<SpeciesInfoProps, DNDSpeciesMobileState> {
   constructor() {
     super();
     this.state = { isDragging: false };
@@ -26,41 +29,20 @@ DNDSpeciesMobileState> {
     // Stub until we figure out dynamic drag images
     img.src = DEFAULT_ICON;
 
-    e
-      && e.dataTransfer
-      // Because of Android
-      && e.dataTransfer.setDragImage
-      // Because of MS Edge.
-      && e.dataTransfer.setDragImage(img, 50, 50);
+    // Because of Android and MS Edge.
+    _.get(e, "dataTransfer.setDragImage", _.noop)(img, 50, 50);
   }
 
   toggleDesignerView() {
     this.setState({ isDragging: !this.state.isDragging });
   }
 
-  findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements"
-      },
-      image: "http://placehold.it/350x150"
-    };
-  }
-
   render() {
-    let species = this.props.params.species.toString();
-    let result = this.findCrop(species || "PLANT_NOT_FOUND");
+    let species = history.getCurrentLocation().pathname.split("/")[5];
+
+    let result =
+      findBySlug(this.props.cropSearchResults,
+        species || "PLANT_NOT_FOUND");
 
     /** rgba arguments are a more mobile-friendly way apply filters */
     let backgroundURL = isMobile() ? `linear-gradient(
@@ -99,8 +81,8 @@ DNDSpeciesMobileState> {
               _(result.crop)
                 .omit(["slug", "processing_pictures", "description"])
                 .pairs()
-                .map(function (pair, i) {
-                  let key = pair[0] as string;
+                .map((pair: string, i: number) => {
+                  let key = pair[0];
                   let value = pair[1];
                   return <li key={i}>
                     <strong>

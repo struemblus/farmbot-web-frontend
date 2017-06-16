@@ -1,10 +1,24 @@
+import { BotStateTree } from "farmbot";
 import {
-  BotStateTree,
-  Configuration,
-  McuParams
+  ALLOWED_MESSAGE_TYPES,
+  McuParamName,
+  ConfigurationName
 } from "farmbot";
-import { ALLOWED_CHANNEL_NAMES, ALLOWED_MESSAGE_TYPES } from "farmbot";
 import { AuthState } from "../auth/interfaces";
+import {
+  TaggedImage,
+  TaggedPeripheral,
+  TaggedDevice
+} from "../resources/tagged_resources";
+import { RestResources } from "../resources/interfaces";
+
+export interface Props {
+  auth: AuthState | undefined;
+  bot: BotState;
+  deviceAccount: TaggedDevice;
+  images: TaggedImage[];
+  dispatch: Function;
+}
 
 /** How the device is stored in the API side.
  * This is what comes back from the API as JSON.
@@ -13,23 +27,8 @@ export interface DeviceAccountSettings {
   id: number;
   name: string;
   webcam_url?: string;
-  /** Must the deivce be saved? */
-  dirty?: boolean;
+  timezone?: string | undefined;
 };
-
-/**
- * Rpc Log message from the bot.
- */
-export interface RpcBotLog {
-  /** The message to be displayed from the bot. */
-  message: string;
-  /** Unix timestamp of when the log was created. */
-  created_at: number;
-  /** Array of channels where this message is supposed to show up. */
-  channels: ALLOWED_CHANNEL_NAMES[];
-  /** Meta data about the message. */
-  meta: Meta;
-}
 
 /** Meta information about a log message. */
 interface Meta {
@@ -42,20 +41,7 @@ interface Meta {
   z: number | undefined;
 }
 
-/** Typescript does not have partial types yet.
- *  When it does, we can pull this out*/
-export interface DeviceAccountSettingsUpdate {
-  id?: number;
-  name?: string;
-  uuid?: string;
-  webcam_url?: string;
-  dirty?: boolean;
-};
-
 export interface BotState {
-  account: DeviceAccountSettings;
-  /** Maximum number of messages to cache. Excess is truncated. */
-  status: string;
   /** How many steps to move when the user presses a manual movement arrow */
   stepSize: number;
   /** The current os version on the github release api */
@@ -64,22 +50,18 @@ export interface BotState {
   currentFWVersion?: string;
   /** Is the bot in sync with the api */
   dirty: boolean;
-  /** Holds settings that the user is currently editing, but has not sent */
-  settingsBuffer: {
-    movement_max_spd_x?: string;
-    movement_max_spd_y?: string;
-    movement_max_spd_z?: string;
-    movement_steps_acc_dec_x?: string;
-    movement_steps_acc_dec_y?: string;
-    movement_steps_acc_dec_z?: string;
-    movement_timeout_x?: string;
-    movement_timeout_y?: string;
-    movement_timeout_z?: string;
-    [name: string]: string | undefined;
-  };
-  configBuffer: Configuration;
+  /** The state of the bot, as reported by the bot over MQTT. */
   hardware: HardwareState;
+  /** Hardware settings auto update on blur. Tells the UI if it should load a
+   * spinner or not. */
+  isUpdating?: boolean;
+  controlPanelState: ControlPanelState;
+  /** The inversions for the jog buttons on the controls page. */
+  x_axis_inverted: boolean;
+  y_axis_inverted: boolean;
+  z_axis_inverted: boolean;
 }
+
 export interface BotProp {
   bot: BotState;
 }
@@ -87,20 +69,8 @@ export interface BotProp {
 /** Status registers for the bot's status */
 export type HardwareState = BotStateTree;
 
-export interface MqttMessage {
-  error?: string | undefined;
-  id?: string | undefined;
-  result: HardwareState;
-}
-
 export interface GithubRelease {
   tag_name: string;
-}
-
-type configKey = keyof McuParams;
-export interface ChangeSettingsBuffer {
-  key: configKey;
-  val: number;
 }
 
 export interface MoveRelProps {
@@ -110,14 +80,17 @@ export interface MoveRelProps {
   speed?: number | undefined;
 }
 
-export type Axis = "x" | "y" | "z" | "all";
+export type Xyz = "x" | "y" | "z";
+export type Axis = Xyz | "all";
 
 export interface CalibrationButtonProps {
+  disabled: boolean;
   axis: Axis;
 }
 
 export interface FarmbotOsProps {
   bot: BotState;
+  account: TaggedDevice;
   auth: AuthState;
   dispatch: Function;
 }
@@ -126,14 +99,46 @@ export interface FarmbotOsState {
   cameraStatus: "" | "sending" | "done" | "error";
 }
 
-export interface ConfigInputBoxProps {
+export interface StepsPerMMBoxProps {
   bot: BotState;
-  setting: string;
+  setting: ConfigurationName;
   dispatch: Function;
 }
 
 export interface McuInputBoxProps {
   bot: BotState;
-  setting: string;
+  setting: McuParamName;
   dispatch: Function;
+}
+
+export interface EStopButtonProps {
+  bot: BotState;
+  auth: AuthState | undefined;
+}
+
+export interface PeripheralsProps {
+  resources: RestResources;
+  bot: BotState;
+  peripherals: TaggedPeripheral[];
+  dispatch: Function;
+}
+
+export interface FarmwareProps {
+  bot: BotState;
+  dispatch: Function;
+  images: TaggedImage[];
+  currentImage: TaggedImage | undefined;
+}
+
+export interface HardwareSettingsProps {
+  controlPanelState: ControlPanelState;
+  dispatch: Function;
+  bot: BotState;
+}
+
+export interface ControlPanelState {
+  homing_and_calibration: boolean;
+  motors: boolean;
+  encoders_and_endstops: boolean;
+  danger_zone: boolean;
 }

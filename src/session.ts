@@ -24,7 +24,7 @@ export namespace Session {
     };
   }
 
-  /** clear localstorage and sessionstorage*/
+  /** Clear localstorage and sessionstorage. */
   export function clear(_redirectToFrontPage = false) {
     localStorage.clear();
     sessionStorage.clear();

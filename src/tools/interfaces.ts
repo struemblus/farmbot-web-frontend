@@ -1,63 +1,57 @@
 import { DropDownItem } from "../ui/fb_select";
+import {
+  TaggedTool,
+  TaggedToolSlotPointer,
+} from "../resources/tagged_resources";
 
 export interface ToolsState {
-  editorMode: boolean;
-  tool_bays: ToolBay[];
-  tool_slots: ToolSlot[];
-  tools: {
-    isEditing: boolean;
-    all: Tool[];
-    dirty: boolean;
-  };
+  editingTools: boolean;
+  editingBays: boolean;
 }
 
 export interface Props {
-  toolBays: ToolBay[];
-  toolSlots: ToolSlot[];
-  tools: Tool[];
-  editorMode: boolean;
-  isEditingTools: boolean;
-  dirtyTools: boolean;
-  getSortedTools(): Tool[];
-  getToolSlots(toolBayId: number): ToolSlot[];
+  toolSlots: TaggedToolSlotPointer[];
+  tools: TaggedTool[];
   getToolOptions(): DropDownItem[];
-  getChosenToolOption(toolSlotId: number): DropDownItem;
-  getChosenTool(toolSlotId: number): Tool;
+  getChosenToolOption(toolSlotUuid: string): DropDownItem;
+  getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
+  getToolSlots(): TaggedToolSlotPointer[];
   dispatch: Function;
-}
-
-export interface ToolBay {
-  id: number;
-  name: string;
-  isEditing?: boolean;
-  dirty?: boolean;
-  created_at?: string | undefined;
-}
-
-export interface ToolFormState {
-  newToolName: string;
-}
-
-export interface ToolSlot {
-  id: number;
-  tool_bay_id?: number;
-  tool_id?: number | undefined;
-  created_at?: string;
-  x: number;
-  y: number;
-  z: number;
-  dirty?: boolean;
-}
-
-export interface UpdateToolSlotPayl {
-  value: number;
-  name: string;
-  id: number;
+  isActive: (tool: TaggedTool) => boolean;
+  changeToolSlot(t: TaggedToolSlotPointer, dispatch: Function): (d: DropDownItem) => void;
 }
 
 export interface Tool {
   id?: number | undefined;
   name: string;
-  dirty?: boolean;
-  status?: undefined | "unknown" | "active" | "inactive";
+}
+
+export interface ToolBayListProps {
+  dispatch: Function;
+  toggle(): void;
+  getToolByToolSlotUUID(uuid: string): TaggedTool | undefined;
+  getToolSlots(): TaggedToolSlotPointer[];
+}
+
+export interface ToolBayFormProps {
+  dispatch: Function;
+  toolSlots: TaggedToolSlotPointer[];
+  toggle(): void;
+  getToolOptions(): DropDownItem[];
+  getChosenToolOption(uuid: string): DropDownItem;
+  getToolSlots(): TaggedToolSlotPointer[];
+  changeToolSlot(t: TaggedToolSlotPointer, dispatch: Function): (d: DropDownItem) => void;
+}
+
+export interface ToolListProps {
+  tools: TaggedTool[];
+  dispatch: Function;
+  toggle(): void;
+  isActive(tool: TaggedTool): boolean;
+}
+
+export interface ToolFormProps {
+  dispatch: Function;
+  tools: TaggedTool[];
+  toggle(): void;
 }

@@ -6,7 +6,7 @@ import {
   SafeError,
   isSafeError
 } from "./interceptor_support";
-import { error } from "./ui/logger";
+import { error } from "./ui";
 import { t } from "i18next";
 import { API } from "./api/index";
 import { AuthState } from "./auth/interfaces";
@@ -18,7 +18,6 @@ export function responseFulfilled(input: Xhr): Xhr {
   };
   return input;
 }
-
 
 export function responseRejected(x: SafeError | undefined) {
 

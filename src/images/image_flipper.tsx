@@ -1,4 +1,4 @@
-import { Image, ImageFlipperProps, ImageFlipperState } from "./interfaces";
+import { ImageFlipperProps, ImageFlipperState } from "./interfaces";
 import * as React from "react";
 import { safeStringFetch } from "../util";
 import { t } from "i18next";
@@ -6,27 +6,17 @@ import * as moment from "moment";
 
 export const PLACEHOLDER_FARMBOT = "/placeholder_farmbot.jpg";
 
-const NO_INDEX = new Error(`
-  Attempted getting this.state.currentInx and expected a number.
-  It was not a number.
-`);
+export class ImageFlipper
+  extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
 
-export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<ImageFlipperState>> {
-  constructor() {
-    super();
-    this.state = { currentInx: 0, isLoaded: false };
-  }
-
-  current(): Image | undefined {
-    return this.props.images[this.state.currentInx || 0];
-  }
+  state: ImageFlipperState = { isLoaded: false };
 
   imageJSX = () => {
-    let i = this.current();
-    if (i && this.props.images.length > 0) {
+    if (this.props.images.length > 0) {
+      let i = this.props.currentImage || this.props.images[0];
       let url: string;
-      url = (i.attachment_processed_at) ?
-        i.attachment_url : PLACEHOLDER_FARMBOT;
+      url = (i.body.attachment_processed_at) ?
+        i.body.attachment_url : PLACEHOLDER_FARMBOT;
       return <div>
         {!this.state.isLoaded && (
           <div className="no-flipper-image-container">
@@ -51,65 +41,46 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
     }
   }
 
-  /** Clever trick to avoid type check errors and report problems. */
-  useIndex<T>(cb: (num: number) => T): T {
-    if (_.isNumber(this.state.currentInx)) {
-      return cb(this.state.currentInx);
-    } else {
-      throw NO_INDEX;
-    }
-  }
-
-  get next() {
-    return this.useIndex(n => this.props.images[n + 1]);
-  }
-
-  get prev() {
-    return this.useIndex(n => this.props.images[n - 1]);
-  }
-
-  up = () => {
-    if (this.next) {
-      let num = this.useIndex(n => n + 1);
-      this.setState({
-        currentInx: _.min([this.props.images.length - 1, num]),
-        isLoaded: false
-      });
-    }
-  }
-
-  down = () => {
-    if (this.prev) {
-      let num = this.useIndex(n => n - 1);
-      this.setState({
-        currentInx: _.max([0, num]),
-        isLoaded: false
-      });
-    }
-  }
-
   metaDatas() {
-    let i = this.current();
+    let i = this.props.currentImage;
     if (i) {
-      let { meta, id } = i;
+      let { meta } = i.body;
       return Object.keys(meta).sort().map(function (key, index) {
-        return <MetaInfo key={id} attr={key} obj={meta} />;
+        return <MetaInfo key={index} attr={key} obj={meta} />;
       });
     } else {
       return <MetaInfo attr={"image"} obj={{ image: "No meta data." }} />;
     }
   }
 
+  go = (increment: -1 | 1) => () => {
+    let { images, currentImage } = this.props;
+    let uuids = images.map(x => x.uuid);
+    let currentIndex = currentImage ? uuids.indexOf(currentImage.uuid) : 0;
+    let nextIndex = currentIndex + increment;
+    let tooHigh = nextIndex > (uuids.length - 1);
+    let tooLow = nextIndex < 0;
+    if (!tooHigh && !tooLow) { this.props.onFlip(uuids[nextIndex]); }
+  }
+
   render() {
     let image = this.imageJSX();
-    let i = this.current();
+    let i = this.props.currentImage;
     return <div>
-      <div className="row" >
+      <div className="row">
         <div className="col-sm-12">
           <div className="image-flipper">
             {image}
-            <button onClick={this.down} className="image-flipper-left">Prev</button>
-            <button onClick={this.up} className="image-flipper-right">Next</button>
+            <button
+              onClick={this.go(1)}
+              className="image-flipper-left">
+              {t("Prev")}
+            </button>
+            <button
+              onClick={this.go(-1)}
+              className="image-flipper-right">
+              {t("Next")}
+            </button>
           </div>
         </div>
       </div>
@@ -119,7 +90,7 @@ export class ImageFlipper extends React.Component<ImageFlipperProps, Partial<Ima
           <div className="created-at">
             <label>{t("Created At")}</label>
             <span>
-              {moment(i.created_at).format("MMMM Do, YYYY h:mma")}
+              {moment(i.body.created_at).format("MMMM Do, YYYY h:mma")}
             </span>
           </div>
           : ""}

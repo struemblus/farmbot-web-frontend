@@ -3,11 +3,19 @@ import { StepButton } from "./step_buttons/index";
 import { t } from "i18next";
 import { Farmbot } from "farmbot";
 import { smoothScrollToBottom } from "../util";
-import { Widget, WidgetHeader, WidgetBody, Row } from "../ui/index";
+import { Row, ToolTip } from "../ui/index";
+import { TaggedSequence } from "../resources/tagged_resources";
+import { ToolTips } from "../constants";
 
-export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
+interface StepButtonProps {
+  dispatch: Function;
+  current: TaggedSequence | undefined;
+}
+
+export function StepButtonCluster({ dispatch, current }: StepButtonProps) {
   const ALL_THE_BUTTONS = [
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "move_absolute",
         args: {
@@ -30,6 +38,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("MOVE ABSOLUTE")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "move_relative",
         args: { x: 0, y: 0, z: 0, speed: Farmbot.defaults.speed }
@@ -38,6 +47,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("MOVE RELATIVE")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "write_pin",
         args: { pin_number: 0, pin_value: 0, pin_mode: 0 }
@@ -46,6 +56,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("WRITE PIN")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "read_pin",
         args: {
@@ -58,6 +69,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("READ PIN")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "wait",
         args: { milliseconds: 0 }
@@ -66,6 +78,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("WAIT")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "send_message",
         args: {
@@ -77,6 +90,19 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("SEND MESSAGE")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
+      step={{
+        kind: "find_home",
+        args: {
+          axis: "all",
+          speed: 800
+        }
+      }}
+      color="blue">
+      {t("Find Home")}
+    </StepButton>,
+    <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "_if",
         args: {
@@ -91,6 +117,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("IF STATEMENT")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "execute",
         args: { sequence_id: 0 }
@@ -99,6 +126,7 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("EXECUTE SEQUENCE")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "execute_script",
         args: { label: "plant-detection" }
@@ -107,22 +135,22 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
       {t("Run Farmware")}
     </StepButton>,
     <StepButton dispatch={dispatch}
+      current={current}
       step={{
         kind: "take_photo",
         args: {}
       }}
-      color="pink">
+      color="brown">
       {t("TAKE PHOTO")}
     </StepButton>
   ];
-  return <Widget className="widget-wrapper step-button-cluster-widget">
-    <WidgetHeader title="Commands"
-      helpText={`These are the most basic commands FarmBot
-                  can execute. Drag and drop them to create sequences
-                  for watering, planting seeds, measuring soil
-                  properties, and more.`}>
-    </WidgetHeader>
-    <WidgetBody>
+
+  return <div className="step-button-cluster-widget">
+    <h3>
+      <i>{t("Commands")}</i>
+    </h3>
+    <ToolTip helpText={ToolTips.SEQUENCE_COMMANDS} />
+    <div>
       <Row>
         {
           ALL_THE_BUTTONS.map(function (el, inx) {
@@ -134,6 +162,6 @@ export function StepButtonCluster({ dispatch }: { dispatch: Function }) {
           })
         }
       </Row>
-    </WidgetBody>
-  </Widget>;
+    </div>
+  </div>;
 }

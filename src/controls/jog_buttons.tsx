@@ -12,45 +12,62 @@ export class JogButtons extends React.Component<JogMovementControlsProps, {}> {
           <td />
           <td />
           <td>
-            <DirectionButton axis="y"
+            <DirectionButton
+              axis="y"
               direction="up"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.y_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
           <td />
           <td />
           <td>
-            <DirectionButton axis="z"
+            <DirectionButton
+              axis="z"
               direction="up"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.z_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
         </tr>
         <tr>
           <td>
-            <button
-              className="button-like i fa fa-home arrow-button"
+            <button className="i fa fa-home arrow-button"
               onClick={() => homeAll(100)} />
           </td>
           <td />
           <td>
-            <DirectionButton axis="x"
+            <DirectionButton
+              axis="x"
               direction="left"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.x_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
           <td>
-            <DirectionButton axis="y"
+            <DirectionButton
+              axis="y"
               direction="down"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.y_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
           <td>
-            <DirectionButton axis="x"
+            <DirectionButton
+              axis="x"
               direction="right"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.x_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
           <td />
           <td>
-            <DirectionButton axis="z"
+            <DirectionButton
+              axis="z"
               direction="down"
-              steps={this.props.bot.stepSize || 1000} />
+              isInverted={this.props.z_axis_inverted}
+              steps={this.props.bot.stepSize || 1000}
+            />
           </td>
         </tr>
         <tr>

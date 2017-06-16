@@ -12,6 +12,8 @@ export interface DropDownItem {
   hidden?: boolean;
   /** To determine group-by styling on rendered lists. */
   heading?: boolean;
+  /** A unique ID to group headings by. */
+  headingId?: string | undefined;
 }
 
 export interface SelectProps {
@@ -45,12 +47,12 @@ export interface SelectState {
 }
 
 /** Used as a placeholder for a selection of "none" when allowEmpty is true. */
-export const NULL_CHOICE: Readonly<DropDownItem> = {
+export const NULL_CHOICE: DropDownItem = Object.freeze({
   label: "None",
   value: ""
-};
+});
 
-export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
+export class DeprecatedFBSelect extends React.Component<Readonly<SelectProps>, Partial<SelectState>> {
   constructor() {
     super();
     this.state = { touched: false };
@@ -72,12 +74,7 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
     this.props.onUserTyping && this.props.onUserTyping(value);
   }
 
-  open = () => {
-    this.setState({
-      isOpen: true,
-      label: ""
-    });
-  }
+  open = () => this.setState({ isOpen: true, label: "" });
 
   /** Closes the dropdown ONLY IF the developer has not set this.props.isOpen to
    * true, since that would indicate the developer wants it to always be open.
@@ -161,6 +158,10 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
     }
   }
 
+  componentWillReceiveProps() {
+    setTimeout(() => this.forceUpdate(), 3)
+  }
+
   render() {
     let { className, optionComponent, placeholder } = this.props;
     let { isOpen } = this.state;
@@ -169,11 +170,11 @@ export class FBSelect extends React.Component<Readonly<SelectProps>, Partial<Sel
     return <div className={"select " + (className || "")}>
       <div className="select-search-container">
         <input type="text"
-          onChange={this.updateInput}
+          onChange={this.updateInput || _.noop}
           onFocus={this.open}
           onBlur={this.maybeClose}
           placeholder={placeholder || "Search..."}
-          value={this.value().label}
+          value={this.value().label || ""}
           id={this.props.id || ""} />
       </div>
       <div className={"select-results-container is-open-" + !!isOpen}>

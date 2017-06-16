@@ -1,11 +1,13 @@
-import { warning, error } from "../../ui";
-import { Everything } from "../../interfaces";
 import { ReduxAction, Thunk } from "../../redux/interfaces";
-import { Sequence } from "../../sequences/interfaces";
+import { ToggleDayParams } from "./interfaces";
+import { assertUuid, findSequence, findRegimen } from "../../resources/selectors";
 import { groupRegimenItemsByWeek } from "./group_regimen_items_by_week";
+import { error } from "../../ui/index";
 import { t } from "i18next";
-import { newRegimen } from "../actions";
-import { SetTimeOffsetProps, ToggleDayParams } from "./interfaces";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
+import { warning } from "../../ui";
+import { isNaN, isNumber } from "lodash";
 
 export function pushWeek() {
   return {
@@ -19,27 +21,13 @@ export function popWeek() {
   };
 }
 
-const MINUTES_MS = 1000 * 60;
-const HOURS_MS = MINUTES_MS * 60;
-
 /** Sets daily offset of a regimen */
-export function setTimeOffset({ hours, minutes }: SetTimeOffsetProps) {
-  let milliseconds = [hours * HOURS_MS, minutes * MINUTES_MS]
-    .reduce((num, acc) => num + acc);
-
-  if (_.isNaN(milliseconds) || !_.isNumber(milliseconds)) {
-    let m = "Time is not properly formatted.";
-    warning(m, "Bad Input");
-    return {
-      type: "TIME_OFFSET_ERROR",
-      payload: 0
-    };
-
+export function setTimeOffset(ms: number) {
+  if (isNaN(ms) || !isNumber(ms)) {
+    warning("Time is not properly formatted.", "Bad Input");
+    throw new Error("Bad time input on regimen page: " + JSON.stringify(ms));
   } else {
-    return {
-      type: "SET_TIME_OFFSET",
-      payload: milliseconds
-    };
+    return { type: "SET_TIME_OFFSET", payload: ms };
   };
 }
 
@@ -53,32 +41,37 @@ export function toggleDay({ week, day }: ToggleDayParams) {
   };
 }
 
-export function setSequence(sequence: Sequence): ReduxAction<Sequence> {
-  return {
-    type: "SET_SEQUENCE",
-    payload: sequence
-  };
+export function setSequence(uuid: string): ReduxAction<string> {
+  assertUuid("sequences", uuid);
+  return { type: "SET_SEQUENCE", payload: uuid };
 };
 
 export function commitBulkEditor(): Thunk {
+  return function(dispatch, getState) {
+    let res = getState().resources;
+    let { weeks, dailyOffsetMs, selectedSequenceUUID, currentRegimen } =
+      res.consumers.regimens;
 
-  return function (dispatch, getState) {
-    const state: Everything = getState();
-
-    if (!state.regimens.all[state.regimens.current]) { dispatch(newRegimen()); }
-
-    if (state.bulkScheduler.sequence) {
-      let index = getState().regimens.current;
-      const regimenItems = groupRegimenItemsByWeek(
-        state.bulkScheduler.form.weeks,
-        state.bulkScheduler.form.dailyOffsetMs,
-        state.bulkScheduler.sequence);
-      dispatch({
-        type: "COMMIT_BULK_EDITOR",
-        payload: { regimenItems, index }
-      });
+    // If the user hasn't clicked a regimen, initialize one for them.
+    if (currentRegimen) {
+      // Proceed only if they selected a sequence from the drop down.
+      if (selectedSequenceUUID) {
+        let seq = findSequence(res.index, selectedSequenceUUID).body;
+        const regimenItems = groupRegimenItemsByWeek(weeks, dailyOffsetMs, seq);
+        // Proceed only if days are selcted in the scheduler.
+        if (regimenItems.length > 0) {
+          let reg = findRegimen(res.index, currentRegimen);
+          let update = defensiveClone(reg).body;
+          update.regimen_items = update.regimen_items.concat(regimenItems);
+          dispatch(overwrite(reg, update));
+        } else {
+          return error(t("No day(s) selected."));
+        }
+      } else {
+        return error(t("Select a sequence from the dropdown first."));
+      }
     } else {
-      error(t("Select a sequence from the dropdown first."));
+      return error(t("Select a regimen first or create one."));
     }
   };
 }

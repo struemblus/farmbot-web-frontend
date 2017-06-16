@@ -1,123 +1,157 @@
 import * as React from "react";
-import { Everything } from "../../interfaces";
-import { Plant } from "../plant";
-import { deprecatedSavePlant, savePlantById, movePlant } from "../actions";
-import { connect } from "react-redux";
+import { Plant, DEFAULT_PLANT_RADIUS } from "../plant";
+import { movePlant } from "../actions";
 import * as moment from "moment";
-import { GardenMapProps, GardenMapState, PlantOptions } from "../interfaces";
-import { GardenPlant } from "./garden_plant";
-import { GardenPoint } from "./garden_point";
-import { Link } from "react-router";
+import { GardenMapProps, GardenMapState } from "../interfaces";
+import { history } from "../../history";
+import { initSave, save, edit } from "../../api/crud";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
+import {
+  translateScreenToGarden,
+  round,
+  ScreenToGardenParams,
+  getXYFromQuadrant
+} from "./util";
+import { findBySlug } from "../search_selectors";
+import { PlantLayer } from "./layers/plant_layer";
+import { PointLayer } from "./layers/point_layer";
+import { SpreadLayer } from "./layers/spread_layer";
+import { ToolSlotLayer } from "./layers/tool_slot_layer";
+import { HoveredPlantLayer } from "./layers/hovered_plant_layer";
 
-function fromScreenToGarden(mouseX: number, mouseY: number, boxX: number, boxY: number) {
-  /** The offset of 50px is made for the setDragImage to make it in the
-   * center of the mouse for accuracy which is why this is being done.
-   * Once we get more dynamic with the values (different size plants),
-   * we can tweak this accordingly.
-   */
-  let newMouseX = mouseX - 25;
-  let newMouseY = mouseY - 25;
-  /* */
+const DRAG_ERROR = `ERROR - Couldn't get zoom level of garden map, check the
+  handleDrop() or drag() method in garden_map.tsx`;
 
-  let rawX = newMouseX - boxX;
-  let rawY = newMouseY - boxY;
+export class GardenMap extends
+  React.Component<GardenMapProps, Partial<GardenMapState>> {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
-  return { x: rawX, y: rawY };
-}
+  endDrag = () => {
+    let p = this.getPlant();
+    if (p) {
+      this.props.dispatch(edit(p, { x: round(p.body.x), y: round(p.body.y) }));
+      this.props.dispatch(save(p.uuid));
+    }
+    this.setState({ isDragging: false, pageX: 0, pageY: 0 });
+  }
 
-@connect((state: Everything) => state)
-export class GardenMap extends React.Component<GardenMapProps, GardenMapState> {
-  state = { activePlant: undefined, tempX: undefined, tempY: undefined };
+  startDrag = (): void => this.setState({ isDragging: true });
 
-  handleDragOver(e: React.DragEvent<HTMLElement>) {
-    // Perform drop availability here probably
+  get isEditing(): boolean { return location.pathname.includes("edit"); }
+
+  getPlant = (): TaggedPlantPointer | undefined => this.props.selectedPlant;
+
+  handleDragOver = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
   }
 
-  handleDragEnter(e: React.DragEvent<HTMLElement>) {
-    e.preventDefault();
-  }
+  handleDragEnter = (e: React.DragEvent<HTMLElement>) => e.preventDefault();
 
   findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements"
-      },
-      image: "http://placehold.it/350x150"
-    };
+    return findBySlug(this.props.designer.cropSearchResults || [], slug);
   }
 
-  handleDrop(e: React.DragEvent<HTMLElement>) {
+  handleDrop = (e: React.DragEvent<HTMLElement>) => {
     e.preventDefault();
     let el = document.querySelector("#drop-area > svg");
-    if (el) {
+    let map = document.querySelector(".farm-designer-map");
+    let page = document.querySelector(".farm-designer");
+    if (el && map && page) {
+      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DRAG_ERROR);
+      let { pageX, pageY } = e;
       let box = el.getBoundingClientRect();
-      let p: PlantOptions = fromScreenToGarden(e.pageX, e.pageY, box.left, box.top);
-      // TEMPORARY SOLUTION =======
-      let OFEntry = this.findCrop(this.props.params.species);
-      p.img_url = OFEntry.image;
-      p.openfarm_slug = OFEntry.crop.slug;
-      p.name = OFEntry.crop.name || "Mystery Crop";
-      p.planted_at = moment().toISOString();
-      p.spread = OFEntry.crop.spread;
-      // END TEMPORARY SOLUTION =======
-      let plant = Plant(p);
-      this.props.dispatch(deprecatedSavePlant(plant));
+      let species = history.getCurrentLocation().pathname.split("/")[5];
+      let OFEntry = this.findCrop(species);
+      let params: ScreenToGardenParams = {
+        quadrant: this.props.designer.botOriginQuadrant,
+        pageX: pageX + page.scrollLeft,
+        pageY: pageY + map.scrollTop * zoomLvl,
+        zoomLvl
+      };
+      let { x, y } = translateScreenToGarden(params);
+      let p: TaggedPlantPointer = {
+        kind: "points",
+        uuid: "--never",
+        dirty: true,
+        body: Plant({
+          x,
+          y,
+          openfarm_slug: OFEntry.crop.slug,
+          name: OFEntry.crop.name || "Mystery Crop",
+          created_at: moment().toISOString(),
+          radius: DEFAULT_PLANT_RADIUS
+        })
+      };
+      this.props.dispatch(initSave(p));
     } else {
       throw new Error("never");
     }
   }
 
+  drag = (e: React.MouseEvent<SVGElement>) => {
+    let plant = this.getPlant();
+    let map = document.querySelector(".farm-designer-map");
+    let { botOriginQuadrant } = this.props.designer;
+    if (this.isEditing && this.state.isDragging && plant && map) {
+      let zoomLvl = parseFloat(window.getComputedStyle(map).zoom || DRAG_ERROR);
+      let { qx, qy } = getXYFromQuadrant(e.pageX, e.pageY, botOriginQuadrant);
+      let deltaX = Math.round((qx - (this.state.pageX || qx)) / zoomLvl);
+      let deltaY = Math.round((qy - (this.state.pageY || qy)) / zoomLvl);
+      this.setState({ pageX: qx, pageY: qy });
+      this.props.dispatch(movePlant({ deltaX, deltaY, plant }));
+    }
+  }
+
   render() {
-    let { dispatch } = this.props;
-    let updater = (deltaX: number, deltaY: number, plantId: number) => {
-      dispatch(movePlant({ deltaX, deltaY, plantId }));
-    };
-
-    let dropper = (id: number) => {
-      dispatch(savePlantById(id));
-    };
-
-    return <div className="drop-area"
+    return <div
+      className="drop-area"
       id="drop-area"
-      onDrop={this.handleDrop.bind(this)}
-      onDragEnter={this.handleDragEnter.bind(this)}
-      onDragOver={this.handleDragOver.bind(this)}>
-      <svg id="svg">
-        {this.props.sync.points.map(function (p) {
-          return <GardenPoint point={p} key={p.id} />;
-        })}
-        {
-          this.props.sync.plants.map((p, inx) => {
-            if (p.id) {
-              let isActive = parseInt(this.props.params.plant_id) === p.id ?
-                "active" : "";
-
-              return <Link to={`/app/designer/plants/${p.id}`}
-                className={`plant-link-wrapper ` + isActive.toString()}
-                key={p.id}>
-                <GardenPlant
-                  plant={p}
-                  onUpdate={updater}
-                  onDrop={dropper} />
-              </Link>;
-            } else {
-              throw new Error("Never.");
-            }
-          })
-        }
+      onDrop={this.handleDrop}
+      onDragEnter={this.handleDragEnter}
+      onDragOver={this.handleDragOver}>
+      <svg
+        id="drop-area-svg"
+        onMouseUp={this.endDrag}
+        onMouseDown={this.startDrag}
+        onMouseMove={this.drag}>
+        <SpreadLayer
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          plants={this.props.plants}
+          currentPlant={this.getPlant()}
+          visible={!!this.props.showSpread}
+        />
+        <PointLayer
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          visible={!!this.props.showPoints}
+          points={this.props.points}
+        />
+        <PlantLayer
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          dispatch={this.props.dispatch}
+          visible={!!this.props.showPlants}
+          plants={this.props.plants}
+          crops={this.props.crops}
+          currentPlant={this.getPlant()}
+          dragging={!!this.state.isDragging}
+          editing={!!this.isEditing}
+        />
+        <ToolSlotLayer
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          visible={!!this.props.showFarmbot}
+          slots={this.props.toolSlots}
+        />
+        <HoveredPlantLayer
+          isEditing={this.isEditing}
+          botOriginQuadrant={this.props.designer.botOriginQuadrant}
+          currentPlant={this.getPlant()}
+          designer={this.props.designer}
+          dispatch={this.props.dispatch}
+          hoveredPlant={this.props.hoveredPlant}
+        />
       </svg>
     </div>;
   }

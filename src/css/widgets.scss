@@ -9,9 +9,10 @@
 .controls,
 .devices,
 .regimens,
+.farmware,
 .sequences {
     .widget-header {
-        >*+* {
+        >*+*:not(.fa) {
             margin-right: 1rem;
         }
     }
@@ -32,6 +33,16 @@
         >.row:not(:last-child) {
             margin-bottom: 1rem;
         }
+    }
+}
+
+// ok... :(
+.peripherals-widget {
+    .widget-body div>.row:not(:last-child) {
+        margin-bottom: 1.2rem;
+    }
+    .widget-header button[class*="is-saving"] {
+        margin-right: 0;
     }
 }
 

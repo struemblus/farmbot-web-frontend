@@ -5,6 +5,7 @@ $white: #fff;
 $off_white: #f4f4f4;
 $light_gray: #ddd;
 $gray: #cccccc;
+$medium_light_gray: #bcbcbc;
 $medium_gray: #666666;
 $dark_gray: #434343;
 $black: #000;
@@ -55,8 +56,28 @@ $darkest_red: #900;
     background-color: $dark_gray !important;
 }
 
+.medium-gray {
+    background-color: $medium_gray !important;
+}
+
 .light-gray {
     background-color: $gray !important;
+}
+
+.orange {
+    background-color: $orange !important;
+}
+
+.gray {
+    background-color: $medium_light_gray !important;
+}
+
+.purple {
+    background-color: $purple !important;
+}
+
+.pink {
+    background-color: $pink !important;
 }
 
 .black {
@@ -65,6 +86,10 @@ $darkest_red: #900;
 
 .brown {
     background-color: $brown !important;
+}
+
+.magenta {
+    background-color: $magenta !important;
 }
 
 .green,

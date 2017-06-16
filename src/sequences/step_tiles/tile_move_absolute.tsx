@@ -1,92 +1,147 @@
 import * as React from "react";
 import { Component } from "react";
-import { StepParams, copy, remove } from "./index";
+import { StepParams } from "../interfaces";
+import { splice, remove } from "./index";
 import { MoveAbsState } from "../interfaces";
-import { MoveAbsolute, Vector3 } from "farmbot";
-import { mapStateToProps, TileMoveAbsoluteProps } from "./state_to_props/tile_move_absolute";
-import { connect } from "react-redux";
-import { FBSelect, Row, Col, BlurableInput, DropDownItem } from "../../ui";
+import {
+  Tool,
+  Coordinate,
+  LegalSequenceKind,
+  Point
+} from "farmbot";
+import {
+  Row,
+  Col,
+} from "../../ui";
 import { StepInputBox } from "../inputs/step_input_box";
 import { t } from "i18next";
 import { StepTitleBar } from "./step_title_bar";
+import {
+  isTaggedSequence,
+  TaggedTool,
+  TaggedToolSlotPointer
+} from "../../resources/tagged_resources";
+import {
+  findToolById,
+  findSlotByToolId,
+  findPointerByTypeAndId
+} from "../../resources/selectors";
+import { defensiveClone } from "../../util";
+import { overwrite } from "../../api/crud";
+import { Xyz } from "../../devices/interfaces";
+import { TileMoveAbsSelect } from "./tile_move_absolute/select";
+import { InputBox } from "./tile_move_absolute/input_box";
+import { ToolTips } from "../../constants";
 
-/** Adds more specificity to the `StepParams` interface, since we only deal with
- *  MoveAbsolute nodes. */
-interface MoveAbsProps extends TileMoveAbsoluteProps, StepParams {
-  step: MoveAbsolute;
+interface Args {
+  location: Tool | Coordinate | Point;
+  speed: number;
+  offset: Coordinate;
 }
+type LocationArg = "location" | "offset";
 
-@connect(mapStateToProps)
-export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
-
-  updateToolSelect = (tool: DropDownItem) => {
-    let { step, index, dispatch, changeToolSelect } = this.props;
-    changeToolSelect(step, index, dispatch, tool);
+export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
+  get resources() { return this.props.resources; }
+  get step() { return this.props.currentStep; }
+  get tool(): TaggedTool | undefined {
+    let l = this.args.location;
+    if (l && l.kind === "tool" && l.args.tool_id) {
+      return findToolById(this.resources, l.args.tool_id);
+    }
+  }
+  get tool_id() { return this.tool && this.tool.body.id; }
+  get slot(): TaggedToolSlotPointer | undefined {
+    return (this.tool_id) ?
+      findSlotByToolId(this.resources, this.tool_id) : undefined;
+  }
+  get args() {
+    // Incase we rename it later:
+    const MOVE_ABSOLUTE: LegalSequenceKind = "move_absolute";
+    if (this.step.kind === MOVE_ABSOLUTE) {
+      return this.step.args;
+    } else {
+      throw new Error("Impossible celery node detected.");
+    }
+  }
+  get location(): Tool | Coordinate {
+    if (this.args.location.kind !== "point") {
+      return this.args.location;
+    } else {
+      throw new Error("A `point` node snuck in. Still WIP");
+    }
   }
 
-  updateInputValue = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    let { index, dispatch, changeInputValue } = this.props;
-    let { value, name } = e.currentTarget;
-    changeInputValue(value, name, index, dispatch);
+  get xyzDisabled(): boolean {
+    let isPoint = this.args.location.kind === "point";
+    let isTool = this.args.location.kind === "tool";
+    return !!(isPoint || isTool);
   }
 
-  coord = (): Vector3 => {
-    let output: Vector3 = { x: 0, y: 0, z: 0 };
-    let { location } = this.props.step.args;
-    switch (location.kind) {
-      case "tool":
-        let tool = this.props.toolById[location.args.tool_id];
-        let slot = tool && this.props.slotByToolId[tool.id || 0];
-        if (slot) {
-          output = { ...output, ...slot }
-        };
+  getOffsetValue = (val: Xyz) => {
+    return (this.args.offset.args[val] || 0).toString();
+  }
+
+  updateArgs = (update: Partial<Args>) => {
+    let copy = defensiveClone(this.props.currentSequence).body;
+    let step = (copy.body || [])[this.props.index];
+    if (step && step.kind === "move_absolute") {
+      step.args = { ...step.args, ...update };
+      this.props.dispatch(overwrite(this.props.currentSequence, copy));
+    } else {
+      throw new Error("Impossible condition.");
+    }
+  }
+
+  getAxisValue = (axis: Xyz): string => {
+    let number: number | undefined;
+    let l = this.args.location;
+    switch (l.kind) {
+      case "coordinate":
+        number = l.args[axis];
         break;
-      case "coordinate": output = { ...output, ...location.args }; break;
+      case "tool":
+        number = (this.slot) ? this.slot.body[axis] : undefined;
+        break;
+      case "point":
+        let { pointer_id, pointer_type } = l.args;
+        number = findPointerByTypeAndId(this.resources,
+          pointer_type,
+          pointer_id).body[axis];
     }
-    return output;
+    return (number || 0).toString();
   }
 
-  initialDropDownSequenceValue = () => {
-    let { location } = this.props.step.args;
-    if (location.kind === "tool") {
-      let tool = this.props.toolById[location.args.tool_id];
-      if (tool && tool.id) {
-        return { label: tool.name, value: tool.id }
-      }
+  updateInputValue = (axis: Xyz, place: LocationArg) =>
+    (e: React.SyntheticEvent<HTMLInputElement>) => {
+      let num = parseInt(e.currentTarget.value, 10);
+      let update = { [place]: { args: { [axis]: num } } };
+      this.updateArgs(_.merge({}, this.args, update));
     }
-    return { label: "Nothing", value: 0 };
-  }
 
   render() {
-    let { compute, step, dispatch, index } = this.props;
+    let { currentStep, dispatch, index, currentSequence } = this.props;
+    if (currentSequence && !isTaggedSequence(currentSequence)) {
+      throw new Error("WHOOPS!");
+    }
+
     return <div className="step-wrapper">
       <Row>
         <Col sm={12}>
           <div className="step-header move-absolute-step">
-            <StepTitleBar index={index} dispatch={dispatch} step={step} />
+            <StepTitleBar index={index} dispatch={dispatch} step={currentStep} />
             <i className="fa fa-arrows-v step-control" />
             <i className="fa fa-clone step-control"
-              onClick={() => copy({ dispatch, step })} />
+              onClick={() => dispatch(splice({
+                step: currentStep,
+                index,
+                sequence: currentSequence
+              }))} />
             <i className="fa fa-trash step-control"
-              onClick={() => remove({ dispatch, index })} />
+              onClick={() => remove({ dispatch, index, sequence: currentSequence })} />
             <div className="help">
               <i className="fa fa-question-circle help-icon" />
               <div className="help-text">
-                {t(`The Move Absolute step instructs
-                FarmBot to move to the specified coordinate
-                regardless of the current position. For example,
-                if FarmBot is currently at X=1000, Y=1000 and it
-                receives a Move Absolute where X=0 and Y=3000,
-                then FarmBot will move to X=0, Y=3000. If
-                FarmBot must move in multiple directions, it
-                will move diagonally. If you require straight
-                movements along one axis at a time, use multiple
-                Move Absolute steps. Coming soon: Offsets allow
-                you to more easily instruct FarmBot to move to a
-                location, but offset from it by the specified
-                amount. For example moving to just above where a
-                peripheral is located. Using offsets lets
-                FarmBot do the math for you.`)}
+                {t(ToolTips.MOVE_ABSOLUTE)}
               </div>
             </div>
           </div>
@@ -98,82 +153,55 @@ export class TileMoveAbsolute extends Component<MoveAbsProps, MoveAbsState> {
             <Row>
               <Col md={12}>
                 <label>Import coordinates from</label>
-                <FBSelect
-                  allowEmpty={true}
-                  list={this.props.options}
-                  initialValue={this.initialDropDownSequenceValue()}
-                  onChange={this.updateToolSelect} />
+                <TileMoveAbsSelect
+                  resources={this.resources}
+                  selectedItem={this.args.location}
+                  onChange={(x) => this.updateArgs({ location: x })} />
               </Col>
-              <Col xs={3}>
-                <label>
-                  {t("X (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="location-x"
-                  value={(this.coord().x || 0).toString()} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Y (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="location-y"
-                  value={(this.coord().y || 0).toString()} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Z (mm)")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="location-z"
-                  value={(this.coord().z || 0).toString()} />
-              </Col>
+              <InputBox onCommit={this.updateInputValue("x", "location")}
+                disabled={this.xyzDisabled}
+                name="location-x"
+                value={this.getAxisValue("x")}>
+                {t("X (mm)")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("y", "location")}
+                disabled={this.xyzDisabled}
+                name="location-y"
+                value={this.getAxisValue("y")}>
+                {t("Y (mm)")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("z", "location")}
+                name="location-z"
+                disabled={this.xyzDisabled}
+                value={this.getAxisValue("z")}>
+                {t("Z (mm)")}
+              </InputBox>
               <Col xs={3}>
                 <label>
                   {t("Speed")}
                 </label>
                 <StepInputBox
-                  index={this.props.index}
                   field={"speed"}
-                  step={this.props.step}
-                  dispatch={this.props.dispatch} />
+                  step={this.step}
+                  index={index}
+                  dispatch={this.props.dispatch}
+                  sequence={this.props.currentSequence} />
               </Col>
-              <Col xs={3}>
-                <label>
-                  {t("X-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="offset-x"
-                  value={compute("offset", "x", step)} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Y-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="offset-y"
-                  value={compute("offset", "y", step)} />
-              </Col>
-              <Col xs={3}>
-                <label>
-                  {t("Z-Offset")}
-                </label>
-                <BlurableInput
-                  onCommit={this.updateInputValue}
-                  type="number"
-                  name="offset-z"
-                  value={compute("offset", "z", step)} />
-              </Col>
+              <InputBox onCommit={this.updateInputValue("x", "offset")}
+                name="offset-x"
+                value={this.getOffsetValue("x")}>
+                {t("X-Offset")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("y", "offset")}
+                name="offset-y"
+                value={this.getOffsetValue("y")}>
+                {t("Y-Offset")}
+              </InputBox>
+              <InputBox onCommit={this.updateInputValue("z", "offset")}
+                name="offset-z"
+                value={this.getOffsetValue("z")}>
+                {t("Z-Offset")}
+              </InputBox>
             </Row>
           </div>
         </Col>

@@ -1,41 +1,34 @@
-import { error } from "../ui";
-import * as _ from "lodash";
-import { BotState, DeviceAccountSettings, HardwareState } from "./interfaces";
+import { BotState, HardwareState, Xyz, ControlPanelState } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { ReduxAction } from "../redux/interfaces";
-import * as i18next from "i18next";
-import { ChangeSettingsBuffer } from "./interfaces";
-import { Sequence } from "../sequences/interfaces";
-import { Regimen } from "../regimens/interfaces";
-import { Configuration } from "farmbot";
-import { Sync } from "../interfaces";
+import { SyncStatus } from "farmbot/dist";
+import { localStorageBoolFetch } from "../util";
 
-// TODO: Do we even need this anymore after the ticker overhaul?
-let status = {
-  NOT_READY: (): string => { return i18next.t("never connected to device"); },
-  CONNECTING: (): string => { return i18next.t("initiating connection"); },
-  AWAITING_API: (): string => {
-    return i18next.t("downloading device credentials");
-  },
-  API_ERROR: (): string => {
-    return i18next.t("Unable to download device credentials");
-  },
-  AWAITING_WEBSOCKET: (): string => {
-    return i18next.t("calling FarmBot with credentials");
-  },
-  WEBSOCKET_ERR: (): string => {
-    return i18next.t("Error establishing socket connection");
-  },
-  CONNECTED: (): string => {
-    return i18next.t("Socket Connection Established");
-  },
-  READY: (): string => { return i18next.t("Bot ready"); }
-};
+export const X_AXIS_INVERTED = "x_axis_inverted";
+export const Y_AXIS_INVERTED = "y_axis_inverted";
+export const Z_AXIS_INVERTED = "z_axis_inverted";
 
+export function versionOK(stringyVersion = "0.0.0",
+  EXPECTED_MAJOR = 4,
+  EXPECTED_MINOR = 0) {
+  let [actual_major, actual_minor] = stringyVersion
+    .split(".")
+    .map(x => parseInt(x, 10));
+  if (actual_major > EXPECTED_MAJOR) {
+    return true;
+  } else {
+    let majorOK = (actual_major == EXPECTED_MAJOR);
+    let minorOK = (actual_minor >= EXPECTED_MINOR);
+    return (majorOK && minorOK);
+  }
+}
 let initialState: BotState = {
-  account: { id: 0, name: "" },
-  status: status.NOT_READY(),
   stepSize: 100,
+  controlPanelState: {
+    homing_and_calibration: false,
+    motors: false,
+    encoders_and_endstops: false,
+    danger_zone: false
+  },
   hardware: {
     mcu_params: {},
     location: [-1, -1, -1],
@@ -44,151 +37,71 @@ let initialState: BotState = {
     informational_settings: {},
     user_env: {},
     process_info: {
-      farmwares: [],
-      regimens: [],
-      farm_events: []
+      farmwares: {},
     }
   },
-  settingsBuffer: {},
-  configBuffer: {},
   dirty: false,
   currentOSVersion: undefined,
   currentFWVersion: undefined,
+  x_axis_inverted: !localStorageBoolFetch(X_AXIS_INVERTED),
+  y_axis_inverted: !localStorageBoolFetch(Y_AXIS_INVERTED),
+  z_axis_inverted: !localStorageBoolFetch(Z_AXIS_INVERTED)
 };
 
 export let botReducer = generateReducer<BotState>(initialState)
-  .add<HardwareState>("SETTING_TOGGLE_OK",
-  function (s: BotState, action: ReduxAction<HardwareState>) {
-
-    let hardware = action.payload;
-    return Object.assign({},
-      s, {
-        hardware: hardware
-      }, {
-        status: status.READY()
-      });
-  })
-  .add<{}>("COMMIT_SETTINGS_OK", function (s, a) {
-    let nextState = Object.assign({}, s, {
-      settingsBuffer: {}
-    });
-    return nextState;
-  })
-  .add<Sequence>("SAVE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
+  .add<keyof ControlPanelState>("TOGGLE_CONTROL_PANEL_OPTION", (s, a) => {
+    s.controlPanelState[a.payload] = !s.controlPanelState[a.payload];
     return s;
   })
-  .add<Sequence>("DELETE_SEQUENCE_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("SAVE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<Regimen>("DELETE_REGIMEN_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("BOT_SYNC_OK", function (s, a) {
-    s.dirty = false;
-    return s;
-  })
-  .add<{}>("COMMIT_AXIS_CHANGE_OK", function (oldState, a) {
-    let hardware = Object.assign({}, oldState.hardware, a.payload);
-    let state = Object.assign<{}, BotState>({}, oldState);
-
-    return Object.assign({}, state, {
-      axisBuffer: {},
-      hardware
-    });
-  })
-  .add<Configuration>("CHANGE_CONFIG_BUFFER", function (s, a) {
-    let old_buffer = s.configBuffer;
-    let new_buffer = a.payload;
-    Object.assign(old_buffer, new_buffer);
-    let new_state = Object.assign({}, s, { config_buffer: new_buffer });
-    return new_state; // I am doing something wrong.
-  })
-  .add<ChangeSettingsBuffer>("CHANGE_SETTINGS_BUFFER",
-  function (s, a) {
-    let newVal = a.payload.val;
-    if (newVal) {
-      s.settingsBuffer[a.payload.key] = a.payload.val.toString();
-    } else {
-      delete s.settingsBuffer[a.payload.key];
-    }
-    return Object.assign({}, s, {
-      settingsBuffer: s.settingsBuffer
-    });
-  })
-  .add<number>("CHANGE_STEP_SIZE", function (s, a) {
+  .add<number>("CHANGE_STEP_SIZE", (s, a) => {
     return Object.assign({}, s, {
       stepSize: a.payload
     });
   })
-  .add<HardwareState>("BOT_CHANGE",
-  function (s, a) {
-    s.hardware = a.payload;
+  .add<void>("SETTING_UPDATE_START", (s, a) => {
+    s.isUpdating = true;
     return s;
   })
-  .add<DeviceAccountSettings>("CHANGE_DEVICE", function (s, a) {
-    Object.assign(s.account, a.payload, { dirty: true });
+  .add<void>("SETTING_UPDATE_END", (s, a) => {
+    s.isUpdating = false;
     return s;
   })
-  .add<any>("FETCH_DEVICE", function (s, a) {
+  .add<HardwareState>("BOT_CHANGE", (s, { payload }) => {
+    let nextState = payload;
+    s.hardware = nextState;
+    versionOK(nextState.informational_settings.controller_version);
     return s;
   })
-  .add<any>("FETCH_DEVICE_OK", function (s, { payload }) {
-    return Object.assign({},
-      s,
-      payload, {
-        status: status.AWAITING_WEBSOCKET
-      });
+  .add<string>("FETCH_OS_UPDATE_INFO_OK", (s, { payload }) => {
+    s.currentOSVersion = payload;
+    return s;
   })
-  .add<any>("FETCH_DEVICE_ERR", function (s, a) {
-    // TODO: Toast messages do not belong in a reducer.
-    return Object.assign({},
-      s, {
-        status: status.API_ERROR
-      });
+  .add<string>("FETCH_FW_UPDATE_INFO_OK", (s, { payload }) => {
+    s.currentFWVersion = payload;
+    return s;
   })
-  .add<any>("SAVE_DEVICE_ERR", function (s, a) {
-    switch (a.payload.status) {
-      case 422:
-        let errors = _.map(a.payload.responseJSON, v => v)
-          .join(". ");
-        error(errors, i18next.t("Couldn\'t save device."));
-        break;
+  .add<SyncStatus>("SET_SYNC_STATUS", (s, { payload }) => {
+    s.hardware.informational_settings.sync_status = payload;
+    return s;
+  })
+  .add<Xyz>("INVERT_JOG_BUTTON", (s, { payload }) => {
+    switch (payload) {
+      case "x":
+        s.x_axis_inverted = !s.x_axis_inverted;
+        localStorage.setItem(X_AXIS_INVERTED,
+          JSON.stringify(localStorageBoolFetch(X_AXIS_INVERTED)));
+        return s;
+      case "y":
+        s.y_axis_inverted = !s.y_axis_inverted;
+        localStorage.setItem(Y_AXIS_INVERTED,
+          JSON.stringify(localStorageBoolFetch(Y_AXIS_INVERTED)));
+        return s;
+      case "z":
+        s.z_axis_inverted = !s.z_axis_inverted;
+        localStorage.setItem(Z_AXIS_INVERTED,
+          JSON.stringify(localStorageBoolFetch(Z_AXIS_INVERTED)));
+        return s;
       default:
-        error(i18next.t("Error while saving device."));
-        break;
+        throw new Error("Attempted to invert invalid jog button direction.")
     }
-    return s;
-  })
-  .add<any>("SAVE_DEVICE_OK", function (s, a) {
-    return Object.assign({}, s, a.payload, {
-      dirty: false
-    });
-  })
-  .add<DeviceAccountSettings>("REPLACE_DEVICE_ACCOUNT_INFO", function (s, a) {
-    s.account = a.payload;
-    return s;
-  })
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-    s.account = a.payload.device;
-    return s;
-  })
-  .add<string>("CHANGE_WEBCAM_URL", function (s, a) {
-    s.account.dirty = true;
-    s.account.webcam_url = a.payload;
-    return s;
-  })
-  .add<string>("FETCH_OS_UPDATE_INFO_OK", function (s, a) {
-    s.currentOSVersion = a.payload;
-    return s;
-  })
-  .add<string>("FETCH_FW_UPDATE_INFO_OK", function (s, a) {
-    s.currentFWVersion = a.payload;
-    return s;
   });

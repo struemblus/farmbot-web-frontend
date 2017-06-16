@@ -1,15 +1,27 @@
 import * as React from "react";
 import { BackArrow } from "../../ui";
-import { Everything } from "../../interfaces";
-import { connect } from "react-redux";
 import { t } from "i18next";
-import { isMobile } from "../../util";
+import * as _ from "lodash";
 import { DATA_URI, DEFAULT_ICON } from "../../open_farm/index";
 import { SpeciesInfoProps, DraggableEvent } from "../interfaces";
+import { history } from "../../history";
+import { connect } from "react-redux";
+import { Everything } from "../../interfaces";
+import { findBySlug } from "../search_selectors";
 
-@connect((state: Everything) => state)
+function mapStateToProps(props: Everything): SpeciesInfoProps {
+  return {
+    cropSearchResults: props
+      .resources
+      .consumers
+      .farm_designer
+      .cropSearchResults || []
+  };
+}
+
+@connect(mapStateToProps)
 export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
-  handleDragStart(e: DraggableEvent) {
+  handleDragStart = (e: DraggableEvent) => {
     let icon = e.currentTarget.getAttribute("data-icon-url");
     let img = document.createElement("img");
     icon ? img.src = DATA_URI + icon : DEFAULT_ICON;
@@ -19,40 +31,18 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
     img.height = 50;
     img.width = 50;
 
-    e.dataTransfer.setDragImage
-      && e.dataTransfer.setDragImage(img, 50, 50);
-  }
-
-  findCrop(slug?: string) {
-    let crops = this.props.designer.cropSearchResults;
-    let crop = _(crops).find((result) => result.crop.slug === slug);
-    return crop || {
-      crop: {
-        binomial_name: "binomial_name",
-        common_names: "common_names",
-        name: "name",
-        row_spacing: "row_spacing",
-        spread: "spread",
-        description: "description",
-        height: "height",
-        processing_pictures: "processing_pictures",
-        slug: "slug",
-        sun_requirements: "sun_requirements",
-        svg_icon: DEFAULT_ICON
-      },
-      image: "http://placehold.it/350x150"
-    };
+    e.dataTransfer.setDragImage && e.dataTransfer.setDragImage(img, 50, 50);
   }
 
   render() {
-    let species = this.props.params.species.toString();
-    let result = this.findCrop(species || "PLANT_NOT_FOUND");
+    let species = history.getCurrentLocation().pathname.split("/")[5];
+    let result =
+      findBySlug(this.props.cropSearchResults, species || "PLANT_NOT_FOUND");
 
     let addSpeciesPath = "/app/designer/plants/crop_search/" + species + "/add";
 
-    /** rgba arguments are a more mobile-friendly way apply filters */
-    let backgroundURL = isMobile() ? `linear-gradient(
-      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${result.image})` : "";
+    let backgroundURL = `linear-gradient(
+      rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(${result.image})`;
 
     return <div className="panel-container green-panel species-info-panel">
       <div className="panel-header green-panel"
@@ -60,7 +50,7 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
         <p className="panel-title">
           <BackArrow /> {result.crop.name}
           <a className="right-button mobile-only"
-            onClick={() => this.props.router.push(addSpeciesPath)}>
+            onClick={() => history.push(addSpeciesPath)}>
             {t("Add to map")}
           </a>
         </p>
@@ -71,10 +61,11 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
       <div className="panel-content">
         <div className="crop-drag-info-tile">
           <img className="crop-drag-info-image"
-            onDragStart={this.handleDragStart.bind(this)}
+            onDragStart={this.handleDragStart}
             draggable={true}
             src={result.image}
-            data-icon-url={result.crop.svg_icon} />
+            data-icon-url={result.crop.svg_icon}
+          />
           <div className="crop-info-overlay">
             {t("Drag and drop into map")}
           </div>
@@ -90,30 +81,47 @@ export class SpeciesInfo extends React.Component<SpeciesInfoProps, {}> {
                   "slug",
                   "processing_pictures",
                   "description",
-                  "main_image_path"
+                  "main_image_path",
+                  "tags_array"
                 ])
                 .pairs()
-                .map(function (pair, i) {
-                  let key = pair[0] as string;
+                .map((pair: string, i: number) => {
+                  let key = pair[0];
                   let value = pair[1];
-                  return <li key={i}>
-                    <strong>
-                      {_.startCase(key) + ": "}
-                    </strong>
-                    {/**
-                     * Special use case for svgs here. If the key is the icon
-                     * and has a value, render the elements needed, or "Not
-                     * set". Any other keys receive the default behavior.
-                     */}
-                    {key === "svg_icon" && value && (
-                      <div>
-                        <img src={DATA_URI + value} width={100} height={100} />
-                      </div>
-                    ) || key === "svg_icon" && !value && ("Not set")}
-                    {key !== "svg_icon" && (
-                      value || "Not set"
-                    )}
-                  </li>;
+                  if (key !== "svg_icon") {
+                    return <li key={i}>
+                      <strong>
+                        {_.startCase(key)}:&nbsp;
+                      </strong>
+                      <span>
+                        {value || "Not Set"}
+                      </span>
+                    </li>
+                  } else {
+                    {
+                      /**
+                     * If there's a value, give
+                     * it an img element to render the actual graphic. If no
+                     * value, return "Not Set".
+                     */
+                    }
+                    return <li key={i}>
+                      <strong>{t("SVG Icon")}: </strong>
+                      {value ?
+                        <div>
+                          <img
+                            src={DATA_URI + value}
+                            width={100}
+                            height={100}
+                          />
+                        </div>
+                        :
+                        <span>
+                          {t("Not Set")}
+                        </span>
+                      }
+                    </li>
+                  }
                 }).value()
             }
           </ul>

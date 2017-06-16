@@ -3,8 +3,8 @@ import { mount } from "enzyme";
 import { FourOhFour } from "../404";
 
 describe("<FourOhFour/>", function () {
-    it("renders helpful text", function () {
-        let dom = mount(<FourOhFour />);
-        expect(dom.html()).toContain("Page Not Found");
-    });
+  it("renders helpful text", function () {
+    let dom = mount(<FourOhFour />);
+    expect(dom.html()).toContain("Page Not Found");
+  });
 });

@@ -5,7 +5,7 @@ import { EnvName } from "./interfaces";
 interface MiddlewareConfig {
   fn: Middleware;
   env: EnvName;
-};
+}
 
 /** To make it easier to manage all things watching the state tree,
  * we keep subscriber functions in this array. */
@@ -29,4 +29,4 @@ export function getMiddleware(env: EnvName) {
   let middlewares = applyMiddleware(...middlewareFns);
 
   return composeEnhancers(middlewares);
-};
+}

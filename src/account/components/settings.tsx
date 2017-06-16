@@ -9,9 +9,7 @@ export class Settings extends React.Component<SettingsPropTypes, {}> {
     return <Widget>
       <WidgetHeader title="Account Settings">
         <button
-          className="green button-like"
-          type="button"
-          onClick={save}>
+          className="green" type="button" onClick={save}>
           {t("SAVE")}
         </button>
       </WidgetHeader>

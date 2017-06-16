@@ -1,17 +1,23 @@
 import * as Axios from "axios";
-import { Thunk } from "../redux/interfaces";
-import { Point } from "../farm_designer/interfaces";
+import { Thunk, GetState } from "../redux/interfaces";
 import { API } from "../api";
 import { success, error } from "../ui";
 import { t } from "i18next";
 import { Progress, ProgressCallback } from "../util";
+import { GenericPointer } from "../interfaces";
+import { Pair } from "farmbot/dist";
+import { devices } from "../device";
 const QUERY = { meta: { created_by: "plant-detection" } };
-const URL = API.current.pointSearchPath;
+
+export function selectImage(uuid: string | undefined) {
+  return { type: "SELECT_IMAGE", payload: uuid };
+}
 
 export function resetWeedDetection(cb: ProgressCallback): Thunk {
   return async function (dispatch, getState) {
+    const URL = API.current.pointSearchPath;
     try {
-      let { data } = await Axios.post<Point[]>(URL, QUERY);
+      let { data } = await Axios.post<GenericPointer[]>(URL, QUERY);
       let ids = data.map(x => x.id);
       // If you delete too many points, you will violate the URL length
       // limitation of 2,083. Chunking helps fix that.
@@ -26,7 +32,8 @@ export function resetWeedDetection(cb: ProgressCallback): Thunk {
             return x;
           });
       });
-      Promise.all(promises)
+      Promise
+        .all(promises)
         .then(function () {
           dispatch({
             type: "DELETE_POINT_OK",
@@ -44,3 +51,22 @@ export function resetWeedDetection(cb: ProgressCallback): Thunk {
     }
   };
 };
+
+const value = "PLANT_DETECTION_selected_image";
+
+export function detectWeeds(imageId: number) {
+  return function (dispatch: Function, getState: GetState) {
+    let dictionary = getState().bot.hardware.process_info.farmwares;
+    let processes = Object
+      .keys(dictionary)
+      .map(key => dictionary[key])
+      .filter(fw => fw.name === "take-photo")
+      .map(proc => {
+        devices
+          .current
+          .execScript(proc.uuid, [{
+            kind: "pair", args: { value, label: "" + imageId }
+          }]);
+      })
+  }
+}

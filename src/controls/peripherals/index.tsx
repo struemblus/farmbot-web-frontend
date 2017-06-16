@@ -1,55 +1,104 @@
 import * as React from "react";
-import { Pin, Pins } from "farmbot";
-import { Everything } from "../../interfaces";
-import { TitleBar } from "./title_bar";
-import { PeripheralItem } from "./peripheral_item";
-import { Peripheral } from "./interfaces";
+import { PeripheralList } from "./peripheral_list";
 import { PeripheralForm } from "./peripheral_form";
-import { Widget, WidgetBody } from "../../ui";
+import { Widget, WidgetBody, WidgetHeader, error, SaveBtn } from "../../ui";
+import { PeripheralsProps } from "../../devices/interfaces";
+import { PeripheralState } from "./interfaces";
+import { t } from "i18next";
+import { TaggedPeripheral } from "../../resources/tagged_resources";
+import { saveAll, init } from "../../api/crud";
+import { ToolTips } from "../../constants";
 
-export class Peripherals extends React.Component<Everything, {}> {
-  getPin(p: Peripheral, pins: Pins): Pin {
-    let pin = pins[p.pin];
-    if (pin) {
-      return pin;
+export class Peripherals extends React.Component<PeripheralsProps, PeripheralState> {
+  constructor() {
+    super();
+    this.state = { isEditing: false };
+  }
+
+  toggle = () => {
+    this.setState({ isEditing: !this.state.isEditing });
+  }
+
+  maybeSave = () => {
+    let { peripherals } = this.props;
+    let pinNums = peripherals.map(x => x.body.pin);
+    let positivePins = pinNums.filter(x => x && x > 0);
+    let smallPins = pinNums.filter(x => x && x < 1000);
+    // I hate adding client side validation, but this is a wonky endpoint - RC.
+    let allAreUniq = _.uniq(pinNums).length === pinNums.length;
+    let allArePositive = positivePins.length === pinNums.length;
+    let allAreSmall = smallPins.length === pinNums.length;
+    if (allAreUniq && allArePositive) {
+      if (allAreSmall) {
+        this.props.dispatch(saveAll(this.props.peripherals, this.toggle));
+      } else {
+        error("Pin numbers must be less than 1000.");
+      }
     } else {
-      return {
-        mode: 0,
-        value: -1
-      };
+      error("Pin numbers are required and must be positive and unique.");
     }
   }
 
-  peripherals() {
-    let { peripherals } = this.props;
-    let pins = this.props.bot.hardware.pins;
-    let all = this
-      .props
-      .peripherals
-      .all;
-    if (!all.length && peripherals.editorMode === "controlling") {
-      return [
-        <p key="foo">Click "Edit" to add new peripherals.</p>
-      ];
-    };
-    return all
-      .map((p, i) => {
-        return <PeripheralItem key={i}
-          dispatch={this.props.dispatch}
-          index={i}
-          pin={this.getPin(p, pins)}
-          peripheral={p}
-          editorMode={this.props.peripherals.editorMode} />;
-      });
+  showPins = () => {
+    let { peripherals, dispatch, bot } = this.props;
+
+    let pins = bot.hardware.pins;
+    if (this.state.isEditing) {
+      return <PeripheralForm peripherals={peripherals}
+        dispatch={dispatch} />
+    } else {
+      return <PeripheralList peripherals={peripherals}
+        dispatch={dispatch}
+        pins={pins} />
+    }
   }
+
+  emptyPeripheral = (): TaggedPeripheral => {
+    return {
+      uuid: "WILL_BE_CHANGED_BY_REDUCER",
+      kind: "peripherals",
+      body: { pin: 0, label: "New Peripheral" }
+    }
+  }
+
   render() {
-    return <Widget>
-      <TitleBar {...this.props.peripherals}
-        dispatch={this.props.dispatch} />
+    let { dispatch, peripherals } = this.props;
+    let { isEditing } = this.state;
+
+    let isSaving = peripherals && peripherals
+      .filter(x => x.saving).length !== 0;
+
+    let isDirty = peripherals && peripherals
+      .filter(x => x.dirty).length !== 0;
+
+    let isSaved = !isSaving && !isDirty;
+
+    return <Widget className="peripherals-widget">
+      <WidgetHeader title={"Peripherals"} helpText={ToolTips.PERIPHERALS}>
+        <button
+          className="gray"
+          onClick={this.toggle}
+          hidden={!isSaved}>
+          {!isEditing && t("Edit")}
+          {isEditing && t("Back")}
+        </button>
+        <SaveBtn
+          hidden={!isEditing}
+          isDirty={isDirty}
+          isSaving={isSaving}
+          isSaved={isSaved}
+          onClick={this.maybeSave}
+        />
+        <button
+          hidden={!isEditing}
+          className="green"
+          type="button"
+          onClick={() => { dispatch(init(this.emptyPeripheral())) }}>
+          <i className="fa fa-plus" />
+        </button>
+      </WidgetHeader>
       <WidgetBody>
-        {this.peripherals.call(this)}
-        <PeripheralForm dispatch={this.props.dispatch}
-          editorMode={this.props.peripherals.editorMode} />
+        {this.showPins()}
       </WidgetBody>
     </Widget>;
   };

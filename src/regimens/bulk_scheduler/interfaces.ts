@@ -1,26 +1,19 @@
 import { RegimenItem } from "../interfaces";
-import { Sequence } from "../../sequences/interfaces";
+import { TaggedSequence } from "../../resources/tagged_resources";
+import { ResourceIndex } from "../../resources/interfaces";
 
 export interface BulkSchedulerOutput {
   index: number;
   regimenItems: RegimenItem[];
 }
 
-export interface BulkSchedulerState {
-  sequence?: Sequence;
-  form: BulkScheduleForm;
-}
-
 export interface BulkEditorProps {
-  sequences: Sequence[];
-  editor: BulkSchedulerState;
-  dispatch: Function;
-}
-
-export interface BulkScheduleForm {
-  /** Time in ms to offset each action at the start of the day. */
+  selectedSequence?: TaggedSequence;
   dailyOffsetMs: number;
   weeks: Week[];
+  resources: ResourceIndex;
+  sequences: TaggedSequence[];
+  dispatch: Function;
 }
 
 export interface Week {
@@ -35,11 +28,6 @@ export interface Week {
   };
 }
 
-export interface SetTimeOffsetProps {
-  hours: number;
-  minutes: number;
-}
-
 export interface ToggleDayParams {
   week: number;
   day: number;
@@ -51,19 +39,9 @@ export interface AddButtonProps {
 }
 
 export interface SequenceListProps {
-  sequences: Sequence[];
-  current: Sequence;
+  sequences: TaggedSequence[];
+  current: TaggedSequence | undefined;
   dispatch: Function;
-}
-
-export interface TimeInputProps {
-  dispatch: Function;
-  /** milliseconds from midnight */
-  offset: number;
-}
-
-export interface TimeInputState {
-  val: string;
 }
 
 export interface WeekGridProps {

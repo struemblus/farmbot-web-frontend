@@ -1,50 +1,41 @@
 import * as React from "react";
-import { Link } from "react-router";
-import { Everything } from "../../interfaces";
 import { connect } from "react-redux";
-import * as moment from "moment";
 import { t } from "i18next";
-import { PlantInfoProps } from "../interfaces";
+import { Link } from "react-router";
+import { TaggedPlantPointer } from "../../resources/tagged_resources";
+import { mapStateToProps, formatPlantInfo } from "./map_state_to_props"
+import { PlantInfoBase } from "./plant_info_base";
+import { PlantPanel } from "./plant_panel";
 
-@connect((state: Everything) => state)
-export class PlantInfo extends React.Component<PlantInfoProps, {}> {
-  render() {
-    let plant_id = parseInt(this.props.params.plant_id);
-    let plants = this.props.designer.deprecatedPlants;
-    let currentPlant = _.findWhere(plants, { id: plant_id });
+@connect(mapStateToProps)
+export class PlantInfo extends PlantInfoBase {
 
-    let { name, x, y, planted_at } = currentPlant;
-
-    let dayPlanted = moment();
-    // Same day = 1 !0
-    let daysOld = dayPlanted.diff(moment(planted_at), "days") + 1;
-    let plantedAt = moment(planted_at).format("MMMM Do YYYY, h:mma");
-
-    return <div className="panel-container green-panel">
+  default = (plant_info: TaggedPlantPointer) => {
+    let action = { type: "SELECT_PLANT", payload: undefined };
+    let info = formatPlantInfo(plant_info);
+    return <div className="panel-container green-panel" >
       <div className="panel-header green-panel">
         <p className="panel-title">
-          <Link to={`/app/designer/plants`} className="back-arrow">
-            <i className="fa fa-arrow-left"></i>
+          <Link to="/app/designer/plants" className="back-arrow">
+            <i
+              className="fa fa-arrow-left"
+              onClick={() => this.props.dispatch(action)}
+            />
           </Link>
-          <span className="title">{name}</span>
-          <Link to={`/app/designer/plants/` + plant_id.toString() + `/edit`}
+          <span className="title">{info.name}</span>
+          <Link to={`/app/designer/plants/` + (info.id || "BROKEN")
+            .toString() + `/edit`}
             className="right-button">
             {t("Edit")}
           </Link>
         </p>
       </div>
-      <div className="panel-content">
-        <label>{t("Plant Info")}</label>
-        <ul>
-          <li>{t("Started")}: {plantedAt}</li>
-          <li>{t("Age")}: {daysOld}</li>
-          <li>{t("Location")}: ({x}, {y})</li>
-        </ul>
-        <label>{t("Regimens")}</label>
-        <ul>
-          <li>Soil Acidifier</li>
-        </ul>
-      </div>
+      <PlantPanel info={info} />
     </div>;
+  }
+
+  render() {
+    let plant_info = this.plant && this.plant
+    return plant_info ? this.default(plant_info) : this.fallback();
   }
 }

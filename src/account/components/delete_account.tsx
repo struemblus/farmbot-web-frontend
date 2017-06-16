@@ -1,30 +1,24 @@
 import * as React from "react";
+import { t } from "i18next";
 import {
-  BlurableInput, Widget, WidgetHeader, WidgetBody, Col, Row
+  BlurableInput,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Col,
+  Row
 } from "../../ui";
 import { DeleteAccountPropTypes } from "../interfaces";
-import { t } from "i18next";
+import { Content } from "../../constants";
 
 export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
   render() {
     let { set, deletion_confirmation, save } = this.props;
     return <Widget>
-      <WidgetHeader
-        title="Delete Account"
-        helpText="Enter your password to delete your account." />
+      <WidgetHeader title="Delete Account" />
       <WidgetBody>
         <div>
-          {t(`WARNING! Deleting your account will permanently delete
-              all of your Sequences , Regimens, Events, and Farm
-              Designer data.Upon deleting your account, FarmBot will
-              cease to function and become inaccessible until it is
-              paired with another web app account. To do this, you
-              will need to reboot your FarmBot so that is goes back
-              into configuration mode for pairing with another user
-              account. When this happens, all of the data on your
-              FarmBot will be overwritten with the new account's data.
-              If the account is brand new, then FarmBot will become a
-              blank slate.`)}
+          {Content.ACCOUNT_DELETE_WARNING}
           <br /><br />
           {t(`If you are sure you want to delete your account, type in
               your password below to continue.`)}
@@ -46,9 +40,7 @@ export class DeleteAccount extends React.Component<DeleteAccountPropTypes, {}> {
                 type="password" />
             </Col>
             <Col xs={4}>
-              <button onClick={save}
-                className="red button-like"
-                type="button">
+              <button onClick={save} className="red" type="button">
                 {t("Delete Account")}
               </button>
             </Col>

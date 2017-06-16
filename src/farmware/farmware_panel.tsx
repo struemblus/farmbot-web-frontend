@@ -1,10 +1,19 @@
 import * as React from "react";
 import { t } from "i18next";
-import { FBSelect, Widget, WidgetHeader, WidgetBody, Row, Col } from "../ui";
 import { devices } from "../device";
 import { FWProps, FWState } from "./interfaces";
+import { MustBeOnline } from "../devices/must_be_online";
+import { ToolTips } from "../constants";
+import {
+  DeprecatedFBSelect,
+  Widget,
+  WidgetHeader,
+  WidgetBody,
+  Row,
+  Col
+} from "../ui";
 
-export class Farmware extends React.Component<FWProps, Partial<FWState>> {
+export class FarmwarePanel extends React.Component<FWProps, Partial<FWState>> {
   constructor() {
     super();
     this.state = {};
@@ -53,53 +62,69 @@ export class Farmware extends React.Component<FWProps, Partial<FWState>> {
 
   fwList = () => {
     let { farmwares } = this.props.bot.hardware.process_info;
-    let choices = farmwares.map((x, i) => ({ value: i, label: x.name }));
+    let choices = Object.keys(farmwares).map((x, i) => {
+      let fw = farmwares[x];
+      let hasVers = (fw.meta && _.isString(fw.meta.version));
+      // Guard against legacy Farmwares. Can be removed in a month.
+      // -- RC June 2017.
+      let label = hasVers ? `${fw.name} ${fw.meta.version}` : fw.name;
+      return { value: fw.uuid, label };
+    });
     return choices;
   }
 
   render() {
     return <Widget className="farmware-widget">
-      <WidgetHeader title="Farmware"
-        helpText={`This widget shows Farmware (plugin) information.`}>
+      <WidgetHeader title="Farmware" helpText={ToolTips.FARMWARE}>
       </WidgetHeader>
       <WidgetBody>
-        <Row>
-          <fieldset>
+        <MustBeOnline fallback="Not available when FarmBot is offline."
+          status={this.props.bot.hardware.informational_settings.sync_status}
+          lockOpen={process.env.NODE_ENV !== "production"}>
+          <Row>
+            <fieldset>
+              <Col xs={12}>
+                <input type="url"
+                  placeholder={"https://...."}
+                  value={this.state.packageUrl || ""}
+                  onChange={(e) => {
+                    this.setState({ packageUrl: e.currentTarget.value });
+                  }}
+                />
+              </Col>
+              <Col xs={12}>
+                <button className="green" onClick={this.install}>
+                  {t("Install")}
+                </button>
+              </Col>
+            </fieldset>
+          </Row>
+          <Row>
             <Col xs={12}>
-              <input type="url"
-                placeholder={"http://...."}
-                value={this.state.packageUrl || ""}
-                onChange={(e) => {
-                  this.setState({ packageUrl: e.currentTarget.value });
+              <DeprecatedFBSelect list={this.fwList()}
+                onChange={(x) => {
+                  let selectedFarmware = x.value;
+                  if (_.isString(selectedFarmware)) {
+                    this.setState({ selectedFarmware });
+                  } else {
+                    throw new Error(`Bad farmware UUID: ${x.value}`)
+                  }
                 }}
-              />
+                placeholder="Installed Farmware Packages" />
             </Col>
             <Col xs={12}>
-              <button className="button-like green"
-                onClick={this.install}>
-                {t("Install")}
+              <button className="red" onClick={this.remove}>
+                {t("Remove")}
+              </button>
+              <button className="yellow" onClick={this.update}>
+                {t("Update")}
+              </button>
+              <button className="green" onClick={this.run}>
+                {t("Run")}
               </button>
             </Col>
-          </fieldset>
-        </Row>
-        <Row>
-          <Col xs={12}>
-            <FBSelect list={this.fwList()}
-              onChange={(x) => this.setState({ selectedFarmware: x.label })}
-              placeholder="Installed Farmware Packages" />
-          </Col>
-          <Col xs={12}>
-            <button className="button-like red" onClick={this.remove}>
-              {t("Remove")}
-            </button>
-            <button className="button-like yellow" onClick={this.update}>
-              {t("Update")}
-            </button>
-            <button className="button-like green" onClick={this.run}>
-              {t("Run")}
-            </button>
-          </Col>
-        </Row>
+          </Row>
+        </MustBeOnline>
       </WidgetBody>
     </Widget>;
   }

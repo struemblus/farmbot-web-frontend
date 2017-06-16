@@ -1,24 +1,19 @@
-import { Regimen, ApiRegimen, ApiRegimenItem } from "./interfaces";
-import { Color } from "../interfaces";
+import { Regimen } from "./interfaces";
 import * as _ from "lodash";
 
 /**
  * Transforms local Regimen object into format suitable for use with FarmBot
  * API's "/api/regimens" endpoint.
-// export function regimenItemDeserializer(input: ApiRegimenItem): 
-// RegimenItem[] {
-//   return {};
-// };
  */
-export function regimenSerializer(input: Regimen): ApiRegimen {
+export function regimenSerializer(input: Regimen) {
   const regimen = _.clone<Regimen>(input);
   const regimen_items = regimen
     .regimen_items
-    .map<ApiRegimenItem>(function wow(r) {
-      if (r && r.sequence && r.sequence.id) {
+    .map(function wow(r) {
+      if (r && r.sequence_id) {
         return {
           time_offset: r.time_offset,
-          sequence_id: r.sequence.id
+          sequence_id: r.sequence_id
         };
       } else {
         throw new Error(`Array regimen.regimen_items may only contain
@@ -31,4 +26,4 @@ export function regimenSerializer(input: Regimen): ApiRegimen {
     color: regimen.color,
     regimen_items
   };
-};
+}

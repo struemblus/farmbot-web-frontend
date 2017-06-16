@@ -54,7 +54,7 @@
         background-color: $brown;
     }
     &.gray-block {
-        background-color: $gray;
+        background-color: $medium_light_gray;
     }
     &.red-block {
         background-color: $red;
@@ -62,67 +62,4 @@
     &.pink-block {
         background-color: $pink;
     }
-}
-
-.block-content {
-    .blue-block {
-        background-color: $light_blue;
-    }
-    .green-block {
-        background-color: $light_green;
-    }
-    .yellow-block {
-        background-color: $light_yellow;
-    }
-    .orange-block {
-        background-color: $light_orange;
-    }
-    .purple-block {
-        background-color: $light_purple;
-    }
-    .brown-block {
-        background-color: $light_brown;
-    }
-    .gray-block {
-        background-color: $light_gray;
-    }
-    .red-block {
-        background-color: $light_red;
-    }
-}
-
-div.saucer-blue {
-    background: $blue;
-}
-
-div.saucer-green {
-    background: $green;
-}
-
-div.saucer-yellow {
-    background: $yellow;
-}
-
-div.saucer-orange {
-    background: $orange;
-}
-
-div.saucer-purple {
-    background: $purple;
-}
-
-div.saucer-brown {
-    background: $brown;
-}
-
-div.saucer-gray {
-    background: $gray;
-}
-
-div.saucer-red {
-    background: $red;
-}
-
-div.saucer-pink {
-    background: $pink;
 }

@@ -19,11 +19,14 @@ interface ColumnProps {
   mdOffset?: number;
   /** {lg-col-size-offset} */
   lgOffset?: number;
+  hidden?: boolean;
+  key?: string | number;
+  className?: string;
 }
 
 export function Col(props: ColumnProps) {
   let classNames = parseClassNames(props, "");
-  return <div className={classNames}>
+  return <div className={classNames} hidden={!!props.hidden}>
     {props.children}
   </div>;
 }

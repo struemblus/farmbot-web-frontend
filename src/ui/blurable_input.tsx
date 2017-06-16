@@ -14,32 +14,30 @@ interface BIProps {
   disabled?: boolean;
   className?: string;
   placeholder?: string;
+  hidden?: boolean;
 }
 
 interface BIState {
-  buffer?: string;
-  isEditing?: boolean;
+  buffer: string;
+  isEditing: boolean;
 }
 
-export class BlurableInput extends React.Component<BIProps, BIState> {
-  constructor(props: BIProps) {
-    super();
-    this.state = { buffer: "", isEditing: false };
-  }
+export class BlurableInput extends React.Component<BIProps, Partial<BIState>> {
 
-  maybeCommit(e: React.SyntheticEvent<HTMLInputElement>) {
-    let shouldCommit = (
-      this.state.buffer || (this.props.allowEmpty && _.isString(""))
-    );
-    if (shouldCommit) { this.props.onCommit(e); }
+  state: BIState = { buffer: "", isEditing: false };
+
+  /** Called on blur. */
+  maybeCommit = (e: React.SyntheticEvent<HTMLInputElement>) => {
+    let shouldPassToParent = (this.state.buffer || (this.props.allowEmpty));
+    if (shouldPassToParent) { this.props.onCommit(e); }
     this.setState({ isEditing: false, buffer: "" });
   }
 
-  focus() {
-    this.setState({ isEditing: true, buffer: this.props.value });
+  focus = () => {
+    this.setState({ isEditing: true, buffer: this.props.value || "" });
   }
 
-  updateBuffer(e: React.SyntheticEvent<HTMLInputElement>) {
+  updateBuffer = (e: React.SyntheticEvent<HTMLInputElement>) => {
     let buffer = e.currentTarget.value;
     this.setState({ buffer });
   }
@@ -47,16 +45,16 @@ export class BlurableInput extends React.Component<BIProps, BIState> {
   render() {
     let value = this.state.isEditing ? this.state.buffer : this.props.value;
     return <input value={value}
-      onFocus={this.focus.bind(this)}
-      onChange={this.updateBuffer.bind(this)}
-      onBlur={this.maybeCommit.bind(this)}
+      hidden={!!this.props.hidden}
+      onFocus={this.focus}
+      onChange={this.updateBuffer}
+      onBlur={this.maybeCommit}
       name={this.props.name}
       id={this.props.id}
-      min={this.props.min}
-      max={this.props.max}
       type={this.props.type || "text"}
       disabled={this.props.disabled}
       className={this.props.className}
-      placeholder={this.props.placeholder} />;
+      placeholder={this.props.placeholder}
+    />;
   }
 }

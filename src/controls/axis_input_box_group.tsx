@@ -1,10 +1,15 @@
 import * as React from "react";
 import { AxisInputBox } from "./axis_input_box";
 import { t } from "i18next";
-import { Props, State, Vector } from "./interfaces";
 import { Row } from "../ui";
+import {
+  AxisInputBoxGroupProps,
+  AxisInputBoxGroupState,
+  Vector
+} from "./interfaces";
 
-export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
+export class AxisInputBoxGroup extends React.Component<AxisInputBoxGroupProps,
+  Partial<AxisInputBoxGroupState>> {
   constructor() {
     super();
     this.state = {};
@@ -49,8 +54,7 @@ export class AxisInputBoxGroup extends React.Component<Props, Partial<State>> {
         value={z}
         onChange={this.change} />
       <div className="col-xs-3">
-        <button onClick={this.clicked}
-          className="full-width green button-like go">
+        <button onClick={this.clicked} className="full-width green go">
           {t("GO")}
         </button>
       </div>

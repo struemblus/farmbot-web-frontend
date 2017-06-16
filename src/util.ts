@@ -1,6 +1,11 @@
 import * as _ from "lodash";
-import { Color } from "./interfaces";
+import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
+import { Dictionary } from "farmbot/dist";
+import { error } from "./ui/index";
+import { TaggedResource } from "./resources/tagged_resources";
+import * as React from "react";
+import { render } from "react-dom";
 import { t } from "i18next";
 
 // http://stackoverflow.com/a/901144/1064917
@@ -42,6 +47,10 @@ export interface AxiosErrorResponse {
   };
 };
 
+export function toastErrors({ err }: UnsafeError) {
+  return error(prettyPrintApiErrors(err));
+}
+
 /** Concats and capitalizes all of the error key/value
  *  pairs returned by the /api/xyz endpoint. */
 export function prettyPrintApiErrors(err: AxiosErrorResponse) {
@@ -50,16 +59,15 @@ export function prettyPrintApiErrors(err: AxiosErrorResponse) {
     .map(str => _.capitalize(str)).join(" ");
 }
 
-/** */
-function safelyFetchErrors(err: AxiosErrorResponse): { [key: string]: string } {
+function safelyFetchErrors(err: AxiosErrorResponse): Dictionary<string> {
   // In case the interpreter gives us an oddball error message.
   if (err && err.response && err.response.data) {
     return err.response.data;
   } else {
-    console.warn("DONT KNOW HOW TO HANDLE THIS ERROR MESSAGE.");
+    console.warn(t("Last error message wasn't formatted like an API error."));
     console.dir(err);
-    return { problem: "Farmbot Web App hit an unhandled exception." };
-  };
+    return { problem: t("Farmbot Web App hit an unhandled exception.") };
+  }
 }
 
 /** Moves an array item from one position in an array to another. Note that this
@@ -67,25 +75,25 @@ function safelyFetchErrors(err: AxiosErrorResponse): { [key: string]: string } {
  * array argument.
  * SOURCE:
  *   https://github.com/granteagon/move/blob/master/src/index.js */
-export function move<T>(array: T[], moveIndex: number, toIndex: number) {
+export function move<T>(array: T[], fromIndex: number, toIndex: number) {
 
-  let item = array[moveIndex];
+  let item = array[fromIndex];
   let length = array.length;
-  let diff = moveIndex - toIndex;
+  let diff = fromIndex - toIndex;
 
   if (diff > 0) {
     // move left
     return [
       ...array.slice(0, toIndex),
       item,
-      ...array.slice(toIndex, moveIndex),
-      ...array.slice(moveIndex + 1, length)
+      ...array.slice(toIndex, fromIndex),
+      ...array.slice(fromIndex + 1, length)
     ];
   } else if (diff < 0) {
     // move right
     return [
-      ...array.slice(0, moveIndex),
-      ...array.slice(moveIndex + 1, toIndex + 1),
+      ...array.slice(0, fromIndex),
+      ...array.slice(fromIndex + 1, toIndex + 1),
       item,
       ...array.slice(toIndex + 1, length)
     ];
@@ -95,11 +103,10 @@ export function move<T>(array: T[], moveIndex: number, toIndex: number) {
 
 export function isMobile() {
   if (window &&
-    window.innerWidth <= 800 && window.innerHeight <= 600 &&
+    window.innerWidth <= 568 && window.innerHeight <= 600 &&
     navigator.userAgent.match(/Android/i)
     || navigator.userAgent.match(/webOS/i)
     || navigator.userAgent.match(/iPhone/i)
-    || navigator.userAgent.match(/iPad/i)
     || navigator.userAgent.match(/iPod/i)
     || navigator.userAgent.match(/BlackBerry/i)
     || navigator.userAgent.match(/Windows Phone/i)
@@ -128,9 +135,19 @@ export function safeStringFetch(obj: any, key: string): string {
     case "boolean":
       return (boxed.value) ? "true" : "false";
     default:
-      let msg = `Numbers strings and null only (got ${boxed.kind}).`;
+      let msg = t(`Numbers strings and null only (got ${boxed.kind}).`);
       throw new Error(msg);
   }
+}
+
+export function localStorageNumFetch(key: string): number | undefined {
+  let output = JSON.parse(_.get(localStorage, key, "null"));
+  return (_.isNumber(output)) ? output : undefined;
+}
+
+export function localStorageBoolFetch(key: string): boolean {
+  let output = JSON.parse(_.get(localStorage, key, "false"));
+  return !output;
 }
 
 /** We don't support IE. This method stops users from trying to use the site.
@@ -140,7 +157,7 @@ export function stopIE() {
   function flunk() {
     // Can't use i18next here, because old IE versions don't have promises,
     // so English only here, unfortunatly.
-    alert("This app only works with modern browsers.");
+    alert(t("This app only works with modern browsers."));
     window.location.href = "https://www.google.com/chrome/";
   }
 
@@ -166,13 +183,6 @@ export function pick<T, K extends keyof T>(target: T, key: K): T[K] {
 
 /** _Safely_ check a value at runtime to know if it can be used for square
  * bracket access.
- * ```
- *   if (oneOf<User>(["email"], myVar1)) {
- *     // Safe to use `myVar1` with square bracket access.
- *   } else {
- *     // Handle errors / failures.
- *   }
- * ```
  */
 export function hasKey<T>(base: (keyof T)[]) {
   return (target: T | any): target is keyof T => {
@@ -246,14 +256,106 @@ export function smoothScrollToBottom() {
 /** Fancy debug */
 var last = "";
 export function fancyDebug(t: any) {
-  var next = Object
-    .entries(t)
-    .map((x: any) => `${_.padRight(x[0], 20, " ")} => ${JSON.stringify(x[1]).slice(0, 52)}`)
-    .join("\n");
-  if (last === next) {
-  } else {
-    last = next;
-    console.log(next);
+  if (Object.entries) { // Object.entries is an "experimental" API.
+    var next = Object
+      .entries(t)
+      .map((x: any) => {
+        let key = _.padRight(x[0], 20, " ");
+        let val = (JSON.stringify(x[1]) || "Nothing").slice(0, 52);
+
+        return `${key} => ${val}`;
+      })
+      .join("\n");
+    if (last === next) {
+    } else {
+      last = next;
+      console.log(next);
+    }
   }
-  console.log();
+}
+
+export type CowardlyDictionary<T> = Dictionary<T | undefined>;
+/** Sometimes, you are forced to pass a number type even though
+ * the resource has no ID (usually for rendering purposes).
+ * Example:
+ *  farmEvent.id || 0
+ *
+ *  In those cases, you can use this constant to indicate intent.
+ */
+export const NOT_SAVED = -1;
+
+export function isUndefined(x: any): x is undefined {
+  return _.isUndefined(x);
+}
+
+/** Better than Array.proto.filter and _.compact() because the type checker
+ * knows what's going on.
+ */
+export function betterCompact<T>(input: (T | undefined)[]): T[] {
+  let output: T[] = [];
+  input.forEach(x => x ? output.push(x) : "")
+  return output;
+};
+
+/** Sorts a list of tagged resources. Unsaved resource get put on the end. */
+export function sortResourcesById<T extends TaggedResource>(input: T[]): T[] {
+  return _.sortBy(input, (x) => x.body.id || Infinity);
+}
+
+/** Light wrapper around _.merge() to prevent common type errors / mistakes. */
+export function betterMerge<T>(target: T, update: (T | Partial<T>)): T {
+  return _.merge({}, target, update);
+}
+
+/** Determine if a string contains one of multiple values. */
+export function oneOf(list: string[], target: string) {
+  let matches = 0;
+  list.map(x => target.includes(x) ? matches++ : "");
+  return !!matches;
+}
+
+/** Dynamically change the meta title of the page. */
+export function updatePageInfo(pageName: string) {
+  if (pageName === "designer") { pageName = "Farm Designer"; }
+  document.title = _.capitalize(pageName);
+  // Possibly add meta "content" here dynamically as well
+}
+
+export function attachToRoot<P>(type: React.ComponentClass<P>,
+  props?: React.Attributes & P) {
+  let node = document.createElement("DIV");
+  node.id = "root";
+  document.body.appendChild(node);
+
+  let reactElem = React.createElement(type, props);
+  let domElem = document.getElementById("root");
+
+  if (domElem) {
+    render(reactElem, domElem);
+  } else {
+    throw new Error(t("Add a <div> with id `root` to the page first."));
+  };
+}
+
+/** The firmware will have an integer overflow if you don't check this one. */
+const MAX_INPUT = 32000;
+const MIN_INPUT = 0;
+
+interface High { outcome: "high"; result: number; }
+interface Low { outcome: "low"; result: number; }
+interface Malformed { outcome: "malformed"; result: undefined; }
+interface Ok { outcome: "ok", result: number; }
+export type ClampResult = High | Low | Malformed | Ok;
+
+/** Handle all the possible ways a user could give us bad data or cause an
+ * integer overflow in the firmware. */
+export function clampUnsignedInteger(input: string): ClampResult {
+  let result = Math.round(parseInt(input, 10));
+
+  // Clamp to prevent overflow.
+  if (_.isNaN(result)) { return { outcome: "malformed", result: undefined }; };
+  if (result > MAX_INPUT) { return { outcome: "high", result: MAX_INPUT }; }
+  if (result < MIN_INPUT) { return { outcome: "low", result: MIN_INPUT }; }
+
+  return { outcome: "ok", result };
 }

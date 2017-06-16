@@ -10,7 +10,7 @@ export function addGhostImage(
   cssClass = "") {
   var el = ev.currentTarget.cloneNode(true) as HTMLElement;
   // RELEVANT READING:
-  // http://www.kryogenix.org/code/browser/custom-drag-image.html
+  // https://www.kryogenix.org/code/browser/custom-drag-image.html
   el.classList.add(cssClass);
   el.style.left = "-30000px";
   el.style.position = "absolute";

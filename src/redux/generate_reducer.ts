@@ -1,14 +1,10 @@
 import { ReduxAction } from "./interfaces";
 import { defensiveClone } from "../util";
 
-const NOOP = (s: any, a: ReduxAction<{}>) => s;
-
-export function generateReducer<State>(
-  initialState: State,
-  /** Set "catch all" handler for unknown action names. Default is a no-op fn.
-   *  Useful for logging / debugging. */
-  DEFAULT = NOOP) {
-  /** A function that responds to a particular action from within a 
+export function generateReducer<State>(initialState: State,
+  /** For passing state down to children. */
+  afterEach?: <T>(s: T, a: ReduxAction<any>) => T) {
+  /** A function that responds to a particular action from within a
    * generated reducer. */
   interface ActionHandler {
     (state: State, action: ReduxAction<any>): State;
@@ -20,34 +16,26 @@ export function generateReducer<State>(
 
   interface ActionHandlerDict {
     [actionHandler: string]: ActionHandler;
-    DEFAULT: ActionHandler;
   }
 
   interface GeneratedReducer extends ActionHandler {
     /** Adds action handler for current reducer. */
-    add: <T>(name: string,
-      fn: GenericActionHandler<T>) => GeneratedReducer;
+    add: <T>(name: string, fn: GenericActionHandler<T>) => GeneratedReducer;
     // Calms the type checker.
   }
 
-  let actionHandlers: ActionHandlerDict = {
-    // Reset to initialState if action is LOGOUT
-    "LOGOUT": function (s, a) {
-      return initialState;
-    },
-    DEFAULT
-  };
+  let actionHandlers: ActionHandlerDict = {};
 
   let reducer: GeneratedReducer = function <T>(state = initialState,
     action: ReduxAction<T>): State {
-    let handler = (actionHandlers[action.type] ||
-      actionHandlers["DEFAULT"]);
-
-    let clonedState = defensiveClone<State>(state);
-    let clonedAction = defensiveClone<ReduxAction<T>>(action);
-
+    let NOOP: ActionHandler = (s, a) => s;
+    afterEach = afterEach || NOOP;
+    let handler = (actionHandlers[action.type] || NOOP);
+    let clonedState = defensiveClone(state);
+    let clonedAction = defensiveClone(action);
     let result: State = handler(clonedState, clonedAction);
-    return result;
+    result = afterEach(defensiveClone(result), action)
+    return defensiveClone(result);
   } as GeneratedReducer;
 
   reducer.add = function addHandler<T>(name: string,

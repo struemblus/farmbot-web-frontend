@@ -1,57 +1,69 @@
-import { Plant, CropLiveSearchResult } from "./interfaces";
-import { Plant as newPlant } from "./plant";
+import { CropLiveSearchResult } from "./interfaces";
 import { generateReducer } from "../redux/generate_reducer";
-import { DesignerState } from "./interfaces";
+import {
+  DesignerState,
+  HoveredPlantPayl,
+  BotOriginQuadrant,
+  isBotOriginQuadrant,
+  isValidZoomLevel,
+  ZoomLevelPayl
+} from "./interfaces";
 import { cloneDeep } from "lodash";
-import { HardwareState } from "../devices/interfaces";
-import { Sync } from "../interfaces";
+import { TaggedResource } from "../resources/tagged_resources";
+import { localStorageNumFetch } from "../util";
 
-let DEFAULT_STATE: DesignerState = {
-  deprecatedPlants: [],
-  x_size: 0,
-  y_size: 0,
+export const BOT_ORIGIN_QUADRANT = "bot_origin_quadrant";
+export const ZOOM_LEVEL = "zoom_level";
+
+let botOriginVal = localStorageNumFetch(BOT_ORIGIN_QUADRANT);
+let botOriginQuadrant = isBotOriginQuadrant(botOriginVal) ? botOriginVal : 2;
+
+let zoomLevelVal = localStorageNumFetch(ZOOM_LEVEL);
+let zoomLevel = isValidZoomLevel(zoomLevelVal) ? zoomLevelVal : 1;
+
+export let initialState: DesignerState = {
+  selectedPlant: undefined,
+  hoveredPlant: {
+    plantUUID: undefined,
+    icon: ""
+  },
+  botOriginQuadrant,
+  zoomLevel: zoomLevel || 1,
   cropSearchQuery: "",
   cropSearchResults: []
 };
 
-export let designer = generateReducer<DesignerState>(DEFAULT_STATE)
-  .add<Sync>("FETCH_SYNC_OK", function (s, a) {
-    let state = cloneDeep(s);
-    state.deprecatedPlants = a.payload.plants || [];
-    return state;
-  })
-  .add<Plant>("SAVE_PLANT_OK", function (s, a) {
-    // Exxxttrraaa runtime safety.
-    let plant = newPlant(a.payload);
-    s.deprecatedPlants.push(plant);
-    return s;
-  })
-  .add<Plant>("DESTROY_PLANT_OK", function (s, { payload }) {
-    let state = cloneDeep(s);
-    let a = state.deprecatedPlants;
-    a.splice(a.indexOf(payload), 0);
-    return state;
-  })
-  .add<HardwareState>("BOT_CHANGE", function (s, { payload }) {
-    let state = cloneDeep(s);
-    let [x, y] = [
-      payload.mcu_params.movement_axis_nr_steps_x,
-      payload.mcu_params.movement_axis_nr_steps_y
-    ];
-    if (x && y) {
-      state.x_size = x;
-      state.y_size = y;
-    }
-    return state;
-  })
-  .add<string>("SEARCH_QUERY_CHANGE", function (s, { payload }) {
+export let designer = generateReducer<DesignerState>(initialState)
+  .add<string>("SEARCH_QUERY_CHANGE", (s, { payload }) => {
     let state = cloneDeep(s);
     state.cropSearchQuery = payload;
     return state;
   })
-  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK",
-  function (s, { payload }) {
+  .add<string | undefined>("SELECT_PLANT", (s, { payload }) => {
+    s.selectedPlant = payload;
+    return s;
+  })
+  .add<HoveredPlantPayl>("TOGGLE_HOVERED_PLANT", (s, { payload }) => {
+    s.hoveredPlant = payload;
+    return s;
+  })
+  .add<BotOriginQuadrant>("UPDATE_BOT_ORIGIN_QUADRANT", (s, { payload }) => {
+    localStorage.setItem(BOT_ORIGIN_QUADRANT, JSON.stringify(payload));
+    s.botOriginQuadrant = payload;
+    return s;
+  })
+  .add<ZoomLevelPayl>("UPDATE_MAP_ZOOM_LEVEL", (s, { payload }) => {
+    let value = s.zoomLevel + payload;
+    s.zoomLevel = value;
+    localStorage.setItem(ZOOM_LEVEL, JSON.stringify(value));
+    return s;
+  })
+  .add<CropLiveSearchResult[]>("OF_SEARCH_RESULTS_OK", (s, { payload }) => {
     let state = cloneDeep(s);
     state.cropSearchResults = payload;
     return state;
+  })
+  .add<TaggedResource>("DESTROY_RESOURCE_OK", (s, { payload }) => {
+    if (payload.uuid === s.selectedPlant) { s.selectedPlant = undefined; }
+    return s;
   });
