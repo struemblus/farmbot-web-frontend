@@ -14,24 +14,24 @@ export class FarmwarePage extends React.Component<FarmwareProps, void> {
   render() {
     return <Page className="farmware">
       <Row>
-        <Col xs={12} sm={3}>
-          <FarmwarePanel bot={this.props.bot} />
-        </Col>
-        <Col xs={12} sm={4}>
+        <Col xs={12} sm={7}>
           <Photos
             dispatch={this.props.dispatch}
             images={this.props.images}
             currentImage={this.props.currentImage} />
         </Col>
         <Col xs={12} sm={4}>
+          <FarmwarePanel bot={this.props.bot} />
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={5}>
           <CameraCalibration
             onProcessPhoto={(id) => { this.props.dispatch(detectWeeds(id)); }}
             currentImage={this.props.currentImage}
             images={this.props.images} />
         </Col>
-      </Row>
-      <Row>
-        <Col xs={12} sm={6}>
+        <Col xs={12} sm={5} smOffset={1}>
           <WeedDetector {...this.props} />
         </Col>
       </Row>
