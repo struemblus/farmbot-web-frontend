@@ -161,7 +161,7 @@ export function stopIE() {
     window.location.href = "https://www.google.com/chrome/";
   }
 
-  let REQUIRED_GLOBALS = ["Promise", "console", "WebSocket"];
+  let REQUIRED_GLOBALS = ["Promise", "console", "WebSocket", "Intl"];
   // Can't use Array.proto.map because IE.
   // Can't translate the text because IE (no promises)
   for (var i = 0; i < REQUIRED_GLOBALS.length; i++) {
