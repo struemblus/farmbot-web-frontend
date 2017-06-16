@@ -1,7 +1,7 @@
 .farm-designer-panels {
   width: 30rem;
   position: fixed;
-  top: 8.9rem;
+  top: 9.3rem;
   bottom: 0;
   .panel-container {
     width: 100%;
@@ -81,7 +81,7 @@
 
 .panel-title {
   height: 50px;
-  padding-top: 1.4rem;
+  padding-top: 1.8rem;
   padding-left: 1.4rem;
   padding-right: 2rem;
   .back-arrow {
@@ -146,6 +146,13 @@
   a {
     color: $black;
     text-decoration: underline !important;
+  }
+}
+
+.add-farm-event-panel {
+  .back-arrow {
+    margin-top: -0.2rem;
+    vertical-align: bottom;
   }
 }
 
