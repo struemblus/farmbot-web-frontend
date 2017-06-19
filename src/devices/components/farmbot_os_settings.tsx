@@ -70,7 +70,8 @@ export class FarmbotOsSettings
   maybeWarnTz = () => {
     let wrongTZ = timezoneMismatch(this.props.account.body.timezone);
     if (wrongTZ) {
-      return "This timezone appears to be different than your local time.";
+      return `Note: The selected timezone for your FarmBot is different than
+        your local browser time.`;
     } else {
       return ""
     }
