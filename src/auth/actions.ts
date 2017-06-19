@@ -1,11 +1,11 @@
+import * as Axios from "axios";
+import { t } from "i18next";
+import { error, success } from "farmbot-toastr";
 import { connectDevice, fetchReleases } from "../devices/actions";
 import { push } from "../history";
-import { error, success } from "../ui";
 import { AuthState } from "./interfaces";
 import { ReduxAction, Thunk } from "../redux/interfaces";
 import * as Sync from "../sync/actions";
-import * as Axios from "axios";
-import { t } from "i18next";
 import { API } from "../api";
 import { toastErrors } from "../util";
 import { Session } from "../session";

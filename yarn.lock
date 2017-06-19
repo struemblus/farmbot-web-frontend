@@ -1795,6 +1795,13 @@ fancy-log@^1.1.0:
     chalk "^1.1.1"
     time-stamp "^1.0.0"
 
+farmbot-toastr@^1.0.0, farmbot-toastr@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/farmbot-toastr/-/farmbot-toastr-1.0.2.tgz#a8fbc744e6d706d9539c0cf180e2ab50f4ea422e"
+  dependencies:
+    farmbot-toastr "^1.0.0"
+    typescript "^2.3.4"
+
 farmbot@4.0.7:
   version "4.0.7"
   resolved "https://registry.yarnpkg.com/farmbot/-/farmbot-4.0.7.tgz#f2cda1a4b38102e99818fb06cee73a70218f40a5"
@@ -5675,7 +5682,7 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typescript@2.3.4, typescript@^2.0.9, typescript@^2.1.5:
+typescript@2.3.4, typescript@^2.0.9, typescript@^2.1.5, typescript@^2.3.4:
   version "2.3.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.3.4.tgz#3d38321828231e434f287514959c37a82b629f42"
 

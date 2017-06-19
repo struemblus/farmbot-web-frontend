@@ -1,5 +1,6 @@
 import * as React from "react";
 import { t } from "i18next";
+import { info, error, success } from "farmbot-toastr";
 import { FarmbotOsProps, FarmbotOsState } from "../interfaces";
 import {
   changeDevice,
@@ -18,10 +19,7 @@ import {
   WidgetBody,
   Row,
   Col,
-  SaveBtn,
-  info,
-  error,
-  success
+  SaveBtn
 } from "../../ui/index";
 import { save } from "../../api/crud";
 import { MustBeOnline } from "../must_be_online";
