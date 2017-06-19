@@ -40,6 +40,7 @@ export function mapStateToProps(props: Everything): Props {
 
 /** Formatting of calendar row dates. */
 const FMT = "h:mm a";
+const SORT_KEY: keyof RegimenItemCalendarRow = "sortKey";
 
 /** Does all the heavy lifting related to joining regimen items with their
  * appropriate sequence meta data like "sequence name" and the like.
@@ -57,7 +58,12 @@ function generateCalendar(regimen: TaggedRegimen,
     .sort((a, b) => a - b)
     .map(x => "" + x)
     .value();
-  return days.map(makeRows);
+  return days
+    .map(makeRows)
+    .map((x) => {
+      x.items = _(x.items).sortBy(SORT_KEY).value();
+      return x;
+    });
 }
 
 let createRows = (index: ResourceIndex, dispatch: Function, regimen: TaggedRegimen) =>

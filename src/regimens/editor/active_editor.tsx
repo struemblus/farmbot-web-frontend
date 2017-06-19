@@ -6,7 +6,6 @@ import { RegimenItem, RegimenItemCalendarRow } from "../interfaces";
 import { TaggedRegimen } from "../../resources/tagged_resources";
 import { defensiveClone } from "../../util";
 import { overwrite } from "../../api/crud";
-const SORT_KEY: keyof RegimenItemCalendarRow = "sortKey";
 /** The bottom half of the regimen editor panel (when there's something to
     actually edit). */
 export function ActiveEditor(props: ActiveEditorProps) {
@@ -16,19 +15,16 @@ export function ActiveEditor(props: ActiveEditorProps) {
     {props.calendar.map(function (group, index1) {
       return <div className="regimen-day" key={index1}>
         <label> {t("Day {{day}}", { day: group.day })} </label>
-        {_(group.items)
-          .sortBy(SORT_KEY)
-          .map(function (row, index2) {
-            let { item, regimen } = row;
-            let click = () => props.dispatch(removeRegimenItem(item, regimen));
-            let klass = `${row.color}-block block-header regimen-event`
-            return <div className={klass} key={`${index1}.${index2}`}>
-              <span className="regimen-event-title">{row.name}</span>
-              <span className="regimen-event-time">{row.hhmm}</span>
-              <i className="fa fa-trash regimen-control" onClick={click} />
-            </div>;
-          })
-          .value()}
+        {group.items.map(function (row, index2) {
+          let { item, regimen } = row;
+          let click = () => props.dispatch(removeRegimenItem(item, regimen));
+          let klass = `${row.color}-block block-header regimen-event`
+          return <div className={klass} key={`${index1}.${index2}`}>
+            <span className="regimen-event-title">{row.name}</span>
+            <span className="regimen-event-time">{row.hhmm}</span>
+            <i className="fa fa-trash regimen-control" onClick={click} />
+          </div>;
+        })}
       </div>;
     })}
   </div>;
