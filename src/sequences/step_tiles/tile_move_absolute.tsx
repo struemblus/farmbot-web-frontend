@@ -176,7 +176,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 value={this.getAxisValue("z")}>
                 {t("Z (mm)")}
               </InputBox>
-              <Col xs={3}>
+              {/*<Col xs={3}>
                 <label>
                   {t("Speed")}
                 </label>
@@ -186,7 +186,7 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                   index={index}
                   dispatch={this.props.dispatch}
                   sequence={this.props.currentSequence} />
-              </Col>
+              </Col>*/}
               <InputBox onCommit={this.updateInputValue("x", "offset")}
                 name="offset-x"
                 value={this.getOffsetValue("x")}>
