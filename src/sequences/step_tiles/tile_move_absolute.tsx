@@ -152,14 +152,15 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
           <div className="step-content move-absolute-step">
             <Row>
               <Col md={12}>
-                <label>Import coordinates from</label>
+                <label>{t("Import coordinates from")}</label>
                 <TileMoveAbsSelect
                   resources={this.resources}
                   selectedItem={this.args.location}
                   onChange={(x) => this.updateArgs({ location: x })} />
               </Col>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("x", "location")}
+                <InputBox
+                  onCommit={this.updateInputValue("x", "location")}
                   disabled={this.xyzDisabled}
                   name="location-x"
                   value={this.getAxisValue("x")}>
@@ -167,7 +168,8 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 </InputBox>
               </Col>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("y", "location")}
+                <InputBox
+                  onCommit={this.updateInputValue("y", "location")}
                   disabled={this.xyzDisabled}
                   name="location-y"
                   value={this.getAxisValue("y")}>
@@ -175,7 +177,8 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
                 </InputBox>
               </Col>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("z", "location")}
+                <InputBox
+                  onCommit={this.updateInputValue("z", "location")}
                   name="location-z"
                   disabled={this.xyzDisabled}
                   value={this.getAxisValue("z")}>
@@ -196,21 +199,24 @@ export class TileMoveAbsolute extends Component<StepParams, MoveAbsState> {
               </Col>*/}
             <Row>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("x", "offset")}
+                <InputBox
+                  onCommit={this.updateInputValue("x", "offset")}
                   name="offset-x"
                   value={this.getOffsetValue("x")}>
                   {t("X-Offset")}
                 </InputBox>
               </Col>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("y", "offset")}
+                <InputBox
+                  onCommit={this.updateInputValue("y", "offset")}
                   name="offset-y"
                   value={this.getOffsetValue("y")}>
                   {t("Y-Offset")}
                 </InputBox>
               </Col>
               <Col xs={3}>
-                <InputBox onCommit={this.updateInputValue("z", "offset")}
+                <InputBox
+                  onCommit={this.updateInputValue("z", "offset")}
                   name="offset-z"
                   value={this.getOffsetValue("z")}>
                   {t("Z-Offset")}
