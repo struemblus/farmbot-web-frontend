@@ -15,6 +15,7 @@ import {
   responseRejected,
   requestFulfilled
 } from "../interceptors";
+import { Actions } from "../constants";
 
 export function didLogin(authState: AuthState, dispatch: Function) {
   API.setBaseUrl(authState.token.unencoded.iss);
@@ -57,7 +58,7 @@ export function loginOk(auth: AuthState): ReduxAction<AuthState> {
   Axios.interceptors.request.use(requestFulfilled(auth));
 
   return {
-    type: "LOGIN_OK",
+    type: Actions.LOGIN_OK,
     payload: auth
   };
 }
