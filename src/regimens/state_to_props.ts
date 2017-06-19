@@ -38,6 +38,9 @@ export function mapStateToProps(props: Everything): Props {
   };
 }
 
+/** Formatting of calendar row dates. */
+const FMT = "h:mm a";
+
 /** Does all the heavy lifting related to joining regimen items with their
  * appropriate sequence meta data like "sequence name" and the like.
  */
@@ -57,9 +60,6 @@ function generateCalendar(regimen: TaggedRegimen,
   return days.map(makeRows);
 }
 
-/** Formatting of calendar row dates. */
-const FMT = "h:mm a";
-
 let createRows = (index: ResourceIndex, dispatch: Function, regimen: TaggedRegimen) =>
   (item: RegimenItem): RegimenItemCalendarRow => {
     let uuid = findId(index, "sequences", item.sequence_id);
@@ -70,6 +70,6 @@ let createRows = (index: ResourceIndex, dispatch: Function, regimen: TaggedRegim
     let color = sequence.body.color || randomColor()
     let hhmm = moment({ hour: d.hours(), minute: d.minutes() }).format(FMT);
     let day = Math.floor(duration(time_offset).asDays()) + 1;
-    return { name, hhmm, color, day, dispatch, regimen, item };
+    return { name, hhmm, color, day, dispatch, regimen, item, sortKey: time_offset };
   }
 
