@@ -5,10 +5,9 @@ import { t, init } from "i18next";
 import { fun as log, init as logInit } from "farmbot-toastr";
 import { AuthState } from "../auth/interfaces";
 import { Session } from "../session";
-import { prettyPrintApiErrors, hardRefresh } from "../util";
+import { prettyPrintApiErrors } from "../util";
 import { detectLanguage } from "../i18n";
 import { API } from "../api";
-hardRefresh()
 import "../css/_index.scss";
 import "../npm_addons";
 

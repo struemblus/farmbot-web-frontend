@@ -393,14 +393,3 @@ export function semverCompare(left: string, right: string): SemverResult {
 
   return SemverResult.EQUAL;
 };
-
-export function hardRefresh() {
-  let HARD_RESET = "NEED_HARD_REFRESH";
-  if (localStorage) {
-    if (!localStorage.getItem(HARD_RESET)) {
-      localStorage.setItem(HARD_RESET, "DONE");
-      console.warn("hard reset init...");
-      window.location.reload(true);
-    }
-  };
-}
