@@ -5,7 +5,8 @@ import { PasswordReset } from "./password_reset";
 import * as i18next from "i18next";
 import "../css/_index.scss";
 import "../npm_addons";
-
+import { hardRefresh } from "../util";
+hardRefresh()
 detectLanguage().then((config) => {
   i18next.init(config, (err, t) => {
     let node = document.createElement("DIV");
