@@ -393,3 +393,18 @@ export function semverCompare(left: string, right: string): SemverResult {
 
   return SemverResult.EQUAL;
 };
+
+/** HACK: Server side caching (or webpack) is not doing something right.
+ *        This is a work around until then. */
+export function hardRefresh() {
+  let HARD_RESET = "NEED_HARD_REFRESH";
+  console.warn("[HARD RESET] 1");
+  if (localStorage) {
+    console.warn("[HARD RESET] 2");
+    if (!localStorage.getItem(HARD_RESET)) {
+      localStorage.setItem(HARD_RESET, "DONE");
+      console.warn("[HARD RESET] 3");
+      window.location.reload(true);
+    }
+  };
+}

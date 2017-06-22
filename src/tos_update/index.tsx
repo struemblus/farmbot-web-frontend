@@ -10,7 +10,8 @@ import { detectLanguage } from "../i18n";
 import { API } from "../api";
 import "../css/_index.scss";
 import "../npm_addons";
-
+import { hardRefresh } from "../util";
+hardRefresh()
 interface Props { };
 interface State {
   hideServerSettings: boolean;
