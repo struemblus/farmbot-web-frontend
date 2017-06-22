@@ -397,7 +397,7 @@ export function semverCompare(left: string, right: string): SemverResult {
 /** HACK: Server side caching (or webpack) is not doing something right.
  *        This is a work around until then. */
 export function hardRefresh() {
-  let HARD_RESET = "NEED_HARD_REFRESH";
+  let HARD_RESET = "NEED_HARD_REFRESH2";
   console.warn("[HARD RESET] 1");
   if (localStorage) {
     console.warn("[HARD RESET] 2");
