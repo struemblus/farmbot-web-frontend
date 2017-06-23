@@ -114,6 +114,7 @@ export class Controls extends React.Component<Props, {}> {
           <WebcamPanel {...this.props} />
         </Col>
       </Row>
+      <div className="cache-canary"></div>
     </Page>;
   }
 };

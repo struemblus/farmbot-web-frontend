@@ -7,6 +7,7 @@ import { error } from "farmbot-toastr";
 import { Color, UnsafeError } from "./interfaces";
 import { box } from "boxed_value";
 import { TaggedResource } from "./resources/tagged_resources";
+import { Session } from "./session";
 
 // http://stackoverflow.com/a/901144/1064917
 // Grab a query string param by name, because react-router-redux doesn't
@@ -396,16 +397,19 @@ export function semverCompare(left: string, right: string): SemverResult {
 
 /** HACK: Server side caching (or webpack) is not doing something right.
  *        This is a work around until then. */
-/** HACK: Server side caching (or webpack) is not doing something right.
- *        This is a work around until then. */
 export function hardRefresh() {
   // Change this string to trigger a force cache reset.
-  let HARD_RESET = "NEED_HARD_REFRESH3";
-  if (localStorage) {
+  let HARD_RESET = "NEED_HARD_REFRESH4";
+  if (localStorage && sessionStorage) {
     if (!localStorage.getItem(HARD_RESET)) {
       console.warn("Performing hard reset of localstorage and JS cookies.");
-      localStorage.clear();
-      sessionStorage.clear();
+      Object.keys(localStorage)
+        .concat(Object.keys(sessionStorage))
+        .filter(x => x !== "session") // Avoid endless logout loop.
+        .map(x => {
+          delete localStorage[x];
+          delete sessionStorage[x];
+        });
       deleteAllCookies();
       localStorage.setItem(HARD_RESET, "DONE");
       window.location.reload(true);

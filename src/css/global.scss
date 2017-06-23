@@ -384,3 +384,12 @@ ul {
     opacity: 1;
   }
 }
+
+/** This CSS rule serves as an indicator as to wether or not caching works
+ correctly on the FE. Not to be confused with "cash cats" (google it). */
+.cache-canary {
+  border: 2px red dotted;
+  width: 7px;
+  height: 7px;
+  background-color: pink;
+}
