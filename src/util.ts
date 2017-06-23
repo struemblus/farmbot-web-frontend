@@ -396,15 +396,39 @@ export function semverCompare(left: string, right: string): SemverResult {
 
 /** HACK: Server side caching (or webpack) is not doing something right.
  *        This is a work around until then. */
+/** HACK: Server side caching (or webpack) is not doing something right.
+ *        This is a work around until then. */
 export function hardRefresh() {
-  let HARD_RESET = "NEED_HARD_REFRESH2";
-  console.warn("[HARD RESET] 1");
+  // Change this string to trigger a force cache reset.
+  let HARD_RESET = "NEED_HARD_REFRESH3";
   if (localStorage) {
-    console.warn("[HARD RESET] 2");
     if (!localStorage.getItem(HARD_RESET)) {
+      console.warn("Performing hard reset of localstorage and JS cookies.");
+      localStorage.clear();
+      sessionStorage.clear();
+      deleteAllCookies();
       localStorage.setItem(HARD_RESET, "DONE");
-      console.warn("[HARD RESET] 3");
       window.location.reload(true);
+    } else {
+      console.warn("Not running hard reset. Key was present: " + HARD_RESET);
     }
+  } else {
+    console.log("Local storage not supported.");
   };
+}
+
+/** Tim reported some issues Chrome. I don't think it is cookie related,
+ *  but to be extra certain, we clear all client side cookies when busting
+ * cache.
+ * NOTE: We will need to remove this if we ever add google analytics.
+ *  -RC 23 jun 17 */
+function deleteAllCookies() {
+  var cookies = document.cookie.split(";");
+
+  for (var i = 0; i < cookies.length; i++) {
+    var cookie = cookies[i];
+    var eqPos = cookie.indexOf("=");
+    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
 }
