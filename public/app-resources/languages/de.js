@@ -152,7 +152,7 @@ module.exports = {
     "Y": "Y",
     "Y (mm)": "Y (mm)",
     "Y AXIS": "Y-ACHSE",
-    "yes": "ya",
+    "yes": "Ja",
     "Your Name": "Dein Name",
     "Z": "Z",
     "Z (mm)": "Z (mm)",
